@@ -1,62 +1,60 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Distance Matrix service</title>
+    <script type="text/javascript">
+      function iniciar(){
+        alert($("body").width())
+      }
+    </script>
     <style>
-      #right-panel {
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
 
-      #right-panel select, #right-panel input {
-        font-size: 15px;
-      }
-
-      #right-panel select {
-        width: 100%;
-      }
-
-      #right-panel i {
-        font-size: 12px;
-      }
       html, body {
         height: 100%;
         margin: 0;
         padding: 0;
+
       }
+
+      @media screen and (max-width: 770px) {
+        .otro {
+            height: 500px;
+        }
+      }
+
+      #divider {
+          height: 89%;
+      }
+
       #map {
         height: 100%;
-        width: 50%;
       }
-      #right-panel {
-        float: right;
-        width: 48%;
-        padding-left: 2%;
-      }
+      
       #output {
         font-size: 11px;
       }
     </style>
-  </head>
-  <body>
-    <div id="floating-panel"><label>Ubicación</label>
-    <div class="input-control">
-      <input id="address" type="text" placeholder="municipio,departamento,pais">
+    <div id="divider" class="row" style="padding-bottom: 0px;">
+      <div class="col-lg-8 col-md-7 otro" style="padding-bottom: 0px;">
+        <div id="map"></div>
       </div>
-      <input id="submit" type="button" value="Buscar">
-</div>
-    <div id="right-panel">
-
-      <div>
-        <strong>Results</strong>
+      <div class="col-lg-4 col-md-5" style="padding-right: 30px;">
+      <br><br>
+          <div class="form-group">
+            <label>Buscar ubicación</label>
+            <input id="address" class="form-control form-control-line" type="text" placeholder="municipio,departamento,pais">
+          </div>
+          <input id="submit" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
+          <br>
+          <div>
+            <strong>Resultados</strong>
+          </div>
+          <div id="output">Los resultados aparecerán aquí</div>
       </div>
-      <div id="output"></div>
     </div>
-    <div id="map"></div>
+
+
     <script>
       var markersO = [];
       var markersD = [];
+
+      var distancia = "";
       
       function initMap() {
         var bounds = new google.maps.LatLngBounds;
@@ -132,9 +130,11 @@
               for (var j = 0; j < results.length; j++) {
                 geocoder.geocode({'address': destinationList[j]},
                     showGeocodedAddressOnMap(true));
-                outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
-                    ': ' + results[j].distance.text + ' in  ' +//distancia
+                outputDiv.innerHTML += "<b>Origen:</b> "+originList[i] + '<br><b>Destino:</b> ' + destinationList[j] +
+                    '<br><b>Distancia:</b> ' + results[j].distance.text + '<br><b>Tiempo:</b> ' +//distancia
                     results[j].duration.text + '<br>';
+
+                    distancia = results[j].distance.text;
               }
             }
           }
@@ -242,5 +242,3 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
     </script>
-  </body>
-</html>

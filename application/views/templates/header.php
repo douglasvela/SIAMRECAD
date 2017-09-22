@@ -31,7 +31,7 @@
 <![endif]-->
 </head>
 
-<body class="fix-header fix-sidebar card-no-border logo-center">
+<body class="fix-header fix-sidebar card-no-border logo-center" onload="iniciar();">
 
 <header class="topbar">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
