@@ -1,6 +1,6 @@
     <script type="text/javascript">
       function iniciar(){
-        alert($("body").width())
+        
       }
     </script>
     <style>
