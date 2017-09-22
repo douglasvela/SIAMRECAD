@@ -42,11 +42,11 @@
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(<?php echo base_url(); ?>assets/images/portadas/viaticos2.jpg);">
+    <section id="wrapper" class="login-register img-responsive login-sidebar" style="background-image:url(<?php echo base_url(); ?>assets/images/portadas/viaticos2.jpg);">
   <div class="login-box card">
     <div class="card-body">
       <form class="form-horizontal form-material" id="loginform" action="index.html">
-        <a href="javascript:void(0)" class="text-center db"><img src="<?php echo base_url(); ?>assets/images/logo-icon.png" alt="Home" /><br/><img src="<?php echo base_url(); ?>assets/images/logo-text.png" alt="Home" /></a>  
+        <a href="javascript:void(0)" class="text-center db"><img width="200px;" src="<?php echo base_url(); ?>assets/images/logo.png" alt="Home" /></a>  
         
         <div class="form-group m-t-40">
           <div class="col-xs-12">
