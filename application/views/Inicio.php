@@ -40,6 +40,8 @@
     </style>
   </head>
   <body>
+     
+    
     <div id="right-panel">
 
       <div>
@@ -154,6 +156,10 @@
           }
         });
         }
+
+
+        
+
       }
 
    
@@ -214,6 +220,19 @@
         setMapOnAll_D(null);
       }
 
+      function geocodeAddress(geocoder, resultsMap) {
+
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            resultsMap.setCenter(results[0].geometry.location);
+            
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+            
+          }
+        });
+      }
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
