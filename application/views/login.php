@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/favicon.png">
-    <title>Pago de Viáticos</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo.ico">
+    <title>Login - Pago de Viáticos</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- chartist CSS -->
@@ -42,11 +42,34 @@
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- Barra Superior -->
+    <!-- ============================================================== -->
+    <header class="topbar">
+        <nav class="navbar top-navbar navbar-light">
+            <!-- ============================================================== -->
+            <!-- Content -->
+            <!-- ============================================================== -->
+            <div class="navbar-header" align="center">
+                <li style="margin-left: 10px;" class="navbar-brand text-white" href="index.html"><b><i class="icon-login"></i> &emsp;Inicio de Sesión</b></li>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Content -->
+            <!-- ============================================================== -->
+        </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Barra Superior -->
+    <!-- ============================================================== --> 
+
+
     <section id="wrapper" class="login-register img-responsive login-sidebar" style="background-image:url(<?php echo base_url(); ?>assets/images/portadas/viaticos2.jpg);">
+    
   <div class="login-box card">
     <div class="card-body">
       <form class="form-horizontal form-material" id="loginform" action="index.html">
-        <a href="javascript:void(0)" class="text-center db"><img width="200px;" src="<?php echo base_url(); ?>assets/images/logo.png" alt="Home" /></a>  
+        <a href="javascript:void(0)" class="text-center db"><img width="230px;" src="<?php echo base_url(); ?>assets/images/logo_completo.png" alt="Home" /></a>  
         
         <div class="form-group m-t-40">
           <div class="col-xs-12">
@@ -69,7 +92,7 @@
         </div>
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
-            <p>Don't have an account? <a href="register2.html" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+            <p>¿No tienes una cuenta? <a href="register" class="text-primary m-l-5"><b>Regístrate</b></a></p>
           </div>
         </div>
       </form>

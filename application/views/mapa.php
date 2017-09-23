@@ -38,7 +38,7 @@
       <br><br>
           <div class="form-group">
             <label>Buscar ubicación</label>
-            <input id="address" class="form-control form-control-line" type="text" placeholder="municipio,departamento,pais">
+            <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
           </div>
           <input id="submit" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
           <br>

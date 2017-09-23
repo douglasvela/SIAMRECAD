@@ -11,9 +11,11 @@
     <!--stickey kit -->
     <script src="<?php echo base_url(); ?>assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="<?php echo base_url(); ?>assets/js/custom.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/moment/min/moment.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/wizard/jquery.steps.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/wizard/jquery.validate.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
@@ -29,6 +31,10 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="<?php echo base_url(); ?>assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/wizard/steps.js"></script>
+    <!-- Sweet-Alert  -->
+    <script src="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.min.js"></script>
+    
 </body>
 
 </html>
