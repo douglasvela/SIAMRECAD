@@ -84,7 +84,14 @@
                                     <!-- Step 2 -->
                                     <h6>DETALLE / LUGAR DE SALIDA Y LLEGADA</h6>
                                     <section>
-                                       
+                                        <div class="row form-material">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="m-t-20">Default Material Date Picker</label>
+                                        <input type="text" class="form-control" placeholder="2017-06-04" id="mdate">
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4 class="card-title">Data Table</h4>
@@ -108,7 +115,7 @@
                                                                 <td>7:30:00 AM</td>
                                                                 <td>4:40:00 PM</td>
                                                                 <td>$ 0.00</td>
-                                                                <td>$ 8:00</td>
+                                                                <td>$ 8.00</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>11/11/2017</td>
@@ -116,7 +123,7 @@
                                                                 <td>7:30:00 AM</td>
                                                                 <td>4:40:00 PM</td>
                                                                 <td>$ 0.00</td>
-                                                                <td>$ 8:00</td>
+                                                                <td>$ 4.00</td>
                                                             </tr>
                                                         </tbody>
                                                     </table> 
@@ -131,40 +138,54 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="int1">Interview For :</label>
-                                                    <input type="text" class="form-control" id="int1"> </div>
+                                                    <label for="">Nombre  :</label>
+                                                    <input type="text" class="form-control" id=""> </div>
                                                 <div class="form-group">
-                                                    <label for="intType1">Interview Type :</label>
-                                                    <select class="custom-select form-control" id="intType1" data-placeholder="Type to search cities" name="intType1">
-                                                        <option value="Banquet">Normal</option>
-                                                        <option value="Fund Raiser">Difficult</option>
-                                                        <option value="Dinner Party">Hard</option>
-                                                    </select>
+                                                    <label for="">Cargo Nominal  :</label>
+                                                    <input type="text" class="form-control" id=""> </div>
+                                                 <div class="form-group">
+                                                    <label for="">Cargo Funcional  :</label>
+                                                    <input type="text" class="form-control" id=""> </div>
+                                                
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="">Código :</label>
+                                                    <input type="text" class="form-control" id="">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="Location1">Location :</label>
-                                                    <select class="custom-select form-control" id="Location1" name="location">
-                                                        <option value="">Select City</option>
-                                                        <option value="India">India</option>
-                                                        <option value="USA">USA</option>
-                                                        <option value="Dubai">Dubai</option>
-                                                    </select>
+                                                    <label>Teléfono :</label>
+                                                    <input type="tel" class="form-control" id="">
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="">Linea de Trabajo :</label>
+                                                    <input type="text" class="form-control" id="">
+                                                </div>
+                                               
+                
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="">Sueldo :</label>
+                                                    <input type="text" class="form-control" id="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Unida Pres :</label>
+                                                    <input type="text" class="form-control" id="">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="">Nombre del Banco  :</label>
+                                                    <input type="text" class="form-control" id=""> </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="jobTitle2">Interview Date :</label>
-                                                    <input type="date" class="form-control" id="jobTitle2">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Requirements :</label>
-                                                    <div class="c-inputs-stacked">
-                                                        <label class="inline custom-control custom-checkbox block">
-                                                            <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Employee</span> </label>
-                                                        <label class="inline custom-control custom-checkbox block">
-                                                            <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Contract</span> </label>
-                                                    </div>
-                                                </div>
+                                                    <label for="">Nombre del Banco  :</label>
+                                                    <input type="text" class="form-control" id=""> </div>
                                             </div>
                                         </div>
                                     </section>
@@ -414,9 +435,14 @@
      <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
     </script>
-     <script>
+     <script >
     $(document).ready(function() {
         $('#myTable').DataTable();
-        
+         //calendario
+         $('#mdate').bootstrapMaterialDatePicker({
+            weekStart: 0,
+            time: false
+        });
     });
+
 </script>
