@@ -84,18 +84,73 @@
                                     <!-- Step 2 -->
                                     <h6>DETALLE / LUGAR DE SALIDA Y LLEGADA</h6>
                                     <section>
-                                        <div class="row form-material">
-                                            <div class="col-md-6">
+                                        <div class="row ">
+                                            <div class="col-lg-3">
+                                                 <label class="m-t-20">Fecha de Salida : </label>
+                                                    <div class="input-group">
+                                                    <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
+                                                    <span class="input-group-addon"><i class="icon-calender"></i></span> 
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                 <label class="m-t-20">Consulta a base de marcaje</label>
+                                                <button type="button" class="btn waves-effect waves-light btn-info">Obtener Hora de Marcaje</button>
+                                            </div>
+                                             <div class="col-md-3">
+                                                <label class="m-t-20">Hora de Salida</label>
+                                                <input class="form-control" id="timepicker_salida" placeholder="Hora de Salida">
+                                            </div>
+                                             <div class="col-md-3">
+                                                <label class="m-t-20">Hora de LLegada</label>
+                                                <input class="form-control" id="timepicker_entrada" placeholder="Hora de Llegada">
+                                            </div> 
+                                        </div><br>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <label class="m-t-20">Pasajes al Interior</label>
+                                                <input type="text" class="form-control" placeholder="Digite sus pasajes" name="" id="">
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label class="m-t-20">Viáticos</label>
+                                                <input type="text" class="form-control" placeholder="" name="" id="">
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="m-t-20">Default Material Date Picker</label>
-                                        <input type="text" class="form-control" placeholder="2017-06-04" id="mdate">
+                                                    <label for="" class="m-t-20">Detalle Lugar de Salida - Llegada :</label>
+                                                    <textarea name="" id="" rows="6" class="form-control"></textarea>
                                                 </div>
                                             </div>
                                         </div>
+
+                                         <div class="row">
+                                            <div class="col-12">
+                                                <div class="">
+                                                    <div class="">
+                                                        <div class="row button-group">
+                                                            <div class="col-lg-2 col-md-4">
+                                                                <button type="button" class="btn waves-effect waves-light btn-block btn-info">Limpiar</button>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-4">
+                                                                <button type="button" class="btn waves-effect waves-light btn-block btn-success">Guardar</button>
+                                                            </div>
+                                                           <div class="col-lg-2 col-md-4">
+                                                                <button type="button" class="btn waves-effect waves-light btn-block btn-primary">Modificar</button>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-4">
+                                                                <button type="button" class="btn waves-effect waves-light btn-block btn-danger">Eliminar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><br>
+
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Data Table</h4>
-                                                <h6 class="card-subtitle">Data table example</h6>
+                                                <h4 class="card-title">Datos de Lugares Visitados</h4>
+                                                <h6 class="card-subtitle">Ejemplos</h6>
                                                 <div class="table-responsive m-t-40">
                                                     <table id="myTable" class="table table-bordered table-striped">
                                                         <thead>
@@ -109,10 +164,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>11/11/2017</td>
+                                                           <tr>
+                                                                <td>11/08/2017</td>
                                                                 <td>Sede Central San Salvador - Sede Paracentral San Vicente</td>
-                                                                <td>7:30:00 AM</td>
+                                                                <td>1:30:00 AM</td>
                                                                 <td>4:40:00 PM</td>
                                                                 <td>$ 0.00</td>
                                                                 <td>$ 8.00</td>
@@ -439,10 +494,22 @@
     $(document).ready(function() {
         $('#myTable').DataTable();
          //calendario
-         $('#mdate').bootstrapMaterialDatePicker({
-            weekStart: 0,
-            time: false
+         
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
         });
+        $('#timepicker_entrada').bootstrapMaterialDatePicker({
+            format: 'HH:mm',
+            time: true,
+            date: false
+         });
+        $('#timepicker_salida').bootstrapMaterialDatePicker({
+            format: 'HH:mm',
+            time: true,
+            date: false
+         });
     });
+
 
 </script>
