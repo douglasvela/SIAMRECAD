@@ -57,7 +57,7 @@
     <!-- ============================================================== -->
     <!-- Menú de Barra superior -->
     <!-- ============================================================== -->
-<header class="topbar">
+<header class="topbar" style="position: fixed; width: 100%;">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
