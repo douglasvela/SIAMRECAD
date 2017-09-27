@@ -345,7 +345,7 @@
                         <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="hide-menu">Mantenimiento </span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="index.html">Información Personal</a></li>
+                                <li><a href="<?php base_url();?>Info_personal">Información Personal</a></li>
                                 <li><a href="index.html">Bancos</a></li>
                                 <li><a href="index.html">Horario de Viáticos</a></li>
                                 <li><a href="index.html">Oficinas del MTPS</a></li>
