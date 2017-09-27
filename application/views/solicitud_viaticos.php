@@ -187,63 +187,7 @@
                                         </div>
                                       
                                     </section>
-                                    <!-- Step 3 -->
-                                    <h6>DATOS DEL EMPLEADO Y BANCO</h6>
-                                    <section>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="">Nombre  :</label>
-                                                    <input type="text" class="form-control" id=""> </div>
-                                                <div class="form-group">
-                                                    <label for="">Cargo Nominal  :</label>
-                                                    <input type="text" class="form-control" id=""> </div>
-                                                 <div class="form-group">
-                                                    <label for="">Cargo Funcional  :</label>
-                                                    <input type="text" class="form-control" id=""> </div>
-                                                
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="">Código :</label>
-                                                    <input type="text" class="form-control" id="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Teléfono :</label>
-                                                    <input type="tel" class="form-control" id="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="">Linea de Trabajo :</label>
-                                                    <input type="text" class="form-control" id="">
-                                                </div>
-                                               
-                
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="">Sueldo :</label>
-                                                    <input type="text" class="form-control" id="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="">Unida Pres :</label>
-                                                    <input type="text" class="form-control" id="">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="">Nombre del Banco  :</label>
-                                                    <input type="text" class="form-control" id=""> </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="">Nombre del Banco  :</label>
-                                                    <input type="text" class="form-control" id=""> </div>
-                                            </div>
-                                        </div>
-                                    </section>
+                                    
                                     <!-- Step 4 -->
                                     <h6>Remark</h6>
                                     <section>
