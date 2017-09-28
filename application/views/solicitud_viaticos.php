@@ -45,18 +45,18 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Nombre de la Empresa :</label>
+                                                    <label class="font-weight-bold">Nombre de la Empresa :</label>
                                                     <input type="text" class="form-control" id=""> </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Dirección de la Empresa :</label>
+                                                    <label for="" class="font-weight-bold">Dirección de la Empresa :</label>
                                                     <input type="text" class="form-control" id="">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="">Actividad realizada :</label>
+                                                    <label for="" class="font-weight-bold">Actividad realizada :</label>
                                                     <textarea name="" id="" rows="6" class="form-control"></textarea>
                                                 </div>
                                             </div>
@@ -68,13 +68,13 @@
                                                   <div class="col-lg-4 col-md-5" >
                                                   <br><br>
                                                       <div class="form-group">
-                                                        <label>Buscar ubicación</label>
+                                                        <label class="font-weight-bold">Buscar ubicación</label>
                                                         <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
                                                       </div>
                                                       <input id="submit" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
                                                       <br><br>
                                                       <div>
-                                                        <strong>Resultados</strong>
+                                                        <strong class="font-weight-bold">Resultados</strong>
                                                       </div>
                                                       <div id="output">Los resultados aparecerán aquí</div>
                                                       <br><br><br><br><br><br><br><br>
@@ -86,39 +86,39 @@
                                     <section>
                                         <div class="row ">
                                             <div class="col-lg-3">
-                                                 <label class="m-t-20">Fecha de Salida : </label>
+                                                 <label class="m-t-20 font-weight-bold">Fecha de Salida : </label>
                                                     <div class="input-group">
                                                     <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
                                                     <span class="input-group-addon"><i class="icon-calender"></i></span> 
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
-                                                 <label class="m-t-20">Consulta a base de marcaje</label>
+                                                 <label class="m-t-20 font-weight-bold">Consulta a base de marcaje</label>
                                                 <button type="button" class="btn waves-effect waves-light btn-info">Obtener Hora de Marcaje</button>
                                             </div>
                                              <div class="col-md-3">
-                                                <label class="m-t-20">Hora de Salida</label>
+                                                <label class="m-t-20 font-weight-bold">Hora de Salida</label>
                                                 <input class="form-control" id="timepicker_salida" placeholder="Hora de Salida">
                                             </div>
                                              <div class="col-md-3">
-                                                <label class="m-t-20">Hora de LLegada</label>
+                                                <label class="m-t-20 font-weight-bold">Hora de LLegada</label>
                                                 <input class="form-control" id="timepicker_entrada" placeholder="Hora de Llegada">
                                             </div> 
                                         </div><br>
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <label class="m-t-20">Pasajes al Interior</label>
+                                                <label class="m-t-20 font-weight-bold">Pasajes al Interior</label>
                                                 <input type="text" class="form-control" placeholder="Digite sus pasajes" name="" id="">
                                             </div>
                                             <div class="col-lg-3">
-                                                <label class="m-t-20">Viáticos</label>
+                                                <label class="m-t-20 font-weight-bold">Viáticos</label>
                                                 <input type="text" class="form-control" placeholder="" name="" id="">
                                             </div>
                                         </div><br>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="" class="m-t-20">Detalle Lugar de Salida - Llegada :</label>
+                                                    <label for="" class="m-t-20  font-weight-bold">Detalle Lugar de Salida - Llegada :</label>
                                                     <textarea name="" id="" rows="6" class="form-control"></textarea>
                                                 </div>
                                             </div>
@@ -194,15 +194,15 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="behName1">Behaviour :</label>
+                                                    <label for="behName1" class="font-weight-bold">Behaviour :</label>
                                                     <input type="text" class="form-control" id="behName1">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="participants1">Confidance</label>
+                                                    <label for="participants1" class="font-weight-bold">Confidance</label>
                                                     <input type="text" class="form-control" id="participants1">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="participants1">Result</label>
+                                                    <label for="participants1" class="font-weight-bold">Result</label>
                                                     <select class="custom-select form-control" id="participants1" name="location">
                                                         <option value="">Select Result</option>
                                                         <option value="Selected">Selected</option>
@@ -213,11 +213,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="decisions1">Comments</label>
+                                                    <label for="decisions1" class="font-weight-bold">Comments</label>
                                                     <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Rate Interviwer :</label>
+                                                    <label class="font-weight-bold">Rate Interviwer :</label>
                                                     <div class="c-inputs-stacked">
                                                         <label class="inline custom-control custom-checkbox block">
                                                             <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">1 star</span> </label>

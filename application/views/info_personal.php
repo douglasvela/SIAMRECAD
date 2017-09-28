@@ -15,27 +15,27 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Nombre  :</label>
+                                                    <label for="" class="font-weight-bold">Nombre  :</label>
                                                     <input type="text" class="form-control" id=""> </div>
                                                 <div class="form-group">
-                                                    <label for="">Cargo Nominal  :</label>
+                                                    <label for="" class="font-weight-bold">Cargo Nominal  :</label>
                                                     <input type="text" class="form-control" id=""> </div>
                                                  <div class="form-group">
-                                                    <label for="">Cargo Funcional  :</label>
+                                                    <label for="" class="font-weight-bold">Cargo Funcional  :</label>
                                                     <input type="text" class="form-control" id=""> </div>
                                                 
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="">Código :</label>
+                                                    <label for="" class="font-weight-bold">Código :</label>
                                                     <input type="text" class="form-control" id="">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Teléfono :</label>
+                                                    <label class="font-weight-bold">Teléfono :</label>
                                                     <input type="tel" class="form-control" id="">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="">Linea de Trabajo :</label>
+                                                    <label for="" class="font-weight-bold">Linea de Trabajo :</label>
                                                     <input type="text" class="form-control" id="">
                                                 </div>
                                                
@@ -43,11 +43,11 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="">Sueldo :</label>
+                                                    <label for="" class="font-weight-bold">Sueldo :</label>
                                                     <input type="text" class="form-control" id="">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="">Unida Pres :</label>
+                                                    <label for="" class="font-weight-bold">Unida Pres :</label>
                                                     <input type="text" class="form-control" id="">
                                                 </div>
                                             </div>
@@ -59,12 +59,12 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Nombre del Banco  :</label>
+                                                    <label for="" class="font-weight-bold">Nombre del Banco  :</label>
                                                     <input type="text" class="form-control" id=""> </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Cuenta Bancaria :</label>
+                                                    <label for="" class="font-weight-bold">Cuenta Bancaria :</label>
                                                     <input type="text" class="form-control" id=""> </div>
                                             </div>
                                         </div>
