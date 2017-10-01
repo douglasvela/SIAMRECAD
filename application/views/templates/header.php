@@ -10,6 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo.ico">
+    <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
     <title>SIAMRECAD</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -68,9 +69,9 @@
                 <b>
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                     <!-- Dark Logo icon -->
-                    <img src="<?php echo base_url(); ?>assets/images/logo_min_sinsombra.png" alt="homepage" class="dark-logo" height="50px;">
+                    <img src="<?php echo base_url(); ?>assets/images/logo_min_color.png" alt="homepage" class="dark-logo" height="50px;">
                     <!-- Light Logo icon -->
-                    <img src="<?php echo base_url(); ?>assets/images/logo_min_sinsombra.png" alt="homepage" class="light-logo" height="50px;">
+                    <img src="<?php echo base_url(); ?>assets/images/logo_min_white.png" alt="homepage" class="light-logo" height="60px;">
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text -->
@@ -78,7 +79,7 @@
                  <!-- dark Logo text -->
                  <img src="<?php echo base_url(); ?>assets/images/texto.png" alt="homepage" class="dark-logo"  height="20px;">
                  <!-- Light Logo text -->    
-                 <img src="<?php echo base_url(); ?>assets/images/texto2_light.png" class="light-logo" alt="homepage" height="20px;"></span> </a>
+                 <img src="<?php echo base_url(); ?>assets/images/texto_light.png" class="light-logo" alt="homepage" height="20px;"></span> </a>
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
