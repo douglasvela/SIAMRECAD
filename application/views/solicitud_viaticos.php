@@ -25,11 +25,6 @@
         font-size: 14px;
       }
     </style>
-<div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-</div><br>
-<div id="main-wrapper">
 	<div class="page-wrapper">
 		<div class="container-fluid">
 			<div class="row">
@@ -241,8 +236,6 @@
              </div>
         </div>
     </div>
-
-</div>
  <script>
       var markersO = [];
       var markersD = [];
