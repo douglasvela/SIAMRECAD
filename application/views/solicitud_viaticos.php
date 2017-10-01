@@ -35,7 +35,7 @@
                                 <h6 class="card-subtitle">Los campos con (*) son requeridos</a></h6>
                                 <form action="#" class="tab-wizard wizard-circle">
                                     <!-- Step 1 -->
-                                    <h6>EMPRESA VISITADA</h6>
+                                    <h6>Empresa Visitada</h6>
                                     <section>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -77,7 +77,7 @@
                                                 </div>
                                     </section>
                                     <!-- Step 2 -->
-                                    <h6>DETALLE / LUGAR DE SALIDA Y LLEGADA</h6>
+                                    <h6>Detalle / Lugar de Llegada - Salida</h6>
                                     <section>
                                         <div class="row ">
                                             <div class="col-lg-3">
