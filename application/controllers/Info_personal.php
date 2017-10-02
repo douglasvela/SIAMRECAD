@@ -11,7 +11,7 @@ class Info_personal extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('templates/header');
-		$this->load->view('Info_personal');
+		$this->load->view('info_personal');
 		$this->load->view('templates/footer');
 	}
 }
