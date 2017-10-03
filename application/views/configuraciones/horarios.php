@@ -48,6 +48,9 @@
                                     <div class="help-block"></div>
                                 </div>
                             </div>
+                            <div align="right">
+                            	<button type="button" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                            </div>
 
                         </form>
                     </div>
@@ -87,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <!-- ============================================================== -->

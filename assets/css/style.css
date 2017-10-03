@@ -1024,6 +1024,29 @@ Buttons
     -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
     box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2); }
 
+.btn-success2,
+.btn-success2.disabled {
+  background: #1dca6c;
+  color: #fff;
+  border: 1px solid #1dca6c;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(40, 190, 189, 0.14), 0 3px 1px -2px rgba(40, 190, 189, 0.2), 0 1px 5px 0 rgba(40, 190, 189, 0.12);
+  box-shadow: 0 2px 2px 0 rgba(40, 190, 189, 0.14), 0 3px 1px -2px rgba(40, 190, 189, 0.2), 0 1px 5px 0 rgba(40, 190, 189, 0.12);
+  -webkit-transition: 0.2s ease-in;
+  -o-transition: 0.2s ease-in;
+  transition: 0.2s ease-in; }
+  .btn-success2:hover,
+  .btn-success2.disabled:hover {
+    background: #1dca6c;
+    -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
+    box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
+    border: 1px solid #1dca6c; }
+  .btn-success2.active, .btn-success2:focus,
+  .btn-success2.disabled.active,
+  .btn-success2.disabled:focus {
+    background: #16ad5b;
+    -webkit-box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2);
+    box-shadow: 0 14px 26px -12px rgba(40, 190, 189, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(40, 190, 189, 0.2); }
+
 .btn-info,
 .btn-info.disabled {
   background: #1e88e5;
@@ -1283,6 +1306,20 @@ Buttons
 .btn-success:focus {
   background-color: #1eacbe;
   border: 1px solid #1eacbe; }
+
+.btn-success2.active.focus,
+.btn-success2.active:focus,
+.btn-success2.active:hover,
+.btn-success2.focus:active,
+.btn-success2:active:focus,
+.btn-success2:active:hover,
+.open > .dropdown-toggle.btn-success2.focus,
+.open > .dropdown-toggle.btn-success2:focus,
+.open > .dropdown-toggle.btn-success2:hover,
+.btn-success2.focus,
+.btn-success2:focus {
+  background-color: #16ad5b;
+  border: 1px solid #16ad5b; }
 
 .btn-info.active.focus,
 .btn-info.active:focus,
