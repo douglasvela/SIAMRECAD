@@ -41,7 +41,6 @@
         <!-- This is data table -->
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 
-
      <!-- Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/moment/moment.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
