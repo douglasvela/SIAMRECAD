@@ -347,23 +347,20 @@
                     <ul id="sidebarnav">
                         <li class="nav-small-cap text-center">MENÚ</li>
                         <li class="nav-devider" style="margin:5px;"></li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard </span></a>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">Configuraciones </span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="index.html">Dashboard 1</a></li>
-                                <li><a href="index2.html">Dashboard 2</a></li>
-                                <li><a href="index3.html">Dashboard 3</a></li>
-                                <li><a href="index4.html">Dashboard 4</a></li>
-                                <li><a href="index5.html">Dashboard 5</a></li>
-                                <li><a href="index6.html">Dashboard 6</a></li>
+                                <li><a href="<?php echo site_url(); ?>/bancos"><span class="mdi mdi-label"></span> Bancos</a></li>
+                                <li><a href="<?php echo site_url(); ?>/horarios"><span class="mdi mdi-label"></span> Horarios de viáticos</a></li>
+                                <li><a href="<?php echo site_url(); ?>/oficinas"><span class="mdi mdi-label"></span> Oficinas del MTPS</a></li>
+                                <li class="nav-devider" style="margin:1px;"></li>
                             </ul>
                         </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-laptop-windows"></i><span class="hide-menu">Template Demos</span></a>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-bus"></i><span class="hide-menu">Viáticos y pasajes</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="../minisidebar/index.html">Minisidebar</a></li>
-                                <li><a href="../horizontal/index2.html">Horizontal</a></li>
-                                <li><a href="../dark/index3.html">Dark Version</a></li>
-                                <li><a href="../material-rtl/index4.html">RTL Version</a></li>
-                                <li><a href="javascript:angular">Anuglar-CLI Starter kit</a></li>
+                                <li><a href="<?php echo site_url(); ?>/viaticos"><span class="mdi mdi-label"></span> Crear solicitud</a></li>
+                                <li><a href="<?php echo site_url(); ?>/justificacion"><span class="mdi mdi-label"></span> Crear justificación</a></li>
+                                <li><a href="<?php echo site_url(); ?>/aprobacion"><span class="mdi mdi-label"></span> Solicitudes de viáticos</a></li>
+                                <li class="nav-devider" style="margin:1px;"></li>
                             </ul>
                         </li>
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-bullseye"></i><span class="hide-menu">Apps</span></a>
