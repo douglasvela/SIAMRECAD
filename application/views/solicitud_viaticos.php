@@ -73,6 +73,7 @@
                                                       <div class="form-group">
                                                         <label>Buscar ubicación</label>
                                                         <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
+                                                        <input type="text" id="address_destino" class="form-control form-control-line" placeholder="municipio, departamento, pais">
                                                       </div>
                                                       <input id="submit" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
                                                       <br><br>
@@ -249,18 +250,18 @@
       var markersD = [];
 
       var distancia = "";
-      
+
+        var origin1="";
+        var destinationA="";      
       function initMap() {
         var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
 
-        var origin1 = "";
-        var destinationA = "";
 
 
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:  13.645121, lng: -88.784149},
-          zoom: 17
+          zoom: 12
         });
         var geocoder = new google.maps.Geocoder;
 
@@ -274,7 +275,7 @@
         deleteMarkers_O();
         addMarker_origen(e.latLng, map);
         origin1=e.latLng;
-        
+        alert(origin1)        
         if(destinationA){
           calcula_distancia();pinta_recorrido();
         }
@@ -287,7 +288,15 @@
           calcula_distancia();pinta_recorrido();
           }
          
-        });//termina event
+        });
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress_origen(geocoder, map);
+          geocodeAddress_destino(geocoder, map);
+          calcula_distancia();
+          pinta_recorrido();
+          
+        });
+        //termina event
         function calcula_distancia(){
           service.getDistanceMatrix({
           origins: [origin1],
@@ -356,9 +365,7 @@
         }
 
 
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
+        
       }
 
    
@@ -373,6 +380,7 @@
           animation: google.maps.Animation.DROP
         });
          markersO.push(marker);
+         
 
       }
 
@@ -401,7 +409,7 @@
           animation: google.maps.Animation.DROP
         });
          markersD.push(marker);
-
+         
       }
 
       function deleteMarkers_D() {
@@ -419,13 +427,33 @@
         setMapOnAll_D(null);
       }
 
-      function geocodeAddress(geocoder, resultsMap) {
+      function geocodeAddress_origen(geocoder, resultsMap) {
 
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === google.maps.GeocoderStatus.OK) {
+           // resultsMap.setCenter(results[0].geometry.location);
+
+            deleteMarkers_O();
+            addMarker_origen(results[0].geometry.location, resultsMap);
+            origin1=results[0].geometry.location;
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+            
+          }
+        });
+      }
+      function geocodeAddress_destino(geocoder, resultsMap) {
+
+        var address_destino = document.getElementById('address_destino').value;
+        geocoder.geocode({'address': address_destino}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
             resultsMap.setCenter(results[0].geometry.location);
-            //addMarker_origen(results[0].geometry.location, resultsMap);
+
+            deleteMarkers_D();
+            addMarker_destino(results[0].geometry.location, resultsMap);
+          destinationA=results[0].geometry.location;
+          alert(destinationA)
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
             
