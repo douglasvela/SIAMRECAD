@@ -476,6 +476,9 @@ Background Colors
 .bg-success {
   background-color: #26c6da !important; }
 
+.bg-success2 {
+  background-color: #1dca6c !important; }
+
 .bg-info {
   background-color: #1e88e5 !important; }
 
@@ -1716,10 +1719,10 @@ File: scss
 
 .page-wrapper {
   background: #eef5f9;
-  padding-bottom: 60px; }
+}
 
 .container-fluid {
-  padding: 0 30px 25px 30px; }
+  padding: 0 30px 0px 30px; }
 
 /*******************
  Topbar
@@ -3246,7 +3249,7 @@ Table-Layout
 Table-Data Table
 ******************/
 .dataTables_wrapper {
-  padding-top: 10px; }
+  padding-top: 0px; }
 
 .dt-buttons {
   display: inline-block;
@@ -3265,7 +3268,7 @@ Table-Data Table
   display: inline-block; }
 
 .dataTables_length {
-  margin-top: 10px; }
+  margin-top: 0px; }
   .dataTables_length select {
     border: 0;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#009efb), to(#009efb)), -webkit-gradient(linear, left top, left bottom, from(#d9d9d9), to(#d9d9d9));
@@ -3295,7 +3298,7 @@ Table-Data Table
 
 .dataTables_filter {
   float: right;
-  margin-top: 10px; }
+  margin-top: 0px; }
   .dataTables_filter input {
     border: 0;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#009efb), to(#009efb)), -webkit-gradient(linear, left top, left bottom, from(#d9d9d9), to(#d9d9d9));
