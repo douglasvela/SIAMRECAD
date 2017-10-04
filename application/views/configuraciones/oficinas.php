@@ -25,16 +25,19 @@
         font-size: 14px;
       }
     </style>
-<br>
+
 
 <div class="page-wrapper">
     <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="align-self-center" align="center">
+                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de Oficinas del Ministerio de Trabajo</h3>
+            </div>
+        </div>
 		 <div class="row">
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
-                            <div class="card-header">
-                                <h4 class="m-b-0 text-white">Datos de la Oficina</h4>
-                            </div>
+                            
                             <div class="card-body">
                                 <form action="#" class="form-horizontal">
                                     <div class="form-body">
@@ -113,7 +116,49 @@
                         </div>
                     </div>
                 </div>
-    </div> 
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Datos de las Oficinas</h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive m-t-40">
+                        <table id="myTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre de la Oficina</th>
+                                    <th>Dirección de la Oficina</th>
+                                    <th>Departamento</th>
+                                    <th>Municipio</th>
+                                    <th>Coordenadas</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Sede Central San Salvador</td>
+                                    <td>3# calle oriente, barrio san donis</td>
+                                    <td>san Salvador</td>
+                                    <td>San Salvador</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Sede Santa Ana</td>
+                                    <td>5A avenida norte, barrio san luis</td>
+                                    <td>Santa Ana</td>
+                                    <td>Santa Ana</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table> 
+                    </div> 
+                </div>
+            </div>
+    </div>
+
 </div>
 <script>
       var markersO = [];
@@ -307,3 +352,18 @@
      <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
     </script>
+    <script>
+
+
+    $(function(){ 
+ 
+        $(document).ready(function(){
+            $('#myTable').DataTable();
+             //calendario
+             
+            
+        });
+    });
+
+
+</script>
