@@ -55,6 +55,8 @@
     <!-- Date range Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <script src="<?php echo base_url(); ?>assets/plugins/toast-master/js/jquery.toast.js"></script>
     
 </body>
 

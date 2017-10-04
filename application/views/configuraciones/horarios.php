@@ -61,12 +61,9 @@
         $(obj).parent().parent().submit();
     }
 
-
-    function iniciar(){
-        <?php if($notificacion != nada){ ?>
-            
-        <?php } ?>
-    }
+    <?php if($notificacion != "nada"){ ?>
+        var notificacion = setTimeout(function(){ $("#notificacion").click(); }, 50);
+    <?php } ?>
 
 </script>
 
@@ -74,22 +71,23 @@
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
 <div class="page-wrapper">
-	<div class="container-fluid">
-		<!-- ============================================================== -->
-		<!-- TITULO de la página de sección -->
-		<!-- ============================================================== -->
-	    <div class="row page-titles">
+    <div class="container-fluid">
+        <button id="notificacion" style="display: none;" class="tst1 btn btn-success2">Info Message</button>
+        <!-- ============================================================== -->
+        <!-- TITULO de la página de sección -->
+        <!-- ============================================================== -->
+        <div class="row page-titles">
             <div class="align-self-center" align="center">
                 <h3 class="text-themecolor m-b-0 m-t-0">Gestión de horario de viáticos</h3>
             </div>
         </div>
         <!-- ============================================================== -->
-		<!-- Fin TITULO de la página de sección -->
-		<!-- ============================================================== -->
-		<!-- ============================================================== -->
-		<!-- Inicio del CUERPO DE LA SECCIÓN -->
-		<!-- ============================================================== -->
-		<div class="row">
+        <!-- Fin TITULO de la página de sección -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Inicio del CUERPO DE LA SECCIÓN -->
+        <!-- ============================================================== -->
+        <div class="row">
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -131,7 +129,7 @@
                                 </div>
                             </div>
                             <div align="right" id="btnadd">
-                            	<button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="button" onclick="editar_horario(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
@@ -198,17 +196,23 @@
             <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-		<!-- Fin CUERPO DE LA SECCIÓN -->
-		<!-- ============================================================== -->
+        <!-- Fin CUERPO DE LA SECCIÓN -->
+        <!-- ============================================================== -->
     </div> 
 </div>
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
 
-
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
     });
-    </script>
+    
+$(function() {
+    $('#notificacion').click(function(){
+        swal("Éxito!", "<?php echo $notificacion; ?>.", "success")
+    });
+});
+
+</script>

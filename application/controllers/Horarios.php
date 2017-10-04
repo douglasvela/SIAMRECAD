@@ -35,7 +35,7 @@ class Horarios extends CI_Controller {
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin')
 			);
 			$this->horarios_model->insertar_horario($data);
-			$var["notificacion"] = "<strong>Éxito!</strong> Viático: '".$this->input->post('descripcion')."' registrado exitosamente.";
+			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' registrado exitosamente.";
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
 			'idhorario' => $this->input->post('idhorario'), 
@@ -44,7 +44,7 @@ class Horarios extends CI_Controller {
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin')
 			);
 			$this->horarios_model->editar_horario($data);
-			$var["notificacion"] = "<strong>Éxito!</strong> Viático: '".$this->input->post('descripcion')."' modificado exitosamente.";
+			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' modificado exitosamente.";
 
 		}else if($this->input->post('band') == "delete"){
 
@@ -52,7 +52,7 @@ class Horarios extends CI_Controller {
 			'idhorario' => $this->input->post('idhorario')
 			);
 			$this->horarios_model->eliminar_horario($data);
-			$var["notificacion"] = "<strong>Éxito!</strong> Viático: '".$this->input->post('descripcion')."' eliminado exitosamente.";
+			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' eliminado exitosamente.";
 
 		}
 		$var["horarios"] = $this->horarios_model->mostrar_horario();
