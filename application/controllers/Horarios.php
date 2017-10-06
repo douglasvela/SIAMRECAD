@@ -32,7 +32,8 @@ class Horarios extends CI_Controller {
 			$data = array(
 			'descripcion' => $this->input->post('descripcion'), 
 			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
-			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin')
+			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
+			'monto' => number_format($this->input->post('monto'),2)
 			);
 			$this->horarios_model->insertar_horario($data);
 			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' registrado exitosamente.";
@@ -41,7 +42,8 @@ class Horarios extends CI_Controller {
 			'idhorario' => $this->input->post('idhorario'), 
 			'descripcion' => $this->input->post('descripcion'), 
 			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
-			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin')
+			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
+			'monto' => number_format($this->input->post('monto'),2)
 			);
 			$this->horarios_model->editar_horario($data);
 			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' modificado exitosamente.";

@@ -1,9 +1,10 @@
 <script type="text/javascript">
-    function cambiar_editar(id,descripcion,hora_inicio,hora_fin){
+    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto){
         $("#idhorario").val(id);
         $("#descripcion").val(descripcion);
         $("#hora_inicio").val(hora_inicio);
         $("#hora_fin").val(hora_fin);
+        $("#monto").val(monto);
 
         $("#ttl_form").removeClass("bg-success");
         $("#ttl_form").addClass("bg-info");
@@ -22,6 +23,7 @@
         $("#descripcion").val("");
         $("#hora_inicio").val("");
         $("#hora_fin").val("");
+        $("#monto").val("");
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -53,12 +55,12 @@
 
     function editar_horario(obj){
         $("#band").val("edit");
-        $(obj).parent().parent().submit();
+        $("#submit").click();
     }
 
     function eliminar_horario(obj){
         $("#band").val("delete");
-        $(obj).parent().parent().submit();
+        $("#submit").click();
     }
 
     <?php if($notificacion != "nada"){ ?>
@@ -105,29 +107,40 @@
                         <?php echo form_open('horarios/gestionar_horarios', array('style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idhorario" name="idhorario" value="">
-                            <div class="form-group">
-                                <h5>Descripción: <span class="text-danger">*</span></h5>
-                                <div class="controls">
-                                    <input type="text" id="descripcion" name="descripcion" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
+                            <div class="row">
+                                <div class="form-group col-lg-8 col-sm-12">
+                                    <h5>Descripción: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                        <input type="text" id="descripcion" name="descripcion" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4 col-sm-12">
+                                    <h5>Monto: <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.01" step="0.01">
                                     <div class="help-block"></div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <h5>Hora inicio: <span class="text-danger">*</span></h5>
-                                <div class="controls">
-                                    <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
-                                    <div class="help-block"></div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <h5>Hora inicio: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                        <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <h5>Hora fin: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
+                                        <div class="help-block"></div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <h5>Hora fin: <span class="text-danger">*</span></h5>
-                                <div class="controls">
-                                    <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
-                                    <div class="help-block"></div>
-                                </div>
-                            </div>
+                            <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
@@ -164,6 +177,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Descripción</th>
+                                        <th>Monto</th>
                                         <th>Inicio</th>
                                         <th>Fin</th>
                                         <th>(*)</th>
@@ -176,10 +190,11 @@
                                            echo "<tr>";
                                            echo "<td>".$fila->id_horario_viatico."</td>";
                                            echo "<td>".$fila->descripcion."</td>";
+                                           echo "<td>$ ".number_format($fila->monto,2)."</td>";
                                            echo "<td>".date("h:i A",strtotime($fila->hora_inicio))."</td>";
                                            echo "<td>".date("h:i A",strtotime($fila->hora_fin))."</td>";
                                            
-                                           $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)));
+                                           $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2));
                                            echo boton_tabla($array,"cambiar_editar");
                                            echo "</tr>";
                                         }
