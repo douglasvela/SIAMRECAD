@@ -10,7 +10,7 @@ class Horarios_model extends CI_Controller {
 
 	function insertar_horario($data){
 		$id = $this->obtener_ultimo_id("cvr_horario_viatico","id_horario_viatico");
-		$this->db->insert('cvr_horario_viatico', array('id_horario_viatico' => $id, 'descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin']));
+		$this->db->insert('cvr_horario_viatico', array('id_horario_viatico' => $id, 'descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin'], 'monto' => $data['monto']));
 	}
 
 	function mostrar_horario(){
@@ -21,7 +21,7 @@ class Horarios_model extends CI_Controller {
 
 	function editar_horario($data){
 		$this->db->where("id_horario_viatico",$data["idhorario"]);
-		$this->db->update('cvr_horario_viatico', array('descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin']));
+		$this->db->update('cvr_horario_viatico', array('descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin'], 'monto' => $data['monto']));
 	}
 
 	function eliminar_horario($data){
