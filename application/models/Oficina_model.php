@@ -8,9 +8,9 @@ class Oficina_model extends CI_Model {
 		$this->load->database();
 	}
 
-	function insertar_horario($data){
-		$id = $this->obtener_ultimo_id("cvr_horario_viatico","id_horario_viatico");
-		$this->db->insert('cvr_horario_viatico', array('id_horario_viatico' => $id, 'descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin']));
+	function insertar_oficina($data){
+		//$id = $this->obtener_ultimo_id("cvr_oficinas","id_oficina");
+		$this->db->insert('cvr_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'coordenada_oficina' => $data['coordenada_oficina']));
 	}
 
 	function mostrar_oficina(){
@@ -20,12 +20,12 @@ class Oficina_model extends CI_Model {
 	}
 
 	function editar_horario($data){
-		$this->db->where("id_horario_viatico",$data["idhorario"]);
-		$this->db->update('cvr_horario_viatico', array('descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin']));
+		$this->db->where("id_oficina",$data["id_oficina"]);
+		$this->db->update('cvr_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'coordenada_oficina' => $data['coordenada_oficina']));
 	}
 
 	function eliminar_horario($data){
-		$this->db->delete("cvr_horario_viatico",array('id_horario_viatico' => $data['idhorario']));
+		$this->db->delete("cvr_oficinas",array('id_oficina' => $data['id_oficina']));
 	}
 
 	function obtener_ultimo_id($tabla,$nombreid){
