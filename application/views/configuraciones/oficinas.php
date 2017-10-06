@@ -134,24 +134,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Sede Central San Salvador</td>
-                                    <td>3# calle oriente, barrio san donis</td>
-                                    <td>san Salvador</td>
-                                    <td>San Salvador</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Sede Santa Ana</td>
-                                    <td>5A avenida norte, barrio san luis</td>
-                                    <td>Santa Ana</td>
-                                    <td>Santa Ana</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php 
+                                    if(!empty($oficinas)){
+                                        foreach ($oficinas->result() as $fila) {
+                                           echo "<tr>";
+                                           echo "<td>".$fila->id_oficina."</td>";
+                                           echo "<td>".$fila->nombre_oficina."</td>";
+                                           echo "<td>".$fila->direccion_oficina."</td>";
+                                           echo "<td></td>";
+                                           echo "<td></td>";
+                                           echo "<td>".$fila->coordenadas_oficina."</td>";
+                                           echo "<td></td>";
+                                           echo "</tr>";
+                                        }
+                                    }
+                                ?>
                             </tbody>
                         </table> 
                     </div> 
