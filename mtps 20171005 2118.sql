@@ -31,6 +31,7 @@ CREATE TABLE `cvr_horario_viatico` (
   `descripcion` varchar(45) NOT NULL,
   `hora_inicio` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `hora_fin` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `monto` float NOT NULL,
   PRIMARY KEY (`id_horario_viatico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,10 +40,10 @@ CREATE TABLE `cvr_horario_viatico` (
 --
 
 /*!40000 ALTER TABLE `cvr_horario_viatico` DISABLE KEYS */;
-INSERT INTO `cvr_horario_viatico` (`id_horario_viatico`,`descripcion`,`hora_inicio`,`hora_fin`) VALUES 
- (1,'Desayuno','2017-10-05 06:00:00','2017-10-05 08:00:00'),
- (2,'Almuerzo','2017-10-04 12:00:00','2017-10-04 13:00:00'),
- (3,'cena','2017-10-05 18:00:00','2017-10-05 20:00:00');
+INSERT INTO `cvr_horario_viatico` (`id_horario_viatico`,`descripcion`,`hora_inicio`,`hora_fin`,`monto`) VALUES 
+ (1,'Desayuno','2017-10-05 06:00:00','2017-10-05 08:00:00',2),
+ (2,'Almuerzo','2017-10-05 12:00:00','2017-10-05 13:00:00',3.5),
+ (3,'cena','2017-10-05 18:00:00','2017-10-05 20:00:00',4.5);
 /*!40000 ALTER TABLE `cvr_horario_viatico` ENABLE KEYS */;
 
 
