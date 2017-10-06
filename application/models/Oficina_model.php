@@ -14,7 +14,7 @@ class Oficina_model extends CI_Model {
 	}
 
 	function mostrar_oficina(){
-		$query = $this->db->get("crv_oficinas");
+		$query = $this->db->get("cvr_oficinas");
 		if($query->num_rows() > 0) return $query;
 		else return false;
 	}
