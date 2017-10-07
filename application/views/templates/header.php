@@ -45,7 +45,7 @@
 <![endif]-->
 </head>
 <script>
-    var barra = setTimeout(function(){ $("#clic").click(); }, 250);
+    var barra = setTimeout(function(){ $("#clic").click(); }, 500);
 </script>
 <body class="fix-header fix-sidebar card-no-border logo-center">
 
