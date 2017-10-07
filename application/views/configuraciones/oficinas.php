@@ -42,7 +42,8 @@
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        initMap("","");
+
+        initMap(latitud_oficina,longitud_oficina);
         $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
     }
 
@@ -58,7 +59,7 @@
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        initMap("","");
+        initMap("");
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Oficina");
     }
 
@@ -149,7 +150,7 @@
                                         <label>Buscar ubicación</label>
                                         <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
                                     </div>
-                                    <input id="submit" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
+                                    <input id="submit_ubi" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
                                     <br><br>
                                     
                                     <strong>Resultados</strong>
@@ -255,23 +256,25 @@ $(function(){
 
       var distancia = "";
       
-      function initMap(latitud,longitud) {
+      function initMap(latitud_oficina,longitud_oficina) {
         var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
 
         var origin1 = "";
-        if(latitud==""){
-            latitud = "13.645121";
+        
+        
+        if(latitud_oficina){
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center:  new google.maps.LatLng(latitud_oficina, longitud_oficina),
+                zoom: 17
+            });
+            addMarker_origen(new google.maps.LatLng(latitud_oficina, longitud_oficina),map);
+        }else{
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 13.645121, lng:-88.784149},
+                zoom: 17
+            }); addMarker_origen({lat: 13.645121, lng:-88.784149},map);
         }
-        if(longitud==""){
-            longitud="-88.784149";
-        }
-        //var punto = "{lat: "+lat+", lng: "+lon+"}";
-       // alert(punto)
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: latitud, lng:longitud},
-          zoom: 17
-        });
         var geocoder = new google.maps.Geocoder;
 
         var service = new google.maps.DistanceMatrixService;
@@ -281,25 +284,25 @@ $(function(){
         var directionsService = new google.maps.DirectionsService();
 
         map.addListener('click', function(e) {
-        deleteMarkers_O();
-        addMarker_origen(e.latLng, map);
-        origin1=e.latLng;
-        var cadena = String(origin1);
-        //var cadena = "(12.2432343442,-34.42342442444)";
-        var separador= ",";
-        arregloDeSubCadenas = cadena.split(separador);
-        arreglo1 = arregloDeSubCadenas[0].substring(1);
+            deleteMarkers_O();
+            addMarker_origen(e.latLng, map);
+            origin1=e.latLng;
+            var cadena = String(origin1);
+            //var cadena = "(12.2432343442,-34.42342442444)";
+            var separador= ",";
+            arregloDeSubCadenas = cadena.split(separador);
+            arreglo1 = arregloDeSubCadenas[0].substring(1);
 
-        pos=arregloDeSubCadenas[1].indexOf(')');
-        arreglo2 = arregloDeSubCadenas[1].substring(0,pos);
-        $("#latitud_oficina").val(arreglo1);
-        $("#longitud_oficina").val(arreglo2);
+            pos=arregloDeSubCadenas[1].indexOf(')');
+            arreglo2 = arregloDeSubCadenas[1].substring(0,pos);
+            $("#latitud_oficina").val(arreglo1);
+            $("#longitud_oficina").val(arreglo2);
         });//termina event
         
         
 
 
-        document.getElementById('submit').addEventListener('click', function() {
+        document.getElementById('submit_ubi').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
         });
       }
