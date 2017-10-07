@@ -226,7 +226,13 @@
     
 $(function() {
     $('#notificacion').click(function(){
-        swal("Éxito!", "<?php echo $notificacion; ?>.", "success")
+        swal({   
+            title: "!Éxito!",   
+            text: "<?php echo $notificacion; ?>.", 
+            type: "success",
+            //timer: 2000,   
+            showConfirmButton: true 
+        });
     });
 });
 
