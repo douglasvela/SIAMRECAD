@@ -125,8 +125,8 @@
                         <?php echo form_open('oficinas/gestionar_oficinas', array('style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_oficina" name="id_oficina" value="">
-                            <input type="text" id="latitud_oficina" name="latitud_oficina">
-                            <input type="text" id="longitud_oficina" name="longitud_oficina">
+                            <input type="hidden" id="latitud_oficina" name="latitud_oficina">
+                            <input type="hidden" id="longitud_oficina" name="longitud_oficina">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -153,9 +153,7 @@
                                     <input id="submit_ubi" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
                                     <br><br>
                                     
-                                    <strong>Resultados</strong>
                                     
-                                    <div id="output">Los resultados aparecerán aquí</div>
                                     <br><br><br><br><br><br><br><br>
                                 </div>
                             </div>
@@ -271,9 +269,9 @@ $(function(){
             addMarker_origen(new google.maps.LatLng(latitud_oficina, longitud_oficina),map);
         }else{
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 13.645121, lng:-88.784149},
-                zoom: 17
-            }); addMarker_origen({lat: 13.645121, lng:-88.784149},map);
+                center: {lat: 13.705542923582362, lng: -89.20029401779175},
+                zoom: 14
+            }); 
         }
         var geocoder = new google.maps.Geocoder;
 
