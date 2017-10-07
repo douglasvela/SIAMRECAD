@@ -38,16 +38,6 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo viático");
     }
 
-    function pantalla_div(obj){
-        if($(obj).children("i").hasClass("mdi-fullscreen")){        
-            $(obj).parent().parent().parent().parent("div").css({"padding-left":"0px","padding-right":"0px"});
-            $(obj).html("<i class='mdi mdi-fullscreen-exit'></i>");
-        }else{
-            $(obj).parent().parent().parent().parent("div").css({"padding-left":"100px","padding-right":"100px"});
-            $(obj).html("<i class='mdi mdi-fullscreen'></i>");
-        }
-    }
-
     function cerrar_mantenimiento(){
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
@@ -63,9 +53,13 @@
         $("#submit").click();
     }
 
-    <?php if($notificacion != "nada"){ ?>
-        var notificacion = setTimeout(function(){ $("#notificacion").click(); }, 50);
-    <?php } ?>
+    function iniciar(){
+        <?php if($notificacion != "nada"){ ?>
+            $("#notificacion").click();
+        <?php } ?>
+    }
+
+    
 
 </script>
 
@@ -93,11 +87,11 @@
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt_form" style="display: none; padding-left: 100px; padding-right: 100px;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
-                            <a style="font-size: 16px;" onclick="pantalla_div(this);"><i class="mdi mdi-fullscreen"></i></a>
                             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
                         </div>
                         <h4 class="card-title m-b-0 text-white">Listado de viáticos</h4>
@@ -153,6 +147,7 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -162,16 +157,13 @@
             <div class="col-lg-12" id="cnt-tabla">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-actions">
-                            <a onclick="pantalla_div(this);"><i class="mdi mdi-fullscreen-exit"></i></a>
-                        </div>
                         <h4 class="card-title m-b-0">Listado de viáticos</h4>
                     </div>
-                    <div class="card-body b-t">
+                    <div class="card-body b-t" style="padding-top: 7px;">
                         <div class="pull-right">
                             <button type="button" onclick="cambiar_nuevo();" class="btn btn-rounded btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
                         </div>
-                        <div class="table-responsive" style="margin-top: 0px;">
+                        <div class="table-responsive">
                             <table id="myTable" class="table table-bordered">
                                 <thead class="bg-info text-white">
                                     <tr>

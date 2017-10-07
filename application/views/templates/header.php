@@ -47,7 +47,7 @@
 <script>
     var barra = setTimeout(function(){ $("#clic").click(); }, 500);
 </script>
-<body class="fix-header fix-sidebar card-no-border logo-center">
+<body class="fix-header fix-sidebar card-no-border logo-center" onload="iniciar();">
 
     <!-- ============================================================== -->
     <!-- Icono de cargando página... -->

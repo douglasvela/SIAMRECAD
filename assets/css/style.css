@@ -721,6 +721,7 @@ Table Cell
   vertical-align: middle; }
 
 .table-responsive {
+  padding-top: 7px;
   display: block;
   width: 100%;
   overflow-x: auto;

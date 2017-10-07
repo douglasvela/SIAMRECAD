@@ -82,9 +82,11 @@
         $("#submit").click();
     }
 
-    <?php if($notificacion != "nada"){ ?>
-        var notificacion = setTimeout(function(){ $("#notificacion").click(); }, 1);
-    <?php } ?>
+    function iniciar(){
+        <?php if($notificacion != "nada"){ ?>
+            $("#notificacion").click();
+        <?php } ?>
+    }
 
 </script>
 
@@ -112,7 +114,8 @@
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt_form" style="display: none; padding-left: 100px; padding-right: 100px;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -172,6 +175,7 @@
 
                 </div>
             </div>
+            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -186,11 +190,11 @@
                         </div>
                         <h4 class="card-title m-b-0">Listado de Oficinas</h4>
                     </div>
-                    <div class="card-body b-t">
+                    <div class="card-body b-t"  style="padding-top: 7px;">
                         <div class="pull-right">
                             <button type="button" onclick="cambiar_nuevo();" class="btn btn-rounded btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
                         </div>
-                        <div class="table-responsive" style="margin-top: 0px;">
+                        <div class="table-responsive">
                             <table id="myTable" class="table table-bordered">
                                 <thead class="bg-info text-white">
                                     <tr>
