@@ -43,27 +43,5 @@ class Bancos_model extends CI_Controller {
 		return $ultimoid;
 	}
 
-/*	function mostrar_personal(){
-		$query = $this->db->get("tpersonal");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
 
-	function mostrar_personal2(){
-        $query = $this->db->query("SELECT p.idpersonal, p.nombre, p.direccion, p.telefono, c.idcargo, c.nombre AS cnombre, z.idzona, z.nombre AS znombre FROM tpersonal p JOIN tcargos c ON p.idcargo = c.idcargo JOIN tzonas z ON z.idzona = p.idzona");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_cargos(){
-		$query = $this->db->get("tcargos");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_zonas(){
-		$query = $this->db->get("tzonas");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}*/
 }
