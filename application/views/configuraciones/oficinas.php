@@ -48,7 +48,11 @@
     }
 
     function cambiar_nuevo(){
-        
+        $("#id_oficina").val("");
+         $("#nombre_oficina").val("");
+         $("#direccion_oficina").val("");
+         $("#latitud_oficina").val("");
+         $("#longitud_oficina").val("");
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -59,7 +63,7 @@
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        initMap("");
+        initMap($("#latitud_oficina").val(),$("#longitud_oficina").val());
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Oficina");
     }
 
@@ -83,9 +87,13 @@
     }
 
     function iniciar(){
-        <?php if($notificacion != "nada"){ ?>
+        <?php if($notificacion == "ERROR1"){ ?>
+           cambiar_nuevo();
+         <?php }else if($notificacion == "ERROR2"){ ?>
+            cambiar_editar($("#id_oficina").val(),$("#nombre_oficina").val(),$("#direccion_oficina").val(),$("#latitud_oficina").val(),$("#longitud_oficina").val());
+        <?php }else if($notificacion != "nada"){?>
             $("#notificacion").click();
-        <?php } ?>
+         <?php }?>
     }
 
 </script>
@@ -127,25 +135,30 @@
                         
                         <?php echo form_open('oficinas/gestionar_oficinas', array('style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
-                            <input type="hidden" id="id_oficina" name="id_oficina" value="">
-                            <input type="hidden" id="latitud_oficina" name="latitud_oficina">
-                            <input type="hidden" id="longitud_oficina" name="longitud_oficina">
+                            <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
+                            <?php echo form_error('id_oficina'); ?>
+                            <input type="hidden" id="latitud_oficina" name="latitud_oficina" value="<?php echo set_value('latitud_oficina'); ?>">
+                          
+                            <input type="hidden" id="longitud_oficina" name="longitud_oficina" value="<?php echo set_value('longitud_oficina'); ?>">
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina:</label>
-                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina"> </div>
+                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" value="<?php echo set_value('nombre_oficina'); ?>"> 
+                                        <?php echo form_error('nombre_oficina'); ?>
+                                    </div>
                                 
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :</label>
-                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina"> </div>
+                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" value="<?php echo set_value('direccion_oficina'); ?>"><?php echo form_error('direccion_oficina'); ?> </div>
                                 </div>
                             </div>
                            <div id="divider" class="row" >
                                 <div class="col-lg-8 col-md-7 otro" >
-                                        <div id="map"></div>
+                                        <div id="map"></div><?php echo form_error('longitud_oficina'); ?>
                                 </div>
                                 <div class="col-lg-4 col-md-5" >
                                     <br><br>
