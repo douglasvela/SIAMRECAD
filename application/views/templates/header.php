@@ -300,7 +300,7 @@
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">Configuraciones </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="<?php echo site_url(); ?>/bancos"><span class="mdi mdi-label"></span> Bancos</a></li>
-                                <li><a href="<?php echo site_url(); ?>/horarios"><span class="mdi mdi-label"></span> Horarios de viáticos</a></li>
+                                <li><a href="<?php echo site_url(); ?>configuraciones/horarios"><span class="mdi mdi-label"></span> Horarios de viáticos</a></li>
                                 <li><a href="<?php echo site_url(); ?>/oficinas"><span class="mdi mdi-label"></span> Oficinas del MTPS</a></li>
                                 <li class="nav-devider" style="margin:1px;"></li>
                             </ul>

@@ -6,27 +6,22 @@ class Horarios extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		/************ Librerias para llamar funciones predefenidas **********/
-		$this->load->helper('url');
-		$this->load->helper('form');
-		$this->load->helper('funciones_rapidas');
+		$this->load->helper(array('url','form','funciones_rapidas'));
 		$this->load->model('horarios_model');
 	}
 
 	public function index(){
-		$var["horarios"] = $this->horarios_model->mostrar_horario();
-		$var["notificacion"] = "nada";
-		$this->vista_horario($var);
+		$this->vista_horario();
 	}
 
-	public function vista_horario($var){
+	public function vista_horario(){
 		$this->load->view('templates/header');
-		$this->load->view('configuraciones/horarios',$var);
+		$this->load->view('configuraciones/horarios');
 		$this->load->view('templates/footer');
 	}
 
 	public function gestionar_horarios(){
 		/************ Notificación a mostrar *****************/
-		$var["notificacion"] = "nada";
 
 		if($this->input->post('band') == "save"){
 			$data = array(
@@ -35,8 +30,7 @@ class Horarios extends CI_Controller {
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
 			'monto' => number_format($this->input->post('monto'),2)
 			);
-			$this->horarios_model->insertar_horario($data);
-			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' registrado exitosamente.";
+			echo $this->horarios_model->insertar_horario($data);
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
 			'idhorario' => $this->input->post('idhorario'), 
@@ -45,20 +39,13 @@ class Horarios extends CI_Controller {
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
 			'monto' => number_format($this->input->post('monto'),2)
 			);
-			$this->horarios_model->editar_horario($data);
-			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' modificado exitosamente.";
-
+			echo $this->horarios_model->editar_horario($data);
 		}else if($this->input->post('band') == "delete"){
-
 			$data = array(
 			'idhorario' => $this->input->post('idhorario')
 			);
-			$this->horarios_model->eliminar_horario($data);
-			$var["notificacion"] = "Viático: '".$this->input->post('descripcion')."' eliminado exitosamente.";
-
+			echo $this->horarios_model->eliminar_horario($data);
 		}
-		$var["horarios"] = $this->horarios_model->mostrar_horario();
-		$this->vista_horario($var);
 	}
 }
 ?>

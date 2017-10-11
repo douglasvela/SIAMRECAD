@@ -54,9 +54,36 @@
     }
 
     function iniciar(){
-        <?php if($notificacion != "nada"){ ?>
-            $("#notificacion").click();
-        <?php } ?>
+        tablahorarios();        
+    }
+
+    function objetoAjax(){
+        var xmlhttp = false;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+        return xmlhttp;
+    }
+
+    function tablahorarios(){        
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
+                  $('#myTable').DataTable();
+            }
+        }
+        
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablahorario",true);
+        xmlhttpB.send();
     }
 
     
@@ -98,7 +125,7 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('horarios/gestionar_horarios', array('style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                        <?php echo form_open('horarios/gestionar_horarios', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idhorario" name="idhorario" value="">
                             <div class="row">
@@ -155,49 +182,9 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title m-b-0">Listado de viáticos</h4>
-                    </div>
-                    <div class="card-body b-t" style="padding-top: 7px;">
-                        <div class="pull-right">
-                            <button type="button" onclick="cambiar_nuevo();" class="btn btn-rounded btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
-                        </div>
-                        <div class="table-responsive">
-                            <table id="myTable" class="table table-bordered">
-                                <thead class="bg-info text-white">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Descripción</th>
-                                        <th>Monto</th>
-                                        <th>Inicio</th>
-                                        <th>Fin</th>
-                                        <th>(*)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php 
-                                    if(!empty($horarios)){
-                                        foreach ($horarios->result() as $fila) {
-                                           echo "<tr>";
-                                           echo "<td>".$fila->id_horario_viatico."</td>";
-                                           echo "<td>".$fila->descripcion."</td>";
-                                           echo "<td>$ ".number_format($fila->monto,2)."</td>";
-                                           echo "<td>".date("h:i A",strtotime($fila->hora_inicio))."</td>";
-                                           echo "<td>".date("h:i A",strtotime($fila->hora_fin))."</td>";
-                                           
-                                           $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2));
-                                           echo boton_tabla($array,"cambiar_editar");
-                                           echo "</tr>";
-                                        }
-                                    }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+
             </div>
+            
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->
             <!-- ============================================================== -->
@@ -212,19 +199,39 @@
 <!-- ============================================================== -->
 
 <script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-    
-$(function() {
-    $('#notificacion').click(function(){
-        swal({   
-            title: "!Éxito!",   
-            text: "<?php echo $notificacion; ?>.", 
-            type: "success",
-            //timer: 2000,   
-            showConfirmButton: true 
+
+$(function(){     
+    $("#formajax").on("submit", function(e){
+        e.preventDefault();
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formajax"));
+        formData.append("dato", "valor");
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/horarios/gestionar_horarios",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                tablahorarios();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
         });
+            
     });
 });
 
