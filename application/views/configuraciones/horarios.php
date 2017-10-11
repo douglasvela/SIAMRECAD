@@ -86,8 +86,6 @@
         xmlhttpB.send();
     }
 
-    
-
 </script>
 
 <!-- ============================================================== -->
@@ -125,7 +123,7 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('horarios/gestionar_horarios', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idhorario" name="idhorario" value="">
                             <div class="row">
