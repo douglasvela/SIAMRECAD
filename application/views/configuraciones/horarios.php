@@ -50,7 +50,17 @@
 
     function eliminar_horario(obj){
         $("#band").val("delete");
-        $("#submit").click();
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            $("#submit").click(); 
+        });
     }
 
     function iniciar(){
