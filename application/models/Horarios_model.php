@@ -11,9 +11,9 @@ class Horarios_model extends CI_Controller {
 	function insertar_horario($data){
 		$id = $this->obtener_ultimo_id("cvr_horario_viatico","id_horario_viatico");
 		if($this->db->insert('cvr_horario_viatico', array('id_horario_viatico' => $id, 'descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin'], 'monto' => $data['monto']))){
-			echo "exito";
+			return "exito";
 		}else{
-			echo "fracaso";
+			return "fracaso";
 		}
 	}
 
@@ -26,17 +26,17 @@ class Horarios_model extends CI_Controller {
 	function editar_horario($data){
 		$this->db->where("id_horario_viatico",$data["idhorario"]);
 		if($this->db->update('cvr_horario_viatico', array('descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin'], 'monto' => $data['monto']))){
-			echo "exito";
+			return "exito";
 		}else{
-			echo "fracaso";
+			return "fracaso";
 		}
 	}
 
 	function eliminar_horario($data){
 		if($this->db->delete("cvr_horario_viatico",array('id_horario_viatico' => $data['idhorario']))){
-			echo "exito";
+			return "exito";
 		}else{
-			echo "fracaso";
+			return "fracaso";
 		}
 	}
 

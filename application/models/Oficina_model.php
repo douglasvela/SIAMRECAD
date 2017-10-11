@@ -11,9 +11,9 @@ class Oficina_model extends CI_Model {
 	function insertar_oficina($data){
 		//$id = $this->obtener_ultimo_id("cvr_oficinas","id_oficina");
 		if($this->db->insert('cvr_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina']))){
-			echo "exito";
+			return "exito";
 		}else{
-			echo "fracaso";
+			return "fracaso";
 		}
 	}
 
@@ -26,17 +26,17 @@ class Oficina_model extends CI_Model {
 	function editar_oficina($data){
 		$this->db->where("id_oficina",$data["id_oficina"]);
 		if($this->db->update('cvr_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina']))){
-			echo "exito";
+			return "exito";
 		}else{
-			echo "fracaso";
+			return "fracaso";
 		}
 	}
 
 	function eliminar_oficina($data){
 		if($this->db->delete("cvr_oficinas",array('id_oficina' => $data['id_oficina']))){
-			echo "exito";
+			return "exito";
 		}else{
-			echo "fracaso";
+			return "fracaso";
 		}
 	}
 

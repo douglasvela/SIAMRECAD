@@ -10,7 +10,11 @@ class Bancos_model extends CI_Controller {
 
 	function insertar_banco($data){
 		$idb = $this->obtener_ultimo_id("cvr_bancos","id_banco");
-		$this->db->insert('cvr_bancos', array('id_banco' => $idb, 'nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']));
+		if($this->db->insert('cvr_bancos', array('id_banco' => $idb, 'nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
 	}
 
 	function mostrar_banco(){
@@ -21,11 +25,19 @@ class Bancos_model extends CI_Controller {
 
 	function editar_banco($data){
 		$this->db->where("id_banco",$data["idb"]);
-		$this->db->update('cvr_bancos', array('nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']));
+		if($this->db->update('cvr_bancos', array('nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
 	}
 
 	function eliminar_banco($data){
-		$this->db->delete("cvr_bancos",array('id_banco' => $data['idb']));
+		if($this->db->delete("cvr_bancos",array('id_banco' => $data['idb']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
 	}
 
 	function obtener_ultimo_id($tabla,$nombreid){
@@ -42,28 +54,4 @@ class Bancos_model extends CI_Controller {
 		}
 		return $ultimoid;
 	}
-
-/*	function mostrar_personal(){
-		$query = $this->db->get("tpersonal");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_personal2(){
-        $query = $this->db->query("SELECT p.idpersonal, p.nombre, p.direccion, p.telefono, c.idcargo, c.nombre AS cnombre, z.idzona, z.nombre AS znombre FROM tpersonal p JOIN tcargos c ON p.idcargo = c.idcargo JOIN tzonas z ON z.idzona = p.idzona");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_cargos(){
-		$query = $this->db->get("tcargos");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_zonas(){
-		$query = $this->db->get("tzonas");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}*/
 }

@@ -11,19 +11,15 @@ class Horarios extends CI_Controller {
 	}
 
 	public function index(){
-		$this->vista_horario();
-	}
-
-	public function vista_horario(){
 		$this->load->view('templates/header');
 		$this->load->view('configuraciones/horarios');
 		$this->load->view('templates/footer');
 	}
 
 	public function gestionar_horarios(){
-		/************ Notificación a mostrar *****************/
 
 		if($this->input->post('band') == "save"){
+
 			$data = array(
 			'descripcion' => $this->input->post('descripcion'), 
 			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
@@ -31,7 +27,9 @@ class Horarios extends CI_Controller {
 			'monto' => number_format($this->input->post('monto'),2)
 			);
 			echo $this->horarios_model->insertar_horario($data);
+
 		}else if($this->input->post('band') == "edit"){
+
 			$data = array(
 			'idhorario' => $this->input->post('idhorario'), 
 			'descripcion' => $this->input->post('descripcion'), 
@@ -40,11 +38,14 @@ class Horarios extends CI_Controller {
 			'monto' => number_format($this->input->post('monto'),2)
 			);
 			echo $this->horarios_model->editar_horario($data);
+
 		}else if($this->input->post('band') == "delete"){
+
 			$data = array(
 			'idhorario' => $this->input->post('idhorario')
 			);
 			echo $this->horarios_model->eliminar_horario($data);
+
 		}
 	}
 }

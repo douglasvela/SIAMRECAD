@@ -82,7 +82,7 @@
             }
         }
         
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablahorario",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablahorarios",true);
         xmlhttpB.send();
     }
 
