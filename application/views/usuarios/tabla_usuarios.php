@@ -1,6 +1,6 @@
 <div class="card">
-    <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de viáticos</h4>
+	<div class="card-header">
+        <h4 class="card-title m-b-0">Listado de usuarios</h4>
     </div>
     <div class="card-body b-t" style="padding-top: 7px;">
         <div class="pull-right">
@@ -20,17 +20,16 @@
                 </thead>
                 <tbody>
                 <?php 
+                    $usuarios = $this->db->get("org_usuario");
 
-                    $horarios = $this->db->get("cvr_horario_viatico");
-
-                    if(!empty($horarios)){
-                        foreach ($horarios->result() as $fila) {
+                    if(!empty($usuarios)){
+                        foreach ($usuarios->result() as $fila) {
                            echo "<tr>";
-                           echo "<td>".$fila->id_horario_viatico."</td>";
-                           echo "<td>".$fila->descripcion."</td>";
-                           echo "<td>$ ".number_format($fila->monto,2)."</td>";
-                           echo "<td>".date("h:i A",strtotime($fila->hora_inicio))."</td>";
-                           echo "<td>".date("h:i A",strtotime($fila->hora_fin))."</td>";
+                           echo "<td>".$fila->nr."</td>";
+                           echo "<td>".$fila->nombre_completo."</td>";
+                           echo "<td>".$fila->nombre_completo."</td>";
+                           echo "<td>".$fila->id_seccion."</td>";
+                           echo "<td>".$fila->estado."</td>";
                            
                            $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2));
                            echo boton_tabla($array,"cambiar_editar");

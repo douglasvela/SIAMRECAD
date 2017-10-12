@@ -127,7 +127,7 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idb" name="idb" value="">
                             <div class="row">

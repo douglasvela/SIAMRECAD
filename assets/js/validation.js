@@ -94,7 +94,7 @@
                         }
                         if ($this.attr("max") !== undefined || $this.attr("aria-valuemax") !== undefined) {
                             var max = ($this.attr("max") !== undefined ? $this.attr("max") : $this.attr("aria-valuemax"));
-                            message = "Too high: Maximum of '" + max + "'<!-- data-validation-max-message to override -->";
+                            message = "Muy alto: Máximo de '" + max + "'<!-- data-validation-max-message to override -->";
                             if ($this.data("validationMaxMessage")) {
                                 message = $this.data("validationMaxMessage");
                             }
@@ -103,7 +103,7 @@
                         }
                         if ($this.attr("min") !== undefined || $this.attr("aria-valuemin") !== undefined) {
                             var min = ($this.attr("min") !== undefined ? $this.attr("min") : $this.attr("aria-valuemin"));
-                            message = "Too low: Minimum of '" + min + "'<!-- data-validation-min-message to override -->";
+                            message = "Muy bajo: Mínimo de '" + min + "'<!-- data-validation-min-message to override -->";
                             if ($this.data("validationMinMessage")) {
                                 message = $this.data("validationMinMessage");
                             }
@@ -111,7 +111,7 @@
                             $this.data("validationMinMin", min);
                         }
                         if ($this.attr("maxlength") !== undefined) {
-                            message = "Too long: Maximum of '" + $this.attr("maxlength") + "' characters<!-- data-validation-maxlength-message to override -->";
+                            message = "Muy largo: Máximo '" + $this.attr("maxlength") + "' caracteres<!-- data-validation-maxlength-message to override -->";
                             if ($this.data("validationMaxlengthMessage")) {
                                 message = $this.data("validationMaxlengthMessage");
                             }
@@ -119,7 +119,7 @@
                             $this.data("validationMaxlengthMaxlength", $this.attr("maxlength"));
                         }
                         if ($this.attr("minlength") !== undefined) {
-                            message = "Too short: Minimum of '" + $this.attr("minlength") + "' characters<!-- data-validation-minlength-message to override -->";
+                            message = "Muy corto: Mínimo '" + $this.attr("minlength") + "' caracteres<!-- data-validation-minlength-message to override -->";
                             if ($this.data("validationMinlengthMessage")) {
                                 message = $this.data("validationMinlengthMessage");
                             }
@@ -151,14 +151,14 @@
                             $this.data("validationNumberDecimal", decimal);
                         }
                         if ($this.attr("type") !== undefined && $this.attr("type").toLowerCase() === "email") {
-                            message = "Not a valid email address<!-- data-validation-email-message to override -->";
+                            message = "Dirección de email no válida<!-- data-validation-email-message to override -->";
                             if ($this.data("validationEmailMessage")) {
                                 message = $this.data("validationEmailMessage");
                             }
                             $this.data("validationEmailMessage", message);
                         }
                         if ($this.attr("minchecked") !== undefined) {
-                            message = "Not enough options checked; Minimum of '" + $this.attr("minchecked") + "' required<!-- data-validation-minchecked-message to override -->";
+                            message = "Insuficientes opciones seleccionadas; Se requiere mínimo '" + $this.attr("minchecked") + "' opciones<!-- data-validation-minchecked-message to override -->";
                             if ($this.data("validationMincheckedMessage")) {
                                 message = $this.data("validationMincheckedMessage");
                             }
@@ -166,7 +166,7 @@
                             $this.data("validationMincheckedMinchecked", $this.attr("minchecked"));
                         }
                         if ($this.attr("maxchecked") !== undefined) {
-                            message = "Too many options checked; Maximum of '" + $this.attr("maxchecked") + "' required<!-- data-validation-maxchecked-message to override -->";
+                            message = "Demasiadas opciones seleccionadas; Se requiere máximo '" + $this.attr("maxchecked") + "' opciones<!-- data-validation-maxchecked-message to override -->";
                             if ($this.data("validationMaxcheckedMessage")) {
                                 message = $this.data("validationMaxcheckedMessage");
                             }
