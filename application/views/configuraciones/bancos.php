@@ -32,16 +32,6 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo banco");
     }
 
-    function pantalla_div(obj){
-        if($(obj).children("i").hasClass("mdi-fullscreen")){        
-            $(obj).parent().parent().parent().parent("div").css({"padding-left":"0px","padding-right":"0px"});
-            $(obj).html("<i class='mdi mdi-fullscreen-exit'></i>");
-        }else{
-            $(obj).parent().parent().parent().parent("div").css({"padding-left":"100px","padding-right":"100px"});
-            $(obj).html("<i class='mdi mdi-fullscreen'></i>");
-        }
-    }
-
     function cerrar_mantenimiento(){
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
@@ -54,12 +44,51 @@
 
     function eliminar_banco(obj){
         $("#band").val("delete");
-        $("#submit").click();
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            $("#submit").click(); 
+        });
     }
 
-    <?php if($notificacion != "nada"){ ?>
-        var notificacion = setTimeout(function(){ $("#notificacion").click(); }, 50);
-    <?php } ?>
+    function iniciar(){
+        tablabancos();
+    }
+
+    function objetoAjax(){
+        var xmlhttp = false;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+        return xmlhttp;
+    }
+
+    function tablabancos(){        
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
+                  $('#myTable').DataTable();
+            }
+        }
+        
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablabancos",true);
+        xmlhttpB.send();
+    }
 
 </script>
 
@@ -87,22 +116,22 @@
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt_form" style="display: none; padding-left: 100px; padding-right: 100px;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
-                            <a style="font-size: 16px;" onclick="pantalla_div(this);"><i class="mdi mdi-fullscreen"></i></a>
                             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
                         </div>
                         <h4 class="card-title m-b-0 text-white">Listado de bancos</h4>
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('bancos/gestionar_bancos', array('style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idb" name="idb" value="">
                             <div class="row">
-                                <div class="form-group col-lg-8 col-sm-12">
+                                <div class="form-group col-lg-6">
                                     <h5>Nombre: <span class="text-danger">*</span></h5>
                                     <div class="controls">
                                         <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido">
@@ -110,7 +139,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-lg-8 col-sm-12">
+                                <div class="form-group col-lg-6">
                                     <h5>Características: </h5>
                                     <div class="controls">
                                         <input type="text" id="caracteristicas" name="caracteristicas" class="form-control">
@@ -132,6 +161,7 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -139,48 +169,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-actions">
-                            <a onclick="pantalla_div(this);"><i class="mdi mdi-fullscreen-exit"></i></a>
-                        </div>
-                        <h4 class="card-title m-b-0">Listado de bancos</h4>
-                    </div>
-                    <div class="card-body b-t">
-                        <div class="pull-right">
-                            <button type="button" onclick="cambiar_nuevo();" class="btn btn-rounded btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
-                        </div>
-                        <div class="table-responsive" style="margin-top: 0px;">
-                            <table id="myTable" class="table table-bordered">
-                                <thead class="bg-info text-white">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th> 
-                                        <th>(*)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php 
-                                    if(!empty($bancos)){
-                                        foreach ($bancos->result() as $fila) {
-                                           echo "<tr>";
-                                           echo "<td>".$fila->id_banco."</td>";
-                                           echo "<td>".$fila->nombre."</td>";
-                                       echo "<td>".$fila->caracteristicas."</td>";
-                                           
-                                           
-                                           $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas);
-                                           echo boton_tabla($array,"cambiar_editar");
-                                           echo "</tr>";
-                                        }
-                                    }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->
@@ -196,13 +185,39 @@
 <!-- ============================================================== -->
 
 <script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-    
-$(function() {
-    $('#notificacion').click(function(){
-        swal("Éxito!", "<?php echo $notificacion; ?>.", "success")
+
+$(function(){     
+    $("#formajax").on("submit", function(e){
+        e.preventDefault();
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formajax"));
+        formData.append("dato", "valor");
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/bancos/gestionar_bancos",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                tablabancos();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+            
     });
 });
 

@@ -17,6 +17,16 @@
     <script src="<?php echo base_url(); ?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="<?php echo base_url(); ?>assets/js/custom.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/validation.js"></script>
+    <script>
+    ! function(window, document, $) {
+        "use strict";
+        $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(), $(".skin-square input").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        }), $(".touchspin").TouchSpin(), $(".switchBootstrap").bootstrapSwitch();
+    }(window, document, jQuery);
+    </script>
     <script src="<?php echo base_url(); ?>assets/plugins/moment/min/moment.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/wizard/jquery.steps.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/wizard/jquery.validate.min.js"></script>

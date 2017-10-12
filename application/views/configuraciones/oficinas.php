@@ -48,7 +48,11 @@
     }
 
     function cambiar_nuevo(){
-        
+        $("#id_oficina").val("");
+         $("#nombre_oficina").val("");
+         $("#direccion_oficina").val("");
+         $("#latitud_oficina").val("");
+         $("#longitud_oficina").val("");
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -59,7 +63,7 @@
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        initMap("");
+        initMap($("#latitud_oficina").val(),$("#longitud_oficina").val());
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Oficina");
     }
 
@@ -79,12 +83,51 @@
 
     function eliminar_horario(obj){
         $("#band").val("delete");
-        $("#submit").click();
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            $("#submit").click(); 
+        });
     }
 
-    <?php if($notificacion != "nada"){ ?>
-        var notificacion = setTimeout(function(){ $("#notificacion").click(); }, 1);
-    <?php } ?>
+    function iniciar(){
+        tablaoficinas();
+    }
+
+    function objetoAjax(){
+        var xmlhttp = false;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+        return xmlhttp;
+    }
+
+    function tablaoficinas(){        
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
+                  $('#myTable').DataTable();
+            }
+        }
+        
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablaoficinas",true);
+        xmlhttpB.send();
+    }
 
 </script>
 
@@ -112,7 +155,8 @@
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt_form" style="display: none; padding-left: 100px; padding-right: 100px;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -122,27 +166,32 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('oficinas/gestionar_oficinas', array('style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
-                            <input type="hidden" id="id_oficina" name="id_oficina" value="">
-                            <input type="hidden" id="latitud_oficina" name="latitud_oficina">
-                            <input type="hidden" id="longitud_oficina" name="longitud_oficina">
+                            <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
+                            <?php echo form_error('id_oficina'); ?>
+                            <input type="hidden" id="latitud_oficina" name="latitud_oficina" value="<?php echo set_value('latitud_oficina'); ?>">
+                          
+                            <input type="hidden" id="longitud_oficina" name="longitud_oficina" value="<?php echo set_value('longitud_oficina'); ?>">
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina:</label>
-                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina"> </div>
+                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" value="<?php echo set_value('nombre_oficina'); ?>"> 
+                                        <?php echo form_error('nombre_oficina'); ?>
+                                    </div>
                                 
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :</label>
-                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina"> </div>
+                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" value="<?php echo set_value('direccion_oficina'); ?>"><?php echo form_error('direccion_oficina'); ?> </div>
                                 </div>
                             </div>
                            <div id="divider" class="row" >
                                 <div class="col-lg-8 col-md-7 otro" >
-                                        <div id="map"></div>
+                                        <div id="map"></div><?php echo form_error('longitud_oficina'); ?>
                                 </div>
                                 <div class="col-lg-4 col-md-5" >
                                     <br><br>
@@ -172,6 +221,7 @@
 
                 </div>
             </div>
+            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -179,48 +229,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-actions">
-                           
-                        </div>
-                        <h4 class="card-title m-b-0">Listado de Oficinas</h4>
-                    </div>
-                    <div class="card-body b-t">
-                        <div class="pull-right">
-                            <button type="button" onclick="cambiar_nuevo();" class="btn btn-rounded btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
-                        </div>
-                        <div class="table-responsive" style="margin-top: 0px;">
-                            <table id="myTable" class="table table-bordered">
-                                <thead class="bg-info text-white">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre de la Oficina</th>
-                                        <th>Dirección de la Oficina</th>
-                                        <th>Coordenadas</th>
-                                        <th>(*)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <?php 
-                                    if(!empty($oficinas)){
-                                        foreach ($oficinas->result() as $fila) {
-                                           echo "<tr>";
-                                           echo "<td>".$fila->id_oficina."</td>";
-                                           echo "<td>".$fila->nombre_oficina."</td>";
-                                           echo "<td>".$fila->direccion_oficina."</td>";
-                                           echo "<td>".$fila->latitud_oficina." , ".$fila->longitud_oficina."</td>";
-                                           $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->latitud_oficina,$fila->longitud_oficina);
-                                           echo boton_tabla($array,"cambiar_editar");
-                                           echo "</tr>";
-                                        }
-                                    }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->
@@ -234,21 +243,49 @@
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
-
 <script>
-$(function(){
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-    
-    $(function() {
-        $('#notificacion').click(function(){
-            swal("Éxito!", "<?php echo $notificacion; ?>.", "success")
+
+$(function(){     
+    $("#formajax").on("submit", function(e){
+        e.preventDefault();
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formajax"));
+        formData.append("dato", "valor");
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/oficinas/gestionar_oficinas",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "ERROR1"){
+                cambiar_nuevo();
+            }else if(res == "ERROR1"){
+                cambiar_editar($("#id_oficina").val(),$("#nombre_oficina").val(),$("#direccion_oficina").val(),$("#latitud_oficina").val(),$("#longitud_oficina").val());
+            }else if(res == "exito"){
+                cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                tablaoficinas();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
         });
+            
     });
 });
+
 </script>
- <script>
+<script>
       var markersO = [];
       var markersD = [];
 
@@ -348,7 +385,7 @@ $(function(){
           }
         });
       }
-    </script>
-     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
-    </script>
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
+</script>

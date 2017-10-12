@@ -64,7 +64,7 @@
     }
 
     function iniciar(){
-        tablahorarios();        
+        tablausuarios();        
     }
 
     function objetoAjax(){
@@ -78,7 +78,7 @@
         return xmlhttp;
     }
 
-    function tablahorarios(){        
+    function tablausuarios(){        
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -92,7 +92,7 @@
             }
         }
         
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablahorarios",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/usuarios/tablausuarios",true);
         xmlhttpB.send();
     }
 
@@ -103,13 +103,12 @@
 <!-- ============================================================== -->
 <div class="page-wrapper">
     <div class="container-fluid">
-        <button id="notificacion" style="display: none;" class="tst1 btn btn-success2">Info Message</button>
         <!-- ============================================================== -->
         <!-- TITULO de la página de sección -->
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de horario de viáticos</h3>
+                <h3 class="text-themecolor m-b-0 m-t-0">Administración de usuarios</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -129,42 +128,52 @@
                         <div class="card-actions text-white">
                             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
                         </div>
-                        <h4 class="card-title m-b-0 text-white">Listado de viáticos</h4>
+                        <h4 class="card-title m-b-0 text-white">Listado de usuarios</h4>
                     </div>
                     <div class="card-body b-t">
                         
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
-                            <input type="hidden" id="idhorario" name="idhorario" value="">
-                            <div class="row">
-                                <div class="form-group col-lg-8 col-sm-12">
-                                    <h5>Descripción: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="text" id="descripcion" name="descripcion" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4 col-sm-12">
-                                    <h5>Monto: <span class="text-danger">*</span></h5>
-                                    <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.01" step="0.01">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="hidden" id="idusuario" name="idusuario" value="">
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <h5>Hora inicio: <span class="text-danger">*</span></h5>
+                                    <h5>Nombre: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Formato de hora no válido">
+                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" data-validation-required-message="Este campo es requerido">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
+                                <div class="form-group col-lg-6">
+                                    <h5>Apellido: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                        <input type="text" id="apellido" name="apellido" class="form-control" required="" placeholder="Ingrese el apellido" minlength="3" data-validation-required-message="Este campo es requerido">
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>        
+                                               
+                            <div class="row">
+                            	<div class="form-group col-lg-6">
+                                    <h5>Genero: <span class="text-danger">*</span></h5>
+                                    <fieldset class="controls">
+                                        <?php
+	                                		$genero = $this->db->get("org_genero");
+
+						                    if(!empty($genero)){
+						                        foreach ($genero->result() as $fila) {
+						                        	echo '<label class="custom-control custom-radio">';
+						                        	echo '<input type="radio" value="'.strtolower($fila->id_genero).'" data-validation-required-message="Seleccione el genero" name="genero" id="'.strtolower($fila->genero).'" class="custom-control-input" required>';
+						                        	echo '<span class="custom-control-indicator"></span> <span class="custom-control-description">'.ucfirst(strtolower($fila->genero)).'</span>';
+						                        	echo '</label>';
+						                        }
+						                    }
+	                                	?>
+                                    </fieldset>
+                                </div> 
                                 <div class="form-group col-lg-6">
                                     <h5>Hora fin: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Formato de hora no válido">
+                                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
@@ -205,7 +214,6 @@
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
-
 <script>
 
 $(function(){     
@@ -216,7 +224,7 @@ $(function(){
         formData.append("dato", "valor");
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/configuraciones/horarios/gestionar_horarios",
+            url: "<?php echo site_url(); ?>/usuarios/usuarios/gestionar_usuarios",
             type: "post",
             dataType: "html",
             data: formData,
