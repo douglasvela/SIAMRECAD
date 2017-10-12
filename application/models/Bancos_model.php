@@ -54,3 +54,5 @@ class Bancos_model extends CI_Controller {
 		}
 		return $ultimoid;
 	}
+
+}
