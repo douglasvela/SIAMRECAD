@@ -96,6 +96,27 @@
         xmlhttpB.send();
     }
 
+    function show_contra(id){
+    	$("#"+id).attr("type","text");
+    }
+
+    function hide_contra(id){
+    	$("#"+id).attr("type","password");
+    }
+
+    function formar_usuario(){
+    	var nombre = $("#nombre").val().toLowerCase();
+    	var apellido = $("#apellido").val().toLowerCase();
+
+		var res1 = nombre.split(" ");
+		var res2 = apellido.split(" ");
+
+		nombre = res1[0];
+		apellido = res2[0];
+
+    	$("#usuario").val(nombre+"."+apellido);
+    }
+
 </script>
 
 <!-- ============================================================== -->
@@ -136,17 +157,42 @@
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idusuario" name="idusuario" value="">
                             <div class="row">
+                            	<div class="form-group col-lg-6">
+                                    <h5>NR: <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <input type="text" id="nr" name="nr" class="form-control" data-mask="999*" required placeholder="Código de empleado" data-validation-required-message="Este campo es requerido">
+                                        <div class="input-group-addon" onclick="cargar_datos(this.value);" style="cursor: pointer;"><i class="mdi mdi-upload"></i></div>
+                                    </div>
+                                    <div class="help-block"></div>
+                                </div>
+                            	<div class="form-group col-lg-6">
+                            		<h5>Sección: <span class="text-danger">*</span></h5>
+	                                <select id="seccion" name="seccion" class="select2" style="width: 100%">
+	                                    <option>Select</option>
+	                                    <?php
+	                                		$seccion = $this->db->get("org_seccion");
+
+						                    if(!empty($seccion)){
+						                        foreach ($seccion->result() as $fila) {
+						                        	echo '<option value="'.$fila->id_seccion.'">'.$fila->nombre_seccion.'</option>';
+						                        }
+						                    }
+	                                	?>
+	                                </select>
+                            	</div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-lg-6">
                                     <h5>Nombre: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" data-validation-required-message="Este campo es requerido">
+                                        <input type="text" onkeyup="formar_usuario();" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" data-validation-required-message="Este campo es requerido">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <h5>Apellido: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="text" id="apellido" name="apellido" class="form-control" required="" placeholder="Ingrese el apellido" minlength="3" data-validation-required-message="Este campo es requerido">
+                                        <input type="text" onkeyup="formar_usuario();" id="apellido" name="apellido" class="form-control" required="" placeholder="Ingrese el apellido" minlength="3" data-validation-required-message="Este campo es requerido">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
@@ -162,7 +208,7 @@
 						                    if(!empty($genero)){
 						                        foreach ($genero->result() as $fila) {
 						                        	echo '<label class="custom-control custom-radio">';
-						                        	echo '<input type="radio" value="'.strtolower($fila->id_genero).'" data-validation-required-message="Seleccione el genero" name="genero" id="'.strtolower($fila->genero).'" class="custom-control-input" required>';
+						                        	echo '<input type="radio" name="genero" value="'.strtolower($fila->id_genero).'" data-validation-required-message="Seleccione el genero" id="'.strtolower($fila->genero).'" class="custom-control-input" required>';
 						                        	echo '<span class="custom-control-indicator"></span> <span class="custom-control-description">'.ucfirst(strtolower($fila->genero)).'</span>';
 						                        	echo '</label>';
 						                        }
@@ -171,13 +217,34 @@
                                     </fieldset>
                                 </div> 
                                 <div class="form-group col-lg-6">
-                                    <h5>Hora fin: <span class="text-danger">*</span></h5>
+                                    <h5>Usuario: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
+                                        <input type="text" id="usuario" name="usuario" class="form-control" required="" placeholder="Nombre de usuario" minlength="3" readonly>
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                            	<div class="form-group col-lg-6">
+                                    <h5>Contraseña <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <input type="password" name="password" id="password" class="form-control" required data-validation-required-message="Este campo es requerido">
+                                        <div class="input-group-addon" id="pwd1" onmousedown="show_contra('password')" onmouseup="hide_contra('password')" style="cursor: pointer;"><i class="mdi mdi-looks"></i></div>
+                                    </div>
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <h5>Confirmar contraseña <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <input type="password" name="password2" id="password2" data-validation-match-match="password" class="form-control" required>
+                                        <div class="input-group-addon" id="pwd2" onmousedown="show_contra('password2')" onmouseup="hide_contra('password2')" style="cursor: pointer;"><i class="mdi mdi-looks"></i></div> 
+                                    </div>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>                                    
+
+
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
@@ -249,6 +316,7 @@ $(function(){
         });
             
     });
+
 });
 
 </script>
