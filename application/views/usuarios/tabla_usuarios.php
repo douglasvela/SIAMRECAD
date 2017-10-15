@@ -31,7 +31,7 @@
                            echo "<td>".$fila->id_seccion."</td>";
                            echo "<td>".$fila->estado."</td>";
                            
-                           $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2));
+                           $array = array($fila->id_usuario, $fila->nombre_completo, $fila->nr, $fila->sexo, $fila->usuario, $fila->id_seccion, $fila->estado);
                            echo boton_tabla($array,"cambiar_editar");
                            echo "</tr>";
                         }

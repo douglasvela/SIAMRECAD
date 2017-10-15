@@ -17,34 +17,43 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function gestionar_usuarios(){
+		if($this->input->post('estado') == 'on'){
+			$estado = 1;
+		}else{ $estado = 0; }
 
 		if($this->input->post('band') == "save"){
 
 			$data = array(
-			'descripcion' => $this->input->post('descripcion'), 
-			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
-			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
-			'monto' => number_format($this->input->post('monto'),2)
+			'nr' => $this->input->post('nr'), 
+			'nombre' => strtoupper($this->input->post('nombre')." ".$this->input->post('apellido')),
+			'id_seccion' => $this->input->post('seccion'),
+			'genero' => $this->input->post('genero'),
+			'usuario' => $this->input->post('usuario'),
+			'password' => md5($this->input->post('password')),
+			'estado' => $estado
 			);
-			echo $this->horarios_model->insertar_horario($data);
+			echo $this->usuarios_model->insertar_usuario($data);
 
 		}else if($this->input->post('band') == "edit"){
 
 			$data = array(
-			'idhorario' => $this->input->post('idhorario'), 
-			'descripcion' => $this->input->post('descripcion'), 
-			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
-			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
-			'monto' => number_format($this->input->post('monto'),2)
+			'idusuario' => $this->input->post('idusuario'), 
+			'nr' => $this->input->post('nr'), 
+			'nombre' => strtoupper($this->input->post('nombre')." ".$this->input->post('apellido')),
+			'id_seccion' => $this->input->post('seccion'),
+			'genero' => $this->input->post('genero'),
+			'usuario' => $this->input->post('usuario'),
+			'password' => md5($this->input->post('password')),
+			'estado' => $estado
 			);
-			echo $this->horarios_model->editar_horario($data);
+			echo $this->usuarios_model->editar_usuario($data);
 
 		}else if($this->input->post('band') == "delete"){
 
 			$data = array(
-			'idhorario' => $this->input->post('idhorario')
+			'idusuario' => $this->input->post('idusuario')
 			);
-			echo $this->horarios_model->eliminar_horario($data);
+			echo $this->usuarios_model->eliminar_usuario($data);
 
 		}
 	}

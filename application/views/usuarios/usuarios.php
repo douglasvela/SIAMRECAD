@@ -1,10 +1,12 @@
 <script type="text/javascript">
-    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto){
-        $("#idhorario").val(id);
-        $("#descripcion").val(descripcion);
-        $("#hora_inicio").val(hora_inicio);
-        $("#hora_fin").val(hora_fin);
-        $("#monto").val(monto);
+    function cambiar_editar(id,nombre_completo,nr,sexo,usuario,seccion,estado){
+        $("#idusuario").val(id);
+        //$("#descripcion").val(descripcion);
+        $("#nr").val(nr);
+        $("#sexo").val(sexo);
+        $("#usuario").val(usuario);
+        $("#seccion").val(seccion);
+        $("#estado :checkbox").attr('checked',estado);
 
         $("#ttl_form").removeClass("bg-success");
         $("#ttl_form").addClass("bg-info");
@@ -15,7 +17,7 @@
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
 
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar viático");
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar usuario");
     }
 
     function cambiar_nuevo(){
@@ -35,7 +37,7 @@
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
 
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo viático");
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo usuario");
     }
 
     function cerrar_mantenimiento(){
@@ -115,6 +117,10 @@
 		apellido = res2[0];
 
     	$("#usuario").val(nombre+"."+apellido);
+    }
+
+    function cambiar_idgenero(){
+    	$("#id_genero").val($('input:radio[name=genero]:checked').val());
     }
 
 </script>
@@ -208,8 +214,8 @@
 						                    if(!empty($genero)){
 						                        foreach ($genero->result() as $fila) {
 						                        	echo '<label class="custom-control custom-radio">';
-						                        	echo '<input type="radio" name="genero" value="'.strtolower($fila->id_genero).'" data-validation-required-message="Seleccione el genero" id="'.strtolower($fila->genero).'" class="custom-control-input" required>';
-						                        	echo '<span class="custom-control-indicator"></span> <span class="custom-control-description">'.ucfirst(strtolower($fila->genero)).'</span>';
+						                        	echo '<input type="radio" data-radio="iradio_square-blue" name="genero" value="'.strtolower($fila->id_genero).'" data-validation-required-message="Seleccione el genero" id="'.strtolower($fila->genero).'" class="check" required>';
+						                        	echo '<span class="custom-control-description" style="margin-left:10px;">'.ucfirst(strtolower($fila->genero)).'</span>';
 						                        	echo '</label>';
 						                        }
 						                    }
@@ -242,7 +248,18 @@
                                     </div>
                                     <div class="help-block"></div>
                                 </div>
-                            </div>                                    
+                            </div>      
+
+                            <div class="row">
+                            	<div class="form-group col-lg-6">
+                            	</div>
+                            	<div align="right" class="form-group col-lg-6">
+                                    <div class="checkbox checkbox-success">
+                                        <input id="estado" name="estado" type="checkbox" checked>
+                                        <label for="estado"> Cuenta activa </label>
+                                    </div>
+                                </div>
+                            </div>                              
 
 
                             <button id="submit" type="submit" style="display: none;"></button>
@@ -300,6 +317,7 @@ $(function(){
             processData: false
         })
         .done(function(res){
+        	alert(res)
             if(res == "exito"){
                 cerrar_mantenimiento();
                 if($("#band").val() == "save"){
