@@ -194,7 +194,6 @@
                                         <div id="map"></div><?php echo form_error('longitud_oficina'); ?>
                                 </div>
                                 <div class="col-lg-4 col-md-5" >
-                                    <br><br>
                                     <div class="form-group">
                                         <label>Buscar ubicación</label>
                                         <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
@@ -266,11 +265,11 @@ $(function(){
             processData: false
         })
         .done(function(res){
-            if(res == "ERROR1"){
+            /*if(res == "ERROR1"){
                 cambiar_nuevo();
-            }else if(res == "ERROR1"){
+            }else if(res == "ERROR2"){
                 cambiar_editar($("#id_oficina").val(),$("#nombre_oficina").val(),$("#direccion_oficina").val(),$("#latitud_oficina").val(),$("#longitud_oficina").val());
-            }else if(res == "exito"){
+            }else*/ if(res == "exito"){
                 cerrar_mantenimiento();
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
@@ -384,8 +383,7 @@ $(function(){
             resultsMap.setCenter(results[0].geometry.location);
             //addMarker_origen(results[0].geometry.location, resultsMap);
           } else {
-            alert('Ubicación no encontrada: ' + status);
-            
+            swal({ title: "¡Ubicación no encontrada!", text: "Ingrese una dirección válida.", type: "error", showConfirmButton: true });
           }
         });
       }
