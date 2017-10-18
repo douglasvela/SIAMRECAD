@@ -4,7 +4,7 @@
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
-            <button type="button" onclick="cambiar_nuevo();" class="btn btn-rounded btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
         </div>
         <div class="table-responsive">
             <table id="myTable" class="table table-bordered">

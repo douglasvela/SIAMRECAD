@@ -103,7 +103,6 @@
 <!-- ============================================================== -->
 <div class="page-wrapper">
     <div class="container-fluid">
-        <button id="notificacion" style="display: none;" class="tst1 btn btn-success2">Info Message</button>
         <!-- ============================================================== -->
         <!-- TITULO de la página de sección -->
         <!-- ============================================================== -->
@@ -171,9 +170,11 @@
                             </div>
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete-empty"></i> Limpiar</button>
                                 <button type="button" onclick="editar_horario(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                                 <button type="button" onclick="eliminar_horario(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
                             </div>

@@ -199,7 +199,9 @@
                                         <label>Buscar ubicación</label>
                                         <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
                                     </div>
-                                    <input id="submit_ubi" class="btn btn-rounded btn-block btn-success" type="button" value="Buscar">
+                                    <div align="right">
+                                        <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
+                                    </div>
                                     <br><br>
                                     
                                     
@@ -209,9 +211,11 @@
 
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
                                 <button type="button" onclick="editar_horario(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                                 <button type="button" onclick="eliminar_horario(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
                             </div>
