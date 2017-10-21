@@ -207,10 +207,10 @@
                                                 <div class="form-group">
                                                     <label for="participants1">Result</label>
                                                     <select class="custom-select form-control" id="participants1" name="location">
-                                                        <option value="">Select Result</option>
-                                                        <option value="Selected">Selected</option>
-                                                        <option value="Rejected">Rejected</option>
-                                                        <option value="Call Second-time">Call Second-time</option>
+                                                        <option value="">Opcion 1</option>
+                                                        <option value="Selected">Opcion 2</option>
+                                                        <option value="Rejected">Opcion 3</option>
+                                                        <option value="Call Second-time">Opcion 4</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -223,7 +223,7 @@
                                                     <label>Rate Interviwer :</label>
                                                     <div class="c-inputs-stacked">
                                                         <label class="inline custom-control custom-checkbox block">
-                                                            <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">1 star</span> </label>
+                                                            <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Opcion 1</span> </label>
                                                         <label class="inline custom-control custom-checkbox block">
                                                             <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">2 star</span> </label>
                                                         <label class="inline custom-control custom-checkbox block">
