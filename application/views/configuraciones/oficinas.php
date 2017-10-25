@@ -291,7 +291,6 @@ $(function(){
 <script>
       var markersO = [];
       var markersD = [];
-
       var distancia = "";
       
       function initMap(latitud_oficina,longitud_oficina) {
