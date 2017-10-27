@@ -9,8 +9,8 @@ class Bancos_model extends CI_Controller {
 	}
 
 	function insertar_banco($data){
-		$idb = $this->obtener_ultimo_id("cvr_bancos","id_banco");
-		if($this->db->insert('cvr_bancos', array('id_banco' => $idb, 'nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']))){
+		$idb = $this->obtener_ultimo_id("vyp_bancos","id_banco");
+		if($this->db->insert('vyp_bancos', array('id_banco' => $idb, 'nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -18,14 +18,14 @@ class Bancos_model extends CI_Controller {
 	}
 
 	function mostrar_banco(){
-		$query = $this->db->get("cvr_bancos");
+		$query = $this->db->get("vyp_bancos");
 		if($query->num_rows() > 0) return $query;
 		else return false;
 	}
 
 	function editar_banco($data){
 		$this->db->where("id_banco",$data["idb"]);
-		if($this->db->update('cvr_bancos', array('nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']))){
+		if($this->db->update('vyp_bancos', array('nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -33,7 +33,7 @@ class Bancos_model extends CI_Controller {
 	}
 
 	function eliminar_banco($data){
-		if($this->db->delete("cvr_bancos",array('id_banco' => $data['idb']))){
+		if($this->db->delete("vyp_bancos",array('id_banco' => $data['idb']))){
 			return "exito";
 		}else{
 			return "fracaso";

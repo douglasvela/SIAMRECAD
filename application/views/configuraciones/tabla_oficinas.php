@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                	$oficinas = $this->db->get("cvr_oficinas");
+                	$oficinas = $this->db->get("vyp_oficinas");
                     if(!empty($oficinas)){
                         foreach ($oficinas->result() as $fila) {
                            echo "<tr>";

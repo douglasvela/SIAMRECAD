@@ -18,7 +18,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $bancos = $this->db->get("cvr_bancos");
+                    $bancos = $this->db->get("vyp_bancos");
                     if(!empty($bancos)){
                         foreach ($bancos->result() as $fila) {
                            echo "<tr>";

@@ -21,7 +21,7 @@
                 <tbody>
                 <?php 
 
-                    $horarios = $this->db->get("cvr_horario_viatico");
+                    $horarios = $this->db->get("vyp_horario_viatico");
 
                     if(!empty($horarios)){
                         foreach ($horarios->result() as $fila) {

@@ -9,8 +9,8 @@ class Oficina_model extends CI_Model {
 	}
 
 	function insertar_oficina($data){
-		//$id = $this->obtener_ultimo_id("cvr_oficinas","id_oficina");
-		if($this->db->insert('cvr_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina']))){
+		//$id = $this->obtener_ultimo_id("vyp_oficinas","id_oficina");
+		if($this->db->insert('vyp_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -18,14 +18,14 @@ class Oficina_model extends CI_Model {
 	}
 
 	function mostrar_oficina(){
-		$query = $this->db->get("cvr_oficinas");
+		$query = $this->db->get("vyp_oficinas");
 		if($query->num_rows() > 0) return $query;
 		else return false;
 	}
 
 	function editar_oficina($data){
 		$this->db->where("id_oficina",$data["id_oficina"]);
-		if($this->db->update('cvr_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina']))){
+		if($this->db->update('vyp_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -33,7 +33,7 @@ class Oficina_model extends CI_Model {
 	}
 
 	function eliminar_oficina($data){
-		if($this->db->delete("cvr_oficinas",array('id_oficina' => $data['id_oficina']))){
+		if($this->db->delete("vyp_oficinas",array('id_oficina' => $data['id_oficina']))){
 			return "exito";
 		}else{
 			return "fracaso";
