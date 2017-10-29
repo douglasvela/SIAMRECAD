@@ -194,7 +194,6 @@
                                       <input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido">
                                      <div class="help-block"></div>
                                   </div>
-
                               </div>
                             </div>
                            <div id="divider" class="row" >
