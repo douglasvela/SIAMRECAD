@@ -170,28 +170,36 @@
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
                             <?php echo form_error('id_oficina'); ?>
-                            <input type="hidden" id="latitud_oficina" name="latitud_oficina" value="<?php echo set_value('latitud_oficina'); ?>">
-                          
-                            <input type="hidden" id="longitud_oficina" name="longitud_oficina" value="<?php echo set_value('longitud_oficina'); ?>">
+                            
                             
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina:</label>
-                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" value="<?php echo set_value('nombre_oficina'); ?>"> 
-                                        <?php echo form_error('nombre_oficina'); ?>
+                                        <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" required="" placeholder="Nombre de la Oficina" data-validation-required-message="Este campo es requerido"> 
+                                       <div class="help-block"></div>
                                     </div>
                                 
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :</label>
-                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" value="<?php echo set_value('direccion_oficina'); ?>"><?php echo form_error('direccion_oficina'); ?> </div>
+                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" placeholder="Dirección de la Oficina"> </div>
                                 </div>
                             </div>
                            <div id="divider" class="row" >
                                 <div class="col-lg-8 col-md-7 otro" >
-                                        <div id="map"></div><?php echo form_error('longitud_oficina'); ?>
+                                        <div id="map"></div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="hidden" id="latitud_oficina" name="latitud_oficina" required="" data-validation-required-message="Este campo es requerido">
+                                                    <div class="help-block"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="longitud_oficina" name="longitud_oficina"  required="">
+
                                 </div>
                                 <div class="col-lg-4 col-md-5" >
                                     <div class="form-group">
