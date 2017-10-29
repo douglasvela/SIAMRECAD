@@ -29,6 +29,8 @@ class Oficinas extends CI_Controller {
 			$data = array(
 			'nombre_oficina' => $this->input->post('nombre_oficina'), 
 			'direccion_oficina' => $this->input->post('direccion_oficina'),
+			'jefe_oficina' => $this->input->post('jefe_oficina'),
+			'email_oficina' => $this->input->post('email_oficina'),
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
 			'longitud_oficina' => $this->input->post('longitud_oficina')
 			);
@@ -44,6 +46,8 @@ class Oficinas extends CI_Controller {
 			'id_oficina' => $this->input->post('id_oficina'), 
 			'nombre_oficina' => $this->input->post('nombre_oficina'), 
 			'direccion_oficina' => $this->input->post('direccion_oficina'),
+			'jefe_oficina' => $this->input->post('jefe_oficina'),
+			'email_oficina' => $this->input->post('email_oficina'),
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
 			'longitud_oficina' => $this->input->post('longitud_oficina')
 			);

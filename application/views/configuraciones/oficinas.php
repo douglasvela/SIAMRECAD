@@ -26,13 +26,14 @@
       }
     </style>
 <script type="text/javascript">
-    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,latitud_oficina,longitud_oficina){
+    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina){
          $("#id_oficina").val(id_oficina);
          $("#nombre_oficina").val(nombre_oficina);
          $("#direccion_oficina").val(direccion_oficina);
          $("#latitud_oficina").val(latitud_oficina);
          $("#longitud_oficina").val(longitud_oficina);
-
+          $("#jefe_oficina").val(jefe_oficina);
+         $("#email_oficina").val(email_oficina);
 
         $("#ttl_form").removeClass("bg-success");
         $("#ttl_form").addClass("bg-info");
@@ -53,6 +54,8 @@
          $("#direccion_oficina").val("");
          $("#latitud_oficina").val("");
          $("#longitud_oficina").val("");
+         $("#jefe_oficina").val("");
+         $("#email_oficina").val("");
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -74,6 +77,8 @@
         $("#direccion_oficina").val("");
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
+         $("#jefe_oficina").val("");
+         $("#email_oficina").val("");
     }
 
     function editar_horario(obj){
@@ -183,8 +188,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :</label>
-                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" placeholder="Dirección de la Oficina"> </div>
+                                        <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" required="" placeholder="Dirección de la Oficina" data-validation-required-message="Este campo es requerido">
+                                        <div class="help-block"></div> </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -195,6 +201,12 @@
                                      <div class="help-block"></div>
                                   </div>
                               </div>
+                              <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email_oficina" class="font-weight-bold">Email :<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="email_oficina" name="email_oficina" required="" placeholder="Email" data-validation-required-message="Este campo es requerido">
+                                        <div class="help-block"></div> </div>
+                                </div>
                             </div>
                            <div id="divider" class="row" >
                                 <div class="col-lg-8 col-md-7 otro" >

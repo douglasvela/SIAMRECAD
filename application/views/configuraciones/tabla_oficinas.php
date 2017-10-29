@@ -16,7 +16,9 @@
                         <th>Id</th>
                         <th>Nombre de la Oficina</th>
                         <th>Dirección de la Oficina</th>
-                        <th>Coordenadas</th>
+                        <th>Jefe de la Oficina</th>
+                        <th>Email de la Oficina</th>
+                        
                         <th>(*)</th>
                     </tr>
                 </thead>
@@ -29,8 +31,10 @@
                            echo "<td>".$fila->id_oficina."</td>";
                            echo "<td>".$fila->nombre_oficina."</td>";
                            echo "<td>".$fila->direccion_oficina."</td>";
-                           echo "<td>".$fila->latitud_oficina." , ".$fila->longitud_oficina."</td>";
-                           $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->latitud_oficina,$fila->longitud_oficina);
+                           echo "<td>".$fila->jefe_oficina."</td>";
+                           echo "<td>".$fila->email_oficina."</td>";
+                 
+                           $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina);
                            echo boton_tabla($array,"cambiar_editar");
                            echo "</tr>";
                         }
