@@ -20,6 +20,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		return $cptabla;
 	}
+	function boton_form_telefono($fila,$nfuncion){
+		$cptabla = "<td>";
+		$var = "";
+		foreach ($fila as $otro) {
+			$var .= '"'.$otro.'",';
+		}
+		$var = substr($var, 0, -1);
+		$cptabla .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm btn-info' onClick='".$nfuncion."(".$var.");'><span class='mdi mdi-phone-plus'></span></button>";
+		$cptabla .= "</td>";
+
+		return $cptabla;
+	}
+	function boton_form_telefono2($fila,$nfuncion){
+		$cptabla = "<td>";
+		$var = "";
+		foreach ($fila as $otro) {
+			$var .= '"'.$otro.'",';
+		}
+		$var = substr($var, 0, -1);
+		$cptabla .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm btn-info' onClick='".$nfuncion."(".$var.");'><span class='fa fa-wrench'></span></button>";
+		$cptabla .= "</td>";
+
+		return $cptabla;
+	}
 
 
 /***********************************

@@ -7,6 +7,7 @@ class Oficinas extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('url','form','funciones_rapidas'));
 		$this->load->model('oficina_model');
+		$this->load->model('oficina_phone_model');
 		//$this->load->library('form_validation');
 	}
 
@@ -18,13 +19,7 @@ class Oficinas extends CI_Controller {
 	}
 
 	public function gestionar_oficinas(){
-		/************ Notificación a mostrar *****************/		
-		/*$this->form_validation->set_rules('nombre_oficina', 'Nombre de Oficina', 'required');
-		$this->form_validation->set_rules('direccion_oficina', 'Dirección de Oficina', 'required');
-		$this->form_validation->set_rules('latitud_oficina', 'Coordenadas', 'required');
-		$this->form_validation->set_rules('longitud_oficina', 'Latitud y Longitud', 'required');
-		$this->form_validation->set_message('required', 'El campo %s es requerido');*/
-
+	
 		if($this->input->post('band') == "save"){
 			$data = array(
 			'nombre_oficina' => $this->input->post('nombre_oficina'), 
@@ -34,12 +29,9 @@ class Oficinas extends CI_Controller {
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
 			'longitud_oficina' => $this->input->post('longitud_oficina')
 			);
-			//if ($this->form_validation->run() == FALSE){
-            //    echo "ERROR1";
-            //}else{
+			
                 echo $this->oficina_model->insertar_oficina($data);
-            //}
-				
+            
 		}else if($this->input->post('band') == "edit"){
 			
 			$data = array(
@@ -51,11 +43,9 @@ class Oficinas extends CI_Controller {
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
 			'longitud_oficina' => $this->input->post('longitud_oficina')
 			);
-			//if ($this->form_validation->run() == FALSE){
-            //    echo "ERROR2";
-            //}else{
+			
 				echo $this->oficina_model->editar_oficina($data);
-			//}
+			
 
 		}else if($this->input->post('band') == "delete"){
 
@@ -64,6 +54,26 @@ class Oficinas extends CI_Controller {
 			);
 			echo $this->oficina_model->eliminar_oficina($data);
 
+		}
+	}
+	public function gestionar_oficinas_telefonos(){
+		if($this->input->post('band_phone') == "save"){
+			$data = array(
+			'telefono_vyp_oficnas_telefono' => $this->input->post('telefono_vyp_oficnas_telefono'), 
+			'id_oficina_vyp_oficnas_telefono' => $this->input->post('id_oficina_vyp_oficnas_telefono')
+			);
+            echo $this->oficina_phone_model->insertar_oficina_phone($data);
+		}else if($this->input->post('band_phone')=="edit"){
+			$data = array(
+				'id_vyp_oficinas_telefono' => $this->input->post('id_vyp_oficinas_telefono'),
+				'telefono_vyp_oficnas_telefono' => $this->input->post('telefono_vyp_oficnas_telefono')
+			);
+			echo $this->oficina_phone_model->editar_oficina_phone($data);
+		}else if($this->input->post('band_phone') == "delete"){
+			$data = array(
+			'id_vyp_oficinas_telefono' => $this->input->post('id_vyp_oficinas_telefono')
+			);
+			echo $this->oficina_phone_model->eliminar_oficina_phone($data);
 		}
 	}
 }
