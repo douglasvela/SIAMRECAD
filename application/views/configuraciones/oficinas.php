@@ -20,7 +20,7 @@
       #map {
         height: 100%;
       }
-      
+
       #output {
         font-size: 14px;
       }
@@ -83,16 +83,16 @@
 
     function eliminar_horario(obj){
         $("#band").val("delete");
-        swal({   
-            title: "¿Está seguro?",   
-            text: "¡Desea eliminar el registro!",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#fc4b6c",   
-            confirmButtonText: "Sí, deseo eliminar!",   
-            closeOnConfirm: false 
-        }, function(){   
-            $("#submit").click(); 
+        swal({
+            title: "¿Está seguro?",
+            text: "¡Desea eliminar el registro!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#fc4b6c",
+            confirmButtonText: "Sí, deseo eliminar!",
+            closeOnConfirm: false
+        }, function(){
+            $("#submit").click();
         });
     }
 
@@ -111,20 +111,20 @@
         return xmlhttp;
     }
 
-    function tablaoficinas(){        
+    function tablaoficinas(){
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
             xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
         }
-        
+
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                   document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
                   $('#myTable').DataTable();
             }
         }
-        
+
         xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablaoficinas",true);
         xmlhttpB.send();
     }
@@ -165,27 +165,37 @@
                         <h4 class="card-title m-b-0 text-white">Listado de Oficinas</h4>
                     </div>
                     <div class="card-body b-t">
-                        
+
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
                             <?php echo form_error('id_oficina'); ?>
-                            
-                            
+
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" required="" placeholder="Nombre de la Oficina" data-validation-required-message="Este campo es requerido"> 
+                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" required="" placeholder="Nombre de la Oficina" data-validation-required-message="Este campo es requerido">
                                        <div class="help-block"></div>
                                     </div>
-                                
-                                </div> 
+
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :</label>
                                         <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" placeholder="Dirección de la Oficina"> </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="jefe_oficina" class="font-weight-bold">Jefe de la Oficina: <span class="text-danger">*</span></label>
+                                      <input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido">
+                                     <div class="help-block"></div>
+                                  </div>
+
+                              </div>
                             </div>
                            <div id="divider" class="row" >
                                 <div class="col-lg-8 col-md-7 otro" >
@@ -210,8 +220,8 @@
                                         <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
                                     </div>
                                     <br><br>
-                                    
-                                    
+
+
                                     <br><br><br><br><br><br><br><br>
                                 </div>
                             </div>
@@ -240,7 +250,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
-                
+
             </div>
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->
@@ -249,20 +259,20 @@
         <!-- ============================================================== -->
         <!-- Fin CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
-    </div> 
+    </div>
 </div>
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
 <script>
 
-$(function(){     
+$(function(){
     $("#formajax").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
         var formData = new FormData(document.getElementById("formajax"));
         formData.append("dato", "valor");
-        
+
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/oficinas/gestionar_oficinas",
             type: "post",
@@ -291,7 +301,7 @@ $(function(){
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
-            
+
     });
 });
 
@@ -300,14 +310,14 @@ $(function(){
       var markersO = [];
       var markersD = [];
       var distancia = "";
-      
+
       function initMap(latitud_oficina,longitud_oficina) {
         var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
 
         var origin1 = "";
-        
-        
+
+
         if(latitud_oficina){
             var map = new google.maps.Map(document.getElementById('map'), {
                 center:  new google.maps.LatLng(latitud_oficina, longitud_oficina),
@@ -318,7 +328,7 @@ $(function(){
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 13.705542923582362, lng: -89.20029401779175},
                 zoom: 14
-            }); 
+            });
         }
         var geocoder = new google.maps.Geocoder;
 
@@ -343,8 +353,8 @@ $(function(){
             $("#latitud_oficina").val(arreglo1);
             $("#longitud_oficina").val(arreglo2);
         });//termina event
-        
-        
+
+
 
 
         document.getElementById('submit_ubi').addEventListener('click', function() {
@@ -352,9 +362,9 @@ $(function(){
         });
       }
 
-   
 
-      
+
+
       function addMarker_origen(location, map) {
         // Add the marker at the clicked location, and add the next-available label
 
