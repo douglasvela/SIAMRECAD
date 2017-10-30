@@ -17,7 +17,7 @@
                         <th>Nombre de la Oficina</th>
                         <th>Dirección de la Oficina</th>
                         <th>Jefe de la Oficina</th>
-                        <th>Email de la Oficina</th>
+                        <th>Email</th>
                         <th>Tel.</th>
                         <th>(*)</th>
                     </tr>

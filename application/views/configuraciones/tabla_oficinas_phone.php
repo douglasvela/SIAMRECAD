@@ -25,8 +25,8 @@
             <table id="myTable_phone" class="table table-bordered">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th>Id</th>
-                        <th>Tel.</th>
+                        
+                        <th>Teléfono</th>
                         <th>(*)</th>
                     </tr>
                 </thead>
@@ -36,7 +36,7 @@
                     if(!empty($oficinas)){
                         foreach ($oficinas->result() as $fila) {
                            echo "<tr>";
-                           echo "<td>".$fila->id_vyp_oficinas_telefono."</td>";
+                          
                            echo "<td>".$fila->telefono_vyp_oficnas_telefono."</td>";
 
                            $arrayTel = array($fila->id_vyp_oficinas_telefono,$fila->id_oficina_vyp_oficnas_telefono,$fila->telefono_vyp_oficnas_telefono);

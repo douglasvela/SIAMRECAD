@@ -273,7 +273,7 @@
                               <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email_oficina" class="font-weight-bold">Email :<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="email_oficina" name="email_oficina" required="" placeholder="Email" data-validation-required-message="Este campo es requerido">
+                                        <input type="email" class="form-control" id="email_oficina" name="email_oficina" required="" placeholder="Email" data-validation-required-message="Este campo es requerido">
                                         <div class="help-block"></div> </div>
                                 </div>
                             </div>
