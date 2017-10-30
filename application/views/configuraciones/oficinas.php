@@ -347,15 +347,15 @@
 
                         <?php echo form_open('', array('id' => 'form_phone', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band_phone" name="band_phone" value="save">
-                            <input type="text" id="id_vyp_oficinas_telefono" name="id_vyp_oficinas_telefono">
-                            <input type="text" id="id_oficina_vyp_oficnas_telefono" name="id_oficina_vyp_oficnas_telefono">                       
+                            <input type="hidden" id="id_vyp_oficinas_telefono" name="id_vyp_oficinas_telefono">
+                            <input type="hidden" id="id_oficina_vyp_oficnas_telefono" name="id_oficina_vyp_oficnas_telefono">                       
 
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="telefono_vyp_oficnas_telefono" class="font-weight-bold">Teléfono de la Oficina: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="telefono_vyp_oficnas_telefono" name="telefono_vyp_oficnas_telefono" required="" placeholder="Teléfono de la Oficina" data-validation-required-message="Este campo es requerido">
+                                        <input type="tel" class="form-control" id="telefono_vyp_oficnas_telefono" name="telefono_vyp_oficnas_telefono"  pattern="^(7|6|2)[0-9]{3}[-][0-9]{4}" required="" placeholder="Teléfono de la Oficina" data-validation-required-message="Este campo es requerido">
                                        <div class="help-block"></div>
                                     </div>
 
