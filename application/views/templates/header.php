@@ -210,6 +210,7 @@
                                 <li><a href="<?php echo site_url(); ?>/configuraciones/bancos"><span class="mdi mdi-label"></span> Bancos</a></li>
                                 <li><a href="<?php echo site_url(); ?>/configuraciones/horarios"><span class="mdi mdi-label"></span> Horarios de viáticos</a></li>
                                 <li><a href="<?php echo site_url(); ?>/configuraciones/oficinas"><span class="mdi mdi-label"></span> Oficinas del MTPS</a></li>
+                                <li><a href="<?php echo site_url(); ?>/configuraciones/distancias"><span class="mdi mdi-label"></span> Gestion de distancias</a></li>
                                 <li class="nav-devider" style="margin:1px;"></li>
                             </ul>
                         </li>
