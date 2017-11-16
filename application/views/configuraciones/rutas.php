@@ -26,14 +26,17 @@
       }
     </style>
 <script type="text/javascript">
-    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina){
-         $("#id_oficina").val(id_oficina);
-         $("#nombre_oficina").val(nombre_oficina);
-         $("#direccion_oficina").val(direccion_oficina);
-         $("#latitud_oficina").val(latitud_oficina);
-         $("#longitud_oficina").val(longitud_oficina);
-          $("#jefe_oficina").val(jefe_oficina);
-         $("#email_oficina").val(email_oficina);
+    function cambiar_editar(id_vyp_rutas,nombre_vyp_rutas,descr_origen_vyp_rutas,latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,descr_destino_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,distancia_km_vyp_rutas,tiempo_vyp_rutas){
+         $("#id_vyp_rutas").val(id_vyp_rutas);
+        $("#nombre_vyp_rutas").val(nombre_vyp_rutas);
+        $("#descr_origen_vyp_rutas").val(descr_origen_vyp_rutas);
+        $("#descr_destino_vyp_rutas").val(descr_destino_vyp_rutas);
+        $("#distancia_km_vyp_rutas").val(distancia_km_vyp_rutas);
+        $("#tiempo_vyp_rutas").val(tiempo_vyp_rutas);
+        $("#latitud_origen_vyp_rutas").val(latitud_origen_vyp_rutas);
+        $("#latitud_destino_vyp_rutas").val(latitud_destino_vyp_rutas);
+        $("#longitud_origen_vyp_rutas").val(longitud_origen_vyp_rutas);
+        $("#longitud_destino_vyp_rutas").val(longitud_destino_vyp_rutas);
 
         $("#ttl_form").removeClass("bg-success");
         $("#ttl_form").addClass("bg-info");
@@ -44,7 +47,7 @@
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
 
-        initMap(latitud_oficina,longitud_oficina);
+        initMap(latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
         $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta");
     }
 
@@ -59,7 +62,7 @@
         $("#latitud_destino_vyp_rutas").val("");
         $("#longitud_origen_vyp_rutas").val("");
         $("#longitud_destino_vyp_rutas").val("");
-        
+
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -92,12 +95,12 @@
 
     }
 
-    function editar_horario(obj){
+    function editar_ruta(obj){
         $("#band").val("edit");
         $("#submit").click();
     }
 
-    function eliminar_horario(obj){
+    function eliminar_ruta(obj){
         $("#band").val("delete");
         swal({
             title: "¿Está seguro?",
@@ -201,8 +204,8 @@
                     <div class="card-body b-t">
 
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
-                            <input type="text" id="band" name="band" value="save">
-                            <input type="text" placeholder="id#" id="id_vyp_rutas" name="id_vyp_rutas">
+                            <input type="hidden" id="band" name="band" value="save">
+                            <input type="hidden" placeholder="id#" id="id_vyp_rutas" name="id_vyp_rutas">
                           
 
                             <div class="row">
@@ -252,10 +255,10 @@
                                 <div class="col-lg-8 col-md-7 otro" >
                                         <div id="map"></div>
                         <div class="form-group">
-                            <input type="hidden" class="form-control"  placeholder="lat origen" id="latitud_origen_vyp_rutas" name="latitud_origen_vyp_rutas" required="" data-validation-required-message="El campo Origen es requerido"> <div class="help-block"></div>
+                            <input type="hidden"   placeholder="lat origen" id="latitud_origen_vyp_rutas" name="latitud_origen_vyp_rutas" required="" data-validation-required-message="El campo Origen es requerido"> <div class="help-block"></div>
                         </div>
                         <div class="form-group">
-                             <input type="hidden" placeholder="lat destino" id="latitud_destino_vyp_rutas" class="form-control"  name="latitud_destino_vyp_rutas" required="" data-validation-required-message="El campo Destino es requerido"> <div class="help-block"></div>  
+                             <input type="hidden" placeholder="lat destino" id="latitud_destino_vyp_rutas"  name="latitud_destino_vyp_rutas" required="" data-validation-required-message="El campo Destino es requerido"> <div class="help-block"></div>  
                         </div>
                         <div class="form-group">
                             <input type="hidden" placeholder="lon origen" id="longitud_origen_vyp_rutas" name="longitud_origen_vyp_rutas" >
@@ -293,8 +296,8 @@
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
-                                <button type="button" onclick="editar_horario(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="eliminar_horario(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
+                                <button type="button" onclick="editar_ruta(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                <button type="button" onclick="eliminar_ruta(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -359,7 +362,7 @@ $(function(){
 
       var distancia = "";
       
-      function initMap() {
+      function initMap(latOrigen,lngOrigen,latDestino,lngDestino) {
         var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
 
@@ -367,18 +370,29 @@ $(function(){
         var destinationA = "";
 
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat:  13.645121, lng: -88.784149},
-          zoom: 12
-        });
         var geocoder = new google.maps.Geocoder;
 
         var service = new google.maps.DistanceMatrixService;
-         var directionsDisplay = new google.maps.DirectionsRenderer({
-          map: map
-        });
+         
         var directionsService = new google.maps.DirectionsService();
 
+        if(latOrigen){
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center:  new google.maps.LatLng(latOrigen, lngDestino),
+                zoom: 17
+            });
+            origin1 = new google.maps.LatLng(latOrigen, lngOrigen);
+            destinationA = new google.maps.LatLng(latDestino, lngDestino);
+            calcula_distancia();pinta_recorrido();
+        }else{
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 13.705542923582362, lng: -89.20029401779175},
+                zoom: 12
+            });
+        }
+        var directionsDisplay = new google.maps.DirectionsRenderer({
+          map: map
+        });
         map.addListener('click', function(e) {
             deleteMarkers_O();
             addMarker_origen(e.latLng, map);

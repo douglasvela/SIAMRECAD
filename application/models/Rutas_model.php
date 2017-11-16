@@ -23,17 +23,17 @@ class Rutas_model extends CI_Model {
 		else return false;
 	}
 
-	function editar_oficina_phone($data){
-		$this->db->where("id_vyp_oficinas_telefono",$data["id_vyp_oficinas_telefono"]);
-		if($this->db->update('vyp_oficinas_telefono', array('telefono_vyp_oficnas_telefono' => $data['telefono_vyp_oficnas_telefono']))){
+	function editar_ruta($data){
+		$this->db->where("id_vyp_rutas",$data["id_vyp_rutas"]);
+		if($this->db->update('vyp_rutas', array('nombre_vyp_rutas' => $data['nombre_vyp_rutas'], 'descr_origen_vyp_rutas' => $data['descr_origen_vyp_rutas'], 'latitud_origen_vyp_rutas' => $data['latitud_origen_vyp_rutas'], 'longitud_origen_vyp_rutas' => $data['longitud_origen_vyp_rutas'], 'descr_destino_vyp_rutas' => $data['descr_destino_vyp_rutas'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas'], 'distancia_km_vyp_rutas' => $data['distancia_km_vyp_rutas'], 'tiempo_vyp_rutas' => $data['tiempo_vyp_rutas']))){
 			return "exito";
 		}else{
 			return "fracaso";
 		}
 	}
 
-	function eliminar_oficina_phone($data){
-		if($this->db->delete("vyp_oficinas_telefono",array('id_vyp_oficinas_telefono' => $data['id_vyp_oficinas_telefono']))){
+	function eliminar_ruta($data){
+		if($this->db->delete("vyp_rutas",array('id_vyp_rutas' => $data['id_vyp_rutas']))){
 			return "exito";
 		}else{
 			return "fracaso";
