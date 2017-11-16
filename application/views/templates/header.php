@@ -11,6 +11,8 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo_min.png">
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
+    
+    
     <title>SIAMRECAD</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -210,7 +212,7 @@
                                 <li><a href="<?php echo site_url(); ?>/configuraciones/bancos"><span class="mdi mdi-label"></span> Bancos</a></li>
                                 <li><a href="<?php echo site_url(); ?>/configuraciones/horarios"><span class="mdi mdi-label"></span> Horarios de viáticos</a></li>
                                 <li><a href="<?php echo site_url(); ?>/configuraciones/oficinas"><span class="mdi mdi-label"></span> Oficinas del MTPS</a></li>
-                                <li><a href="<?php echo site_url(); ?>/configuraciones/distancias"><span class="mdi mdi-label"></span> Gestion de distancias</a></li>
+                                <li><a href="<?php echo site_url(); ?>/configuraciones/rutas"><span class="mdi mdi-label"></span> Gestion de distancias</a></li>
                                 <li class="nav-devider" style="margin:1px;"></li>
                             </ul>
                         </li>
