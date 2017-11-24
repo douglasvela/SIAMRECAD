@@ -68,8 +68,206 @@
 <![endif]-->
 </head>
 <script>
-    var barra = setTimeout(function(){ $("#clic").click(); }, 500);
+   var barra = setTimeout(function(){ $("#clic").click(); }, 500);
+    var minutos = 0.15;
+    var warning = 9.90;
+    var danger = 3;
+
+    $(document).ready(function() {
+        $("#password_val").val("");
+        if(hora() >= 60*minutos || localStorage["expira"] == "expirada"){
+            cerrar_sesion(0);
+        }
+    });
+
+    function cambiar_hora_expira(s){
+        if(localStorage["expira"] == "expirada"){
+            $("#contador").text("Expira: expirada");
+        }else{
+            s = (60*minutos) - s;
+            var secs = s % 60;
+            s = (s - secs) / 60;
+            var mins = s % 60;
+            var hrs = (s - mins) / 60;
+            horas = addZ(mins) + ':' + addZ(secs);
+
+            $("#contador").text("Expira: "+horas);
+        }
+    }
+
+    window.onbeforeunload = function() {
+        //localStorage["expira"] = 0;
+    }
+
+    function hora(){
+        var c = new Date();
+        var a = new Date(c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds());
+        var b = new Date(localStorage["expira"]);
+        //La diferencia se da en milisegundos así que debes dividir entre 1000
+        var result = ((a-b)/1000);
+        cambiar_hora_expira(result);
+        return result; // resultado 5;;
+    }
+
+    function addZ(n) {
+        return (n<10? '0':'') + n;
+    }
+
+    var otra = (function(){
+        var condicion;
+        var moviendo= false;
+        document.onmousemove = function(){
+            moviendo= true;
+        };
+        setInterval (function() {
+            if (!moviendo || localStorage["expira"] == "expirada") {
+                // No ha habido movimiento desde hace un segundo, aquí tu codigo
+                condicion = ((60*minutos)-hora())
+                if(hora() >= 60*minutos){
+                    cerrar_sesion(1000);
+                }
+                if(localStorage["expira"] == "expirada"){
+                    cerrar_sesion(0);
+                }
+                if(condicion < (warning*60) && condicion > (danger*60)){
+                    $("#initial_user").removeClass("text-danger animacion_nueva");
+                    $("#initial_user").addClass("text-warning");
+                    $("#initial_user").show(0);
+                }
+                if(condicion <= (danger*60)){
+                    $("#initial_user").removeClass("text-warning");
+                    $("#initial_user").addClass("text-danger animacion_nueva");
+                    $("#initial_user").show(0);
+                }
+
+            } else {
+                moviendo=false;
+                var c = new Date();
+                localStorage["expira"] = new Date(c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds());
+                hora();
+                $("#initial_user").hide(0);
+            }
+       }, 1000); // Cada segundo, pon el valor que quieras.
+    })()
+
+    function cerrar_sesion(t){
+        $("#congelar").fadeIn(t);
+        $("#main-wrapper").fadeOut(t);
+        localStorage["expira"] = "expirada";
+    }
+
+    function objetoAjax(){
+        var xmlhttp = false;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+        return xmlhttp;
+    }
+
+    function verificar_usuario2(){      
+        var usuario = $("#ususario_val").val();
+        var password = $("#password_val").val(); 
+
+        jugador = document.getElementById('jugador');
+        
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/login/verificar_usuario2", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                jugador.value = (ajax.responseText);
+                alert(jugador.value);
+                if(jugador.value == "exito"){
+                    continuar_sesion();
+                }else{
+                    swal({ title: "¡Error!", text: "la contraseña no es válida", type: "warning", showConfirmButton: true });
+                    $("#password_val").val("");
+                }
+            }
+        } 
+
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&usuario="+usuario+"&password="+password)
+    }
+
+    function continuar_sesion(){
+        $("#congelar").fadeOut(1000);
+        $("#main-wrapper").fadeIn(1000);
+        var c = new Date();
+        localStorage["expira"] = new Date(c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds());
+    }
+
+    function esEnter(e) {
+        if (e.keyCode == 13) {
+            $("#btnClickUser").click();
+        }
+    }
+
 </script>
+<style>
+.animacion_nueva {
+    animation : scales 4.0s ease infinite;
+  -webkit-animation: scales 1.9s ease-in infinite alternate;
+  -moz-animation: scales 1.9s ease-in infinite alternate;
+  animation: scales 1.9s ease-in infinite alternate;
+}
+@-moz-keyframes scales {
+  from {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    transform: scale(0.8);
+  }
+  to {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+}
+@-webkit-keyframes scales {
+  from {
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+  to {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+}
+@-o-keyframes scales {
+  from {
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+  to {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+}
+@keyframes scales {
+  from {
+    -webkit-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+  to {
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+}
+
+    </style>
+
+
+
+
+
 <body class="fix-header fix-sidebar card-no-border logo-center" onload="iniciar();">
 
     <!-- ============================================================== -->
@@ -79,6 +277,38 @@
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
     </div>
+
+<input type="hidden" name="jugador" id="jugador">
+<section id="congelar" style="display: none;">
+    <div class="login-register" style="background-image: url(<?php echo base_url()."assets/images/portadas/seguridad7.jpg"; ?>); background-color: rgb(238, 245, 249);" >        
+        <div class="login-box card">
+            <div class="card-body" style="z-index: 999;">
+                <div class="form-group">
+                  <div class="col-xs-12 text-center">
+                    <div class="user-thumb text-center"> 
+                        <h3 class="text-warning"><span class="mdi mdi-information"></span> La sesión ha expirado</h3>
+                        <h4 style="font-size: 70px; margin-bottom: 0;" class="text-info mdi mdi-account"></h4>
+                        <h4><?php echo ucwords(strtolower($this->session->userdata('nombre_usuario_viatico'))); ?></h4>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="ususario_val" id="ususario_val" value="<?php echo $this->session->userdata('usuario_viatico') ?>">
+                <div class="form-group ">
+                  <div class="col-xs-12">
+                    <input onkeypress="esEnter(event);" class="form-control" type="password" id="password_val" name="password_val" required="" placeholder="password">
+                  </div>
+                </div>
+                <div class="form-group text-center">
+                  <div class="col-xs-12">
+                    <button id="btnClickUser" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" onclick="verificar_usuario2()" type="button">Continuar</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+    </div>
+    
+</section>
+
     
 <div id="main-wrapper">
         <!-- ============================================================== -->
@@ -127,6 +357,8 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
+                     <li class="nav-item"> <a id="initial_user" style="display: none;" class="nav-link waves-effect waves-dark" href="javascript:void(0)"><span id="contador"></span></a> </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-message"></i>
                                 <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
