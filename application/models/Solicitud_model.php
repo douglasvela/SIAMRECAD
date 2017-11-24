@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Horarios_model extends CI_Model {
+class Solicitud_model extends CI_Model {
 	
 	function __construct(){
 		parent::__construct();
@@ -15,6 +15,12 @@ class Horarios_model extends CI_Model {
 		}else{
 			return "fracaso";
 		}
+	}
+
+	function calcular_viaticos($data){
+		$query = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE (hora_inicio <= '".$data['hora_inicio']."' AND hora_fin >= '".$data['hora_inicio']."') OR (hora_inicio >= '".$data['hora_inicio']."' AND hora_fin <= '".$data['hora_fin']."') OR (hora_inicio <= '".$data['hora_fin']."' AND hora_fin >= '".$data['hora_fin']."')");
+		if($query->num_rows() > 0) return $query;
+		else return false;
 	}
 
 	function mostrar_horario(){
