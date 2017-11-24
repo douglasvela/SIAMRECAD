@@ -64,10 +64,10 @@ class Login extends CI_Controller {
 				foreach ($login->result() as $fila) {
 				}
 				$usuario_data = array(
-	               'id_usuario' => $fila->id_usuario,
-	               'usuario' => $fila->usuario,
-	               'nombre_usuario' => $fila->nombre_completo,
-	               'sesion' => TRUE
+	               'id_usuario_viatico' => $fila->id_usuario,
+	               'usuario_viatico' => $fila->usuario,
+	               'nombre_usuario_viatico' => $fila->nombre_completo,
+	               'sesion_viatico' => TRUE
 	            );
 				$this->session->set_userdata($usuario_data);
 				$this->bitacora_model->bitacora(array(
@@ -98,10 +98,10 @@ class Login extends CI_Controller {
 				foreach ($res->result() as $fila) {
 				}
 				$usuario_data = array(
-	               'id_usuario' => $fila->id_usuario,
-	               'usuario' => $fila->usuario,
-	               'nombre_usuario' => $fila->nombre_completo,
-	               'sesion' => TRUE
+	               'id_usuario_viatico' => $fila->id_usuario,
+	               'usuario_viatico' => $fila->usuario,
+	               'nombre_usuario_viatico' => $fila->nombre_completo,
+	               'sesion_viatico' => TRUE
 	            );
 				$this->session->set_userdata($usuario_data);
 				echo "exito";
