@@ -69,7 +69,7 @@
 </head>
 <script>
    var barra = setTimeout(function(){ $("#clic").click(); }, 500);
-    var minutos = 0.15;
+    var minutos = 10;
     var warning = 9.90;
     var danger = 3;
 
