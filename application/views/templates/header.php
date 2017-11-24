@@ -1,3 +1,16 @@
+<?php
+    $user = $this->session->userdata('usuario');
+    if(empty($user)){
+        header("Location: ".site_url()."/login");
+        exit();
+    }
+    
+
+    $pos = strpos($user, ".")+1;
+    $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));    
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
