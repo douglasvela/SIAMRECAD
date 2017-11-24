@@ -116,23 +116,12 @@
         return xmlhttp;
     }
 
-    function tablaoficinas(){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttpB=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-
-        xmlhttpB.onreadystatechange=function(){
-            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
-                  $('#myTable').DataTable();
-            }
-        }
-
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablaoficinas",true);
-        xmlhttpB.send();
+    function tablaoficinas(){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
+            $('#myTable').DataTable();
+        });  
     }
+
     function cambiar_phone(id_oficina,nombre_oficina){
         $("#cnt-tabla").hide(0);
         $("#cnt-tabla-phone").show(0);
@@ -146,23 +135,14 @@
         $("#cnt-tabla-phone").show(0);
         $("#cnt_form_phone").hide(0);
     }
-    function tablaoficinas_phone(id_oficina){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_phone=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_phone=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
 
-        xmlhttp_phone.onreadystatechange=function(){
-            if (xmlhttp_phone.readyState==4 && xmlhttp_phone.status==200){
-                  document.getElementById("cnt-tabla-phone").innerHTML=xmlhttp_phone.responseText;
-                  $('#myTable_phone').DataTable();
-            }
-        }
-
-        xmlhttp_phone.open("GET","<?php echo site_url(); ?>/configuraciones/tablaoficinas_phone/index/"+id_oficina,true);
-        xmlhttp_phone.send();
+    function tablaoficinas_phone(id_oficina){          
+        $( "#cnt-tabla-phone" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_telefonos/"+id_oficina, function() {
+            $('#myTable_phone').DataTable();
+        });  
     }
+
+ 
     function cambiar_nuevo_phone(){
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");

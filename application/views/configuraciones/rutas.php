@@ -130,40 +130,16 @@
         return xmlhttp;
     }
 
-    function tablaoficinas(){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttpB=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-
-        xmlhttpB.onreadystatechange=function(){
-            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
-                  $('#myTable').DataTable();
-            }
-        }
-
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablaoficinas",true);
-        xmlhttpB.send();
+    function tablaoficinas(){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
+            $('#myTable').DataTable();
+        });  
     }
-    
-    function tablaRutas(){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_r=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_r=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
 
-        xmlhttp_r.onreadystatechange=function(){
-            if (xmlhttp_r.readyState==4 && xmlhttp_r.status==200){
-                  document.getElementById("cnt-tabla").innerHTML=xmlhttp_r.responseText;
-                  $('#myTable').DataTable();
-            }
-        }
-
-        xmlhttp_r.open("GET","<?php echo site_url(); ?>/configuraciones/tablarutas",true);
-        xmlhttp_r.send();
+    function tablaRutas(){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/rutas/tabla_rutas", function() {
+            $('#myTable').DataTable();
+        });  
     }
     
 </script>

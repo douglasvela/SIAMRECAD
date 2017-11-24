@@ -16,6 +16,10 @@ class bancos extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function tabla_bancos(){
+		$this->load->view('configuraciones/tabla_bancos');
+	}
+
 	public function gestionar_bancos(){		
 
 		if($this->input->post('band') == "save"){

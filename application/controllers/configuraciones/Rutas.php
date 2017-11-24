@@ -17,6 +17,11 @@ class Rutas extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function tabla_rutas(){
+		$ruta['rutas']=$this->rutas_model->mostrar_ruta();
+		$this->load->view('configuraciones/tabla_rutas',$ruta);
+	}
+
 	public function gestionar_rutas(){
 	
 		if($this->input->post('band') == "save"){

@@ -78,22 +78,10 @@
         return xmlhttp;
     }
 
-    function tablahorarios(){        
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttpB=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-        
-        xmlhttpB.onreadystatechange=function(){
-            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
-                  $('#myTable').DataTable();
-            }
-        }
-        
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablahorarios",true);
-        xmlhttpB.send();
+    function tablahorarios(){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/horarios/tabla_horarios", function() {
+            $('#myTable').DataTable();
+        });  
     }
 
 </script>

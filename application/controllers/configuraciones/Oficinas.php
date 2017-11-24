@@ -18,6 +18,16 @@ class Oficinas extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function tabla_oficinas(){
+		$this->load->view('configuraciones/tabla_oficinas');
+	}
+
+	public function tabla_telefonos($id){
+		$objeto =  new stdClass();
+		$objeto->id = $id;
+		$this->load->view('configuraciones/tabla_oficinas_phone',$objeto);
+	}
+
 	public function gestionar_oficinas(){
 	
 		if($this->input->post('band') == "save"){

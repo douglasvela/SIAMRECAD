@@ -16,6 +16,10 @@ class Horarios extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function tabla_horarios(){
+		$this->load->view('configuraciones/tabla_horarios');
+	}
+
 	public function gestionar_horarios(){
 
 		if($this->input->post('band') == "save"){
