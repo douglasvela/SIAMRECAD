@@ -1,12 +1,5 @@
  <style>
 
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-
-      }
-
       @media screen and (max-width: 770px) {
         .otro {
             height: 500px;
@@ -26,7 +19,7 @@
       }
     </style>
 <script type="text/javascript">
-    function cambiar_editar(id_vyp_rutas,nombre_vyp_rutas,descr_origen_vyp_rutas,latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,descr_destino_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,distancia_km_vyp_rutas,tiempo_vyp_rutas){
+    function cambiar_editar(id_vyp_rutas,nombre_vyp_rutas,descr_origen_vyp_rutas,latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,descr_destino_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,distancia_km_vyp_rutas,tiempo_vyp_rutas, bandera){
          $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#nombre_vyp_rutas").val(nombre_vyp_rutas);
         $("#descr_origen_vyp_rutas").val(descr_origen_vyp_rutas);
@@ -38,17 +31,18 @@
         $("#longitud_origen_vyp_rutas").val(longitud_origen_vyp_rutas);
         $("#longitud_destino_vyp_rutas").val(longitud_destino_vyp_rutas);
 
-        $("#ttl_form").removeClass("bg-success");
-        $("#ttl_form").addClass("bg-info");
-
-        $("#btnadd").hide(0);
-        $("#btnedit").show(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        initMap(latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta");
+        if(bandera == "edit"){
+            $("#ttl_form").removeClass("bg-success");
+            $("#ttl_form").addClass("bg-info");
+            $("#btnadd").hide(0);
+            $("#btnedit").show(0);
+            $("#cnt-tabla").hide(0);
+            $("#cnt_form").show(0);
+            initMap(latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta");7
+        }else{
+            eliminar_ruta();
+        }
     }
 
     function cambiar_nuevo(){
@@ -95,12 +89,12 @@
 
     }
 
-    function editar_ruta(obj){
+    function editar_ruta(){
         $("#band").val("edit");
         $("#submit").click();
     }
 
-    function eliminar_ruta(obj){
+    function eliminar_ruta(){
         $("#band").val("delete");
         swal({
             title: "¿Está seguro?",
@@ -133,12 +127,14 @@
     function tablaoficinas(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
             $('#myTable').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
         });  
     }
 
     function tablaRutas(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/rutas/tabla_rutas", function() {
             $('#myTable').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
         });  
     }
     
@@ -267,13 +263,12 @@
 
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
-                                <button type="button" onclick="editar_ruta(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="eliminar_ruta(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_ruta()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>

@@ -1,18 +1,20 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas){
+    function cambiar_editar(id,nombre,caracteristicas,bandera){
         $("#idb").val(id);
         $("#nombre").val(nombre);
         $("#caracteristicas").val(caracteristicas);
-        $("#ttl_form").removeClass("bg-success");
-        $("#ttl_form").addClass("bg-info");
 
-        $("#btnadd").hide(0);
-        $("#btnedit").show(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Banco");
+        if(bandera == "edit"){
+            $("#ttl_form").removeClass("bg-success");
+            $("#ttl_form").addClass("bg-info");
+            $("#btnadd").hide(0);
+            $("#btnedit").show(0);
+            $("#cnt-tabla").hide(0);
+            $("#cnt_form").show(0);
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Banco");
+        }else{
+            eliminar_banco();
+        }
     }
 
     function cambiar_nuevo(){
@@ -37,12 +39,12 @@
         $("#cnt_form").hide(0);
     }
 
-    function editar_banco(obj){
+    function editar_banco(){
         $("#band").val("edit");
         $("#submit").click();
     }
 
-    function eliminar_banco(obj){
+    function eliminar_banco(){
         $("#band").val("delete");
         swal({   
             title: "¿Está seguro?",   
@@ -75,6 +77,7 @@
     function tablabancos(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos", function() {
             $('#myTable').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
         });  
     }
 
@@ -85,7 +88,6 @@
 <!-- ============================================================== -->
 <div class="page-wrapper">
     <div class="container-fluid">
-        <button id="notificacion" style="display: none;" class="tst1 btn btn-success2">Info Message</button>
         <!-- ============================================================== -->
         <!-- TITULO de la página de sección -->
         <!-- ============================================================== -->
@@ -138,13 +140,12 @@
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-recycle"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
-                                <button type="button" onclick="editar_banco(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="eliminar_banco(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_banco()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>

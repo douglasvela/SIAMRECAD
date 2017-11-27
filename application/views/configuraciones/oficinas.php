@@ -1,12 +1,5 @@
  <style>
 
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-
-      }
-
       @media screen and (max-width: 770px) {
         .otro {
             height: 500px;
@@ -26,26 +19,27 @@
       }
     </style>
 <script type="text/javascript">
-    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina){
-         $("#id_oficina").val(id_oficina);
-         $("#nombre_oficina").val(nombre_oficina);
-         $("#direccion_oficina").val(direccion_oficina);
-         $("#latitud_oficina").val(latitud_oficina);
-         $("#longitud_oficina").val(longitud_oficina);
-          $("#jefe_oficina").val(jefe_oficina);
-         $("#email_oficina").val(email_oficina);
+    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,bandera){
+        $("#id_oficina").val(id_oficina);
+        $("#nombre_oficina").val(nombre_oficina);
+        $("#direccion_oficina").val(direccion_oficina);
+        $("#latitud_oficina").val(latitud_oficina);
+        $("#longitud_oficina").val(longitud_oficina);
+        $("#jefe_oficina").val(jefe_oficina);
+        $("#email_oficina").val(email_oficina);
 
-        $("#ttl_form").removeClass("bg-success");
-        $("#ttl_form").addClass("bg-info");
-
-        $("#btnadd").hide(0);
-        $("#btnedit").show(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        initMap(latitud_oficina,longitud_oficina);
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
+        if(bandera == "edit"){
+            $("#ttl_form").removeClass("bg-success");
+            $("#ttl_form").addClass("bg-info");
+            $("#btnadd").hide(0);
+            $("#btnedit").show(0);
+            $("#cnt-tabla").hide(0);
+            $("#cnt_form").show(0);
+            initMap(latitud_oficina,longitud_oficina);
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
+        }else{
+            eliminar_horario();
+        }
     }
 
     function cambiar_nuevo(){
@@ -81,12 +75,12 @@
          $("#email_oficina").val("");
     }
 
-    function editar_horario(obj){
+    function editar_horario(){
         $("#band").val("edit");
         $("#submit").click();
     }
 
-    function eliminar_horario(obj){
+    function eliminar_horario(){
         $("#band").val("delete");
         swal({
             title: "¿Está seguro?",
@@ -119,6 +113,7 @@
     function tablaoficinas(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
             $('#myTable').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
         });  
     }
 
@@ -129,9 +124,6 @@
         tablaoficinas_phone(id_oficina);
     }
     function cerrar_mantenimiento_phone(){
-       // $("#id_oficina_vyp_oficnas_telefono").val("");
-        $("#telefono_vyp_oficnas_telefono").val("");
-        $("#id_vyp_oficinas_telefono").val("");
         $("#cnt-tabla-phone").show(0);
         $("#cnt_form_phone").hide(0);
     }
@@ -139,13 +131,15 @@
     function tablaoficinas_phone(id_oficina){          
         $( "#cnt-tabla-phone" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_telefonos/"+id_oficina, function() {
             $('#myTable_phone').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
         });  
     }
 
  
     function cambiar_nuevo_phone(){
-        $("#ttl_form").addClass("bg-success");
-        $("#ttl_form").removeClass("bg-info");
+        $("#telefono_vyp_oficnas_telefono").val("");
+        $("#id_vyp_oficinas_telefono").val("");
+        $("#band_phone").val("save");
 
         $("#btnadd_phone").show(0);
         $("#btnedit_phone").hide(0);
@@ -157,19 +151,23 @@
         $("#cnt-tabla").show(0);
         $("#cnt-tabla-phone").hide(0);
     }
-    function cambiar_editar_phone(id_vyp_oficinas_telefono,id_oficina_vyp_oficnas_telefono,telefono_vyp_oficnas_telefono){
+    function cambiar_editar_phone(id_vyp_oficinas_telefono,id_oficina_vyp_oficnas_telefono,telefono_vyp_oficnas_telefono,bandera){
         $("#id_vyp_oficinas_telefono").val(id_vyp_oficinas_telefono);
         $("#telefono_vyp_oficnas_telefono").val(telefono_vyp_oficnas_telefono);
-        $("#cnt-tabla-phone").hide(0);
-        $("#cnt_form_phone").show(0);
-        $("#btnadd_phone").hide(0);
-        $("#btnedit_phone").show(0);
+        if(bandera == "edit"){
+            $("#cnt-tabla-phone").hide(0);
+            $("#cnt_form_phone").show(0);
+            $("#btnadd_phone").hide(0);
+            $("#btnedit_phone").show(0);
+        }else{
+            eliminar_oficina_phone();
+        }
     }
-    function editar_oficina_phone(obj){
+    function editar_oficina_phone(){
         $("#band_phone").val("edit");
         $("#submit_phone").click();
     }
-    function eliminar_oficina_phone(obj){
+    function eliminar_oficina_phone(){
         $("#band_phone").val("delete");
         swal({
             title: "¿Está seguro?",
@@ -288,13 +286,12 @@
 
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
-                                <button type="button" onclick="editar_horario(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="eliminar_horario(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -346,13 +343,12 @@
                            
                             <button id="submit_phone" name="submit_phone" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd_phone">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit_phone" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
-                                <button type="button" onclick="editar_oficina_phone(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="eliminar_oficina_phone(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_oficina_phone()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>

@@ -7,42 +7,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	Genera el body de una tabla, solicitando solamente los datos que conformaran la tabla 
 	y las conlumnas que se desean presentar (genera el botón para modificaciones automaticamente).
 ************************************/
-
-	function boton_tabla($fila,$nfuncion){
-		$cptabla = "<td>";
-		$var = "";
-		foreach ($fila as $otro) {
+	function generar_boton($opciones,$funcion,$color,$icono,$title){
+		$var = ""; $boton = "";
+		foreach ($opciones as $otro) {
 			$var .= '"'.$otro.'",';
 		}
 		$var = substr($var, 0, -1);
-		$cptabla .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm btn-info' onClick='".$nfuncion."(".$var.");'><span class='fa fa-wrench'></span></button>";
-		$cptabla .= "</td>";
-
-		return $cptabla;
+		$boton .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm ".$color."' onClick='".$funcion."(".$var.");' data-toggle='tooltip' title='".$title."'><span class='".$icono."'></span></button>&nbsp;";
+		return $boton;
 	}
-	function boton_form_telefono($fila,$nfuncion){
-		$cptabla = "<td>";
-		$var = "";
-		foreach ($fila as $otro) {
-			$var .= '"'.$otro.'",';
-		}
-		$var = substr($var, 0, -1);
-		$cptabla .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm btn-info' onClick='".$nfuncion."(".$var.");'><span class='mdi mdi-phone-plus'></span></button>";
-		$cptabla .= "</td>";
 
-		return $cptabla;
-	}
-	function boton_form_telefono2($fila,$nfuncion){
-		$cptabla = "<td>";
-		$var = "";
-		foreach ($fila as $otro) {
-			$var .= '"'.$otro.'",';
-		}
-		$var = substr($var, 0, -1);
-		$cptabla .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm btn-info' onClick='".$nfuncion."(".$var.");'><span class='fa fa-wrench'></span></button>";
-		$cptabla .= "</td>";
-
-		return $cptabla;
+	function endKey($array){
+		end($array);
+		return key($array);
 	}
 
 

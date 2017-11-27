@@ -10,7 +10,7 @@
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
         </div>
         <div class="table-responsive">
-            <table id="myTable" class="table table-bordered">
+            <table id="myTable" class="table table-bordered product-overview">
                 <thead class="bg-info text-white">
                     <tr>
                         <th>Id</th>
@@ -19,7 +19,7 @@
                         <th>Jefe de la Oficina</th>
                         <th>Email</th>
                         <th>Tel.</th>
-                        <th>(*)</th>
+                        <th style="min-width: 85px;">(*)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,17 +27,28 @@
                 	$oficinas = $this->db->get("vyp_oficinas");
                     if(!empty($oficinas)){
                         foreach ($oficinas->result() as $fila) {
-                           echo "<tr>";
-                           echo "<td>".$fila->id_oficina."</td>";
-                           echo "<td>".$fila->nombre_oficina."</td>";
-                           echo "<td>".$fila->direccion_oficina."</td>";
-                           echo "<td>".$fila->jefe_oficina."</td>";
-                           echo "<td>".$fila->email_oficina."</td>";
-                 
-                           $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina);
-                           $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
-                           echo boton_form_telefono($arrayTel,"cambiar_phone");
-                           echo boton_tabla($array,"cambiar_editar");
+                            echo "<tr>";
+                            echo "<td>".$fila->id_oficina."</td>";
+                            echo "<td>".$fila->nombre_oficina."</td>";
+                            echo "<td>".$fila->direccion_oficina."</td>";
+                            echo "<td>".$fila->jefe_oficina."</td>";
+                            echo "<td>".$fila->email_oficina."</td>";
+
+                            /******* botón para la gestión de TELEFONOS **********/
+                            echo "<td>";
+                              $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
+                              echo generar_boton($arrayTel,"cambiar_phone","btn-info","mdi mdi-phone-plus","Teléfono(s)");
+                            echo "</td>";
+
+                            /******* botones para la edición de OFICINAS **********/
+                            echo "<td>";
+                              $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina);
+                              array_push($array, "edit");
+                              echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                              unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                              array_push($array, "delete");
+                              echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo "</td>";
 
                            echo "</tr>";
                         }

@@ -22,10 +22,9 @@
         ?>
         <label>Nombre de la oficina: <?php echo $fila_of->nombre_oficina; }?></label>
         <div class="table-responsive">
-            <table id="myTable_phone" class="table table-bordered">
+            <table id="myTable_phone" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        
                         <th>Teléfono</th>
                         <th>(*)</th>
                     </tr>
@@ -36,12 +35,17 @@
                     if(!empty($oficinas)){
                         foreach ($oficinas->result() as $fila) {
                            echo "<tr>";
-                          
                            echo "<td>".$fila->telefono_vyp_oficnas_telefono."</td>";
 
-                           $arrayTel = array($fila->id_vyp_oficinas_telefono,$fila->id_oficina_vyp_oficnas_telefono,$fila->telefono_vyp_oficnas_telefono);
-                           echo boton_form_telefono2($arrayTel,"cambiar_editar_phone");
-                           
+                           /******* botón para la gestión de TELEFONOS **********/
+                            echo "<td>";
+                              $array = array($fila->id_vyp_oficinas_telefono,$fila->id_oficina_vyp_oficnas_telefono,$fila->telefono_vyp_oficnas_telefono);
+                              array_push($array, "edit");
+                              echo generar_boton($array,"cambiar_editar_phone","btn-info","fa fa-wrench","Editar");
+                              unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                              array_push($array, "delete");
+                              echo generar_boton($array,"cambiar_editar_phone","btn-danger","fa fa-close","Eliminar");
+                            echo "</td>";
 
                            echo "</tr>";
                         }

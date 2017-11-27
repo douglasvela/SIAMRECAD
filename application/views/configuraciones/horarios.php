@@ -1,21 +1,22 @@
 <script type="text/javascript">
-    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto){
+    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,bandera){
         $("#idhorario").val(id);
         $("#descripcion").val(descripcion);
         $("#hora_inicio").val(hora_inicio);
         $("#hora_fin").val(hora_fin);
         $("#monto").val(monto);
 
-        $("#ttl_form").removeClass("bg-success");
-        $("#ttl_form").addClass("bg-info");
-
-        $("#btnadd").hide(0);
-        $("#btnedit").show(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar viático");
+        if(bandera == "edit"){
+            $("#ttl_form").removeClass("bg-success");
+            $("#ttl_form").addClass("bg-info");
+            $("#btnadd").hide(0);
+            $("#btnedit").show(0);
+            $("#cnt-tabla").hide(0);
+            $("#cnt_form").show(0);
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar viático");
+        }else{
+            eliminar_horario();
+        }
     }
 
     function cambiar_nuevo(){
@@ -43,12 +44,12 @@
         $("#cnt_form").hide(0);
     }
 
-    function editar_horario(obj){
+    function editar_horario(){
         $("#band").val("edit");
         $("#submit").click();
     }
 
-    function eliminar_horario(obj){
+    function eliminar_horario(){
         $("#band").val("delete");
         swal({   
             title: "¿Está seguro?",   
@@ -81,6 +82,7 @@
     function tablahorarios(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/horarios/tabla_horarios", function() {
             $('#myTable').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
         });  
     }
 
@@ -158,13 +160,12 @@
                             </div>
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete"></i> Limpiar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-delete-empty"></i> Limpiar</button>
-                                <button type="button" onclick="editar_horario(this)" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="eliminar_horario(this)" class="btn waves-effect waves-light btn-danger"><i class="mdi mdi-window-close"></i> Eliminar</button>
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>

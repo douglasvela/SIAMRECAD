@@ -7,7 +7,7 @@
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
         </div>
         <div class="table-responsive">
-            <table id="myTable" class="table table-bordered">
+            <table id="myTable" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
                         <th>#</th>
@@ -25,16 +25,23 @@
 
                     if(!empty($horarios)){
                         foreach ($horarios->result() as $fila) {
-                           echo "<tr>";
-                           echo "<td>".$fila->id_horario_viatico."</td>";
-                           echo "<td>".$fila->descripcion."</td>";
-                           echo "<td>$ ".number_format($fila->monto,2)."</td>";
-                           echo "<td>".date("h:i A",strtotime($fila->hora_inicio))."</td>";
-                           echo "<td>".date("h:i A",strtotime($fila->hora_fin))."</td>";
+                          echo "<tr>";
+                            echo "<td>".$fila->id_horario_viatico."</td>";
+                            echo "<td>".$fila->descripcion."</td>";
+                            echo "<td>$ ".number_format($fila->monto,2)."</td>";
+                            echo "<td>".date("h:i A",strtotime($fila->hora_inicio))."</td>";
+                            echo "<td>".date("h:i A",strtotime($fila->hora_fin))."</td>";
                            
-                           $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2));
-                           echo boton_tabla($array,"cambiar_editar");
-                           echo "</tr>";
+                           
+                            echo "<td>";
+                            $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2));
+                            array_push($array, "edit");
+                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            array_push($array, "delete");
+                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo "</td>";
+                          echo "</tr>";
                         }
                     }
                 ?>

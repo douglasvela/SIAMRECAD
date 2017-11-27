@@ -14,21 +14,15 @@
         </div>
       
         <div class="table-responsive">
-            <table id="myTable" class="table table-bordered">
+            <table id="myTable" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        
-                        
                         <th>Nombre</th>
                         <th>Descripcion del origen</th>
-                        <th>Lat,Lng</th>
-                        
                         <th>Descripcion del destino</th>
-                        <th>Lat,Lng</th>
-
                         <th>Distancia</th>
                         <th>Tiempo</th>
-                        <th>#</th>
+                        <th style="min-width: 85px;">#</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,19 +33,19 @@
                            echo "<tr>";
                           
                            echo "<td>".$fila->nombre_vyp_rutas."</td>";
-                           echo "<td>".$fila->descr_origen_vyp_rutas."</td>";
-                           echo "<td>".$fila->latitud_origen_vyp_rutas.",".$fila->longitud_origen_vyp_rutas ."</td>";
-                           
+                           echo "<td>".$fila->descr_origen_vyp_rutas."</td>";                           
                            echo "<td>".$fila->descr_destino_vyp_rutas."</td>";
-                           echo "<td>".$fila->latitud_destino_vyp_rutas.",".$fila->longitud_destino_vyp_rutas."</td>";
-                           
                            echo "<td>".$fila->distancia_km_vyp_rutas."</td>";
                            echo "<td>".$fila->tiempo_vyp_rutas."</td>";
-
-
-                           $array = array($fila->id_vyp_rutas,$fila->nombre_vyp_rutas,$fila->descr_origen_vyp_rutas,$fila->latitud_origen_vyp_rutas,$fila->longitud_origen_vyp_rutas,$fila->descr_destino_vyp_rutas,$fila->latitud_destino_vyp_rutas,$fila->longitud_destino_vyp_rutas,$fila->distancia_km_vyp_rutas,$fila->tiempo_vyp_rutas);
-                           echo boton_form_telefono2($array,"cambiar_editar");
-                           
+                            
+                            echo "<td>";
+                            $array = array($fila->id_vyp_rutas,$fila->nombre_vyp_rutas,$fila->descr_origen_vyp_rutas,$fila->latitud_origen_vyp_rutas,$fila->longitud_origen_vyp_rutas,$fila->descr_destino_vyp_rutas,$fila->latitud_destino_vyp_rutas,$fila->longitud_destino_vyp_rutas,$fila->distancia_km_vyp_rutas,$fila->tiempo_vyp_rutas);
+                            array_push($array, "edit");
+                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            array_push($array, "delete");
+                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo "</td>";                        
 
                            echo "</tr>";
                         }
