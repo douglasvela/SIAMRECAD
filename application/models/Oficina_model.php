@@ -5,7 +5,6 @@ class Oficina_model extends CI_Model {
 	
 	function __construct(){
 		parent::__construct();
-		$this->load->database();
 	}
 
 	function insertar_oficina($data){
@@ -34,6 +33,38 @@ class Oficina_model extends CI_Model {
 
 	function eliminar_oficina($data){
 		if($this->db->delete("vyp_oficinas",array('id_oficina' => $data['id_oficina']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function insertar_oficina_phone($data){
+		
+		if($this->db->insert('vyp_oficinas_telefono', array('telefono_vyp_oficnas_telefono' => $data['telefono_vyp_oficnas_telefono'], 'id_oficina_vyp_oficnas_telefono' => $data['id_oficina_vyp_oficnas_telefono']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function mostrar_oficina_phone(){
+		$query = $this->db->get("vyp_oficinas_telefono");
+		if($query->num_rows() > 0) return $query;
+		else return false;
+	}
+
+	function editar_oficina_phone($data){
+		$this->db->where("id_vyp_oficinas_telefono",$data["id_vyp_oficinas_telefono"]);
+		if($this->db->update('vyp_oficinas_telefono', array('telefono_vyp_oficnas_telefono' => $data['telefono_vyp_oficnas_telefono']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function eliminar_oficina_phone($data){
+		if($this->db->delete("vyp_oficinas_telefono",array('id_vyp_oficinas_telefono' => $data['id_vyp_oficinas_telefono']))){
 			return "exito";
 		}else{
 			return "fracaso";

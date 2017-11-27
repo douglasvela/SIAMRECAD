@@ -71,7 +71,7 @@ class Login extends CI_Controller {
 	            );
 				$this->session->set_userdata($usuario_data);
 				$this->bitacora_model->bitacora(array(
-	               'id_sistema' => "14",
+	               'id_sistema' => "15",
 	               'descripcion' => "El usuario ".$this->input->post('usuario')." inició sesión",
 	               'id_accion' => "1"
 	            ));			

@@ -5,10 +5,7 @@ class Oficinas extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->helper(array('url','form','funciones_rapidas'));
 		$this->load->model('oficina_model');
-		$this->load->model('oficina_phone_model');
-		//$this->load->library('form_validation');
 	}
 
 	public function index()
@@ -72,18 +69,18 @@ class Oficinas extends CI_Controller {
 			'telefono_vyp_oficnas_telefono' => $this->input->post('telefono_vyp_oficnas_telefono'), 
 			'id_oficina_vyp_oficnas_telefono' => $this->input->post('id_oficina_vyp_oficnas_telefono')
 			);
-            echo $this->oficina_phone_model->insertar_oficina_phone($data);
+            echo $this->oficina_model->insertar_oficina_phone($data);
 		}else if($this->input->post('band_phone')=="edit"){
 			$data = array(
 				'id_vyp_oficinas_telefono' => $this->input->post('id_vyp_oficinas_telefono'),
 				'telefono_vyp_oficnas_telefono' => $this->input->post('telefono_vyp_oficnas_telefono')
 			);
-			echo $this->oficina_phone_model->editar_oficina_phone($data);
+			echo $this->oficina_model->editar_oficina_phone($data);
 		}else if($this->input->post('band_phone') == "delete"){
 			$data = array(
 			'id_vyp_oficinas_telefono' => $this->input->post('id_vyp_oficinas_telefono')
 			);
-			echo $this->oficina_phone_model->eliminar_oficina_phone($data);
+			echo $this->oficina_model->eliminar_oficina_phone($data);
 		}
 	}
 }

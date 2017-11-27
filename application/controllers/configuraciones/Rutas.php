@@ -5,9 +5,7 @@ class Rutas extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->helper(array('url','form','funciones_rapidas'));
 		$this->load->model('rutas_model');
-		//$this->load->library('form_validation');
 	}
 
 	public function index()
