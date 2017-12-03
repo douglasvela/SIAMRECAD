@@ -450,31 +450,6 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="nav-small-cap text-center">MENÚ</li>
-                        <li class="nav-devider" style="margin:5px;"></li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">Configuraciones </span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="<?php echo site_url(); ?>/configuraciones/bancos"><span class="mdi mdi-label"></span> Bancos</a></li>
-                                <li><a href="<?php echo site_url(); ?>/configuraciones/horarios"><span class="mdi mdi-label"></span> Horarios de viáticos</a></li>
-                                <li><a href="<?php echo site_url(); ?>/configuraciones/oficinas"><span class="mdi mdi-label"></span> Oficinas del MTPS</a></li>
-                                <li><a href="<?php echo site_url(); ?>/configuraciones/rutas"><span class="mdi mdi-label"></span> Gestion de Rutas</a></li>
-                                <li class="nav-devider" style="margin:1px;"></li>
-                            </ul>
-                        </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-bus"></i><span class="hide-menu">Viáticos y pasajes</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="<?php echo site_url(); ?>/viaticos"><span class="mdi mdi-label"></span> Crear solicitud</a></li>
-                                <li><a href="<?php echo site_url(); ?>/justificacion"><span class="mdi mdi-label"></span> Crear justificación</a></li>
-                                <li><a href="<?php echo site_url(); ?>/aprobacion"><span class="mdi mdi-label"></span> Solicitudes de viáticos</a></li>
-                                <li class="nav-devider" style="margin:1px;"></li>
-                            </ul>
-                        </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Usuarios</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="<?php echo site_url(); ?>/usuarios/usuarios"><span class="mdi mdi-label"></span> Usuarios</a></li>
-                                <li><a href="<?php echo site_url(); ?>/cargos/cargos"><span class="mdi mdi-label"></span> Cargos</a></li>
-                            </ul>
-                        </li>
-                       
 
 
                         <li class="nav-devider" style="margin:5px;"></li>
