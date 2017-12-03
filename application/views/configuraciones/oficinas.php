@@ -19,6 +19,7 @@
       }
     </style>
 <script type="text/javascript">
+<<<<<<< Updated upstream
     function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,bandera){
         $("#id_oficina").val(id_oficina);
         $("#nombre_oficina").val(nombre_oficina);
@@ -40,6 +41,32 @@
         }else{
             eliminar_horario();
         }
+=======
+    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,id_departamento,id_municipio){
+         $("#id_oficina").val(id_oficina);
+         $("#nombre_oficina").val(nombre_oficina);
+         $("#direccion_oficina").val(direccion_oficina);
+         $("#latitud_oficina").val(latitud_oficina);
+         $("#longitud_oficina").val(longitud_oficina);
+
+         $("#jefe_oficina").val(jefe_oficina);
+    
+         
+         $("#email_oficina").val(email_oficina);
+         $("#id_departamento").val(id_departamento);
+         buscarMunicipio(id_departamento,id_municipio);
+        $("#ttl_form").removeClass("bg-success");
+        $("#ttl_form").addClass("bg-info");
+
+        $("#btnadd").hide(0);
+        $("#btnedit").show(0);
+
+        $("#cnt-tabla").hide(0);
+        $("#cnt_form").show(0);
+
+        initMap(latitud_oficina,longitud_oficina);
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
+>>>>>>> Stashed changes
     }
 
     function cambiar_nuevo(){
@@ -73,6 +100,8 @@
         $("#cnt_form").hide(0);
          $("#jefe_oficina").val("");
          $("#email_oficina").val("");
+         $("#id_departamento").val("");
+         buscarMunicipio();
     }
 
     function editar_horario(){
@@ -181,6 +210,23 @@
             $("#submit_phone").click();
         });
     }
+    function buscarMunicipio(id_departamento,seleccion){
+        id=id_departamento+="x"+seleccion;
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("municipios").innerHTML=xmlhttp_municipio.responseText;
+            }
+        }
+
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi/"+id,true);
+        xmlhttp_municipio.send();
+    }
 </script>
 
 <!-- ============================================================== -->
@@ -241,10 +287,58 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
+                                        <select id="id_departamento" name="id_departamento" class="form-control">
+                                            <option value="">[Seleccione]</option>
+                                            <?php
+                                                $this->db->where("id_departamento <","15");
+                                                $seccion = $this->db->get("org_departamento");
+
+                                                if(!empty($seccion)){
+                                                    foreach ($seccion->result() as $fila) {
+                                            ?>
+                                                <option  value="<?php echo $fila->id_departamento ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                    <?php echo $fila->departamento ?>
+                                                </option>;
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                       <div class="help-block"></div>
+                                    </div>
+
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                          <label for="id_municipio" class="font-weight-bold">Municipio de la Oficina: <span class="text-danger">*</span></label>
+                                        <div id="municipios">
+                                            <select class="form-control">
+                                                <option>[Seleccione]</option>
+                                            </select>
+                                        </div>
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group">
                                       <label for="jefe_oficina" class="font-weight-bold">Jefe de la Oficina: <span class="text-danger">*</span></label>
-                                      <input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido">
+                                      <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
+                                      <select id="jefe_oficina" name="jefe_oficina" class="form-control"  style="width: 100%">
+                                        <option value="">[Elija el Jefe]</option>
+                                        <?php 
+                                            $empleado = $this->db->get("sir_empleado");
+                                            if($empleado->num_rows() > 0){
+                                                foreach ($empleado->result() as $fila) {              
+                                                   echo '<option class="m-l-50" value="'.$fila->primer_nombre.' '.$fila->primer_apellido.'">'.$fila->primer_nombre.' '.$fila->primer_apellido.'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
                                      <div class="help-block"></div>
                                   </div>
                               </div>

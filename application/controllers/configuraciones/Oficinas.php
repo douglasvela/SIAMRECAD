@@ -14,6 +14,14 @@ class Oficinas extends CI_Controller {
 		$this->load->view('configuraciones/oficinas');
 		$this->load->view('templates/footer');
 	}
+	public function mostrarComboMunicipi($id)
+	{
+		$objeto = explode("x", $id);
+		$nuevo['id_departamento']=$objeto[0];
+		$nuevo['id_municipio']=$objeto[1];
+
+		$this->load->view('configuraciones/comboMunicipio',$nuevo);
+	}
 
 	public function tabla_oficinas(){
 		$this->load->view('configuraciones/tabla_oficinas');
@@ -34,7 +42,9 @@ class Oficinas extends CI_Controller {
 			'jefe_oficina' => $this->input->post('jefe_oficina'),
 			'email_oficina' => $this->input->post('email_oficina'),
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
-			'longitud_oficina' => $this->input->post('longitud_oficina')
+			'longitud_oficina' => $this->input->post('longitud_oficina'),
+			'id_departamento' => $this->input->post('id_departamento'),
+			'id_municipio' => $this->input->post('id_municipio')
 			);
 			
                 echo $this->oficina_model->insertar_oficina($data);
@@ -48,7 +58,9 @@ class Oficinas extends CI_Controller {
 			'jefe_oficina' => $this->input->post('jefe_oficina'),
 			'email_oficina' => $this->input->post('email_oficina'),
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
-			'longitud_oficina' => $this->input->post('longitud_oficina')
+			'longitud_oficina' => $this->input->post('longitud_oficina'),
+			'id_departamento' => $this->input->post('id_departamento'),
+			'id_municipio' => $this->input->post('id_municipio')
 			);
 			
 				echo $this->oficina_model->editar_oficina($data);

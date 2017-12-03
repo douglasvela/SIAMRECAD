@@ -18,8 +18,16 @@
                         <th>Dirección de la Oficina</th>
                         <th>Jefe de la Oficina</th>
                         <th>Email</th>
+<<<<<<< Updated upstream
                         <th>Tel.</th>
                         <th style="min-width: 85px;">(*)</th>
+=======
+                       
+                        <th>Depto</th>
+                        <th>Municipio</th>
+                         <th>Tel.</th>
+                        <th>(*)</th>
+>>>>>>> Stashed changes
                     </tr>
                 </thead>
                 <tbody>
@@ -27,6 +35,7 @@
                 	$oficinas = $this->db->get("vyp_oficinas");
                     if(!empty($oficinas)){
                         foreach ($oficinas->result() as $fila) {
+<<<<<<< Updated upstream
                             echo "<tr>";
                             echo "<td>".$fila->id_oficina."</td>";
                             echo "<td>".$fila->nombre_oficina."</td>";
@@ -49,6 +58,31 @@
                               array_push($array, "delete");
                               echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
                             echo "</td>";
+=======
+                           echo "<tr>";
+                           echo "<td>".$fila->id_oficina."</td>";
+                           echo "<td>".$fila->nombre_oficina."</td>";
+                           echo "<td>".$fila->direccion_oficina."</td>";
+                           echo "<td>".$fila->jefe_oficina."</td>";
+                           echo "<td>".$fila->email_oficina."</td>";
+                           $this->db->where("id_departamento",$fila->id_departamento);
+                            $depto = $this->db->get("org_departamento");
+                            foreach ($depto->result() as $keydepto) {
+                              echo "<td>".$keydepto->departamento."</td>";
+                            }
+                           
+                           $this->db->where("id_municipio",$fila->id_municipio);
+                            $munic = $this->db->get("org_municipio");
+                            foreach ($munic->result() as $keymunic) {
+                              echo "<td>".$keymunic->municipio."</td>";
+                            }
+                           
+                 
+                           $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina,$fila->id_departamento,$fila->id_municipio);
+                           $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
+                           echo boton_form_telefono($arrayTel,"cambiar_phone");
+                           echo boton_tabla($array,"cambiar_editar");
+>>>>>>> Stashed changes
 
                            echo "</tr>";
                         }
