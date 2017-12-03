@@ -26,6 +26,7 @@ class Oficinas extends CI_Controller {
 	public function tabla_oficinas(){
 		$this->load->view('configuraciones/tabla_oficinas');
 	}
+	
 
 	public function tabla_telefonos($id){
 		$objeto =  new stdClass();
