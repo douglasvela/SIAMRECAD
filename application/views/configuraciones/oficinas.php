@@ -127,6 +127,7 @@
     function iniciar(){
         tablaoficinas();
     }
+    
 
     function objetoAjax(){
         var xmlhttp = false;
