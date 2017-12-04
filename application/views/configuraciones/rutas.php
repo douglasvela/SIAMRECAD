@@ -138,6 +138,15 @@
         });  
     }
     
+
+
+
+
+
+    function mostrarpanel(){
+        document.getElementById('panel_mapa').style.display='block';
+        
+    }
 </script>
 
 <!-- ============================================================== -->
@@ -183,47 +192,43 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="nombre_vyp_rutas" class="font-weight-bold">Nombre de la Ruta: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="nombre_vyp_rutas" name="nombre_vyp_rutas" required="" placeholder="Nombre de la Ruta" data-validation-required-message="Este campo es requerido">
+                                        <label for="id_oficina_origen_vyp_rutas" class="font-weight-bold">Origen de la Ruta: <span class="text-danger">*</span></label>
+                                        <select id="id_oficina_origen_vyp_rutas" name="id_oficina_origen_vyp_rutas" class="form-control">
+                                            <option value="">[Seleccione]</option>
+                                            <?php
+                                                $seccion = $this->db->get("vyp_oficinas");
+
+                                                if(!empty($seccion)){
+                                                    foreach ($seccion->result() as $fila) {
+                                            ?>
+                                                <option  value="<?php echo $fila->id_oficina ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                    <?php echo $fila->nombre_oficina ?>
+                                                </option>;
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
+                                         <input type="radio" id="destino_oficina" class="check " name="gender" value="male"> 
+                                         <label for="destino_oficina">Destino oficina</label>
+                                          <input type="radio" id="destino_municipio" class="check" name="gender" value="female">
+                                          <label for="destino_municipio">Destino municipio</label>
+                                          <input type="radio" id="destino_mapa" class="check"  name="gender"  onchange="mostrarpanel();">
+                                          <label for="destino_mapa">Destino mapa</label>
                                     </div>
                                 </div>
                             </div>
-                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="descr_origen_vyp_rutas" class="font-weight-bold">Descripció de origen de la Ruta: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="descr_origen_vyp_rutas" name="descr_origen_vyp_rutas" required="" placeholder="Descripcion de origen" data-validation-required-message="Este campo es requerido">
-                                       <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="descr_destino_vyp_rutas" class="font-weight-bold">Descripción de destino de la Ruta: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="descr_destino_vyp_rutas" name="descr_destino_vyp_rutas" required="" placeholder="Descripción de destino" data-validation-required-message="Este campo es requerido">
-                                       <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="distancia_km_vyp_rutas" class="font-weight-bold">Distancia de la ruta: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="distancia_km_vyp_rutas" name="distancia_km_vyp_rutas" required="" placeholder="Distancia de la Ruta" data-validation-required-message="Este campo es requerido">
-                                       <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="tiempo_vyp_rutas" class="font-weight-bold">Tiempo de viaje de la Ruta: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="tiempo_vyp_rutas" name="tiempo_vyp_rutas" required="" placeholder="Tiempo de viaje de la Ruta" data-validation-required-message="Este campo es requerido">
-                                       <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
+                             
+                              
                                         
-                                       
-                           <div id="divider" class="row" >
+                         <div id="panel_mapa" style="display: none">              
+                           <div id="divider" class="row"  >
                                 <div class="col-lg-8 col-md-7 otro" >
                                         <div id="map"></div>
                         <div class="form-group">
@@ -260,7 +265,7 @@
                                     <br><br><br><br><br><br><br><br>
                                 </div>
                             </div>
-
+                        </div>
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
