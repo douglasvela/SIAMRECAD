@@ -46,16 +46,7 @@
     }
 
     function cambiar_nuevo(){
-        $("#id_vyp_rutas").val("");
-        $("#nombre_vyp_rutas").val("");
-        $("#descr_origen_vyp_rutas").val("");
-        $("#descr_destino_vyp_rutas").val("");
-        $("#distancia_km_vyp_rutas").val("");
-        $("#tiempo_vyp_rutas").val("");
-        $("#latitud_origen_vyp_rutas").val("");
-        $("#latitud_destino_vyp_rutas").val("");
-        $("#longitud_origen_vyp_rutas").val("");
-        $("#longitud_destino_vyp_rutas").val("");
+        
 
         $("#band").val("save");
 
@@ -67,22 +58,13 @@
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        initMap();
+        
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Ruta");
     }
 
 
     function cerrar_mantenimiento(){
-        $("#id_vyp_rutas").val("");
-        $("#nombre_vyp_rutas").val("");
-        $("#descr_origen_vyp_rutas").val("");
-        $("#descr_destino_vyp_rutas").val("");
-        $("#distancia_km_vyp_rutas").val("");
-        $("#tiempo_vyp_rutas").val("");
-        $("#latitud_origen_vyp_rutas").val("");
-        $("#latitud_destino_vyp_rutas").val("");
-        $("#longitud_origen_vyp_rutas").val("");
-        $("#longitud_destino_vyp_rutas").val("");
+        
 
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
@@ -110,7 +92,7 @@
     }
 
     function iniciar(){
-        tablaRutas();
+        tablaRutas(); 
     }
 
     function objetoAjax(){
@@ -140,12 +122,27 @@
     
 
 
+    function mostrarpanel_oficina(){
+        $("#panel_oficina").show(50);
+        $("#cnt_form").removeClass("col-lg-6");
+        $("#cnt_form").addClass("col-lg-12");
+        $("#panel_municipio").hide(50);$("#form_mapa").hide(10);
+    }
 
 
-
-    function mostrarpanel(){
-        document.getElementById('panel_mapa').style.display='block';
-        
+    function mostrarpanel_mapa(){
+       //$("#btnadd").hide(0);
+        $("#cnt_form").removeClass("col-lg-12");
+        $("#cnt_form").addClass("col-lg-6");
+        $("#form_mapa").show(500);initMap();
+        $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
+    }
+    function mostrarpanel_municipio(){
+        $("#form_mapa").hide(10);
+        $("#cnt_form").removeClass("col-lg-10");
+        $("#cnt_form").addClass("col-lg-12");
+        $("#panel_municipio").show(50);
+        $("#panel_oficina").hide(50);
     }
 </script>
 
@@ -170,11 +167,8 @@
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
         <div class="row">
-            <!-- ============================================================== -->
-            <!-- Inicio del FORMULARIO de gestión -->
-            <!-- ============================================================== -->
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="cnt_form" style="display: none;">
+            
+            <div class="col-lg-12" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -215,36 +209,76 @@
                                  <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
-                                         <input type="radio" id="destino_oficina" class="check " name="gender" value="male"> 
+                                         <input type="radio" id="destino_oficina" class=" " name="gender" value="male" onclick="mostrarpanel_oficina()"> 
                                          <label for="destino_oficina">Destino oficina</label>
-                                          <input type="radio" id="destino_municipio" class="check" name="gender" value="female">
+                                          <input type="radio" id="destino_municipio" class="" name="gender" value="female" onclick="mostrarpanel_municipio()">
                                           <label for="destino_municipio">Destino municipio</label>
-                                          <input type="radio" id="destino_mapa" class="check"  name="gender"  onchange="mostrarpanel();">
+                                          <input type="radio" id="destino_mapa" class=""  name="gender" onClick="mostrarpanel_mapa();">
                                           <label for="destino_mapa">Destino mapa</label>
                                     </div>
                                 </div>
                             </div>
                              
-                              
-                                        
-                         <div id="panel_mapa" style="display: none">              
-                           <div id="divider" class="row"  >
-                                <div class="col-lg-8 col-md-7 otro" >
-                                        <div id="map"></div>
-                        <div class="form-group">
-                            <input type="hidden"   placeholder="lat origen" id="latitud_origen_vyp_rutas" name="latitud_origen_vyp_rutas" required="" data-validation-required-message="El campo Origen es requerido"> <div class="help-block"></div>
-                        </div>
-                        <div class="form-group">
-                             <input type="hidden" placeholder="lat destino" id="latitud_destino_vyp_rutas"  name="latitud_destino_vyp_rutas" required="" data-validation-required-message="El campo Destino es requerido"> <div class="help-block"></div>  
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" placeholder="lon origen" id="longitud_origen_vyp_rutas" name="longitud_origen_vyp_rutas" >
-                        </div>
-                        
-
-                        <input type="hidden" placeholder="lon destino" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas" >
-
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Descripción de destino: <span class="text-danger">*</span></label><br>
+                                        <input type="text" name="" class="form-control">
+                                    </div>
                                 </div>
+                            </div>  
+                            <div class="row" id="panel_municipio" style="display: none">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Departamento de destino: <span class="text-danger">*</span></label><br>
+                                        <select class="form-control">
+                                            <option>[Seleccione]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Municipio de destino: <span class="text-danger">*</span></label><br>
+                                        <select class="form-control">
+                                            <option>[Seleccione]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row" id="panel_oficina" style="display: none">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Oficina de destino: <span class="text-danger">*</span></label><br>
+                                        <select class="form-control">
+                                            <option>[Seleccione]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>           
+                                       
+                           
+                    
+                            <button id="submit" type="submit" style="display: none;"></button>
+                            <div align="right" id="btnadd">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                           
+                            </div>
+                            <div align="right" id="btnedit" style="display: none;">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_ruta()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                            </div>
+
+                        <?php echo form_close(); ?>
+                    </div>
+
+                </div>
+            </div>
+             <div class="col-lg-6" style="display: none;" id="form_mapa">
+                 <div class="card">
+                     <div class="card-body b-t">
+                     <div  class="row" id="divider">
+                                
                                 <div class="col-lg-4 col-md-5" >
                                     <div class="form-group">
                                         <label>Buscar ubicación</label>
@@ -264,23 +298,13 @@
 
                                     <br><br><br><br><br><br><br><br>
                                 </div>
+                                <div class="col-lg-8 col-md-7 otro" >
+                                        <div id="map" ></div>                       
+                                </div>
                             </div>
-                        </div>
-                            <button id="submit" type="submit" style="display: none;"></button>
-                            <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
-                            </div>
-                            <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_ruta()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                            </div>
-
-                        <?php echo form_close(); ?>
-                    </div>
-
-                </div>
-            </div>
+                      </div>      
+                 </div>
+             </div>
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla">
             </div>
@@ -382,8 +406,8 @@ $(function(){
             pos_origen=arregloDeSubCadenasOrigen[1].indexOf(')');
             arregloOrigen2 = arregloDeSubCadenasOrigen[1].substring(0,pos_origen);
 
-            document.getElementById('latitud_origen_vyp_rutas').value=arregloOrigen1;
-            document.getElementById('longitud_origen_vyp_rutas').value=arregloOrigen2;
+            //document.getElementById('latitud_origen_vyp_rutas').value=arregloOrigen1;
+          //  document.getElementById('longitud_origen_vyp_rutas').value=arregloOrigen2;
 
             if(destinationA){
               calcula_distancia();pinta_recorrido();
@@ -403,8 +427,8 @@ $(function(){
             pos_destino=arregloDeSubCadenasDestino[1].indexOf(')');
             arregloDestino2 = arregloDeSubCadenasDestino[1].substring(0,pos_destino);
 
-            document.getElementById('latitud_destino_vyp_rutas').value=arregloDestino1;
-            document.getElementById('longitud_destino_vyp_rutas').value=arregloDestino2;
+          //  document.getElementById('latitud_destino_vyp_rutas').value=arregloDestino1;
+            //document.getElementById('longitud_destino_vyp_rutas').value=arregloDestino2;
 
              if(origin1){
               calcula_distancia();pinta_recorrido();
