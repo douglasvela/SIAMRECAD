@@ -210,11 +210,11 @@
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
                                          <input type="radio" id="destino_oficina" class=" " name="gender" value="male" onclick="mostrarpanel_oficina()"> 
-                                         <label for="destino_oficina">Destino oficina</label>
+                                         <label for="destino_oficina">Oficina</label>
                                           <input type="radio" id="destino_municipio" class="" name="gender" value="female" onclick="mostrarpanel_municipio()">
-                                          <label for="destino_municipio">Destino municipio</label>
+                                          <label for="destino_municipio">Municipio</label>
                                           <input type="radio" id="destino_mapa" class=""  name="gender" onClick="mostrarpanel_mapa();">
-                                          <label for="destino_mapa">Destino mapa</label>
+                                          <label for="destino_mapa">Buscar en Mapa</label>
                                     </div>
                                 </div>
                             </div>
