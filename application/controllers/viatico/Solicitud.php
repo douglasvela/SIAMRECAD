@@ -26,6 +26,7 @@ class Solicitud extends CI_Controller {
 				$suma += $fila->monto; 
 			}
 		}
+
 		echo number_format($suma, 2, '.', '');;
 	}
 
