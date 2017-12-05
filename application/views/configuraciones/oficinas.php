@@ -19,8 +19,8 @@
       }
     </style>
 <script type="text/javascript">
-<<<<<<< Updated upstream
-    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,bandera){
+
+    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,id_departamento,id_municipio,bandera){
         $("#id_oficina").val(id_oficina);
         $("#nombre_oficina").val(nombre_oficina);
         $("#direccion_oficina").val(direccion_oficina);
@@ -28,7 +28,8 @@
         $("#longitud_oficina").val(longitud_oficina);
         $("#jefe_oficina").val(jefe_oficina);
         $("#email_oficina").val(email_oficina);
-
+         $("#id_departamento").val(id_departamento);
+         buscarMunicipio(id_departamento,id_municipio);
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
@@ -41,32 +42,6 @@
         }else{
             eliminar_horario();
         }
-=======
-    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,id_departamento,id_municipio){
-         $("#id_oficina").val(id_oficina);
-         $("#nombre_oficina").val(nombre_oficina);
-         $("#direccion_oficina").val(direccion_oficina);
-         $("#latitud_oficina").val(latitud_oficina);
-         $("#longitud_oficina").val(longitud_oficina);
-
-         $("#jefe_oficina").val(jefe_oficina);
-    
-         
-         $("#email_oficina").val(email_oficina);
-         $("#id_departamento").val(id_departamento);
-         buscarMunicipio(id_departamento,id_municipio);
-        $("#ttl_form").removeClass("bg-success");
-        $("#ttl_form").addClass("bg-info");
-
-        $("#btnadd").hide(0);
-        $("#btnedit").show(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        initMap(latitud_oficina,longitud_oficina);
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
->>>>>>> Stashed changes
     }
 
     function cambiar_nuevo(){
