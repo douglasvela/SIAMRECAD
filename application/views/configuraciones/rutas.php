@@ -68,7 +68,7 @@
 
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
-
+        $("#form_mapa").hide(0);
     }
 
     function editar_ruta(){
@@ -92,7 +92,7 @@
     }
 
     function iniciar(){
-        tablaRutas(); 
+        tablaRutas("destino_oficina"); 
     }
 
     function objetoAjax(){
@@ -113,8 +113,9 @@
         });  
     }
 
-    function tablaRutas(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/rutas/tabla_rutas", function() {
+    function tablaRutas(destino){
+
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/rutas/tabla_rutas/"+destino, function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
@@ -125,24 +126,103 @@
     function mostrarpanel_oficina(){
         $("#panel_oficina").show(50);
         $("#cnt_form").removeClass("col-lg-6");
-        $("#cnt_form").addClass("col-lg-12");
+        $("#cnt_form").addClass("col-lg-10");
         $("#panel_municipio").hide(50);$("#form_mapa").hide(10);
     }
 
 
     function mostrarpanel_mapa(){
        //$("#btnadd").hide(0);
-        $("#cnt_form").removeClass("col-lg-12");
+        $("#cnt_form").removeClass("col-lg-10");
         $("#cnt_form").addClass("col-lg-6");
         $("#form_mapa").show(500);initMap();
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
     }
     function mostrarpanel_municipio(){
         $("#form_mapa").hide(10);
-        $("#cnt_form").removeClass("col-lg-10");
-        $("#cnt_form").addClass("col-lg-12");
+        $("#cnt_form").removeClass("col-lg-6");
+        $("#cnt_form").addClass("col-lg-10");
         $("#panel_municipio").show(50);
         $("#panel_oficina").hide(50);
+    }
+    function buscarMunicipio(id_departamento,seleccion){
+        id=id_departamento+="x"+seleccion;
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("municipios").innerHTML=xmlhttp_municipio.responseText;
+            }
+        }
+
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi/"+id,true);
+        xmlhttp_municipio.send();
+    }
+    function nuevaruta(band,opcionruta_vyp_rutas,id_oficina_origen_vyp_rutas,id_oficina_destino_vyp_rutas,descripcion_destino_vyp_rutas,km_vyp_rutas,id_departamento,id_municipio){
+        var formData = new FormData();
+        formData.append("id_oficina_origen_vyp_rutas", id_oficina_origen_vyp_rutas);
+        formData.append("id_oficina_destino_vyp_rutas", id_oficina_destino_vyp_rutas);
+        formData.append("opcionruta_vyp_rutas", opcionruta_vyp_rutas);
+        formData.append("band", band);
+        formData.append("descripcion_destino_vyp_rutas",descripcion_destino_vyp_rutas);
+        formData.append("km_vyp_rutas",km_vyp_rutas);
+        formData.append("id_departamento",id_departamento);
+        formData.append("id_municipio",id_municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/rutas/gestionar_rutas",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                tablaRutas("destino_oficina");$("#band").val('save');
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+    }
+    function preparar_ruta(){
+        if($('input[name="destino_oficina"]').is(':checked')){
+            nuevaruta(
+                $("#band").val(),
+                $("#destino_oficina").val(),
+                $("#id_oficina_origen_vyp_rutas").val(),
+                $("#id_oficina_destino_vyp_rutas").val(),
+                $("#descripcion_destino_vyp_rutas").val(),
+                $("#km_vyp_rutas").val(),
+                "",
+                ""
+            );
+        }else if($('input[name="destino_municipio"]').is(':checked')){
+
+            nuevaruta(
+                $("#band").val(),
+                $("#destino_municipio").val(),
+                $("#id_oficina_origen_vyp_rutas").val(),
+                "",
+                $("#descripcion_destino_vyp_rutas").val(),
+                $("#km_vyp_rutas").val(),
+                $("#id_departamento_vyp_rutas").val(),
+                $("#id_municipio").val()
+            );
+        }
     }
 </script>
 
@@ -166,9 +246,9 @@
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
-        <div class="row">
+        <div class="row justify-content-center">
             
-            <div class="col-lg-12" id="cnt_form" style="display: none;">
+            <div class="col-lg-10 " id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -195,7 +275,7 @@
                                                 if(!empty($seccion)){
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
-                                                <option  value="<?php echo $fila->id_oficina ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                <option  value="<?php echo $fila->id_oficina ?>"  > 
                                                     <?php echo $fila->nombre_oficina ?>
                                                 </option>;
                                             <?php
@@ -209,21 +289,27 @@
                                  <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
-                                         <input type="radio" id="destino_oficina" class=" " name="gender" value="male" onclick="mostrarpanel_oficina()"> 
+                                    <input type="radio" id="destino_oficina" name="destino_oficina" class=" " name="gender" value="destino_oficina" onclick="mostrarpanel_oficina()"> 
                                          <label for="destino_oficina">Oficina</label>
-                                          <input type="radio" id="destino_municipio" class="" name="gender" value="female" onclick="mostrarpanel_municipio()">
+                                    <input type="radio" id="destino_municipio" name="destino_municipio" name="gender" value="destino_municipio" onclick="mostrarpanel_municipio()">
                                           <label for="destino_municipio">Municipio</label>
-                                          <input type="radio" id="destino_mapa" class=""  name="gender" onClick="mostrarpanel_mapa();">
+                                    <input type="radio" id="destino_mapa" name="destino_mapa"  name="gender" value="destino_mapa" onClick="mostrarpanel_mapa();">
                                           <label for="destino_mapa">Buscar en Mapa</label>
                                     </div>
                                 </div>
                             </div>
                              
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Descripción de destino: <span class="text-danger">*</span></label><br>
-                                        <input type="text" name="" class="form-control">
+                                        <input type="text" id="descripcion_destino_vyp_rutas" name="descripcion_destino_vyp_rutas" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Kilometros: <span class="text-danger">*</span></label><br>
+                                        <input type="text" id="km_vyp_rutas" name="km_vyp_rutas" class="form-control">
                                     </div>
                                 </div>
                             </div>  
@@ -231,17 +317,33 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Departamento de destino: <span class="text-danger">*</span></label><br>
-                                        <select class="form-control">
+                                        <select class="form-control" id="id_departamento_vyp_rutas">
                                             <option>[Seleccione]</option>
+                                            <?php
+                                                $this->db->where("id_departamento <","15");
+                                                $seccion = $this->db->get("org_departamento");
+
+                                                if(!empty($seccion)){
+                                                    foreach ($seccion->result() as $fila) {
+                                            ?>
+                                                <option  value="<?php echo $fila->id_departamento ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                    <?php echo $fila->departamento ?>
+                                                </option>;
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Municipio de destino: <span class="text-danger">*</span></label><br>
-                                        <select class="form-control">
-                                            <option>[Seleccione]</option>
-                                        </select>
+                                        <div id="municipios">  
+                                            <select class="form-control">
+                                                <option>[Seleccione]</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>  
@@ -249,8 +351,21 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Oficina de destino: <span class="text-danger">*</span></label><br>
-                                        <select class="form-control">
+                                        <select id="id_oficina_destino_vyp_rutas" name="id_oficina_destino_vyp_rutas" class="form-control">
                                             <option>[Seleccione]</option>
+                                            <?php
+                                                $seccion = $this->db->get("vyp_oficinas");
+
+                                                if(!empty($seccion)){
+                                                    foreach ($seccion->result() as $fila) {
+                                            ?>
+                                                <option  value="<?php echo $fila->id_oficina ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                    <?php echo $fila->nombre_oficina ?>
+                                                </option>;
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -261,7 +376,7 @@
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                <button type="button" onclick="preparar_ruta();" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                            
                             </div>
                             <div align="right" id="btnedit" style="display: none;">

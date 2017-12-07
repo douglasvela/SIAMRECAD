@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 03-12-2017 a las 20:41:45
+-- Tiempo de generación: 06-12-2017 a las 20:33:25
 -- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
 -- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
 
@@ -29,13 +29,14 @@ SET time_zone = "+00:00";
 CREATE TABLE `vyp_rutas` (
   `id_vyp_rutas` int(11) NOT NULL,
   `id_oficina_origen_vyp_rutas` int(11) NOT NULL,
-  `id_oficina_destino_vyp_rutas` int(11) NOT NULL,
-  `id_departamento_vyp_rutas` int(11) NOT NULL,
-  `id_municipio_vyp_rutas` int(11) NOT NULL,
+  `id_oficina_destino_vyp_rutas` int(11) DEFAULT NULL,
+  `id_departamento_vyp_rutas` int(11) DEFAULT NULL,
+  `id_municipio_vyp_rutas` int(11) DEFAULT NULL,
   `km_vyp_rutas` float(10,2) NOT NULL,
   `descripcion_destino_vyp_rutas` varchar(200) DEFAULT NULL,
   `latitud_vyp_rutas` varchar(200) DEFAULT NULL,
-  `longitud_vyp_rutas` varchar(200) DEFAULT NULL
+  `longitud_vyp_rutas` varchar(200) DEFAULT NULL,
+  `opcionruta_vyp_rutas` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
