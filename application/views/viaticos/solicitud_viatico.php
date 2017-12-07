@@ -467,28 +467,7 @@ function createCell(text) {
 
 <script>
 
-$(function(){ 
 
-    $(document).ready(function(){
-        $('#myTable').DataTable();
-         //calendario
-         
-        $('#datepicker-autoclose').datepicker({
-            autoclose: true,
-            todayHighlight: true
-        });
-        $('#timepicker_entrada').bootstrapMaterialDatePicker({
-            format: 'HH:mm',
-            time: true,
-            date: false
-         });
-        $('#timepicker_salida').bootstrapMaterialDatePicker({
-            format: 'HH:mm',
-            time: true,
-            date: false
-         });
-    });
-});
 
 $(function(){     
     $("#formajax").on("submit", function(e){

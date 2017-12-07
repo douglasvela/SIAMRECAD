@@ -7,7 +7,9 @@
     
 
     $pos = strpos($user, ".")+1;
-    $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));    
+    $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
+
+    date_default_timezone_set('America/El_Salvador');    
 ?>
 
 
@@ -178,7 +180,6 @@
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 jugador.value = (ajax.responseText);
-                alert(jugador.value);
                 if(jugador.value == "exito"){
                     continuar_sesion();
                 }else{

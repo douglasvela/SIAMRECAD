@@ -17,6 +17,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $boton;
 	}
 
+	function saltos_sql($cadena){
+		return str_replace(array("\r\n", "\r", "\n"), " ", $cadena);
+	}
+
 	function endKey($array){
 		end($array);
 		return key($array);

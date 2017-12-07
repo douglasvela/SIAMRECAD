@@ -27,7 +27,7 @@ class Solicitud extends CI_Controller {
 			}
 		}
 
-		echo number_format($suma, 2, '.', '');;
+		echo number_format($suma, 2, '.', '');
 	}
 
 	/*public function gestionar_bancos(){		
