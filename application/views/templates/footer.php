@@ -2,6 +2,7 @@
 </div>
    
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/viaticos_validation.js"></script>
     
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -17,7 +18,6 @@
     <script src="<?php echo base_url(); ?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="<?php echo base_url(); ?>assets/js/custom.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/js/validation.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>
     <script>
     ! function(window, document, $) {

@@ -11,25 +11,21 @@
                 <thead class="bg-info text-white">
                     <tr>
                         <th>Fecha</th>
-                        <th>Empresa visitada</th>
                         <th>Actividad realizada</th>
                         <th>(*)</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
-
                     $mision = $this->db->get("vyp_mision_oficial");
-
                     if(!empty($mision)){
                         foreach ($mision->result() as $fila) {
                           echo "<tr>";
                             echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision))."</td>";
-                            echo "<td>".$fila->nombre_empresa."</td>";
                             echo "<td>".$fila->actividad_realizada."</td>";
                            
                             echo "<td>";
-                            $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->nombre_empresa, $fila->direccion_empresa, $fila->actividad_realizada);
+                            $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->actividad_realizada);
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

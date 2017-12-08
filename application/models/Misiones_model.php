@@ -9,7 +9,7 @@ class Misiones_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'actividad_realizada' => $data['actividad_realizada']))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -24,7 +24,7 @@ class Misiones_model extends CI_Model {
 
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
-		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'actividad_realizada' => $data['actividad_realizada']))){
+		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -52,5 +52,26 @@ class Misiones_model extends CI_Model {
 			$ultimoid = 1;
 		}
 		return $ultimoid;
+	}
+
+	function obtener_ultima_mision($tabla,$nombreid,$nr){
+		$query = $this->db->query("SELECT ".$nombreid." FROM ".$tabla." WHERE nr_empleado = '".$nr."' ORDER BY ".$nombreid." ASC");
+		$ultimoid = 0;
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->$nombreid; 
+			}
+		}else{
+			$ultimoid = 1;
+		}
+		return $ultimoid;
+	}
+
+	function insertar_empresas_visitadas($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
 	}
 }
