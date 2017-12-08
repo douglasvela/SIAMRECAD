@@ -8,100 +8,105 @@
 </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
       <div class="table-responsive">
-      <table>
-      <div class="form-group col-lg-6">
-       <tr>
-      <th ><h5>INSTITUCIÓN: <span class="text-danger">*</span><span class="controls">
-          <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido" />
-          </span></h5></th >
-          <th><h5>CÓDIGO PRESUPUESTARIO: <span class="text-danger">*</span><span class="controls">
-            <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido" >
-          </span></h5></th>
-         <th> <h5>DENOMINACIÓN DEL MONTO FIJO: <span class="text-danger">*</span><span class="controls">
-            <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido" >
-          </span></h5></th>
-         <th> <h5>MONTO TOTAL DEL REINTEGRO:<span class="text-danger">*</span><span class="controls">
-            <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido">
-          </span></h5>
-          <h5>DENOMINACIÓN DEL MONTO FIJO: <span class="text-danger">*</span><span class="controls">
-            <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido" />
-          </span></h5>
-<th><h5>CANTIDAD EN LETRAS: <span class="text-danger">*</span><span class="controls">
-            <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido" >
-          </span></h5></th>
-           </tr>
-          </div>
+      <div class="form-group col-lg-12">
+        <div align="center">
+          <table width="1206" height="166" border="0">
+            <tr>
+              <td width="308" height="25"> <h5 align="left">INSTITUCIÓN:</h5></td>
+              <td width="318"><span class="controls">
+                <input type="text" id="nombre2" name="nombre2" class="form-control" />
+              </span></td>
+              <td width="326"><h5 align="left">No. POLIZA: </h5></td>
+              <td width="257"><span class="controls">
+                <input type="text" id="nombre7" name="nombre7" class="form-control"  />
+              </span></td>
+            </tr>
+            <tr>
+              <td height="25"><h5 align="left">CÓDIGO PRESUPUESTARIO: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre3" name="nombre3" class="form-control"/>
+              </span></td>
+              <td> <h5 align="left"> MES:</h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre8" name="nombre8" class="form-control" />
+              </span></td>
+            </tr>
+            <tr>
+              <td height="25"><h5 align="left">DENOMINACIÓN DEL MONTO FIJO: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre4" name="nombre4" class="form-control"  />
+              </span></td>
+              <td> <h5 align="left"> EJERCICIO FINANCIERO FISCAL: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre9" name="nombre9" class="form-control"/>
+              </span></td>
+            </tr>
+            <tr>
+              <td height="25"> <h5 align="left"> MONTO TOTAL DEL REINTEGRO: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre5" name="nombre5" class="form-control" />
+              </span></td>
+              <td> <h5 align="left"> NOMBRE DEL BANCO: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre10" name="nombre10" class="form-control"/>
+              </span></td>
+            </tr>
+            <tr>
+              <td height="25"> <h5 align="left">DENOMINACIÓN DEL MONTO FIJO: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre6" name="nombre6" class="form-control" required="" data-validation-required-message="Este campo es requerido" />
+              </span></td>
+              <td> <h5 align="left">No. CUENTA BANCARIA: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre11" name="nombre11" class="form-control" required="required" data-validation-required-message="Este campo es requerido" />
+              </span></td>
+            </tr>
+            <tr>
+              <td height="25"> <h5 align="left">CANTIDAD EN LETRAS: </h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido" />
+              </span></td>
+              <td><h5 align="left">No. COMPROMISO PRESUPUESTARIO:</h5></td>
+              <td><span class="controls">
+                <input type="text" id="nombre12" name="nombre12" class="form-control" />
+              </span></td>
+            </tr>
+          </table></th >
+        </div>
+      </div>
                                   
-          <div class="controls"></div>
 <div class="table-responsive">
+ <div class="form-group col-lg-12">
   <table id="myTable" class="table table-bordered product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th width="59" rowspan="2">No.DOC</th>
+                        <th width="59"  rowspan="2">No.DOC</th>
                         <th width="81" rowspan="2">No.POLIZA</th>
-                        <th width="81" rowspan="2">MES DE LA POLIZA</th>
-                        <th width="183" rowspan="2">FECHA DE ELABORACION DEL FORMULARIO</th>
-                         <th width="107" rowspan="2">No. CHEQUE O CARGO CTA</th>
-                          <th width="118" rowspan="2">CÓDIGO DEL EMPLEADO</th>
-                          <th width="83" rowspan="2">FECHA DE MISIÓN</th>
+                        <th width="83"  rowspan="2">MES DE LA POLIZA</th>
+                        <th width="189"  rowspan="2">FECHA DE ELABORACION DEL FORMULARIO</th>
+                         <th width="127" rowspan="2">No. CHEQUE O CARGO CTA</th>
+                          <th width="103" rowspan="2">CÓDIGO DEL EMPLEADO</th>
+                          <th width="85"  rowspan="2">FECHA DE MISIÓN</th>
                           <th width="41" rowspan="2">SEDE</th>
-                          <th width="110" rowspan="2">CARGO FUNCIONAL</th>
+                          <th width="112"  rowspan="2">CARGO FUNCIONAL</th>
                           <th width="44" rowspan="2">UP/LT</th>
-                        <th width="150" colspan="4" >DETALLE DE OBJETOS ESPECIFICOS </th>
-                        <th width="20" rowspan="2" style="min-width: 85px;">TOTAL</th>
+                        <th colspan="4" >DETALLE DE OBJETOS ESPECIFICOS </th>
+                        <th width="58"  rowspan="2" style="min-width: 85px;">TOTAL</th>
                     </tr>
                     <tr>
-                      <th >54401</th>
-                      <th >VALOR</th>
-                      <th >54403</th>
-                      <th >VALOR</th>
+                      <th width="44" >54401</th>
+                      <th width="62" >VALOR</th>
+                      <th width="44" >54403</th>
+                      <th width="62" >VALOR</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
-                	$oficinas = $this->db->get("vyp_oficinas");
-                    if(!empty($oficinas)){
-                        foreach ($oficinas->result() as $fila) {
-                            echo "<tr>";
-                            echo "<td>".$fila->id_oficina."</td>";
-                            echo "<td>".$fila->nombre_oficina."</td>";
-                            echo "<td>".$fila->direccion_oficina."</td>";
-                            echo "<td>".$fila->jefe_oficina."</td>";
-                            echo "<td>".$fila->email_oficina."</td>";
-                            $this->db->where("id_departamento",$fila->id_departamento);
-                            $depto = $this->db->get("org_departamento");
-                            foreach ($depto->result() as $keydepto) {
-                              echo "<td>".$keydepto->departamento."</td>";
-                            }
-                           
-                           $this->db->where("id_municipio",$fila->id_municipio);
-                            $munic = $this->db->get("org_municipio");
-                            foreach ($munic->result() as $keymunic) {
-                              echo "<td>".$keymunic->municipio."</td>";
-                            }
-
-                            /******* botón para la gestión de TELEFONOS **********/
-                            echo "<td>";
-                              $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
-                              echo generar_boton($arrayTel,"cambiar_phone","btn-info","mdi mdi-phone-plus","Teléfono(s)");
-                            echo "</td>";
-
-                            /******* botones para la edición de OFICINAS **********/
-                            echo "<td>";
-                              $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina,$fila->id_departamento,$fila->id_municipio);
-                              array_push($array, "edit");
-                              echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                              unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                              array_push($array, "delete");
-                              echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
-                            echo "</td>";
-
-                           echo "</tr>";
-                        }
-                    }
+                	
                 ?>
                 </tbody>
             </table>
+            </div>
             <script>
 $(function(){
     $(document).ready(function() {
