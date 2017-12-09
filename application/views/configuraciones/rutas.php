@@ -183,6 +183,7 @@
             processData: false
         })
         .done(function(res){
+
             if(res == "exito"){
                 cerrar_mantenimiento();
                 if($("#band").val() == "save"){
@@ -199,8 +200,9 @@
         });
     }
     function preparar_ruta(){
-        if($('input[name="destino_oficina"]').is(':checked')){
-            nuevaruta(
+         
+        if($('input[id="destino_oficina"]').is(':checked')){
+          nuevaruta(
                 $("#band").val(),
                 $("#destino_oficina").val(),
                 $("#id_oficina_origen_vyp_rutas").val(),
@@ -210,7 +212,7 @@
                 "",
                 ""
             );
-        }else if($('input[name="destino_municipio"]').is(':checked')){
+        }else if($('input[id="destino_municipio"]').is(':checked')){
 
             nuevaruta(
                 $("#band").val(),
@@ -289,11 +291,11 @@
                                  <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
-                                    <input type="radio" id="destino_oficina" name="destino_oficina" class=" " name="gender" value="destino_oficina" onclick="mostrarpanel_oficina()"> 
+                                    <input type="radio" id="destino_oficina"   name="t_destinos" value="destino_oficina" onclick="mostrarpanel_oficina()"> 
                                          <label for="destino_oficina">Oficina</label>
-                                    <input type="radio" id="destino_municipio" name="destino_municipio" name="gender" value="destino_municipio" onclick="mostrarpanel_municipio()">
+                                    <input type="radio" id="destino_municipio"  name="t_destinos" value="destino_municipio" onclick="mostrarpanel_municipio()">
                                           <label for="destino_municipio">Municipio</label>
-                                    <input type="radio" id="destino_mapa" name="destino_mapa"  name="gender" value="destino_mapa" onClick="mostrarpanel_mapa();">
+                                    <input type="radio" id="destino_mapa"   name="t_destinos" value="destino_mapa" onclick="mostrarpanel_mapa();">
                                           <label for="destino_mapa">Buscar en Mapa</label>
                                     </div>
                                 </div>
@@ -316,7 +318,7 @@
                             <div class="row" id="panel_municipio" style="display: none">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="" class="font-weight-bold">Departamento de destino: <span class="text-danger">*</span></label><br>
+                                        <label for="" class="font-weight-bold">Departamento destino: <span class="text-danger">*</span></label><br>
                                         <select class="form-control" id="id_departamento_vyp_rutas">
                                             <option>[Seleccione]</option>
                                             <?php
@@ -338,9 +340,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="" class="font-weight-bold">Municipio de destino: <span class="text-danger">*</span></label><br>
+                                        <label for="" class="font-weight-bold">Municipio destino: <span class="text-danger">*</span></label><br>
                                         <div id="municipios">  
-                                            <select class="form-control">
+                                            <select class="form-control" id="id_municipio">
                                                 <option>[Seleccione]</option>
                                             </select>
                                         </div>
