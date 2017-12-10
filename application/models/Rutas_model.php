@@ -54,5 +54,15 @@ class Rutas_model extends CI_Model {
 		}
 		return $ultimoid;
 	}
+	function obtenerlatitudylongitud($data){
+		$datos;
+		$origen = $data['id_oficina_origen_vyp_rutas'];
+		$query = $this->db->query("SELECT latitud_oficina,longitud_oficina FROM vyp_oficinas WHERE id_oficina = $origen LIMIT 1");
+		//$row = $query->row();
+		foreach ($query->result() as $fila) {
+				$datos = $fila->latitud_oficina.','.$fila->longitud_oficina; 
+			}
+		return $datos;
+	}
 
 }

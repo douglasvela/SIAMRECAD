@@ -20,7 +20,12 @@ class Rutas extends CI_Controller {
 		$ruta['tipo_destino']=$destino;
 		$this->load->view('configuraciones/tabla_rutas',$ruta);
 	}
-
+	public function obtener_origen(){
+		$data = array(
+			'id_oficina_origen_vyp_rutas' => $this->input->post('id_oficina_origen_vyp_rutas')
+			);
+		echo $this->rutas_model->obtenerlatitudylongitud($data);
+	}
 	public function gestionar_rutas(){
 	
 		if($this->input->post('band') == "save"){

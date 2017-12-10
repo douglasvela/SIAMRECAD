@@ -226,6 +226,31 @@
             );
         }
     }
+ 
+    function obtenerOrigen(id){
+        if($('input[id="destino_mapa"]').is(':checked')){
+            var formData = new FormData();
+            formData.append("id_oficina_origen_vyp_rutas", id);
+
+            $.ajax({
+                url: "<?php echo site_url(); ?>/configuraciones/rutas/obtener_origen",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+            .done(function(res){
+                console.log(res);
+                var algo = res.split(",");
+     
+                $("#direccion_origen1").val(algo[0]);
+                $("#direccion_origen2").val(algo[1]);
+                 
+            });
+        }
+    }
 </script>
 
 <!-- ============================================================== -->
@@ -269,7 +294,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="id_oficina_origen_vyp_rutas" class="font-weight-bold">Origen de la Ruta: <span class="text-danger">*</span></label>
-                                        <select id="id_oficina_origen_vyp_rutas" name="id_oficina_origen_vyp_rutas" class="form-control">
+                                        <select id="id_oficina_origen_vyp_rutas" name="id_oficina_origen_vyp_rutas" class="form-control" onclick="obtenerOrigen(this.value);">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $seccion = $this->db->get("vyp_oficinas");
@@ -405,8 +430,10 @@
                                         <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
                                     </div>
                                     <br><br>
-
-
+                                    <input class="form-control" type="text" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas">
+                                    <input class="form-control" type="text" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas">
+                                    <input type="text" class="form-control" id="direccion_origen1" name="">
+                                    <input type="text" class="form-control" id="direccion_origen2" name="">
                                     <div>
                                         <strong>Resultados</strong>
                                     </div>
@@ -532,9 +559,11 @@ $(function(){
         });
         map.addListener('rightclick', function(e) {
               deleteMarkers_D();
-             addMarker_destino(e.latLng, map);
+             addMarker_destino(e.latLng, map); 
+              
+             origin1 = new google.maps.LatLng($("#direccion_origen1").val(),$("#direccion_origen2").val());
              destinationA=e.latLng;
-
+             
             var cadenaOrigen = String(destinationA);
             
             var separadorD= ",";
@@ -544,9 +573,9 @@ $(function(){
             pos_destino=arregloDeSubCadenasDestino[1].indexOf(')');
             arregloDestino2 = arregloDeSubCadenasDestino[1].substring(0,pos_destino);
 
-          //  document.getElementById('latitud_destino_vyp_rutas').value=arregloDestino1;
-            //document.getElementById('longitud_destino_vyp_rutas').value=arregloDestino2;
-
+            document.getElementById('latitud_destino_vyp_rutas').value=arregloDestino1;
+            document.getElementById('longitud_destino_vyp_rutas').value=arregloDestino2;
+            alert(origin1)
              if(origin1){
               calcula_distancia();pinta_recorrido();
               }
