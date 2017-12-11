@@ -106,11 +106,7 @@
         $("#form_mapa").hide(0);
     }
     function limpiar(){
-
-        $("#destino_oficina").attr('checked', false);
-        $("#destino_municipio").attr('checked', false);
-        $("#destino_mapa").attr('checked', false);
-
+        $("input[name='t_destinos']:checked").removeAttr("checked");
         $('#id_oficina_destino_vyp_rutas').val("");
         $('#id_oficina_origen_vyp_rutas').val("");
         $('#descripcion_destino_vyp_rutas').val("");
