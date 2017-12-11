@@ -27,7 +27,7 @@
         mostrarpanel_oficina();
          
         
-        $("#destino_oficina").attr('checked', true);
+       document.getElementById('destino_oficina').checked = true;
         $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
         $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
@@ -43,7 +43,7 @@
         $("#cnt_form").show(0);
         mostrarpanel_municipio();
         
-        $("#destino_municipio").attr('checked', true);
+        document.getElementById('destino_municipio').checked = true;
         $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
         $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
@@ -64,7 +64,7 @@
         $("#form_mapa").show(500);
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
         
-        $("#destino_mapa").attr('checked', true);
+        document.getElementById('destino_mapa').checked = true;
         $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
         $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
@@ -94,19 +94,21 @@
         $("#cnt_form").show(0);
         
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Ruta");
-        
+        limpiar();
     }
 
 
     function cerrar_mantenimiento(){
-        
-
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
         $("#form_mapa").hide(0);
+        limpiar();
     }
     function limpiar(){
-        $("input[name='t_destinos']:checked").removeAttr("checked");
+        //$("input[name='t_destinos']:checked").removeAttr("checked");
+        document.getElementById('destino_mapa').checked = false;
+        document.getElementById('destino_municipio').checked = false;
+        document.getElementById('destino_oficina').checked = false;
         $('#id_oficina_destino_vyp_rutas').val("");
         $('#id_oficina_origen_vyp_rutas').val("");
         $('#descripcion_destino_vyp_rutas').val("");
@@ -120,7 +122,7 @@
     }
 
     
-    function eliminar_ruta(){
+    function eliminar_ruta(id){
         $("#band").val("delete");
         swal({
             title: "¿Está seguro?",
@@ -131,7 +133,8 @@
             confirmButtonText: "Sí, deseo eliminar!",
             closeOnConfirm: false
         }, function(){
-            $("#submit").click();
+            $("#id_vyp_rutas").val(id);
+            preparar_ruta($("#band").val());
         });
     }
 
@@ -236,7 +239,7 @@
         .done(function(res){
 
             if(res == "exito"){
-                cerrar_mantenimiento();
+               $("input[name='t_destinos']:checked").removeAttr("checked"); cerrar_mantenimiento();
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 }else if($("#band").val() == "edit"){
@@ -244,7 +247,7 @@
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablaRutas("destino_oficina");$("#band").val('save');
+                tablaRutas("destino_oficina");$("#band").val('save');limpiar();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -372,6 +375,9 @@
                     swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
                         return;
                 }
+            break;
+            case 'delete':
+                manttorutas($("#id_vyp_rutas").val(),$("#band").val());
             break;
         }    
         

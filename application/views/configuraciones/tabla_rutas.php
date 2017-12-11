@@ -86,8 +86,9 @@
                             array_push($array, "edit");
                             echo generar_boton($array,"editar_oficina","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            $array = array($fila->id_vyp_rutas);
                             array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             echo "</td>";                        
 
                            echo "</tr>";
@@ -126,7 +127,7 @@
                             echo generar_boton($array,"editar_municipio","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             echo "</td>";                        
 
                            echo "</tr>";
@@ -151,7 +152,7 @@
                             echo generar_boton($array,"editar_mapa","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             echo "</td>";                        
 
                            echo "</tr>";
