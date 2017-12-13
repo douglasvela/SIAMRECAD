@@ -26,6 +26,7 @@
                            
                             echo "<td>";
                             $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->actividad_realizada);
+                            echo generar_boton(array($fila->id_mision_oficial),"cambiar_viaticos","btn-success","fa fa-file-text","Solicitud de viáticos");
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

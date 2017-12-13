@@ -1,5 +1,5 @@
 <h5>Municipio: <span class="text-danger">*</span></h5>
-<select id="municipio" name="municipio" class="select2" onchange="cambiar_municio_oficina();" style="width: 100%">
+<select id="municipio" name="municipio" class="select2" onchange="validar_empresas_visitadas();" style="width: 100%">
         <?php 
         	$id_departamento = $_GET["id_departamento"];
         	$tipo = $_GET["tipo"];

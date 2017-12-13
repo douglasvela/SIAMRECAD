@@ -74,4 +74,26 @@ class Misiones_model extends CI_Model {
 			return "fracaso";
 		}
 	}
+
+	function eliminar_empresas_visitadas($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function generar_solicitud($data){
+		if($this->db->query($data["query"])){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function calcular_viaticos($data){
+		$query = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE (hora_inicio <= '".$data['hora_inicio']."' AND hora_fin >= '".$data['hora_inicio']."') OR (hora_inicio >= '".$data['hora_inicio']."' AND hora_fin <= '".$data['hora_fin']."') OR (hora_inicio <= '".$data['hora_fin']."' AND hora_fin >= '".$data['hora_fin']."')");
+		if($query->num_rows() > 0) return $query;
+		else return false;
+	}
 }
