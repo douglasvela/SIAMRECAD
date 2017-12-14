@@ -1,10 +1,10 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,fecha_mision,nombre_empresa,direccion_empresa,actividad_realizada,bandera){
+    function cambiar_editar(id,nombre,fecha_mision,actividad_realizada,bandera){
         $("#id_mision").val(id);
         $("#nombre_empleado").val(nombre);
         $("#fecha_mision").val(fecha_mision);
-        $("#nombre_empresa").val(nombre_empresa);
-        $("#direccion_empresa").val(direccion_empresa);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
         $("#actividad").val(actividad_realizada);        
 
         if(bandera == "edit"){
@@ -15,6 +15,7 @@
             $("#cnt-tabla").hide(0);
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar misión");
+            tabla_empresas_visitadas();
         }else{
             eliminar_horario();
         }
@@ -44,9 +45,14 @@
         $("#cnt_form").hide(0);
     }
 
+    function cerrar_mantenimiento_viaticos(){
+        $("#cnt-tabla").show(0);
+        $("#cnt-viaticos").hide(0);
+    }
+
     function editar_horario(){
         $("#band").val("edit");
-        $("#submit").click();
+        gestionar_mision();
     }
 
     function eliminar_horario(){
@@ -60,7 +66,7 @@
             confirmButtonText: "Sí, deseo eliminar!",   
             closeOnConfirm: false 
         }, function(){   
-            $("#submit").click(); 
+            gestionar_mision();
         });
     }
 
@@ -83,6 +89,7 @@
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/viatico/mision_oficial/tabla_misiones", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
+            tabla_empresas_visitadas()
         });  
     }
 
@@ -92,10 +99,14 @@
 	  	addToCartTable(cells);
 	}
 
-	function remove() {
-	    var row = this.parentNode.parentNode;
-	    document.querySelector('#target tbody')
-	            .removeChild(row);
+	function remove(obj,otro) {
+
+		if(otro == 'editar')
+			var row = obj.parentNode.parentNode;
+		else
+			var row = this.parentNode.parentNode;
+	    
+	    document.querySelector('#target tbody').removeChild(row);
 	}
 
 	function addToCartTable(cells) {
@@ -128,6 +139,11 @@
 		   	newRow.appendChild(createCell(nombre_empresa));
 		   	newRow.appendChild(createCell(direccion_empresa));
 
+		   	var cellsorter = createCell();
+		   	cellsorter.appendChild(createSorterBtn2())
+		   	cellsorter.appendChild(createSorterBtn3())
+		   	newRow.appendChild(cellsorter);
+
 		   	var cellRemoveBtn = createCell();
 		   	cellRemoveBtn.appendChild(createRemoveBtn())
 		   	newRow.appendChild(cellRemoveBtn);
@@ -137,7 +153,8 @@
 	}
 
 	function validar_empresas_visitadas(){
-		var validacion = [	COMBO("municipio"), 
+		var validacion = [	COMBO("departamento"),
+							COMBO("municipio"), 
 	    					TEXTO("nombre_empresa",3,200), 
 	    					TEXTO('direccion_empresa',3,200) ];
 
@@ -149,7 +166,8 @@
 	}
 
 	function validar_mision(){
-		var validacion = [	TEXTO("actividad",3,200) ];
+		var validacion = [	TEXTO("actividad",3,200),
+							FECHA("fecha_mision") ];
 
 	    if($.inArray(false, validacion ) == -1){
 	    	return true;
@@ -167,9 +185,28 @@
 	  	return inputQty;
 	}
 
+	function createSorterBtn2() {
+		var btnRemove = document.createElement('button');
+	 	btnRemove.className = 'btn btn-xs btn-success';
+	 	btnRemove.type = 'button';
+	  	btnRemove.onclick = bajarFila;
+	  	btnRemove.innerHTML = '<span class="fa fa-chevron-down"></span>';
+	  	return btnRemove;
+	}
+
+    function createSorterBtn3() {
+		var btnRemove = document.createElement('button');
+	 	btnRemove.className = 'btn btn-xs btn-success';
+	 	btnRemove.type = 'button';
+	  	btnRemove.onclick = subirFila;
+	  	btnRemove.innerHTML = '<span class="fa fa-chevron-up"></span>';
+	  	return btnRemove;
+	}
+
 	function createRemoveBtn() {
 		var btnRemove = document.createElement('button');
 	 	btnRemove.className = 'btn btn-xs btn-danger';
+	 	btnRemove.type = 'button';
 	  	btnRemove.onclick = remove;
 	  	btnRemove.innerHTML = '<span class="fa fa-remove"></span>';
 	  	return btnRemove;
@@ -204,7 +241,7 @@
 	    combo_municipio();
 	}
 
-	function recorrer_empresas(){
+	function recorrer_empresas(bandera){
 		var filas = $("#target").children("tbody").children("tr");
 		var celdas, inputs, query = "";
 		var municipios = [];
@@ -223,55 +260,76 @@
 			departamentos.push($(inputs[4]).val());
 		}
 
-		guardar_empresas_visitadas(municipios, empresas, direcciones, tipos, departamentos);
+		guardar_empresas_visitadas(municipios, empresas, direcciones, tipos, departamentos, bandera);
 	}
 
-	function guardar_empresas_visitadas(municipio, empresa, direccion, tipo, departamento){
+	function guardar_empresas_visitadas(municipio, empresa, direccion, tipo, departamento, bandera){
 		var departamentos = JSON.stringify(departamento);
 		var municipios = JSON.stringify(municipio);
 		var empresas = JSON.stringify(empresa);
 		var direcciones = JSON.stringify(direccion);
 		var tipos = JSON.stringify(tipo);
 		var nr = JSON.stringify(new Array($("#nr").val()));
+
+		if(bandera == "guardar"){
+			id_mision = "vacio";
+		}else{
+			id_mision = $("#id_mision").val();
+		}
+
 	   	$.ajax({
 	        type: "POST",
 	        url: "<?php echo site_url(); ?>/viatico/mision_oficial/gestionar_empresas_visitadas",
-	        data: {municipios : municipios, empresas : empresas, direcciones : direcciones,nr : nr, tipos : tipos, departamentos : departamentos},
+	        data: {municipios : municipios, empresas : empresas, direcciones : direcciones,nr : nr, tipos : tipos, departamentos : departamentos, id_mision : id_mision},
 	        cache: false,
 	        success: function(response){
-	            alert(response);
+	            if(response == "exito"){
+	            	tablahorarios();
+	            }
 	        }
 	    });
 	}
 
-	function guardar_mision(){
-		if(validar_mision()){
-			var formData = new FormData(document.getElementById("formajax"));
-	        $.ajax({
-	        		type:  'POST',
-	                url:   '<?php echo site_url(); ?>/viatico/mision_oficial/gestionar_mision',
-	                dataType: "html",
-	            	data: formData,
-	                cache: false,
-	                contentType: false,
-	           		processData: false
-	        })
-	        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-	        	alert(data)
-	        	if(data == "exito"){
-	                cerrar_mantenimiento();
-	                if($("#band").val() == "save"){
-	                    recorrer_empresas();
-	                }else if($("#band").val() == "edit"){
-	                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-	                }else{
-	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
-	                }
-	            }else{
-	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+	function eliminar_empresas_visitadas(){
+	   	$.ajax({
+	        type: "POST",
+	        url: "<?php echo site_url(); ?>/viatico/mision_oficial/eliminar_empresas_visitadas",
+	        data: {id_mision : $("#id_mision").val()},
+	        cache: false,
+	        success: function(response){
+	            if(response == "exito"){
+	            	recorrer_empresas("editar");
 	            }
-	        })
-	    }
+	        }
+	    });
+	}
+
+	function gestionar_mision(){
+		var formData = new FormData(document.getElementById("formajax"));
+        $.ajax({
+        		type:  'POST',
+                url:   '<?php echo site_url(); ?>/viatico/mision_oficial/gestionar_mision',
+                dataType: "html",
+            	data: formData,
+                cache: false,
+                contentType: false,
+           		processData: false
+        })
+        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+        	if(data == "exito"){
+                //cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    recorrer_empresas("guardar");
+                }else if($("#band").val() == "edit"){
+                    eliminar_empresas_visitadas();
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                    tablahorarios();
+                }
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        })
 	}
 
 	function combo_municipio(){
@@ -297,14 +355,167 @@
                   $(".select2").select2();
                   if($("#municipio").val() != 0){
                   	$("#direccion_empresa").val($('#municipio option:selected').html())
-                  }else{
-
                   }
+                  validar_empresas_visitadas();
             }
         }
 
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/mision_oficial/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo,true);
         xmlhttp_municipio.send();
+    }
+
+    function tabla_empresas_visitadas(){
+        id_mision = $("#id_mision").val();
+
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt_empresas").innerHTML=xmlhttp_municipio.responseText;
+            }
+        }
+
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/mision_oficial/tabla_empresas_visitadas?id_mision="+id_mision,true);
+        xmlhttp_municipio.send();
+    }
+
+    function tabla_empresas_viaticos(id_mision){
+
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt-viaticos").innerHTML=xmlhttp_municipio.responseText;
+                  $('[data-toggle="tooltip"]').tooltip();
+
+            }
+        }
+
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/mision_oficial/tabla_empresas_viaticos?id_mision="+id_mision,true);
+        xmlhttp_municipio.send();
+    }
+
+    function cambiar_viaticos(id_mision){
+    	$("#cnt-tabla").hide(0);
+        $("#cnt-viaticos").show(0);
+        tabla_empresas_viaticos(id_mision);
+    }
+
+    function bajarFila(obj, otro){
+    	if(otro == 'editar')
+			var row = $(obj).parents("tr:first");
+		else
+			var row = $(this).parents("tr:first");
+
+    	row.insertAfter(row.next());
+    }
+
+    function subirFila(obj, otro){
+    	if(otro == 'editar')
+			var row = $(obj).parents("tr:first");
+		else
+			var row = $(this).parents("tr:first");
+
+    	row.insertBefore(row.prev());
+    }
+
+    function verificar_viaticos(obj){
+    	var fila = $(obj).parents("tr:first");
+    	var cells = $(fila).children("td");
+
+    	var hora_inicio = $($(cells[3]).find("input")).val();
+    	var hora_fin = $($(cells[4]).find("input")).val();
+
+    	var viatico = $($(cells[6]).find("input")).val(viatico);;
+
+    	if(hora_inicio != "" && hora_fin != ""){
+    		calcular_viaticos(hora_inicio, hora_fin, viatico)
+    	}
+
+    	
+    }
+
+
+    function calcular_viaticos(hora_inicio, hora_fin, obj){
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/mision_oficial/calcular_viaticos", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $(obj).val(ajax.responseText);               
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&hora_inicio="+hora_inicio+"&hora_fin="+hora_fin)
+    }
+
+    function recorrer_solicitud(){
+    	var filas = $("#tabla_viaticos").children("tbody").find("tr");
+
+    	var query = "UPDATE vyp_empresas_visitadas SET\n";
+
+    	var origenes = "origen = CASE id_empresas_visitadas\n";
+    	var hora_salida = "hora_salida = CASE id_empresas_visitadas\n";
+    	var hora_llegada = "hora_llegada = CASE id_empresas_visitadas\n";
+    	var kilometraje = "kilometraje = CASE id_empresas_visitadas\n";
+    	var viaticos = "viaticos = CASE id_empresas_visitadas\n";
+    	var pasajes = "pasajes = CASE id_empresas_visitadas\n";
+
+    	var id_empresa = "";
+
+    	var id;
+
+    	for(i=0; i<filas.length; i++){
+    		var celdas = $(filas[i]).find("td");
+    		id = $($(celdas[0]).find("input")[0]).val();
+    		id_empresa += id+",";
+    		origenes += "WHEN "+id+" THEN '"+$(celdas[1]).html()+"'\n";
+    		hora_salida += "WHEN "+id+" THEN '"+$($(celdas[3]).find("input")).val()+"'\n";
+    		hora_llegada += "WHEN "+id+" THEN '"+$($(celdas[4]).find("input")).val()+"'\n";
+    		kilometraje += "WHEN "+id+" THEN '"+$($(celdas[5]).find("input")).val()+"'\n";
+    		viaticos += "WHEN "+id+" THEN '"+$($(celdas[6]).find("input")).val()+"'\n";
+    		pasajes += "WHEN "+id+" THEN '"+$($(celdas[7]).find("input")).val()+"'\n";
+    	}
+
+    	origenes += "END,\n";
+    	hora_salida += "END,\n";
+    	hora_llegada += "END,\n";
+    	kilometraje += "END,\n";
+    	viaticos += "END,\n";
+    	pasajes += "END\n";
+
+    	id_empresa = id_empresa.substr(0,id_empresa.length-1);
+
+    	query += origenes+hora_salida+hora_llegada+kilometraje+viaticos+pasajes+" WHERE id_empresas_visitadas IN ("+id_empresa+");";
+
+    	generar_solicitud(query);
+
+    }
+
+    function generar_solicitud(query){       
+        jugador = document.getElementById('area');
+        
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/mision_oficial/generar_solicitud", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                jugador.value = (ajax.responseText);
+                if(jugador.value == "exito"){
+                    swal({ title: "Solcitud enviada!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&query="+query)
     }
 
 </script>
@@ -318,13 +529,11 @@
 	.t_error .select2-selection{
 	    border-color: #d50000;
 	    background-color: #da050508;
-	    color: #d50000;
 	}
 
 	.t_error .form-control{
 	    border-color: #d50000;
 	    background-color: #da050508;
-	    color: #d50000;
 	}
 
 	.text_validate {
@@ -356,13 +565,11 @@
 	.t_success .select2-selection{
 	    border-color: #18bc9c;
 	    background-color: #18bc9c0a;
-	    color: #18bc9c;
 	}
 
 	.t_success .form-control{
 	    border-color: #18bc9c;
 	    background-color: #18bc9c0a;
-	    color: #18bc9c;
 	}
 
 	.t_success .t_successtext {
@@ -442,17 +649,18 @@
                                     <input type="text" id="nombre_empleado" name="nombre_empleado" class="form-control" required="" minlength="3" value="<?php echo $nombre_usuario; ?>" readonly data-validation-required-message="Este campo es requerido">
                                     <div class="help-block"></div>
                                 </div>
-                                <div class="form-group col-lg-6 m-b-15">   
+                                <div class="form-group col-lg-6">   
                                     <h5>Fecha de misión: <span class="text-danger">*</span></h5>
-                                    <input type="text" data-date-end-date="0d" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">                       
+                                    <input type="text" data-date-end-date="0d" onkeyup="FECHA('fecha_mision')" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
+                                    <span class="text_validate"></span>                    
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-lg-12">
+                                <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Actividad realizada: <span class="text-danger">*</span></h5>
                                     <textarea type="text" onkeyup="TEXTO('actividad',3,500);" id="actividad" name="actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
-                                    <div class="help-block"></div>
+                                    <span class="text_validate"></span>
                                 </div>
                             </div>
 
@@ -510,26 +718,13 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="table-responsive">
-                                <table id="target" class="table table-bordered table-hover">
-                                  	<thead>
-	                                    <tr>
-	                                    	<th style="display: none;">Inputs</th>
-	                                  		<th>Empresa visitada</th>
-	                                  		<th>Dirección</th>
-	                                  		<th>(*)</th>
-	                                	</tr>
-                                  	</thead>
-                                  	<tbody></tbody>
-                                </table>
-                                </div>
+                            <div class="row" id="cnt_empresas">
+                                
                             </div>
 
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onClick="guardar_mision();" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
-                                <button type="button" onclick="recorrer_empresas();" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Recorrer</button>
+                                <button type="button" onClick="gestionar_mision();" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
@@ -548,6 +743,10 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
+
+            </div>
+
+            <div class="col-lg-12" id="cnt-viaticos">
 
             </div>
             
@@ -574,6 +773,18 @@ $(function(){
             todayHighlight: true
         });
     });
+
+
+    $(document).ready(function(){
+	    $(".up,.down").click(function(){
+	        var row = $(this).parents("tr:first");
+	        if ($(this).is(".up")) {
+	            row.insertBefore(row.prev());
+	        } else {
+	            row.insertAfter(row.next());
+	        }
+	    });
+	});
 });
 
 $(function(){     

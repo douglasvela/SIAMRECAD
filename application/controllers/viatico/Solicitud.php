@@ -21,7 +21,7 @@ class Solicitud extends CI_Controller {
 		);
 		$res = $this->solicitud_model->calcular_viaticos($data);
 		$suma = 0;
-		if($res->num_rows() > 0){
+		if($res != false){
 			foreach ($res->result() as $fila) {
 				$suma += $fila->monto; 
 			}

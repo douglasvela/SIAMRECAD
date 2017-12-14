@@ -19,32 +19,66 @@
       }
     </style>
 <script type="text/javascript">
-    function cambiar_editar(id_vyp_rutas,nombre_vyp_rutas,descr_origen_vyp_rutas,latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,descr_destino_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,distancia_km_vyp_rutas,tiempo_vyp_rutas, bandera){
-         $("#id_vyp_rutas").val(id_vyp_rutas);
-        $("#nombre_vyp_rutas").val(nombre_vyp_rutas);
-        $("#descr_origen_vyp_rutas").val(descr_origen_vyp_rutas);
-        $("#descr_destino_vyp_rutas").val(descr_destino_vyp_rutas);
-        $("#distancia_km_vyp_rutas").val(distancia_km_vyp_rutas);
-        $("#tiempo_vyp_rutas").val(tiempo_vyp_rutas);
-        $("#latitud_origen_vyp_rutas").val(latitud_origen_vyp_rutas);
-        $("#latitud_destino_vyp_rutas").val(latitud_destino_vyp_rutas);
-        $("#longitud_origen_vyp_rutas").val(longitud_origen_vyp_rutas);
-        $("#longitud_destino_vyp_rutas").val(longitud_destino_vyp_rutas);
-
-        if(bandera == "edit"){
-            $("#ttl_form").removeClass("bg-success");
-            $("#ttl_form").addClass("bg-info");
-            $("#btnadd").hide(0);
-            $("#btnedit").show(0);
-            $("#cnt-tabla").hide(0);
-            $("#cnt_form").show(0);
-            initMap(latitud_origen_vyp_rutas,longitud_origen_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta");7
-        }else{
-            eliminar_ruta();
-        }
+     
+    function editar_oficina(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_oficina_destino_vyp_rutas,km_vyp_rutas){
+        limpiar();
+        $("#cnt-tabla").hide(0);
+        $("#cnt_form").show(0);
+        mostrarpanel_oficina();
+         
+        
+       document.getElementById('destino_oficina').checked = true;
+        $("#id_vyp_rutas").val(id_vyp_rutas);
+        $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
+        $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
+        $("#id_oficina_destino_vyp_rutas").val(id_oficina_destino_vyp_rutas);
+        $("#km_vyp_rutas").val(km_vyp_rutas);
+         $("#btnadd").hide(0);
+        $("#btnedit").show(0);  
+        $("#band").val("edit");
+     }
+     function editar_municipio(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas){
+        limpiar();
+         $("#cnt-tabla").hide(0);
+        $("#cnt_form").show(0);
+        mostrarpanel_municipio();
+        
+        document.getElementById('destino_municipio').checked = true;
+        $("#id_vyp_rutas").val(id_vyp_rutas);
+        $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
+        $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
+        $("#id_departamento_vyp_rutas").val(id_departamento_vyp_rutas);
+       buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas);
+        $("#km_vyp_rutas").val(km_vyp_rutas);
+        $("#btnadd").hide(0);
+        $("#btnedit").show(0);  
+        $("#band").val("edit");
     }
+     
+    function editar_mapa(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas){
+        limpiar();
+        $("#cnt-tabla").hide(0);
+        $("#cnt_form").show(0);
+        $("#cnt_form").removeClass("col-lg-10");
+        $("#cnt_form").addClass("col-lg-6");
+        $("#form_mapa").show(500);
+        $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
+        
+        document.getElementById('destino_mapa').checked = true;
+        $("#id_vyp_rutas").val(id_vyp_rutas);
+        $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
+        $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
+        $("#id_departamento_vyp_rutas").val(id_departamento_vyp_rutas);
 
+        obtenerOrigen(id_oficina_origen_vyp_rutas,"1",latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
+        buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas);
+        $("#km_vyp_rutas").val(km_vyp_rutas);
+        $("#latitud_destino_vyp_rutas").val(latitud_destino_vyp_rutas);
+        $("#longitud_destino_vyp_rutas").val(longitud_destino_vyp_rutas);
+            $("#btnadd").hide(0);
+        $("#btnedit").show(0);  
+        $("#band").val("edit");
+    }
     function cambiar_nuevo(){
         
 
@@ -60,23 +94,35 @@
         $("#cnt_form").show(0);
         
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Ruta");
+        limpiar();
     }
 
 
     function cerrar_mantenimiento(){
-        
-
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
         $("#form_mapa").hide(0);
+        limpiar();
+    }
+    function limpiar(){
+        //$("input[name='t_destinos']:checked").removeAttr("checked");
+        document.getElementById('destino_mapa').checked = false;
+        document.getElementById('destino_municipio').checked = false;
+        document.getElementById('destino_oficina').checked = false;
+        $('#id_oficina_destino_vyp_rutas').val("");
+        $('#id_oficina_origen_vyp_rutas').val("");
+        $('#descripcion_destino_vyp_rutas').val("");
+        $('#km_vyp_rutas').val("");
+        $('#id_departamento').val("");
+        $('#id_municipio').val("");
+        $('#latitud_destino_vyp_rutas').val("");
+        $('#longitud_destino_vyp_rutas').val("");
+        $("#direccion_origen1").val("");
+        $("#direccion_origen2").val("");
     }
 
-    function editar_ruta(){
-        $("#band").val("edit");
-        $("#submit").click();
-    }
-
-    function eliminar_ruta(){
+    
+    function eliminar_ruta(id){
         $("#band").val("delete");
         swal({
             title: "¿Está seguro?",
@@ -87,7 +133,8 @@
             confirmButtonText: "Sí, deseo eliminar!",
             closeOnConfirm: false
         }, function(){
-            $("#submit").click();
+            $("#id_vyp_rutas").val(id);
+            preparar_ruta($("#band").val());
         });
     }
 
@@ -137,6 +184,10 @@
         $("#cnt_form").addClass("col-lg-6");
         $("#form_mapa").show(500);initMap();
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
+        if($('#id_oficina_origen_vyp_rutas').val()!=""){
+            obtenerOrigen($("#id_oficina_origen_vyp_rutas").val(),"2");            
+        }
+
     }
     function mostrarpanel_municipio(){
         $("#form_mapa").hide(10);
@@ -162,8 +213,9 @@
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi/"+id,true);
         xmlhttp_municipio.send();
     }
-    function nuevaruta(band,opcionruta_vyp_rutas,id_oficina_origen_vyp_rutas,id_oficina_destino_vyp_rutas,descripcion_destino_vyp_rutas,km_vyp_rutas,id_departamento,id_municipio){
+    function manttorutas(id_vyp_rutas,band,opcionruta_vyp_rutas,id_oficina_origen_vyp_rutas,id_oficina_destino_vyp_rutas,descripcion_destino_vyp_rutas,km_vyp_rutas,id_departamento,id_municipio,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas){
         var formData = new FormData();
+        formData.append("id_vyp_rutas", id_vyp_rutas);
         formData.append("id_oficina_origen_vyp_rutas", id_oficina_origen_vyp_rutas);
         formData.append("id_oficina_destino_vyp_rutas", id_oficina_destino_vyp_rutas);
         formData.append("opcionruta_vyp_rutas", opcionruta_vyp_rutas);
@@ -172,6 +224,8 @@
         formData.append("km_vyp_rutas",km_vyp_rutas);
         formData.append("id_departamento",id_departamento);
         formData.append("id_municipio",id_municipio);
+        formData.append("latitud_destino_vyp_rutas",latitud_destino_vyp_rutas);
+        formData.append("longitud_destino_vyp_rutas",longitud_destino_vyp_rutas);
 
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/rutas/gestionar_rutas",
@@ -185,7 +239,7 @@
         .done(function(res){
 
             if(res == "exito"){
-                cerrar_mantenimiento();
+               $("input[name='t_destinos']:checked").removeAttr("checked"); cerrar_mantenimiento();
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 }else if($("#band").val() == "edit"){
@@ -193,39 +247,175 @@
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablaRutas("destino_oficina");$("#band").val('save');
+                tablaRutas("destino_oficina");$("#band").val('save');limpiar();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
     }
-    function preparar_ruta(){
-         
-        if($('input[id="destino_oficina"]').is(':checked')){
-          nuevaruta(
-                $("#band").val(),
-                $("#destino_oficina").val(),
-                $("#id_oficina_origen_vyp_rutas").val(),
-                $("#id_oficina_destino_vyp_rutas").val(),
-                $("#descripcion_destino_vyp_rutas").val(),
-                $("#km_vyp_rutas").val(),
-                "",
-                ""
-            );
-        }else if($('input[id="destino_municipio"]').is(':checked')){
+    function preparar_ruta(bandera){
+        
+        switch(bandera){
+            case 'save':
+                if($('input[id="destino_oficina"]').is(':checked')){
+                    if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_oficina_destino_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""){
+                        swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                    }else{
+                      manttorutas("",
+                            $("#band").val(),
+                            $("#destino_oficina").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            $("#id_oficina_destino_vyp_rutas").val(),
+                            $("#descripcion_destino_vyp_rutas").val(),
+                            $("#km_vyp_rutas").val(),
+                            "",
+                            "",
+                            "",
+                            ""
+                        );
+                  }
+                }else if($('input[id="destino_municipio"]').is(':checked')){
+                    if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_municipio").val()==""  || $("#id_departamento_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""){
+                        swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                    }else{
+                        manttorutas("",
+                            $("#band").val(),
+                            $("#destino_municipio").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            "",
+                            $("#descripcion_destino_vyp_rutas").val(),
+                            $("#km_vyp_rutas").val(),
+                            $("#id_departamento_vyp_rutas").val(),
+                            $("#id_municipio").val(),
+                            "",
+                            ""
+                        );
+                    }
+                }else if($('input[id="destino_mapa"]').is(':checked')){
+                    if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_municipio").val()==""  || $("#id_departamento_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""   || $("#latitud_destino_vyp_rutas").val()=="" || $("#longitud_destino_vyp_rutas").val()==""){
+                        swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                    }else{
+                        manttorutas("",
+                            $("#band").val(),
+                            $("#destino_mapa").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            "",
+                            $("#descripcion_destino_vyp_rutas").val(),
+                            $("#km_vyp_rutas").val(),
+                            $("#id_departamento_vyp_rutas").val(),
+                            $("#id_municipio").val(),
+                            $("#latitud_destino_vyp_rutas").val(),
+                            $("#longitud_destino_vyp_rutas").val()
+                        );
+                    }
+                }else{
+                    swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                }
+            break;
+            case 'edit':
+                if($('input[id="destino_oficina"]').is(':checked')){
+                    if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_oficina_destino_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""){
+                        swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                    }else{
+                      manttorutas($("#id_vyp_rutas").val(),
+                            $("#band").val(),
+                            $("#destino_oficina").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            $("#id_oficina_destino_vyp_rutas").val(),
+                            $("#descripcion_destino_vyp_rutas").val(),
+                            $("#km_vyp_rutas").val(),
+                            "",
+                            "",
+                            "",
+                            ""
+                        );
+                  }
+                }else if($('input[id="destino_municipio"]').is(':checked')){
+                    if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_municipio").val()==""  || $("#id_departamento_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""){
+                        swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                    }else{
+                        manttorutas($("#id_vyp_rutas").val(),
+                            $("#band").val(),
+                            $("#destino_municipio").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            "",
+                            $("#descripcion_destino_vyp_rutas").val(),
+                            $("#km_vyp_rutas").val(),
+                            $("#id_departamento_vyp_rutas").val(),
+                            $("#id_municipio").val(),
+                            "",
+                            ""
+                        );
+                    }
+                }else if($('input[id="destino_mapa"]').is(':checked')){
+                    if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_municipio").val()==""  || $("#id_departamento_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""   || $("#latitud_destino_vyp_rutas").val()=="" || $("#longitud_destino_vyp_rutas").val()==""){
+                        swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                    }else{
+                        manttorutas($("#id_vyp_rutas").val(),
+                            $("#band").val(),
+                            $("#destino_mapa").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            "",
+                            $("#descripcion_destino_vyp_rutas").val(),
+                            $("#km_vyp_rutas").val(),
+                            $("#id_departamento_vyp_rutas").val(),
+                            $("#id_municipio").val(),
+                            $("#latitud_destino_vyp_rutas").val(),
+                            $("#longitud_destino_vyp_rutas").val()
+                        );
+                    }
+                }else{
+                    swal({ title: "¡Ups!", text: "Verifique los campos vacios", type: "error", showConfirmButton: true });
+                        return;
+                }
+            break;
+            case 'delete':
+                manttorutas($("#id_vyp_rutas").val(),$("#band").val());
+            break;
+        }    
+        
+    }
+ 
+    function obtenerOrigen(id,opcionCargarMapa,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas){
+        if($('input[id="destino_mapa"]').is(':checked')){
+            var formData = new FormData();
+            formData.append("id_oficina_origen_vyp_rutas", id);
 
-            nuevaruta(
-                $("#band").val(),
-                $("#destino_municipio").val(),
-                $("#id_oficina_origen_vyp_rutas").val(),
-                "",
-                $("#descripcion_destino_vyp_rutas").val(),
-                $("#km_vyp_rutas").val(),
-                $("#id_departamento_vyp_rutas").val(),
-                $("#id_municipio").val()
-            );
+            $.ajax({
+                url: "<?php echo site_url(); ?>/configuraciones/rutas/obtener_origen",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+            .done(function(res){
+                //console.log(res);
+                var algo = res.split(",");
+     
+                $("#direccion_origen1").val(algo[0]);
+                $("#direccion_origen2").val(algo[1]);
+                 if(opcionCargarMapa==1){
+                    
+                    initMap(algo[0],algo[1],latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
+                 }
+            });
         }
     }
+     function buscarmapa(){
+        var departamento = $("#id_departamento_vyp_rutas option:selected").html();
+        var municipio = $("#id_municipio option:selected").html();
+        $("#address").val(municipio.trim()+","+departamento.trim());
+        $("#submit_ubi").click();
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -269,7 +459,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="id_oficina_origen_vyp_rutas" class="font-weight-bold">Origen de la Ruta: <span class="text-danger">*</span></label>
-                                        <select id="id_oficina_origen_vyp_rutas" name="id_oficina_origen_vyp_rutas" class="form-control">
+                                        <select id="id_oficina_origen_vyp_rutas" name="id_oficina_origen_vyp_rutas" class="form-control" onclick="obtenerOrigen(this.value,'2');">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $seccion = $this->db->get("vyp_oficinas");
@@ -300,27 +490,12 @@
                                     </div>
                                 </div>
                             </div>
-                             
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="" class="font-weight-bold">Descripción de destino: <span class="text-danger">*</span></label><br>
-                                        <input type="text" id="descripcion_destino_vyp_rutas" name="descripcion_destino_vyp_rutas" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="" class="font-weight-bold">Kilometros: <span class="text-danger">*</span></label><br>
-                                        <input type="text" id="km_vyp_rutas" name="km_vyp_rutas" class="form-control">
-                                    </div>
-                                </div>
-                            </div>  
-                            <div class="row" id="panel_municipio" style="display: none">
+                             <div class="row" id="panel_municipio" style="display: none">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Departamento destino: <span class="text-danger">*</span></label><br>
                                         <select class="form-control" id="id_departamento_vyp_rutas">
-                                            <option>[Seleccione]</option>
+                                            <option value="">[Seleccione]</option>
                                             <?php
                                                 $this->db->where("id_departamento <","15");
                                                 $seccion = $this->db->get("org_departamento");
@@ -328,7 +503,7 @@
                                                 if(!empty($seccion)){
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
-                                                <option  value="<?php echo $fila->id_departamento ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                <option  value="<?php echo $fila->id_departamento; ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
                                                     <?php echo $fila->departamento ?>
                                                 </option>;
                                             <?php
@@ -348,13 +523,28 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Descripción de destino: <span class="text-danger">*</span></label><br>
+                                        <input type="text" id="descripcion_destino_vyp_rutas" name="descripcion_destino_vyp_rutas" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Kilometros: <span class="text-danger">*</span></label><br>
+                                        <input type="text" id="km_vyp_rutas" name="km_vyp_rutas" class="form-control">
+                                    </div>
+                                </div>
                             </div>  
+                            
                             <div class="row" id="panel_oficina" style="display: none">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Oficina de destino: <span class="text-danger">*</span></label><br>
                                         <select id="id_oficina_destino_vyp_rutas" name="id_oficina_destino_vyp_rutas" class="form-control">
-                                            <option>[Seleccione]</option>
+                                            <option value="">[Seleccione]</option>
                                             <?php
                                                 $seccion = $this->db->get("vyp_oficinas");
 
@@ -378,12 +568,12 @@
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="preparar_ruta();" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                <button type="button" onclick="preparar_ruta($('#band').val());" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                            
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_ruta()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                 
+                                <button type="button" onclick="preparar_ruta($('#band').val());" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -405,8 +595,10 @@
                                         <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
                                     </div>
                                     <br><br>
-
-
+                                    <input class="form-control" type="hidden" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas">
+                                    <input class="form-control" type="hidden" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas">
+                                    <input type="hidden" class="form-control" id="direccion_origen1" name="">
+                                    <input type="hidden" class="form-control" id="direccion_origen2" name="">
                                     <div>
                                         <strong>Resultados</strong>
                                     </div>
@@ -496,10 +688,13 @@ $(function(){
         if(latOrigen){
             var map = new google.maps.Map(document.getElementById('map'), {
                 center:  new google.maps.LatLng(latOrigen, lngDestino),
-                zoom: 17
+                zoom: 12
             });
             origin1 = new google.maps.LatLng(latOrigen, lngOrigen);
             destinationA = new google.maps.LatLng(latDestino, lngDestino);
+            
+            deleteMarkers_D();
+             addMarker_destino(destinationA, map);
             calcula_distancia();pinta_recorrido();
         }else{
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -510,7 +705,7 @@ $(function(){
         var directionsDisplay = new google.maps.DirectionsRenderer({
           map: map
         });
-        map.addListener('click', function(e) {
+        /*map.addListener('click', function(e) {
             deleteMarkers_O();
             addMarker_origen(e.latLng, map);
             origin1=e.latLng;
@@ -529,12 +724,16 @@ $(function(){
             if(destinationA){
               calcula_distancia();pinta_recorrido();
             }
-        });
-        map.addListener('rightclick', function(e) {
-              deleteMarkers_D();
-             addMarker_destino(e.latLng, map);
+        });*/
+        map.addListener('click', function(e) {
+               
+             if($("#id_oficina_origen_vyp_rutas").val()!=""){ 
+                origin1 = new google.maps.LatLng($("#direccion_origen1").val(),$("#direccion_origen2").val());
+             }else{
+                swal({ title: "¡Ups!", text: "Debe seleccionar un Origen.", type: "error", showConfirmButton: true });
+             }
              destinationA=e.latLng;
-
+             
             var cadenaOrigen = String(destinationA);
             
             var separadorD= ",";
@@ -544,12 +743,17 @@ $(function(){
             pos_destino=arregloDeSubCadenasDestino[1].indexOf(')');
             arregloDestino2 = arregloDeSubCadenasDestino[1].substring(0,pos_destino);
 
-          //  document.getElementById('latitud_destino_vyp_rutas').value=arregloDestino1;
-            //document.getElementById('longitud_destino_vyp_rutas').value=arregloDestino2;
-
-             if(origin1){
+            document.getElementById('latitud_destino_vyp_rutas').value=arregloDestino1;
+            document.getElementById('longitud_destino_vyp_rutas').value=arregloDestino2;
+           //alert(origin1)
+            if(origin1!="(0, 0)" || !origin1){
+                deleteMarkers_D();
+             addMarker_destino(e.latLng, map);
               calcula_distancia();pinta_recorrido();
-              }
+            }else{
+
+                swal({ title: "¡Ups!", text: "Debe seleccionar un Origen.", type: "error", showConfirmButton: true });
+            }
          
         });//termina event
         function calcula_distancia(){
@@ -575,7 +779,7 @@ $(function(){
                   map.fitBounds(bounds.extend(results[0].geometry.location));
                   
                 } else {
-                  alert('Geocode was not successful due to: ' + status);
+                  //alert('Geocode no tuvo éxito debido a: ' + status);
                 }
               };
             };
@@ -622,11 +826,14 @@ $(function(){
         }
 
 
-        document.getElementById('submit').addEventListener('click', function() {
+        document.getElementById('submit_ubi').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
         });
-      }
 
+      }
+        
+           
+        
    
 
       
@@ -693,7 +900,7 @@ $(function(){
             resultsMap.setCenter(results[0].geometry.location);
             //addMarker_origen(results[0].geometry.location, resultsMap);
           } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            alert('Geocode no tuvo éxito por la siguiente razón: ' + status);
             
           }
         });

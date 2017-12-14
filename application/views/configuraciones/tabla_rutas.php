@@ -5,8 +5,7 @@
     <div class="card-header">
         <div class="card-actions">
            
-            <a style="font-size: 16px;" onclick="cerrar_tabla_phone();"><i class="mdi mdi-window-close"></i></a>
-                       
+                   
         </div>
         <h4 class="card-title m-b-0">Listado de Rutas</h4>
     </div>
@@ -31,18 +30,29 @@
                 <thead class="bg-info text-white">
                     <tr>
                     <?php if($tipo_destino=="destino_oficina") {?>
+                        <th>#</th>
                         <th>Origen</th>
                         <th>Descripcion Destino</th>
                         <th>Destino</th>
-                        <th>KM</th>
-                        <th style="min-width: 85px;">#</th>
+                        <th>Distancia(km)</th>
+                        <th style="min-width: 85px;">*</th>
                     <?php }else if($tipo_destino=="destino_municipio"){?>
+                        <th>#</th>
                         <th>Origen</th>
                         <th>Descripcion Destino</th>
                         <th>Departamento</th>
                         <th>Municipio</th>
-                        <th>KM</th>
-                        <th style="min-width: 85px;">#</th>
+                        <th>Distancia(km)</th>
+                        <th style="min-width: 85px;">*</th>
+                    <?php }else if($tipo_destino=="destino_mapa"){?>
+                        <th>#</th>
+                        <th>Origen</th>
+                        <th>Descripcion Destino</th>
+                        <th>Departamento</th>
+                        <th>Municipio</th>
+                        <th>Distancia(km)</th>
+                        <th>Distancia(Lat,Lng)</th>
+                        <th style="min-width: 85px;">*</th>
                     <?php }?>
                     </tr>
                 </thead>
@@ -52,20 +62,33 @@
                     if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
                            echo "<tr>";
-                          
-                           echo "<td>".$fila->id_oficina_origen_vyp_rutas."</td>";
-                           echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";                           
-                           echo "<td>".$fila->id_oficina_destino_vyp_rutas."</td>";
+                            echo "<td>".$fila->id_vyp_rutas."</td>";
+                           $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
+                            $query = $this->db->get("vyp_oficinas");
+                            foreach ($query->result() as $f) {
+                                echo "<td>".$f->nombre_oficina."</td>";
+                            }
+                           
+                           
+                           echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";  
+
+                           $this->db->where("id_oficina",$fila->id_oficina_destino_vyp_rutas);
+                            $query2 = $this->db->get("vyp_oficinas");
+                            foreach ($query2->result() as $f2) {
+                                echo "<td>".$f2->nombre_oficina."</td>";
+                            }                         
+                           
                            echo "<td>".$fila->km_vyp_rutas."</td>";
                            
                             
                             echo "<td>";
-                            $array = array();
+                            $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_oficina_destino_vyp_rutas,$fila->km_vyp_rutas);
                             array_push($array, "edit");
-                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            echo generar_boton($array,"editar_oficina","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            $array = array($fila->id_vyp_rutas);
                             array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             echo "</td>";                        
 
                            echo "</tr>";
@@ -75,21 +98,61 @@
                     if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
                            echo "<tr>";
-                          
+                          echo "<td>".$fila->id_vyp_rutas."</td>";
+                          $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
+                            $query3 = $this->db->get("vyp_oficinas");
+                            foreach ($query3->result() as $f3) {
+                                echo "<td>".$f3->nombre_oficina."</td>";
+                            }
+                            
+                           echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";   
+                           $this->db->where("id_departamento",$fila->id_departamento_vyp_rutas);
+                            $depto = $this->db->get("org_departamento");
+                            foreach ($depto->result() as $deptof) {
+                                echo "<td>".$deptof->departamento."</td>";
+                            }                        
+                            
+                           $this->db->where("id_municipio",$fila->id_municipio_vyp_rutas);
+                            $muni = $this->db->get("org_municipio");
+                            foreach ($muni->result() as $munif) {
+                                echo "<td>".$munif->municipio."</td>";
+                            } 
+                           
+                           echo "<td>".$fila->km_vyp_rutas."</td>";
+                           
+                            
+                            echo "<td>";
+                            $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_departamento_vyp_rutas,$fila->id_municipio_vyp_rutas,$fila->km_vyp_rutas);
+                            array_push($array, "edit");
+                            echo generar_boton($array,"editar_municipio","btn-info","fa fa-wrench","Editar");
+                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            array_push($array, "delete");
+                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            echo "</td>";                        
+
+                           echo "</tr>";
+                        }
+                    }
+                }else if($tipo_destino=="destino_mapa"){
+                     if(!empty($rutas)){
+                        foreach ($rutas->result() as $fila) {
+                           echo "<tr>";
+                          echo "<td>".$fila->id_vyp_rutas."</td>";
                            echo "<td>".$fila->id_oficina_origen_vyp_rutas."</td>";
                            echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";                           
                            echo "<td>".$fila->id_departamento_vyp_rutas."</td>";
                            echo "<td>".$fila->id_municipio_vyp_rutas."</td>";
                            echo "<td>".$fila->km_vyp_rutas."</td>";
+                           echo "<td>".$fila->latitud_destino_vyp_rutas.",".$fila->longitud_destino_vyp_rutas."</td>";
                            
                             
                             echo "<td>";
-                            $array = array();
+                            $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_departamento_vyp_rutas,$fila->id_municipio_vyp_rutas,$fila->km_vyp_rutas,$fila->latitud_destino_vyp_rutas,$fila->longitud_destino_vyp_rutas);
                             array_push($array, "edit");
-                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            echo generar_boton($array,"editar_mapa","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             echo "</td>";                        
 
                            echo "</tr>";
