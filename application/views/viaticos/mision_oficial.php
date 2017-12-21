@@ -14,7 +14,7 @@
             $("#btnedit").show(0);
             $("#cnt-tabla").hide(0);
             $("#cnt_form").show(0);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar misión");
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud");
             tabla_empresas_visitadas();
         }else{
             eliminar_horario();
@@ -37,7 +37,9 @@
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
 
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva misión");
+        tabla_empresas_visitadas();
+
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud");
     }
 
     function cerrar_mantenimiento(){
@@ -163,14 +165,22 @@
 	    }else{
 	    	return false;
 	    }
+
+
 	}
 
 	function validar_mision(){
 		var validacion = [	TEXTO("actividad",3,200),
 							FECHA("fecha_mision") ];
+		var tabla_vacia = $("#target").children("tbody").find("tr");
 
 	    if($.inArray(false, validacion ) == -1){
-	    	return true;
+	    	if(tabla_vacia.length > 0){
+	    		return true;
+	    	}else{
+	    		swal({ title: "¡Faltan datos!", text: "No se han registrado empresas visitadas.", type: "warning", showConfirmButton: true });
+	    		return false;
+	    	}
 	    }else{
 	    	return false;
 	    }
@@ -284,7 +294,7 @@
 	        cache: false,
 	        success: function(response){
 	            if(response == "exito"){
-	            	tablahorarios();
+	            	cambiar_pestaña(id_mision, bandera);
 	            }
 	        }
 	    });
@@ -305,31 +315,32 @@
 	}
 
 	function gestionar_mision(){
-		var formData = new FormData(document.getElementById("formajax"));
-        $.ajax({
-        		type:  'POST',
-                url:   '<?php echo site_url(); ?>/viatico/mision_oficial/gestionar_mision',
-                dataType: "html",
-            	data: formData,
-                cache: false,
-                contentType: false,
-           		processData: false
-        })
-        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-        	if(data == "exito"){
-                //cerrar_mantenimiento();
-                if($("#band").val() == "save"){
-                    recorrer_empresas("guardar");
-                }else if($("#band").val() == "edit"){
-                    eliminar_empresas_visitadas();
-                }else{
-                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
-                    tablahorarios();
-                }
-            }else{
-                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-            }
-        })
+		if(validar_mision()){
+			var formData = new FormData(document.getElementById("formajax"));
+	        $.ajax({
+	        		type:  'POST',
+	                url:   '<?php echo site_url(); ?>/viatico/mision_oficial/gestionar_mision',
+	                dataType: "html",
+	            	data: formData,
+	                cache: false,
+	                contentType: false,
+	           		processData: false
+	        })
+	        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+	        	if(data == "exito"){
+	                if($("#band").val() == "save"){
+	                    recorrer_empresas("guardar");
+	                }else if($("#band").val() == "edit"){
+	                    eliminar_empresas_visitadas();
+	                }else{
+	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+	                    tablahorarios();
+	                }
+	            }else{
+	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+	            }
+	        })
+	    }
 	}
 
 	function combo_municipio(){
@@ -383,8 +394,7 @@
         xmlhttp_municipio.send();
     }
 
-    function tabla_empresas_viaticos(id_mision){
-
+    function tabla_empresas_viaticos(id_mision, bandera){
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -399,14 +409,14 @@
             }
         }
 
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/mision_oficial/tabla_empresas_viaticos?id_mision="+id_mision,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/mision_oficial/tabla_empresas_viaticos?id_mision="+id_mision+"&tipo="+bandera,true);
         xmlhttp_municipio.send();
     }
 
-    function cambiar_viaticos(id_mision){
-    	$("#cnt-tabla").hide(0);
+    function cambiar_viaticos(id_mision, bandera){
+    	$("#cnt_form").hide(0);
         $("#cnt-viaticos").show(0);
-        tabla_empresas_viaticos(id_mision);
+        tabla_empresas_viaticos(id_mision, bandera);
     }
 
     function bajarFila(obj, otro){
@@ -442,7 +452,6 @@
 
     	
     }
-
 
     function calcular_viaticos(hora_inicio, hora_fin, obj){
         ajax = objetoAjax();
@@ -508,7 +517,7 @@
             if (ajax.readyState == 4){
                 jugador.value = (ajax.responseText);
                 if(jugador.value == "exito"){
-                    swal({ title: "Solcitud enviada!", type: "success", showConfirmButton: true });
+                    swal({ title: "Solicitud enviada!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
@@ -516,6 +525,29 @@
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
         ajax.send("&query="+query)
+    }
+
+    function cambiar_pestaña(id_mision, bandera){
+    	//tablahorarios();
+    	if(id_mision == "vacio"){
+    		obtener_ultima_mision();
+    	}else{
+    		cambiar_viaticos(id_mision, bandera);
+    	}
+
+    }
+
+    function obtener_ultima_mision(){ 
+    	nr = $("#nr").val();              
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/mision_oficial/obtener_ultima_mision", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                cambiar_viaticos(ajax.responseText);
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&nr="+nr)
     }
 
 </script>
@@ -564,33 +596,10 @@
 
 	.t_success .select2-selection{
 	    border-color: #18bc9c;
-	    background-color: #18bc9c0a;
 	}
 
 	.t_success .form-control{
-	    border-color: #18bc9c;
-	    background-color: #18bc9c0a;
-	}
-
-	.t_success .t_successtext {
-	    visibility: hidden;
-	    max-width: 500px;
-	    background-color: #18bc9c;
-	    color: #fff;
-	    text-align: center;
-	    border-radius: 0px 0px 6px 6px;
-	    padding: 3px 10px 3px 10px;
-	    
-	    /* Position the tooltip */
-	    position: absolute;
-	    z-index: 1;
-	    top: 100%;
-    	left: 4%; 
-	}
-
-	.t_success:hover .t_successtext {
-		display: block;
-	    visibility: visible;
+	    border-color: #18bc9c;	    
 	}
 </style>
 <!-- ============================================================== -->
@@ -603,7 +612,7 @@
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de misiones oficiales</h3>
+                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de solicitudes de viáticos y pasajes</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -665,55 +674,9 @@
                             </div>
 
                             <div class="row">
-                            	<div class="form-group col-lg-6">
-                                    <h5>Oficina / Departamento: <span class="text-danger">*</span></h5>
-                                    <select id="departamento" name="departamento" class="select2" onchange="cambiar_municio();" style="width: 100%">
-                                        <option value="0">[Elija la oficina o departamento]</option>
-                                        <optgroup label="OFICINAS">
-                                        <?php 
-                                            $destino = $this->db->get("vyp_oficinas");
-                                            if($destino->num_rows() > 0){
-                                                foreach ($destino->result() as $fila) {              
-                                                   echo '<option class="m-l-50" value="oficina'.$fila->id_departamento.'">'.$fila->nombre_oficina.'</option>';
-                                                }
-                                            }
-                                        ?>
-                                        </optgroup>
-                                        <optgroup label="DEPARTAMENTOS">
-                                            <?php 
-                                                $deptos = $this->db->get("org_departamento");
-                                                if($deptos->num_rows() > 0){
-                                                    foreach ($deptos->result() as $fila) {
-                                                    	echo '<option class="m-l-50" value="departamento'.$fila->id_departamento.'">'.$fila->departamento.'</option>';            
-                                                    }
-                                                }
-                                            ?>
-                                        </optgroup>
-                                    </select>
-									<span class="text_validate"></span>
-                                </div>
-                                <div class="form-group col-lg-6" id="combo_municipio">
-                                    
-                                </div>                                
-                            </div>
-
-                            <div class="row">
-                            	<div class="form-group col-lg-6">
-                                    <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
-                                    <input type="text" id="nombre_empresa" onkeyup="TEXTO('nombre_empresa',3,200);" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa">
-                                    <span class="text_validate"></span>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <h5>Dirección: <span class="text-danger">*</span></h5>
-                                    <input type="text" id="direccion_empresa" name="direccion_empresa" onkeyup="TEXTO('direccion_empresa',3,200);" class="form-control" placeholder="Ingrese la dirección de la empresa" minlength="3">
-                                    <span class="text_validate"></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
                             	<div class="form-group col-lg-12 m-b-5" align="right">
-                                    <button type="button" onclick="add(this)" class="pull-right btn btn-primary">
-                                      Agregar
+                                    <button type="button" onclick="$('#myModal').modal('show');" class="pull-right btn btn-success">
+                                      Registrar empresa visitada
                                     </button>
                                 </div>
                             </div>
@@ -729,6 +692,7 @@
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                <button type="button" onclick="cambiar_pestaña($('#id_mision').val())" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Siguiente</button>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -762,6 +726,81 @@
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
+
+<!-- sample modal content -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Gestionar empresas visitadas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="row">
+                	<div class="form-group col-lg-12">
+                        <h5>Oficina / Departamento: <span class="text-danger">*</span></h5>
+                        <select id="departamento" name="departamento" class="select2" onchange="cambiar_municio();" style="width: 100%">
+                            <option value="0">[Elija la oficina o departamento]</option>
+                            <optgroup label="OFICINAS">
+                            <?php 
+                                $destino = $this->db->get("vyp_oficinas");
+                                if($destino->num_rows() > 0){
+                                    foreach ($destino->result() as $fila) {              
+                                       echo '<option class="m-l-50" value="oficina'.$fila->id_departamento.'">'.$fila->nombre_oficina.'</option>';
+                                    }
+                                }
+                            ?>
+                            </optgroup>
+                            <optgroup label="DEPARTAMENTOS">
+                                <?php 
+                                    $deptos = $this->db->get("org_departamento");
+                                    if($deptos->num_rows() > 0){
+                                        foreach ($deptos->result() as $fila) {
+                                        	echo '<option class="m-l-50" value="departamento'.$fila->id_departamento.'">'.$fila->departamento.'</option>';            
+                                        }
+                                    }
+                                ?>
+                            </optgroup>
+                        </select>
+						<span class="text_validate"></span>
+                    </div>
+                </div>
+
+                <div id="combo_municipio">
+               	</div>
+
+                <div class="row">
+                	<div class="form-group col-lg-12">
+                        <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
+                        <input type="text" id="nombre_empresa" onkeyup="TEXTO('nombre_empresa',3,200);" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa">
+                        <span class="text_validate"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                	<div class="form-group col-lg-12">
+                        <h5>Dirección: <span class="text-danger">*</span></h5>
+                        <textarea id="direccion_empresa" name="direccion_empresa" onkeyup="TEXTO('direccion_empresa',3,200);" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2"></textarea>
+                        <span class="text_validate"></span>
+                    </div>
+               	</div>
+
+
+            </div>
+            <div class="modal-footer">
+            	<button type="button" onclick="add(this)" class="pull-right btn btn-success2" data-dismiss="modal">Agregar</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 
 <script>
 $(function(){ 

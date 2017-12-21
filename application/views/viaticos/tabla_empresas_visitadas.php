@@ -33,11 +33,11 @@
             			</td>
             			<td><?php echo $fila->nombre_empresa; ?></td>
 		            	<td><?php echo $fila->direccion_empresa; ?></td>
-		            	<td><button type="button" onclick="remove(this,'editar');" class="btn btn-xs btn-danger"><span class="fa fa-remove"></span></button></td>
 		            	<td>
 		            		<button type="button" onclick="subirFila(this, 'editar');" data-toggle="tooltip" title="Subir la fila" class="btn btn-xs btn-success"><span class="fa fa-chevron-up"></span></button>
 		            		<button type="button" onclick="bajarFila(this, 'editar');" data-toggle="tooltip" title="Bajar la fila" class="btn btn-xs btn-success"><span class="fa fa-chevron-down"></span></button>
 				        </td>
+				        <td><button type="button" onclick="remove(this,'editar');" class="btn btn-xs btn-danger"><span class="fa fa-remove"></span></button></td>
                         <?php
                       	echo "</tr>";
                   		}

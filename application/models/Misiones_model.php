@@ -9,7 +9,7 @@ class Misiones_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'estado' => "sin procesar"))){
 			return "exito";
 		}else{
 			return "fracaso";

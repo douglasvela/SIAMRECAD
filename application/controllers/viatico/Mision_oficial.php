@@ -46,6 +46,10 @@ class Mision_oficial extends CI_Controller {
 		echo number_format($suma, 2, '.', '');
 	}
 
+	public function obtener_ultima_mision(){
+		echo $this->misiones_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
+	}
+
 	public function gestionar_empresas_visitadas(){
 		$departamento = json_decode(stripslashes($_POST['departamentos']));
 		$municipio = json_decode(stripslashes($_POST['municipios']));
@@ -66,9 +70,9 @@ class Mision_oficial extends CI_Controller {
 		  	$sql .= "('".$id_mision."', '".$departamento[$i]."', '".$municipio[$i]."', '".$empresa[$i]."', '".$direccion[$i]."', '".$tipo[$i]."'),\n";
 	    }
 
-	    $origen = "OFICINA DE ORIGEN";
+	    $origen = "OFICINA SAN SALVADOR";
 
-	    $sql .= "('".$id_mision."', '00006', '00097', '".$origen."', 'SAN SALVADOR', 'oficina');";
+	    $sql .= "('".$id_mision."', '00006', '00097', '".$origen."', 'OFICINA SAN SALVADOR', 'oficina');";
 
 		echo $this->misiones_model->insertar_empresas_visitadas($sql);
 	}
