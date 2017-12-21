@@ -189,6 +189,7 @@ class NumeroALetras
 	   border-collapse: collapse;
 	   text-align: center;
 	   padding: 3px;
+       font-size: 13px;
 	}
 </style>
 <body onload="imprimir();" style="margin: 30px;">
@@ -229,11 +230,20 @@ if($empresas->num_rows() > 0){
   	<tbody>
 
   		<?php 
+
+        $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$id_mision."'");
+        if($mision->num_rows() > 0){
+            foreach ($mision->result() as $fila2) { $fecha_mision = $fila2->fecha_mision; }
+        }
+
+        $fecha_mision = date("d/m/Y",strtotime($fecha_mision));
+
+            $contador=0;
   			if($empresas->num_rows() > 0){
 				foreach ($empresas->result() as $fila) {
                   echo "<tr>";
                     ?>
-        			<td><?php echo $fila->origen; ?></td>
+        			<td><?php if($contador==0){ echo $fecha_mision; } ?></td>
 	            	<td>
 	            		<?php
 	            		echo $fila->origen." / ".$fila->direccion_empresa;
@@ -250,6 +260,7 @@ if($empresas->num_rows() > 0){
                     <?php
                   echo "</tr>";
                   $origen = $fila->direccion_empresa;
+                  $contador++;
                 }
             }
         ?>

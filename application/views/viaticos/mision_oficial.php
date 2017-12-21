@@ -518,6 +518,7 @@
                 jugador.value = (ajax.responseText);
                 if(jugador.value == "exito"){
                     swal({ title: "Solicitud enviada!", type: "success", showConfirmButton: true });
+                    tablahorarios();
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
