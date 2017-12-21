@@ -2,8 +2,6 @@
 	$id_mision = $_GET["id_mision"];
 	$tipo = $_GET["tipo"];
 
-	echo $tipo;
-
 	if($tipo == "guardar"){
 ?>
 
@@ -85,15 +83,15 @@
 			</table>
 		</div>
 
-		<div class="form-group m-b-5">
-            <textarea class="form-control" id="area" rows="4" id="input7"></textarea>
+		<div class="form-group m-b-5" style="display: none;">
+            <textarea class="form-control" id="area" rows="4"></textarea>
             <span class="bar"></span>
             <label for="input7">Text area</label>
         </div>
 
 		<div class="row">
 			<div class="form-group col-lg-12 m-b-5" align="right">
-		        <button type="button" onclick="recorrer_solicitud()" class="pull-right btn btn-primary">
+		        <button type="button" onclick="recorrer_solicitud()" class="pull-right btn btn-info">
 		        Actualizar solicitud
 		        </button>
 		    </div>
@@ -184,15 +182,15 @@
 			</table>
 		</div>
 
-		<div class="form-group m-b-5">
-            <textarea class="form-control" id="area" rows="4" id="input7"></textarea>
+		<div class="form-group m-b-5" style="display: none;">
+            <textarea class="form-control" id="area" rows="4"></textarea>
             <span class="bar"></span>
             <label for="input7">Text area</label>
         </div>
 
 		<div class="row">
 			<div class="form-group col-lg-12 m-b-5" align="right">
-		        <button type="button" onclick="recorrer_solicitud()" class="pull-right btn btn-primary">
+		        <button type="button" onclick="recorrer_solicitud()" class="pull-right btn btn-info">
 		        Actualizar solicitud
 		        </button>
 		    </div>

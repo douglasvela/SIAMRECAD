@@ -692,7 +692,7 @@
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <button type="button" onclick="cambiar_pestaña($('#id_mision').val())" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Siguiente</button>
+                                <button type="button" onclick="cambiar_pestaña($('#id_mision').val(),'editar')" class="btn waves-effect waves-light btn-success2">Siguiente <i class="mdi mdi-chevron-right"></i></button>
                             </div>
 
                         <?php echo form_close(); ?>
