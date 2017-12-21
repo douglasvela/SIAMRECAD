@@ -32,6 +32,7 @@
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
                             echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            echo generar_boton(array($fila->id_mision_oficial),"imprimir_solicitud","btn-default","fa fa-print","Imprimir");
                             echo "</td>";
                           echo "</tr>";
                         }

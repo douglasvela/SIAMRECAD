@@ -550,6 +550,10 @@
         ajax.send("&nr="+nr)
     }
 
+    function imprimir_solicitud(id_mision){
+    	window.open('<?php echo site_url(); ?>/viatico/mision_oficial/imprimir_solicitud?id_mision='+id_mision, '_blank');
+    }
+
 </script>
 
 <style type="text/css">

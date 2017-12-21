@@ -18,6 +18,10 @@ class Mision_oficial extends CI_Controller {
 		$this->load->view('viaticos/tabla_mision_oficial');
 	}
 
+	public function imprimir_solicitud(){
+		$this->load->view('viaticos/imprimir_solicitud');
+	}
+
 	public function tabla_empresas_visitadas(){
 		$this->load->view('viaticos/tabla_empresas_visitadas');
 	}
