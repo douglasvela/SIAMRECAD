@@ -266,7 +266,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
-                                        <select id="id_departamento" name="id_departamento" class="form-control">
+                                        <select id="id_departamento" name="id_departamento" class="form-control" onchange="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $this->db->where("id_departamento <","15");
