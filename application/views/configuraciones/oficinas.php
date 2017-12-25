@@ -266,7 +266,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
-                                        <select id="id_departamento" name="id_departamento" class="form-control" onchange="buscarMunicipio(this.value,'null')>
+                                        <select id="id_departamento" name="id_departamento" class="form-control" onchange="buscarMunicipio(this.value,'null')">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $this->db->where("id_departamento <","15");
@@ -307,10 +307,11 @@
                                       <select id="jefe_oficina" name="jefe_oficina" class="form-control"  style="width: 100%">
                                         <option value="">[Elija el Jefe]</option>
                                         <?php 
-                                            $empleado = $this->db->get("sir_empleado");
+                                            $empleado = $this->db->query("SELECT e.id_empleado, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e ORDER BY primer_nombre");
+
                                             if($empleado->num_rows() > 0){
                                                 foreach ($empleado->result() as $fila) {              
-                                                   echo '<option class="m-l-50" value="'.$fila->primer_nombre.' '.$fila->primer_apellido.'">'.$fila->primer_nombre.' '.$fila->primer_apellido.'</option>';
+                                                   echo '<option class="m-l-50" value="'.$fila->id_empleado.' '.$fila->primer_apellido.'">'.$fila->nombre_completo.'</option>';
                                                 }
                                             }
                                         ?>
@@ -556,6 +557,36 @@ $(function(){
             arreglo2 = arregloDeSubCadenas[1].substring(0,pos);
             $("#latitud_oficina").val(arreglo1);
             $("#longitud_oficina").val(arreglo2);
+
+            geocoder.geocode({
+            'location': origin1
+          }, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[1]) {
+                var direccion = results[1].formatted_address;
+                var ultimacoma = direccion.lastIndexOf(",");
+                direccion = direccion.substring(0,ultimacoma);
+
+                var pultimacoma = direccion.lastIndexOf(",");
+
+                if(pultimacoma == -1){
+                    direccion = direccion.trim();
+                }else{
+                    direccion = direccion.substring(pultimacoma+1);
+                    direccion = direccion.trim();
+                }
+                var municipio = direccion;
+                
+                alert(municipio)
+
+              } else {
+                window.alert('No hay resultados');
+              }
+            } else {
+              window.alert('Geocoder failed due to: ' + status);
+            }
+          });
+
         });//termina event
 
 
@@ -563,6 +594,7 @@ $(function(){
 
         document.getElementById('submit_ubi').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
+
         });
       }
 
@@ -577,7 +609,8 @@ $(function(){
           map: map,
           animation: google.maps.Animation.DROP
         });
-         markersO.push(marker);
+
+        markersO.push(marker);
 
       }
 

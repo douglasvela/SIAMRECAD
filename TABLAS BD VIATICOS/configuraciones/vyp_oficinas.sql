@@ -39,23 +39,6 @@ CREATE TABLE `vyp_oficinas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `vyp_oficinas`
---
-
-INSERT INTO `vyp_oficinas` (`id_oficina`, `nombre_oficina`, `direccion_oficina`, `jefe_oficina`, `email_oficina`, `latitud_oficina`, `longitud_oficina`, `id_departamento`, `id_municipio`) VALUES
-(1, 'Oficina Central', 'primera direccion', 'Douglas Recinos', 'sdfdf@fdfdf.com', '13.705542923582362', ' -89.20029401779175', 00011, 183),
-(2, 'Oficina Paracentral', 'segunda direeccion', 'Willian Rivera', 'sdfdsf@dsfdsf.com', '13.641253371576248', ' -88.78463745117188', 00005, 93),
-(3, 'Oficina regional de occidente', 'dsfsdfdsfds', 'Paz Alvarado', 'sdfdsf@dsfdsf.com', '13.995933662977752', ' -89.55837965011597', 00005, 77),
-(4, 'prueba', 'ninguna', 'Paz Alvarado', 'd_Recinos@fdf.com', '13.70745038803979', ' -89.20013576745987', 00010, 174),
-(5, 'prueba dos oficna', 'san vicente', 'Douglas Recinos', 'algo@fmail.com', '13.96072323963274', ' -88.11900327913463', 00005, 78),
-(6, 'preubaz', 'aklslhjdksa', 'Willian Rivera', 'akdjas@kashdk.com', '13.673176208626606', ' -89.13971096277237', 00002, 24),
-(7, 'oficina con depto', 'por ahi', 'Douglas Recinos', 'unjefe@gmail.com', '13.709535030934958', ' -89.21637868828839', 00010, 171);
-
---
--- Índices para tablas volcadas
---
-
---
 -- Indices de la tabla `vyp_oficinas`
 --
 ALTER TABLE `vyp_oficinas`
@@ -69,7 +52,7 @@ ALTER TABLE `vyp_oficinas`
 -- AUTO_INCREMENT de la tabla `vyp_oficinas`
 --
 ALTER TABLE `vyp_oficinas`
-  MODIFY `id_oficina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_oficina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

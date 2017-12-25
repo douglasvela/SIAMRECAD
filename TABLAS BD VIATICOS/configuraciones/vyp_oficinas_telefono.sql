@@ -33,23 +33,6 @@ CREATE TABLE `vyp_oficinas_telefono` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `vyp_oficinas_telefono`
---
-
-INSERT INTO `vyp_oficinas_telefono` (`id_vyp_oficinas_telefono`, `telefono_vyp_oficnas_telefono`, `id_oficina_vyp_oficnas_telefono`) VALUES
-(1, '7525-9130', 1),
-(2, '4355-3451', 1),
-(4, '6545-5255', 5),
-(5, '2323-4343', 5),
-(9, '7331-1111', 3),
-(10, '2222-1113', 4),
-(11, '2344-3333', 1);
-
---
--- Índices para tablas volcadas
---
-
---
 -- Indices de la tabla `vyp_oficinas_telefono`
 --
 ALTER TABLE `vyp_oficinas_telefono`
@@ -63,7 +46,7 @@ ALTER TABLE `vyp_oficinas_telefono`
 -- AUTO_INCREMENT de la tabla `vyp_oficinas_telefono`
 --
 ALTER TABLE `vyp_oficinas_telefono`
-  MODIFY `id_vyp_oficinas_telefono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_vyp_oficinas_telefono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

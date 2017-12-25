@@ -141,7 +141,7 @@
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-recycle"></i> Guardar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>

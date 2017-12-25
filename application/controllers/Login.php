@@ -88,7 +88,7 @@ class Login extends CI_Controller {
 	public function verificar_usuario2(){
 		$data = array(
 		'usuario' => $this->input->post('usuario'),
-		'password' => md5($this->input->post('password'))
+		'password' => $this->input->post('password')
 		);
 
 		$verificando = $this->login_model->verificar_usuario_password($data);

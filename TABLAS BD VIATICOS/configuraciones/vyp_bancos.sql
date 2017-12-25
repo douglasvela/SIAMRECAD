@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cvr_bancos`
+-- Estructura de tabla para la tabla `vyp_bancos`
 --
 
 CREATE TABLE `vyp_bancos` (
@@ -35,10 +35,10 @@ CREATE TABLE `vyp_bancos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `cvr_bancos`
+-- Volcado de datos para la tabla `vyp_bancos`
 --
 
-INSERT INTO `cvr_bancos` (`id_banco`, `nombre`, `caracteristicas`) VALUES
+INSERT INTO `vyp_bancos` (`id_banco`, `nombre`, `caracteristicas`) VALUES
 (2, 'Agricola S.A de C', 'PERTENECE A EL SALVADOR CON PARTE EN COL'),
 (3, 'CUSCATLAN', 'ALGUNOS EMPLEADOS USAN ESTE BANCO'),
 (4, 'DAVIVIENDA', 'FORMA PARTE DE LAS PLANILLAS'),
@@ -50,9 +50,9 @@ INSERT INTO `cvr_bancos` (`id_banco`, `nombre`, `caracteristicas`) VALUES
 --
 
 --
--- Indices de la tabla `cvr_bancos`
+-- Indices de la tabla `vyp_bancos`
 --
-ALTER TABLE `cvr_bancos`
+ALTER TABLE `vyp_bancos`
   ADD PRIMARY KEY (`id_banco`);
 COMMIT;
 
