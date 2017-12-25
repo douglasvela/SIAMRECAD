@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 06-12-2017 a las 20:32:57
+-- Tiempo de generación: 20-12-2017 a las 21:43:03
 -- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
 -- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
 
@@ -39,6 +39,22 @@ CREATE TABLE `vyp_oficinas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+<<<<<<< HEAD
+=======
+-- Volcado de datos para la tabla `vyp_oficinas`
+--
+
+INSERT INTO `vyp_oficinas` (`id_oficina`, `nombre_oficina`, `direccion_oficina`, `jefe_oficina`, `email_oficina`, `latitud_oficina`, `longitud_oficina`, `id_departamento`, `id_municipio`) VALUES
+(1, 'Oficina Central', 'primera direccion', '', 'sdfdf@fdfdf.com', '13.705542923582362', ' -89.20029401779175', 00012, 211),
+(2, 'Oficina Paracentral', 'segunda direeccion', 'Willian Rivera', 'sdfdsf@dsfdsf.com', '13.641253371576248', ' -88.78463745117188', 00005, 93),
+(3, 'Oficina regional de occidente', 'dsfsdfdsfds', 'Paz Alvarado', 'sdfdsf@dsfdsf.com', '13.995933662977752', ' -89.55837965011597', 00005, 77);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+>>>>>>> 851904da3d287facf19bf1248a4534477c87c8ed
 -- Indices de la tabla `vyp_oficinas`
 --
 ALTER TABLE `vyp_oficinas`

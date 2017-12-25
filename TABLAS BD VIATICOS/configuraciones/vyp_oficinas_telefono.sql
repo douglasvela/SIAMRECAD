@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-10-2017 a las 19:29:40
--- Versión del servidor: 5.7.19-0ubuntu0.17.04.1
+-- Tiempo de generación: 20-12-2017 a las 21:43:12
+-- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
 -- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
