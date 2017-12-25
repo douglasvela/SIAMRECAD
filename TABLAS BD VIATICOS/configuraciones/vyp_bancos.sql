@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `cvr_bancos`
 --
 
-CREATE TABLE `cvr_bancos` (
+CREATE TABLE `vyp_bancos` (
   `id_banco` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(25) NOT NULL,
   `caracteristicas` varchar(40) NOT NULL

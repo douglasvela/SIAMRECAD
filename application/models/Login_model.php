@@ -26,7 +26,7 @@ class Login_model extends CI_Model {
 	}
 
 	function verificar_usuario_password($data){
-		$query = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$data['usuario']."' AND password = '".$data['password']."' AND estado = 1");
+		$query = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$data['usuario']."' AND password = '".md5($data['password'])."' AND estado = 1");
 		if($query->num_rows() > 0){
 			return "existe";
 		}else{
