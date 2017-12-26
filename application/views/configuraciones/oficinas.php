@@ -119,6 +119,7 @@
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
+            buscarMunicipio(0,"null");
         });  
     }
 
@@ -203,6 +204,26 @@
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi/"+id,true);
         xmlhttp_municipio.send();
     }
+
+    function buscar_id(municipio){
+        var options = $("#id_municipio").find("option");
+        var texto = "", id = "";
+
+        municipio = municipio.replace(/[Áá]/gi,"A");
+        municipio = municipio.replace(/[Éé]/gi,"E");
+        municipio = municipio.replace(/[Íí]/gi,"I");
+        municipio = municipio.replace(/[Óó]/gi,"O");
+        municipio = municipio.replace(/[Úú]/gi,"U");
+
+        municipio = municipio.toUpperCase();
+
+        for(var i = 0; i < options.length; i++){
+            texto = $(options[i]).html().trim();
+            if(texto.toUpperCase().indexOf(municipio) > -1){
+                $("#id_municipio").val($(options[i]).val());
+            }
+        }
+      }
 </script>
 
 <!-- ============================================================== -->
@@ -291,7 +312,7 @@
                                     <div class="form-group">
                                           <label for="id_municipio" class="font-weight-bold">Municipio de la Oficina: <span class="text-danger">*</span></label>
                                         <div id="municipios">
-                                            <select class="form-control">
+                                            <select class="form-control" id="id_municipio">
                                                 <option>[Seleccione]</option>
                                             </select>
                                         </div>
@@ -577,7 +598,7 @@ $(function(){
                 }
                 var municipio = direccion;
                 
-                alert(municipio)
+                buscar_id(municipio);
 
               } else {
                 window.alert('No hay resultados');
