@@ -665,7 +665,7 @@
                                 </div>
                                 <div class="form-group col-lg-6">   
                                     <h5>Fecha de misión: <span class="text-danger">*</span></h5>
-                                    <input type="text" data-date-end-date="0d" onkeyup="FECHA('fecha_mision')" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
+                                    <input type="text" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha_mision')" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
                                     <span class="text_validate"></span>                    
                                 </div>
                             </div>
