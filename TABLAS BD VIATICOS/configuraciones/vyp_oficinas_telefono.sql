@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 20-12-2017 a las 21:43:12
+-- Tiempo de generación: 26-12-2017 a las 20:04:20
 -- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
 -- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
 
@@ -33,6 +33,10 @@ CREATE TABLE `vyp_oficinas_telefono` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Índices para tablas volcadas
+--
+
+--
 -- Indices de la tabla `vyp_oficinas_telefono`
 --
 ALTER TABLE `vyp_oficinas_telefono`
@@ -46,7 +50,7 @@ ALTER TABLE `vyp_oficinas_telefono`
 -- AUTO_INCREMENT de la tabla `vyp_oficinas_telefono`
 --
 ALTER TABLE `vyp_oficinas_telefono`
-  MODIFY `id_vyp_oficinas_telefono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_vyp_oficinas_telefono` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

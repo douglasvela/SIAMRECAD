@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 20-12-2017 a las 21:43:20
+-- Tiempo de generación: 26-12-2017 a las 20:04:37
 -- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
 -- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
 
@@ -40,15 +40,6 @@ CREATE TABLE `vyp_rutas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `vyp_rutas`
---
-
-INSERT INTO `vyp_rutas` (`id_vyp_rutas`, `id_oficina_origen_vyp_rutas`, `id_oficina_destino_vyp_rutas`, `id_departamento_vyp_rutas`, `id_municipio_vyp_rutas`, `km_vyp_rutas`, `descripcion_destino_vyp_rutas`, `latitud_destino_vyp_rutas`, `longitud_destino_vyp_rutas`, `opcionruta_vyp_rutas`) VALUES
-(1, 1, 2, 00000, 0, 43.00, 'g', '', '', 'destino_oficina'),
-(2, 2, 0, 00009, 154, 44.00, 're', '13.875357480223302', ' -88.62368202768266', 'destino_mapa'),
-(3, 2, 0, 00009, 162, 55.00, 'ryhytht', '', '', 'destino_municipio');
-
---
 -- Índices para tablas volcadas
 --
 
@@ -66,11 +57,7 @@ ALTER TABLE `vyp_rutas`
 -- AUTO_INCREMENT de la tabla `vyp_rutas`
 --
 ALTER TABLE `vyp_rutas`
-<<<<<<< HEAD
-  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-=======
-  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
->>>>>>> 851904da3d287facf19bf1248a4534477c87c8ed
+  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
