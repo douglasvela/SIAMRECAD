@@ -221,9 +221,44 @@
             texto = $(options[i]).html().trim();
             if(texto.toUpperCase().indexOf(municipio) > -1){
                 $("#id_municipio").val($(options[i]).val());
+                buscar_id2();
             }
         }
       }
+    function buscar_id2(){
+        var formData = new FormData();
+        formData.append("id_municipio", $("#id_municipio").val());
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/oficinas/mostrarDepartamento",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+             $("#id_departamento").val(res);
+        });
+    }
+    function buscarCorreo(){
+        var formData = new FormData();
+        formData.append("jefe_oficina", $("#jefe_oficina").val());
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/oficinas/mostrarCorreoJefe",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+             $("#email_oficina").val(res);
+        });
+    }
 </script>
 
 <!-- ============================================================== -->
@@ -325,7 +360,7 @@
                                   <div class="form-group">
                                       <label for="jefe_oficina" class="font-weight-bold">Jefe de la Oficina: <span class="text-danger">*</span></label>
                                       <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
-                                      <select id="jefe_oficina" name="jefe_oficina" class="form-control"  style="width: 100%">
+                                      <select id="jefe_oficina" name="jefe_oficina" class="form-control"  style="width: 100%" onchange="buscarCorreo(this.value);">
                                         <option value="">[Elija el Jefe]</option>
                                         <?php 
                                             $empleado = $this->db->query("SELECT e.id_empleado, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e ORDER BY primer_nombre");

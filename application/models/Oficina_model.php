@@ -86,4 +86,21 @@ class Oficina_model extends CI_Model {
 		return $ultimoid;
 	}
 
+	function obtenerDepartamento($data){
+ 		$mun = $data['id_municipio'];
+		$query = $this->db->query("SELECT id_departamento_pais FROM org_municipio WHERE id_municipio =  $mun LIMIT 1");
+		foreach ($query->result() as $fila) {
+			$id = $fila->id_departamento_pais; 
+		}
+		return $id;
+	}
+	function obtenerCorreoJefe($data){
+ 		$jefe_oficina = $data['jefe_oficina'];
+		$query = $this->db->query("SELECT correo FROM sir_empleado WHERE id_empleado =  $jefe_oficina LIMIT 1");
+		foreach ($query->result() as $fila) {
+			$id = $fila->correo; 
+		}
+		return $id;
+	}
+
 }

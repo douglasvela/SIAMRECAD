@@ -23,6 +23,20 @@ class Oficinas extends CI_Controller {
 		$this->load->view('configuraciones/comboMunicipio',$nuevo);
 	}
 
+	public function mostrarDepartamento(){
+		$data = array(
+			'id_municipio' => $this->input->post('id_municipio')
+		);
+		echo $this->oficina_model->obtenerDepartamento($data);
+	}
+
+	public function mostrarCorreoJefe(){
+		$data = array(
+			'jefe_oficina' => $this->input->post('jefe_oficina')
+		);
+		echo $this->oficina_model->obtenerCorreoJefe($data);
+	}
+
 	public function tabla_oficinas(){
 		$this->load->view('configuraciones/tabla_oficinas');
 	}
