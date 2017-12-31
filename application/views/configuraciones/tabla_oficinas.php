@@ -35,18 +35,36 @@
                             echo "<td>".$fila->id_oficina."</td>";
                             echo "<td>".$fila->nombre_oficina."</td>";
                             echo "<td>".$fila->direccion_oficina."</td>";
-                            echo "<td>".$fila->jefe_oficina."</td>";
+                            $this->db->where("id_empleado",$fila->jefe_oficina);
+                            $emple = $this->db->get("sir_empleado");
+                            if($emple->num_rows()>0){
+                                foreach ($emple->result() as $keyemple) {
+                                echo "<td>".$keyemple->primer_nombre." ".$keyemple->segundo_nombre." ".$keyemple->primer_apellido." ".$keyemple->segundo_apellido."</td>";
+                                }
+                            }else{
+                                echo "<td>-</td>";
+                            }
+
+                            //echo "<td>".$fila->jefe_oficina."</td>";
                             echo "<td>".$fila->email_oficina."</td>";
                             $this->db->where("id_departamento",$fila->id_departamento);
                             $depto = $this->db->get("org_departamento");
-                            foreach ($depto->result() as $keydepto) {
-                              echo "<td>".$keydepto->departamento."</td>";
+                            if($depto->num_rows()>0){
+                                foreach ($depto->result() as $keydepto) {
+                                  echo "<td>".$keydepto->departamento."</td>";
+                                }
+                            }else{
+                                echo "<td>-</td>";   
                             }
                            
                            $this->db->where("id_municipio",$fila->id_municipio);
                             $munic = $this->db->get("org_municipio");
-                            foreach ($munic->result() as $keymunic) {
-                              echo "<td>".$keymunic->municipio."</td>";
+                            if($munic->num_rows()>0){
+                                foreach ($munic->result() as $keymunic) {
+                                  echo "<td>".$keymunic->municipio."</td>";
+                                }
+                            }else{
+                                echo "<td>-</td>";      
                             }
 
                             /******* botón para la gestión de TELEFONOS **********/

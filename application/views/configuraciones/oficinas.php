@@ -620,6 +620,7 @@ $(function(){
             if (status === google.maps.GeocoderStatus.OK) {
               if (results[1]) {
                 var direccion = results[1].formatted_address;
+                $("#direccion_oficina").val(direccion);
                 var ultimacoma = direccion.lastIndexOf(",");
                 direccion = direccion.substring(0,ultimacoma);
 

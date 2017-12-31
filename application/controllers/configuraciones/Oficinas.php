@@ -22,6 +22,14 @@ class Oficinas extends CI_Controller {
 
 		$this->load->view('configuraciones/comboMunicipio',$nuevo);
 	}
+	public function mostrarComboMunicipi2($id)
+	{
+		$objeto = explode("x", $id);
+		$nuevo['id_departamento']=$objeto[0];
+		$nuevo['id_municipio']=$objeto[1];
+
+		$this->load->view('configuraciones/comboMunicipio2',$nuevo);
+	}
 
 	public function mostrarDepartamento(){
 		$data = array(
