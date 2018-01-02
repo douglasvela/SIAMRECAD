@@ -1,64 +1,7 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas){
-        $("#idb").val(id);
-        $("#nombre").val(nombre);
-        $("#caracteristicas").val(caracteristicas);
-        $("#ttl_form").removeClass("bg-success");
-        $("#ttl_form").addClass("bg-info");
-
-        $("#btnadd").hide(0);
-        $("#btnedit").show(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Banco");
-    }
-
-    function cambiar_nuevo(){
-        $("#idb").val("");
-        $("#nombre").val("");
-        $("#caracteristicas").val("");
-        $("#band").val("save");
-        $("#ttl_form").addClass("bg-success");
-        $("#ttl_form").removeClass("bg-info");
-
-        $("#btnadd").show(0);
-        $("#btnedit").hide(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo banco");
-    }
-
-    function cerrar_mantenimiento(){
-        $("#cnt-tabla").show(0);
-        $("#cnt_form").hide(0);
-    }
-
-    function editar_banco(obj){
-        $("#band").val("edit");
-        $("#submit").click();
-    }
-
-    function eliminar_banco(obj){
-        $("#band").val("delete");
-        swal({   
-            title: "¿Está seguro?",   
-            text: "¡Desea eliminar el registro!",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#fc4b6c",   
-            confirmButtonText: "Sí, deseo eliminar!",   
-            closeOnConfirm: false 
-        }, function(){   
-            $("#submit").click(); 
-        });
-    }
 
     function iniciar(){
-        //tablabancos();
+        tabla_solicitudes();        
     }
 
     function objetoAjax(){
@@ -72,116 +15,288 @@
         return xmlhttp;
     }
 
-    function tablabancos(){        
+    function tabla_solicitudes(){    
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
             xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
         }
-        
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                  document.getElementById("cnt-tabla").innerHTML=xmlhttpB.responseText;
-                  $('#myTable').DataTable();
+                document.getElementById("cnt_tabla").innerHTML=xmlhttpB.responseText;
+                $('#myTable').DataTable();
+                $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/tablabancos",true);
-        xmlhttpB.send();
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_solicitudes",true);
+        xmlhttpB.send(); 
     }
 
-    function calcular_viaticos(){
-		var hora_inicio = $("#hora_salida").val();
-		var hora_fin = $("#hora_regreso").val();       
+    function combo_oficina_departamento(tipo){
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("combo_departamento").innerHTML=xmlhttp_municipio.responseText;
+                  $(".select2").select2();
+                  combo_municipio(tipo);
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/combo_oficinas_departamentos?tipo="+tipo,true);
+        xmlhttp_municipio.send();
+    }
+
+    function combo_municipio(tipo){
+        var id_departamento = $("#departamento").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("combo_municipio").innerHTML=xmlhttp_municipio.responseText;
+                  $(".select2").select2();
+                  if(tipo == "oficina"){
+                    if($("#departamento").val() != ""){
+                        $("#nombre_empresa").val($("#departamento option:selected").text());
+                        $("#direccion_empresa").val($("#municipio option:selected").text());
+                        $("#nombre_empresa").parent().hide(0);
+                        $("#direccion_empresa").parent().hide(0);
+                        $("#municipio").parent().hide(0);
+                    }else{
+                        $("#nombre_empresa").parent().hide(0);
+                        $("#direccion_empresa").parent().hide(0);
+                        $("#municipio").parent().hide(0);
+                        $("#nombre_empresa").val("");
+                        $("#direccion_empresa").val("");
+                    }
+                    input_distancia(tipo);
+                  }else if(tipo == "departamento"){
+                    $("#nombre_empresa").parent().show(0);
+                    $("#direccion_empresa").parent().show(0);
+                    $("#municipio").parent().show(0);
+                    input_distancia(tipo);
+                  }
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo,true);
+        xmlhttp_municipio.send();
+    }
+
+    function input_distancia(tipo){
+        var id_departamento = $("#departamento").val();
+        var id_municipio = $("#municipio").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("input_distancia").innerHTML=xmlhttp_municipio.responseText;
+                  $(".select2").select2();
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo,true);
+        xmlhttp_municipio.send();
+    }
+
+    function tabla_empresas_visitadas(callback){
+        var id_mision = $("#id_mision").val();
+
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt_empresas").innerHTML=xmlhttp_municipio.responseText;
+                  if(typeof callback != "undefined"){
+                    callback();
+                  }
+            }
+        }
+
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_visitadas?id_mision="+id_mision,true);
+        xmlhttp_municipio.send();
+    }
+
+    function tabla_empresas_viaticos(tipo){
+        var id_mision = $("#id_mision").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("tabla_viaticos").innerHTML=xmlhttp_municipio.responseText;
+                  $('[data-toggle="tooltip"]').tooltip();
+
+            }
+        }
+
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_viaticos?id_mision="+id_mision+"&tipo="+tipo,true);
+        xmlhttp_municipio.send();
+    }
+
+    function form_mision(){
+        $("#cnt_mision").show(0);
+        $("#cnt_rutas").hide(0);
+        $("#cnt_viaticos").hide(0);
+    }
+
+    function form_rutas(){
+        tabla_empresas_visitadas(function(){ form_oficinas() });
+        $("#cnt_mision").hide(0);
+        $("#cnt_rutas").show(0);
+        $("#cnt_viaticos").hide(0);
+        document.getElementById("destino_oficina").checked = true;
+    }
+
+    function form_viaticos(){
+        $("#cnt_mision").hide(0);
+        $("#cnt_rutas").hide(0);
+        $("#cnt_viaticos").show(0);
+        tabla_empresas_viaticos("guardar");
+    }
+
+    function form_oficinas(){
+        combo_oficina_departamento("oficina");
+        $("#nombre_empresa").parent().hide(0);
+        $("#direccion_empresa").parent().hide(0);
+        $("#municipio").parent().hide(0);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+    }
+
+    function form_folleto_viaticos(){
+        combo_oficina_departamento("departamento");
+        $("#nombre_empresa").parent().show(0);
+        $("#direccion_empresa").parent().show(0);
+        $("#municipio").parent().show(0);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+    }
+
+    function form_mapa(){
         
+    }
+
+    function editar_mision(){
+        $("#band").val("edit");
+        $("#formajax").submit();
+    }
+
+    function cerrar_mantenimiento(){
+        $("#cnt_tabla").show(0);
+        $("#cnt_form").hide(0);
+    }
+
+    function cambiar_nuevo(){
+        $("#id_mision").val("");
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+        $("#actividad").val("");
+        $("#band").val("save");
+
+        $("#ttl_form").addClass("bg-success");
+        $("#ttl_form").removeClass("bg-info");
+
+        $("#btnadd").show(0);
+        $("#btnedit").hide(0);
+
+        $("#cnt_tabla").hide(0);
+        $("#cnt_form").show(0);
+
+        form_mision();
+
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
+    }
+
+    function cambiar_editar(id,nombre,fecha_mision,actividad_realizada,bandera){
+        $("#id_mision").val(id);
+        $("#nombre_empleado").val(nombre);
+        $("#fecha_mision").val(fecha_mision);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+        $("#actividad").val(actividad_realizada);        
+
+        if(bandera == "edit"){
+            form_mision();
+            $("#ttl_form").removeClass("bg-success");
+            $("#ttl_form").addClass("bg-info");
+            $("#btnadd").hide(0);
+            $("#btnedit").show(0);
+            $("#cnt_tabla").hide(0);
+            $("#cnt_form").show(0);
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");
+        }else{
+            eliminar_mision();
+        }
+    }
+
+    function cambiar_eliminar_destino(id_empresa_visitada){
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: true 
+        }, function(){   
+            eliminar_destino(id_empresa_visitada)
+        });
+    }
+
+    function eliminar_destino(id_empresa_visitada){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/calcular_viaticos", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/eliminar_destino", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
-                $("#viatico").val(ajax.responseText);                
+               tabla_empresas_visitadas();              
             }
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&hora_inicio="+hora_inicio+"&hora_fin="+hora_fin)
+        ajax.send("&id_empresa_visitada="+id_empresa_visitada)
     }
 
-
-
-function add(button) {
-    var row = button.parentNode.parentNode;
-  var cells = row.querySelectorAll('td:not(:last-of-type)');
-  addToCartTable(cells);
-}
-
-function remove() {
-    var row = this.parentNode.parentNode;
-    document.querySelector('#target tbody')
-            .removeChild(row);
-}
-
-var ultimo_destino = "";
-
-function addToCartTable(cells) {
-    var trs = $("#target").find("tr");
-    var destino = $("#destino option:selected").html();
-    if($("#especifico").val() != ""){
-        destino +=" -> "+$("#especifico").val();
+    function eliminar_mision(){
+        $("#band").val("delete");
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            $("#formajax").submit();
+        });
     }
-    var hora_inicio = $("#hora_salida").val();
-    var hora_fin = $("#hora_regreso").val();
-    var pasaje = "$"+$("#pasaje").val();
-    var viatico = "$"+$("#viatico").val();
+
+    function gestionar_destino(band){
+        $("#band2").val(band);
+        $("#btn_submit").click();
+    }
+
     
-    if(trs.length < 2){
-        ultimo_destino = $("#origen option:selected").html();
-    }
+
    
-   var newRow = document.createElement('tr');
-   
-   newRow.appendChild(createCell(ultimo_destino));
-   newRow.appendChild(createCell(destino));
-   newRow.appendChild(createCell(hora_inicio));
-   newRow.appendChild(createCell(hora_fin));
-   newRow.appendChild(createCell(viatico));
-   newRow.appendChild(createCell(pasaje));
-   var cellRemoveBtn = createCell();
-   cellRemoveBtn.appendChild(createRemoveBtn())
-   newRow.appendChild(cellRemoveBtn);
-   
-   document.querySelector('#target tbody').appendChild(newRow);
-   ultimo_destino = destino;
-   $("#hora_salida").val($("#hora_regreso").val());
-   $("#hora_regreso").val("");
-}
-
-function createInputQty() {
-    var inputQty = document.createElement('input');
-  inputQty.type = 'number';
-  inputQty.required = 'true';
-  inputQty.min = 1;
-  inputQty.className = 'form-control'
-  return inputQty;
-}
-
-function createRemoveBtn() {
-    var btnRemove = document.createElement('button');
-  btnRemove.className = 'btn btn-xs btn-danger';
-  btnRemove.onclick = remove;
-  btnRemove.innerHTML = '<span class="fa fa-remove"></span>';
-  return btnRemove;
-}
-
-function createCell(text) {
-    var td = document.createElement('td');
-  if(text) {
-    td.innerText = text;
-  }
-  return td;
-}
-
 
 </script>
-
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
@@ -207,19 +322,30 @@ function createCell(text) {
         <!-- ============================================================== -->
         <div class="row">
 
-        	<!-- Validation wizard -->
-            <div class="row" id="validation">
-                <div class="col-12">
-                    <div class="card wizard-content">
-                        <div class="card-body">
-                            <form action="#" class="validation-wizard wizard-circle">
-                                <!-- Step 1 -->
-                                <h6>Empresa Visitada</h6>
-                                <section>
-                                    <div class="row">
-                                    	<div class="col-lg-12">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="cnt_form" style="display: none;">
+                <div class="card">
+                    <div class="card-header bg-success2" id="ttl_form">
+                        <div class="card-actions text-white">
+                            <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
+                        </div>
+                        <h4 class="card-title m-b-0 text-white"></h4>
+                    </div>
+                    <div class="card-body b-t">
 
-                                            <div class="row">
+
+                        <!-- ============================================================== -->
+                        <!-- Inicio del FORMULARIO DATOS DE MISIÓN -->
+                        <!-- ============================================================== -->
+                        <div id="cnt_mision">
+
+                            <h3 class="box-title" style="margin: 0px;">
+                                <button type="button" class="btn waves-effect waves-light btn-lg btn-danger" style="padding: 1px 10px 1px 10px;">Paso 1</button>&emsp;
+                                Datos de la misión
+                            </h3>
+                            <hr class="m-t-0 m-b-30">
+                            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                            <input type="hidden" id="band" name="band" value="save">
                             <?php
                                 $user = $this->session->userdata('usuario_viatico');
                                 $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
@@ -230,229 +356,147 @@ function createCell(text) {
                                         $nombre_usuario = $fila->nombre_completo;
                                     }
                                 }
+
+                                $empleado = $this->db->query("SELECT e.id_empleado, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.nr = '".$nr_usuario."' ORDER BY primer_nombre");
+
+                                if($empleado->num_rows() > 0){
+                                    foreach ($empleado->result() as $fila) {              
+                                       $nombre_usuario = trim($fila->nombre_completo);
+                                    }
+                                }
+
                             ?>
-                                                <div class="form-group col-lg-6">
-                                                    <h5>Nombre del empleado: <span class="text-danger">*</span></h5>
-                                                    <div class="controls">
-                                                        <input type="text" onkeyup="formar_usuario();" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" value="<?php echo $nombre_usuario; ?>" readonly data-validation-required-message="Este campo es requerido">
-                                                        <div class="help-block"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-lg-6 m-b-15">   
-                                                    <h5>Fecha de misión: <span class="text-danger">*</span></h5>
-                                                    <input type="text" value="<?php echo date('d/m/Y'); ?>" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">                       
-                                                </div>
+                            <input type="hidden" id="id_mision" name="id_mision" value="">
+                            <input type="hidden" id="nr" name="nr" value="<?php echo $nr_usuario; ?>">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <h5>Nombre del empleado: <span class="text-danger">*</span></h5>
+                                    <input type="text" id="nombre_empleado" name="nombre_empleado" class="form-control" required="" minlength="3" value="<?php echo $nombre_usuario; ?>" readonly data-validation-required-message="Este campo es requerido">
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group col-lg-6">   
+                                    <h5>Fecha de misión: <span class="text-danger">*</span></h5>
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha_mision')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
+                                    <div class="help-block"></div>                   
+                                </div>
+                            </div>
 
-                                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12" style="height: 83px;">
+                                    <h5>Actividad realizada: <span class="text-danger">*</span></h5>
+                                    <textarea type="text" onkeyup="TEXTO('actividad',3,500);" id="actividad" name="actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
 
-
-                                    		<p class="m-b-0"><b>DATOS DE LA EMPRESA VISITADA</b></p>
-                                            <blockquote class="m-t-0">
-                                            <div class="row">
-                                            	<div class="form-group col-lg-4">
-				                                    <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
-				                                    <div class="controls">
-				                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" data-validation-required-message="Este campo es requerido">
-				                                        <div class="help-block"></div>
-				                                    </div>
-				                                </div>
-		                                        <div class="form-group col-lg-8">
-				                                    <h5>Dirección: <span class="text-danger">*</span></h5>
-				                                    <div class="controls">
-				                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" data-validation-required-message="Este campo es requerido">
-				                                        <div class="help-block"></div>
-				                                    </div>
-				                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-lg-12">
-                                                    <h5>Actividad realizada: <span class="text-danger">*</span></h5>
-                                                    <div class="controls">
-                                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" placeholder="Ingrese el nombre" minlength="3" data-validation-required-message="Este campo es requerido">
-                                                        <div class="help-block"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </blockquote>
-                                        </div>
-                                    </div>
-                                </section>
-                                <!-- Step 2 -->
-                                <h6>Rutas realizadas</h6>
-                                <section>
-                                    <div class="row">
-                                        <div class="form-group col-lg-6 m-b-15">   
-                                            <h5>Origen: <span class="text-danger">*</span></h5>                         
-                                            <select id="origen" name="origen" class="select2" onchange="" style="width: 100%">
-                                                <option value="0">[Elija el origen]</option>
-                                                <?php 
-                                                    $origen = $this->db->get("vyp_oficinas");
-                                                    if($origen->num_rows() > 0){
-                                                        foreach ($origen->result() as $fila) { 
-                                                            echo '<option class="m-l-50" value="'.$fila->id_oficina.'">'.$fila->nombre_oficina.'</option>';
-                                                        }
-                                                    }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-lg-6 m-b-15">
-                                            <h5>Destino (Municipio): <span class="text-danger">*</span></h5>
-                                            <select id="destino" name="destino" class="select2" onchange="" style="width: 100%">
-                                                <option value="0">[Elija el destino]</option>
-                                                <optgroup label="OFICINAS">
-                                                <?php 
-                                                    $destino = $this->db->get("vyp_oficinas");
-                                                    if($destino->num_rows() > 0){
-                                                        foreach ($destino->result() as $fila) {              
-                                                           echo '<option class="m-l-50" value="'.$fila->id_oficina.'">'.$fila->nombre_oficina.'</option>';
-                                                        }
-                                                    }
-                                                ?>
-                                                </optgroup>
-                                                    <?php 
-                                                        $deptos = $this->db->get("org_departamento");
-                                                        if($deptos->num_rows() > 0){
-                                                            foreach ($deptos->result() as $fila) {              
-                                                               echo '<optgroup label="'.$fila->departamento.'">';
-                                                                $municipio = $this->db->query("SELECT * FROM org_municipio WHERE id_departamento_pais = ".$fila->id_departamento);
-                                                                if($municipio->num_rows() > 0){
-                                                                    foreach ($municipio->result() as $fila2) {              
-                                                                       echo '<option class="m-l-50" value="'.$fila2->id_municipio.'">'.$fila2->municipio.'</option>';
-                                                                    }
-                                                                }
-                                                                echo "</optgroup>";
-                                                            }
-                                                        }
-                                                    ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-lg-6 m-b-15">   
-                                            <h5>Hora de salida: <span class="text-danger">*</span></h5>
-                                            <input class="form-control" type='time' name="hora_salida" id="hora_salida">
-                                        </div>
-                                        <div class="form-group col-lg-6 m-b-15">   
-                                            <h5>Hora de retorno: <span class="text-danger">*</span></h5>
-                                            <div class="input-group">
-                                                <input class="form-control" type='time' name="hora_regreso" id="hora_regreso">
-                                                <div class="input-group-addon" style="cursor: pointer;" onclick="calcular_viaticos();"><i class="fa fa-check"></i></div>
-                                            </div>
-                                            <div class="help-block"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-lg-6 m-b-5">
-                                            <h5>Destino específico: <span class="text-danger">*</span></h5>
-                                            <div class="controls">
-                                                <input type="text" id="especifico" name="especifico" class="form-control" required="" placeholder="Ingrese el destino especifico" minlength="3" data-validation-required-message="Este campo es requerido">
-                                                <div class="help-block"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-lg-2 m-b-5">
-                                            <h5>Distancia: <span class="text-danger">*</span></h5>
-                                            <div class="input-group">
-                                                <div class="input-group-addon">Km</div>
-                                                <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" value="0.00">
-                                            </div>
-                                            <div class="help-block"></div>
-                                        </div>
-                                        
-                                        <div class="form-group col-lg-2 m-b-5">
-                                            <h5>Viáticos: <span class="text-danger">*</span></h5>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                                <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" value="0.00">
-                                            </div>
-                                            <div class="help-block"></div>
-                                        </div>
-                                        <div class="form-group col-lg-2 m-b-5">
-                                            <h5>Pasaje: <span class="text-danger">*</span></h5>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                                <input type="number" id="pasaje" name="pasaje" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" value="0.00">
-                                            </div>
-                                            <div class="help-block"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="form-group col-lg-12 m-b-5" align="right">
-                                            <button type="button" onclick="add(this)" class="pull-right btn btn-primary">
-                                              Agregar
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                    <div class="table-responsive">
-                                    <table id="target" class="table table-bordered table-hover">
-                                      <thead>
-                                        <tr>
-                                          <th>Origen</th>
-                                          <th>Destino</th>
-                                          <th>Hora salida</th>
-                                          <th>Hora retorno</th>
-                                          <th>Viatico</th>
-                                          <th>Pasaje</th>
-                                          <th>(*)</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                      </tbody>
-                                    </table>
-                                    </div>
-                                    </div>
-                                </section>
-                                <!-- Step 3 -->
-                                <h6>Step 3</h6>
-                                <section>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="wint1">Interview For :</label>
-                                                <input type="text" class="form-control required" id="wint1"> </div>
-                                            <div class="form-group">
-                                                <label for="wintType1">Interview Type :</label>
-                                                <select class="custom-select form-control required" id="wintType1" data-placeholder="Type to search cities" name="wintType1">
-                                                    <option value="Banquet">Normal</option>
-                                                    <option value="Fund Raiser">Difficult</option>
-                                                    <option value="Dinner Party">Hard</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="wLocation1">Location :</label>
-                                                <select class="custom-select form-control required" id="wLocation1" name="wlocation">
-                                                    <option value="">Select City</option>
-                                                    <option value="India">India</option>
-                                                    <option value="USA">USA</option>
-                                                    <option value="Dubai">Dubai</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="wjobTitle2">Interview Date :</label>
-                                                <input type="date" class="form-control required" id="wjobTitle2">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Requirements :</label>
-                                                <div class="c-inputs-stacked">
-                                                    <label class="inline custom-control custom-checkbox block">
-                                                        <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Employee</span> </label>
-                                                    <label class="inline custom-control custom-checkbox block">
-                                                        <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Contract</span> </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </form>
+                            <div align="right" id="btnadd">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                            </div>
+                            <div align="right" id="btnedit" style="display: none;">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                            </div>
+                        <?php echo form_close(); ?>
                         </div>
+                        <!-- ============================================================== -->
+                        <!-- Fin del FORMULARIO DATOS DE MISIÓN -->
+                        <!-- ============================================================== -->
+
+
+                        <!-- ============================================================== -->
+                        <!-- Inicio del FORMULARIO EMPRESAS VISITADAS -->
+                        <!-- ============================================================== -->
+                        <div id="cnt_rutas" style="display: none;">
+                            <h3 class="box-title" style="margin: 0px;">
+                                <button type="button" class="btn waves-effect waves-light btn-lg btn-danger" style="padding: 1px 10px 1px 10px;">Paso 2</button>&emsp;
+                                Empresas visitadas
+                            </h3>
+                            <hr class="m-t-0 m-b-30">
+                            <?php echo form_open('', array('id' => 'form_empresas_visitadas', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                            <div class="row">
+                                <input type="hidden" id="band2" name="band2" value="save">
+                                <div class="form-group col-lg-12">
+                                    <h5>Opciones de destino: <span class="text-danger">*</span></h5>
+                                    <input type="radio" id="destino_oficina" checked="" name="r_destino" value="destino_oficina"> 
+                                    <label for="destino_oficina" onclick="form_oficinas();">Oficina MTPS</label>&emsp;
+                                    <input type="radio" id="destino_municipio" name="r_destino" value="destino_municipio">
+                                    <label for="destino_municipio" onclick="form_folleto_viaticos();">Folleto de distancias</label>&emsp;
+                                    <input type="radio" id="destino_mapa" name="r_destino" value="destino_mapa">
+                                    <label for="destino_mapa" onclick="form_mapa();">Buscar en mapa</label>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-lg-6" id="combo_departamento">
+                                </div>
+                                <div class="form-group col-lg-6" id="combo_municipio">
+                                </div>
+                                <div class="form-group col-lg-6" id="input_distancia">
+                                </div>
+                            
+                                <div class="form-group col-lg-6">
+                                    <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
+                                    <input type="text" id="nombre_empresa" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa" required>
+                                    <span class="help-block"></span>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <h5>Dirección: <span class="text-danger">*</span></h5>
+                                    <textarea id="direccion_empresa" name="direccion_empresa" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2" required></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <button style="display: none;" type="submit" id="btn_submit" class="btn waves-effect waves-light btn-success2">submit</button>
+
+                            <div align="right" id="btnadd2">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="gestionar_destino('save')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Agregar destino</button>
+                            </div>
+                            <div align="right" id="btnedit2" style="display: none;">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                            </div>
+                            <?php echo form_close(); ?>
+
+                            <!-- Inicio de la TABLA EMPRESAS VISITADAS -->
+                            <div class="row" id="cnt_empresas"></div>
+                            <!-- Fin de la TABLA EMPRESAS VISITADAS -->
+
+                            <div align="right">
+                                <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                            </div>
+
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- Fin del FORMULARIO EMPRESAS VISITADAS -->
+                        <!-- ============================================================== -->
+
+
+                        <!-- ============================================================== -->
+                        <!-- Inicio del FORMULARIO DE VIÁTICOS Y PASAJES -->
+                        <!-- ============================================================== -->
+                        <div id="cnt_viaticos">
+                             <h3 class="box-title" style="margin: 0px;">
+                                <button type="button" class="btn waves-effect waves-light btn-lg btn-danger" style="padding: 1px 10px 1px 10px;">Paso 3</button>&emsp;
+                                Detalle de viáticos y pasajes
+                            </h3>
+                            <hr class="m-t-0 m-b-10">
+                            <div id="tabla_viaticos"></div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- Fin del FORMULARIO DE VIÁTICOS Y PASAJES -->
+                        <!-- ============================================================== -->
+
+
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-12" id="cnt_tabla">
+
             </div>
 
         </div>
@@ -466,42 +510,73 @@ function createCell(text) {
 <!-- ============================================================== -->
 
 <script>
+$(function(){  
 
+    $(document).ready(function(){         
+        $('#fecha_mision').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
 
-
-$(function(){     
     $("#formajax").on("submit", function(e){
-        e.preventDefault();
-        var f = $(this);
+        e.preventDefault();      
         var formData = new FormData(document.getElementById("formajax"));
-        formData.append("dato", "valor");
-        
         $.ajax({
-            url: "<?php echo site_url(); ?>/configuraciones/bancos/gestionar_bancos",
-            type: "post",
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
+                type:  'POST',
+                url:   '<?php echo site_url(); ?>/viatico/solicitud/gestionar_mision',
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
         })
-        .done(function(res){
-            if(res == "exito"){
-                cerrar_mantenimiento();
+        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+            if(data == "exito"){
                 if($("#band").val() == "save"){
-                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                    //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                    form_rutas();
                 }else if($("#band").val() == "edit"){
-                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                    form_rutas();
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablabancos();
+                tabla_solicitudes();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
-            
     });
+
+
+    $("#form_empresas_visitadas").on("submit", function(e){
+        e.preventDefault();
+        var formData = {
+            "id_mision" : $("#id_mision").val(),
+            "departamento" : $("#departamento").val(),
+            "municipio" : $("#municipio").val(),
+            "nombre_empresa" : $("#nombre_empresa").val(),
+            "direccion_empresa" : $("#direccion_empresa").val(),
+            "tipo" : $('input[name=r_destino]:checked').val(),
+            "band" : $("#band2").val()
+        };
+        $.ajax({
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viatico/solicitud/gestionar_destinos',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                tabla_empresas_visitadas();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+    });
+
 });
 
 </script>
