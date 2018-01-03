@@ -64,5 +64,41 @@ class Rutas_model extends CI_Model {
 			}
 		return $datos;
 	}
+	function buscarduplicados($data){
+		$band  = "exito";
+		$query = $this->db->query("SELECT * FROM vyp_rutas");
+		foreach ($query->result() as $fila) {
+			if($data['opcionruta_vyp_rutas']=="destino_oficina"){
+				if($fila->id_oficina_origen_vyp_rutas == $data['id_oficina_origen_vyp_rutas'] &&
+					$fila->id_oficina_destino_vyp_rutas == $data['id_oficina_destino_vyp_rutas'] &&
+					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] && 
+					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] && 
+					$fila->km_vyp_rutas == $data['km_vyp_rutas'] /*&&
+					$fila->id_departamento_vyp_rutas == $data['id_departamento'] &&
+					$fila->id_municipio_vyp_rutas  == $data['id_municipio'] &&
+					$fila->latitud_destino_vyp_rutas == $data['latitud_destino_vyp_rutas'] &&
+					$fila->longitud_destino_vyp_rutas == $data['longitud_destino_vyp_rutas']*/
+					){
+					$band="duplicado";
+					return $band;
+				}
+			}else if($data['opcionruta_vyp_rutas']=="destino_municipio"){
+				if($fila->id_oficina_origen_vyp_rutas == $data['id_oficina_origen_vyp_rutas'] &&
+					/*$fila->id_oficina_destino_vyp_rutas == $data['id_oficina_destino_vyp_rutas'] &&*/
+					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] && 
+					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] && 
+					$fila->km_vyp_rutas == $data['km_vyp_rutas'] &&
+					$fila->id_departamento_vyp_rutas == $data['id_departamento'] &&
+					$fila->id_municipio_vyp_rutas  == $data['id_municipio'] /*&&
+					$fila->latitud_destino_vyp_rutas == $data['latitud_destino_vyp_rutas'] &&
+					$fila->longitud_destino_vyp_rutas == $data['longitud_destino_vyp_rutas']*/
+					){
+					$band="duplicado";
+					return $band;
+				}
+			}
+		}
+		return $band;
+	}
 
 }

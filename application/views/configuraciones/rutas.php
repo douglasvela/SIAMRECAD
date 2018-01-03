@@ -633,7 +633,7 @@ $(function(){
         var f = $(this);
         var formData = new FormData(document.getElementById("formajax"));
         formData.append("dato", "valor");
-
+        
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/rutas/gestionar_rutas",
             type: "post",
@@ -654,8 +654,10 @@ $(function(){
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
                 tablaRutas();$("#band").val('save');
-            }else{
-                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }else if(res == "fracaso"){
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.!", type: "error", showConfirmButton: true });
+            }else if (res=="duplicado"){
+                swal({ title: "¡Ups! Error", text: "Ruta duplicada.", type: "error", showConfirmButton: true });
             }
         });
 
