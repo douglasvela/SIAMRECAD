@@ -138,10 +138,23 @@
                         foreach ($rutas->result() as $fila) {
                            echo "<tr>";
                           echo "<td>".$fila->id_vyp_rutas."</td>";
-                           echo "<td>".$fila->id_oficina_origen_vyp_rutas."</td>";
+                           $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
+                            $query = $this->db->get("vyp_oficinas");
+                            foreach ($query->result() as $f) {
+                                echo "<td>".$f->nombre_oficina."</td>";
+                            }
                            echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";                           
-                           echo "<td>".$fila->id_departamento_vyp_rutas."</td>";
-                           echo "<td>".$fila->id_municipio_vyp_rutas."</td>";
+                            
+                           $this->db->where("id_departamento",$fila->id_departamento_vyp_rutas);
+                            $depto = $this->db->get("org_departamento");
+                            foreach ($depto->result() as $deptof) {
+                                echo "<td>".$deptof->departamento."</td>";
+                            } 
+                           $this->db->where("id_municipio",$fila->id_municipio_vyp_rutas);
+                            $muni = $this->db->get("org_municipio");
+                            foreach ($muni->result() as $munif) {
+                                echo "<td>".$munif->municipio."</td>";
+                            } 
                            echo "<td>".$fila->km_vyp_rutas."</td>";
                            echo "<td>".$fila->latitud_destino_vyp_rutas.",".$fila->longitud_destino_vyp_rutas."</td>";
                            
