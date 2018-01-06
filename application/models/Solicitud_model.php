@@ -19,7 +19,7 @@ class Solicitud_model extends CI_Model {
 	function insertar_destino($data){
 		$id = $this->obtener_ultimo_id("vyp_empresas_visitadas","id_empresas_visitadas");
 
-		if($this->db->insert('vyp_empresas_visitadas', array('id_empresas_visitadas' => $id, 'id_mision_oficial' => $data['id_mision'], 'id_departamento' => $data['departamento'], 'id_municipio' => $data['municipio'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'tipo_destino' => $data['tipo']))){
+		if($this->db->insert('vyp_empresas_visitadas', array('id_empresas_visitadas' => $id, 'id_mision_oficial' => $data['id_mision'], 'id_departamento' => $data['departamento'], 'id_municipio' => $data['municipio'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'kilometraje' => $data['distancia'], 'tipo_destino' => $data['tipo']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -48,6 +48,32 @@ class Solicitud_model extends CI_Model {
 			return "exito";
 		}else{
 			return "fracaso";
+		}
+	}
+
+	function ordenar_empresas_visitadas($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function verficar_oficina_destino($data){
+		$query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$data['id_mision']."' AND tipo_destino = 'destino_oficina' AND id_municipio = '".$data['municipio']."' AND id_departamento = '".$data['departamento']."'");
+		if($query->num_rows() > 0){
+			return "exito"; 
+		}else{
+			return $this->insertar_destino($data);
+		}
+	}
+
+	function verficar_cumpla_kilometros($data){
+		$query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$data['id_mision']."' AND kilometraje > 15");
+		if($query->num_rows() > 0){
+			return true; 
+		}else{
+			return false;
 		}
 	}
 

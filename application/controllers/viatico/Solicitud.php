@@ -43,6 +43,33 @@ class Solicitud extends CI_Controller {
 		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
 	}
 
+	public function obtener_ultima_mision(){
+		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
+	}
+
+	public function ordenar_empresas_visitadas(){
+		echo $this->solicitud_model->ordenar_empresas_visitadas($_POST['query']);
+	}
+
+	public function verficar_oficina_destino(){
+		$data = array(
+			'id_mision' => $this->input->post('id_mision'),
+			'departamento' => '00006',//$this->input->post('nr'),
+			'municipio' => '00097',//$this->input->post('nombre_empleado'),
+			'nombre_empresa' => 'Oficina central (San Salvador)',
+			'direccion_empresa' => 'San Salvador',
+			'distancia' => '0.00',
+			'tipo' => 'destino_oficina'
+			);
+
+		if($this->solicitud_model->verficar_cumpla_kilometros($data)){
+			echo $this->solicitud_model->verficar_oficina_destino($data);
+		}else{
+			echo "viaticos";
+		}
+		
+	}
+
 	public function gestionar_mision(){
 		if($this->input->post('band') == "save"){
 			$data = array(
@@ -67,12 +94,11 @@ class Solicitud extends CI_Controller {
 			);
 
 			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
-			/*if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito"){
+			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito"){
 				echo $this->solicitud_model->eliminar_mision($data);
 			}else{
 				echo "fracaso";
-			}*/
-			echo $this->solicitud_model->eliminar_mision($data);
+			}
 		}
 	}
 
@@ -85,6 +111,7 @@ class Solicitud extends CI_Controller {
 	            "municipio" => $this->input->post('municipio'),
 	            "nombre_empresa" => $this->input->post('nombre_empresa'),
 	            "direccion_empresa" => $this->input->post('direccion_empresa'),
+	            "distancia" => $this->input->post('distancia'),
 	            "tipo" =>  $this->input->post('tipo'),
 	            "band" => $this->input->post('band')
 	        );
@@ -96,6 +123,7 @@ class Solicitud extends CI_Controller {
 	            "municipio" => $this->input->post('municipio'),
 	            "nombre_empresa" => $this->input->post('nombre_empresa'),
 	            "direccion_empresa" => $this->input->post('direccion_empresa'),
+	            "distancia" => $this->input->post('distancia'),
 	            "tipo" =>  $this->input->post('tipo'),
 	            "band" => $this->input->post('band')
 	        );
@@ -107,6 +135,7 @@ class Solicitud extends CI_Controller {
 	            "municipio" => $this->input->post('municipio'),
 	            "nombre_empresa" => $this->input->post('nombre_empresa'),
 	            "direccion_empresa" => $this->input->post('direccion_empresa'),
+	            "distancia" => $this->input->post('distancia'),
 	            "tipo" =>  $this->input->post('tipo'),
 	            "band" => $this->input->post('band')
 	        );

@@ -292,7 +292,122 @@
         $("#btn_submit").click();
     }
 
-    
+    function buscar_idmision(){
+        var nr = $("#nr").val();
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/obtener_ultima_mision", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $("#id_mision").val(ajax.responseText);
+                form_rutas();              
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&nr="+nr)
+    }
+
+    function verficar_oficina_destino(){
+        var filas = $("#target").find("tbody").find("tr");
+        var celdas = $(filas[0]).find("td");
+        
+        if(celdas.length > 1){
+            var nr = $("#nr").val();
+            var id_mision = $("#id_mision").val();
+
+            ajax = objetoAjax();
+            ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/verficar_oficina_destino", true);
+            ajax.onreadystatechange = function() {
+                if (ajax.readyState == 4){
+                    if(ajax.responseText == "exito"){
+                        tabla_empresas_visitadas(function(){ ordenar_empresas_visitadas() });
+                    }else if(ajax.responseText == "viaticos"){
+                        swal({ title: "Kilometraje inválido", text: "Las empresas no cumplen con distancia > 15 Km para recibir viáticos.", type: "warning", showConfirmButton: true });
+                    }else{
+                        alert("llega aqui")
+                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                    }
+                }
+            } 
+            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+            ajax.send("&nr="+nr+"&id_mision="+id_mision)
+        }else{
+            swal({ title: "Ninguna empresa visitada", text: "Registra al menos una empresa visitada en la misión.", type: "warning", showConfirmButton: true });
+        }
+    }
+
+    function ordenar_empresas_visitadas(){
+        var filas = $("#target").children("tbody").children("tr");
+        var input,idqr = "", query = "UPDATE vyp_empresas_visitadas \nSET orden = CASE id_empresas_visitadas\n";
+
+        for(i=0; i<filas.length; i++){
+            input = $(filas[i]).children("td").children("input");
+            if((i+1) < filas.length){
+                query += "WHEN "+$(input[0]).val()+" THEN "+(i+1)+"\n";
+                idqr += $(input[0]).val()+", ";
+            }else{
+                query += "WHEN "+$(input[0]).val()+" THEN "+(i+1)+"\nEND\n";
+                idqr += $(input[0]).val();
+            }            
+        }
+
+        query += "WHERE id_empresas_visitadas IN ("+idqr+");";
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/ordenar_empresas_visitadas", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    form_viaticos();
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }           
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&query="+query)
+
+    }
+
+    function validar_solicitud(){
+        var filas = $("#tabla_viaticos").find("tbody").find("tr");
+        var hora_inicio, hora_fin, utlima_hora;
+
+        var vacio = false;
+        var horarios_malos = false;
+
+        for(i=0; i<(filas.length-1); i++){
+            var celdas = $(filas[i]).find("td");
+            hora_inicio = $($(celdas[3]).find("input")[0]).val();
+            hora_fin = $($(celdas[4]).find("input")[0]).val();
+            if(hora_inicio == "" || hora_fin == ""){
+                vacio = true;
+            }
+            if(hora_inicio >= hora_fin){
+                horarios_malos = true;
+            }
+            if(i>0){
+                if(utlima_hora >= hora_inicio){
+                    horarios_malos = true;
+                }
+            }
+            utlima_hora = hora_fin;
+        }
+
+        if(vacio){
+            swal({ title: "Faltan horarios", text: "Complete las horas de salida y llegada.", type: "warning", showConfirmButton: true });
+        }else{
+            if(horarios_malos){
+                swal({ title: "Horarios incorrectos", text: "Por favor verifique que los horarios estén ingresados de menor a mayor", type: "warning", showConfirmButton: true });
+            }else{
+                if($("#total_viatico").val() == 0){
+                    swal({ title: "Sin viáticos", text: "El valor en viáticos no puede ser $0.00", type: "warning", showConfirmButton: true });
+                }else{
+                    alert("guardaría")
+                }
+            }
+        }
+    }
 
    
 
@@ -465,7 +580,7 @@
                             <!-- Fin de la TABLA EMPRESAS VISITADAS -->
 
                             <div align="right">
-                                <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                                <button type="button" onclick="verficar_oficina_destino();" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
 
                         </div>
@@ -536,7 +651,7 @@ $(function(){
             if(data == "exito"){
                 if($("#band").val() == "save"){
                     //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                    form_rutas();
+                    buscar_idmision();
                 }else if($("#band").val() == "edit"){
                     //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                     form_rutas();
@@ -559,6 +674,7 @@ $(function(){
             "municipio" : $("#municipio").val(),
             "nombre_empresa" : $("#nombre_empresa").val(),
             "direccion_empresa" : $("#direccion_empresa").val(),
+            "distancia" : $("#distancia").val(),
             "tipo" : $('input[name=r_destino]:checked').val(),
             "band" : $("#band2").val()
         };

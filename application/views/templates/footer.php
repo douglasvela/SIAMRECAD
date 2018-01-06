@@ -20,6 +20,11 @@
     <script src="<?php echo base_url(); ?>assets/js/custom.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/validation.js"></script>
+    <!-- icheck -->
+    <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.init.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-switch/bootstrap-switch.min.js"></script>
     <script>
     ! function(window, document, $) {
         "use strict";
@@ -45,13 +50,10 @@
     <script src="<?php echo base_url(); ?>assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/plugins/multiselect/js/jquery.multi-select.js"></script>
     <!--c3 JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/d3/d3.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/c3-master/c3.min.js"></script>
-    <!-- Chart JS -->
-    <script src="<?php echo base_url(); ?>assets/js/dashboard1.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
@@ -77,9 +79,6 @@
     <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/toast-master/js/jquery.toast.js"></script>
-    <!-- icheck -->
-    <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.init.js"></script>
     <script>
     jQuery(document).ready(function() {
         // For select 2
