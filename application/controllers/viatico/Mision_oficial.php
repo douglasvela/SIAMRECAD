@@ -30,6 +30,10 @@ class Mision_oficial extends CI_Controller {
 		$this->load->view('viaticos/tabla_empresa_viaticos');
 	}
 
+	public function combo_oficinas_departamentos(){
+		$this->load->view('viaticos/combo_oficinas_departamentos');
+	}
+
 	public function combo_municipios(){
 		$this->load->view('viaticos/combo_municipio');
 	}

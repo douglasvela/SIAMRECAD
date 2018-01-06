@@ -7,38 +7,44 @@ class Solicitud_model extends CI_Model {
 		parent::__construct();
 	}
 
-	function insertar_horario($data){
-		$id = $this->obtener_ultimo_id("vyp_horario_viatico","id_horario_viatico");
-		if($this->db->insert('vyp_horario_viatico', array('id_horario_viatico' => $id, 'descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin'], 'monto' => $data['monto']))){
+	function insertar_mision($data){
+		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'estado' => "sin procesar"))){
 			return "exito";
 		}else{
 			return "fracaso";
 		}
 	}
 
-	function calcular_viaticos($data){
-		$query = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE (hora_inicio <= '".$data['hora_inicio']."' AND hora_fin >= '".$data['hora_inicio']."') OR (hora_inicio >= '".$data['hora_inicio']."' AND hora_fin <= '".$data['hora_fin']."') OR (hora_inicio <= '".$data['hora_fin']."' AND hora_fin >= '".$data['hora_fin']."')");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
+	function insertar_destino($data){
+		$id = $this->obtener_ultimo_id("vyp_empresas_visitadas","id_empresas_visitadas");
 
-	function mostrar_horario(){
-		$query = $this->db->get("vyp_horario_viatico");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function editar_horario($data){
-		$this->db->where("id_horario_viatico",$data["idhorario"]);
-		if($this->db->update('vyp_horario_viatico', array('descripcion' => $data['descripcion'], 'hora_inicio' => $data['hora_inicio'], 'hora_fin' => $data['hora_fin'], 'monto' => $data['monto']))){
+		if($this->db->insert('vyp_empresas_visitadas', array('id_empresas_visitadas' => $id, 'id_mision_oficial' => $data['id_mision'], 'id_departamento' => $data['departamento'], 'id_municipio' => $data['municipio'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'tipo_destino' => $data['tipo']))){
 			return "exito";
 		}else{
 			return "fracaso";
 		}
 	}
 
-	function eliminar_horario($data){
-		if($this->db->delete("vyp_horario_viatico",array('id_horario_viatico' => $data['idhorario']))){
+	function editar_mision($data){
+		$this->db->where("id_mision_oficial",$data["id_mision"]);
+		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function eliminar_mision($data){
+		if($this->db->delete("vyp_mision_oficial",array('id_mision_oficial' => $data['id_mision']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function eliminar_empresas_visitadas($data){
+		if($this->db->query($data)){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -60,27 +66,16 @@ class Solicitud_model extends CI_Model {
 		return $ultimoid;
 	}
 
-/*	function mostrar_personal(){
-		$query = $this->db->get("tpersonal");
-		if($query->num_rows() > 0) return $query;
-		else return false;
+	function obtener_ultima_mision($tabla,$nombreid,$nr){
+		$query = $this->db->query("SELECT ".$nombreid." FROM ".$tabla." WHERE nr_empleado = '".$nr."' ORDER BY ".$nombreid." ASC");
+		$ultimoid = 0;
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->$nombreid; 
+			}
+		}else{
+			$ultimoid = 1;
+		}
+		return $ultimoid;
 	}
-
-	function mostrar_personal2(){
-        $query = $this->db->query("SELECT p.idpersonal, p.nombre, p.direccion, p.telefono, c.idcargo, c.nombre AS cnombre, z.idzona, z.nombre AS znombre FROM tpersonal p JOIN tcargos c ON p.idcargo = c.idcargo JOIN tzonas z ON z.idzona = p.idzona");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_cargos(){
-		$query = $this->db->get("tcargos");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}
-
-	function mostrar_zonas(){
-		$query = $this->db->get("tzonas");
-		if($query->num_rows() > 0) return $query;
-		else return false;
-	}*/
 }

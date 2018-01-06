@@ -502,7 +502,7 @@ $(function(){
         var f = $(this);
         var formData = new FormData(document.getElementById("formajax"));
         formData.append("dato", "valor");
-
+        
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/oficinas/gestionar_oficinas",
             type: "post",

@@ -5,17 +5,9 @@
 	if($tipo == "guardar"){
 ?>
 
-<div class="card">
-    <div class="card-header">
-    	<div class="card-actions text-black">
-            <a style="font-size: 16px;" onclick="cerrar_mantenimiento_viaticos();"><i class="mdi mdi-window-close"></i></a>
-        </div>
-        <h4 class="card-title m-b-0">Listado de misiones oficiales</h4>
-    </div>
-    <div class="card-body b-t" style="padding-top: 7px;">
         <div class="table-responsive">
-			<table id="tabla_viaticos" class="table table-bordered table-hover">
-			  	<thead style="font-size: 15px;">
+			<table id="tabla_viaticos" class="table table-hover table-bordered">
+			  	<thead class="bg-inverse text-white" style="font-size: 15px;">
 			        <tr>
 			        	<th style="display: none;">Inputs</th>
 			      		<th>Lugar de salida</th>
@@ -27,7 +19,7 @@
 			      		<th>Pasaje ($)</th>
 			    	</tr>
 			  	</thead>
-			  	<tbody style="font-size: 15px;">
+			  	<tbody style="font-size: 15px; color: grey;">
 
 			  		<?php 
 			  			
@@ -61,29 +53,51 @@
 				            		echo $fila->direccion_empresa;
 				            		?>				            		
 				            	</td>
-				            	<td><input class="form-control" onchange="verificar_viaticos(this);" type='time'></td>
-				            	<td><input class="form-control" onchange="verificar_viaticos(this);" type='time'></td>
-				            	<td>
-                                    <input type="number" class="form-control" placeholder="0.00" min="0.00" value="<?php echo $km; ?>">
+				            	<td width="125px" style="max-width: 125px;">
+				            		<div class="dataTables_filter" align="left">
+				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;">
+				            		</div>
 				            	</td>
-				            	<td>
-                                    <input type="number" readonly="" class="form-control" placeholder="0.00" min="0.00" value="0.00">
+				            	<td width="125px" style="max-width: 125px;">
+				            		<div class="dataTables_filter" align="left">
+				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;">
+				            		</div>
 				            	</td>
-				            	<td>
-                                    <input type="number" class="form-control" placeholder="0.00" min="0.00" value="0.00">
+				            	<td width="82px" style="max-width: 82px;">
+				            		<div class="dataTables_filter" align="left">
+				            			<input type="number" placeholder="0.00" min="0.00" value="<?php echo $km; ?>" style="max-width: 60px; margin-left: 0; color: gray;" readonly>
+				            		</div>
+				            	</td>
+				            	<td width="82px" style="max-width: 82px;">
+				            		<div class="dataTables_filter" align="left">
+				            			<input type="number" placeholder="0.00" min="0.00" value="0.00" style="max-width: 60px; margin-left: 0; color: gray;">
+				            		</div>
+				            	</td>
+				            	<td width="82px" style="max-width: 82px;">
+				            		<div class="dataTables_filter" align="left">
+				            			<input type="number" placeholder="0.00" min="0.00" value="0.00" style="max-width: 60px; margin-left: 0; color: gray;">
+				            		</div>
 				            	</td>
 		                        <?php
 		                      echo "</tr>";
 		                      $origen = $fila->direccion_empresa;
 		                    }
+		            ?>
+		            	<tr style="color: black;">
+		            		<td colspan="5" align="right"><b>TOTAL</b></td>
+		            		<td><b>0.00</b></td>
+		            		<td><b>0.00</b></td>
+		            	</tr>
+		            <?php
 		                }
 		            ?>
 
 			  	</tbody>
 			</table>
+			<hr style="margin-top: 0px;">
 		</div>
 
-		<div class="form-group m-b-5" style="display: none;">
+		<div class="form-group m-b-5" style="display: block;">
             <textarea class="form-control" id="area" rows="4"></textarea>
             <span class="bar"></span>
             <label for="input7">Text area</label>
@@ -97,8 +111,6 @@
 		    </div>
 		</div>
 
-    </div>
-</div>
 
 <?php
 }else{

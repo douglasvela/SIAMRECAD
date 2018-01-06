@@ -39,9 +39,15 @@ class Rutas extends CI_Controller {
 			'latitud_destino_vyp_rutas' => $this->input->post('latitud_destino_vyp_rutas'),
 			'longitud_destino_vyp_rutas' => $this->input->post('longitud_destino_vyp_rutas')
 			);
-			
-                echo $this->rutas_model->insertar_ruta($data);
-            
+			if($this->input->post('id_oficina_destino_vyp_rutas') == $this->input->post('id_oficina_origen_vyp_rutas') ){
+				echo "fracaso";
+			}else{
+				if($this->rutas_model->buscarduplicados($data)=="duplicado"){
+					echo "duplicado";
+				}else{
+                	echo $this->rutas_model->insertar_ruta($data);
+            	}
+            }
 		}else if($this->input->post('band') == "edit"){
 			
 			$data = array(
@@ -56,9 +62,11 @@ class Rutas extends CI_Controller {
 			'latitud_destino_vyp_rutas' => $this->input->post('latitud_destino_vyp_rutas'),
 			'longitud_destino_vyp_rutas' => $this->input->post('longitud_destino_vyp_rutas')
 			);
-			
+			if($this->input->post('id_oficina_destino_vyp_rutas') == $this->input->post('id_oficina_origen_vyp_rutas') ){
+				echo "fracaso";
+			}else{
 				echo $this->rutas_model->editar_ruta($data);
-			
+			}
 
 		}else if($this->input->post('band') == "delete"){
 

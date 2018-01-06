@@ -14,49 +14,105 @@ class Solicitud extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function calcular_viaticos(){
-		$data = array(
-			'hora_inicio' => $this->input->post('hora_inicio'), 
-			'hora_fin' => $this->input->post('hora_fin')
-		);
-		$res = $this->solicitud_model->calcular_viaticos($data);
-		$suma = 0;
-		if($res != false){
-			foreach ($res->result() as $fila) {
-				$suma += $fila->monto; 
-			}
-		}
-
-		echo number_format($suma, 2, '.', '');
+	public function tabla_solicitudes(){
+		$this->load->view('viaticos/tabla_solicitudes');
 	}
 
-	/*public function gestionar_bancos(){		
+	public function combo_oficinas_departamentos(){
+		$this->load->view('viaticos/combo_oficinas_departamentos');
+	}
 
+	public function combo_municipios(){
+		$this->load->view('viaticos/combo_municipio');
+	}
+
+	public function input_distancia(){
+		$this->load->view('viaticos/input_distancia');
+	}
+
+	public function tabla_empresas_visitadas(){
+		$this->load->view('viaticos/tabla_empresas_visitadas');
+	}
+
+	public function tabla_empresas_viaticos(){
+		$this->load->view('viaticos/tabla_empresa_viaticos');
+	}
+
+	public function eliminar_destino(){
+		$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_empresas_visitadas = '".$this->input->post('id_empresa_visitada')."'";
+		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
+	}
+
+	public function gestionar_mision(){
 		if($this->input->post('band') == "save"){
-
 			$data = array(
-			'nombre' => $this->input->post('nombre'), 
-			'caracteristicas' => $this->input->post('caracteristicas')
+			'nr' => $this->input->post('nr'),
+			'nombre_completo' => $this->input->post('nombre_empleado'),
+			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),
+			'actividad_realizada' => saltos_sql($this->input->post('actividad'))
 			);
-			echo $this->bancos_model->insertar_banco($data);
-			
+			echo $this->solicitud_model->insertar_mision($data);			
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
-			'idb' => $this->input->post('idb'), 
-			'nombre' => $this->input->post('nombre'), 
-			'caracteristicas' => $this->input->post('caracteristicas')
-
+			'id_mision' => $this->input->post('id_mision'), 
+			'nr' => $this->input->post('nr'),
+			'nombre_completo' => $this->input->post('nombre_empleado'),
+			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),			
+			'actividad_realizada' => saltos_sql($this->input->post('actividad'))
 			);
-			echo $this->bancos_model->editar_banco($data);
-
+			echo $this->solicitud_model->editar_mision($data);
 		}else if($this->input->post('band') == "delete"){
-
 			$data = array(
-			'idb' => $this->input->post('idb')
+			'id_mision' => $this->input->post('id_mision')
 			);
-			echo $this->bancos_model->eliminar_banco($data);
 
+			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
+			/*if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito"){
+				echo $this->solicitud_model->eliminar_mision($data);
+			}else{
+				echo "fracaso";
+			}*/
+			echo $this->solicitud_model->eliminar_mision($data);
 		}
-	}*/
+	}
+
+
+	public function gestionar_destinos(){
+        if($this->input->post('band') == "save"){
+			$data = array(
+				"id_mision" => $this->input->post('id_mision'),
+	            "departamento" => $this->input->post('departamento'),
+	            "municipio" => $this->input->post('municipio'),
+	            "nombre_empresa" => $this->input->post('nombre_empresa'),
+	            "direccion_empresa" => $this->input->post('direccion_empresa'),
+	            "tipo" =>  $this->input->post('tipo'),
+	            "band" => $this->input->post('band')
+	        );
+			echo $this->solicitud_model->insertar_destino($data);			
+		}else if($this->input->post('band') == "edit"){
+			$data = array(
+	            "id_mision" => $this->input->post('id_mision'),
+	            "departamento" => $this->input->post('departamento'),
+	            "municipio" => $this->input->post('municipio'),
+	            "nombre_empresa" => $this->input->post('nombre_empresa'),
+	            "direccion_empresa" => $this->input->post('direccion_empresa'),
+	            "tipo" =>  $this->input->post('tipo'),
+	            "band" => $this->input->post('band')
+	        );
+			echo $this->solicitud_model->editar_destino($data);
+		}else if($this->input->post('band') == "delete"){
+			$data = array(
+	            "id_mision" => $this->input->post('id_mision'),
+	            "departamento" => $this->input->post('departamento'),
+	            "municipio" => $this->input->post('municipio'),
+	            "nombre_empresa" => $this->input->post('nombre_empresa'),
+	            "direccion_empresa" => $this->input->post('direccion_empresa'),
+	            "tipo" =>  $this->input->post('tipo'),
+	            "band" => $this->input->post('band')
+	        );
+			echo $this->solicitud_model->eliminar_destino($data);
+		}
+		
+	}
 }
 ?>
