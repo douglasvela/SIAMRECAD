@@ -1,7 +1,32 @@
+
+
+
 <script type="text/javascript">
+    /*****************************************************************************************************
+    ******************************* Recuperando los horarios de viaticos ********************************/
+    var km_minimo = 15;
+    var viaticos = [
+        <?php
+            $horario_viaticos = $this->db->query("SELECT h.*, v.id_empresa FROM vyp_horario_viatico AS h JOIN vyp_viatico_empresa_horario AS v ON v.id_horario = h.id_horario_viatico UNION SELECT h.*, '' FROM vyp_horario_viatico AS h WHERE h.id_horario_viatico NOT IN (SELECT v.id_horario FROM vyp_viatico_empresa_horario AS v)");
+
+            $n = $horario_viaticos->num_rows();
+
+            if($horario_viaticos->num_rows() > 0){
+                foreach ($horario_viaticos->result() as $fila) {
+                    $n--;
+                    if($n == 0){
+                        echo "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."']";
+                    }else{
+                        echo "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."'], ";
+                    }
+                }
+            }    
+        ?>
+    ];
+
 
     function iniciar(){
-        tabla_solicitudes();        
+        tabla_solicitudes();
     }
 
     function objetoAjax(){
@@ -409,6 +434,91 @@
         }
     }
 
+    var input_monto, id_empresa;
+
+    function verificar_viaticos(obj){
+        var celdas = $(obj).parents("tr").children("td");
+        var hora_inicio, hora_fin, km;
+        var bd_inicio, bd_fin, monto, tiene = false;
+        var total_viatico = 0.00;
+        
+        hora_inicio = $($(celdas[3]).find("input")).val();
+        hora_fin = $($(celdas[4]).find("input")).val();
+        km = $($(celdas[5]).find("input")).val();
+        id_empresa = $($(celdas[0]).find("input")[0]).val();
+
+        var array = new Array(viaticos.length);
+
+        if(km >= km_minimo){
+            for(var i = 0; i < viaticos.length; i++){
+                bd_inicio = viaticos[i][1];
+                bd_fin = viaticos[i][2];
+                monto = parseFloat(viaticos[i][4]);
+
+                input_monto = $($(celdas[6]).find("input"));
+
+                if((bd_inicio <= hora_inicio && bd_inicio >= hora_inicio) || (bd_inicio >= hora_inicio && bd_fin <= hora_fin) || (bd_inicio <= hora_fin && bd_fin >= hora_fin)){
+                    tiene = true;
+                    //total_viatico += parseFloat(monto);
+                    array[i] = [viaticos[i][0],viaticos[i][3],viaticos[i][4],viaticos[i][5],i];
+                }else{
+                    array[i] = [viaticos[i][0],"vacio"];
+                }
+            }
+
+            if(tiene){
+                preguntar_viaticos(array);
+            }
+            //input_monto.val(total_viatico.toFixed(2));
+        }else{
+            $($(celdas[6]).find("input")).val("0.00");
+        }
+
+    }
+
+    function preguntar_viaticos(array){
+        var divs = $("#contenedor_viatico").children("div");
+        for(var j = 0; j < array.length; j++){
+            if(array[j][1] == "vacio"){
+                $("#cnt"+array[j][0]).hide(0);
+            }else{
+                if(array[j][3] == ''){
+                    $("#cnt"+array[j][0]).show(0);
+                }else{
+                    $("#cnt"+array[j][0]).hide(0);
+                }
+            }
+        }
+
+        $("#myModal").modal('show');
+    }
+
+    function recorrer_modal(){
+        var divs = $("#contenedor_viatico").children("div");
+        var total_viatico = 0.00;
+
+        for(var j = 0; j < divs.length; j++){
+            var input = $(divs[j]).find("input");
+
+            if($(input).is(':checked')){
+                total_viatico += parseFloat(viaticos[j][4]);
+                for(var i = 0; i < viaticos.length; i++){
+                    if(viaticos[i][0] == $(input).val()){
+                        viaticos[i][5] = id_empresa;
+                    }
+                }
+            }else{
+               for(var i = 0; i < viaticos.length; i++){
+                    if(viaticos[i][0] == $(input).val()){
+                        viaticos[i][5] = '';
+                    }
+                } 
+            }
+        }
+
+        input_monto.val(total_viatico.toFixed(2));
+
+    }
    
 
 </script>
@@ -429,6 +539,7 @@
                 	</h3>
             </div>
         </div>
+
         <!-- ============================================================== -->
         <!-- Fin TITULO de la página de sección -->
         <!-- ============================================================== -->
@@ -623,6 +734,47 @@
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
+
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Viáticos presentados</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body" id="contenedor_viatico">
+                <p>Seleccione los viáticos a cobrar.</p>
+                <?php 
+
+                    $horarios = $this->db->get("vyp_horario_viatico");
+
+                    if(!empty($horarios)){
+                        foreach ($horarios->result() as $fila) {
+                ?>
+                    <div class="form-check" id="cnt<?php echo $fila->id_horario_viatico; ?>">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" value="<?php echo $fila->id_horario_viatico; ?>">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description"><?php echo $fila->descripcion; ?></span>
+                        </label>
+                    </div>
+                <?php
+                        }
+                    }
+                ?>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" onclick="recorrer_modal();" class="btn btn-success waves-effect">Aceptar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 
 <script>
 $(function(){  

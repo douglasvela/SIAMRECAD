@@ -75,12 +75,12 @@
 				            	</td>
 				            	<td width="125px" style="max-width: 125px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;">
+				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
 				            		</div>
 				            	</td>
 				            	<td width="125px" style="max-width: 125px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;">
+				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
 				            		</div>
 				            	</td>
 				            	<td width="82px" style="max-width: 82px;">
