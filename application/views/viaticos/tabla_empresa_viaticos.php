@@ -73,14 +73,14 @@
 				            		}
 				            		?>				            		
 				            	</td>
-				            	<td width="125px" style="max-width: 125px;">
+				            	<td width="130px" style="max-width: 130px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
+				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
 				            		</div>
 				            	</td>
-				            	<td width="125px" style="max-width: 125px;">
+				            	<td width="130px" style="max-width: 130px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" style="max-width: 105px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
+				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
 				            		</div>
 				            	</td>
 				            	<td width="82px" style="max-width: 82px;">
@@ -92,7 +92,8 @@
 				            		<p style="position: absolute;"><span class="mytooltip tooltip-effect-2">
 	                                    <span class="tooltip-item" style="opacity: 0;">Toolt.</span> <span class="tooltip-content clearfix bg-success" style="padding-left: 10px; padding-right: 10px; width: 200px; margin: 0 0 20px -100px;">
 	                                        <span class="tooltip-text text-center" style="padding-right: 0; font-size: 15px;">
-	                                            <span style="cursor: pointer;">Agregar viáticos</span>
+	                                            <output style="cursor: pointer;" onclick="verificar_viaticos(this);">Agregar viáticos</output>
+	                                            <output style="cursor: pointer; display: none;" onclick="eliminar_viaticos(this,'<?php echo $fila->id_empresas_visitadas; ?>');">Quitar viáticos</output>
 	                                        </span> 
 	                                    </span>
 	                                    </span>

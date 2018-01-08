@@ -9,7 +9,7 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (315, 15, 'Oficinas mtps', '', 3, 312, 'configuraciones/oficinas', 'mdi mdi-label', 0),
 (316, 15, 'Gestion de rutas', '', 4, 312, 'configuraciones/rutas', 'mdi mdi-label', 0),
 (317, 15, 'Viáticos y pasajes', '', 2, 0, '#!', 'mdi mdi-bus', 0),
-(318, 15, 'Crear solicitud', '', 1, 317, 'viatico/mision_oficial', 'mdi mdi-label', 0);
+(318, 15, 'Crear solicitud', '', 1, 317, 'viatico/solicitud', 'mdi mdi-label', 0);
 
 --
 -- Índices para tablas volcadas

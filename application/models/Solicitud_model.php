@@ -9,7 +9,7 @@ class Solicitud_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'estado' => "sin procesar"))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'estado' => "incompleta"))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -35,6 +35,16 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function estado_revision($data){
+		$this->db->where("id_mision_oficial",$data);
+		$fecha = date("Y-m-d H:i:s");
+		if($this->db->update('vyp_mision_oficial', array('fecha_solicitud' => $fecha, 'estado' => 'revision'))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function eliminar_mision($data){
 		if($this->db->delete("vyp_mision_oficial",array('id_mision_oficial' => $data['id_mision']))){
 			return "exito";
@@ -51,7 +61,31 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function eliminar_registros_viaticos($data){
+		if($this->db->delete("vyp_viatico_empresa_horario",array('id_mision' => $data))){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	function ordenar_empresas_visitadas($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function guardar_registros_viaticos($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function completar_tabla_viatico($data){
 		if($this->db->query($data)){
 			return "exito";
 		}else{
