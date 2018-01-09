@@ -70,7 +70,7 @@ function Row($data,$dibujacelda)
     //Go to the next line
     $this->Ln($h);
 }*/
-function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill)
+public function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill)
 {
     //Calculate the height of the row
     $nb=0;
@@ -90,10 +90,10 @@ function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill)
         //Draw the border
         
         //$this->Rect($x,$y,$w,$h);
-        $this->SetFillColor($fill[$i][0],$fill[$i][1],$fill[$i][2]);
+         $this->SetFillColor($fill[$i][0],$fill[$i][1],$fill[$i][2]);
         $this->SetTextColor($color[$i][0],$color[$i][1],$color[$i][2]);
         $this->SetFont($fuente[$i][0],$fuente[$i][1],$fuente[$i][2]);
-        $this->MultiCell($w,4,$data[$i],$dibujacelda[$i],$a,$v[$i]);
+         $this->MultiCell($w,4,$data[$i],$dibujacelda[$i],$a,$v[$i]);
         //Put the position to the right of the cell
         $this->SetXY($x+$w,$y);
     }
@@ -313,6 +313,28 @@ function Footer()
     
 
 }
+/*********************************************************/
+
+function TablaBasica($data,$x,$y)
+   {
+    $this->Ln();
+     for($i=0;$i<count($data);$i++){
+      $this->Cell($x[$i],$y[$i],$data[$i],'RL');
+    } 
+    
+   } 
+   function cabecera($header,$x,$y){
+     for($i=0;$i<count($header);$i++){
+
+            $this->Cell($x[$i],$y[$i],$header[$i],'RLTB');
+        }
+   }
+
+
+
+
+
+
 /**********************************************************************************************/
 
 
