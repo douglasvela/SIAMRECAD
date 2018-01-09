@@ -69,6 +69,27 @@ class Solicitud extends CI_Controller {
 		//}
 	}
 
+	function cargar_viaticos(){
+		$id_mision = $_POST['id_mision'];
+        $horario_viaticos = $this->db->query("SELECT h.*, v.id_empresa FROM vyp_horario_viatico AS h JOIN vyp_viatico_empresa_horario AS v ON v.id_horario = h.id_horario_viatico AND v.id_mision = '$id_mision' UNION SELECT h.*, '' FROM vyp_horario_viatico AS h WHERE h.id_horario_viatico NOT IN (SELECT v.id_horario FROM vyp_viatico_empresa_horario AS v WHERE v.id_mision = '$id_mision')");
+
+        $n = $horario_viaticos->num_rows();
+
+        $retorno = "";
+
+        if($horario_viaticos->num_rows() > 0){
+            foreach ($horario_viaticos->result() as $fila) {
+                $n--;
+                if($n == 0){
+                    $retorno .= "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."',]";
+                }else{
+                    $retorno .= "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."',]";
+                }
+            }
+        }
+        echo $retorno;
+	}
+
 	public function verficar_oficina_destino(){
 		$data = array(
 			'id_mision' => $this->input->post('id_mision'),

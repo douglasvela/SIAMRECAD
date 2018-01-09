@@ -5,24 +5,46 @@
     /*****************************************************************************************************
     ******************************* Recuperando los horarios de viaticos ********************************/
     var km_minimo = 15;
-    var viaticos = [
-        <?php
-            $horario_viaticos = $this->db->query("SELECT h.*, v.id_empresa FROM vyp_horario_viatico AS h JOIN vyp_viatico_empresa_horario AS v ON v.id_horario = h.id_horario_viatico UNION SELECT h.*, '' FROM vyp_horario_viatico AS h WHERE h.id_horario_viatico NOT IN (SELECT v.id_horario FROM vyp_viatico_empresa_horario AS v)");
+    var viaticos = [];
 
-            $n = $horario_viaticos->num_rows();
+    function cargar_viaticos(){
+        var id_mision = $("#id_mision").val();
+        var cadena, prueba, termina = false, j = 0;
 
-            if($horario_viaticos->num_rows() > 0){
-                foreach ($horario_viaticos->result() as $fila) {
-                    $n--;
-                    if($n == 0){
-                        echo "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."']";
+        viaticos = [];
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/cargar_viaticos", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                
+                cadena = ajax.responseText;
+                while(!termina){
+                    inicio = cadena.indexOf('[');
+                    fin = cadena.indexOf(']');
+                    if(inicio == -1){
+                        termina = true;
                     }else{
-                        echo "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."'], ";
+                        prueba = cadena.substring(inicio+1,fin);
+                        viaticos.push([]);
+                        for(var i = 0; i<6; i++){
+                            inicio2 = prueba.indexOf("'");
+                            fin2 = prueba.indexOf("',");
+                            viaticos[j].push(prueba.substring(inicio2+1,fin2));
+                            prueba = prueba.substring(parseInt(fin2)+2)
+                        }
+                        cadena = cadena.substring(parseInt(fin)+1)
+                        j++;
                     }
                 }
-            }    
-        ?>
-    ];
+
+                form_viaticos();
+                
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+id_mision)
+    }
 
 
     function iniciar(){
@@ -335,7 +357,7 @@
     function verficar_oficina_destino(){
         var filas = $("#target").find("tbody").find("tr");
         var celdas = $(filas[0]).find("td");
-        
+
         if(celdas.length > 1){
             var nr = $("#nr").val();
             var id_mision = $("#id_mision").val();
@@ -383,7 +405,7 @@
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
-                    form_viaticos();
+                    cargar_viaticos();
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }           
