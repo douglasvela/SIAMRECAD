@@ -12,23 +12,24 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('templates/header');
 		$this->load->view('informes/menu_reportes');
 		$this->load->view('templates/footer');
+		
 	}
 
-	 
-	public function gestionar_bancos(){		
+
+	public function gestionar_bancos(){
 
 		if($this->input->post('band') == "save"){
 
 			$data = array(
-			'nombre' => $this->input->post('nombre'), 
+			'nombre' => $this->input->post('nombre'),
 			'caracteristicas' => $this->input->post('caracteristicas')
 			);
 			echo $this->bancos_model->insertar_banco($data);
-			
+
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
-			'idb' => $this->input->post('idb'), 
-			'nombre' => $this->input->post('nombre'), 
+			'idb' => $this->input->post('idb'),
+			'nombre' => $this->input->post('nombre'),
 			'caracteristicas' => $this->input->post('caracteristicas')
 
 			);
