@@ -40,7 +40,8 @@ CREATE TABLE `vyp_empresas_visitadas` (
   `viaticos` float NOT NULL,
   `pasajes` float NOT NULL,
   `kilometraje` float NOT NULL,
-  `justificacion` varchar(500) NOT NULL
+  `justificacion` varchar(500) NOT NULL,
+  `orden` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

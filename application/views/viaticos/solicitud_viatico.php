@@ -428,52 +428,73 @@
                 if($("#total_viatico").val() == 0){
                     swal({ title: "Sin viáticos", text: "El valor en viáticos no puede ser $0.00", type: "warning", showConfirmButton: true });
                 }else{
-                    alert("guardaría")
+                    guardar_registros_viaticos();
                 }
             }
         }
     }
 
+    function eliminar_viaticos(obj,id_empre){
+        for(var i = 0; i < viaticos.length; i++){
+            if(viaticos[i][5] == id_empre){
+                viaticos[i][5] = '';
+                input = $("#cnt"+viaticos[i][0]).find("input");
+                input[0].checked = false;                
+            }
+        }
+
+        $(obj).siblings("output").show(0);
+        $(obj).hide(0);
+        $(obj).parent("span").parent("span").addClass("bg-success");
+        $(obj).parent("span").parent("span").removeClass("bg-danger");
+
+        input = $(obj).parents("td").find("input");
+        input.val("0.00");
+        sumar_viaticos();
+    }
+
     var input_monto, id_empresa;
 
     function verificar_viaticos(obj){
-        var celdas = $(obj).parents("tr").children("td");
-        var hora_inicio, hora_fin, km;
-        var bd_inicio, bd_fin, monto, tiene = false;
-        var total_viatico = 0.00;
-        
-        hora_inicio = $($(celdas[3]).find("input")).val();
-        hora_fin = $($(celdas[4]).find("input")).val();
-        km = $($(celdas[5]).find("input")).val();
-        id_empresa = $($(celdas[0]).find("input")[0]).val();
+        if(!$("myModal").is(":visible")){
+            var celdas = $(obj).parents("tr").children("td");
+            var hora_inicio, hora_fin, km;
+            var bd_inicio, bd_fin, monto, tiene = false;
+            var total_viatico = 0.00;
+            
+            hora_inicio = $($(celdas[3]).find("input")).val();
+            hora_fin = $($(celdas[4]).find("input")).val();
+            km = $($(celdas[5]).find("input")).val();
+            id_empresa = $($(celdas[0]).find("input")[0]).val();
 
-        var array = new Array(viaticos.length);
+            var array = new Array(viaticos.length);
 
-        if(km >= km_minimo){
-            for(var i = 0; i < viaticos.length; i++){
-                bd_inicio = viaticos[i][1];
-                bd_fin = viaticos[i][2];
-                monto = parseFloat(viaticos[i][4]);
+            if(hora_inicio != "" && hora_fin != ""){
+                if(km >= km_minimo){
+                    for(var i = 0; i < viaticos.length; i++){
+                        bd_inicio = viaticos[i][1];
+                        bd_fin = viaticos[i][2];
+                        monto = parseFloat(viaticos[i][4]);
 
-                input_monto = $($(celdas[6]).find("input"));
+                        input_monto = $($(celdas[6]).find("input"));
 
-                if((bd_inicio <= hora_inicio && bd_inicio >= hora_inicio) || (bd_inicio >= hora_inicio && bd_fin <= hora_fin) || (bd_inicio <= hora_fin && bd_fin >= hora_fin)){
-                    tiene = true;
-                    //total_viatico += parseFloat(monto);
-                    array[i] = [viaticos[i][0],viaticos[i][3],viaticos[i][4],viaticos[i][5],i];
+                        if(((bd_inicio <= hora_inicio && bd_inicio >= hora_inicio) || (bd_inicio >= hora_inicio && bd_fin <= hora_fin) || (bd_inicio <= hora_fin && bd_fin >= hora_fin)) && viaticos[i][5] == ''){
+                            tiene = true;
+                            array[i] = [viaticos[i][0],viaticos[i][3],viaticos[i][4],viaticos[i][5],i];
+                        }else{
+                            array[i] = [viaticos[i][0],"vacio"];
+                        }
+                    }
+
+                    if(tiene){
+                        preguntar_viaticos(array);
+                    }
+                    //input_monto.val(total_viatico.toFixed(2));
                 }else{
-                    array[i] = [viaticos[i][0],"vacio"];
+                    $($(celdas[6]).find("input")).val("0.00");
                 }
             }
-
-            if(tiene){
-                preguntar_viaticos(array);
-            }
-            //input_monto.val(total_viatico.toFixed(2));
-        }else{
-            $($(celdas[6]).find("input")).val("0.00");
         }
-
     }
 
     function preguntar_viaticos(array){
@@ -489,7 +510,7 @@
                 }
             }
         }
-
+        $('#myModal').modal({backdrop: 'static', keyboard: false});
         $("#myModal").modal('show');
     }
 
@@ -500,25 +521,151 @@
         for(var j = 0; j < divs.length; j++){
             var input = $(divs[j]).find("input");
 
-            if($(input).is(':checked')){
+            if($(input).is(':checked') && $(divs[j]).is(":visible")){
                 total_viatico += parseFloat(viaticos[j][4]);
                 for(var i = 0; i < viaticos.length; i++){
                     if(viaticos[i][0] == $(input).val()){
                         viaticos[i][5] = id_empresa;
                     }
                 }
-            }else{
+            }/*else{
                for(var i = 0; i < viaticos.length; i++){
                     if(viaticos[i][0] == $(input).val()){
                         viaticos[i][5] = '';
                     }
                 } 
-            }
+            }*/
+        }
+
+        if(total_viatico > 0){
+            botones = $(input_monto).parents("td").find("output");
+            $(botones[0]).hide(0);
+            $(botones[1]).show(0);
+            $(botones[0]).parent("span").parent("span").removeClass("bg-success");
+            $(botones[0]).parent("span").parent("span").addClass("bg-danger");
         }
 
         input_monto.val(total_viatico.toFixed(2));
+        sumar_viaticos();
 
+        $('#myModal').modal('hide');
     }
+
+    function sumar_viaticos(){
+        var tabla_v = $("#tabla_viaticos").find("tbody").find("tr");
+        var res_viatico = 0.00;
+        for(var k = 0; k< (tabla_v.length-1); k++){
+            filas = $(tabla_v[k]).find("td");
+            input = $(filas[6]).find("input").val();
+            res_viatico += parseFloat(input);
+            $("#total_viatico").val(res_viatico.toFixed(2));
+        }
+    }
+
+    function guardar_registros_viaticos(){
+        var query = "INSERT INTO vyp_viatico_empresa_horario (id_empresa, id_horario, id_mision) VALUES \n";
+        var id_mision = $("#id_mision").val();
+
+        for(var i = 0; i < viaticos.length; i++){
+            if(viaticos[i][5] != ""){
+                query += "('"+viaticos[i][5]+"','"+viaticos[i][0]+"','"+id_mision+"'),\n";
+            }
+        }
+
+        query = query.substr(0,(query.length-2))+";";
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/guardar_registros_viaticos", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    recorrer_solicitud();
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }           
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&query="+query+"&id_mision="+id_mision)
+    }
+
+    function recorrer_solicitud(){
+        var filas = $("#tabla_viaticos").find("tbody").find("tr");
+
+        var query = "UPDATE vyp_empresas_visitadas SET\n";
+
+        var origenes = "origen = CASE id_empresas_visitadas\n";
+        var hora_salida = "hora_salida = CASE id_empresas_visitadas\n";
+        var hora_llegada = "hora_llegada = CASE id_empresas_visitadas\n";
+        var kilometraje = "kilometraje = CASE id_empresas_visitadas\n";
+        var viaticos = "viaticos = CASE id_empresas_visitadas\n";
+        var pasajes = "pasajes = CASE id_empresas_visitadas\n";
+
+        var id_empre = "";
+
+        var id;
+
+        for(i=0; i<(filas.length-1); i++){
+            var celdas = $(filas[i]).find("td");
+            id = $($(celdas[0]).find("input")[0]).val();
+            id_empre += id+",";
+            origenes += "WHEN "+id+" THEN '"+$(celdas[1]).html()+"'\n";
+            hora_salida += "WHEN "+id+" THEN '"+$($(celdas[3]).find("input")).val()+"'\n";
+            hora_llegada += "WHEN "+id+" THEN '"+$($(celdas[4]).find("input")).val()+"'\n";
+            kilometraje += "WHEN "+id+" THEN '"+$($(celdas[5]).find("input")).val()+"'\n";
+            viaticos += "WHEN "+id+" THEN '"+$($(celdas[6]).find("input")).val()+"'\n";
+            pasajes += "WHEN "+id+" THEN '"+$($(celdas[7]).find("input")).val()+"'\n";
+        }
+
+        origenes += "END,\n";
+        hora_salida += "END,\n";
+        hora_llegada += "END,\n";
+        kilometraje += "END,\n";
+        viaticos += "END,\n";
+        pasajes += "END\n";
+
+        id_empre = id_empre.substr(0,id_empre.length-1);
+
+        query += origenes+hora_salida+hora_llegada+kilometraje+viaticos+pasajes+" WHERE id_empresas_visitadas IN ("+id_empre+");";
+
+        completar_tabla_viatico(query);
+    }
+
+    function completar_tabla_viatico(query){
+        var id_mision = $("#id_mision").val();
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/completar_tabla_viatico", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    estado_revision();
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }           
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&query="+query+"&id_mision="+id_mision)
+    }
+
+    function estado_revision(){
+        var id_mision = $("#id_mision").val();
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/solicitud/estado_revision", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    swal({ title: "!Solicitud exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }           
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+id_mision)
+    } 
    
 
 </script>
@@ -766,7 +913,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="recorrer_modal();" class="btn btn-success waves-effect">Aceptar</button>
             </div>
         </div>

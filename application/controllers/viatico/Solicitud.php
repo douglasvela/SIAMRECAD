@@ -51,6 +51,24 @@ class Solicitud extends CI_Controller {
 		echo $this->solicitud_model->ordenar_empresas_visitadas($_POST['query']);
 	}
 
+	public function guardar_registros_viaticos(){
+		if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
+			echo $this->solicitud_model->guardar_registros_viaticos($_POST['query']);
+		}
+	}
+
+	public function completar_tabla_viatico(){
+		//if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
+			echo $this->solicitud_model->completar_tabla_viatico($_POST['query']);
+		//}
+	}
+
+	public function estado_revision(){
+		//if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
+			echo $this->solicitud_model->estado_revision($_POST['id_mision']);
+		//}
+	}
+
 	public function verficar_oficina_destino(){
 		$data = array(
 			'id_mision' => $this->input->post('id_mision'),
@@ -94,7 +112,8 @@ class Solicitud extends CI_Controller {
 			);
 
 			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
-			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito"){
+			
+			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_registros_viaticos($this->input->post('id_mision')) == true){
 				echo $this->solicitud_model->eliminar_mision($data);
 			}else{
 				echo "fracaso";
