@@ -24,7 +24,12 @@
                           echo "<tr>";
                             echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision))."</td>";
                             echo "<td>".$fila->actividad_realizada."</td>";
-                            echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
+                            if($fila->estado == "incompleta"){
+                                echo '<td><span class="label label-danger">'.$fila->estado.'</span></td>';
+                            }else if($fila->estado == "revision"){
+                                echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
+                            }
+                            
                             echo "<td>";
                             $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->actividad_realizada);
                             array_push($array, "edit");

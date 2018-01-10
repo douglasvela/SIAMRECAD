@@ -8,8 +8,6 @@
 <?php
 	$id_mision = $_GET["id_mision"];
 	$tipo = $_GET["tipo"];
-
-	if($tipo == "guardar"){
 ?>
 
         <div class="table-responsive">
@@ -33,6 +31,7 @@
 
 			  			$id_origen = "9";
 			  			$origen = "Oficina central (San Salvador)";
+			  			$viaticos = 0; $pasajes = 0;
 
 		                $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' ORDER BY orden");
 		                if($empresas->num_rows() > 0){
@@ -45,7 +44,6 @@
 		                    			$dm_direccion = "(".$fila3->departamento."/".$fila3->municipio.")";
 		                    		}
 		                    	}
-
 
 		                    	$kilometraje = $this->db->query("SELECT km_vyp_rutas FROM vyp_rutas WHERE id_municipio_vyp_rutas = '".$id_destino."' AND id_oficina_origen_vyp_rutas = ".$id_origen);
 		                    	if($kilometraje->num_rows() > 0){
@@ -75,12 +73,12 @@
 				            	</td>
 				            	<td width="130px" style="max-width: 130px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
+				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);" value="<?php if($fila->hora_salida != "00:00:00"){ echo $fila->hora_salida; } ?>">
 				            		</div>
 				            	</td>
 				            	<td width="130px" style="max-width: 130px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);">
+				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);" value="<?php if($fila->hora_llegada != "00:00:00"){ echo $fila->hora_llegada; } ?>">
 				            		</div>
 				            	</td>
 				            	<td width="82px" style="max-width: 82px;">
@@ -90,22 +88,24 @@
 				            	</td>
 				            	<td width="82px" style="max-width: 82px; position: relative;">
 				            		<p style="position: absolute;"><span class="mytooltip tooltip-effect-2">
-	                                    <span class="tooltip-item" style="opacity: 0;">Toolt.</span> <span class="tooltip-content clearfix bg-success" style="padding-left: 10px; padding-right: 10px; width: 200px; margin: 0 0 20px -100px;">
+	                                    <span class="tooltip-item" style="opacity: 0;">Toolt.</span> <span class="tooltip-content clearfix <?php if($fila->viaticos != 0){ echo "bg-danger"; }else{ echo "bg-success"; } ?>" style="padding-left: 10px; padding-right: 10px; width: 200px; margin: 0 0 20px -100px;">
 	                                        <span class="tooltip-text text-center" style="padding-right: 0; font-size: 15px;">
-	                                            <output style="cursor: pointer;" onclick="verificar_viaticos(this);">Agregar viáticos</output>
-	                                            <output style="cursor: pointer; display: none;" onclick="eliminar_viaticos(this,'<?php echo $fila->id_empresas_visitadas; ?>');">Quitar viáticos</output>
+	                                            <output style="cursor: pointer; <?php if($fila->viaticos != 0){ echo "display: none;"; } ?>" onclick="verificar_viaticos(this);">Agregar viáticos</output>
+	                                            <output style="cursor: pointer; <?php if($fila->viaticos == 0){ echo "display: none;"; } ?>" onclick="eliminar_viaticos(this,'<?php echo $fila->id_empresas_visitadas; ?>');">Quitar viáticos</output>
 	                                        </span> 
 	                                    </span>
 	                                    </span>
                                 	</p>
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="number" placeholder="0.00" min="0.00" value="0.00" style="max-width: 60px; margin-left: 0; color: gray;" readonly="">
+				            			<input type="number" placeholder="0.00" min="0.00" value="<?php if($fila->viaticos != 0){ echo number_format($fila->viaticos, 2, '.', ''); }else{ echo "0.00"; } ?>" style="max-width: 60px; margin-left: 0; color: gray;" readonly="">
 				            		</div>
+				            		<?php $viaticos += number_format($fila->viaticos, 2, '.', ''); ?>
 				            	</td>
 				            	<td width="82px" style="max-width: 82px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="number" placeholder="0.00" min="0.00" value="0.00" style="max-width: 60px; margin-left: 0; color: gray;">
+				            			<input type="number" placeholder="0.00" min="0.00" value="<?php if($fila->pasajes != 0){ echo number_format($fila->pasajes, 2, '.', ''); }else{ echo "0.00"; } ?>" style="max-width: 60px; margin-left: 0; color: gray;">
 				            		</div>
+				            		<?php $pasajes += number_format($fila->pasajes, 2, '.', ''); ?>
 				            	</td>
 		                        <?php
 		                      	echo "</tr>";
@@ -120,12 +120,12 @@
 		            		<td colspan="5" align="right">TOTAL</td>
 		            		<td>
 		            			<div class="dataTables_filter" align="left">
-			            			<input type="number" id="total_viatico" min="0.00" value="0.00" style="max-width: 60px; margin-left: 0; font-weight: 500;" readonly="">
+			            			<input type="number" id="total_viatico" min="0.00" value="<?php echo number_format($viaticos, 2, '.', ''); ?>" style="max-width: 60px; margin-left: 0; font-weight: 500;" readonly="">
 			            		</div>
 		            		</td>
 		            		<td>
 		            			<div class="dataTables_filter" align="left">
-			            			<input type="number" id="total_pasaje" min="0.00" value="0.00" style="max-width: 60px; margin-left: 0; font-weight: 500;" readonly="">
+			            			<input type="number" id="total_pasaje" min="0.00" value="<?php echo number_format($pasajes, 2, '.', ''); ?>" style="max-width: 60px; margin-left: 0; font-weight: 500;" readonly="">
 			            		</div>
 		            		</td>
 		            	</tr>
@@ -150,8 +150,3 @@
 		        </button>
 		    </div>
 		</div>
-
-
-<?php
-}
-?>
