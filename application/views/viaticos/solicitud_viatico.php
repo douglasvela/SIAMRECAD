@@ -371,7 +371,6 @@
                     }else if(ajax.responseText == "viaticos"){
                         swal({ title: "Kilometraje inválido", text: "Las empresas no cumplen con distancia > 15 Km para recibir viáticos.", type: "warning", showConfirmButton: true });
                     }else{
-                        alert("llega aqui")
                         swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                     }
                 }

@@ -20,6 +20,7 @@
     <script src="<?php echo base_url(); ?>assets/js/custom.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/validation.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/footable/js/footable.all.min.js"></script>
     <!-- icheck -->
     <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.init.js"></script>

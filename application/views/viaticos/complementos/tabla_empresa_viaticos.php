@@ -73,12 +73,12 @@
 				            	</td>
 				            	<td width="130px" style="max-width: 130px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);" value="<?php if($fila->hora_salida != "00:00:00"){ echo $fila->hora_salida; } ?>">
+				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);" value="<?php if($fila->hora_salida != "00:00:00"){ echo substr($fila->hora_salida,0,5); } ?>">
 				            		</div>
 				            	</td>
 				            	<td width="130px" style="max-width: 130px;">
 				            		<div class="dataTables_filter" align="left">
-				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);" value="<?php if($fila->hora_llegada != "00:00:00"){ echo $fila->hora_llegada; } ?>">
+				            			<input type="time" min="05:00" max="22:00" style="max-width: 110px; margin-left: 0; color: gray;" onchange="verificar_viaticos(this);" value="<?php if($fila->hora_llegada != "00:00:00"){ echo substr($fila->hora_llegada,0,5); } ?>">
 				            		</div>
 				            	</td>
 				            	<td width="82px" style="max-width: 82px;">
