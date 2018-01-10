@@ -294,22 +294,29 @@ function Header()
 {
     
     $this->SetFont('Arial','',10);
-   // $this->Image('logo.gif',13,6,30,9);
+    $this->Image(('application/libraries/logomtps.jpeg'),13,4,30,14);
     //$this->Text(145,12,$valueValuo['par_nombre_entidad'],0,'C', 0);
     $this->SetFont('Arial','B',10);
-    $this->Text(89,12,utf8_decode("INFORME DE VALUACIÓN"),0,'C', 0);
+    $this->Text(78,12,utf8_decode("VIÁTICOS PENDIENTES DE PAGO"),0,'C', 0);
     $this->Ln(30);
+    $this->Cuadros();
+    
+}
+function Cuadros(){
+    $this->cuadrogrande(9,20,25,260,0,'D');
+    $this->cuadrogrande(34,20,130,260,0,'D');
+    $this->cuadrogrande(164,20,27,260,0,'D');
+    $this->SetY(20);
 }
 
 function Footer()
 {
-    
-    
+       
     $this->SetY(-15);
     $this->SetFont('Arial','B',7);
     $this->SetTextColor(3, 3, 3);
     //$this->cuadrogrande(9,269,60,4,1,D);
-    $this->Text(11,272,"hola", 0);
+    //$this->Text(11,272,"hola", 0);
     
 
 }
@@ -319,14 +326,14 @@ function TablaBasica($data,$x,$y)
    {
     $this->Ln();
      for($i=0;$i<count($data);$i++){
-      $this->Cell($x[$i],$y[$i],$data[$i],'RL');
+      $this->Cell($x[$i],$y[$i],$data[$i],'0');
     } 
     
    } 
    function cabecera($header,$x,$y){
      for($i=0;$i<count($header);$i++){
 
-            $this->Cell($x[$i],$y[$i],$header[$i],'RLTB');
+            $this->Cell($x[$i],$y[$i],$header[$i],'0');
         }
    }
 

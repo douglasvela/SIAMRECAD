@@ -329,7 +329,7 @@
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                              
                             <div align="center">
-                                <button type="button" onclick="mostrarReporte();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Ejemplo</button>
+                                <button type="button" onclick="mostrarReporte();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Reporte Viaticos Pendiente de Pago</button>
                                 <button type="button" onclick="" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                            
                             </div>

@@ -332,6 +332,7 @@ function AddPage($orientation='', $size='', $rotation=0)
 	// Page header
 	$this->InHeader = true;
 	$this->Header();
+	
 	$this->InHeader = false;
 	// Restore line width
 	if($this->LineWidth!=$lw)
