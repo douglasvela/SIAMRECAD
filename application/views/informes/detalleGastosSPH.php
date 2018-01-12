@@ -15,9 +15,6 @@ $i = 1; $j = 2;
 header("Content-Type: text/html;charset=utf-8");
 //array(216,331)
 $pdf = new PDF('P','mm','Letter');
-
-
-
 $pdf->AddPage();
  $pdf->SetMargins(15,15,15);
 setlocale(LC_MONETARY, 'en_US');
