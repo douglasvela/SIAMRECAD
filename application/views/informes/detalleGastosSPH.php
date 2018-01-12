@@ -18,7 +18,6 @@ $pdf = new PDF('P','mm','Letter');
 
 $pdf->AddPage();
  $pdf->SetMargins(15,15,15);
-
 setlocale(LC_MONETARY, 'en_US');
 
 $pdf->SetTextColor(3,3,3);
