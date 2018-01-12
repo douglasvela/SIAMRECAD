@@ -10,7 +10,7 @@ class poliza extends CI_Controller {
 
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('viaticos/poliza_viatico');
+		$this->load->view('viaticos/poliza');
 		$this->load->view('templates/footer');
 	}
 

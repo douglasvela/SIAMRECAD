@@ -35,7 +35,7 @@
             <tr>
               <td height="25"><h5 align="justify">DENOMINACIÓN DEL MONTO FIJO: </h5></td>
               <td><div align="justify"><span class="controls">
-                <input type="text" id="nombre4" name="nombre4" class="form-control"  />
+                <input type="text" id="nombre4" name="nombre4" class="form-control" value="FONDO CIRCULANTE DEL MTPS" disabled="" />
               </span></div></td>
               <td> <h5 align="justify"> EJERCICIO FINANCIERO FISCAL: </h5></td>
               <td><div align="justify"><span class="controls">
@@ -49,7 +49,7 @@
               </span></div></td>
               <td> <h5 align="justify"> NOMBRE DEL BANCO: </h5></td>
               <td><div align="justify"><span class="controls">
-                <input type="text" id="nombre10" name="nombre10" class="form-control"/>
+                <input type="text" id="nombre10" name="nombre10" class="form-control" value="BANCO AGRICOLA, S.A."/>
               </span></div></td>
             </tr>
             <tr>
@@ -95,6 +95,8 @@
                     <th rowspan="2">No. CHEQUE O CARGO CTA</th>
                     <th rowspan="2">CÓDIGO DEL EMPLEADO</th>
                     <th rowspan="2">FECHA DE MISIÓN</th>
+                    <th rowspan="2">NOMBRE DEL EMPLEADO</th>
+                    <th rowspan="2">DETALLE DE MISION</th>
                     <th rowspan="2">SEDE</th>
                     <th rowspan="2">CARGO FUNCIONAL</th>
                     <th  rowspan="2">UP/LT</th>
@@ -109,8 +111,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php 
-                	
+               
+                   <?php 
+                    $mision = $this->db->get("vyp_mision_oficial");
+                    if(!empty($mision)){
+                        foreach ($mision->result() as $fila) {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<td>";
+                            echo "<td>";
+                              $fila->fecha_solicitud=date("d-m-Y",strtotime($fila->fecha_solicitud));
+                            echo "<td>".$fila->fecha_solicitud."</td>";
+                            echo "<td>";
+                            echo "<td>".$fila->nr_empleado."</td>";
+                            $fila->fecha_mision=date("d-m-Y",strtotime($fila->fecha_mision));
+                              echo "<td>".$fila->fecha_mision."</td>";
+                            echo "<td>".$fila->nombre_completo."</td>";
+                            echo "<td>".$fila->actividad_realizada."</td>";
+							     echo "<td>";
+							     echo "<td>";
+                   echo "<td>";
+							     echo "0204";
+                   echo "<td>";
+                   echo "54401";
+                   
+                    $valor = $this->db->get("vyp_empresas_visitadas");
+                    if(!empty($valor)){
+                        foreach ($valor->result() as $fila1) {
+                         
+                            echo "<td>".$fila1->viaticos."</td>";
+                    echo "<td>";       
+                   echo "54403";
+                         
+                         echo "<td>".$fila1->pasajes."</td>";
+                          $suma=($fila1->pasajes)+($fila1->viaticos);
+                           echo "<td>".$suma."</td>";
+                            echo "</td>";
+
+                           echo "</tr>";
+
+                        }
+                    }
+                   }
+                  }
+
+
+
                 ?>
                 </tbody>
     </table>
