@@ -1,26 +1,23 @@
 <?php
 class Reporte_viatico_pendiente extends CI_Controller {
 
-    function __construct()
-    {
+    function __construct(){
         parent::__construct();
     }
 
     function index(){
         $this->load->library('pdf');
         $this->load->model('Reportes_viaticos_model');
-
-
         $this->pdf = new Pdf('P','mm','Letter');
-
         $this->pdf->SetAutoPageBreak(true, 15);
        $this->pdf->SetMargins(9,3,6);
         $this->pdf->AddPage();
          $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
          $this->pdf->SetAligns(array('L','L','L'));
         $this->pdf->SetWidths(array(26,129,28));
-
         $viatico = $this->Reportes_viaticos_model->obtenerListaviatico();
+
+
 
               foreach ($viatico->result() as $viaticos) {
             $this->pdf->Row(
@@ -36,9 +33,6 @@ class Reporte_viatico_pendiente extends CI_Controller {
               //Se agrega un salto de linea
             $this->pdf->Ln(5);
             }
-
-
-
 
         /*
         $viatico = $this->Reportes_viaticos_model->obtenerListaviatico();
