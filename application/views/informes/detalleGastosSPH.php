@@ -12,15 +12,6 @@ $montodesembolsado = $_GET["md"];
 $cli_correlativo = $_GET["cli_correlativo"];
 $num_des=$_GET['num_des'];
 $i = 1; $j = 2;
-
-
-
-
-
-
-
-
-
 header("Content-Type: text/html;charset=utf-8");
 //array(216,331)
 $pdf = new PDF('P','mm','Letter');
