@@ -16,10 +16,7 @@ class Reporte_viatico_pendiente extends CI_Controller {
          $this->pdf->SetAligns(array('L','L','L'));
         $this->pdf->SetWidths(array(26,129,28));
         $viatico = $this->Reportes_viaticos_model->obtenerListaviatico();
-
-
-
-              foreach ($viatico->result() as $viaticos) {
+        foreach ($viatico->result() as $viaticos) {
             $this->pdf->Row(
             array(date('d-m-Y',strtotime($viaticos->fecha_mision)),utf8_decode($viaticos->actividad_realizada),$viaticos->estado),
             array('0','0','0'),
