@@ -26,10 +26,10 @@ class Rutas extends CI_Controller {
 		echo $this->rutas_model->obtenerlatitudylongitud($data);
 	}
 	public function gestionar_rutas(){
-	
+
 		if($this->input->post('band') == "save"){
 			$data = array(
-			'opcionruta_vyp_rutas' => $this->input->post('opcionruta_vyp_rutas'), 
+			'opcionruta_vyp_rutas' => $this->input->post('opcionruta_vyp_rutas'),
 			'id_oficina_destino_vyp_rutas' => $this->input->post('id_oficina_destino_vyp_rutas'),
 			'id_oficina_origen_vyp_rutas' => $this->input->post('id_oficina_origen_vyp_rutas'),
 			'descripcion_destino_vyp_rutas' => $this->input->post('descripcion_destino_vyp_rutas'),
@@ -49,10 +49,10 @@ class Rutas extends CI_Controller {
             	}
             }
 		}else if($this->input->post('band') == "edit"){
-			
+
 			$data = array(
 				'id_vyp_rutas'  => $this->input->post('id_vyp_rutas'),
-			'opcionruta_vyp_rutas' => $this->input->post('opcionruta_vyp_rutas'), 
+			'opcionruta_vyp_rutas' => $this->input->post('opcionruta_vyp_rutas'),
 			'id_oficina_destino_vyp_rutas' => $this->input->post('id_oficina_destino_vyp_rutas'),
 			'id_oficina_origen_vyp_rutas' => $this->input->post('id_oficina_origen_vyp_rutas'),
 			'descripcion_destino_vyp_rutas' => $this->input->post('descripcion_destino_vyp_rutas'),
@@ -69,14 +69,12 @@ class Rutas extends CI_Controller {
 			}
 
 		}else if($this->input->post('band') == "delete"){
-
 			$data = array(
 			'id_vyp_rutas' => $this->input->post('id_vyp_rutas')
 			);
 			echo $this->rutas_model->eliminar_ruta($data);
-
 		}
 	}
-	
+
 }
 ?>
