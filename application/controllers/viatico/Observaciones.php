@@ -34,12 +34,48 @@ class Observaciones extends CI_Controller {
 		echo $this->observaciones_model->observar_empresa($data);
 	}
 
+	public function cambiar_estado_solicitud(){		
+		$data = array(
+		'id_mision' => $this->input->post('id_mision'), 
+		'estado' => $this->input->post('estado')
+		);
+		echo $this->observaciones_model->cambiar_estado_solicitud($data);
+	}
+
+	public function eliminar_observacion(){
+		$data = array(
+		'id_observacion' => $this->input->post('id_observacion')
+		);
+		echo $this->observaciones_model->eliminar_observacion($data);
+	}
+
+	public function eliminar_observacion_empresa(){
+		$data = array(
+		'id_empresa' => $this->input->post('id_empresa'), 
+		'observacion' => ''
+		);
+		echo $this->observaciones_model->observar_empresa($data);
+	}
+
 	public function otra_observacion(){		
 		$data = array(
 		'id_mision' => $this->input->post('id_mision'), 
 		'observacion' => $this->input->post('observacion')
 		);
 		echo $this->observaciones_model->otra_observacion($data);
+	}
+
+	function verificar_observaciones(){
+		$id_mision = $this->input->post('id_mision');
+		if($this->observaciones_model->verificar_observaciones_empresa($id_mision)){
+			echo "observaciones";
+		}else{
+			if($this->observaciones_model->verificar_observaciones($id_mision)){
+				echo "observaciones";
+			}else{
+				echo "aprobar";
+			}
+		}
 	}
 }
 ?>

@@ -1,21 +1,30 @@
 <div class="card card-body">
-    <h3 class="card-title">Lista de bservaciones</h3>
+    <h3 class="card-title">Lista de observaciones</h3>
     <div class="message-box">
         <div class="message-widget">
-            <a href="#">
-                <div class="mail-contnet">
-                    <h5><span class="fa fa-check"></span>&emsp;Lou have 3 new messages</h5>
-                    <span class="time" style="margin-left: 32px;">9:30 AM</span> 
-                </div>
-                <div class="user-img pull-right"><button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="" data-original-title="Agregar observación"><span class="mdi mdi-pen"></span></button></div>
-            </a>
-            <a href="#">
-                <div class="mail-contnet">
-                    <h5><span class="fa fa-check"></span>&emsp;Lou have 3 new messages</h5>
-                    <span class="time" style="margin-left: 32px;">9:30 AM</span> 
-                </div>
-                <div class="user-img pull-right"><button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="" data-original-title="Agregar observación"><span class="mdi mdi-pen"></span></button></div>
-            </a>
+
+        	<?php 
+        			$id_mision = $_GET["id_mision"];
+                    $observacion = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."'");
+                    if($observacion->num_rows() > 0){
+                        foreach ($observacion->result() as $fila) {
+                            echo '<a href="#!">';
+                            	echo '<div class="mail-contnet">';
+                            		echo '<h5><span class="fa fa-check"></span>&emsp;'.$fila->observacion."</h5>";
+                            		echo '<span class="time" style="margin-left: 32px;">'.$fila->fecha_hora."</span>";
+                            	echo '</div>';
+                            echo '<div class="user-img pull-right">';
+                            $array = array($fila->id_observacion_solicitud);
+                            echo generar_boton($array,"eliminar_observacion","btn-danger","fa fa-close","Eliminar observación");
+                            echo "</div>";
+
+                           echo "</a>";
+                        }
+                    }else{
+                    	echo "<p>No se han registrado otras observaciones...</p>";
+                    }
+            ?>
+            
         </div>
     </div>
 </div>

@@ -28,6 +28,10 @@
                                 echo '<td><span class="label label-danger">'.$fila->estado.'</span></td>';
                             }else if($fila->estado == "revision"){
                                 echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
+                            }else if($fila->estado == "observada"){
+                                echo '<td><span class="label label-danger">'.$fila->estado.'</span></td>';
+                            }else if($fila->estado == "aprobada"){
+                                echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
                             }
                             
                             echo "<td>";

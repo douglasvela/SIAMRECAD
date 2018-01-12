@@ -69,7 +69,11 @@ if($empresas->num_rows() > 0){
 <?php
         echo "<td>";
         $array = array($fila->id_empresas_visitadas,$fila->observacion);
-        echo generar_boton($array,"agregar_observacion_empresa","btn-success2","mdi mdi-pen","Agregar observación");
+        if(empty($fila->observacion)){
+            echo generar_boton($array,"agregar_observacion_empresa","btn-success2","mdi mdi-pen","Agregar observación");
+        }else{
+            echo generar_boton($array,"agregar_observacion_empresa","btn-info","mdi mdi-pen","editar observación");
+        }
         echo "</td>";
         echo "</tr>";
     }
