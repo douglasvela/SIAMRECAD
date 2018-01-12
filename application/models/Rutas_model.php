@@ -8,8 +8,18 @@ class Rutas_model extends CI_Model {
 	}
 
 	function insertar_ruta($data){
+
+		if($data["opcionruta_vyp_rutas"] == "destino_oficina"){
+			$query = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$data['id_oficina_destino_vyp_rutas']."'");
+			if($query->num_rows() > 0){
+				foreach ($query->result() as $fila) {
+					$data['id_departamento'] = $fila->id_departamento;
+					$data['id_municipio'] = $fila->id_municipio;
+				}
+			}
+		}
 		
-		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], ' 	id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas']))){
+		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], 'id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -24,6 +34,17 @@ class Rutas_model extends CI_Model {
 	}
 
 	function editar_ruta($data){
+
+		if($data["opcionruta_vyp_rutas"] == "destino_oficina"){
+			$query = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$data['id_oficina_destino_vyp_rutas']."'");
+			if($query->num_rows() > 0){
+				foreach ($query->result() as $fila) {
+					$data['id_departamento'] = $fila->id_departamento;
+					$data['id_municipio'] = $fila->id_municipio;
+				}
+			}
+		}
+
 		$this->db->where("id_vyp_rutas",$data["id_vyp_rutas"]);
 		if($this->db->update('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], ' 	id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas']))){
 			return "exito";
