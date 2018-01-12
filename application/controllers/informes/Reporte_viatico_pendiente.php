@@ -31,6 +31,7 @@ class Reporte_viatico_pendiente extends CI_Controller {
             array(array('220','20','233'),array('','',''),array('55','22','255')),
             array(array('255','211','0'),array('33','92','19'),array('192','10','2')));
             echo "esto es una prueba desde atom";
+            echo "esto es una prueba desde atom 2";
 
               //Se agrega un salto de linea
             $this->pdf->Ln(5);
