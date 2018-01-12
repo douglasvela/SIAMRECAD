@@ -13,6 +13,14 @@ $cli_correlativo = $_GET["cli_correlativo"];
 $num_des=$_GET['num_des'];
 $i = 1; $j = 2;
 
+
+
+
+
+
+
+
+
 header("Content-Type: text/html;charset=utf-8");
 //array(216,331)
 $pdf = new PDF('P','mm','Letter');
@@ -130,7 +138,7 @@ if(empty($datos)){ $pdf->SetTextColor(255,0,0);$pdf->leyendas(65,74,'Arial','BI'
                     $i = 1; $j = 0;
                 }
                 $pdf->Row(array($valueCan[1]."    $ ".$valueCan[2],"$ ".$valueCan[5],"",""),array('LTB','LTB','TLBR','1'));
-                
+
             }
             /* CANCELACIONES */
         ($j > $i) ? $pdf->SetFillColor(226,239,217) : $pdf->SetFillColor(255,255,255);
@@ -200,7 +208,7 @@ $a=0;
                 }
                 $pdf->Row(array($valueOtras[1],"$ ".$valueOtras[2],"",""),array('LTB','LTB','TLBR','1'));
                 ($j > $i) ? $pdf->SetFillColor(226,239,217) : $pdf->SetFillColor(255,255,255);
-                
+
             }
             ($i > $j) ? $pdf->SetFillColor(153,255,102) : $pdf->SetFillColor(153,255,102);
             $datosOtraAqui1 = $DAO->mostrarAll($conexion,"select sum(monto_otras_deudas) from cancelaciones_otros_deudas_clientes where cre_solic_id='$idsol' and tipo_de_pago_otras_deudas='PAGO A OTRAS FINANCIERAS' and gc_num_desembolso='$num_des'");
@@ -209,7 +217,7 @@ $a=0;
             $pdf->Row(array($leyendas[0][$h+26],"","$ ".number_format($valueOtraAqui1[0],2,".",","),""),array('LTB','TB','TB','1'));
             ($j > $i) ? $pdf->SetFillColor(226,239,217) : $pdf->SetFillColor(255,255,255);
             $datosOtras1 = $DAO->mostrarAll($conexion,"select * from cancelaciones_otros_deudas_clientes where cre_solic_id='$idsol' and tipo_de_pago_otras_deudas='PAGO A OTRAS FINANCIERAS' and gc_num_desembolso='$num_des'");
-            
+
             foreach ($datosOtras1 as $valueOtras1) {
                 $a++;
                 if($i==1){
@@ -221,7 +229,7 @@ $a=0;
                 }
                 $pdf->Row(array($valueOtras1[1],"$ ".number_format($valueOtras1[2],2,'.',','),"",""),array('LTB','LTB','TLBR','1'));
                 ($i > $j) ? $pdf->SetFillColor(226,239,217) : $pdf->SetFillColor(255,255,255);
-               
+
             }
              if($a%2==0){
                 $i=1;$j=0;
