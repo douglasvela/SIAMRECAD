@@ -30,7 +30,6 @@ class Reporte_viatico_pendiente extends CI_Controller {
               //Se agrega un salto de linea
             $this->pdf->Ln(5);
             }
-
         /*
         $viatico = $this->Reportes_viaticos_model->obtenerListaviatico();
             $this->pdf->cabecera(array('NOMBRE','FECHA','ACTIVIDAD','ESTADO'),array('60','20','90','20'),array('5','5','5','5'));
