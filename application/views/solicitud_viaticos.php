@@ -27,6 +27,14 @@
     </style>
 	<div class="page-wrapper">
 		<div class="container-fluid">
+
+            <div class="row page-titles">
+                    <div class="align-self-center" align="center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Nueva solicitud de viáticos y pasajes</h3>
+                    </div>
+                </div>
+
+
 			<div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -35,7 +43,7 @@
                                 <h6 class="card-subtitle">Los campos con (*) son requeridos</a></h6>
                                 <form action="#" class="tab-wizard wizard-circle">
                                     <!-- Step 1 -->
-                                    <h6>EMPRESA VISITADA</h6>
+                                    <h6>Empresa Visitada</h6>
                                     <section>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -77,7 +85,7 @@
                                                 </div>
                                     </section>
                                     <!-- Step 2 -->
-                                    <h6>DETALLE / LUGAR DE SALIDA Y LLEGADA</h6>
+                                    <h6>Detalle / Lugar de Llegada - Salida</h6>
                                     <section>
                                         <div class="row ">
                                             <div class="col-lg-3">
@@ -199,10 +207,10 @@
                                                 <div class="form-group">
                                                     <label for="participants1">Result</label>
                                                     <select class="custom-select form-control" id="participants1" name="location">
-                                                        <option value="">Select Result</option>
-                                                        <option value="Selected">Selected</option>
-                                                        <option value="Rejected">Rejected</option>
-                                                        <option value="Call Second-time">Call Second-time</option>
+                                                        <option value="">Opcion 1</option>
+                                                        <option value="Selected">Opcion 2</option>
+                                                        <option value="Rejected">Opcion 3</option>
+                                                        <option value="Call Second-time">Opcion 4</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -215,7 +223,7 @@
                                                     <label>Rate Interviwer :</label>
                                                     <div class="c-inputs-stacked">
                                                         <label class="inline custom-control custom-checkbox block">
-                                                            <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">1 star</span> </label>
+                                                            <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Opcion 1</span> </label>
                                                         <label class="inline custom-control custom-checkbox block">
                                                             <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">2 star</span> </label>
                                                         <label class="inline custom-control custom-checkbox block">
@@ -417,7 +425,7 @@
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === google.maps.GeocoderStatus.OK) {
             resultsMap.setCenter(results[0].geometry.location);
-            
+            //addMarker_origen(results[0].geometry.location, resultsMap);
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
             

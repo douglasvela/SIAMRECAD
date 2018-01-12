@@ -85,7 +85,7 @@
                             $this.attr("pattern", $this.data("validationPatternPattern"));
                         }
                         if ($this.attr("pattern") !== undefined) {
-                            message = "Not in the expected format<!-- data-validation-pattern-message to override -->";
+                            message = "Formato no válido<!-- data-validation-pattern-message to override -->";
                             if ($this.data("validationPatternMessage")) {
                                 message = $this.data("validationPatternMessage");
                             }
@@ -94,7 +94,7 @@
                         }
                         if ($this.attr("max") !== undefined || $this.attr("aria-valuemax") !== undefined) {
                             var max = ($this.attr("max") !== undefined ? $this.attr("max") : $this.attr("aria-valuemax"));
-                            message = "Too high: Maximum of '" + max + "'<!-- data-validation-max-message to override -->";
+                            message = "Muy alto: Máximo de '" + max + "'<!-- data-validation-max-message to override -->";
                             if ($this.data("validationMaxMessage")) {
                                 message = $this.data("validationMaxMessage");
                             }
@@ -103,7 +103,7 @@
                         }
                         if ($this.attr("min") !== undefined || $this.attr("aria-valuemin") !== undefined) {
                             var min = ($this.attr("min") !== undefined ? $this.attr("min") : $this.attr("aria-valuemin"));
-                            message = "Too low: Minimum of '" + min + "'<!-- data-validation-min-message to override -->";
+                            message = "Muy bajo: Mínimo de '" + min + "'<!-- data-validation-min-message to override -->";
                             if ($this.data("validationMinMessage")) {
                                 message = $this.data("validationMinMessage");
                             }
@@ -111,7 +111,7 @@
                             $this.data("validationMinMin", min);
                         }
                         if ($this.attr("maxlength") !== undefined) {
-                            message = "Too long: Maximum of '" + $this.attr("maxlength") + "' characters<!-- data-validation-maxlength-message to override -->";
+                            message = "Muy largo: Máximo '" + $this.attr("maxlength") + "' caracteres<!-- data-validation-maxlength-message to override -->";
                             if ($this.data("validationMaxlengthMessage")) {
                                 message = $this.data("validationMaxlengthMessage");
                             }
@@ -119,7 +119,7 @@
                             $this.data("validationMaxlengthMaxlength", $this.attr("maxlength"));
                         }
                         if ($this.attr("minlength") !== undefined) {
-                            message = "Too short: Minimum of '" + $this.attr("minlength") + "' characters<!-- data-validation-minlength-message to override -->";
+                            message = "Muy corto: Mínimo '" + $this.attr("minlength") + "' caracteres<!-- data-validation-minlength-message to override -->";
                             if ($this.data("validationMinlengthMessage")) {
                                 message = $this.data("validationMinlengthMessage");
                             }
@@ -151,14 +151,14 @@
                             $this.data("validationNumberDecimal", decimal);
                         }
                         if ($this.attr("type") !== undefined && $this.attr("type").toLowerCase() === "email") {
-                            message = "Not a valid email address<!-- data-validation-email-message to override -->";
+                            message = "Dirección de email no válida<!-- data-validation-email-message to override -->";
                             if ($this.data("validationEmailMessage")) {
                                 message = $this.data("validationEmailMessage");
                             }
                             $this.data("validationEmailMessage", message);
                         }
                         if ($this.attr("minchecked") !== undefined) {
-                            message = "Not enough options checked; Minimum of '" + $this.attr("minchecked") + "' required<!-- data-validation-minchecked-message to override -->";
+                            message = "Insuficientes opciones seleccionadas; Se requiere mínimo '" + $this.attr("minchecked") + "' opciones<!-- data-validation-minchecked-message to override -->";
                             if ($this.data("validationMincheckedMessage")) {
                                 message = $this.data("validationMincheckedMessage");
                             }
@@ -166,7 +166,7 @@
                             $this.data("validationMincheckedMinchecked", $this.attr("minchecked"));
                         }
                         if ($this.attr("maxchecked") !== undefined) {
-                            message = "Too many options checked; Maximum of '" + $this.attr("maxchecked") + "' required<!-- data-validation-maxchecked-message to override -->";
+                            message = "Demasiadas opciones seleccionadas; Se requiere máximo '" + $this.attr("maxchecked") + "' opciones<!-- data-validation-maxchecked-message to override -->";
                             if ($this.data("validationMaxcheckedMessage")) {
                                 message = $this.data("validationMaxcheckedMessage");
                             }
@@ -403,7 +403,7 @@
                         , lastValid: true
                         , lastFinished: true
                     };
-                    var message = "Not valid";
+                    var message = "No válido";
                     if ($this.data("validation" + name + "Message")) {
                         message = $this.data("validation" + name + "Message");
                     }
@@ -501,7 +501,7 @@
                     if (regexString === undefined) {
                         $.error("Can't find regex for '" + name + "' validator on '" + $this.attr("name") + "'");
                     }
-                    var message = "Not in the expected format";
+                    var message = "Formato no válido";
                     if ($this.data("validation" + name + "Message")) {
                         message = $this.data("validation" + name + "Message");
                     }
@@ -518,7 +518,7 @@
                 , init: function ($this, name) {
                     var result = {};
                     result.regex = regexFromString('[a-zA-Z0-9.!#$%&\u2019*+/=?^_`{|}~-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}');
-                    var message = "Not a valid email address";
+                    var message = "Dirección de email no válida";
                     if ($this.data("validation" + name + "Message")) {
                         message = $this.data("validation" + name + "Message");
                     }
@@ -533,7 +533,7 @@
             , required: {
                 name: "required"
                 , init: function ($this, name) {
-                    var message = "This is required";
+                    var message = "Este campo es requerido";
                     if ($this.data("validation" + name + "Message")) {
                         message = $this.data("validation" + name + "Message");
                     }
@@ -563,7 +563,7 @@
                     if ($element.length === 0) {
                         $.error("Can't find field '" + elementName + "' to match '" + $this.attr("name") + "' against in '" + name + "' validator");
                     }
-                    var message = "Must match";
+                    var message = "Las contraseñas no coinciden";
                     var $label = null;
                     if (($label = $form.find("label[for=\"" + elementName + "\"]")).length) {
                         message += " '" + $label.text() + "'";
@@ -588,7 +588,7 @@
                 , init: function ($this, name) {
                     var result = {};
                     result.max = $this.data("validation" + name + "Max");
-                    result.message = "Too high: Maximum of '" + result.max + "'";
+                    result.message = "Muy alto: Máximo '" + result.max + "'";
                     if ($this.data("validation" + name + "Message")) {
                         result.message = $this.data("validation" + name + "Message");
                     }
@@ -603,7 +603,7 @@
                 , init: function ($this, name) {
                     var result = {};
                     result.min = $this.data("validation" + name + "Min");
-                    result.message = "Too low: Minimum of '" + result.min + "'";
+                    result.message = "Muy bajo: Mínimo '" + result.min + "'";
                     if ($this.data("validation" + name + "Message")) {
                         result.message = $this.data("validation" + name + "Message");
                     }
@@ -618,7 +618,7 @@
                 , init: function ($this, name) {
                     var result = {};
                     result.maxlength = $this.data("validation" + name + "Maxlength");
-                    result.message = "Too long: Maximum of '" + result.maxlength + "' characters";
+                    result.message = "Muy largo: Máximo '" + result.maxlength + "' caracteres";
                     if ($this.data("validation" + name + "Message")) {
                         result.message = $this.data("validation" + name + "Message");
                     }
@@ -633,7 +633,7 @@
                 , init: function ($this, name) {
                     var result = {};
                     result.minlength = $this.data("validation" + name + "Minlength");
-                    result.message = "Too short: Minimum of '" + result.minlength + "' characters";
+                    result.message = "Muy corto: Mínimo '" + result.minlength + "' caracteres";
                     if ($this.data("validation" + name + "Message")) {
                         result.message = $this.data("validation" + name + "Message");
                     }
@@ -655,7 +655,7 @@
                     });
                     result.elements = elements;
                     result.maxchecked = $this.data("validation" + name + "Maxchecked");
-                    var message = "Too many: Max '" + result.maxchecked + "' checked";
+                    var message = "Demasiadas seleccionadas: Máximo '" + result.maxchecked + "' selcciones";
                     if ($this.data("validation" + name + "Message")) {
                         message = $this.data("validation" + name + "Message");
                     }
@@ -679,7 +679,7 @@
                     });
                     result.elements = elements;
                     result.minchecked = $this.data("validation" + name + "Minchecked");
-                    var message = "Too few: Min '" + result.minchecked + "' checked";
+                    var message = "Muy pocas selecciones: Mínimo '" + result.minchecked + "' selecciones";
                     if ($this.data("validation" + name + "Message")) {
                         message = $this.data("validation" + name + "Message");
                     }
@@ -712,7 +712,7 @@
                         result.thousands = $this.data("validation" + name + "Thousands");
                     }
                     result.regex = regexFromString("([+-]?\\d+(\\" + result.decimal + "\\d+)?)?");
-                    result.message = "Must be a number";
+                    result.message = "Debe ser un número";
                     var dataMessage = $this.data("validation" + name + "Message");
                     if (dataMessage) {
                         result.message = dataMessage;
@@ -733,7 +733,7 @@
                     var result = !(regexResult && stepResult && typeResult);
                     return result;
                 }
-                , message: "Must be a number"
+                , message: "Debe ser un número"
             }
         }
         , builtInValidators: {
@@ -745,7 +745,7 @@
                 name: "Passwordagain"
                 , type: "match"
                 , match: "password"
-                , message: "Does not match the given password<!-- data-validator-paswordagain-message to override -->"
+                , message: "No coincide con la contraseña dada<!-- data-validator-paswordagain-message to override -->"
             }
             , positive: {
                 name: "Positive"
@@ -761,30 +761,30 @@
                 name: "Integer"
                 , type: "regex"
                 , regex: "[+-]?\\d+"
-                , message: "No decimal places allowed<!-- data-validator-integer-message to override -->"
+                , message: "No se permiten decimales<!-- data-validator-integer-message to override -->"
             }
             , positivenumber: {
                 name: "Positivenumber"
                 , type: "min"
                 , min: 0
-                , message: "Must be a positive number<!-- data-validator-positivenumber-message to override -->"
+                , message: "Debe ser un número postivo<!-- data-validator-positivenumber-message to override -->"
             }
             , negativenumber: {
                 name: "Negativenumber"
                 , type: "max"
                 , max: 0
-                , message: "Must be a negative number<!-- data-validator-negativenumber-message to override -->"
+                , message: "Debe ser un número negativo<!-- data-validator-negativenumber-message to override -->"
             }
             , required: {
                 name: "Required"
                 , type: "required"
-                , message: "This is required<!-- data-validator-required-message to override -->"
+                , message: "Este campo es requerido<!-- data-validator-required-message to override -->"
             }
             , checkone: {
                 name: "Checkone"
                 , type: "minchecked"
                 , minchecked: 1
-                , message: "Check at least one option<!-- data-validation-checkone-message to override -->"
+                , message: "Seleccione al menos una opción<!-- data-validation-checkone-message to override -->"
             }
             , number: {
                 name: "Number"
@@ -795,7 +795,7 @@
             , pattern: {
                 name: "Pattern"
                 , type: "regex"
-                , message: "Not in expected format"
+                , message: "Formato incorrecto"
             }
         }
     };
