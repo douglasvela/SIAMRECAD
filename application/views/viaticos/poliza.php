@@ -82,40 +82,42 @@
 
    <div class="card">
    
-      <div class="card-body b-t"  style="padding-top: 7px; font-size: 14px;">
+      <div class="card-body b-t"  style="padding-top: 7px; font-size: 11px;">
       
             <table id="myTable" class="table table-hover product-overview"  >
                 <thead class="bg-info text-white">
                
                     <tr>
-                    <th rowspan="2">No.DOC</th>
-                    <th rowspan="2">No.POLIZA</th>
-                    <th rowspan="2">MES DE LA POLIZA</th>
-                    <th rowspan="2">FECHA DE ELABORACION DEL FORMULARIO</th>
-                    <th rowspan="2">No. CHEQUE O CARGO CTA</th>
-                    <th rowspan="2">CÓDIGO DEL EMPLEADO</th>
-                    <th rowspan="2">FECHA DE MISIÓN</th>
-                    <th rowspan="2">NOMBRE DEL EMPLEADO</th>
-                    <th rowspan="2">DETALLE DE MISION</th>
-                    <th rowspan="2">SEDE</th>
-                    <th rowspan="2">CARGO FUNCIONAL</th>
-                    <th  rowspan="2">UP/LT</th>
+                    <th width="59" rowspan="2">No.DOC</th>
+                    <th width="81" rowspan="2">No.POLIZA</th>
+                    <th width="60" rowspan="2">MES DE LA POLIZA</th>
+                    <th width="130" rowspan="2">FECHA DE ELABORACION DEL FORMULARIO</th>
+                    <th width="75" rowspan="2">No. CHEQUE O CARGO CTA</th>
+                    <th width="90" rowspan="2">CÓDIGO DEL EMPLEADO</th>
+                    <th width="67" rowspan="2">FECHA DE MISIÓN</th>
+                    <th width="94" rowspan="2">NOMBRE DEL EMPLEADO</th>
+                    <th width="80" rowspan="2">DETALLE DE MISION</th>
+                    <th width="41" rowspan="2">SEDE</th>
+                    <th width="96" rowspan="2">CARGO FUNCIONAL</th>
+                    <th width="44"  rowspan="2">UP/LT</th>
                    <th colspan="4" ><div align="center">DETALLE DE OBJETOS ESPECIFICOS </div></th>
-                   <th  rowspan="2" >TOTAL</th>
+                   <th width="67"  rowspan="2" >TOTAL</th>
                     </tr>
                     <tr>
-                      <th  >54401</th>
-                      <th >VALOR</th>
-                      <th >54403</th>
-                      <th >VALOR</th>
+                      <th width="48"  >54401</th>
+                      <th width="67" >VALOR</th>
+                      <th width="48" >54403</th>
+                      <th width="56" >VALOR</th>
                     </tr>
                 </thead>
                 <tbody>
                
                    <?php 
                     $mision = $this->db->get("vyp_mision_oficial");
-                    if(!empty($mision)){
+                       $valor = $this->db->get("vyp_empresas_visitadas");
+                    if(!empty($mision)&& !empty($valor)){
                         foreach ($mision->result() as $fila) {
+                          foreach ($valor->result() as $fila1) {
                             echo "<tr>";
                             echo "<td>";
                             echo "<td>";
@@ -135,24 +137,20 @@
                    echo "<td>";
                    echo "54401";
                    
-                    $valor = $this->db->get("vyp_empresas_visitadas");
-                    if(!empty($valor)){
-                        foreach ($valor->result() as $fila1) {
-                         
-                            echo "<td>".$fila1->viaticos."</td>";
+                 echo "<td>".$fila1->viaticos."</td>";
                     echo "<td>";       
                    echo "54403";
                          
                          echo "<td>".$fila1->pasajes."</td>";
                           $suma=($fila1->pasajes)+($fila1->viaticos);
                            echo "<td>".$suma."</td>";
+                           
                             echo "</td>";
 
                            echo "</tr>";
-
-                        }
+ }
                     }
-                   }
+                       
                   }
 
 
