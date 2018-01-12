@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-12-2017 a las 04:52:55
+-- Tiempo de generación: 12-01-2018 a las 04:56:39
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -41,7 +41,8 @@ CREATE TABLE `vyp_empresas_visitadas` (
   `pasajes` float NOT NULL,
   `kilometraje` float NOT NULL,
   `justificacion` varchar(500) NOT NULL,
-  `orden` int(10) UNSIGNED NOT NULL
+  `orden` int(10) UNSIGNED NOT NULL,
+  `observacion` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

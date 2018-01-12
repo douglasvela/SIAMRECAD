@@ -1,41 +1,18 @@
-<script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas,bandera){
-        $("#idb").val(id);
-        $("#nombre").val(nombre);
-        $("#caracteristicas").val(caracteristicas);
+<script type="text/javascript">   
 
-        if(bandera == "edit"){
-            $("#ttl_form").removeClass("bg-success");
-            $("#ttl_form").addClass("bg-info");
-            $("#btnadd").hide(0);
-            $("#btnedit").show(0);
-            $("#cnt-tabla").hide(0);
-            $("#cnt_form").show(0);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Banco");
-        }else{
-            eliminar_banco();
-        }
-    }
-
-    function cambiar_nuevo(){
-        $("#idb").val("");
-        $("#nombre").val("");
-        $("#caracteristicas").val("");
-        $("#band").val("save");
-        $("#ttl_form").addClass("bg-success");
-        $("#ttl_form").removeClass("bg-info");
-
+    var gid_mision;
+    function cambiar_mision(id_mision){  
+        gid_mision = id_mision;     
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
-
-        $("#cnt-tabla").hide(0);
+        $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
-
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo banco");
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-wrench'></span> Revisando solicitud");
+        tabla_empresas_visitadas(gid_mision);
     }
 
     function cerrar_mantenimiento(){
-        $("#cnt-tabla").show(0);
+        $("#cnt_tabla").show(0);
         $("#cnt_form").hide(0);
     }
 
@@ -60,7 +37,7 @@
     }
 
     function iniciar(){
-        tablabancos();
+        tabla_observaciones();
     }
 
     function objetoAjax(){
@@ -74,11 +51,74 @@
         return xmlhttp;
     }
 
-    function tablabancos(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos", function() {
-            $('#myTable').DataTable();
-            $('[data-toggle="tooltip"]').tooltip();
-        });  
+    function tabla_observaciones(){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_tabla").innerHTML=xmlhttpB.responseText;
+                $('#myTable').DataTable();
+                $('[data-toggle="tooltip"]').tooltip();
+                //var ths = $("#myTable").find("thead").find("th");
+                //$(ths[0]).click();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/observaciones/tabla_observaciones",true);
+        xmlhttpB.send(); 
+    }
+
+    function tabla_empresas_visitadas(id_mision){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_tabla_empresas").innerHTML=xmlhttpB.responseText;
+                //$('#myTable').DataTable();
+                $('[data-toggle="tooltip"]').tooltip();
+                $('#demo-foo-row-toggler').footable();
+                var ths = $("#demo-foo-row-toggler").find("thead").find("th").removeClass("footable-sortable");
+                $("#demo-foo-row-toggler").find("thead").find("span").remove();
+                listado_observaciones()
+                //var ths = $("#myTable").find("thead").find("th");
+                //$(ths[0]).click();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/observaciones/tabla_empresas_visitadas?id_mision="+id_mision,true);
+        xmlhttpB.send(); 
+    }
+
+    function listado_observaciones(){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_lista_observaciones").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/observaciones/listado_observaciones?id_mision="+gid_mision,true);
+        xmlhttpB.send(); 
+    }
+
+    function agregar_observacion_empresa(id_empresa_visitada, observacion){
+        $("#id_empresa_visitada").val(id_empresa_visitada);
+        $("#observacion_evisitada").val(observacion);
+        $("#myModal").modal("show");
+    }
+
+    function eliminar_saltos(obj){        
+        var cadena = $(obj).val();
+        var sin_salto = cadena.split("\n").join("");
+        $(obj).val(sin_salto);
     }
 
 </script>
@@ -107,9 +147,9 @@
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
             <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="cnt_form" style="display: block;">
+            <div class="col-lg-10" id="cnt_form" style="display: none;">
                 <div class="card">
-                    <div class="card-header bg-success2" id="ttl_form">
+                    <div class="card-header bg-info" id="ttl_form">
                         <div class="card-actions text-white">
                             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
                         </div>
@@ -118,59 +158,27 @@
                     <div class="card-body b-t">
 
 
+                        <div id="cnt_tabla_empresas"></div>
 
 
-                        <table id="demo-foo-row-toggler" class="table toggle-circle table-hover">
-                            <thead>
-                                <tr>
-                                    <th data-toggle="true"> First Name </th>
-                                    <th> Last Name </th>
-                                    <th data-hide="phone"> Job Title </th>
-                                    <th data-hide="all"> DOB </th>
-                                    <th data-hide="all"> Status </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Isidra</td>
-                                    <td>Boudreaux</td>
-                                    <td>Traffic Court Referee</td>
-                                    <td>22 Jun 1972</td>
-                                    <td><span class="label label-table label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Shona</td>
-                                    <td>Woldt</td>
-                                    <td>Airline Transport Pilot</td>
-                                    <td>3 Oct 1981</td>
-                                    <td><span class="label label-table label-inverse">Disabled</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Granville</td>
-                                    <td>Leonardo</td>
-                                    <td>Business Services Sales Representative</td>
-                                    <td>19 Apr 1969</td>
-                                    <td><span class="label label-table label-danger">Suspended</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Easer</td>
-                                    <td>Dragoo</td>
-                                    <td>Drywall Stripper</td>
-                                    <td>13 Dec 1977</td>
-                                    <td><span class="label label-table label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Maple</td>
-                                    <td>Halladay</td>
-                                    <td>Aviation Tactical Readiness Officer</td>
-                                    <td>30 Dec 1991</td>
-                                    <td><span class="label label-table label-danger">Suspended</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
+                            <label class="control-label m-t-20" for="example-input1-group2">Nueva observación</label>
+                            <div class="row">
+                                <div class="col-lg-12 form-group">
+                                    <div class="input-group">
+                                        <input type="text" id="observacion" name="observacion" class="form-control" placeholder="Detalle de la observación" required="" minlength="5">
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-success2" type="submit">Agregar</button>
+                                        </span>
+                                    </div>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+
+                        <?php echo form_close(); ?>
 
 
-
+                        <div id="cnt_lista_observaciones"></div>
 
 
                     </div>
@@ -183,7 +191,7 @@
             <!-- ============================================================== -->
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt-tabla">
+            <div class="col-lg-12" id="cnt_tabla">
 
             </div>
             <!-- ============================================================== -->
@@ -199,35 +207,61 @@
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
 
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Asistente de observaciones</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body" id="contenedor_viatico">
+
+                <input type="hidden" id="id_empresa_visitada" name="id_empresa_visitada">
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <h5>Observación: <span class="text-danger">*</span></h5>
+                        <div class="controls">
+                            <textarea type="text" id="observacion_evisitada" name="observacion_evisitada" minlength="5" maxlength="200" class="form-control" required="" data-validation-required-message="Este campo es requerido" onkeyup="eliminar_saltos(this);"></textarea>
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success waves-effect">Aceptar</button>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
 <script>
 
 $(function(){     
     $("#formajax").on("submit", function(e){
         e.preventDefault();
-        var f = $(this);
-        var formData = new FormData(document.getElementById("formajax"));
-        formData.append("dato", "valor");
-        
+
+        var formData = {
+            "id_empresa_visitada" : $("#id_empresa_visitada").val(),
+            "observacion_evisitada" : $("#observacion_evisitada").val()
+        };
         $.ajax({
-            url: "<?php echo site_url(); ?>/configuraciones/bancos/gestionar_bancos",
-            type: "post",
-            dataType: "html",
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viatico/observaciones/observar_empresa',
             data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
+            cache: false
         })
         .done(function(res){
             if(res == "exito"){
-                cerrar_mantenimiento();
-                if($("#band").val() == "save"){
-                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                }else if($("#band").val() == "edit"){
-                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                }else{
-                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
-                }
-                tablabancos();
+                swal({ title: "¡Observación exitosa!", type: "success", showConfirmButton: true });
+                tabla_empresas_visitadas(gid_mision);
+                $("#myModal").modal("hide");
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -236,11 +270,29 @@ $(function(){
     });
 });
 
-$(function(){  
+$(function(){     
+    $("#formajax2").on("submit", function(e){
+        e.preventDefault();
 
-    $(document).ready(function(){
-        $('#demo-foo-row-toggler').footable();
+        var formData = {
+            "id_mision" : gid_mision,
+            "observacion" : $("#observacion").val()
+        };
+        $.ajax({
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viatico/observaciones/otra_observacion',
+            data: formData,
+            cache: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                swal({ title: "¡Observación exitosa!", type: "success", showConfirmButton: true });
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+            
     });
-
 });
+
 </script>

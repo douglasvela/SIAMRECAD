@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de bancos</h4>
+        <h4 class="card-title m-b-0">Listado de solicitudes</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
@@ -10,29 +10,25 @@
             <table id="myTable" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
+                        <th>Fecha</th>
                         <th>Descripción</th> 
+                        <th>Solicitante</th>
                         <th>(*)</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
-                    $bancos = $this->db->get("vyp_bancos");
-                    if(!empty($bancos)){
-                        foreach ($bancos->result() as $fila) {
+                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE estado = 'revision'");
+                    if($mision->num_rows() > 0){
+                        foreach ($mision->result() as $fila) {
                             echo "<tr>";
-                            echo "<td>".$fila->id_banco."</td>";
-                            echo "<td>".$fila->nombre."</td>";
-                            echo "<td>".$fila->caracteristicas."</td>";
+                            echo "<td>".$fila->fecha_solicitud."</td>";
+                            echo "<td>".$fila->actividad_realizada."</td>";
+                            echo "<td>".$fila->nombre_completo."</td>";
 
                             echo "<td>";
-                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas);
-                            array_push($array, "edit");
-                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            $array = array($fila->id_mision_oficial);
+                            echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
                             echo "</td>";
 
                            echo "</tr>";

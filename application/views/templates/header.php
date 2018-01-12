@@ -9,7 +9,8 @@
     $pos = strpos($user, ".")+1;
     $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
 
-    date_default_timezone_set('America/El_Salvador');    
+    setlocale(LC_ALL,"es_ES");
+    date_default_timezone_set('America/El_Salvador');
 ?>
 
 
@@ -104,7 +105,7 @@
 
     function hora(){
         var c = new Date();
-        var a = new Date(c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds());
+        var a = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
         var b = new Date(localStorage["expira"]);
         //La diferencia se da en milisegundos así que debes dividir entre 1000
         var result = ((a-b)/1000);
@@ -116,7 +117,7 @@
         return (n<10? '0':'') + n;
     }
 
-    var otra = (function(){
+    var iniciar_conteo = (function(){
         var condicion;
         var moviendo= false;
         document.onmousemove = function(){
@@ -146,7 +147,7 @@
             } else {
                 moviendo=false;
                 var c = new Date();
-                localStorage["expira"] = new Date(c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds());
+                localStorage["expira"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
                 hora();
                 $("#initial_user").hide(0);
             }
@@ -198,7 +199,7 @@
         $("#congelar").fadeOut(1000);
         $("#main-wrapper").fadeIn(1000);
         var c = new Date();
-        localStorage["expira"] = new Date(c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds());
+        localStorage["expira"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
     }
 
     function esEnter(e) {
