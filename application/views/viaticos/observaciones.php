@@ -121,6 +121,99 @@
         $(obj).val(sin_salto);
     }
 
+    function eliminar_observacion(id_observacion){
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/eliminar_observacion", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    $.toast({ heading: 'Observación eliminada', text: 'El registro de observación fue eliminado exitosamente.', position: 'top-right', loaderBg:'#fc4b6c', icon: 'error', hideAfter: 3500, stack: 6
+                    });
+                    listado_observaciones();
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_observacion="+id_observacion)
+    }
+
+    function eliminar_observacion_empresa(){
+        var id_empresa_visitada = $("#id_empresa_visitada").val();
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/eliminar_observacion_empresa", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    $.toast({ heading: 'Observación eliminada', text: 'El registro de observación fue eliminado exitosamente.', position: 'top-right', loaderBg:'#fc4b6c', icon: 'error', hideAfter: 3500, stack: 6
+                    });
+                    tabla_empresas_visitadas(gid_mision);
+                    $("#myModal").modal("hide");
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_empresa="+id_empresa_visitada)
+    }
+
+    function verificar_observaciones(){
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/verificar_observaciones", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "observaciones"){
+                    swal({   
+                        title: "Observaciones encontradas",   
+                        text: "¿Desea observar la solicitud?",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#fc4b6c",   
+                        confirmButtonText: "Sí, deseo observar!",   
+                        closeOnConfirm: true 
+                    }, function(){   
+                         cambiar_estado_solicitud("observada");
+                    });
+                }else if(ajax.responseText == "aprobar"){
+                    swal({   
+                        title: "Sin observaciones",   
+                        text: "¿Desea aprobar la solicitud?",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#fc4b6c",   
+                        confirmButtonText: "Sí, deseo aprobar!",   
+                        closeOnConfirm: true 
+                    }, function(){   
+                         cambiar_estado_solicitud("aprobada");
+                    });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+gid_mision)
+    }
+
+    function cambiar_estado_solicitud(estado){
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/cambiar_estado_solicitud", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                if(ajax.responseText == "exito"){
+                    alert("Cambios aplicados exitosamente")
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+gid_mision+"&estado="+estado)
+    }
+
 </script>
 
 <!-- ============================================================== -->
@@ -180,6 +273,10 @@
 
                         <div id="cnt_lista_observaciones"></div>
 
+                        <div align="right">
+                            <button type="button" onclick="verificar_observaciones();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-plus"></i>Finalizar observaciones</button>
+                        </div>
+
 
                     </div>
                 </div>
@@ -231,6 +328,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="eliminar_observacion_empresa();" class="btn btn-danger waves-effect">Eliminar</button>
                 <button type="submit" class="btn btn-success waves-effect">Aceptar</button>
             </div>
             <?php echo form_close(); ?>
@@ -286,7 +384,9 @@ $(function(){
         })
         .done(function(res){
             if(res == "exito"){
-                swal({ title: "¡Observación exitosa!", type: "success", showConfirmButton: true });
+                $.toast({ heading: 'Observación registrada', text: 'La observación se registró exitosamente.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 3500, stack: 6
+                });
+                listado_observaciones();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
