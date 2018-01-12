@@ -29,7 +29,12 @@
 			  		<?php 
 			  			
 
-			  			$id_origen = "9";
+			  			$origenes = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_departamento = '00006' AND id_municipio = '00097'");
+		                if($origenes->num_rows() > 0){
+		                    foreach ($origenes->result() as $fila4) {}
+		                }
+
+			  			$id_origen = $fila4->id_oficina;
 			  			$origen = "Oficina central (San Salvador)";
 			  			$viaticos = 0; $pasajes = 0;
 
