@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     // Incluimos el archivo fpdf
     require_once APPPATH."/third_party/fpdf/fpdf.php";
- 
+
 class Pdf extends FPDF
 {
     public function __construct() {
@@ -60,7 +60,7 @@ function Row($data,$dibujacelda)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        
+
         $this->Rect($x,$y,$w,$h);
 
         $this->MultiCell($w,4,$data[$i],$dibujacelda[$i],$a,'false');
@@ -88,7 +88,7 @@ public function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        
+
         //$this->Rect($x,$y,$w,$h);
          $this->SetFillColor($fill[$i][0],$fill[$i][1],$fill[$i][2]);
         $this->SetTextColor($color[$i][0],$color[$i][1],$color[$i][2]);
@@ -111,11 +111,11 @@ function RowCuadro($data,$dibujacelda,$fuente,$v=true,$cuadro,$fill=array(array(
     //Issue a page break first if needed
     $this->CheckPageBreak($h);
     //Draw the cells of the row
-        
+
         $xx=$this->GetX();
         $yy=$this->GetY();
         //Draw the border
-        
+
         $this->SetXY($xx,$yy);
          $this->RoundedRect($xx+2, $yy-17, $cuadro[0], $cuadro[1], $cuadro[2],$cuadro[3]);
          $this->SetXY($xx+2,$yy-17);
@@ -128,15 +128,15 @@ function RowCuadro($data,$dibujacelda,$fuente,$v=true,$cuadro,$fill=array(array(
         $x=$xx;
         $y=$yy;
         //Draw the border
-        
-        
+
+
 
         //$this->Rect($x,$y,$w,$h);
        // $this->SetFillColor($fill[$i][0],$fill[$i][1],$fill[$i][2]);
         $this->SetFont($fuente[$i][0],$fuente[$i][1],$fuente[$i][2]);
         $this->MultiCell($w,4,$data[$i],$dibujacelda[$i],$a,$v);
 
-        
+
 
 
         //Put the position to the right of the cell
@@ -164,7 +164,7 @@ function RowPeque($data,$dibujacelda,$fuente,$v=true,$color,$fill)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        
+
         //$this->Rect($x,$y,$w,$h);
        $this->SetFillColor($fill[$i][0],$fill[$i][1],$fill[$i][2]);
         $this->SetTextColor($color[$i][0],$color[$i][1],$color[$i][2]);
@@ -194,7 +194,7 @@ function Row1($data,$dibujacelda,$fuente,$v=true)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        
+
         //$this->Rect($x,$y,$w,$h);
         $this->SetFont($fuente[$i][0],$fuente[$i][1],$fuente[$i][2]);
         $this->MultiCell($w,5.5,$data[$i],$dibujacelda[$i],$a,$v);
@@ -218,7 +218,7 @@ function cuadrogrande_salto($ejexx,$ejeyy,$ancho,$alto,$curva,$relleno,$misma=tr
     //Issue a page break first if needed
        $this->CheckPageBreak($h);
        $ejex=$this->GetX()+$ejexx;
-       
+
         if($misma==false){
              $ejey=$this->GetY()-4;
              $this->SetXY($ejex,$ejey);
@@ -227,7 +227,7 @@ function cuadrogrande_salto($ejexx,$ejeyy,$ancho,$alto,$curva,$relleno,$misma=tr
          $this->SetXY($ejex,$ejey);
         }
          $this->RoundedRect($ejex, $ejey, $ancho, $alto, $curva, $relleno);
-        
+
         if($misma==true){
               $this->SetXY($ejex+$ejexx,$ejey);
         }
@@ -292,32 +292,38 @@ function NbLines($w,$txt)
 
 function Header()
 {
-    
-    $this->SetFont('Arial','',10);
+
+    $this->SetFont('Arial','',8);
     $this->Image(('application/libraries/logomtps.jpeg'),13,4,30,14);
     //$this->Text(145,12,$valueValuo['par_nombre_entidad'],0,'C', 0);
-    $this->SetFont('Arial','B',10);
+    $this->SetFont('Arial','B',9);
     $this->Text(78,12,utf8_decode("VIÁTICOS PENDIENTES DE PAGO"),0,'C', 0);
     $this->Ln(30);
     $this->Cuadros();
-    
+
 }
 function Cuadros(){
-    $this->cuadrogrande(9,20,25,260,0,'D');
-    $this->cuadrogrande(34,20,130,260,0,'D');
-    $this->cuadrogrande(164,20,27,260,0,'D');
-    $this->SetY(20);
+    $this->cuadrogrande(9,30,21,5,0,'D');
+    $this->cuadrogrande(30,30,146,5,0,'D');
+    $this->cuadrogrande(176,30,27,5,0,'D');
+    $this->Text(11,34,utf8_decode("FECHA"),0,'C', 0);
+    $this->Text(35,34,utf8_decode("DESCRIPCIÓN"),0,'C', 0);
+    $this->Text(178,34,utf8_decode("ESTADO"),0,'C', 0);
+    $this->cuadrogrande(9,35,21,250,0,'D');
+    $this->cuadrogrande(30,35,146,250,0,'D');
+    $this->cuadrogrande(176,35,27,250,0,'D');
+    $this->SetY(38);
 }
 
 function Footer()
 {
-       
+
     $this->SetY(-15);
     $this->SetFont('Arial','B',7);
     $this->SetTextColor(3, 3, 3);
     //$this->cuadrogrande(9,269,60,4,1,D);
     //$this->Text(11,272,"hola", 0);
-    
+
 
 }
 /*********************************************************/
@@ -327,9 +333,9 @@ function TablaBasica($data,$x,$y)
     $this->Ln();
      for($i=0;$i<count($data);$i++){
       $this->Cell($x[$i],$y[$i],$data[$i],'0');
-    } 
-    
-   } 
+    }
+
+   }
    function cabecera($header,$x,$y){
      for($i=0;$i<count($header);$i++){
 
@@ -367,7 +373,7 @@ function TablaBasica($data,$x,$y)
         }
     }
 
- 
+
     function datosHorizontal($datos)
     {
         $this->SetXY(10,17);
@@ -388,7 +394,7 @@ function TablaBasica($data,$x,$y)
             $this->CellFitSpace(30,7, utf8_decode($fila['nombre']),0, 0 , 'L' );
             $this->CellFitSpace(30,7, utf8_decode($fila['apellido']),'LR', 0 , 'L' );
             $this->CellFitSpace(30,7, utf8_decode($fila['matricula']),0, 0 , 'L' );
- 
+
             $this->Ln();
             //Condición ternaria que cambia el valor de $letra
             ($letra == 'D') ? $letra = 'FD' : $letra = 'D';
@@ -409,7 +415,7 @@ function TablaBasica($data,$x,$y)
         //$this->SetTextColor(3, 3, 3); //Color del texto: Negro
         $this->CellFitSpace($ancho,$alto, utf8_decode($datos),0, 0 , 'L' );
         $this->Ln();
-            
+
     }
     function leyendasColor($x,$y,$font,$estilo,$tamaño,$ancho,$alto,$datos,$color1,$color2,$color3)
     {
@@ -419,7 +425,7 @@ function TablaBasica($data,$x,$y)
         $this->SetTextColor($color1, $color2, $color3); //Color del texto: Negro
         $this->CellFitSpace($ancho,$alto, utf8_decode($datos),0, 0 , 'L' );
         $this->Ln();
-            
+
     }
     function multicelda($x,$y,$multiAncho,$multiAlto,$font,$estilo,$tamaño,$ancho,$alto,$datos,$justi='')
     {
@@ -430,7 +436,7 @@ function TablaBasica($data,$x,$y)
         //$this->CellFitSpace($ancho,$alto, utf8_decode($datos),0, 0 , 'L' );
         $this->MultiCell($multiAncho,$multiAlto,$datos,0, $justi);
         $this->Ln();
-            
+
     }
     function cuadrogrande($ejex,$ejey,$ancho,$alto,$curva,$relleno){
         /*
@@ -444,26 +450,26 @@ function TablaBasica($data,$x,$y)
         */
          $this->SetXY($ejex,$ejey);
          $this->RoundedRect($ejex, $ejey, $ancho, $alto, $curva, $relleno);
-         
+
     }
-    
+
     function tablaHorizontal($cabeceraHorizontal, $datosHorizontal)
     {
         $this->cabeceraHorizontal($cabeceraHorizontal);
         $this->datosHorizontal($datosHorizontal);
     }
- 
+
     //**************************************************************************************************************
     function CellFit($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='', $scale=false, $force=true)
     {
         //Get string width
         $str_width=$this->GetStringWidth($txt);
- 
+
         //Calculate ratio to fit cell
         if($w==0)
             $w = $this->w-$this->rMargin-$this->x;
         $ratio = ($w-$this->cMargin*2)/$str_width;
- 
+
         $fit = ($ratio < 1 || ($ratio > 1 && $force));
         if ($fit)
         {
@@ -484,20 +490,20 @@ function TablaBasica($data,$x,$y)
             //Override user alignment (since text will fill up cell)
             $align='';
         }
- 
+
         //Pass on to Cell method
         $this->Cell($w,$h,$txt,$border,$ln,$align,$fill,$link);
- 
+
         //Reset character spacing/horizontal scaling
         if ($fit)
             $this->_out('BT '.($scale ? '100 Tz' : '0 Tc').' ET');
     }
- 
+
     function CellFitSpace($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
     {
         $this->CellFit($w,$h,$txt,$border,$ln,$align,$fill,$link,false,false);
     }
- 
+
     //Patch to also work with CJK double-byte text
     function MBGetStringLength($s)
     {
@@ -521,7 +527,7 @@ function TablaBasica($data,$x,$y)
             return strlen($s);
     }
 //**********************************************************************************************
- 
+
  function RoundedRect($x, $y, $w, $h, $r, $style = '', $angle = '1234')
     {
         $k = $this->k;
@@ -534,7 +540,7 @@ function TablaBasica($data,$x,$y)
             $op='S';
         $MyArc = 4/3 * (sqrt(2) - 1);
         $this->_out(sprintf('%.2f %.2f m', ($x+$r)*$k, ($hp-$y)*$k ));
- 
+
         $xc = $x+$w-$r;
         $yc = $y+$r;
         $this->_out(sprintf('%.2f %.2f l', $xc*$k, ($hp-$y)*$k ));
@@ -542,7 +548,7 @@ function TablaBasica($data,$x,$y)
             $this->_out(sprintf('%.2f %.2f l', ($x+$w)*$k, ($hp-$y)*$k ));
         else
             $this->_Arc($xc + $r*$MyArc, $yc - $r, $xc + $r, $yc - $r*$MyArc, $xc + $r, $yc);
- 
+
         $xc = $x+$w-$r;
         $yc = $y+$h-$r;
         $this->_out(sprintf('%.2f %.2f l', ($x+$w)*$k, ($hp-$yc)*$k));
@@ -550,7 +556,7 @@ function TablaBasica($data,$x,$y)
             $this->_out(sprintf('%.2f %.2f l', ($x+$w)*$k, ($hp-($y+$h))*$k));
         else
             $this->_Arc($xc + $r, $yc + $r*$MyArc, $xc + $r*$MyArc, $yc + $r, $xc, $yc + $r);
- 
+
         $xc = $x+$r;
         $yc = $y+$h-$r;
         $this->_out(sprintf('%.2f %.2f l', $xc*$k, ($hp-($y+$h))*$k));
@@ -558,7 +564,7 @@ function TablaBasica($data,$x,$y)
             $this->_out(sprintf('%.2f %.2f l', ($x)*$k, ($hp-($y+$h))*$k));
         else
             $this->_Arc($xc - $r*$MyArc, $yc + $r, $xc - $r, $yc + $r*$MyArc, $xc - $r, $yc);
- 
+
         $xc = $x+$r ;
         $yc = $y+$r;
         $this->_out(sprintf('%.2f %.2f l', ($x)*$k, ($hp-$yc)*$k ));
@@ -571,7 +577,7 @@ function TablaBasica($data,$x,$y)
             $this->_Arc($xc - $r, $yc - $r*$MyArc, $xc - $r*$MyArc, $yc - $r, $xc, $yc - $r);
         $this->_out($op);
     }
- 
+
     function _Arc($x1, $y1, $x2, $y2, $x3, $y3)
     {
         $h = $this->h;
