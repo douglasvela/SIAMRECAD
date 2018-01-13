@@ -32,7 +32,6 @@ class Reporte_viatico_pendiente extends CI_Controller {
         $viatico = $this->Reportes_viaticos_model->obtenerListaviatico();
             $this->pdf->cabecera(array('NOMBRE','FECHA','ACTIVIDAD','ESTADO'),array('60','20','90','20'),array('5','5','5','5'));
         for ($i=0; $i < 15; $i++) {
-
             foreach ($viatico->result() as $viaticos) {
             $this->pdf->TablaBasica(array(utf8_decode($viaticos->nombre_completo),$viaticos->fecha_mision,utf8_decode($viaticos->actividad_realizada),$viaticos->estado),array('60','20','90','20'),array('10','10','10','10'));
              }
