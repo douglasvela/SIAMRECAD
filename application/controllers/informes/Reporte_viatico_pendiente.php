@@ -4,7 +4,6 @@ class Reporte_viatico_pendiente extends CI_Controller {
     function __construct(){
         parent::__construct();
     }
-
     function index(){
         $this->load->library('pdf');
         $this->load->model('Reportes_viaticos_model');
@@ -38,11 +37,8 @@ class Reporte_viatico_pendiente extends CI_Controller {
             $this->pdf->TablaBasica(array(utf8_decode($viaticos->nombre_completo),$viaticos->fecha_mision,utf8_decode($viaticos->actividad_realizada),$viaticos->estado),array('60','20','90','20'),array('10','10','10','10'));
              }
         }*/
-
-
        //$this->pdf->cuadrogrande(9,90,90,25,0,'D');
        //$this->pdf->cuadrogrande(99,90,90,25,0,'D');
-
        $this->pdf->Output(); //Salida al navegador
     }
 
