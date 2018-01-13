@@ -22,7 +22,7 @@ class Reporte_viatico_pendiente extends CI_Controller {
             array('0','0','0'),
             array(array('Arial','','10'),array('','',''),array('','','')),
             array(false,false,false,false),
-            array(array('220','20','233'),array('','',''),array('55','22','255')),
+            array(array('220','20','233'),array('0','0','0'),array('55','22','255')),
             array(array('255','211','0'),array('33','92','19'),array('192','10','2')));
             //Se agrega un salto de linea
             //otra prueba para atom
