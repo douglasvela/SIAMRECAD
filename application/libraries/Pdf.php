@@ -15,7 +15,7 @@ var $cod_usu;
 var $id_val;
 var $form;
 
-function Setform($e){
+function SetTituloPagina($e){
   $this->form=$e;
 }
 

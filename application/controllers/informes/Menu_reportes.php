@@ -20,7 +20,7 @@ class Menu_reportes extends CI_Controller {
 
 		$this->load->model('Reportes_viaticos_model');
 		$this->pdf = new Pdf('P','mm','Letter');
-		$this->pdf->Setform('VIÁTICOS PENDIENTES DE PAGO');
+		$this->pdf->SetTituloPagina('VIÁTICOS PENDIENTES DE PAGO');
 		$this->pdf->SetAutoPageBreak(true, 15);
 	 $this->pdf->SetMargins(9,3,6);
 		$this->pdf->AddPage();
@@ -96,7 +96,7 @@ class Menu_reportes extends CI_Controller {
 		$this->load->library('pdf');
 		$this->load->model('Reportes_viaticos_model');
 		$this->pdf = new Pdf('P','mm','Letter');
-		$this->pdf->Setform('VIÁTICOS PAGADOS EN UN PERIODO');
+		$this->pdf->SetTituloPagina('VIÁTICOS PAGADOS EN UN PERIODO');
 		$this->pdf->SetAutoPageBreak(true, 15);
 	 $this->pdf->SetMargins(9,3,6);
 		$this->pdf->AddPage();

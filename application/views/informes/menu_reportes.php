@@ -298,13 +298,22 @@
 
      function mostrarReporteEmpleado(){
        var id = $("#id_empleado").val();
-       window.open("menu_reportes/reporte_viatico_pendiente_empleado/"+id,"_blank");
+       if(id==""){
+         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+       }else{
+         window.open("menu_reportes/reporte_viatico_pendiente_empleado/"+id,"_blank");
+       }
      }
      function mostrarReportePagados(){
        var id = $("#id_empleado2").val();
        var fecha_min = $("#fecha_min").val();
        var fecha_max = $("#fecha_max").val();
-       window.open("menu_reportes/reporte_viatico_pagado_empleado/"+id+"/"+fecha_min+"/"+fecha_max,"_blank");
+       if(id=="" || fecha_max=="" || fecha_min==""){
+         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+       }else{
+          window.open("menu_reportes/reporte_viatico_pagado_empleado/"+id+"/"+fecha_min+"/"+fecha_max,"_blank");
+       }
+
      }
 
 </script>
@@ -340,14 +349,14 @@
                           <div class="col-md-12">
                               <div class="card">
                                   <div class="card-body">
-                                      <h4 class="card-title">Customtab vertical Tab</h4>
-                                      <h6 class="card-subtitle">Use default tab with class <code>vtabs, tabs-vertical &amp; customvtab</code></h6>
+                                      <h4 style="display:none" class="card-title">Customtab vertical Tab</h4>
+                                      <h6 class="card-subtitle" style="display:none">Use default tab with class <code>vtabs, tabs-vertical &amp; customvtab</code></h6>
                                       <!-- Nav tabs -->
                                       <div class="vtabs customvtab">
                                           <ul class="nav nav-tabs tabs-vertical" role="tablist">
                                               <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Viaticos Pendiente de Pago por Empleado</span> </a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Viaticos Pagados en un Periodo</span></a> </li>
-                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages3" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viaticos Pagados en un Periodo</span></a> </li>
+                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages3" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Estado de Solicitud de Viáticos</span></a> </li>
                                           </ul>
                                           <!-- Tab panes -->
                                           <div class="tab-content">
