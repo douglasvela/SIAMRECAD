@@ -13,6 +13,11 @@ var $aligns;
 var $cod_entidad;
 var $cod_usu;
 var $id_val;
+var $form;
+
+function Setform($e){
+  $this->form=$e;
+}
 
 function Setentidad($e)
 {
@@ -297,7 +302,7 @@ function Header()
     $this->Image(('application/libraries/logomtps.jpeg'),13,4,30,14);
     //$this->Text(145,12,$valueValuo['par_nombre_entidad'],0,'C', 0);
     $this->SetFont('Arial','B',9);
-    $this->Text(78,12,utf8_decode("VIÁTICOS PENDIENTES DE PAGO"),0,'C', 0);
+    $this->Text(78,12,utf8_decode($this->form),0,'C', 0);
     $this->Ln(30);
     $this->Cuadros();
 
