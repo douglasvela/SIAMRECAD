@@ -366,15 +366,24 @@
                                                         <div class="col-md-10">
                                                           <div class="form-group">
                                                             <h5>Empleado: <span class="text-danger">*</span></h5>
-                                                              <select id="id_empleado" name="id_empleado" class="select2" onchange="" style="width: 100%" required>';
+                                                              <select id="id_empleado" name="id_empleado" class="select2" onchange="" style="width: 100%" required>
                                                               <option value=''>[Elija el empleado]</option>
                                                               <?php
-                                                              $oficina = $this->db->query("SELECT * FROM sir_empleado");
-                                                              if($oficina->num_rows() > 0){
-                                                                  foreach ($oficina->result() as $fila2) {
-                                                                     echo '<option class="m-l-50" value="'.$fila2->nr.'">'.$fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido.'</option>';
+                                                              $dataEmpleado = $this->db->query("SELECT * FROM sir_empleado");
+
+                                                              $sess= $this->session->userdata('id_usuario_viatico');
+                                                              $dataEmpleado2 = $this->db->query("SELECT nr FROM org_usuario where id_usuario='$sess'");
+                                                                foreach ($dataEmpleado2->result() as $fila3) {}
+
+                                                              if($dataEmpleado->num_rows() > 0){
+                                                                  foreach ($dataEmpleado->result() as $fila2) {
+                                                              ?>
+                                                                <option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if($fila2->nr==$fila3->nr){ echo "selected";} ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
+
+                                                              <?php
                                                                   }
                                                               }
+                                                              //$u_rec_id = $this->session->userdata('rec_id');
                                                               ?>
                                                             </select>
                                                           </div>
@@ -395,10 +404,17 @@
                                                           <select id="id_empleado2" name="id_empleado2" class="select2" onchange="" style="width: 100%" required>';
                                                           <option value=''>[Elija el empleado]</option>
                                                           <?php
-                                                          $oficina = $this->db->query("SELECT * FROM sir_empleado");
-                                                          if($oficina->num_rows() > 0){
-                                                              foreach ($oficina->result() as $fila2) {
-                                                                 echo '<option class="m-l-50" value="'.$fila2->nr.'">'.$fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido.'</option>';
+                                                          $datasEmpleado = $this->db->query("SELECT * FROM sir_empleado");
+
+                                                          $sess2= $this->session->userdata('id_usuario_viatico');
+                                                          $datasEmpleado2 = $this->db->query("SELECT nr FROM org_usuario where id_usuario='$sess2'");
+                                                            foreach ($datasEmpleado2->result() as $fila4) {}
+
+                                                          if($datasEmpleado->num_rows() > 0){
+                                                              foreach ($datasEmpleado->result() as $fila2) {
+                                                            ?>
+                                                                 <option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if($fila2->nr==$fila4->nr){ echo "selected";} ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
+                                                            <?php
                                                               }
                                                           }
                                                           ?>
