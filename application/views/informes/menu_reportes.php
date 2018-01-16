@@ -356,7 +356,7 @@
                                           <ul class="nav nav-tabs tabs-vertical" role="tablist">
                                               <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Viaticos Pendiente de Pago por Empleado</span> </a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Viaticos Pagados en un Periodo</span></a> </li>
-                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages3" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Estado de Solicitud de Viáticos</span></a> </li>
+                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages3" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por empleado de mayor a menor</span></a> </li>
                                           </ul>
                                           <!-- Tab panes -->
                                           <div class="tab-content">
@@ -372,13 +372,15 @@
                                                               $dataEmpleado = $this->db->query("SELECT * FROM sir_empleado");
 
                                                               $sess= $this->session->userdata('id_usuario_viatico');
-                                                              $dataEmpleado2 = $this->db->query("SELECT nr FROM org_usuario where id_usuario='$sess'");
+                                                              $dataEmpleado2 = $this->db->query("SELECT nr FROM sir_empleado where nr='$sess'");
+                                                              if($dataEmpleado2->num_rows()>0){
                                                                 foreach ($dataEmpleado2->result() as $fila3) {}
+                                                              }
 
                                                               if($dataEmpleado->num_rows() > 0){
                                                                   foreach ($dataEmpleado->result() as $fila2) {
                                                               ?>
-                                                                <option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if($fila2->nr==$fila3->nr){ echo "selected";} ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
+<option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if(isset($fila3)){ if($fila2->nr==$fila3->nr){ echo "selected"; }} ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
 
                                                               <?php
                                                                   }
@@ -407,13 +409,15 @@
                                                           $datasEmpleado = $this->db->query("SELECT * FROM sir_empleado");
 
                                                           $sess2= $this->session->userdata('id_usuario_viatico');
-                                                          $datasEmpleado2 = $this->db->query("SELECT nr FROM org_usuario where id_usuario='$sess2'");
+                                                          $datasEmpleado2 = $this->db->query("SELECT nr FROM sir_empleado where nr='$sess2'");
+                                                          if($datasEmpleado2->num_rows()>0){
                                                             foreach ($datasEmpleado2->result() as $fila4) {}
+                                                          }
 
                                                           if($datasEmpleado->num_rows() > 0){
                                                               foreach ($datasEmpleado->result() as $fila2) {
                                                             ?>
-                                                                 <option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if($fila2->nr==$fila4->nr){ echo "selected";} ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
+<option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if(isset($fila4)){ if($fila2->nr==$fila4->nr){ echo "selected";} } ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
                                                             <?php
                                                               }
                                                           }

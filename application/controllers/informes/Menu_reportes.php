@@ -21,17 +21,18 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		$this->pdf = new Pdf('P','mm','Letter');
 		$this->pdf->SetTituloPagina('VIÁTICOS PENDIENTES DE PAGO');
+		$this->pdf->SetTitle(utf8_decode('VIÁTICOS PENDIENTES DE PAGO'));
 		$this->pdf->SetAutoPageBreak(true, 15);
 	 $this->pdf->SetMargins(9,3,6);
 		$this->pdf->AddPage();
-		 $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
+		// $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
 
 
 		 $data = array('nr'=>$id);
 		$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
 		foreach ($empleado_NR_viatico->result() as $key) {
 			$this->pdf->Text(9,21,"NR: 			 ".$key->nr ,0,'C', 0);
-			$this->pdf->Text(9,25,"EMPLEADO: ".utf8_decode($key->nombre_completo) ,0,'C', 0);
+			$this->pdf->Text(9,25,"EMPLEADO: ".utf8_decode($key->primer_nombre)." ".utf8_decode($key->segundo_nombre)." ".utf8_decode($key->primer_apellido)." ".utf8_decode($key->segundo_apellido) ,0,'C', 0);
 		}
 
 		 $this->pdf->SetAligns(array('L','J','L'));
@@ -97,17 +98,18 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		$this->pdf = new Pdf('P','mm','Letter');
 		$this->pdf->SetTituloPagina('VIÁTICOS PAGADOS EN UN PERIODO');
+		$this->pdf->SetTitle(utf8_decode('VIÁTICOS PAGADOS EN UN PERIODO'));
 		$this->pdf->SetAutoPageBreak(true, 15);
 	 $this->pdf->SetMargins(9,3,6);
 		$this->pdf->AddPage();
-		 $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
+		// $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
 
 
 		 $data = array('nr'=>$id);
 		$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
 		foreach ($empleado_NR_viatico->result() as $key) {
 			$this->pdf->Text(9,21,"NR: 			 ".$key->nr ,0,'C', 0);
-			$this->pdf->Text(9,25,"EMPLEADO: ".utf8_decode($key->nombre_completo) ,0,'C', 0);
+			$this->pdf->Text(9,25,"EMPLEADO: ".utf8_decode($key->primer_nombre)." ".utf8_decode($key->segundo_nombre)." ".utf8_decode($key->primer_apellido)." ".utf8_decode($key->segundo_apellido) ,0,'C', 0);
 			$this->pdf->Text(100,25,"INTERVALO DE: ".$min."  A  ".$max ,0,'C', 0);
 		}
 

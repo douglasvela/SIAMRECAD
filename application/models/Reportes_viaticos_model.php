@@ -37,7 +37,8 @@ class Reportes_viaticos_model extends CI_Model {
     function obtenerNREmpleadoViatico($data)
     {
         $this->db->where("nr",$data["nr"]);
-        $viaticos = $this->db->get('org_usuario');
+        $this->db->limit(1);
+        $viaticos = $this->db->get('sir_empleado');
         return $viaticos;
     }
 }
