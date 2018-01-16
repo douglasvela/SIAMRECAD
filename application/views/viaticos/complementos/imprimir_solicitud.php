@@ -1,4 +1,20 @@
 <?php
+
+
+$user = $this->session->userdata('usuario_viatico');
+if(empty($user)){
+    header("Location: ".site_url()."/login");
+    exit();
+}
+
+$nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+$nr_usuario = "";
+if($nr->num_rows() > 0){
+    foreach ($nr->result() as $fila) { 
+        $nr_usuario = $fila->nr; 
+    }
+}
+
 $id_mision = $_GET["id_mision"];
 
 $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
@@ -29,7 +45,7 @@ function mes($mes){
  setlocale(LC_TIME, 'spanish');  
  $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
  return $nombre;
-} 
+}
 
 ?>
 <?php
@@ -216,7 +232,7 @@ if($empresas->num_rows() > 0){
 
 
 
-<table>
+<table style="width: 100%;">
   	<thead>
         <tr>
         	<th>Fecha Misión</th>
@@ -274,6 +290,54 @@ if($empresas->num_rows() > 0){
 </table>
 <br>
 <p>Lugar y Fecha: San Salvador, <?php echo date("d")." de ".mes(date("m"))." de ".date("Y");  ?></p>
+<?php
+
+
+$empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+
+    if($empleado->num_rows() > 0){
+        foreach ($empleado->result() as $filae) {              
+        }
+    }
+
+    $linea_trabajo = $this->db->query("SELECT * FROM org_linea_trabajo WHERE id_linea_trabajo = '".$filae->id_linea_trabajo."'");
+    $cargo_nominal = $this->db->query("SELECT * FROM sir_cargo_nominal WHERE id_cargo_nominal = '".$filae->id_cargo_nominal."'");
+    $cargo_funcional = $this->db->query("SELECT * FROM sir_cargo_funcional WHERE id_cargo_funcional = '".$filae->id_cargo_funcional."'");
+
+    if($linea_trabajo->num_rows() > 0){
+        foreach ($linea_trabajo->result() as $filalt) {              
+        }
+    }
+    if($cargo_nominal->num_rows() > 0){
+        foreach ($cargo_nominal->result() as $filacn) {              
+        }
+    }
+    if($cargo_funcional->num_rows() > 0){
+        foreach ($cargo_funcional->result() as $filacf) {              
+        }
+    }
+
+    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1");
+
+    if($cuenta->num_rows() > 0){
+        foreach ($cuenta->result() as $filac) {}
+    }
+?>
+<br>
+<div style="width: 50%; float: left;">
+<p>Nombre: <?php echo ucwords(strtolower($filae->nombre_completo)); ?></p>
+<p>Cargo nominal: <?php echo ucwords(strtolower($filacn->cargo_nominal)); ?></p>
+<p>Cargo funcional: <?php echo ucwords(strtolower($filacf->funcional)); ?></p>
+<p>Nombre del banco: <?php echo ucwords(strtolower($filac->nombre)); ?></p>
+<p>Cuenta del banco No: <?php echo ucwords(strtolower($filac->numero_cuenta)); ?></p>
+</div>
+<div style="width: 50%; float: left;">
+<p>Firma: ___________________________________</p>
+<p align="center"><b>Recibido conforme</b></p>
+<p>Código: <?php echo $nr_usuario; ?>&emsp;&emsp;Sueldo: $<?php echo number_format($filae->salario, 2, '.', ''); ?></p>
+<p>Unidad Pres. / Línea de Trabajo: <?php echo ucwords(strtolower($filalt->linea_trabajo)); ?></p>
+<p>Teléfono oficial: <?php echo $filae->telefono_contacto; ?></p>
+</div>
 </body>
 
 </html>
