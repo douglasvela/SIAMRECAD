@@ -419,12 +419,12 @@
                                         <div class="dw-user-box">
                                             <div class="u-text">
                                                 <h4><?php echo $this->session->userdata('nombre_usuario_viatico'); ?></h4>
-                                                <p class="text-muted" align="right"><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></p>
+                                                <p class="text-muted" align="right"><a href="<?php echo site_url().'/cuenta/perfil'; ?>" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></p>
                                             </div>
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-user"></i> Mi Perfil</a></li>
+                                    <li><a href="<?php echo site_url().'/cuenta/perfil'; ?>"><i class="ti-user"></i> Mi Perfil</a></li>
                                     <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>

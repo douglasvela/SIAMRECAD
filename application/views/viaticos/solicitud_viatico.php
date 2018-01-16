@@ -686,7 +686,11 @@
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
         ajax.send("&id_mision="+id_mision)
-    } 
+    }
+
+    function imprimir_solicitud(id_mision){
+        window.open("<?php echo site_url(); ?>/viatico/solicitud/imprimir_solicitud?id_mision="+id_mision, '_blank');
+    }
    
 
 </script>
