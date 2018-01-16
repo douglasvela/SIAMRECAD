@@ -95,12 +95,23 @@ class Solicitud extends CI_Controller {
 	}
 
 	public function verficar_oficina_destino(){
+
+		$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$this->input->post('nr')."'");
+        if($info_empleado->num_rows() > 0){ 
+            foreach ($info_empleado->result() as $filas) {}
+        }
+
+        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+        if($oficina_origen->num_rows() > 0){ 
+            foreach ($oficina_origen->result() as $filaofi) {}
+        }
+
 		$data = array(
 			'id_mision' => $this->input->post('id_mision'),
-			'departamento' => '00006',//$this->input->post('nr'),
-			'municipio' => '00097',//$this->input->post('nombre_empleado'),
-			'nombre_empresa' => 'Oficina central (San Salvador)',
-			'direccion_empresa' => 'San Salvador',
+			'departamento' => $filaofi->id_departamento,
+			'municipio' => $filaofi->id_municipio,
+			'nombre_empresa' => $filaofi->nombre_oficina,
+			'direccion_empresa' => $filaofi->nombre_oficina,
 			'distancia' => '0.00',
 			'tipo' => 'destino_oficina'
 			);

@@ -1,10 +1,3 @@
-<div class="row">
-			<div class="form-group col-lg-12 m-b-5" align="right">
-		        <button type="button" onclick="form_viaticos()" class="pull-right btn btn-info">
-		        Actualizar
-		        </button>
-		    </div>
-		</div>
 <?php
 	$id_mision = $_GET["id_mision"];
 	$tipo = $_GET["tipo"];
@@ -28,14 +21,22 @@
 
 			  		<?php 
 			  			
+			  			$nr_usuario = $_GET["nr"];
 
-			  			$origenes = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_departamento = '00006' AND id_municipio = '00097'");
+			  			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
+
+		                if($info_empleado->num_rows() > 0){ 
+		                    foreach ($info_empleado->result() as $filas) {}
+		                }
+
+		                $origenes = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+
 		                if($origenes->num_rows() > 0){
 		                    foreach ($origenes->result() as $fila4) {}
 		                }
 
 			  			$id_origen = $fila4->id_oficina;
-			  			$origen = "Oficina central (San Salvador)";
+			  			$origen = $fila4->nombre_oficina;
 			  			$viaticos = 0; $pasajes = 0;
 
 		                $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' ORDER BY orden");
@@ -142,7 +143,7 @@
 			</table>
 		</div>
 
-		<div class="form-group m-b-5" style="display: block;">
+		<div class="form-group m-b-5" style="display: none;">
             <textarea class="form-control" id="area" rows="4"></textarea>
             <span class="bar"></span>
             <label for="input7">Text area</label>

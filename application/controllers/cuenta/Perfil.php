@@ -14,8 +14,8 @@ class Perfil extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function tabla_horarios(){
-		$this->load->view('cuenta/formulario');
+	public function tabla_cuentas(){
+		$this->load->view('cuenta/tabla_cuentas');
 	}
 
 	public function info_empleado(){
@@ -28,37 +28,36 @@ class Perfil extends CI_Controller {
 		echo $this->perfil_model->insertar_info_personal($data);
 	}
 
-	/*public function gestionar_horarios(){
+	public function gestionar_cuentas_bancos(){
 
 		if($this->input->post('band') == "save"){
 
 			$data = array(
-			'descripcion' => $this->input->post('descripcion'), 
-			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
-			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
-			'monto' => number_format($this->input->post('monto'),2)
+			'nr' => $this->input->post('nr2'),
+			'id_banco' => $this->input->post('id_banco'), 
+			'cuenta' => $this->input->post('cuenta')
 			);
-			echo $this->horarios_model->insertar_horario($data);
+			echo $this->perfil_model->insertar_cuenta_banco($data);
 
 		}else if($this->input->post('band') == "edit"){
 
 			$data = array(
-			'idhorario' => $this->input->post('idhorario'), 
-			'descripcion' => $this->input->post('descripcion'), 
-			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
-			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
-			'monto' => number_format($this->input->post('monto'),2)
+			'nr' => $this->input->post('nr2'),
+			'id_cuenta_banco' => $this->input->post('id_banco'), 
+			'id_banco' => $this->input->post('id_banco'), 
+			'cuenta' => $this->input->post('cuenta')
 			);
-			echo $this->horarios_model->editar_horario($data);
+			echo $this->perfil_model->editar_cuenta_banco($data);
 
 		}else if($this->input->post('band') == "delete"){
 
 			$data = array(
-			'idhorario' => $this->input->post('idhorario')
+			'nr' => $this->input->post('nr2'),
+			'id_cuenta_banco' => $this->input->post('id_banco')
 			);
-			echo $this->horarios_model->eliminar_horario($data);
+			echo $this->perfil_model->eliminar_cuenta_banco($data);
 
 		}
-	}*/
+	}
 }
 ?>

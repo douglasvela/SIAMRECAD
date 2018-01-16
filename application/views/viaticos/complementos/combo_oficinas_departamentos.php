@@ -1,3 +1,24 @@
+<?php
+    $user = $this->session->userdata('usuario_viatico');
+    if(empty($user)){
+        header("Location: ".site_url()."/login");
+        exit();
+    }
+
+    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+    $nr_usuario = "";
+    if($nr->num_rows() > 0){
+        foreach ($nr->result() as $fila) { 
+            $nr_usuario = $fila->nr; 
+        }
+    }
+
+    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
+    if($info_empleado->num_rows() > 0){ 
+            foreach ($info_empleado->result() as $filas) {}
+        }
+
+?>
         <?php 
             $tipo = $_GET["tipo"];
 
@@ -5,7 +26,7 @@
                 echo '<h5>Oficina: <span class="text-danger">*</span></h5>';
                 echo '<select id="departamento" name="departamento" class="select2" onchange="combo_municipio('."'".$tipo."'".');" style="width: 100%" required>';
                 echo "<option value=''>[Elija la oficina]</option>";
-                $oficina = $this->db->query("SELECT * FROM vyp_oficinas");
+                $oficina = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina <> '".$filas->id_oficina_departamental."'");
                 if($oficina->num_rows() > 0){
                     foreach ($oficina->result() as $fila2) {              
                        echo '<option class="m-l-50" value="'.$fila2->id_departamento.'">'.$fila2->nombre_oficina.'</option>';

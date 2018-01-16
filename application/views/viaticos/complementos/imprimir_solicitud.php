@@ -246,7 +246,7 @@ if($empresas->num_rows() > 0){
         			<td><?php if($contador==0){ echo $fecha_mision; } ?></td>
 	            	<td>
 	            		<?php
-	            		echo $fila->origen." / ".$fila->direccion_empresa;
+	            		echo $fila->origen." - ".$fila->direccion_empresa;
 	            		?>				            		
 	            	</td>
 	            	<td><?php echo substr($fila->hora_salida,0,5); ?></td>

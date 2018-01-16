@@ -27,6 +27,23 @@ class Perfil_model extends CI_Model {
 		
 	}
 
+	function insertar_cuenta_banco($data){
+		$info_empleado = $this->db->query("SELECT * FROM vyp_empleado_cuenta_banco WHERE nr = '".$data['nr']."'");
+
+		if($info_empleado->num_rows() > 0){
+			$estado = false;
+		}else{
+			$estado = true;
+		}
+
+		if($this->db->insert('vyp_empleado_cuenta_banco', array('nr' => $data['nr'], 'id_banco' => $data['id_banco'], 'numero_cuenta' => $data['cuenta'], 'estado' => $estado))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+		
+	}
+
 	function mostrar_banco(){
 		$query = $this->db->get("vyp_bancos");
 		if($query->num_rows() > 0) return $query;

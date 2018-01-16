@@ -19,7 +19,7 @@
                 <tbody>
                 <?php 
                     $mision = $this->db->get("vyp_mision_oficial");
-                    if(!empty($mision)){
+                    if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                           echo "<tr>";
                             echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision))."</td>";

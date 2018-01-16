@@ -1,5 +1,39 @@
+<?php
+    $user = $this->session->userdata('usuario_viatico');
+    if(empty($user)){
+        header("Location: ".site_url()."/login");
+        exit();
+    }
 
+    $pos = strpos($user, ".")+1;
+    $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
 
+    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+    $nr_usuario = ""; $nombre_usuario;
+    if($nr->num_rows() > 0){
+        foreach ($nr->result() as $fila) { 
+            $nr_usuario = $fila->nr; 
+            $nombre_usuario = $fila->nombre_completo;
+        }
+    }
+
+    $empleado = $this->db->query("SELECT e.id_empleado, e.correo, e.telefono_casa, e.telefono_contacto, e.direccion, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.nr = '".$nr_usuario."' ORDER BY primer_nombre");
+
+    if($empleado->num_rows() > 0){
+        foreach ($empleado->result() as $fila) {              
+           $nombre_completo = trim($fila->nombre_completo);
+           $correo = $fila->correo;
+           $tel_casa = $fila->telefono_casa;
+           $tel_contacto = $fila->telefono_contacto;
+           $direccion = $fila->direccion;
+        }
+    }
+
+    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
+
+    $cuenta_banco = $this->db->query("SELECT * FROM vyp_empleado_cuenta_banco WHERE nr = '".$nr_usuario."' AND estado = 1");
+
+?>
 
 <script type="text/javascript">
     /*****************************************************************************************************
@@ -49,6 +83,10 @@
 
     function iniciar(){
         tabla_solicitudes();
+        <?php if($info_empleado->num_rows() <= 0 || $cuenta_banco->num_rows() <= 0){ ?>
+            $('#modal_perfil').modal({backdrop: 'static', keyboard: false});
+            $("#modal_perfil").modal('show');
+        <?php } ?>
     }
 
     function objetoAjax(){
@@ -112,7 +150,7 @@
                   if(tipo == "oficina"){
                     if($("#departamento").val() != ""){
                         $("#nombre_empresa").val($("#departamento option:selected").text());
-                        $("#direccion_empresa").val($("#municipio option:selected").text());
+                        $("#direccion_empresa").val($("#departamento option:selected").text());
                         $("#nombre_empresa").parent().hide(0);
                         $("#direccion_empresa").parent().hide(0);
                         $("#municipio").parent().hide(0);
@@ -157,6 +195,7 @@
 
     function tabla_empresas_visitadas(callback){
         var id_mision = $("#id_mision").val();
+        var nr = $("#nr").val();
 
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
@@ -173,12 +212,13 @@
             }
         }
 
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_visitadas?id_mision="+id_mision,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr,true);
         xmlhttp_municipio.send();
     }
 
     function tabla_empresas_viaticos(tipo){
         var id_mision = $("#id_mision").val();
+        var nr = $("#nr").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -193,7 +233,7 @@
             }
         }
 
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_viaticos?id_mision="+id_mision+"&tipo="+tipo,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
         xmlhttp_municipio.send();
     }
 
@@ -993,6 +1033,28 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="recorrer_modal();" class="btn btn-success waves-effect">Aceptar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div id="modal_perfil" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Faltan datos en tu perfil</h4>
+            </div>
+            <div class="modal-body" id="contenedor_viatico">
+                <h4 style="margin-bottom: 20px;">Lamentamos los inconvenientes. <span class="mdi mdi-emoticon-sad" style="font-size: 35px;"></span></h4>
+
+                <p align="justify">Parece que a tu perfil le faltan datos que son requeridos para la elaboración de solicitud de viáticos y pasajes, por favor haz clic en el botón "ACEPTAR" y completa tu perfil para poder acceder a esta sección del sistema.</p>
+
+            </div>
+            <div class="modal-footer">
+                <a href="<?php echo site_url().'/cuenta/perfil'; ?>" class="btn btn-info waves-effect text-white">ACEPTAR</a>
             </div>
         </div>
         <!-- /.modal-content -->

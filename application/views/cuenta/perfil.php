@@ -44,7 +44,26 @@
 			$('#id_oficina').val('<?php echo $fila3->id_oficina_departamental; ?>').trigger('change.select2');
 			$('#id_region').val('<?php echo $fila3->id_region; ?>').trigger('change.select2');
 		<?php } } ?>
+
+		tabla_cuentas();
 	}
+
+	function tabla_cuentas(){ 
+		var nr = $("#nr").val();   
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_bancos").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/cuenta/perfil/tabla_cuentas?nr="+nr,true);
+        xmlhttpB.send(); 
+    }
 
 </script>
 <!-- ============================================================== -->
@@ -52,46 +71,6 @@
 <!-- ============================================================== -->
 <div class="page-wrapper">
     <div class="container-fluid">
-
-
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <div class="row page-titles">
-        <div class="col-md-5 col-8 align-self-center">
-            <h3 class="text-themecolor m-b-0 m-t-0">Profile</h3>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                <li class="breadcrumb-item active">Profile</li>
-            </ol>
-        </div>
-        <div class="col-md-7 col-4 align-self-center">
-            <div class="d-flex m-t-10 justify-content-end">
-                <div class="d-flex m-r-20 m-l-10 hidden-md-down">
-                    <div class="chart-text m-r-10">
-                        <h6 class="m-b-0"><small>THIS MONTH</small></h6>
-                        <h4 class="m-t-0 text-info">$58,356</h4></div>
-                    <div class="spark-chart">
-                        <div id="monthchart"></div>
-                    </div>
-                </div>
-                <div class="d-flex m-r-20 m-l-10 hidden-md-down">
-                    <div class="chart-text m-r-10">
-                        <h6 class="m-b-0"><small>LAST MONTH</small></h6>
-                        <h4 class="m-t-0 text-primary">$48,356</h4></div>
-                    <div class="spark-chart">
-                        <div id="lastmonthchart"></div>
-                    </div>
-                </div>
-                <div class="">
-                    <button class="right-side-toggle waves-effect waves-light btn-success btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
     
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -127,6 +106,14 @@
 		                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:25%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
 		                            </div>
                             	<?php } ?>
+
+                            	<?php if($info_empleado->num_rows() <= 0){ ?>
+	                            <p class="m-t-30 text-danger">* Completa tu perfil.</p>
+	                            <?php } ?>
+
+	                            <?php if($cuenta_banco->num_rows() <= 0){ ?>
+	                            <p class="m-t-30 text-danger">* Registra una cuenta bancaria para recibir tus pagos en concepto de viáticos y pasajes.</p>
+	                            <?php } ?>
 
                     </center>
                 </div>
@@ -174,9 +161,9 @@
 
 	                            <div class="row">
 	                                <div class="form-group col-lg-6"> 
-	                                    <h5>Empleado: <span class="text-danger">*</span></h5>                           
+	                                    <h5>Jefe inmediato: <span class="text-danger">*</span></h5>                           
 	                                    <select id="id_empleado" name="id_empleado" class="select2" style="width: 100%" required="">
-	                                        <option value="">[Elija el empleado]</option>
+	                                        <option value="">[Elija el jefe inmediato]</option>
 	                                        <?php 
 	                                            $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE id_estado = '00001' AND nr <> '".$nr_usuario."' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 	                                            if($otro_empleado->num_rows() > 0){
@@ -235,86 +222,45 @@
                     <div class="tab-pane" id="profile" role="tabpanel">
                         <div class="card-body">
                             
-                            
-                            <h4 class="font-medium m-t-30">Skill Set</h4>
-                            <hr>
                             <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
-	                            <input type="hidden" id="nr" name="nr" value="<?php echo $nr_usuario; ?>">
+	                            <input type="hidden" id="nr2" name="nr2" value="<?php echo $nr_usuario; ?>">
+	                            <input type="hidden" id="band" name="band" value="save">
 
 	                            <div class="row">
 	                                <div class="form-group col-lg-6"> 
-	                                    <h5>Empleado: <span class="text-danger">*</span></h5>                           
-	                                    <select id="id_empleado" name="id_empleado" class="select" style="width: 100%" required="">
-	                                        <option value="">[Elija el empleado]</option>
+	                                    <h5>Banco: <span class="text-danger">*</span></h5>
+	                                    <select id="id_banco" name="id_banco" class="select2" style="width: 100%" required="">
+	                                        <option value="">[Elija el banco]</option>
 	                                        <?php 
-	                                            $empleado = $this->db->query("SELECT e.id_empleado, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e  ORDER BY primer_nombre, segundo_nombre, primer_apellido, segundo_apellido");
-	                                            if($empleado->num_rows() > 0){
-	                                                foreach ($empleado->result() as $fila) {              
-	                                                   echo '<option class="m-l-50" value="'.$fila->id_empleado.'">'.$fila->nombre_completo.'</option>';
+	                                            $banco = $this->db->query("SELECT * FROM vyp_bancos");
+	                                            if($banco->num_rows() > 0){
+	                                                foreach ($banco->result() as $fila) {              
+	                                                   echo '<option class="m-l-50" value="'.$fila->id_banco.'">'.$fila->nombre.'</option>';
 	                                                }
 	                                            }
 	                                        ?>
 	                                    </select>
 	                                    <div class="help-block"></div>
 	                                </div>
-	                                <div class="form-group col-lg-6"> 
-	                                    <h5>Oficina departamental: <span class="text-danger">*</span></h5>
-	                                    <select id="id_oficina" name="id_oficina" class="select2" style="width: 100%" required="">
-	                                        <option value="">[Elija oficina en que labora]</option>
-	                                        <?php 
-	                                            $oficina = $this->db->query("SELECT * FROM vyp_oficinas");
-	                                            if($oficina->num_rows() > 0){
-	                                                foreach ($oficina->result() as $fila) {              
-	                                                   echo '<option class="m-l-50" value="'.$fila->id_oficina.'">'.$fila->nombre_oficina.'</option>';
-	                                                }
-	                                            }
-	                                        ?>
-	                                    </select>
-	                                    <div class="help-block"></div>
-	                                </div>
-	                            </div>
 
-	                            <div class="row">
-	                                <div class="form-group col-lg-6"> 
-	                                    <h5>Región o zona: <span class="text-danger">*</span></h5>
-	                                    <select id="id_region" name="id_region" class="select2" style="width: 100%" required="">
-	                                        <option value="">[Elija zona laboral]</option>
-	                                        <?php 
-	                                            $regional = $this->db->query("SELECT * FROM org_pagaduria");
-	                                            if($regional->num_rows() > 0){
-	                                                foreach ($regional->result() as $fila) {              
-	                                                   echo '<option class="m-l-50" value="'.$fila->id_pagaduria.'">'.$fila->pagaduria.'</option>';
-	                                                }
-	                                            }
-	                                        ?>
-	                                    </select>
-	                                    <div class="help-block"></div>
-	                                </div>
-	                            </div>
-
-	                            <div class="row">
 	                                <div class="form-group col-lg-6">
-	                                    <h5>Nombre: <span class="text-danger">*</span></h5>
+	                                    <h5>Número de cuenta: <span class="text-danger">*</span></h5>
 	                                    <div class="controls">
-	                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido">
+	                                        <input type="text" id="cuenta" name="cuenta" class="form-control" required="" data-validation-required-message="Este campo es requerido">
 	                                        <div class="help-block"></div>
 	                                    </div>
 	                                </div>
 
-	                                <div class="form-group col-lg-6">
-	                                    <h5>Características: </h5>
-	                                    <div class="controls">
-	                                        <input type="text" id="caracteristicas" name="caracteristicas" class="form-control">
-	                                        <div class="help-block"></div>
-	                                    </div>
-	                                </div>
 	                            </div>
 	                            
 	                            <div align="right" id="btnadd">
-	                                <button type="submit" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Actualizar información</button>
+	                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-pencil"></i> Agregar</button>
 	                            </div>
 
 	                        <?php echo form_close(); ?>
+
+	                        <div id="cnt_bancos">
+	                        </div>
                             
                         </div>
                     </div>
@@ -372,7 +318,7 @@ $(function(){
         formData.append("dato", "valor");
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/configuraciones/bancos/gestionar_bancos",
+            url: "<?php echo site_url(); ?>/cuenta/perfil/gestionar_cuentas_bancos",
             type: "post",
             dataType: "html",
             data: formData,
@@ -382,7 +328,6 @@ $(function(){
         })
         .done(function(res){
             if(res == "exito"){
-                cerrar_mantenimiento();
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 }else if($("#band").val() == "edit"){
@@ -390,7 +335,9 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablabancos();
+
+                $("#band").val('save');
+                tabla_cuentas();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
