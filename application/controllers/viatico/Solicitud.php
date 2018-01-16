@@ -38,6 +38,10 @@ class Solicitud extends CI_Controller {
 		$this->load->view('viaticos/complementos/tabla_empresa_viaticos');
 	}
 
+	public function imprimir_solicitud(){
+		$this->load->view('viaticos/complementos/imprimir_solicitud');
+	}
+
 	public function eliminar_destino(){
 		$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_empresas_visitadas = '".$this->input->post('id_empresa_visitada')."'";
 		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);

@@ -130,7 +130,7 @@ class NumeroALetras
         if(empty($decimales)){
             $valor_convertido = $converted . strtoupper($moneda);
         } else {
-            $valor_convertido = $converted . strtoupper($moneda) . ' CON ' . $decimales . ' ' . strtoupper($centimos);
+            $valor_convertido = $converted . strtoupper($moneda);// . ' CON ' . $decimales . ' ' . strtoupper($centimos);
         }
         return $valor_convertido;
     }
