@@ -9,9 +9,11 @@ class Reportes_viaticos_model extends CI_Model {
 
     function obtenerListaviatico($data)
     {
-        $this->db->where("nr_empleado",$data['nr']);
+        
         $this->db->where("estado","revision");
-        $this->db->or_where("estado","incompleto");
+        $this->db->or_where("estado","incompleta");
+        $this->db->or_where("estado","sin procesar");
+        $this->db->where("nr_empleado",$data['nr']);
         $viaticos = $this->db->get('vyp_mision_oficial');
         return $viaticos;
     }
@@ -38,7 +40,7 @@ class Reportes_viaticos_model extends CI_Model {
     {
         $this->db->where("nr",$data["nr"]);
         $this->db->limit(1);
-        $viaticos = $this->db->get('sir_empleado');
+        $viaticos = $this->db->get('org_usuario');
         return $viaticos;
     }
 }

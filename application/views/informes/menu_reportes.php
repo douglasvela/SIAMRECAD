@@ -372,7 +372,7 @@
                                                               $dataEmpleado = $this->db->query("SELECT * FROM sir_empleado");
 
                                                               $sess= $this->session->userdata('id_usuario_viatico');
-                                                              $dataEmpleado2 = $this->db->query("SELECT nr FROM sir_empleado where nr='$sess'");
+                                                              $dataEmpleado2 = $this->db->query("SELECT nr FROM org_usuario where id_usuario='$sess'");
                                                               if($dataEmpleado2->num_rows()>0){
                                                                 foreach ($dataEmpleado2->result() as $fila3) {}
                                                               }
@@ -409,7 +409,7 @@
                                                           $datasEmpleado = $this->db->query("SELECT * FROM sir_empleado");
 
                                                           $sess2= $this->session->userdata('id_usuario_viatico');
-                                                          $datasEmpleado2 = $this->db->query("SELECT nr FROM sir_empleado where nr='$sess2'");
+                                                          $datasEmpleado2 = $this->db->query("SELECT nr FROM org_usuario where id_usuario='$sess2'");
                                                           if($datasEmpleado2->num_rows()>0){
                                                             foreach ($datasEmpleado2->result() as $fila4) {}
                                                           }
