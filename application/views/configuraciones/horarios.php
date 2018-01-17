@@ -143,20 +143,30 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <h5>Hora inicio: <span class="text-danger">*</span></h5>
                                     <div class="controls">
                                         <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Formato de hora no válido">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                     <h5>Hora fin: <span class="text-danger">*</span></h5>
                                     <div class="controls">
                                         <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Formato de hora no válido">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
+                                <div class="form-group col-lg-4">
+                                    <h5>Tipo: <span class="text-danger">*</span></h5>
+                                    <select id="id_tipo" name="id_tipo" class="form-control"  style="width: 100%">
+                                        <option value="">[Elija el tipo]</option>
+                                        <option class="m-l-50" value="1">Viático</option>
+                                        <option class="m-l-50" value="2">Restricción</option>
+                                    </select>
+                                    <div class="help-block"></div>
+                                </div>
+                              </div>
                             </div>
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
