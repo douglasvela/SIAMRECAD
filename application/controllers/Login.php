@@ -1,6 +1,10 @@
 <?php
-define("SERVER_MTPS","localhost");
 defined('BASEPATH') OR exit('No direct script access allowed');
+if("192.168.1.200" == $_SERVER['SERVER_NAME']){
+	define("SERVER_MTPS","192.168.1.200");
+}else{
+	define("SERVER_MTPS","localhost");
+}
 
 class Login extends CI_Controller {
 
@@ -70,11 +74,11 @@ class Login extends CI_Controller {
 	               'sesion_viatico' => TRUE
 	            );
 				$this->session->set_userdata($usuario_data);
-				$this->bitacora_model->bitacora(array(
+				/*$this->bitacora_model->bitacora(array(
 	               'id_sistema' => "15",
 	               'descripcion' => "El usuario ".$this->input->post('usuario')." inició sesión",
 	               'id_accion' => "1"
-	            ));			
+	            ));*/	
 			}else{
 				$response = "sesion";
 				$this->session->sess_destroy();
