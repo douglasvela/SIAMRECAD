@@ -6,9 +6,11 @@ class Reportes_viaticos_model extends CI_Model {
         parent::__construct();
     }
 /*
-empleados de mayor a menor
-SELECT `id_mision_oficial`,sum(`viaticos`),sum(`pasajes`) FROM `vyp_empresas_visitadas` group by `id_mision_oficial`
-
+empleados con total de viaticos y pasajes
+select sum(ev.viaticos),sum(ev.pasajes)
+from vyp_empresas_visitadas as ev
+where ev.id_mision_oficial IN (
+SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2499)
 */
 
     function obtenerListaviatico($data)
