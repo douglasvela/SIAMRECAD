@@ -26,7 +26,9 @@ class Horarios extends CI_Controller {
 			'descripcion' => $this->input->post('descripcion'), 
 			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
-			'monto' => number_format($this->input->post('monto'),2)
+			'monto' => number_format($this->input->post('monto'),2),
+			'id_tipo' => $this->input->post('id_tipo'),
+			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->insertar_horario($data);
 
@@ -37,14 +39,16 @@ class Horarios extends CI_Controller {
 			'descripcion' => $this->input->post('descripcion'), 
 			'hora_inicio' => date("Y-m-d ").$this->input->post('hora_inicio'),
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
-			'monto' => number_format($this->input->post('monto'),2)
+			'monto' => number_format($this->input->post('monto'),2),
+			'id_tipo' => $this->input->post('id_tipo'),
+			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->editar_horario($data);
 
 		}else if($this->input->post('band') == "delete"){
-
 			$data = array(
-			'idhorario' => $this->input->post('idhorario')
+			'idhorario' => $this->input->post('idhorario'),
+			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->eliminar_horario($data);
 

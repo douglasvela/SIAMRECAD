@@ -1,10 +1,13 @@
 <script type="text/javascript">
-    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,bandera){
+    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,tipo,estado,bandera){
         $("#idhorario").val(id);
         $("#descripcion").val(descripcion);
         $("#hora_inicio").val(hora_inicio);
         $("#hora_fin").val(hora_fin);
         $("#monto").val(monto);
+        $("#estado").val(estado);
+        $("#id_tipo").val(tipo);
+
 
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
@@ -15,7 +18,7 @@
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar viático");
         }else{
-            eliminar_horario();
+            eliminar_horario(estado, tipo);
         }
     }
 
@@ -25,6 +28,8 @@
         $("#hora_inicio").val("");
         $("#hora_fin").val("");
         $("#monto").val("");
+        $("#estado").val("1");
+        $("#id_tipo").val("");
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -49,18 +54,35 @@
         $("#submit").click();
     }
 
-    function eliminar_horario(){
+    function eliminar_horario(estado, t){
         $("#band").val("delete");
+        if(t == 1){
+            var tipo = "el viático seleccionado";
+        }else{
+            var tipo = "la restricción seleccionada";
+        }
+        if(estado == 1){
+            var text = "Desea desactivar "+tipo;
+            var title = "¿Dar de baja?";
+        }else{
+            var text = "Desea activar "+tipo;
+            var title = "¿Activar?";
+        }
+        
         swal({   
-            title: "¿Está seguro?",   
-            text: "¡Desea eliminar el registro!",   
+            title: title,   
+            text: text,   
             type: "warning",   
             showCancelButton: true,   
             confirmButtonColor: "#fc4b6c",   
-            confirmButtonText: "Sí, deseo eliminar!",   
+            confirmButtonText: "Sí, continuar",
             closeOnConfirm: false 
-        }, function(){   
-            $("#submit").click(); 
+        }, function(){
+            if(estado == 1){
+                $.when( $("#estado").val("0") ).then( $("#submit").click() );
+            }else{
+                $.when( $("#estado").val("1") ).then( $("#submit").click() );
+            }
         });
     }
 
@@ -125,6 +147,7 @@
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idhorario" name="idhorario" value="">
+                            <input type="hidden" id="estado" name="estado" value="1">
                             <div class="row">
                                 <div class="form-group col-lg-8 col-sm-12">
                                     <h5>Descripción: <span class="text-danger">*</span></h5>
@@ -159,7 +182,7 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <h5>Tipo: <span class="text-danger">*</span></h5>
-                                    <select id="id_tipo" name="id_tipo" class="form-control"  style="width: 100%">
+                                    <select id="id_tipo" name="id_tipo" class="form-control"  style="width: 100%" required="">
                                         <option value="">[Elija el tipo]</option>
                                         <option class="m-l-50" value="1">Viático</option>
                                         <option class="m-l-50" value="2">Restricción</option>
