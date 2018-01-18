@@ -63,12 +63,8 @@ class Menu_reportes extends CI_Controller {
 						array(false,false,false,false,false,false,false),
 						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
 						array(array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
+						if($detalle->num_rows()>0){
 						foreach ($detalle->result() as $keyDetalle) {
-
-							//$this->pdf->Cell($this->pdf->GetX(),$this->pdf->GetY(),$keyDetalle->origen,'0');
-
-						//  $this->pdf->cuadrogrande_salto(21,$this->pdf->GetY(),146,5,0,'FD');
-							//$this->pdf->SetXY(9,$this->pdf->GetY());
 								$this->pdf->Row(
 								array("",utf8_decode($keyDetalle->origen),utf8_decode($keyDetalle->nombre_empresa),$keyDetalle->hora_salida,$keyDetalle->hora_llegada,number_format($keyDetalle->viaticos,2,".",","),number_format($keyDetalle->pasajes,2,".",",")),
 								array('0','0','0','0','0','0','0'),
@@ -78,6 +74,16 @@ class Menu_reportes extends CI_Controller {
 								array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
 								$this->pdf->Text(30,$this->pdf->GetY(),"______________________________________________________________________________________________________________",0,'C', 0);
 						}
+					}else{
+						$this->pdf->SetWidths(array(21,80,20,21,25,14,13));
+						$this->pdf->Row(
+						array("","No se han registrado empresas visitadas","","","","",""),
+						array('0','0','0','0','0','0','0'),
+						array(array('Arial','','08'),array('','',''),array('','',''),array('','',''),array('','',''),array('','',''),array('','','')),
+						array(false,false,false,false,false,false,false),
+						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
+						array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
+					}
 					 $this->pdf->Text($this->pdf->GetX(),$this->pdf->GetY(),"___________________________________________________________________________________________________________________________",0,'C', 0);
 
 						$this->pdf->SetWidths(array(25,142,28));
@@ -109,7 +115,7 @@ class Menu_reportes extends CI_Controller {
 		$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
 		foreach ($empleado_NR_viatico->result() as $key) {
 			$this->pdf->Text(9,21,"NR: 			 ".$key->nr ,0,'C', 0);
-			$this->pdf->Text(9,25,"EMPLEADO: ".utf8_decode($key->primer_nombre)." ".utf8_decode($key->segundo_nombre)." ".utf8_decode($key->primer_apellido)." ".utf8_decode($key->segundo_apellido) ,0,'C', 0);
+			$this->pdf->Text(9,25,"EMPLEADO: ".utf8_decode($key->nombre_completo) ,0,'C', 0);
 			$this->pdf->Text(100,25,"INTERVALO DE: ".$min."  A  ".$max ,0,'C', 0);
 		}
 
