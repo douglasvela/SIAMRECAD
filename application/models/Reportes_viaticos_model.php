@@ -5,16 +5,16 @@ class Reportes_viaticos_model extends CI_Model {
     {
         parent::__construct();
     }
+/*
+empleados de mayor a menor
+SELECT `id_mision_oficial`,sum(`viaticos`),sum(`pasajes`) FROM `vyp_empresas_visitadas` group by `id_mision_oficial`
 
+*/
 
     function obtenerListaviatico($data)
     {
-        
-        $this->db->where("estado","revision");
-        $this->db->or_where("estado","incompleta");
-        $this->db->or_where("estado","sin procesar");
-        $this->db->where("nr_empleado",$data['nr']);
-        $viaticos = $this->db->get('vyp_mision_oficial');
+        $nr = $data['nr'];
+        $viaticos = $this->db->query("SELECT * FROM `vyp_mision_oficial` WHERE `nr_empleado`='$nr' and ( `estado` = 'revision' or `estado` = 'incompleta'  or `estado` = 'sin procesar' )");
         return $viaticos;
     }
     function obtenerListaviaticoPagado($data){

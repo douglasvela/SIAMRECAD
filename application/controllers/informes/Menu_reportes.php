@@ -37,7 +37,7 @@ class Menu_reportes extends CI_Controller {
 
 		 $this->pdf->SetAligns(array('L','J','L'));
 		$this->pdf->SetWidths(array(25,142,28));
-		$ids = array('nr' =>  $key->nr);
+		$ids = array('nr' =>  $id);
 		$viatico = $this->Reportes_viaticos_model->obtenerListaviatico($ids);
 
 		if($viatico->num_rows()>0){
