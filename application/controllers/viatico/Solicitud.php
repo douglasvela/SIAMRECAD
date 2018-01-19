@@ -15,31 +15,31 @@ class Solicitud extends CI_Controller {
 	}
 
 	public function tabla_solicitudes(){
-		$this->load->view('viaticos/complementos/tabla_solicitudes');
+		$this->load->view('viaticos/viaticos_ajax/tabla_solicitudes');
 	}
 
 	public function combo_oficinas_departamentos(){
-		$this->load->view('viaticos/complementos/combo_oficinas_departamentos');
+		$this->load->view('viaticos/viaticos_ajax/combo_oficinas_departamentos');
 	}
 
 	public function combo_municipios(){
-		$this->load->view('viaticos/complementos/combo_municipio');
+		$this->load->view('viaticos/viaticos_ajax/combo_municipio');
 	}
 
 	public function input_distancia(){
-		$this->load->view('viaticos/complementos/input_distancia');
+		$this->load->view('viaticos/viaticos_ajax/input_distancia');
 	}
 
 	public function tabla_empresas_visitadas(){
-		$this->load->view('viaticos/complementos/tabla_empresas_visitadas');
+		$this->load->view('viaticos/viaticos_ajax/tabla_empresas_visitadas');
 	}
 
 	public function tabla_empresas_viaticos(){
-		$this->load->view('viaticos/complementos/tabla_empresa_viaticos');
+		$this->load->view('viaticos/viaticos_ajax/tabla_empresa_viaticos');
 	}
 
 	public function imprimir_solicitud(){
-		$this->load->view('viaticos/complementos/imprimir_solicitud');
+		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud');
 	}
 
 	public function eliminar_destino(){

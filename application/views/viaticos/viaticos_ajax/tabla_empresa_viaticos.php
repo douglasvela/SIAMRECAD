@@ -1,10 +1,35 @@
 <?php
 	$id_mision = $_GET["id_mision"];
 	$tipo = $_GET["tipo"];
+	$fecha_mision_es = date("d/m/Y",strtotime($_GET["fecha_mision"]));
+	$fecha_mision_en = date("Y-m-d",strtotime($_GET["fecha_mision"]));
+	$nr_usuario = $_GET["nr"];
+
+
+	$mision_oficial = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE fecha_mision = '".$fecha_mision_en."' AND nr_empleado = '".$nr_usuario."' AND id_mision_oficial <> '".$id_mision."' AND estado <> 'incompleta'");
+    if($mision_oficial->num_rows() > 0){ 
+    	echo '<div class="alert alert-warning"> <i class="fa fa-warning"></i> Ya existe solicitud de viáticos para la fecha: '.$fecha_mision_es." y no podrás cobrar viáticos en los horarios siguientes:";
+        foreach ($mision_oficial->result() as $filam) {
+        	echo '<hr style="margin: 5px;"">&emsp;&emsp;'.$filam->actividad_realizada.' ('.$filam->estado.')';
+        	$hora_mision = $this->db->query("SELECT MIN(hora_salida) AS hora_salida, MAX(hora_llegada) AS hora_llegada FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$filam->id_mision_oficial."'");
+		    if($hora_mision->num_rows() > 0){ 
+		        foreach ($hora_mision->result() as $filah) {
+		        	echo '<br>&emsp;&emsp;<i class="fa fa-circle"></i> Horario de la misión: '.hora($filah->hora_salida)." - ".hora($filah->hora_llegada);
+		        }
+		    }
+        }
+        echo '</div>';
+    }
+
+	function hora($time){
+	    return date("H:i A",strtotime(date("Y-m-d")." ".$time));
+	}
+
 ?>
 
+
         <div class="table-responsive">
-			<table id="tabla_viaticos" class="table table-hover table-bordered">
+			<table id="tabla_viaticos" name="tabla_viaticos" class="table table-hover table-bordered" width="100%">
 			  	<thead class="bg-inverse text-white" style="font-size: 15px;">
 			        <tr>
 			        	<th style="display: none;">Inputs</th>
@@ -20,8 +45,6 @@
 			  	<tbody style="font-size: 15px; color: grey;">
 
 			  		<?php 
-			  			
-			  			$nr_usuario = $_GET["nr"];
 
 			  			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
 
@@ -57,8 +80,8 @@
 		                    	}else{
 		                    		$km = "0.00";
 		                    	}
-		                      echo "<tr>";
 		                        ?>
+		                        <tr>
 		                        <td style="display: none;">
 		                        	<input type="text" class="form-control" value="<?php echo $fila->id_empresas_visitadas; ?>">
 				            		<input type="text" class="form-control" value="<?php echo $fila->id_municipio; ?>">
@@ -93,8 +116,10 @@
 				            		</div>
 				            	</td>
 				            	<td width="82px" style="max-width: 82px; position: relative;">
-				            		<p style="position: absolute;"><span class="mytooltip tooltip-effect-2">
-	                                    <span class="tooltip-item" style="opacity: 0;">Toolt.</span> <span class="tooltip-content clearfix <?php if($fila->viaticos != 0){ echo "bg-danger"; }else{ echo "bg-success"; } ?>" style="padding-left: 10px; padding-right: 10px; width: 200px; margin: 0 0 20px -100px;">
+				            		<p style="position: absolute;">
+				            			<span class="mytooltip tooltip-effect-2">
+	                                    <span class="tooltip-item" style="opacity: 0;">Toolt.</span> 
+	                                    <span class="tooltip-content clearfix <?php if($fila->viaticos != 0){ echo "bg-danger"; }else{ echo "bg-success"; } ?>" style="padding-left: 10px; padding-right: 10px; width: 200px; margin: 0 0 20px -100px;">
 	                                        <span class="tooltip-text text-center" style="padding-right: 0; font-size: 15px;">
 	                                            <output style="cursor: pointer; <?php if($fila->viaticos != 0){ echo "display: none;"; } ?>" onclick="verificar_viaticos(this);">Agregar viáticos</output>
 	                                            <output style="cursor: pointer; <?php if($fila->viaticos == 0){ echo "display: none;"; } ?>" onclick="eliminar_viaticos(this,'<?php echo $fila->id_empresas_visitadas; ?>');">Quitar viáticos</output>
@@ -113,8 +138,8 @@
 				            		</div>
 				            		<?php $pasajes += number_format($fila->pasajes, 2, '.', ''); ?>
 				            	</td>
+				            	</tr>
 		                        <?php
-		                      	echo "</tr>";
 		                      	if($fila->tipo_destino == "destino_oficina"){
 			            			$origen = $fila->nombre_empresa;
 			            		}else{
@@ -138,10 +163,30 @@
 		            <?php
 		                }
 		            ?>
-
 			  	</tbody>
 			</table>
 		</div>
+
+		<div class="table-responsive">
+		<table id="tabla_hora_repetida" name="tabla_hora_repetida" class="table table-hover table-bordered">
+			<thead>			
+<?php
+
+	if($mision_oficial->num_rows() > 0){ 
+        foreach ($mision_oficial->result() as $filam) {
+        	$hora_mision = $this->db->query("SELECT MIN(hora_salida) AS hora_salida, MAX(hora_llegada) AS hora_llegada FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$filam->id_mision_oficial."'");
+		    if($hora_mision->num_rows() > 0){
+		        foreach ($hora_mision->result() as $filah) {
+		        	echo "<tr><td>".substr($filah->hora_salida,0,5)."</td>";
+		        	echo "<td>".substr($filah->hora_llegada,0,5)."</td></tr>";
+		        }
+		    }
+        }
+    }
+
+?>			</thead>
+		</table>
+	</div>
 
 		<div class="form-group m-b-5" style="display: none;">
             <textarea class="form-control" id="area" rows="4"></textarea>
@@ -151,7 +196,7 @@
 
 		<div class="row">
 			<div class="form-group col-lg-12 m-b-5" align="right">
-		        <button type="button" onclick="validar_solicitud()" class="pull-right btn btn-info">
+		        <button type="button" onclick="verificar_horario_repetido()" class="pull-right btn btn-info">
 		        Actualizar solicitud
 		        </button>
 		    </div>

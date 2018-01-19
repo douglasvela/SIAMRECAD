@@ -196,6 +196,7 @@
     function tabla_empresas_visitadas(callback){
         var id_mision = $("#id_mision").val();
         var nr = $("#nr").val();
+        var fecha_mision = $("#fecha_mision").val();
 
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
@@ -212,13 +213,14 @@
             }
         }
 
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr+"&fecha_mision="+fecha_mision,true);
         xmlhttp_municipio.send();
     }
 
     function tabla_empresas_viaticos(tipo){
         var id_mision = $("#id_mision").val();
         var nr = $("#nr").val();
+        var fecha_mision = $("#fecha_mision").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -233,7 +235,7 @@
             }
         }
 
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo+"&fecha_mision="+fecha_mision,true);
         xmlhttp_municipio.send();
     }
 
@@ -732,6 +734,37 @@
         window.open("<?php echo site_url(); ?>/viatico/solicitud/imprimir_solicitud?id_mision="+id_mision, '_blank');
     }
    
+    function verificar_horario_repetido(){
+        var fhora_rep = $("#tabla_hora_repetida").find("tr");
+        var repetido = false;
+
+
+        if(fhora_rep.length == 0){
+            validar_solicitud();
+        }else{
+            var filas = $("#tabla_viaticos").find("tbody").find("tr");
+            //var celdas = $(obj).parents("tr").children("td");
+
+            for(i=0; i<(filas.length-1); i++){
+                celdas = $(filas[i]).children("td");
+                hora_inicio = $($(celdas[3]).find("input")).val();
+                hora_fin = $($(celdas[4]).find("input")).val();
+                
+                for(j=0; j<fhora_rep.length; j++){
+                    celdas2 = $(fhora_rep[i]).children("td");
+                    if((hora_inicio >= $(celdas2[0]).html() && hora_inicio <= $(celdas2[1]).html()) || (hora_fin >= $(celdas2[0]).html() && hora_fin <= $(celdas2[1]).html()) ||  (hora_inicio <= $(celdas2[0]).html() && hora_fin >= $(celdas2[1]).html())){
+                        repetido = true;
+                    }
+                }
+            }            
+        }
+
+        if(repetido){
+            swal({ title: "Choque de horarios", text: "Ya existe una solicitud con esos horarios, no puede solicitar viáticos en ese horario", type: "warning", showConfirmButton: true });
+        }else{
+            validar_solicitud()
+        }
+    }
 
 </script>
 <!-- ============================================================== -->
