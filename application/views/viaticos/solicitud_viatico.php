@@ -35,6 +35,27 @@
 
 ?>
 
+<style>
+
+      @media screen and (max-width: 770px) {
+        .otro {
+            height: 500px;
+        }
+      }
+
+      #divider {
+          height: 400px;
+      }
+
+      #map {
+        height: 400px;
+      }
+
+      #output {
+        font-size: 14px;
+      }
+    </style>
+
 <script type="text/javascript">
     /*****************************************************************************************************
     ******************************* Recuperando los horarios de viaticos ********************************/
@@ -785,6 +806,38 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-lg-6">
+                <label>Buscar ubicación</label>
+                <div class="input-group">
+                    <input type="text" id="address" class="form-control" placeholder="municipio, departamento, pais">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info" type="button" id="submit_ubi">Buscar <i class="mdi mdi-magnify"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+         <div  class="row" id="divider">
+            <div class="col-lg-12 col-md-7" >
+                    <div id="map" ></div>                       
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12" >
+            <input class="form-control" type="hidden" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas">
+            <input class="form-control" type="hidden" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas">
+            <input type="hidden" class="form-control" id="direccion_origen1" name="">
+            <input type="hidden" class="form-control" id="direccion_origen2" name="">
+            <div>
+                <strong>Resultados</strong>
+            </div>
+           <div id="output">Los resultados aparecerán aquí</div>
+            
+
+            <br><br><br><br><br><br><br><br>
+        </div>
+
         <!-- ============================================================== -->
         <!-- Fin TITULO de la página de sección -->
         <!-- ============================================================== -->
@@ -968,6 +1021,8 @@
                                     <textarea id="direccion_empresa" name="direccion_empresa" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2" required></textarea>
                                     <span class="help-block"></span>
                                 </div>
+
+                                
                             </div>
 
                             <button style="display: none;" type="submit" id="btn_submit" class="btn waves-effect waves-light btn-success2">submit</button>
@@ -1095,6 +1150,17 @@
     <!-- /.modal-dialog -->
 </div>
 
+<?php 
+    if($info_empleado->num_rows() > 0){ 
+        foreach ($info_empleado->result() as $filas) {}
+    }
+
+    $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+
+    if($oficina_origen->num_rows() > 0){ 
+        foreach ($oficina_origen->result() as $filaofi) {}
+    }
+?>
 
 <script>
 $(function(){  
@@ -1167,4 +1233,166 @@ $(function(){
 
 });
 
+</script>
+
+
+
+
+<script>
+      
+
+    function initMap() {
+        var LatOrigen = {lat: <?php echo $filaofi->latitud_oficina; ?>, lng: <?php echo $filaofi->longitud_oficina; ?>};
+        var LatDestino = "";
+        var markersD = [];
+        var markersC = [];
+
+        var bounds = new google.maps.LatLngBounds;
+        var geocoder = new google.maps.Geocoder;
+        var service = new google.maps.DistanceMatrixService;
+        var directionsService = new google.maps.DirectionsService();
+
+
+        var stepDisplay = new google.maps.InfoWindow;
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: LatOrigen
+        });
+
+        var directionsDisplay = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers:true
+        });
+
+        var marker = new google.maps.Marker({
+            position: LatOrigen,
+            map: map,
+            title: '<?php echo $filaofi->nombre_oficina; ?>',
+            icon: '<?php echo base_url()."/assets/images/marker_origen.png"; ?>'
+        });
+
+        map.addListener('click', function(e) {
+
+            alert(e.latLng)
+            LatDestino = e.latLng;        
+            deleteMarkers_D();
+            addMarker_destino(e.latLng, map);
+            calcula_distancia();
+         
+        });
+
+        function addMarker_destino(location, map) {
+            // Add the marker at the clicked location, and add the next-available label
+            var marker = new google.maps.Marker({
+              position: location,//labels[labelIndex++ % labels.length]
+              map: map,
+              animation: google.maps.Animation.DROP
+            });
+            markersD.push(marker);
+        }
+
+        function deleteMarkers_D() {
+            clearMarkers_D();
+            markersD = [];
+        }
+        function setMapOnAll_D(map) {
+            for (var i = 0; i < markersD.length; i++) {
+              markersD[i].setMap(map);
+            }
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers_D() {
+            setMapOnAll_D(null);
+        }
+
+        function calcula_distancia(){
+            service.getDistanceMatrix({
+            origins: [LatOrigen],
+            destinations: [LatDestino],
+            travelMode: 'DRIVING',
+            unitSystem: google.maps.UnitSystem.METRIC,
+            avoidHighways: false,
+            avoidTolls: false
+            }, function(response, status) {
+                if (status !== 'OK') {
+                    alert('Error was: ' + status);
+                } else {
+                var originList = response.originAddresses;
+                var destinationList = response.destinationAddresses;
+
+
+
+                pinta_recorrido();
+
+                var outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = '';
+                var showGeocodedAddressOnMap = function(asDestination) {
+                    return function(results, status) {
+                        if (status === 'OK') {
+                            map.fitBounds(bounds.extend(results[0].geometry.location));
+                        } else {
+                            alert('Geocode no tuvo éxito debido a: ' + status);
+                        }
+                    };
+                };
+
+                for (var i = 0; i < originList.length; i++) {
+                    var results = response.rows[i].elements;
+                    geocoder.geocode({'address': originList[i]},
+                    showGeocodedAddressOnMap(false));
+                    for (var j = 0; j < results.length; j++) {
+                        geocoder.geocode({'address': destinationList[j]},
+                        showGeocodedAddressOnMap(true));
+                        outputDiv.innerHTML += "<b>Origen:</b> "+originList[i] + 
+                        '<br><b>Destino:</b> ' + destinationList[j] +
+                        '<br><b>Distancia:</b> ' + results[j].distance.text+    //Distancia carretera
+                        '<br><b>Tiempo:</b> ' + results[j].duration.text + '<br>';
+                    }
+                    }
+                }
+            });
+        }
+
+        function pinta_recorrido(){
+            var request = {
+                origin: LatOrigen,
+                destination: LatDestino,
+                travelMode: 'DRIVING'
+            };
+
+            // Pass the directions request to the directions service.        
+            directionsService.route(request, function(response, status) {
+
+
+                var summaryPanel = "";
+                var route = response.routes[0];
+                        for (var i = 0; i < route.legs.length; i++) {
+                var routeSegment = i + 1;
+                summaryPanel += '<b>Route Segment: ' + routeSegment +
+                    '</b><br>';
+                summaryPanel += route.legs[i].start_location + ' to ';
+                summaryPanel += route.legs[i].end_location + '<br>';
+                summaryPanel += route.legs[i].distance.text + '<br><br>';
+
+                var marker = new google.maps.Marker({
+                    position: route.legs[i].end_location,
+                    map: map
+                });
+              }
+              alert(summaryPanel)
+                if (status == 'OK') {
+                    // Display the route on the map.
+                    directionsDisplay.setDirections(response);
+                    //deleteMarkers_D();
+                    //deleteMarkers_O();
+                }
+            });
+        }
+
+    }
+    </script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
 </script>
