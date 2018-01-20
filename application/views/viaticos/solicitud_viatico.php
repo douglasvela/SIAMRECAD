@@ -1246,6 +1246,8 @@ $(function(){
         var LatDestino = "";
         var markersD = [];
         var markersC = [];
+        var flightPath = ""; //Agregado para dibujar linea recta (Para mostrar distancia lineal)
+        var distancia_faltante = "";
 
         var bounds = new google.maps.LatLngBounds;
         var geocoder = new google.maps.Geocoder;
@@ -1274,11 +1276,12 @@ $(function(){
 
         map.addListener('click', function(e) {
 
-            alert(e.latLng)
+            //alert(map.getZoom())
             LatDestino = e.latLng;        
             deleteMarkers_D();
             addMarker_destino(e.latLng, map);
-            calcula_distancia();
+            //calcula_distancia();
+            pinta_recorrido();
          
         });
 
@@ -1307,7 +1310,7 @@ $(function(){
             setMapOnAll_D(null);
         }
 
-        function calcula_distancia(){
+        function calcula_distancia(distance){
             service.getDistanceMatrix({
             origins: [LatOrigen],
             destinations: [LatDestino],
@@ -1322,32 +1325,22 @@ $(function(){
                 var originList = response.originAddresses;
                 var destinationList = response.destinationAddresses;
 
-
-
-                pinta_recorrido();
-
                 var outputDiv = document.getElementById('output');
                 outputDiv.innerHTML = '';
-                var showGeocodedAddressOnMap = function(asDestination) {
-                    return function(results, status) {
-                        if (status === 'OK') {
-                            map.fitBounds(bounds.extend(results[0].geometry.location));
-                        } else {
-                            alert('Geocode no tuvo éxito debido a: ' + status);
-                        }
-                    };
-                };
 
                 for (var i = 0; i < originList.length; i++) {
                     var results = response.rows[i].elements;
-                    geocoder.geocode({'address': originList[i]},
-                    showGeocodedAddressOnMap(false));
+                    geocoder.geocode({'address': originList[i]});
                     for (var j = 0; j < results.length; j++) {
-                        geocoder.geocode({'address': destinationList[j]},
-                        showGeocodedAddressOnMap(true));
+                        geocoder.geocode({'address': destinationList[j]});
+                        var distancia_carretera = results[j].distance.text.replace(',', ".");
+                        distancia_carretera = distancia_carretera;
+                        var distancia_total = (parseFloat(distancia_carretera) + parseFloat(distance)).toFixed(2);
                         outputDiv.innerHTML += "<b>Origen:</b> "+originList[i] + 
                         '<br><b>Destino:</b> ' + destinationList[j] +
-                        '<br><b>Distancia:</b> ' + results[j].distance.text+    //Distancia carretera
+                        '<br><b>Distancia:</b> ' + parseFloat(distancia_carretera).toFixed(2) +" Km"+  //Distancia carretera
+                        '<br><b>Distancia Lineal:</b> ' + parseFloat(distance).toFixed(2) +" Km"+     //Distancia lineal
+                        '<br><b>Distancia Total:</b> ' + distancia_total +" Km"+     //Distancia lineal
                         '<br><b>Tiempo:</b> ' + results[j].duration.text + '<br>';
                     }
                     }
@@ -1368,20 +1361,34 @@ $(function(){
 
                 var summaryPanel = "";
                 var route = response.routes[0];
-                        for (var i = 0; i < route.legs.length; i++) {
-                var routeSegment = i + 1;
-                summaryPanel += '<b>Route Segment: ' + routeSegment +
-                    '</b><br>';
-                summaryPanel += route.legs[i].start_location + ' to ';
-                summaryPanel += route.legs[i].end_location + '<br>';
-                summaryPanel += route.legs[i].distance.text + '<br><br>';
+                    for (var i = 0; i < route.legs.length; i++) {
+                        /**************************************************************************************/
+                        /***************** Inicio para dibujar y calcular distancia lineal ********************/
+                        if(flightPath != ""){
+                            flightPath.setMap(null);
+                        }
 
-                var marker = new google.maps.Marker({
-                    position: route.legs[i].end_location,
-                    map: map
-                });
-              }
-              alert(summaryPanel)
+                        flightPath = new google.maps.Polyline({
+                            path: [route.legs[i].end_location, LatDestino],
+                            strokeColor: '#73b9ff',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 6,
+                            fillColor: '#7bb6ee',
+                            fillOpacity: 1.0
+                        });
+
+                        flightPath.setMap(map);
+
+                        var distancia_faltante = google.maps.geometry.spherical.computeDistanceBetween(route.legs[i].end_location, LatDestino);
+                        if(distancia_faltante != 0){
+                            distancia_faltante = parseFloat(distancia_faltante/1000).toFixed(2);
+                        }
+
+                        calcula_distancia(distancia_faltante);
+
+                        /***************** Fin de dibujo y cálculo de distancia lineal ********************/
+                        /**********************************************************************************/
+                    }
                 if (status == 'OK') {
                     // Display the route on the map.
                     directionsDisplay.setDirections(response);
