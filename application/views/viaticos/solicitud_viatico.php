@@ -54,6 +54,34 @@
       #output {
         font-size: 14px;
       }
+      
+      .controlers {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #search_input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 500px;
+      }
+
+      #search_input:focus {
+        border-color: #4d90fe;
+      }
+
+      
     </style>
 
 <script type="text/javascript">
@@ -108,6 +136,8 @@
             $('#modal_perfil').modal({backdrop: 'static', keyboard: false});
             $("#modal_perfil").modal('show');
         <?php } ?>
+
+        initMap();
     }
 
     function objetoAjax(){
@@ -806,20 +836,9 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-6">
-                <label>Buscar ubicación</label>
-                <div class="input-group">
-                    <input type="text" id="address" class="form-control" placeholder="municipio, departamento, pais">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info" type="button" id="submit_ubi">Buscar <i class="mdi mdi-magnify"></i></button>
-                    </span>
-                </div>
-            </div>
-        </div>
-
          <div  class="row" id="divider">
-            <div class="col-lg-12 col-md-7" >
+            <div class="col-lg-12 col-md-12" >
+                    <input id="search_input" class="controlers" type="text" placeholder="Ingresa tu búsqueda">
                     <div id="map" ></div>                       
             </div>
         </div>
@@ -835,7 +854,7 @@
            <div id="output">Los resultados aparecerán aquí</div>
             
 
-            <br><br><br><br><br><br><br><br>
+            <br>
         </div>
 
         <!-- ============================================================== -->
@@ -1236,30 +1255,95 @@ $(function(){
 </script>
 
 
-
-
 <script>
       
 
     function initMap() {
-        var LatOrigen = {lat: <?php echo $filaofi->latitud_oficina; ?>, lng: <?php echo $filaofi->longitud_oficina; ?>};
-        var LatDestino = "";
-        var markersD = [];
-        var markersC = [];
+        var LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
+            lat: <?php echo $filaofi->latitud_oficina; ?>, 
+            lng: <?php echo $filaofi->longitud_oficina; ?>
+        };
+        var LatDestino = "";    // Guardará el destino buscado por el usuario
+        var markersD = [];      //Se le agregarán las marcas de punto del destino
         var flightPath = ""; //Agregado para dibujar linea recta (Para mostrar distancia lineal)
-        var distancia_faltante = "";
+        var distancia_faltante = "";    //Servirá para agregar la distancia faltante al punto buscado, ya que google
+                                        //solo recorre calles y no siempre logra llegar al punto buscado
 
-        var bounds = new google.maps.LatLngBounds;
-        var geocoder = new google.maps.Geocoder;
-        var service = new google.maps.DistanceMatrixService;
-        var directionsService = new google.maps.DirectionsService();
+        var geocoder = new google.maps.Geocoder;    //Localiza lugares a traves de la geocodificación
+        var service = new google.maps.DistanceMatrixService;    //Permite calcular la distancia entre lugares
+        var directionsService = new google.maps.DirectionsService();    //Encuentra lugares y detalla recorridos
 
+        var input = document.getElementById('search_input');    //Obteniendo buscador de lugares
+        var searchBox = new google.maps.places.SearchBox(input);    //Convirtiendo a objeto google search
+        var markers = [];   //Contendrá la marca de punto del lugar buscado
 
-        var stepDisplay = new google.maps.InfoWindow;
-
-        var map = new google.maps.Map(document.getElementById('map'), {
+        var map = new google.maps.Map(document.getElementById('map'), { //Inicia el mapa google en el lugar de origen
             zoom: 12,
-            center: LatOrigen
+            center: LatOrigen,            
+            streetViewControl: false,
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_CENTER
+            },
+        });
+
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, map);
+
+            centerControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
+
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); //agregá el buscador de lugares
+
+            map.addListener('bounds_changed', function() {  //Detecta cambios en el zoom del mapa
+              searchBox.setBounds(map.getBounds()); //Adapta bounds del input search
+            });
+
+
+        searchBox.addListener('places_changed', function() {    //Realiza la busqueda de un lugar con el input search
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+
+            // Borra las marcas de busquedas antiguas.
+            markers.forEach(function(marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
         });
 
         var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -1270,29 +1354,42 @@ $(function(){
         var marker = new google.maps.Marker({
             position: LatOrigen,
             map: map,
-            title: '<?php echo $filaofi->nombre_oficina; ?>',
+            title: 'Origen: <?php echo $filaofi->nombre_oficina; ?>',
             icon: '<?php echo base_url()."/assets/images/marker_origen.png"; ?>'
         });
 
         map.addListener('click', function(e) {
-
-            //alert(map.getZoom())
             LatDestino = e.latLng;        
             deleteMarkers_D();
             addMarker_destino(e.latLng, map);
-            //calcula_distancia();
             pinta_recorrido();
-         
         });
 
         function addMarker_destino(location, map) {
-            // Add the marker at the clicked location, and add the next-available label
-            var marker = new google.maps.Marker({
-              position: location,//labels[labelIndex++ % labels.length]
-              map: map,
-              animation: google.maps.Animation.DROP
+            var address = "Dirección desconocida";
+            geocoder.geocode({'latLng': location}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    address = results[0]['formatted_address'];
+                    address = address.replace('Unnamed Road', "Carretera desconocida")
+
+                    // Add the marker at the clicked location, and add the next-available label
+                    var marker = new google.maps.Marker({
+                      position: location,//labels[labelIndex++ % labels.length]
+                      map: map,
+                      animation: google.maps.Animation.DROP,
+                      title: "Destino: "+address
+                    });
+                    markersD.push(marker);
+                }else{
+                    var marker = new google.maps.Marker({
+                      position: location,//labels[labelIndex++ % labels.length]
+                      map: map,
+                      animation: google.maps.Animation.DROP,
+                      title: "Destino: "+address
+                    });
+                    markersD.push(marker);
+                }
             });
-            markersD.push(marker);
         }
 
         function deleteMarkers_D() {
@@ -1390,16 +1487,48 @@ $(function(){
                         /**********************************************************************************/
                     }
                 if (status == 'OK') {
-                    // Display the route on the map.
+                    // Muestra la ruta del punto de origen al punto destino.
                     directionsDisplay.setDirections(response);
-                    //deleteMarkers_D();
-                    //deleteMarkers_O();
                 }
             });
         }
 
+        function CenterControl(controlDiv, map) {
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fc4b6c';
+        controlUI.style.border = '2px solid #fc4b6c';
+        controlUI.style.color = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '10px';
+        controlUI.style.marginRight = '10px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Clic para finalizar la búsqueda y ocultar mapa';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = '#fff';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '30px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Finalizar búsqueda';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+          map.setCenter(LatOrigen);
+        });
+
+      }
+
     }
     </script>
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&callback=initMap">
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&libraries=places">
 </script>
