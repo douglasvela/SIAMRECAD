@@ -14,9 +14,30 @@ var $cod_entidad;
 var $cod_usu;
 var $id_val;
 var $form;
+var $titulo1;
+var $titulo2;
+var $titulo3;
+var $titulo4;
+var $titulo5;
+var $cuadros;
 
 function SetTituloPagina($e){
   $this->form=$e;
+}
+function SetTituloTabla1($e){
+  $this->titulo1=$e;
+}
+function SetTituloTabla2($e){
+  $this->titulo2=$e;
+}
+function SetTituloTabla3($e){
+  $this->titulo3=$e;
+}
+function SetTituloTabla4($e){
+  $this->titulo4=$e;
+}
+function SetTituloTabla5($e){
+  $this->titulo5=$e;
 }
 
 function Setentidad($e)
@@ -45,6 +66,74 @@ function SetAligns($a)
 {
     //Set the array of column alignments
     $this->aligns=$a;
+}
+function SetCuadros($c){
+  $this->cuadros=$c;
+}
+function Header()
+{
+
+    $this->SetFont('Arial','',8);
+    $this->Image(('application/libraries/logomtps.jpeg'),13,4,30,14);
+    //$this->Text(145,12,$valueValuo['par_nombre_entidad'],0,'C', 0);
+    $this->SetFont('Arial','B',9);
+    $this->Text(78,12,utf8_decode($this->form),0,'C', 0);
+    $this->Ln(30);
+    if($this->cuadros=="viatico_pendiente_empleado"){
+        $this->Cuadros_viatico_pendiente_o_pagado();
+    }else if($this->cuadros=="viatico_pagado_empleado"){
+      $this->Cuadros_viatico_pendiente_o_pagado();
+    }else if($this->cuadros=="monto_viatico_mayor_a_menor"){
+      $this->Cuadros_monto_viatico_mayor_a_menor();
+    }
+
+
+}
+function Cuadros_viatico_pendiente_o_pagado(){
+  //cabecera de tabla
+    $this->cuadrogrande(9,30,21,5,0,'D');
+    $this->cuadrogrande(30,30,146,5,0,'D');
+    $this->cuadrogrande(176,30,27,5,0,'D');
+    $this->Text(11,34,utf8_decode($this->titulo1),0,'C', 0);
+    $this->Text(35,34,utf8_decode($this->titulo2),0,'C', 0);
+    $this->Text(178,34,utf8_decode($this->titulo3),0,'C', 0);
+    //cuerpo de tabla
+    $this->cuadrogrande(9,35,21,250,0,'D');
+    $this->cuadrogrande(30,35,146,250,0,'D');
+    $this->cuadrogrande(176,35,27,250,0,'D');
+    $this->SetY(38);
+}
+function Cuadros_monto_viatico_mayor_a_menor(){
+  $this->cuadrogrande(8,30,15,5,0,'D');
+  $this->cuadrogrande(23,30,100,5,0,'D');
+  $this->cuadrogrande(123,30,22,5,0,'D');
+  $this->cuadrogrande(145,30,22,5,0,'D');
+  $this->cuadrogrande(167,30,23,5,0,'D');
+
+  $this->Text(11,34,utf8_decode($this->titulo1),0,'C', 0);
+  $this->Text(35,34,utf8_decode($this->titulo2),0,'C', 0);
+  $this->Text(125,34,utf8_decode($this->titulo3),0,'C', 0);
+  $this->Text(148,34,utf8_decode($this->titulo4),0,'C', 0);
+  $this->Text(172,34,utf8_decode($this->titulo5),0,'C', 0);
+
+  $this->cuadrogrande(8,30,15,250,0,'D');
+  $this->cuadrogrande(23,30,100,250,0,'D');
+  $this->cuadrogrande(123,30,22,250,0,'D');
+  $this->cuadrogrande(145,30,22,250,0,'D');
+  $this->cuadrogrande(167,30,23,250,0,'D');
+  $this->SetY(36);
+}
+
+function Footer()
+{
+
+    $this->SetY(-15);
+    $this->SetFont('Arial','B',7);
+    $this->SetTextColor(3, 3, 3);
+    //$this->cuadrogrande(9,269,60,4,1,D);
+    //$this->Text(11,272,"hola", 0);
+
+
 }
 /*
 function Row($data,$dibujacelda)
@@ -295,42 +384,7 @@ function NbLines($w,$txt)
     return $nl;
 }
 
-function Header()
-{
 
-    $this->SetFont('Arial','',8);
-    $this->Image(('application/libraries/logomtps.jpeg'),13,4,30,14);
-    //$this->Text(145,12,$valueValuo['par_nombre_entidad'],0,'C', 0);
-    $this->SetFont('Arial','B',9);
-    $this->Text(78,12,utf8_decode($this->form),0,'C', 0);
-    $this->Ln(30);
-    $this->Cuadros();
-
-}
-function Cuadros(){
-    $this->cuadrogrande(9,30,21,5,0,'D');
-    $this->cuadrogrande(30,30,146,5,0,'D');
-    $this->cuadrogrande(176,30,27,5,0,'D');
-    $this->Text(11,34,utf8_decode("FECHA"),0,'C', 0);
-    $this->Text(35,34,utf8_decode("DESCRIPCIÓN"),0,'C', 0);
-    $this->Text(178,34,utf8_decode("ESTADO"),0,'C', 0);
-    $this->cuadrogrande(9,35,21,250,0,'D');
-    $this->cuadrogrande(30,35,146,250,0,'D');
-    $this->cuadrogrande(176,35,27,250,0,'D');
-    $this->SetY(38);
-}
-
-function Footer()
-{
-
-    $this->SetY(-15);
-    $this->SetFont('Arial','B',7);
-    $this->SetTextColor(3, 3, 3);
-    //$this->cuadrogrande(9,269,60,4,1,D);
-    //$this->Text(11,272,"hola", 0);
-
-
-}
 /*********************************************************/
 
 function TablaBasica($data,$x,$y)

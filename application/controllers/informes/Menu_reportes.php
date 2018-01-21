@@ -21,12 +21,14 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		$this->pdf = new Pdf('P','mm','Letter');
 		$this->pdf->SetTituloPagina('VIÁTICOS PENDIENTES DE PAGO');
+		$this->pdf->SetTituloTabla1("FECHA");
+		$this->pdf->SetTituloTabla2("DESCRIPCIÓN");
+		$this->pdf->SetTituloTabla3("ESTADO");
 		$this->pdf->SetTitle(utf8_decode('VIÁTICOS PENDIENTES DE PAGO'));
 		$this->pdf->SetAutoPageBreak(true, 15);
 	 $this->pdf->SetMargins(9,3,6);
+	 $this->pdf->SetCuadros("viatico_pendiente_empleado");
 		$this->pdf->AddPage();
-		// $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
-
 
 		 $data = array('nr'=>$id);
 		$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
@@ -104,9 +106,13 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		$this->pdf = new Pdf('P','mm','Letter');
 		$this->pdf->SetTituloPagina('VIÁTICOS PAGADOS EN UN PERIODO');
+		$this->pdf->SetTituloTabla1("FECHA");
+		$this->pdf->SetTituloTabla2("DESCRIPCIÓN");
+		$this->pdf->SetTituloTabla3("ESTADO");
 		$this->pdf->SetTitle(utf8_decode('VIÁTICOS PAGADOS EN UN PERIODO'));
 		$this->pdf->SetAutoPageBreak(true, 15);
 	 $this->pdf->SetMargins(9,3,6);
+		 $this->pdf->SetCuadros("viatico_pagado_empleado");
 		$this->pdf->AddPage();
 		// $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
 
@@ -179,5 +185,53 @@ class Menu_reportes extends CI_Controller {
 
 	 $this->pdf->Output(); //Salida al navegador
 	}
+
+	public function reporte_monto_viatico_mayor_a_menor($anio){
+		$this->load->library('pdf');
+
+		$this->load->model('Reportes_viaticos_model');
+		$this->pdf = new Pdf('P','mm','Letter');
+		$this->pdf->SetTituloPagina('MONTO DE VIÁTICOS DE MAYOR A MENOR');
+		$this->pdf->SetTituloTabla1("NR");
+		$this->pdf->SetTituloTabla2("NOMBRE EMPLEADO");
+		$this->pdf->SetTituloTabla3("PASAJES");
+		$this->pdf->SetTituloTabla4("VIÁTICOS");
+		$this->pdf->SetTituloTabla5("TOTAL");
+		$this->pdf->SetTitle(utf8_decode('VIÁTICOS DE MAYOR A MENOR'));
+		$this->pdf->SetAutoPageBreak(true, 15);
+	 $this->pdf->SetMargins(9,3,6);
+	 $this->pdf->SetCuadros("monto_viatico_mayor_a_menor");
+		$this->pdf->AddPage();
+
+		 $this->pdf->SetAligns(array('L','J','R','R','R'));
+		$this->pdf->SetWidths(array(20,89,24,24,24));
+
+		$data  =array(
+			'anio'=> $anio
+		);
+		$viatico = $this->Reportes_viaticos_model->obtenerViaticoMayoraMenor($data);
+
+		if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+						$this->pdf->Row(
+						array($viaticos->nr_empleado,utf8_decode(ucfirst($viaticos->nombre_completo)),"$ ".number_format($viaticos->pasajes,2,".",","),"$ ".number_format($viaticos->viaticos,2,".",","),"$ ".number_format($viaticos->total,2,".",",")),
+						array('0','0','0','0','0'),
+						array(array('Arial','','9'),array('','',''),array('','',''),array('','',''),array('','','')),
+						array(false,false,false,false,false,false),
+						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
+						array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('192','10','2')));
+
+						$this->pdf->Ln(1);
+
+				}
+			}else{
+				$this->pdf->Text($this->pdf->GetX()+25,$this->pdf->GetY()+10,"Sin Registros",0,'C', 0);
+			}
+
+	 $this->pdf->Output(); //Salida al navegador
+	}
+
+
+
 }
 ?>
