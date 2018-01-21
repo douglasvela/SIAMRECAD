@@ -313,7 +313,14 @@
        }else{
           window.open("menu_reportes/reporte_viatico_pagado_empleado/"+id+"/"+fecha_min+"/"+fecha_max,"_blank");
        }
-
+     }
+     function mostrarReporteViaticosMayoraMenor(){
+       var fecha = $("#fecha_monto").val();
+       if(fecha==""){
+          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+       }else{
+          window.open("menu_reportes/reporte_monto_viatico_mayor_a_menor/"+fecha,"_blank");
+       }
      }
 
 </script>
@@ -444,7 +451,19 @@
                                                     </div>
                                                 </div>
                                               </div>
-                                              <div class="tab-pane p-20" id="messages3" role="tabpanel">3</div>
+                                              <div class="tab-pane p-20" id="messages3" role="tabpanel">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                      <h5>Fecha Mínima: <span class="text-danger">*</span></h5>
+                                                    <input type="text" class="date-own form-control" id="fecha_monto" name="fecha_monto" placeholder="yyyy">
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-10">
+                                                  <div class="form-group">
+                                                    <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                  </div>
+                                                </div>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
@@ -488,6 +507,15 @@ $(function(){
               todayHighlight: true
           });
       });
+      $(document).ready(function(){
+          $('.date-own').datepicker({
+            minViewMode: 2,
+            format: 'yyyy',
+            autoclose: true,
+            todayHighlight: true
+          });
+      });
+
     $("#formajax").on("submit", function(e){
         e.preventDefault();
         var f = $(this);

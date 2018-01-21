@@ -11,6 +11,8 @@ select sum(ev.viaticos),sum(ev.pasajes)
 from vyp_empresas_visitadas as ev
 where ev.id_mision_oficial IN (
 SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2499)
+
+
 */
 
     function obtenerListaviatico($data)
@@ -43,6 +45,11 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
         $this->db->where("nr",$data["nr"]);
         $this->db->limit(1);
         $viaticos = $this->db->get('org_usuario');
+        return $viaticos;
+    }
+    function obtenerViaticoMayoraMenor($data){
+        $anio = $data['anio'];
+        $viaticos = $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '$anio' GROUP BY mo.nr_empleado ORDER BY total DESC");
         return $viaticos;
     }
 }
