@@ -51,6 +51,14 @@ class Solicitud extends CI_Controller {
 		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
 	}
 
+	public function obtener_id_municipio(){
+		echo $this->solicitud_model->obtener_id_municipio($_POST['id_municipio']);
+	}
+
+	public function obtener_id_departamento(){
+		echo $this->solicitud_model->obtener_id_departamento($_POST['id_municipio']);
+	}
+
 	public function ordenar_empresas_visitadas(){
 		echo $this->solicitud_model->ordenar_empresas_visitadas($_POST['query']);
 	}

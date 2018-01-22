@@ -138,4 +138,28 @@ class Solicitud_model extends CI_Model {
 		}
 		return $ultimoid;
 	}
+
+	function obtener_id_municipio($municipio){
+		$query = $this->db->query("SELECT * FROM org_municipio WHERE municipio = '".$municipio."'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->id_municipio; 
+			}
+		}else{
+			$ultimoid = "fracaso";
+		}
+		return $ultimoid;
+	}
+
+	function obtener_id_departamento($municipio){
+		$query = $this->db->query("SELECT * FROM org_municipio WHERE id_municipio = '".$municipio."'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->id_departamento_pais; 
+			}
+		}else{
+			$ultimoid = "fracaso";
+		}
+		return $ultimoid;
+	}
 }

@@ -169,7 +169,11 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("combo_departamento").innerHTML=xmlhttp_municipio.responseText;
                   $(".select2").select2();
-                  combo_municipio(tipo);
+                  if(tipo == "mapa"){
+                    $('#departamento').val(id_departamento_mapa).trigger('change.select2');
+                  }else{
+                    combo_municipio(tipo);
+                  }
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/combo_oficinas_departamentos?tipo="+tipo,true);
@@ -208,6 +212,12 @@
                     $("#direccion_empresa").parent().show(0);
                     $("#municipio").parent().show(0);
                     input_distancia(tipo);
+                  }else if(tipo == "mapa"){
+                    $("#nombre_empresa").parent().show(0);
+                    $("#direccion_empresa").parent().show(0);
+                    $("#municipio").parent().show(0);
+                    $('#municipio').val(id_municipio_mapa).trigger('change.select2');
+                    //input_distancia(tipo);
                   }
             }
         }
@@ -228,6 +238,9 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("input_distancia").innerHTML=xmlhttp_municipio.responseText;
                   $(".select2").select2();
+                  if(tipo == "mapa"){
+                    $("#distancia").val(distancia_total_mapa);
+                  }
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo,true);
@@ -324,6 +337,13 @@
         container.innerHTML= '<input type="text" class="controlers" id="search_input" placeholder="Escribe una ubicación a buscar"/>';
         $("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
         $.when(initMap()).then($("#dirigir").click());
+
+        combo_oficina_departamento("mapa");
+        $("#nombre_empresa").parent().show(0);
+        $("#direccion_empresa").parent().show(0);
+        $("#municipio").parent().show(0);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
     }
 
     function editar_mision(){
@@ -813,6 +833,80 @@
     function finalizarBusquedaMapa(){
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
+        $("#direccion_oficina").val(direccion);
+        var direccion = direccion_mapa;
+        var ultimacoma = direccion.lastIndexOf(",");
+        direccion = direccion.substring(0,ultimacoma);
+
+        var pultimacoma = direccion.lastIndexOf(",");
+
+        if(pultimacoma == -1){
+            direccion = direccion.trim();
+        }else{
+            direccion = direccion.substring(pultimacoma+1);
+            direccion = direccion.trim();
+        }
+        var municipio = direccion;
+
+        municipio = municipio.replace(/[Áá]/gi,"A");
+        municipio = municipio.replace(/[Éé]/gi,"E");
+        municipio = municipio.replace(/[Íí]/gi,"I");
+        municipio = municipio.replace(/[Óó]/gi,"O");
+        municipio = municipio.replace(/[Úú]/gi,"U");
+
+        municipio = municipio.toUpperCase();
+        
+        obtener_id_municipio(municipio);
+    }
+
+    var id_departamento_mapa;
+    var id_municipio_mapa;
+
+    function obtener_id_municipio(municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viatico/solicitud/obtener_id_municipio",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                alert("municipio no encontrado");
+            }else{
+                id_municipio_mapa = res;
+                obtener_id_departamento(res);
+            }
+             
+        });
+    }
+
+    function obtener_id_departamento(id_municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", id_municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viatico/solicitud/obtener_id_departamento",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                alert("departamento no encontrado");
+            }else{
+                id_departamento_mapa = res;
+                combo_oficina_departamento("mapa");
+            }
+        });
     }
 
 </script>
@@ -1253,6 +1347,10 @@ $(function(){
 
 <script>
 
+    var direccion_mapa;
+    var distancia_total_mapa;
+    var distancia_carretera_mapa;
+
     function initMap() {
         var LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
             lat: <?php echo $filaofi->latitud_oficina; ?>, 
@@ -1414,35 +1512,39 @@ $(function(){
                 if (status !== 'OK') {
                     alert('Error was: ' + status);
                 } else {
-                var originList = response.originAddresses;
-                var destinationList = response.destinationAddresses;
+                    var originList = response.originAddresses;
+                    var destinationList = response.destinationAddresses;
 
-                var outputDiv = document.getElementById('output');
-                outputDiv.innerHTML = '';
+                    var outputDiv = document.getElementById('output');
+                    outputDiv.innerHTML = '';
 
-                var showGeocodedAddressOnMap = function(asDestination) { //si se quita da error
-                    return function(results, status) {
-                        if (status === 'OK') {
-                            //map.fitBounds(bounds.extend(results[0].geometry.location));
-                        } else {
-                          //alert('Geocode no tuvo éxito debido a: ' + status);
-                        }
+                    var showGeocodedAddressOnMap = function(asDestination) { //si se quita da error
+                        return function(results, status) {
+                            if (status === 'OK') {
+                                //map.fitBounds(bounds.extend(results[0].geometry.location));
+                            } else {
+                              //alert('Geocode no tuvo éxito debido a: ' + status);
+                            }
+                        };
                     };
-                };
 
-                for (var i = 0; i < originList.length; i++) {
-                    var results = response.rows[i].elements;
-                    geocoder.geocode({'address': originList[i]}, showGeocodedAddressOnMap(false));
-                    for (var j = 0; j < results.length; j++) {
-                        geocoder.geocode({'address': destinationList[j]}, showGeocodedAddressOnMap(false));
+                    for (var i = 0; i < originList.length; i++) {
+                        var results = response.rows[i].elements;
+                        geocoder.geocode({'address': originList[i]}, showGeocodedAddressOnMap(false));
+                        for (var j = 0; j < results.length; j++) {
+                            geocoder.geocode({'address': destinationList[j]}, showGeocodedAddressOnMap(false));
 
-                        var distancia_carretera = results[j].distance.text.replace(',', ".");
-                        var distancia_total = (parseFloat(distancia_carretera) + parseFloat(distance)).toFixed(2);
-                        var direccion = destinationList[j].replace('Unnamed Road', "Carretera desconocida");
+                            var distancia_carretera = results[j].distance.text.replace(',', ".");
+                            var distancia_total = (parseFloat(distancia_carretera) + parseFloat(distance)).toFixed(2);
+                            var direccion = destinationList[j].replace('Unnamed Road', "Carretera desconocida");
 
-                        outputDiv.innerHTML += "<span class='pull-left'><b>Destino: </b>"+direccion+"<br></span>";
-                        outputDiv.innerHTML += "<span class='pull-right'><b>Distancia: </b>"+distancia_total+" Km</span>";
-                    }
+                            outputDiv.innerHTML += "<span class='pull-left'><b>Destino: </b>"+direccion+"<br></span>";
+                            outputDiv.innerHTML += "<span class='pull-right'><b>Distancia: </b>"+distancia_total+" Km</span>";
+
+                            direccion_mapa = direccion;
+                            distancia_total_mapa = distancia_total;
+                            distancia_carretera_mapa = distancia_carretera;
+                        }
                     }
                 }
             });

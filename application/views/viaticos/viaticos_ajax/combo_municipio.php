@@ -10,7 +10,11 @@
                 echo '<select id="municipio" name="municipio" class="select2" style="width: 100%" required onchange="input_distancia('."'".$tipo."'".')">';
         		echo "<option value=''>[Elija el municipio]</option>";
         		$sql = "WHERE id_departamento_pais = '".$id_departamento."'";
-        	}
+        	}else{
+                echo '<select id="municipio" name="municipio" class="select2" style="width: 100%" required onchange="input_distancia('."'".$tipo."'".')">';
+                echo "<option value=''>[Elija el municipio]</option>";
+                $sql = "WHERE id_departamento_pais = '".$id_departamento."'";
+            }
 
             $municipio = $this->db->query("SELECT * FROM org_municipio ".$sql);
             if($municipio->num_rows() > 0){
