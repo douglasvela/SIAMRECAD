@@ -231,7 +231,18 @@ class Menu_reportes extends CI_Controller {
 	 $this->pdf->Output(); //Salida al navegador
 	}
 
-
+	public function mostrarCombo($id){
+		$nuevo['id_seccion']=$id;
+		$this->load->view('informes/comboSecciones',$nuevo);
+	}
+	public function mostrarCombo2($id){
+		$nuevo['id_seccion']=$id;
+		$this->load->view('informes/comboSecciones2',$nuevo);
+	}
+	public function mostrarCombo3($id){
+		$nuevo['id_seccion']=$id;
+		$this->load->view('informes/comboSecciones3',$nuevo);
+	}
 
 }
 ?>
