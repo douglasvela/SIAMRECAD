@@ -199,19 +199,19 @@
     function buscarMunicipio(id_departamento,seleccion){
         id=id_departamento+="x"+seleccion;
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
+            xmlhttp=new XMLHttpRequest();
         }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTPB");
         }
 
-        xmlhttp_municipio.onreadystatechange=function(){
-            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
-                  document.getElementById("municipios").innerHTML=xmlhttp_municipio.responseText;
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                  document.getElementById("municipios").innerHTML=xmlhttp.responseText;
             }
         }
 
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi2/"+id,true);
-        xmlhttp_municipio.send();
+        xmlhttp.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi2/"+id,true);
+        xmlhttp.send();
     }
     function manttorutas(id_vyp_rutas,band,opcionruta_vyp_rutas,id_oficina_origen_vyp_rutas,id_oficina_destino_vyp_rutas,descripcion_destino_vyp_rutas,km_vyp_rutas,id_departamento,id_municipio,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas){
         var formData = new FormData();
@@ -323,6 +323,57 @@
        }
      }
 
+     function buscarSeccion(id){
+
+         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+             xmlhttp=new XMLHttpRequest();
+         }else{// code for IE6, IE5
+             xmlhttp=new ActiveXObject("Microsoft.XMLHTTPB");
+         }
+
+         xmlhttp.onreadystatechange=function(){
+             if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                   document.getElementById("micomboseccion").innerHTML=xmlhttp.responseText;
+             }
+         }
+
+         xmlhttp.open("GET","<?php echo site_url(); ?>/informes/menu_reportes/mostrarCombo/"+id,true);
+         xmlhttp.send();
+     }
+     function buscarSeccion2(id){
+
+         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+             xmlhttp2=new XMLHttpRequest();
+         }else{// code for IE6, IE5
+             xmlhttp2=new ActiveXObject("Microsoft.XMLHTTPB");
+         }
+
+         xmlhttp2.onreadystatechange=function(){
+             if (xmlhttp2.readyState==4 && xmlhttp2.status==200){
+                   document.getElementById("micomboseccion2").innerHTML=xmlhttp2.responseText;
+             }
+         }
+
+         xmlhttp2.open("GET","<?php echo site_url(); ?>/informes/menu_reportes/mostrarCombo2/"+id,true);
+         xmlhttp2.send();
+     }
+     function buscarSeccion3(id){
+
+         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+             xmlhttp3=new XMLHttpRequest();
+         }else{// code for IE6, IE5
+             xmlhttp3=new ActiveXObject("Microsoft.XMLHTTPB");
+         }
+
+         xmlhttp3.onreadystatechange=function(){
+             if (xmlhttp3.readyState==4 && xmlhttp3.status==200){
+                   document.getElementById("micomboseccion3").innerHTML=xmlhttp3.responseText;
+             }
+         }
+
+         xmlhttp3.open("GET","<?php echo site_url(); ?>/informes/menu_reportes/mostrarCombo3/"+id,true);
+         xmlhttp3.send();
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -452,17 +503,51 @@
                                                 </div>
                                               </div>
                                               <div class="tab-pane p-20" id="messages3" role="tabpanel">
-                                                <div class="col-md-10">
-                                                    <div class="form-group">
-                                                      <h5>Fecha Mínima: <span class="text-danger">*</span></h5>
-                                                    <input type="text" class="date-own form-control" id="fecha_monto" name="fecha_monto" placeholder="yyyy">
+                                                <div class="row">
+                                                  <div class="col-md-6">
+                                                      <div class="form-group">
+                                                        <h5>Año: <span class="text-danger">*</span></h5>
+                                                      <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="fecha_monto" name="fecha_monto" placeholder="yyyy">
+                                                    </div>
                                                   </div>
-                                                </div>
+
+                                                  <div class="col-md-6">
+                                                    <div class="form-group">
+                                                      <h5>Oficina: <span class="text-danger">*</span></h5>
+                                                        <select id="seccion_principal" name="seccion_principal" class="form-control" onchange="buscarSeccion(this.value)" style="width: 100%" required>
+                                                        <option value=''>[Elija Oficina]</option>
+                                                        <?php
+                                                        $datos = $this->db->query("SELECT * FROM org_seccion where depende='0'");
+
+                                                        if($datos->num_rows() > 0){
+                                                            foreach ($datos->result() as $filadatos) {
+                                                        ?>
+  <option class="m-l-50" value="<?php echo $filadatos->id_seccion; ?>"><?php echo $filadatos->nombre_seccion; ?></option>
+
+                                                        <?php
+                                                            }
+                                                        }
+                                                        //$u_rec_id = $this->session->userdata('rec_id');
+                                                        ?>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div  id="micomboseccion" class="form-group col-md-6">
+
+                                                  </div>
+                                                  <div  id="micomboseccion2" class="form-group col-md-6">
+
+                                                  </div>
+                                                  <div  id="micomboseccion3" class="form-group col-md-6">
+
+                                                  </div>
+
                                                 <div class="col-md-10">
                                                   <div class="form-group">
                                                     <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
                                                   </div>
                                                 </div>
+                                              </div>
                                               </div>
                                           </div>
                                       </div>
