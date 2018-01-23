@@ -1,6 +1,6 @@
 
 <?php
-echo '<select id="seccion3" name="seccion3" class="form-control" onchange="buscarSeccion4(this.value)" style="width: 100%"" required>';
+echo '<select id="seccion4" name="seccion4" class="form-control" onchange="" style="width: 100%"" required>';
 echo '<option value="">[Elija Seccion]</option>';
 
 $datos = $this->db->query("SELECT * FROM org_seccion where depende='$id_seccion'");
