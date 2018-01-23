@@ -317,15 +317,15 @@
      function mostrarReporteViaticosMayoraMenor(){
        var fecha = $("#fecha_monto").val();
        var dir;
-       if($("#seccion4").val()!=""){
+       if($("#seccion4").val()!="0"){
          dir = $("#seccion4").val();
-       }else if($("#seccion3").val()!=""){
+       }else if($("#seccion3").val()!="0"){
          dir = $("#seccion3").val();
-       }else if($("#seccion2").val()!=""){
+       }else if($("#seccion2").val()!="0"){
          dir = $("#seccion2").val();
-       }else if($("#seccion1").val()!=""){
+       }else if($("#seccion1").val()!="0"){
          dir = $("#seccion1").val();
-       }else if($("#seccion_principal").val()!=""){
+       }else if($("#seccion_principal").val()!="0"){
          dir = $("#seccion_principal").val();
        }else{
          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
@@ -407,11 +407,11 @@
          xmlhttp4.send();
      }
      function limpiarSeccion(){
-        $("#seccion4").val("");
-        $("#seccion3").val("");
-        $("#seccion2").val("");
-        $("#seccion1").val("");
-        $("#seccion_principal").val("");
+        $("#seccion4").val("0");
+        $("#seccion3").val("0");
+        $("#seccion2").val("0");
+        $("#seccion1").val("0");
+        $("#seccion_principal").val("0");
      }
 </script>
 
@@ -454,6 +454,7 @@
                                               <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Viaticos Pendiente de Pago por Empleado</span> </a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Viaticos Pagados en un Periodo</span></a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages3" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por empleado de mayor a menor</span></a> </li>
+                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages4" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos Trimestral, Semestral y Anual</span></a> </li>
                                           </ul>
                                           <!-- Tab panes -->
                                           <div class="tab-content">
@@ -554,7 +555,7 @@
                                                     <div class="form-group">
                                                       <h5>Dirección: <span class="text-danger">*</span></h5>
                                                         <select id="seccion_principal" name="seccion_principal" class="form-control" onchange="buscarSeccion(this.value)" style="width: 100%" >
-                                                          <option value="">[Seleccione]</option>
+                                                          <option value="0">[Seleccione]</option>
                                                         <?php
                                                         $datos = $this->db->query("SELECT * FROM org_seccion where depende='0'");
 
@@ -573,22 +574,22 @@
                                                   </div>
                                                   <div  id="micomboseccion" class="form-group col-md-6">
                                                       <select class="form-control" id="seccion1">
-                                                        <option value="">[Elija Seccion]</option>
+                                                        <option value="0">[Elija Seccion]</option>
                                                       </select>
                                                   </div>
                                                   <div  id="micomboseccion2" class="form-group col-md-6">
                                                     <select class="form-control" id="seccion2">
-                                                      <option value="">[Elija Seccion]</option>
+                                                      <option value="0">[Elija Seccion]</option>
                                                     </select>
                                                   </div>
                                                   <div  id="micomboseccion3" class="form-group col-md-6">
                                                     <select class="form-control" id="seccion3">
-                                                      <option value="">[Elija Seccion]</option>
+                                                      <option value="0">[Elija Seccion]</option>
                                                     </select>
                                                   </div>
                                                   <div  id="micomboseccion4" class="form-group col-md-6">
                                                     <select class="form-control" id="seccion4">
-                                                      <option value="">[Elija Seccion]</option>
+                                                      <option value="0">[Elija Seccion]</option>
                                                     </select>
                                                   </div>
 
@@ -599,6 +600,217 @@
                                                   </div>
                                                 </div>
                                               </div>
+                                              </div>
+                                              <div class="tab-pane p-20" id="messages4" role="tabpanel">
+                                                <h4 style="display:block" class="card-title">Reporte Trimestral</h4>
+                                                <div class="row">
+                                                  <div class="col-md-3">
+                                                      <div class="form-group">
+                                                        <h5>Año: <span class="text-danger">*</span></h5>
+                                                      <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual" name="anio_actual" placeholder="yyyy">
+                                                    </div>
+                                                  </div>
+
+                                                  <div class="col-md-3">
+                                                    <div class="form-group">
+                                                      <h5>Primer Mes: <span class="text-danger">*</span></h5>
+                                                        <select id="primer_mes" name="primer_mes" class="form-control" onchange="" style="width: 100%" >
+                                                          <option value="0">[Seleccione]</option>
+                                                          <option class="m-l-50" value="1">Enero</option>
+                                                          <option class="m-l-50" value="2">Febrero</option>
+                                                          <option class="m-l-50" value="3">Marzo</option>
+                                                          <option class="m-l-50" value="4">Abril</option>
+                                                          <option class="m-l-50" value="5">Mayo</option>
+                                                          <option class="m-l-50" value="6">Junio</option>
+                                                          <option class="m-l-50" value="7">Julio</option>
+                                                          <option class="m-l-50" value="8">Agosto</option>
+                                                          <option class="m-l-50" value="9">Septiembre</option>
+                                                          <option class="m-l-50" value="10">Octubre</option>
+                                                          <option class="m-l-50" value="11">Noviembre</option>
+                                                          <option class="m-l-50" value="12">Diciembre</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div  id="micomboseccion" class="form-group col-md-3">
+                                                    <h5>Segundo Mes: <span class="text-danger">*</span></h5>
+                                                      <select id="segundo_mes" name="segundo_mes" class="form-control" onchange="" style="width: 100%" >
+                                                        <option value="0">[Seleccione]</option>
+                                                        <option class="m-l-50" value="1">Enero</option>
+                                                        <option class="m-l-50" value="2">Febrero</option>
+                                                        <option class="m-l-50" value="3">Marzo</option>
+                                                        <option class="m-l-50" value="4">Abril</option>
+                                                        <option class="m-l-50" value="5">Mayo</option>
+                                                        <option class="m-l-50" value="6">Junio</option>
+                                                        <option class="m-l-50" value="7">Julio</option>
+                                                        <option class="m-l-50" value="8">Agosto</option>
+                                                        <option class="m-l-50" value="9">Septiembre</option>
+                                                        <option class="m-l-50" value="10">Octubre</option>
+                                                        <option class="m-l-50" value="11">Noviembre</option>
+                                                        <option class="m-l-50" value="12">Diciembre</option>
+                                                    </select>
+                                                  </div>
+                                                  <div  id="micomboseccion2" class="form-group col-md-3">
+                                                    <h5>Tercer Mes: <span class="text-danger">*</span></h5>
+                                                      <select id="tercer_mes" name="tercer_mes" class="form-control" onchange="" style="width: 100%" >
+                                                        <option value="0">[Seleccione]</option>
+                                                        <option class="m-l-50" value="1">Enero</option>
+                                                        <option class="m-l-50" value="2">Febrero</option>
+                                                        <option class="m-l-50" value="3">Marzo</option>
+                                                        <option class="m-l-50" value="4">Abril</option>
+                                                        <option class="m-l-50" value="5">Mayo</option>
+                                                        <option class="m-l-50" value="6">Junio</option>
+                                                        <option class="m-l-50" value="7">Julio</option>
+                                                        <option class="m-l-50" value="8">Agosto</option>
+                                                        <option class="m-l-50" value="9">Septiembre</option>
+                                                        <option class="m-l-50" value="10">Octubre</option>
+                                                        <option class="m-l-50" value="11">Noviembre</option>
+                                                        <option class="m-l-50" value="12">Diciembre</option>
+                                                    </select>
+                                                  </div>
+                                                <div class="col-md-10">
+                                                  <div class="form-group">
+                                                    <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                    <button type="button" onclick="limpiarSeccion()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <h4 style="display:block" class="card-title">Reporte Semestral</h4>
+                                              <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                      <h5>Año: <span class="text-danger">*</span></h5>
+                                                    <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual" name="anio_actual" placeholder="yyyy">
+                                                  </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                  <div class="form-group">
+                                                    <h5>Primer Mes: <span class="text-danger">*</span></h5>
+                                                      <select id="primer_mes" name="primer_mes" class="form-control" onchange="" style="width: 100%" >
+                                                        <option value="0">[Seleccione]</option>
+                                                        <option class="m-l-50" value="1">Enero</option>
+                                                        <option class="m-l-50" value="2">Febrero</option>
+                                                        <option class="m-l-50" value="3">Marzo</option>
+                                                        <option class="m-l-50" value="4">Abril</option>
+                                                        <option class="m-l-50" value="5">Mayo</option>
+                                                        <option class="m-l-50" value="6">Junio</option>
+                                                        <option class="m-l-50" value="7">Julio</option>
+                                                        <option class="m-l-50" value="8">Agosto</option>
+                                                        <option class="m-l-50" value="9">Septiembre</option>
+                                                        <option class="m-l-50" value="10">Octubre</option>
+                                                        <option class="m-l-50" value="11">Noviembre</option>
+                                                        <option class="m-l-50" value="12">Diciembre</option>
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                                <div  id="micomboseccion" class="form-group col-md-3">
+                                                  <h5>Segundo Mes: <span class="text-danger">*</span></h5>
+                                                    <select id="segundo_mes" name="segundo_mes" class="form-control" onchange="" style="width: 100%" >
+                                                      <option value="0">[Seleccione]</option>
+                                                      <option class="m-l-50" value="1">Enero</option>
+                                                      <option class="m-l-50" value="2">Febrero</option>
+                                                      <option class="m-l-50" value="3">Marzo</option>
+                                                      <option class="m-l-50" value="4">Abril</option>
+                                                      <option class="m-l-50" value="5">Mayo</option>
+                                                      <option class="m-l-50" value="6">Junio</option>
+                                                      <option class="m-l-50" value="7">Julio</option>
+                                                      <option class="m-l-50" value="8">Agosto</option>
+                                                      <option class="m-l-50" value="9">Septiembre</option>
+                                                      <option class="m-l-50" value="10">Octubre</option>
+                                                      <option class="m-l-50" value="11">Noviembre</option>
+                                                      <option class="m-l-50" value="12">Diciembre</option>
+                                                  </select>
+                                                </div>
+                                                <div  id="micomboseccion2" class="form-group col-md-3">
+                                                  <h5>Tercer Mes: <span class="text-danger">*</span></h5>
+                                                    <select id="tercer_mes" name="tercer_mes" class="form-control" onchange="" style="width: 100%" >
+                                                      <option value="0">[Seleccione]</option>
+                                                      <option class="m-l-50" value="1">Enero</option>
+                                                      <option class="m-l-50" value="2">Febrero</option>
+                                                      <option class="m-l-50" value="3">Marzo</option>
+                                                      <option class="m-l-50" value="4">Abril</option>
+                                                      <option class="m-l-50" value="5">Mayo</option>
+                                                      <option class="m-l-50" value="6">Junio</option>
+                                                      <option class="m-l-50" value="7">Julio</option>
+                                                      <option class="m-l-50" value="8">Agosto</option>
+                                                      <option class="m-l-50" value="9">Septiembre</option>
+                                                      <option class="m-l-50" value="10">Octubre</option>
+                                                      <option class="m-l-50" value="11">Noviembre</option>
+                                                      <option class="m-l-50" value="12">Diciembre</option>
+                                                  </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-md-3">
+                                                  <div class="form-group">
+
+                                                </div>
+                                              </div>
+
+                                              <div class="col-md-3">
+                                                <div class="form-group">
+                                                  <h5>Cuarto Mes: <span class="text-danger">*</span></h5>
+                                                    <select id="cuarto_mes" name="primer_mes" class="form-control" onchange="" style="width: 100%" >
+                                                      <option value="0">[Seleccione]</option>
+                                                      <option class="m-l-50" value="1">Enero</option>
+                                                      <option class="m-l-50" value="2">Febrero</option>
+                                                      <option class="m-l-50" value="3">Marzo</option>
+                                                      <option class="m-l-50" value="4">Abril</option>
+                                                      <option class="m-l-50" value="5">Mayo</option>
+                                                      <option class="m-l-50" value="6">Junio</option>
+                                                      <option class="m-l-50" value="7">Julio</option>
+                                                      <option class="m-l-50" value="8">Agosto</option>
+                                                      <option class="m-l-50" value="9">Septiembre</option>
+                                                      <option class="m-l-50" value="10">Octubre</option>
+                                                      <option class="m-l-50" value="11">Noviembre</option>
+                                                      <option class="m-l-50" value="12">Diciembre</option>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                              <div  id="micomboseccion" class="form-group col-md-3">
+                                                <h5>Quinto Mes: <span class="text-danger">*</span></h5>
+                                                  <select id="quinto_mes" name="segundo_mes" class="form-control" onchange="" style="width: 100%" >
+                                                    <option value="0">[Seleccione]</option>
+                                                    <option class="m-l-50" value="1">Enero</option>
+                                                    <option class="m-l-50" value="2">Febrero</option>
+                                                    <option class="m-l-50" value="3">Marzo</option>
+                                                    <option class="m-l-50" value="4">Abril</option>
+                                                    <option class="m-l-50" value="5">Mayo</option>
+                                                    <option class="m-l-50" value="6">Junio</option>
+                                                    <option class="m-l-50" value="7">Julio</option>
+                                                    <option class="m-l-50" value="8">Agosto</option>
+                                                    <option class="m-l-50" value="9">Septiembre</option>
+                                                    <option class="m-l-50" value="10">Octubre</option>
+                                                    <option class="m-l-50" value="11">Noviembre</option>
+                                                    <option class="m-l-50" value="12">Diciembre</option>
+                                                </select>
+                                              </div>
+                                              <div  id="micomboseccion2" class="form-group col-md-3">
+                                                <h5>Sexto Mes: <span class="text-danger">*</span></h5>
+                                                  <select id="sexto_mes" name="tercer_mes" class="form-control" onchange="" style="width: 100%" >
+                                                    <option value="0">[Seleccione]</option>
+                                                    <option class="m-l-50" value="1">Enero</option>
+                                                    <option class="m-l-50" value="2">Febrero</option>
+                                                    <option class="m-l-50" value="3">Marzo</option>
+                                                    <option class="m-l-50" value="4">Abril</option>
+                                                    <option class="m-l-50" value="5">Mayo</option>
+                                                    <option class="m-l-50" value="6">Junio</option>
+                                                    <option class="m-l-50" value="7">Julio</option>
+                                                    <option class="m-l-50" value="8">Agosto</option>
+                                                    <option class="m-l-50" value="9">Septiembre</option>
+                                                    <option class="m-l-50" value="10">Octubre</option>
+                                                    <option class="m-l-50" value="11">Noviembre</option>
+                                                    <option class="m-l-50" value="12">Diciembre</option>
+                                                </select>
+                                              </div>
+                                            <div class="col-md-10">
+                                              <div class="form-group">
+                                                <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                <button type="button" onclick="limpiarSeccion()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
+                                              </div>
+                                            </div>
+                                          </div>
                                               </div>
                                           </div>
                                       </div>

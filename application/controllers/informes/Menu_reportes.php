@@ -203,6 +203,13 @@ class Menu_reportes extends CI_Controller {
 	 $this->pdf->SetCuadros("monto_viatico_mayor_a_menor");
 		$this->pdf->AddPage();
 
+		$datos = array('dir'=>$dir);
+		$datoSeccion = $this->Reportes_viaticos_model->obtenerNombreSeccion($datos);
+		foreach ($datoSeccion->result() as $datoSeccionNombre) {}
+		$this->pdf->Text(9,21,utf8_decode("AÑO: ").$anio ,0,'C', 0);
+		$this->pdf->Text(9,25,utf8_decode("SECCIÓN: ").utf8_decode($datoSeccionNombre->nombre_seccion) ,0,'C', 0);
+
+
 		 $this->pdf->SetAligns(array('L','J','R','R','R'));
 		$this->pdf->SetWidths(array(20,89,24,24,24));
 

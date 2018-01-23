@@ -1,7 +1,7 @@
 
 <?php
 echo '<select id="seccion4" name="seccion4" class="form-control" onchange="" style="width: 100%"" required>';
-echo '<option value="">[Elija Seccion]</option>';
+echo '<option value="0">[Elija Seccion]</option>';
 
 $datos = $this->db->query("SELECT * FROM org_seccion where depende='$id_seccion'");
 
