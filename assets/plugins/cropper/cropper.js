@@ -18,7 +18,7 @@ $ = 'default' in $ ? $['default'] : $;
 
 var DEFAULTS = {
   // Define the view mode of the cropper
-  viewMode: 0, // 0, 1, 2, 3
+  viewMode: 2, // 0, 1, 2, 3
 
   // Define the dragging mode of the cropper
   dragMode: 'crop', // 'crop', 'move' or 'none'
@@ -2559,6 +2559,7 @@ var methods = {
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
+    canvas.id = "canvas";
 
     if (options.fillColor) {
       context.fillStyle = options.fillColor;

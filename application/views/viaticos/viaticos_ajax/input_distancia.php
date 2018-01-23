@@ -5,8 +5,15 @@
         	$id_departamento = $_GET["id_departamento"];
         	$id_municipio = $_GET["id_municipio"];
         	$tipo = $_GET["tipo"];
+            $distancia2 = ""+$_GET["distancia"];
         	$sql = "";
         	$km = "";
+
+            if(empty($distancia2) || !isset($distancia2)){
+                $distancia2 = "0.00";
+            }
+
+            $distancia2 = number_format($distancia2, 2, '.', '');
 
         	if($tipo == "oficina"){
         		$sql = " AND opcionruta_vyp_rutas = 'destino_oficina'";
@@ -24,7 +31,8 @@
                 }
                 echo '<input type="number" id="distancia" name="distancia" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" readonly value="'.$km.'">';
             }else{
-                echo '<input type="number" id="distancia" name="distancia" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" value="0.00">';
+                $km = $distancia2;
+                echo '<input type="number" id="distancia" name="distancia" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" value="'.$km.'">';
             }
         ?>
     

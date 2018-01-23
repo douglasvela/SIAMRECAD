@@ -28,6 +28,25 @@ class Perfil extends CI_Controller {
 		echo $this->perfil_model->insertar_info_personal($data);
 	}
 
+	function subir_firma(){
+
+		$name = "image.jpg";
+		$imgbase64 = $this->input->post('imagen');
+
+		$imgbase64 = str_replace(' ', '+', $imgbase64);
+		$datosBase64 = base64_decode(str_replace('data:image/png;base64,', '', $imgbase64));
+
+        // definimos la ruta donde se guardara en el server
+        $path = 'assets/firmas/'.$name;
+        // guardamos la imagen en el server
+
+        if(!file_put_contents($path, $datosBase64)){
+        	echo "fracaso";
+        }else{
+        	echo "exito";
+        }
+	}
+
 	public function gestionar_cuentas_bancos(){
 
 		if($this->input->post('band') == "save"){

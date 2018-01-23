@@ -35,6 +35,8 @@
     <link href="<?php echo base_url(); ?>assets/plugins/wizard/steps.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
     <link href="<?php echo base_url(); ?>assets/plugins/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <!-- Cropper CSS -->
+    <link href="<?php echo base_url(); ?>assets/plugins/cropper/cropper.min.css" rel="stylesheet">
     <!-- chartist CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/chartist-js/dist/chartist-init.css" rel="stylesheet">
@@ -72,7 +74,7 @@
 <![endif]-->
 </head>
 <script>
-   var barra = setTimeout(function(){ $("#clic").click(); }, 500);
+   //var barra = setTimeout(function(){ $("#clic").click(); }, 500);
     var minutos = 10;
     var warning = 9.90;
     var danger = 3;
@@ -271,7 +273,7 @@
 
 
 
-<body class="fix-header fix-sidebar card-no-border logo-center" onload="iniciar();">
+<body class="fix-header fix-sidebar card-no-border mini-sidebar" onload="iniciar();">
 
     <!-- ============================================================== -->
     <!-- Icono de cargando página... -->

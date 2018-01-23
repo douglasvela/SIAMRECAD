@@ -238,12 +238,9 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("input_distancia").innerHTML=xmlhttp_municipio.responseText;
                   $(".select2").select2();
-                  if(tipo == "mapa"){
-                    $("#distancia").val(distancia_total_mapa);
-                  }
             }
         }
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viatico/solicitud/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
         xmlhttp_municipio.send();
     }
 
@@ -830,11 +827,8 @@
         }
     }
 
-    function finalizarBusquedaMapa(){
-        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
-
-        $("#direccion_oficina").val(direccion);
-        var direccion = direccion_mapa;
+    function municipio_mayus(municipio_minus){
+        var direccion = municipio_minus;
         var ultimacoma = direccion.lastIndexOf(",");
         direccion = direccion.substring(0,ultimacoma);
 
@@ -855,6 +849,15 @@
         municipio = municipio.replace(/[Úú]/gi,"U");
 
         municipio = municipio.toUpperCase();
+        return municipio;
+    }
+
+    function finalizarBusquedaMapa(){
+        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+
+        //$("#direccion_oficina").val(direccion);
+
+        var municipio = municipio_mayus(direccion_mapa);
         
         obtener_id_municipio(municipio);
     }
@@ -877,10 +880,37 @@
         })
         .done(function(res){
             if(res == "fracaso"){
-                alert("municipio no encontrado");
+                var municipio = municipio_mayus(direccion_departamento_mapa);
+                obtener_id_municipio2(municipio);
             }else{
                 id_municipio_mapa = res;
                 obtener_id_departamento(res);
+            }
+             
+        });
+    }
+
+    function obtener_id_municipio2(municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viatico/solicitud/obtener_id_municipio",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
+                input_distancia("mapa");
+            }else{
+                id_municipio_mapa = res;
+                obtener_id_departamento(res);
+                swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no se el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
             }
              
         });
@@ -901,7 +931,7 @@
         })
         .done(function(res){
             if(res == "fracaso"){
-                alert("departamento no encontrado");
+                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
             }else{
                 id_departamento_mapa = res;
                 combo_oficina_departamento("mapa");
@@ -1350,13 +1380,16 @@ $(function(){
     var direccion_mapa;
     var distancia_total_mapa;
     var distancia_carretera_mapa;
+    var direccion_departamento_mapa;
+
+    var LatDestino = "";    // Guardará el destino buscado por el usuario
 
     function initMap() {
         var LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
             lat: <?php echo $filaofi->latitud_oficina; ?>, 
             lng: <?php echo $filaofi->longitud_oficina; ?>
         };
-        var LatDestino = "";    // Guardará el destino buscado por el usuario
+
         var markersD = [];      //Se le agregarán las marcas de punto del destino
         var flightPath = ""; //Agregado para dibujar linea recta (Para mostrar distancia lineal)
         var distancia_faltante = "";    //Servirá para agregar la distancia faltante al punto buscado, ya que google
@@ -1458,9 +1491,16 @@ $(function(){
             pinta_recorrido();
         });
 
+        if(LatDestino != ""){            
+            deleteMarkers_D();
+            addMarker_destino(LatDestino, map);
+            pinta_recorrido()
+        }
+
         function addMarker_destino(location, map) {
             var address = "Dirección desconocida";
             geocoder2.geocode({'latLng': location}, function(results, status) {
+                direccion_departamento_mapa = results[1].formatted_address;
                 if (status == google.maps.GeocoderStatus.OK) {
                     address = results[0]['formatted_address'];
                     address = address.replace('Unnamed Road', "Carretera desconocida")
