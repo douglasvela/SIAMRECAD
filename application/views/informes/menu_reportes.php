@@ -316,10 +316,25 @@
      }
      function mostrarReporteViaticosMayoraMenor(){
        var fecha = $("#fecha_monto").val();
+       var dir;
+       if($("#seccion4").val()!=""){
+         dir = $("#seccion4").val();
+       }else if($("#seccion3").val()!=""){
+         dir = $("#seccion3").val();
+       }else if($("#seccion2").val()!=""){
+         dir = $("#seccion2").val();
+       }else if($("#seccion1").val()!=""){
+         dir = $("#seccion1").val();
+       }else if($("#seccion_principal").val()!=""){
+         dir = $("#seccion_principal").val();
+       }else{
+         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+         return;
+       }
        if(fecha==""){
           swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
        }else{
-          window.open("menu_reportes/reporte_monto_viatico_mayor_a_menor/"+fecha,"_blank");
+          window.open("menu_reportes/reporte_monto_viatico_mayor_a_menor/"+fecha+"/"+dir,"_blank");
        }
      }
 
@@ -373,6 +388,30 @@
 
          xmlhttp3.open("GET","<?php echo site_url(); ?>/informes/menu_reportes/mostrarCombo3/"+id,true);
          xmlhttp3.send();
+     }
+     function buscarSeccion4(id){
+
+         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+             xmlhttp4=new XMLHttpRequest();
+         }else{// code for IE6, IE5
+             xmlhttp4=new ActiveXObject("Microsoft.XMLHTTPB");
+         }
+
+         xmlhttp4.onreadystatechange=function(){
+             if (xmlhttp4.readyState==4 && xmlhttp4.status==200){
+                   document.getElementById("micomboseccion4").innerHTML=xmlhttp4.responseText;
+             }
+         }
+
+         xmlhttp4.open("GET","<?php echo site_url(); ?>/informes/menu_reportes/mostrarCombo4/"+id,true);
+         xmlhttp4.send();
+     }
+     function limpiarSeccion(){
+        $("#seccion4").val("");
+        $("#seccion3").val("");
+        $("#seccion2").val("");
+        $("#seccion1").val("");
+        $("#seccion_principal").val("");
      }
 </script>
 
@@ -513,9 +552,9 @@
 
                                                   <div class="col-md-6">
                                                     <div class="form-group">
-                                                      <h5>Oficina: <span class="text-danger">*</span></h5>
-                                                        <select id="seccion_principal" name="seccion_principal" class="form-control" onchange="buscarSeccion(this.value)" style="width: 100%" required>
-                                                        <option value=''>[Elija Oficina]</option>
+                                                      <h5>Dirección: <span class="text-danger">*</span></h5>
+                                                        <select id="seccion_principal" name="seccion_principal" class="form-control" onchange="buscarSeccion(this.value)" style="width: 100%" >
+                                                          <option value="">[Seleccione]</option>
                                                         <?php
                                                         $datos = $this->db->query("SELECT * FROM org_seccion where depende='0'");
 
@@ -533,18 +572,30 @@
                                                     </div>
                                                   </div>
                                                   <div  id="micomboseccion" class="form-group col-md-6">
-
+                                                      <select class="form-control" id="seccion1">
+                                                        <option value="">[Elija Seccion]</option>
+                                                      </select>
                                                   </div>
                                                   <div  id="micomboseccion2" class="form-group col-md-6">
-
+                                                    <select class="form-control" id="seccion2">
+                                                      <option value="">[Elija Seccion]</option>
+                                                    </select>
                                                   </div>
                                                   <div  id="micomboseccion3" class="form-group col-md-6">
-
+                                                    <select class="form-control" id="seccion3">
+                                                      <option value="">[Elija Seccion]</option>
+                                                    </select>
+                                                  </div>
+                                                  <div  id="micomboseccion4" class="form-group col-md-6">
+                                                    <select class="form-control" id="seccion4">
+                                                      <option value="">[Elija Seccion]</option>
+                                                    </select>
                                                   </div>
 
                                                 <div class="col-md-10">
                                                   <div class="form-group">
                                                     <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                    <button type="button" onclick="limpiarSeccion()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
                                                   </div>
                                                 </div>
                                               </div>

@@ -49,11 +49,23 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     }
     function obtenerViaticoMayoraMenor($data){
         $anio = $data['anio'];
-        $viaticos = $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) like '%$anio%' GROUP BY mo.nr_empleado ORDER BY total DESC");
-        return $viaticos;
+        $dir = $data['dir'];
+
+        $prueba = $this->db->query("SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir'");
+        
+        if($prueba->num_rows()>0){
+          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion IN (SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir')  GROUP BY mo.nr_empleado ORDER BY total DESC");
+        }else{
+          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion = '$dir'  GROUP BY mo.nr_empleado ORDER BY total DESC");
+        }
+        return $viaticos1;
     }
 }
 /*
+CONSULTA TERMINADA
+SELECT DISTINCT s4.id_seccion,s4.nombre_seccion,s4.depende FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende='36'
+
+
 consulta anidada
 SELECT distinct t2.nombre_seccion AS DESCRIPCION, t2.id_seccion
   FROM org_seccion as t1
@@ -65,9 +77,16 @@ SELECT distinct t2.id_seccion ,t2.nombre_seccion FROM org_seccion as t1 LEFT JOI
 
 
 consulta todas oficinas
-SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total,u.nombre_completo,u.id_seccion FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '2018' AND mo.nr_empleado=u.nr AND u.id_seccion IN (SELECT distinct  t2.id_seccion
-  FROM org_seccion as t1
-LEFT JOIN org_seccion AS t2 ON (t2.depende = t1.id_seccion OR t1.id_seccion = t2.id_seccion )
-ORDER BY t1.depende ASC, t1.id_seccion ASC, t2.id_seccion ASC, t2.depende ASC) GROUP BY mo.nr_empleado ORDER BY total DESC
+SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total,u.nombre_completo,u.id_seccion FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '2018' AND mo.nr_empleado=u.nr AND u.id_seccion  GROUP BY mo.nr_empleado ORDER BY total DESC
+
+consulta ordenada
+select s1.id_seccion,s2.id_seccion,s3.id_seccion,s4.id_seccion, s5.id_seccion from org_seccion s1 LEFT JOIN org_seccion as s2 ON s2.id_seccion=s1.depende LEFT JOIN org_seccion as s3 ON s3.id_seccion=s2.depende
+LEFT JOIN org_seccion as s4 ON s4.id_seccion=s3.depende
+LEFT JOIN org_seccion as s5 ON s5.id_seccion=s4.depende
+ORDER BY `s5`.`id_seccion`  DESC,
+ `s4`.`id_seccion`  DESC,
+ `s3`.`id_seccion`  DESC,
+ `s2`.`id_seccion`  DESC,
+ `s1`.`id_seccion`  DESC
 */
 ?>

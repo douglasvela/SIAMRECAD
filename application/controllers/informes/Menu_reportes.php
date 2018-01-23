@@ -186,7 +186,7 @@ class Menu_reportes extends CI_Controller {
 	 $this->pdf->Output(); //Salida al navegador
 	}
 
-	public function reporte_monto_viatico_mayor_a_menor($anio){
+	public function reporte_monto_viatico_mayor_a_menor($anio,$dir){
 		$this->load->library('pdf');
 
 		$this->load->model('Reportes_viaticos_model');
@@ -207,7 +207,8 @@ class Menu_reportes extends CI_Controller {
 		$this->pdf->SetWidths(array(20,89,24,24,24));
 
 		$data  =array(
-			'anio'=> $anio
+			'anio'=> $anio,
+			'dir' => $dir
 		);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticoMayoraMenor($data);
 
@@ -242,6 +243,10 @@ class Menu_reportes extends CI_Controller {
 	public function mostrarCombo3($id){
 		$nuevo['id_seccion']=$id;
 		$this->load->view('informes/comboSecciones3',$nuevo);
+	}
+	public function mostrarCombo4($id){
+		$nuevo['id_seccion']=$id;
+		$this->load->view('informes/comboSecciones4',$nuevo);
 	}
 
 }

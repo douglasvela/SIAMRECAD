@@ -1,5 +1,5 @@
-<select id="otraseccion" name="otraseccion" class="form-control" onchange="buscarSeccion2(this.value)" style="width: 100%" required>'
-<option value="">[Elija el empleado]</option>'
+<select id="seccion1" name="seccion1" class="form-control" onchange="buscarSeccion2(this.value)" style="width: 100%" required>'
+<option value="">[Elija Seccion]</option>'
 <?php
 $datos = $this->db->query("SELECT * FROM org_seccion where depende='$id_seccion'");
 
