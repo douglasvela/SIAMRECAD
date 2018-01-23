@@ -46,6 +46,9 @@
 		<?php } } ?>
 
 		tabla_cuentas();
+        $('html,body').animate({
+            scrollTop: $("body").offset().top
+        }, 500);
 	}
 
 	function tabla_cuentas(){ 
@@ -69,16 +72,50 @@
         var canvas = document.getElementById("canvas");
         var image = canvas.toDataURL();
 
+        var nr = $("#nr").val();
+
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/cuenta/perfil/subir_firma", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 var response = ajax.responseText;
-                alert(response)
+                if(response == "exito"){
+                    swal({   
+                        title: "¡Registro exitoso!",   
+                        text: "Para actualizar la informacion la página será recargada",   
+                        type: "success",   
+                        showCancelButton: false,   
+                        confirmButtonColor: "#1e88e5",   
+                        confirmButtonText: "Aceptar",   
+                        closeOnConfirm: true 
+                    }, function(){   
+                        location.reload();
+                    });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
             }
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&imagen="+image)
+        ajax.send("&imagen="+image+"&nr="+nr)
+    }
+
+    function mostrar_firma(){
+        $.when( $("#cnt_firma").css("visibility", "visible") ).then(function() {
+            $(".docs-buttons").show(0);
+            $('html,body').animate({
+                scrollTop: $("#cnt_firma").offset().top
+            }, 1000);
+        });
+    }
+
+    function ocultar_firma(){
+        $.when( $("#cnt_firma").css("visibility", "hidden") ).then(function() {
+            $(".docs-buttons").hide(0);
+            $('html,body').animate({
+                scrollTop: $("body").offset().top
+            }, 1000);
+        });
     }
 
 </script>
@@ -106,6 +143,7 @@
         <!-- Column -->
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
+
                 <div class="card-body">
                     <center class="m-t-30">
                     	<span style="font-size: 35px; line-height: 100px; width: 100px; height: 100px;" class="round round-success"><?php echo $inicialUser; ?></span>
@@ -155,7 +193,7 @@
         </div>
         <!-- Column -->
         <!-- Column -->
-        <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="col-lg-8 col-xlg-9 col-md-7" id="cnt_form">
             <div class="card">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs profile-tab" role="tablist">
@@ -234,6 +272,19 @@
 	                                    </select>
 	                                    <div class="help-block"></div>
 	                                </div>
+                                    <div class="form-group col-lg-6"> 
+                                        <?php 
+                                        $path = 'assets/firmas/'.$nr_usuario.".png";
+                                        // guardamos la imagen en el server
+
+                                        if (file_exists($path)) {
+                                        ?>
+                                            <img data-toggle="tooltip" title="Haz clic sobre la imagen para cambiar la firma" style="cursor: pointer;" onclick="mostrar_firma();" src="<?php echo base_url(); ?>assets/firmas/<?php echo $nr_usuario.".png"; ?>" alt="firma digital">
+                                        <?php }else{ ?>
+                                            <h5>Agrega tu firma digital: <span class="text-danger">*</span></h5>
+                                            <button type="button" class="btn btn-block waves-effect waves-light btn-success2" onclick="mostrar_firma();"><i class="mdi mdi-plus"></i> Agregar firma digital</button>
+                                        <?php } ?>
+                                    </div>
 	                            </div>
 	                            
 	                            <div align="right" id="btnadd">
@@ -293,10 +344,17 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="cnt_firma" style="visibility: hidden;">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-header">
+                                <div class="card-actions">
+                                    <a class="btn-minimize" data-action="expand"><i class="mdi mdi-arrow-expand"></i></a>
+                                    <a class="btn-close" onclick="ocultar_firma();"><i class="ti-close"></i></a>
+                                </div>
+                                <h4 class="card-title m-b-0">Asistente para recortes de firma</h4>
+                            </div>
+                            <div class="card-body b-t">
                                 <!-- .Your image -->
                                 <div class="row">
                                     <div class="col-lg-12 docs-buttons">
@@ -318,6 +376,16 @@
                                             <button type="button" class="btn btn-success" data-method="scaleY" data-option="-1" title="Voltear verticalmente"> <span class="docs-tooltip" data-toggle="tooltip" title="Invertir vertical"> <span class="fa fa-arrows-v"></span> </span>
                                             </button>
                                         </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info" data-method="move" data-option="-50" data-second-option="0" title="Mover a la Izquierda"> <span class="docs-tooltip" data-toggle="tooltip" title="Mover a la izquierda"> <span class="fa fa-arrow-left"></span> </span>
+                                            </button>
+                                            <button type="button" class="btn btn-info" data-method="move" data-option="50" data-second-option="0" title="Mover a la derecha"> <span class="docs-tooltip" data-toggle="tooltip" title="Mover a la derecha"> <span class="fa fa-arrow-right"></span> </span>
+                                            </button>
+                                            <button type="button" class="btn btn-info" data-method="move" data-option="0" data-second-option="-50" title="Mover hacia arriba"> <span class="docs-tooltip" data-toggle="tooltip" title="Mover hacia arriba"> <span class="fa fa-arrow-up"></span> </span>
+                                            </button>
+                                            <button type="button" class="btn btn-info" data-method="move" data-option="0" data-second-option="50" title="Mover hacia abajo"> <span class="docs-tooltip" data-toggle="tooltip" title="Mover hacia abajo"> <span class="fa fa-arrow-down"></span> </span>
+                                            </button>
+                                        </div>
                                         <div class="pull-right" align="right">
                                             <div class="btn-group">
                                             <button type="button" class="btn btn-danger" data-method="reset" title="Reset"> <span class="docs-tooltip" data-toggle="tooltip" title="Reestablecer"> <span class="fa fa-refresh"></span> </span>
@@ -329,9 +397,6 @@
                                                 <span class="docs-tooltip" data-toggle="tooltip" title="Importar imagen"> <span class="fa fa-upload"></span> Importar</span>
                                             </label>
                                             </div>
-                                            <div class="btn-group">
-                                            <button type="button" class="btn btn-danger" data-method="getCroppedCanvas"> <span class="docs-tooltip" data-toggle="tooltip" title="Clic para recortar"> <i class="mdi mdi-crop"></i> Recortar y obtener firma </span> </button>
-                                            </div>
                                             
                                         </div>
                                     </div>
@@ -339,6 +404,13 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="img-container" style="min-height: 400px; max-height: 400px;"><img id="image" src="<?php echo base_url(); ?>assets/images/big/img.png" width="100%" class="img-responsive" alt="Picture"></div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-lg-12 docs-buttons">
+                                        <div class="pull-right" align="right">
+                                            <button type="button" class="btn btn-danger" data-method="getCroppedCanvas"> <span class="docs-tooltip" data-toggle="tooltip" title="Clic para recortar"> <i class="mdi mdi-crop"></i> Recortar y obtener firma </span> </button>
+                                        </div>
                                     </div>
                                 </div>
                                     <!-- /.Your image -->
@@ -368,7 +440,8 @@
             <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a> </div>
+                <button type="button" class="btn btn-info" onclick="guardar();">Subir</a>
+                <a style="display: none;" class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Subir</a> </div>
         </div>
     </div>
 </div>
@@ -404,7 +477,17 @@ $(function(){
         })
         .done(function(res){
             if(res == "exito"){
-                swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                swal({   
+                    title: "¡Registro exitoso!",   
+                    text: "Para actualizar la informacion la página será recargada",   
+                    type: "success",   
+                    showCancelButton: false,   
+                    confirmButtonColor: "#1e88e5",   
+                    confirmButtonText: "Aceptar",   
+                    closeOnConfirm: true 
+                }, function(){   
+                    location.reload();
+                });
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }

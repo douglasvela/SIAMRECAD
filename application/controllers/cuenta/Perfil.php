@@ -29,9 +29,9 @@ class Perfil extends CI_Controller {
 	}
 
 	function subir_firma(){
-
-		$name = "image.jpg";
 		$imgbase64 = $this->input->post('imagen');
+		$nr = $this->input->post('nr');
+		$name = $nr.".png";
 
 		$imgbase64 = str_replace(' ', '+', $imgbase64);
 		$datosBase64 = base64_decode(str_replace('data:image/png;base64,', '', $imgbase64));
@@ -40,7 +40,7 @@ class Perfil extends CI_Controller {
         $path = 'assets/firmas/'.$name;
         // guardamos la imagen en el server
 
-        if(!file_put_contents($path, $datosBase64)){
+		if(!file_put_contents($path, $datosBase64)){
         	echo "fracaso";
         }else{
         	echo "exito";

@@ -18,7 +18,7 @@ $ = 'default' in $ ? $['default'] : $;
 
 var DEFAULTS = {
   // Define the view mode of the cropper
-  viewMode: 2, // 0, 1, 2, 3
+  viewMode: 3, // 0, 1, 2, 3
 
   // Define the dragging mode of the cropper
   dragMode: 'crop', // 'crop', 'move' or 'none'
@@ -63,7 +63,7 @@ var DEFAULTS = {
   autoCrop: true,
 
   // Define the percentage of automatic cropping area when initializes
-  autoCropArea: 0.8,
+  autoCropArea: 0.2,
 
   // Enable to move the image
   movable: true,
