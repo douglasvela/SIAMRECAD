@@ -256,7 +256,7 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/comboSecciones4',$nuevo);
 	}
 
-	public function reporte_viaticos_por_periodo($anio){
+	public function reporte_viaticos_por_periodo($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
 		$sumaPasajes=0;$sumaViaticos=0;$sumaTotal=0;
 		$this->load->library('pdf');
 
@@ -281,7 +281,13 @@ class Menu_reportes extends CI_Controller {
 		$this->pdf->SetWidths(array(31,80,22,22,22));
 
 		$data  =array(
-			'anio'=> $anio
+			'anio'=> $anio,
+			'primer_mes'=>$primer_mes,
+			'segundo_mes'=>$segundo_mes,
+			'tercer_mes'=>$tercer_mes,
+			'cuarto_mes'=>$cuarto_mes,
+			'quinto_mes'=>$quinto_mes,
+			'sexto_mes'=>$sexto_mes
 		);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
 
@@ -325,7 +331,7 @@ class Menu_reportes extends CI_Controller {
 				$this->pdf->SetFont('Arial','',9);
 				$this->pdf->Text(12,$this->pdf->GetY(),"_____________________________________________________________________________________________________",0,'C', 0);
 			}else{
-				$this->pdf->Text($this->pdf->GetX()+25,$this->pdf->GetY()+10,"Sin Registros",0,'C', 0);
+				$this->pdf->Text($this->pdf->GetX()+35,$this->pdf->GetY()+10,"Sin Registros",0,'C', 0);
 			}
 
 	 $this->pdf->Output(); //Salida al navegador

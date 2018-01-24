@@ -415,7 +415,25 @@
      }
      function mostrarReportePorPeriodo(){
        $anio = $("#anio_actual").val();
-       window.open("menu_reportes/reporte_viaticos_por_periodo/"+$anio,"_blank");
+        $primer_mes = $("#primer_mes").val();
+        $segundo_mes = $("#segundo_mes").val();
+        $tercer_mes = $("#tercer_mes").val();
+        $cuarto_mes = $("#cuarto_mes").val();
+        $quinto_mes = $("#quinto_mes").val();
+        $sexto_mes = $("#sexto_mes").val();
+        if($anio!=""){
+          window.open("menu_reportes/reporte_viaticos_por_periodo/"+$anio+"/"+$primer_mes+"/"+$segundo_mes+"/"+$tercer_mes+"/"+$cuarto_mes+"/"+$quinto_mes+"/"+$sexto_mes,"_blank");
+        }else{
+          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+        }
+     }
+     function limpiarMeses(){
+       $("#primer_mes").val("0");
+       $("#segundo_mes").val("0");
+       $("#tercer_mes").val("0");
+       $("#cuarto_mes").val("0");
+       $("#quinto_mes").val("0");
+       $("#sexto_mes").val("0");
      }
 </script>
 
@@ -606,79 +624,8 @@
                                               </div>
                                               </div>
                                               <div class="tab-pane p-20" id="messages4" role="tabpanel">
-                                                <h4 style="display:block" class="card-title">Reporte Trimestral</h4>
-                                                <div class="row">
-                                                  <div class="col-md-3">
-                                                      <div class="form-group">
-                                                        <h5>Año: <span class="text-danger">*</span></h5>
-                                                      <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="" name="" placeholder="yyyy">
-                                                    </div>
-                                                  </div>
 
-                                                  <div class="col-md-3">
-                                                    <div class="form-group">
-                                                      <h5>Primer Mes: <span class="text-danger">*</span></h5>
-                                                        <select id="primer_mes" name="primer_mes" class="form-control" onchange="" style="width: 100%" >
-                                                          <option value="0">[Seleccione]</option>
-                                                          <option class="m-l-50" value="1">Enero</option>
-                                                          <option class="m-l-50" value="2">Febrero</option>
-                                                          <option class="m-l-50" value="3">Marzo</option>
-                                                          <option class="m-l-50" value="4">Abril</option>
-                                                          <option class="m-l-50" value="5">Mayo</option>
-                                                          <option class="m-l-50" value="6">Junio</option>
-                                                          <option class="m-l-50" value="7">Julio</option>
-                                                          <option class="m-l-50" value="8">Agosto</option>
-                                                          <option class="m-l-50" value="9">Septiembre</option>
-                                                          <option class="m-l-50" value="10">Octubre</option>
-                                                          <option class="m-l-50" value="11">Noviembre</option>
-                                                          <option class="m-l-50" value="12">Diciembre</option>
-                                                      </select>
-                                                    </div>
-                                                  </div>
-                                                  <div  id="micomboseccion" class="form-group col-md-3">
-                                                    <h5>Segundo Mes: <span class="text-danger">*</span></h5>
-                                                      <select id="segundo_mes" name="segundo_mes" class="form-control" onchange="" style="width: 100%" >
-                                                        <option value="0">[Seleccione]</option>
-                                                        <option class="m-l-50" value="1">Enero</option>
-                                                        <option class="m-l-50" value="2">Febrero</option>
-                                                        <option class="m-l-50" value="3">Marzo</option>
-                                                        <option class="m-l-50" value="4">Abril</option>
-                                                        <option class="m-l-50" value="5">Mayo</option>
-                                                        <option class="m-l-50" value="6">Junio</option>
-                                                        <option class="m-l-50" value="7">Julio</option>
-                                                        <option class="m-l-50" value="8">Agosto</option>
-                                                        <option class="m-l-50" value="9">Septiembre</option>
-                                                        <option class="m-l-50" value="10">Octubre</option>
-                                                        <option class="m-l-50" value="11">Noviembre</option>
-                                                        <option class="m-l-50" value="12">Diciembre</option>
-                                                    </select>
-                                                  </div>
-                                                  <div  id="micomboseccion2" class="form-group col-md-3">
-                                                    <h5>Tercer Mes: <span class="text-danger">*</span></h5>
-                                                      <select id="tercer_mes" name="tercer_mes" class="form-control" onchange="" style="width: 100%" >
-                                                        <option value="0">[Seleccione]</option>
-                                                        <option class="m-l-50" value="1">Enero</option>
-                                                        <option class="m-l-50" value="2">Febrero</option>
-                                                        <option class="m-l-50" value="3">Marzo</option>
-                                                        <option class="m-l-50" value="4">Abril</option>
-                                                        <option class="m-l-50" value="5">Mayo</option>
-                                                        <option class="m-l-50" value="6">Junio</option>
-                                                        <option class="m-l-50" value="7">Julio</option>
-                                                        <option class="m-l-50" value="8">Agosto</option>
-                                                        <option class="m-l-50" value="9">Septiembre</option>
-                                                        <option class="m-l-50" value="10">Octubre</option>
-                                                        <option class="m-l-50" value="11">Noviembre</option>
-                                                        <option class="m-l-50" value="12">Diciembre</option>
-                                                    </select>
-                                                  </div>
-                                                <div class="col-md-10">
-                                                  <div class="form-group">
-                                                    <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
-                                                    <button type="button" onclick="limpiarSeccion()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <h4 style="display:block" class="card-title">Reporte Semestral</h4>
+                                              <h4 style="display:none" class="card-title">Reporte Semestral</h4>
                                               <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
@@ -689,7 +636,7 @@
 
                                                 <div class="col-md-3">
                                                   <div class="form-group">
-                                                    <h5>Primer Mes: <span class="text-danger">*</span></h5>
+                                                    <h5>Primer Mes: <span class="text-danger"></span></h5>
                                                       <select id="primer_mes" name="primer_mes" class="form-control" onchange="" style="width: 100%" >
                                                         <option value="0">[Seleccione]</option>
                                                         <option class="m-l-50" value="1">Enero</option>
@@ -708,7 +655,7 @@
                                                   </div>
                                                 </div>
                                                 <div  id="micomboseccion" class="form-group col-md-3">
-                                                  <h5>Segundo Mes: <span class="text-danger">*</span></h5>
+                                                  <h5>Segundo Mes: <span class="text-danger"></span></h5>
                                                     <select id="segundo_mes" name="segundo_mes" class="form-control" onchange="" style="width: 100%" >
                                                       <option value="0">[Seleccione]</option>
                                                       <option class="m-l-50" value="1">Enero</option>
@@ -726,7 +673,7 @@
                                                   </select>
                                                 </div>
                                                 <div  id="micomboseccion2" class="form-group col-md-3">
-                                                  <h5>Tercer Mes: <span class="text-danger">*</span></h5>
+                                                  <h5>Tercer Mes: <span class="text-danger"></span></h5>
                                                     <select id="tercer_mes" name="tercer_mes" class="form-control" onchange="" style="width: 100%" >
                                                       <option value="0">[Seleccione]</option>
                                                       <option class="m-l-50" value="1">Enero</option>
@@ -754,7 +701,7 @@
 
                                               <div class="col-md-3">
                                                 <div class="form-group">
-                                                  <h5>Cuarto Mes: <span class="text-danger">*</span></h5>
+                                                  <h5>Cuarto Mes: <span class="text-danger"></span></h5>
                                                     <select id="cuarto_mes" name="primer_mes" class="form-control" onchange="" style="width: 100%" >
                                                       <option value="0">[Seleccione]</option>
                                                       <option class="m-l-50" value="1">Enero</option>
@@ -773,7 +720,7 @@
                                                 </div>
                                               </div>
                                               <div  id="micomboseccion" class="form-group col-md-3">
-                                                <h5>Quinto Mes: <span class="text-danger">*</span></h5>
+                                                <h5>Quinto Mes: <span class="text-danger"></span></h5>
                                                   <select id="quinto_mes" name="segundo_mes" class="form-control" onchange="" style="width: 100%" >
                                                     <option value="0">[Seleccione]</option>
                                                     <option class="m-l-50" value="1">Enero</option>
@@ -791,7 +738,7 @@
                                                 </select>
                                               </div>
                                               <div  id="micomboseccion2" class="form-group col-md-3">
-                                                <h5>Sexto Mes: <span class="text-danger">*</span></h5>
+                                                <h5>Sexto Mes: <span class="text-danger"></span></h5>
                                                   <select id="sexto_mes" name="tercer_mes" class="form-control" onchange="" style="width: 100%" >
                                                     <option value="0">[Seleccione]</option>
                                                     <option class="m-l-50" value="1">Enero</option>
@@ -811,7 +758,7 @@
                                             <div class="col-md-10">
                                               <div class="form-group">
                                                 <button type="button" onclick="mostrarReportePorPeriodo()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
-                                                <button type="button" onclick="limpiarSeccion()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
+                                                <button type="button" onclick="limpiarMeses()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
                                               </div>
                                             </div>
                                           </div>

@@ -67,9 +67,21 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     }
     function obtenerViaticosPorPeriodo($data){
       $anio=$data['anio'];
+      $primer_mes = $data['primer_mes'];
+      $segundo_mes = $data['segundo_mes'];
+      $tercer_mes = $data['tercer_mes'];
+      $cuarto_mes = $data['cuarto_mes'];
+      $quinto_mes = $data['quinto_mes'];
+      $sexto_mes = $data['sexto_mes'];
+      if($primer_mes=='0' && $segundo_mes=='0' && $tercer_mes=='0' && $cuarto_mes=='0' && $quinto_mes=='0' && $sexto_mes=='0'){
+        $viaticos= $this->db->query("SELECT month(mo.fecha_mision) as mes,sum(ev.pasajes) as pasajes,sum(ev.viaticos) as viaticos,sum(ev.viaticos)+sum(ev.pasajes) as total FROM vyp_mision_oficial as mo INNER JOIN vyp_empresas_visitadas as ev ON ev.id_mision_oficial=mo.id_mision_oficial WHERE year(mo.fecha_mision)='$anio' and month(mo.fecha_mision) IN ('1','2','3','4','5','6','7','8','9','10','11','12') GROUP by month(mo.fecha_mision)");
+        return $viaticos;
+      }else{
+        $viaticos= $this->db->query("SELECT month(mo.fecha_mision) as mes,sum(ev.pasajes) as pasajes,sum(ev.viaticos) as viaticos,sum(ev.viaticos)+sum(ev.pasajes) as total FROM vyp_mision_oficial as mo INNER JOIN vyp_empresas_visitadas as ev ON ev.id_mision_oficial=mo.id_mision_oficial WHERE year(mo.fecha_mision)='$anio' and month(mo.fecha_mision) IN ('$primer_mes','$segundo_mes','$tercer_mes','$cuarto_mes','$quinto_mes','$sexto_mes') GROUP by month(mo.fecha_mision)");
+        return $viaticos;
+      }
 
-      $viaticos= $this->db->query("SELECT month(mo.fecha_mision) as mes,sum(ev.pasajes) as pasajes,sum(ev.viaticos) as viaticos,sum(ev.viaticos)+sum(ev.pasajes) as total FROM vyp_mision_oficial as mo INNER JOIN vyp_empresas_visitadas as ev ON ev.id_mision_oficial=mo.id_mision_oficial WHERE year(mo.fecha_mision)='$anio' and month(mo.fecha_mision) IN (1,2,3) GROUP by month(mo.fecha_mision)");
-      return $viaticos;
+
     }
 }
 /*
