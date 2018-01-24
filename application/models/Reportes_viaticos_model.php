@@ -65,6 +65,12 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
       $seccion = $this->db->get('org_seccion');
       return $seccion;
     }
+    function obtenerViaticosPorPeriodo($data){
+      $anio=$data['anio'];
+
+      $viaticos= $this->db->query("SELECT month(mo.fecha_mision) as mes,sum(ev.pasajes) as pasajes,sum(ev.viaticos) as viaticos,sum(ev.viaticos)+sum(ev.pasajes) as total FROM vyp_mision_oficial as mo INNER JOIN vyp_empresas_visitadas as ev ON ev.id_mision_oficial=mo.id_mision_oficial WHERE year(mo.fecha_mision)='$anio' and month(mo.fecha_mision) IN (1,2,3) GROUP by month(mo.fecha_mision)");
+      return $viaticos;
+    }
 }
 /*
 
