@@ -9,7 +9,7 @@
         	$sql = "";
         	$km = "";
 
-            if(empty($distancia2) || !isset($distancia2)){
+            if(empty($distancia2) || !isset($distancia2) || $distancia2 == "undefined"){
                 $distancia2 = "0.00";
             }
 
