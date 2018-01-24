@@ -13,7 +13,7 @@
                 $distancia2 = "0.00";
             }
 
-            $distancia2 = number_format($distancia2, 2, '.', '');
+            $distancia2 = number_format(floatval($distancia2), 2, '.', '');
 
         	if($tipo == "oficina"){
         		$sql = " AND opcionruta_vyp_rutas = 'destino_oficina'";
