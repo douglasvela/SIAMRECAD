@@ -5,7 +5,7 @@
         	$id_departamento = $_GET["id_departamento"];
         	$id_municipio = $_GET["id_municipio"];
         	$tipo = $_GET["tipo"];
-            $distancia2 = ""+$_GET["distancia"];
+            $distancia2 = "".$_GET["distancia"];
         	$sql = "";
         	$km = "";
 
