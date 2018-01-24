@@ -413,6 +413,10 @@
         $("#seccion1").val("0");
         $("#seccion_principal").val("0");
      }
+     function mostrarReportePorPeriodo(){
+       $anio = $("#anio_actual").val();
+       window.open("menu_reportes/reporte_viaticos_por_periodo/"+$anio,"_blank");
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -607,7 +611,7 @@
                                                   <div class="col-md-3">
                                                       <div class="form-group">
                                                         <h5>Año: <span class="text-danger">*</span></h5>
-                                                      <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual" name="anio_actual" placeholder="yyyy">
+                                                      <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="" name="" placeholder="yyyy">
                                                     </div>
                                                   </div>
 
@@ -806,7 +810,7 @@
                                               </div>
                                             <div class="col-md-10">
                                               <div class="form-group">
-                                                <button type="button" onclick="mostrarReporteViaticosMayoraMenor()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                <button type="button" onclick="mostrarReportePorPeriodo()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
                                                 <button type="button" onclick="limpiarSeccion()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
                                               </div>
                                             </div>

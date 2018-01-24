@@ -13,7 +13,7 @@ var $aligns;
 var $cod_entidad;
 var $cod_usu;
 var $id_val;
-var $form;
+var $form,$form2,$form3;
 var $titulo1;
 var $titulo2;
 var $titulo3;
@@ -21,8 +21,10 @@ var $titulo4;
 var $titulo5;
 var $cuadros;
 
-function SetTituloPagina($e){
+function SetTituloPagina($e,$e2,$e3){
   $this->form=$e;
+  $this->form2=$e2;
+  $this->form3=$e3;
 }
 function SetTituloTabla1($e){
   $this->titulo1=$e;
@@ -74,10 +76,13 @@ function Header()
 {
 
     $this->SetFont('Arial','',8);
-    $this->Image(('application/libraries/logomtps.jpeg'),13,4,30,14);
+    $this->Image(('application/libraries/logomtps.jpeg'),13,3,30,17);
+    $this->Image(('application/libraries/escudo.jpg'),172,3,25,16);
     //$this->Text(145,12,$valueValuo['par_nombre_entidad'],0,'C', 0);
     $this->SetFont('Arial','B',9);
-    $this->Text(78,12,utf8_decode($this->form),0,'C', 0);
+    $this->Text(68,8,utf8_decode($this->form),0,'C', 0);
+    $this->Text(75,12,utf8_decode($this->form2),0,'C', 0);
+    $this->Text(74,16,utf8_decode($this->form3),0,'C', 0);
     $this->Ln(30);
     if($this->cuadros=="viatico_pendiente_empleado"){
         $this->Cuadros_viatico_pendiente_o_pagado();
@@ -85,9 +90,31 @@ function Header()
       $this->Cuadros_viatico_pendiente_o_pagado();
     }else if($this->cuadros=="monto_viatico_mayor_a_menor"){
       $this->Cuadros_monto_viatico_mayor_a_menor();
+    }else if($this->cuadros=="monto_por_periodo"){
+      $this->Cuadros_monto_por_periodo();
     }
 
 
+}
+function Cuadros_monto_por_periodo(){
+  $this->cuadrogrande(12,30,30,5,0,'D');
+  $this->cuadrogrande(42,30,81,5,0,'D');
+  $this->cuadrogrande(123,30,22,5,0,'D');
+  $this->cuadrogrande(145,30,22,5,0,'D');
+  $this->cuadrogrande(167,30,23,5,0,'D');
+
+  $this->Text(23,34,utf8_decode($this->titulo1),0,'C', 0);
+  $this->Text(65,34,utf8_decode($this->titulo2),0,'C', 0);
+  $this->Text(125,34,utf8_decode($this->titulo3),0,'C', 0);
+  $this->Text(148,34,utf8_decode($this->titulo4),0,'C', 0);
+  $this->Text(172,34,utf8_decode($this->titulo5),0,'C', 0);
+
+  $this->cuadrogrande(12,30,30,250,0,'D');
+  $this->cuadrogrande(42,30,81,250,0,'D');
+  $this->cuadrogrande(123,30,22,250,0,'D');
+  $this->cuadrogrande(145,30,22,250,0,'D');
+  $this->cuadrogrande(167,30,23,250,0,'D');
+  $this->SetY(36);
 }
 function Cuadros_viatico_pendiente_o_pagado(){
   //cabecera de tabla
