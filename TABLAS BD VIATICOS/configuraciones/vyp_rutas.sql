@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 26-12-2017 a las 20:04:37
--- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
--- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 25-01-2018 a las 06:16:50
+-- Versión del servidor: 10.1.29-MariaDB
+-- Versión de PHP: 7.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -36,7 +38,10 @@ CREATE TABLE `vyp_rutas` (
   `descripcion_destino_vyp_rutas` varchar(200) DEFAULT NULL,
   `latitud_destino_vyp_rutas` varchar(200) DEFAULT NULL,
   `longitud_destino_vyp_rutas` varchar(200) DEFAULT NULL,
-  `opcionruta_vyp_rutas` varchar(35) NOT NULL
+  `opcionruta_vyp_rutas` varchar(35) NOT NULL,
+  `nombre_empresa_vyp_rutas` varchar(200) NOT NULL,
+  `direccion_empresa_vyp_rutas` varchar(400) NOT NULL,
+  `estado_vyp_rutas` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -58,6 +63,8 @@ ALTER TABLE `vyp_rutas`
 --
 ALTER TABLE `vyp_rutas`
   MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
