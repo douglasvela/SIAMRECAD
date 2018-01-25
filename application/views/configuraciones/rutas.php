@@ -49,9 +49,9 @@
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
         $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
         $("#id_departamento_vyp_rutas").val(id_departamento_vyp_rutas);
+obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
+       buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas,'buscar');
 
-       buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas);
-       obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
 
         $("#km_vyp_rutas").val(km_vyp_rutas);
         $("#btnadd").hide(0);
@@ -75,7 +75,7 @@
         $("#id_departamento_vyp_rutas").val(id_departamento_vyp_rutas);
 
         obtenerOrigen(id_oficina_origen_vyp_rutas,"1",latitud_destino_vyp_rutas,longitud_destino_vyp_rutas);
-        buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas);
+        buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas,'');
         $("#km_vyp_rutas").val(km_vyp_rutas);
         $("#latitud_destino_vyp_rutas").val(latitud_destino_vyp_rutas);
         $("#longitud_destino_vyp_rutas").val(longitud_destino_vyp_rutas);
@@ -127,6 +127,8 @@
         $('#longitud_destino_vyp_rutas').val("");
         $("#direccion_origen1").val("");
         $("#direccion_origen2").val("");
+        $("#nombre_empresa_vyp_rutas").val("");
+        $("#direccion_empresa_vyp_rutas").val("");
     }
 
 
@@ -212,7 +214,7 @@
         $("#form_mapa").show(500);initMap();
         $("#panel_mapa").hide(10);
     }
-    function buscarMunicipio(id_departamento,seleccion){
+    function buscarMunicipio(id_departamento,seleccion,buscar){
         id=id_departamento+="x"+seleccion;
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
@@ -223,7 +225,7 @@
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("municipios").innerHTML=xmlhttp_municipio.responseText;
-                if($("#band").val()=="edit")buscarmapa();
+                if(buscar=="buscar")buscarmapa();
             }
         }
 
@@ -552,7 +554,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Departamento destino: <span class="text-danger">*</span></label><br>
-                                        <select class="form-control" id="id_departamento_vyp_rutas" onchange="buscarMunicipio(this.value,'null')">
+                                        <select class="form-control" id="id_departamento_vyp_rutas" onchange="buscarMunicipio(this.value,'null','')">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $this->db->where("id_departamento <","15");
@@ -561,7 +563,7 @@
                                                 if(!empty($seccion)){
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
-                                                <option  value="<?php echo $fila->id_departamento; ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" >
+                                                <option  value="<?php echo $fila->id_departamento; ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null','')" >
                                                     <?php echo $fila->departamento ?>
                                                 </option>;
                                             <?php
@@ -667,10 +669,10 @@
                                         <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
                                     </div>
                                     <br><br>
-                                    <input class="form-control" type="hidden" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas">
-                                    <input class="form-control" type="hidden" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas">
-                                    <input type="hidden" class="form-control" id="direccion_origen1" name="">
-                                    <input type="hidden" class="form-control" id="direccion_origen2" name="">
+                                    <input class="form-control" type="text" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas">
+                                    <input class="form-control" type="text" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas">
+                                    <input type="text" class="form-control" id="direccion_origen1" name="">
+                                    <input type="text" class="form-control" id="direccion_origen2" name="">
                                     <div>
                                         <strong>Resultados</strong>
                                     </div>
