@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Rutas_model extends CI_Model {
-	
+
 	function __construct(){
 		parent::__construct();
 	}
@@ -18,8 +18,8 @@ class Rutas_model extends CI_Model {
 				}
 			}
 		}
-		
-		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], 'id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas']))){
+
+		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], 'id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas'],'nombre_empresa_vyp_rutas' => $data['nombre_empresa_vyp_rutas'],'direccion_empresa_vyp_rutas' => $data['direccion_empresa_vyp_rutas'],'estado_vyp_rutas' => '1'))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -45,8 +45,9 @@ class Rutas_model extends CI_Model {
 			}
 		}
 
+
 		$this->db->where("id_vyp_rutas",$data["id_vyp_rutas"]);
-		if($this->db->update('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], ' 	id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas']))){
+		if($this->db->update('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], ' 	id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas'], 'nombre_empresa_vyp_rutas' => $data['nombre_empresa_vyp_rutas'], 'direccion_empresa_vyp_rutas' => $data['direccion_empresa_vyp_rutas']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -67,7 +68,7 @@ class Rutas_model extends CI_Model {
 		$ultimoid = 0;
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
-				$ultimoid = $fila->$nombreid; 
+				$ultimoid = $fila->$nombreid;
 			}
 			$ultimoid++;
 		}else{
@@ -81,7 +82,7 @@ class Rutas_model extends CI_Model {
 		$query = $this->db->query("SELECT latitud_oficina,longitud_oficina FROM vyp_oficinas WHERE id_oficina = $origen LIMIT 1");
 		//$row = $query->row();
 		foreach ($query->result() as $fila) {
-				$datos = $fila->latitud_oficina.','.$fila->longitud_oficina; 
+				$datos = $fila->latitud_oficina.','.$fila->longitud_oficina;
 			}
 		return $datos;
 	}
@@ -92,8 +93,8 @@ class Rutas_model extends CI_Model {
 			if($data['opcionruta_vyp_rutas']=="destino_oficina"){
 				if($fila->id_oficina_origen_vyp_rutas == $data['id_oficina_origen_vyp_rutas'] &&
 					$fila->id_oficina_destino_vyp_rutas == $data['id_oficina_destino_vyp_rutas'] &&
-					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] && 
-					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] && 
+					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] &&
+					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] &&
 					$fila->km_vyp_rutas == $data['km_vyp_rutas'] /*&&
 					$fila->id_departamento_vyp_rutas == $data['id_departamento'] &&
 					$fila->id_municipio_vyp_rutas  == $data['id_municipio'] &&
@@ -106,8 +107,8 @@ class Rutas_model extends CI_Model {
 			}else if($data['opcionruta_vyp_rutas']=="destino_municipio"){
 				if($fila->id_oficina_origen_vyp_rutas == $data['id_oficina_origen_vyp_rutas'] &&
 					/*$fila->id_oficina_destino_vyp_rutas == $data['id_oficina_destino_vyp_rutas'] &&*/
-					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] && 
-					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] && 
+					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] &&
+					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] &&
 					$fila->km_vyp_rutas == $data['km_vyp_rutas'] &&
 					$fila->id_departamento_vyp_rutas == $data['id_departamento'] &&
 					$fila->id_municipio_vyp_rutas  == $data['id_municipio'] /*&&
@@ -120,8 +121,8 @@ class Rutas_model extends CI_Model {
 			}else if($data['opcionruta_vyp_rutas']=="destino_mapa"){
 				if($fila->id_oficina_origen_vyp_rutas == $data['id_oficina_origen_vyp_rutas'] &&
 					/*$fila->id_oficina_destino_vyp_rutas == $data['id_oficina_destino_vyp_rutas'] &&*/
-					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] && 
-					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] && 
+					$fila->opcionruta_vyp_rutas == $data['opcionruta_vyp_rutas'] &&
+					$fila->descripcion_destino_vyp_rutas == $data['descripcion_destino_vyp_rutas'] &&
 					$fila->km_vyp_rutas == $data['km_vyp_rutas'] &&
 					$fila->id_departamento_vyp_rutas == $data['id_departamento'] &&
 					$fila->id_municipio_vyp_rutas  == $data['id_municipio'] &&

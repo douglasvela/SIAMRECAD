@@ -37,7 +37,9 @@ class Rutas extends CI_Controller {
 			'id_departamento' => $this->input->post('id_departamento'),
 			'id_municipio' => $this->input->post('id_municipio'),
 			'latitud_destino_vyp_rutas' => $this->input->post('latitud_destino_vyp_rutas'),
-			'longitud_destino_vyp_rutas' => $this->input->post('longitud_destino_vyp_rutas')
+			'longitud_destino_vyp_rutas' => $this->input->post('longitud_destino_vyp_rutas'),
+			'nombre_empresa_vyp_rutas' => $this->input->post('nombre_empresa_vyp_rutas'),
+			'direccion_empresa_vyp_rutas' => $this->input->post('direccion_empresa_vyp_rutas')
 			);
 			if($this->input->post('id_oficina_destino_vyp_rutas') == $this->input->post('id_oficina_origen_vyp_rutas') ){
 				echo "fracaso";
@@ -60,7 +62,9 @@ class Rutas extends CI_Controller {
 			'id_departamento' => $this->input->post('id_departamento'),
 			'id_municipio' => $this->input->post('id_municipio'),
 			'latitud_destino_vyp_rutas' => $this->input->post('latitud_destino_vyp_rutas'),
-			'longitud_destino_vyp_rutas' => $this->input->post('longitud_destino_vyp_rutas')
+			'longitud_destino_vyp_rutas' => $this->input->post('longitud_destino_vyp_rutas'),
+			'nombre_empresa_vyp_rutas' => $this->input->post('nombre_empresa_vyp_rutas'),
+			'direccion_empresa_vyp_rutas' => $this->input->post('direccion_empresa_vyp_rutas')
 			);
 			if($this->input->post('id_oficina_destino_vyp_rutas') == $this->input->post('id_oficina_origen_vyp_rutas') ){
 				echo "fracaso";

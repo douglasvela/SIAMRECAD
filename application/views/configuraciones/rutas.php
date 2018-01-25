@@ -35,7 +35,7 @@
         $("#km_vyp_rutas").val(km_vyp_rutas);
          $("#btnadd").hide(0);
         $("#btnedit").show(0);
-        mostrarpanel_oficina();
+        mostrarpanel_oficina();$("#panel_mapa").hide(50);
         $("#band").val("edit");
      }
      function editar_municipio(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas){
@@ -43,20 +43,23 @@
          $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
         mostrarpanel_municipio();
-
+        $("#panel_mapa").hide(50);
         document.getElementById('destino_municipio').checked = true;
         $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
         $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
         $("#id_departamento_vyp_rutas").val(id_departamento_vyp_rutas);
+
        buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas);
+       obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
+
         $("#km_vyp_rutas").val(km_vyp_rutas);
         $("#btnadd").hide(0);
         $("#btnedit").show(0);
         $("#band").val("edit");
     }
 
-    function editar_mapa(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas){
+    function editar_mapa(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,nombre_empresa_vyp_rutas,direccion_empresa_vyp_rutas){
         limpiar();
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
@@ -64,7 +67,7 @@
         $("#cnt_form").addClass("col-lg-6");
         $("#form_mapa").show(500);
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
-
+        $("#panel_mapa").show(50);
         document.getElementById('destino_mapa').checked = true;
         $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
@@ -76,6 +79,8 @@
         $("#km_vyp_rutas").val(km_vyp_rutas);
         $("#latitud_destino_vyp_rutas").val(latitud_destino_vyp_rutas);
         $("#longitud_destino_vyp_rutas").val(longitud_destino_vyp_rutas);
+        $("#nombre_empresa_vyp_rutas").val(nombre_empresa_vyp_rutas);
+        $("#direccion_empresa_vyp_rutas").val(direccion_empresa_vyp_rutas);
             $("#btnadd").hide(0);
         $("#btnedit").show(0);
         $("#band").val("edit");
@@ -93,7 +98,9 @@
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-
+        $("#cnt_form").removeClass("col-lg-6");
+        $("#cnt_form").addClass("col-lg-10");
+        $("#panel_mapa").hide(10);
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Ruta");
         limpiar();
     }
@@ -175,6 +182,7 @@
         $("#panel_oficina").show(50);
         $("#cnt_form").removeClass("col-lg-10");
         $("#cnt_form").addClass("col-lg-6");
+        $("#panel_mapa").hide(10);
 
         $("#panel_municipio").hide(50);$("#form_mapa").show(10);initMap();
           if($('#id_oficina_origen_vyp_rutas').val()!=""){
@@ -188,6 +196,7 @@
        //$("#btnadd").hide(0);
         $("#cnt_form").removeClass("col-lg-10");
         $("#cnt_form").addClass("col-lg-6");
+        $("#panel_mapa").show(10);
         $("#form_mapa").show(500);initMap();
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
         if($('#id_oficina_origen_vyp_rutas').val()!=""){
@@ -201,6 +210,7 @@
         $("#cnt_form").removeClass("col-lg-10");
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
         $("#form_mapa").show(500);initMap();
+        $("#panel_mapa").hide(10);
     }
     function buscarMunicipio(id_departamento,seleccion){
         id=id_departamento+="x"+seleccion;
@@ -213,13 +223,14 @@
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("municipios").innerHTML=xmlhttp_municipio.responseText;
+                if($("#band").val()=="edit")buscarmapa();
             }
         }
 
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/configuraciones/oficinas/mostrarComboMunicipi2/"+id,true);
         xmlhttp_municipio.send();
     }
-    function manttorutas(id_vyp_rutas,band,opcionruta_vyp_rutas,id_oficina_origen_vyp_rutas,id_oficina_destino_vyp_rutas,descripcion_destino_vyp_rutas,km_vyp_rutas,id_departamento,id_municipio,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas){
+    function manttorutas(id_vyp_rutas,band,opcionruta_vyp_rutas,id_oficina_origen_vyp_rutas,id_oficina_destino_vyp_rutas,descripcion_destino_vyp_rutas,km_vyp_rutas,id_departamento,id_municipio,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,nombre_empresa_vyp_rutas,direccion_empresa_vyp_rutas){
         var formData = new FormData();
         formData.append("id_vyp_rutas", id_vyp_rutas);
         formData.append("id_oficina_origen_vyp_rutas", id_oficina_origen_vyp_rutas);
@@ -232,6 +243,8 @@
         formData.append("id_municipio",id_municipio);
         formData.append("latitud_destino_vyp_rutas",latitud_destino_vyp_rutas);
         formData.append("longitud_destino_vyp_rutas",longitud_destino_vyp_rutas);
+        formData.append("nombre_empresa_vyp_rutas",nombre_empresa_vyp_rutas);
+        formData.append("direccion_empresa_vyp_rutas",direccion_empresa_vyp_rutas);
 
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/rutas/gestionar_rutas",
@@ -278,6 +291,8 @@
                             "",
                             "",
                             "",
+                            "",
+                            "",
                             ""
                         );
                   }
@@ -295,6 +310,8 @@
                             $("#km_vyp_rutas").val(),
                             $("#id_departamento_vyp_rutas").val(),
                             $("#id_municipio").val(),
+                            "",
+                            "",
                             "",
                             ""
                         );
@@ -314,7 +331,9 @@
                             $("#id_departamento_vyp_rutas").val(),
                             $("#id_municipio").val(),
                             $("#latitud_destino_vyp_rutas").val(),
-                            $("#longitud_destino_vyp_rutas").val()
+                            $("#longitud_destino_vyp_rutas").val(),
+                            $("#nombre_empresa_vyp_rutas").val(),
+                            $("#direccion_empresa_vyp_rutas").val()
                         );
                     }
                 }else{
@@ -338,6 +357,8 @@
                             "",
                             "",
                             "",
+                            "",
+                            "",
                             ""
                         );
                   }
@@ -355,6 +376,8 @@
                             $("#km_vyp_rutas").val(),
                             $("#id_departamento_vyp_rutas").val(),
                             $("#id_municipio").val(),
+                            "",
+                            "",
                             "",
                             ""
                         );
@@ -374,7 +397,9 @@
                             $("#id_departamento_vyp_rutas").val(),
                             $("#id_municipio").val(),
                             $("#latitud_destino_vyp_rutas").val(),
-                            $("#longitud_destino_vyp_rutas").val()
+                            $("#longitud_destino_vyp_rutas").val(),
+                            $("#nombre_empresa_vyp_rutas").val(),
+                            $("#direccion_empresa_vyp_rutas").val()
                         );
                     }
                 }else{
@@ -554,6 +579,20 @@
                                                 <option>[Seleccione]</option>
                                             </select>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="panel_mapa" style="display:none">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Nombre Empresa: <span class="text-danger">*</span></label><br>
+                                        <input type="text" id="nombre_empresa_vyp_rutas" name="nombre_empresa_vyp_rutas" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="" class="font-weight-bold">Dirección Empresa: <span class="text-danger">*</span></label><br>
+                                        <input type="text" id="direccion_empresa_vyp_rutas" name="direccion_empresa_vyp_rutas" class="form-control">
                                     </div>
                                 </div>
                             </div>
