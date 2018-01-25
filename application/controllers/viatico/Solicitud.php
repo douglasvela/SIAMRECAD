@@ -176,9 +176,18 @@ class Solicitud extends CI_Controller {
 	            "direccion_empresa" => $this->input->post('direccion_empresa'),
 	            "distancia" => $this->input->post('distancia'),
 	            "tipo" =>  $this->input->post('tipo'),
-	            "band" => $this->input->post('band')
+	            "band" => $this->input->post('band'),
+	            "descripcion_destino" => $this->input->post('descripcion_destino'),
+	            "id_oficina_origen" => $this->input->post('id_oficina_origen'),
+	            "latitud_destino" => $this->input->post('latitud_destino'),
+	            "longitud_destino" => $this->input->post('longitud_destino')
 	        );
-			echo $this->solicitud_model->insertar_destino($data);			
+	        if($this->solicitud_model->insertar_ruta($data)){
+	        	echo $this->solicitud_model->insertar_destino($data);
+	        }else{
+	        	echo "fracaso";
+	        }
+						
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
 	            "id_mision" => $this->input->post('id_mision'),
@@ -188,7 +197,9 @@ class Solicitud extends CI_Controller {
 	            "direccion_empresa" => $this->input->post('direccion_empresa'),
 	            "distancia" => $this->input->post('distancia'),
 	            "tipo" =>  $this->input->post('tipo'),
-	            "band" => $this->input->post('band')
+	            "band" => $this->input->post('band'),
+	            "latitud_destino" => $this->input->post('latitud_destino'),
+	            "longitud_destino" => $this->input->post('longitud_destino')
 	        );
 			echo $this->solicitud_model->editar_destino($data);
 		}else if($this->input->post('band') == "delete"){
@@ -200,7 +211,9 @@ class Solicitud extends CI_Controller {
 	            "direccion_empresa" => $this->input->post('direccion_empresa'),
 	            "distancia" => $this->input->post('distancia'),
 	            "tipo" =>  $this->input->post('tipo'),
-	            "band" => $this->input->post('band')
+	            "band" => $this->input->post('band'),
+	            "latitud_destino" => $this->input->post('latitud_destino'),
+	            "longitud_destino" => $this->input->post('longitud_destino')
 	        );
 			echo $this->solicitud_model->eliminar_destino($data);
 		}

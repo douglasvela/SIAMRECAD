@@ -17,7 +17,7 @@ if($nr->num_rows() > 0){
 
 $id_mision = $_GET["id_mision"];
 
-$empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
+$empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' ORDER BY orden");
 
 $viaticos = 0.00;
 $pasajes = 0.00;
@@ -220,7 +220,7 @@ if($empresas->num_rows() > 0){
 		$registros--;
         if($registros > 0){
 ?>
-	<ul>
+	<ul style="margin: 0px 3px;">
 		<li><?php echo $fila->nombre_empresa.". Dirección: ".$fila->direccion_empresa; ?></li>
 	</ul>
 
@@ -332,7 +332,8 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 <p>Cuenta del banco No: <?php echo ucwords(strtolower($filac->numero_cuenta)); ?></p>
 </div>
 <div style="width: 50%; float: left;">
-<p>Firma: ___________________________________</p>
+
+<p style="position: relative;">Firma: <img style="max-height: 70px; max-width: 250px; position: absolute; bottom: 5px;" src="<?php echo base_url(); ?>assets/firmas/<?php echo $nr_usuario.".png"; ?>" alt="firma digital">________________________________</p>
 <p align="center"><b>Recibido conforme</b></p>
 <p>Código: <?php echo $nr_usuario; ?>&emsp;&emsp;Sueldo: $<?php echo number_format($filae->salario, 2, '.', ''); ?></p>
 <p>Unidad Pres. / Línea de Trabajo: <?php echo ucwords(strtolower($filalt->linea_trabajo)); ?></p>

@@ -26,6 +26,36 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function insertar_ruta($data){
+		if($data["tipo"] == "destino_oficina"){
+			$query = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_departamento = '".$data['departamento']."' AND id_municipio = '".$data['municipio']."'");
+			if($query->num_rows() > 0){
+				foreach ($query->result() as $fila) {
+					$data['id_oficina_destino'] = $fila->id_oficina;
+				}
+			}
+		}else{
+			$data['id_oficina_destino'] = "0";
+		}
+		
+		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen'], 
+												'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino'], 
+												'id_departamento_vyp_rutas' => $data['departamento'], 
+												'id_municipio_vyp_rutas' => $data['municipio'],
+												'km_vyp_rutas' => $data['distancia'], 
+												'descripcion_destino_vyp_rutas' => $data['descripcion_destino'],
+												'latitud_destino_vyp_rutas' => $data['latitud_destino'], 
+												'longitud_destino_vyp_rutas' => $data['longitud_destino'],
+												'opcionruta_vyp_rutas' => $data['tipo'], 
+												'nombre_empresa_vyp_rutas' => $data['nombre_empresa'],
+												'direccion_empresa_vyp_rutas' => $data['direccion_empresa'],
+												'estado_vyp_rutas' => false))){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
 		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){

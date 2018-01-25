@@ -364,9 +364,23 @@
                         <!-- ============================================================== -->
                      <li class="nav-item"> <a id="initial_user" style="display: none;" class="nav-link waves-effect waves-dark" href="javascript:void(0)"><span id="contador"></span></a> </li>
 
+                        <?php
+                            $notificaciones = 0;
+
+                            $notificacion_rutas = $this->db->query("SELECT * FROM vyp_rutas WHERE estado_vyp_rutas = 0");
+                            $notificacion_rutas = $notificacion_rutas->num_rows();
+                            if($notificacion_rutas > 0){
+                                $notificaciones++;
+                            }
+
+                            
+                        ?>
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-message"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                            <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i style="font-size: 25px;" class="mdi mdi-bell"></i>
+                                <?php if($notificaciones > 0){ ?>
+                                <span class="label label-danger" style=" font-size: 10px; position: absolute; top: 9px; right: 5px; border-radius: 50%; padding: 3px 8px;"><?php echo $notificaciones; ?></span>
+                                <?php } ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox scale-up">
                                 <ul>
@@ -376,28 +390,12 @@
                                     <li>
                                         <div class="message-center">
                                             <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>
+                                            <a href="<?php echo site_url(); ?>/configuraciones/rutas">
+                                                <div class="btn btn-danger btn-circle"><i style="font-size: 20px;" class="mdi mdi-map"></i></div>
                                                 <div class="mail-contnet">
-                                                    <h5>Luanch Admin</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span> </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-success btn-circle"><i class="ti-calendar"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Event today</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span> </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-info btn-circle"><i class="ti-settings"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Settings</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span> </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-primary btn-circle"><i class="ti-user"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
+                                                    <h5>Revisión de rutas <span class="label label-danger"><?php echo $notificacion_rutas; ?></span></h5> 
+                                                    <span class="mail-desc">Clic para revisar rutas pendientes</span> 
+                                                </div>
                                             </a>
                                         </div>
                                     </li>

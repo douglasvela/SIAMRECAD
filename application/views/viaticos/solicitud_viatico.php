@@ -855,7 +855,7 @@
     function finalizarBusquedaMapa(){
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
-        //$("#direccion_oficina").val(direccion);
+        $("#direccion_empresa").val(direccion_mapa);
 
         var municipio = municipio_mayus(direccion_mapa);
         
@@ -1212,6 +1212,18 @@
             </div>
 
         </div>
+        <?php 
+    if($info_empleado->num_rows() > 0){ 
+        foreach ($info_empleado->result() as $filas) {}
+    }
+
+    $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+
+    if($oficina_origen->num_rows() > 0){ 
+        foreach ($oficina_origen->result() as $filaofi) {}
+    }
+?>
+<input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="<?php echo $filaofi->id_oficina; ?>">
         <!-- ============================================================== -->
         <!-- Fin CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
@@ -1283,18 +1295,6 @@
     <!-- /.modal-dialog -->
 </div>
 
-<?php 
-    if($info_empleado->num_rows() > 0){ 
-        foreach ($info_empleado->result() as $filas) {}
-    }
-
-    $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
-
-    if($oficina_origen->num_rows() > 0){ 
-        foreach ($oficina_origen->result() as $filaofi) {}
-    }
-?>
-
 <script>
 $(function(){  
 
@@ -1345,6 +1345,20 @@ $(function(){
 
     $("#form_empresas_visitadas").on("submit", function(e){
         e.preventDefault();
+        var tipo = $('input[name=r_destino]:checked').val();
+        if(tipo == "destino_mapa"){
+            var latitud = LatDestino.lat();
+            var longitud = LatDestino.lng();
+        }else{
+            var latitud = "";
+            var longitud = "";
+        }
+
+        if(tipo == "destino_oficina"){
+            var descripcion = "<?php echo $filaofi->nombre_oficina; ?>"+" - "+$("#departamento option:selected").text();
+        }else{            
+            var descripcion = "<?php echo $filaofi->nombre_oficina; ?>"+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
+        }
         var formData = {
             "id_mision" : $("#id_mision").val(),
             "departamento" : $("#departamento").val(),
@@ -1352,8 +1366,12 @@ $(function(){
             "nombre_empresa" : $("#nombre_empresa").val(),
             "direccion_empresa" : $("#direccion_empresa").val(),
             "distancia" : $("#distancia").val(),
-            "tipo" : $('input[name=r_destino]:checked').val(),
-            "band" : $("#band2").val()
+            "tipo" : tipo,
+            "band" : $("#band2").val(),
+            "descripcion_destino" : descripcion,
+            "id_oficina_origen" : $("#id_oficina_origen").val(),
+            "latitud_destino" : latitud,
+            "longitud_destino" : longitud
         };
         $.ajax({
             type:  'POST',
@@ -1485,7 +1503,7 @@ $(function(){
         });
 
         map.addListener('click', function(e) {
-            LatDestino = e.latLng;        
+            LatDestino = e.latLng;
             deleteMarkers_D();
             addMarker_destino(e.latLng, map);
             pinta_recorrido();
