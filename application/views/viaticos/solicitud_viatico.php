@@ -602,7 +602,7 @@
 
                         input_monto = $($(celdas[6]).find("input"));
 
-                        if(((bd_inicio <= hora_inicio && bd_inicio >= hora_inicio) || (bd_inicio >= hora_inicio && bd_fin <= hora_fin) || (bd_inicio <= hora_fin && bd_fin >= hora_fin)) && viaticos[i][5] == ''){
+                        if(((hora_inicio < bd_inicio && hora_fin >= bd_inicio) || (hora_inicio >= bd_inicio && hora_inicio <= bd_fin)) && viaticos[i][5] == ''){
                             tiene = true;
                             array[i] = [viaticos[i][0],viaticos[i][3],viaticos[i][4],viaticos[i][5],i];
                         }else{
@@ -781,6 +781,7 @@
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
+                    tabla_solicitudes();
                     swal({ title: "!Solicitud exitosa!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -813,7 +814,8 @@
                 
                 for(j=0; j<fhora_rep.length; j++){
                     celdas2 = $(fhora_rep[i]).children("td");
-                    if((hora_inicio >= $(celdas2[0]).html() && hora_inicio <= $(celdas2[1]).html()) || (hora_fin >= $(celdas2[0]).html() && hora_fin <= $(celdas2[1]).html()) ||  (hora_inicio <= $(celdas2[0]).html() && hora_fin >= $(celdas2[1]).html())){
+
+                    if((hora_inicio < $(celdas2[0]).html() && hora_fin >= $(celdas2[0]).html()) || (hora_inicio >= $(celdas2[0]).html() && hora_inicio <= $(celdas2[1]).html())){
                         repetido = true;
                     }
                 }
@@ -983,7 +985,7 @@
             <div class="col-lg-10" id="cnt_form" style="display: none;">
 
                 <?php 
-                    $id_mision = 1;
+                    $id_mision = 5;
                     $query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' AND observacion <> '' AND observacion IS NOT NULL");
 
                     $query2 = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."'");
@@ -1020,7 +1022,7 @@
                         ?>
                             <li class="list-group-item" data-role="task" style="border: 0; padding: 7px;">
                                 <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputBook" name="inputCheckboxesBook" disabled="">
+                                    <input type="checkbox" id="inputBook" name="inputCheckboxesBook" >
                                     <label for="inputBook" class=""> <span>Mas observaciones en Paso 3</span></label>
                                 </div>
                             </li>
@@ -1133,7 +1135,6 @@
                                     <input type="radio" id="destino_mapa" name="r_destino" value="destino_mapa">
                                     <label for="destino_mapa" onclick="form_mapa();">Buscar en mapa</label>
                                 </div>
-                                
                             </div>
 
                             <div class="row">

@@ -454,7 +454,7 @@
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
-
+<script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
 <script>
 
 $(function(){ 

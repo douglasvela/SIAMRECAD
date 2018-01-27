@@ -175,7 +175,7 @@
                         confirmButtonText: "Sí, deseo observar!",   
                         closeOnConfirm: true 
                     }, function(){   
-                         cambiar_estado_solicitud("observada");
+                         cambiar_estado_solicitud(2);
                     });
                 }else if(ajax.responseText == "aprobar"){
                     swal({   

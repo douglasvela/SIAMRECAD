@@ -23,7 +23,6 @@
     <script src="<?php echo base_url(); ?>assets/plugins/footable/js/footable.all.min.js"></script>
     <!-- Image cropper JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
     <!-- icheck -->
     <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.init.js"></script>

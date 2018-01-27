@@ -24,13 +24,13 @@
                           echo "<tr>";
                             echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision))."</td>";
                             echo "<td>".$fila->actividad_realizada."</td>";
-                            if($fila->estado == "incompleta"){
-                                echo '<td><span class="label label-danger">'.$fila->estado.'</span></td>';
-                            }else if($fila->estado == "revision"){
-                                echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
-                            }else if($fila->estado == "observada"){
-                                echo '<td><span class="label label-danger">'.$fila->estado.'</span></td>';
-                            }else if($fila->estado == "aprobada"){
+                            if($fila->estado == 0){
+                                echo '<td><span class="label label-danger">Incompleta</span></td>';
+                            }else if($fila->estado == 1){
+                                echo '<td><span class="label label-success">Revisión 1</span></td>';
+                            }else if($fila->estado == 2){
+                                echo '<td><span class="label label-danger">Observaciones 1</span></td>';
+                            }else if($fila->estado == 8){
                                 echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
                             }
                             

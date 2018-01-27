@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE estado = 'revision'");
+                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE estado = 1");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";

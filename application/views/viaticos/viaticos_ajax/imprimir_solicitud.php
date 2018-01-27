@@ -178,7 +178,7 @@ class NumeroALetras
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -325,20 +325,21 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 ?>
 <br>
 <div style="width: 50%; float: left;">
-<p>Nombre: <?php echo ucwords(strtolower($filae->nombre_completo)); ?></p>
-<p>Cargo nominal: <?php echo ucwords(strtolower($filacn->cargo_nominal)); ?></p>
-<p>Cargo funcional: <?php echo ucwords(strtolower($filacf->funcional)); ?></p>
-<p>Nombre del banco: <?php echo ucwords(strtolower($filac->nombre)); ?></p>
-<p>Cuenta del banco No: <?php echo ucwords(strtolower($filac->numero_cuenta)); ?></p>
+<p>Nombre: <?php echo nombres($filae->nombre_completo); ?></p>
+<p>Cargo nominal: <?php echo parrafo($filacn->cargo_nominal); ?></p>
+<p>Cargo funcional: <?php echo parrafo($filacf->funcional); ?></p>
+<p>Nombre del banco: <?php echo parrafo($filac->nombre); ?></p>
+<p>Cuenta del banco No: <?php echo $filac->numero_cuenta; ?></p>
 </div>
 <div style="width: 50%; float: left;">
 
 <p style="position: relative;">Firma: <img style="max-height: 70px; max-width: 250px; position: absolute; bottom: 5px;" src="<?php echo base_url(); ?>assets/firmas/<?php echo $nr_usuario.".png"; ?>" alt="firma digital">________________________________</p>
 <p align="center"><b>Recibido conforme</b></p>
 <p>Código: <?php echo $nr_usuario; ?>&emsp;&emsp;Sueldo: $<?php echo number_format($filae->salario, 2, '.', ''); ?></p>
-<p>Unidad Pres. / Línea de Trabajo: <?php echo ucwords(strtolower($filalt->linea_trabajo)); ?></p>
+<p>Unidad Pres. / Línea de Trabajo: <?php echo $filalt->linea_trabajo; ?></p>
 <p>Teléfono oficial: <?php echo $filae->telefono_contacto; ?></p>
 </div>
+
 </body>
 
 </html>

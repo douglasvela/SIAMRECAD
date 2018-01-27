@@ -1,23 +1,31 @@
 <?php
-    $id_mision = $_GET["id_mision"];
-
-    $nommes = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"); 
-	$nomdia = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sabado");                         
+    $id_mision = $_GET["id_mision"];                       
 
     $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$id_mision."'");
     if($mision->num_rows() > 0){
         foreach ($mision->result() as $fila2) {}
     }
 
-    $m_dia = date("j", strtotime($fila2->fecha_solicitud));
-    $m_sem = date("w", strtotime($fila2->fecha_solicitud));                            
-    $m_mes = date("n", strtotime($fila2->fecha_solicitud));
-    $m_anio = date("Y", strtotime($fila2->fecha_solicitud));
+
+$m_dia = date("j", strtotime($fila2->fecha_solicitud));
+$m_sem = date("w", strtotime($fila2->fecha_solicitud));                            
+$m_mes = date("n", strtotime($fila2->fecha_solicitud));
+$m_anio = date("Y", strtotime($fila2->fecha_solicitud));
+
+function fecha_solicitud($mes, $dia, $anio){
+ setlocale(LC_TIME, 'spanish');
+
+ $sdia = utf8_encode(strftime("%A",mktime(0, 0, 0, $mes, $dia, $anio)));
+ $smes = utf8_encode(strftime("%B",mktime(0, 0, 0, $mes, $dia, $anio)));
+ return $sdia.", ".$dia." de ".$smes." de ".$anio;
+}
+
+    
 ?>
 
 <div class="row">
     <div class="col-lg-6">
-        <p><b>FECHA SOLICITUD: </b><?php echo $nomdia[$m_sem].", ".$m_dia." de ".$nommes[$m_mes]." del ".$m_anio; ?></p>
+        <p><b>FECHA SOLICITUD: </b><?php echo fecha_solicitud($m_mes, $m_dia, $m_anio); ?></p>
     </div>
     <div class="col-lg-6">
         <p><b>SOLICITANTE: </b><?php echo $fila2->nombre_completo; ?></p>
