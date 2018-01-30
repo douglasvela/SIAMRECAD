@@ -8,10 +8,16 @@ class Actividad_model extends CI_Model {
 	}
 
 	function insertar_actividad($data){
-		if($this->db->insert('vyp_actividades', array('nombre_vyp_actividades' => $data['nombre_vyp_actividades'], 'depende_vyp_actividades' => $data['depende_vyp_actividades']))){
-			return "exito";
+		$name = $data['nombre_vyp_actividades'];
+		$query = $this->db->query("select * from vyp_actividades where nombre_vyp_actividades = '$name'");
+		if($query->num_rows() <= 0){
+				if($this->db->insert('vyp_actividades', array('nombre_vyp_actividades' => $data['nombre_vyp_actividades'], 'depende_vyp_actividades' => $data['depende_vyp_actividades']))){
+					return "exito";
+				}else{
+					return "fracaso";
+				}
 		}else{
-			return "fracaso";
+			return "duplicado";
 		}
 	}
 
@@ -58,9 +64,4 @@ class Actividad_model extends CI_Model {
 		}
 		return $ultimoid;
 	}
-
-
-
-
-
 }
