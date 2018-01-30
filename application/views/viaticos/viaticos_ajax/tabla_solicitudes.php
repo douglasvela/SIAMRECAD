@@ -18,12 +18,12 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $mision = $this->db->get("vyp_mision_oficial");
+                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.actividad_realizada = a.id_vyp_actividades");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                           echo "<tr>";
                             echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision))."</td>";
-                            echo "<td>".$fila->actividad_realizada."</td>";
+                            echo "<td>".$fila->nombre_actividad."</td>";
                             if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Incompleta</span></td>';
                             }else if($fila->estado == 1){
@@ -35,7 +35,7 @@
                             }
                             
                             echo "<td>";
-                            $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->actividad_realizada);
+                            $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->actividad_realizada, $fila->detalle_actividad);
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

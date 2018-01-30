@@ -9,7 +9,7 @@ class Solicitud_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -19,7 +19,7 @@ class Solicitud_model extends CI_Model {
 	function insertar_destino($data){
 		$id = $this->obtener_ultimo_id("vyp_empresas_visitadas","id_empresas_visitadas");
 
-		if($this->db->insert('vyp_empresas_visitadas', array('id_empresas_visitadas' => $id, 'id_mision_oficial' => $data['id_mision'], 'id_departamento' => $data['departamento'], 'id_municipio' => $data['municipio'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'kilometraje' => $data['distancia'], 'tipo_destino' => $data['tipo']))){
+		if($this->db->insert('vyp_empresas_visitadas', array('id_empresas_visitadas' => $id, 'id_mision_oficial' => $data['id_mision'], 'id_departamento' => $data['departamento'], 'id_municipio' => $data['municipio'], 'nombre_empresa' => $data['nombre_empresa'], 'direccion_empresa' => $data['direccion_empresa'], 'kilometraje' => $data['distancia'], 'tipo_destino' => $data['tipo'], 'id_destino' => $data['id_destino']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -37,8 +37,11 @@ class Solicitud_model extends CI_Model {
 		}else{
 			$data['id_oficina_destino'] = "0";
 		}
+
+		$data['id_destino'] = $this->obtener_ultimo_id("vyp_rutas","id_vyp_rutas");
 		
-		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen'], 
+		if($this->db->insert('vyp_rutas', array('id_vyp_rutas' => $data['id_destino'],
+												'id_oficina_origen_vyp_rutas' => $data['id_oficina_origen'], 
 												'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino'], 
 												'id_departamento_vyp_rutas' => $data['departamento'], 
 												'id_municipio_vyp_rutas' => $data['municipio'],
@@ -50,15 +53,16 @@ class Solicitud_model extends CI_Model {
 												'nombre_empresa_vyp_rutas' => $data['nombre_empresa'],
 												'direccion_empresa_vyp_rutas' => $data['direccion_empresa'],
 												'estado_vyp_rutas' => false))){
-			return true;
+
+			return $this->solicitud_model->insertar_destino($data);
 		}else{
-			return false;
+			return "fracaso";
 		}
 	}
 
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
-		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada']))){
+		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad']))){
 			return "exito";
 		}else{
 			return "fracaso";

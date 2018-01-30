@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-01-2018 a las 04:56:39
+-- Tiempo de generación: 30-01-2018 a las 06:18:22
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `vyp_empresas_visitadas`
 --
 
+DROP TABLE IF EXISTS `vyp_empresas_visitadas`;
 CREATE TABLE `vyp_empresas_visitadas` (
   `id_empresas_visitadas` int(10) UNSIGNED NOT NULL,
   `id_mision_oficial` int(10) UNSIGNED NOT NULL,
@@ -42,7 +43,8 @@ CREATE TABLE `vyp_empresas_visitadas` (
   `kilometraje` float NOT NULL,
   `justificacion` varchar(500) NOT NULL,
   `orden` int(10) UNSIGNED NOT NULL,
-  `observacion` varchar(200) NOT NULL
+  `observacion` varchar(200) NOT NULL,
+  `id_destino` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

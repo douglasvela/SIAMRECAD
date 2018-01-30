@@ -158,6 +158,23 @@
         xmlhttpB.send(); 
     }
 
+    function observaciones(id_mision){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+                form_mision();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/solicitud/observaciones?id_mision="+id_mision,true);
+        xmlhttpB.send(); 
+    }
+
     function combo_oficina_departamento(tipo){
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
@@ -374,16 +391,17 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nombre,fecha_mision,actividad_realizada,bandera){
+    function cambiar_editar(id,nombre,fecha_mision,actividad_realizada,detalle_actividad,bandera){
         $("#id_mision").val(id);
         $("#nombre_empleado").val(nombre);
         $("#fecha_mision").val(fecha_mision);
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
-        $("#actividad").val(actividad_realizada);        
+        $("#detalle_actividad").val(detalle_actividad);
+        $('#actividad').val(actividad_realizada).trigger('change.select2');       
 
         if(bandera == "edit"){
-            form_mision();
+            observaciones(id);
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
             $("#btnadd").hide(0);
@@ -941,6 +959,7 @@
         });
     }
 
+
 </script>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
@@ -983,56 +1002,6 @@
 
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="cnt_form" style="display: none;">
-
-                <?php 
-                    $id_mision = 5;
-                    $query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' AND observacion <> '' AND observacion IS NOT NULL");
-
-                    $query2 = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."'");
-
-                    if($query->num_rows() > 0 || $query2->num_rows > 0){
-                ?>
-                <div class="card">
-                    <div class="card-header bg-danger">
-                        <h4 class="card-title m-b-0 text-white">Observaciones</h4>
-                    </div>
-                    <div class="card-body b-t">
-
-
-                        <ul class="list-task list-group m-b-0" data-role="tasklist">
-
-                        <?php 
-                            if($query->num_rows() > 0){ 
-                                foreach ($query->result() as $fila) {
-                        ?>
-                            <li class="list-group-item" data-role="task" style="border: 0; padding: 7px;">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputCall" name="inputCheckboxesCall">
-                                    <label for="inputCall" class=""> <span><?php echo $fila->observacion; ?></span></label>
-                                </div>
-                            </li>
-                        <?php 
-                                }
-                           }
-                        ?>
-
-                        <?php 
-                            if($query2->num_rows() > 0){ 
-                                    echo "Más observaciones en el Paso 3";
-                        ?>
-                            <li class="list-group-item" data-role="task" style="border: 0; padding: 7px;">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputBook" name="inputCheckboxesBook" >
-                                    <label for="inputBook" class=""> <span>Mas observaciones en Paso 3</span></label>
-                                </div>
-                            </li>
-                        <?php 
-                           }
-                        ?>
-                        </ul>
-                    </div>
-                </div>
-                <?php } ?>
                 
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
@@ -1043,7 +1012,7 @@
                     </div>
                     <div class="card-body b-t">
 
-
+                        <div id="cnt_observaciones"></div>
                         <!-- ============================================================== -->
                         <!-- Inicio del FORMULARIO DATOS DE MISIÓN -->
                         <!-- ============================================================== -->
@@ -1092,12 +1061,33 @@
                             </div>
 
                             <div class="row">
+                                <div class="form-group col-lg-12"> 
+                                <h5>Actividad realizada: <span class="text-danger">*</span></h5>
+                                <div class="input-group">
+                                    <select id="actividad" name="actividad" class="select2" style="width: 100%" required>
+                                        <option value=''>[Elija una opción o agregue una nueva]</option>
+                                    <?php 
+                                        $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+                                        if($actividad->num_rows() > 0){
+                                            foreach ($actividad->result() as $filaa) {              
+                                               echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
+                                            }
+                                        }
+                                    ?>
+                                    </select>
+                                    <div class="input-group-addon btn btn-success2">+</div>
+                                </div> 
+                                </div>                               
+                            </div>
+
+                            <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
-                                    <h5>Actividad realizada: <span class="text-danger">*</span></h5>
-                                    <textarea type="text" onkeyup="TEXTO('actividad',3,500);" id="actividad" name="actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
+                                    <h5>Detalle de la actividad: <span class="text-danger">*</span></h5>
+                                    <textarea type="text" onkeyup="TEXTO('actividad',3,500);" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
                                     <div class="help-block"></div>
                                 </div>
                             </div>
+
 
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
@@ -1347,6 +1337,13 @@ $(function(){
     $("#form_empresas_visitadas").on("submit", function(e){
         e.preventDefault();
         var tipo = $('input[name=r_destino]:checked').val();
+
+        if($('#distancia').prop("readonly")){
+            var existe = "true";
+        }else{
+            var existe = "false";   
+        }
+
         if(tipo == "destino_mapa"){
             var latitud = LatDestino.lat();
             var longitud = LatDestino.lng();
@@ -1372,7 +1369,9 @@ $(function(){
             "descripcion_destino" : descripcion,
             "id_oficina_origen" : $("#id_oficina_origen").val(),
             "latitud_destino" : latitud,
-            "longitud_destino" : longitud
+            "longitud_destino" : longitud,
+            "id_destino" : $("#id_destino_vyp").val(),
+            "existe" : existe,
         };
         $.ajax({
             type:  'POST',

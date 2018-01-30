@@ -42,6 +42,10 @@ class Solicitud extends CI_Controller {
 		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud');
 	}
 
+	public function observaciones(){
+		$this->load->view('viaticos/viaticos_ajax/observaciones');
+	}
+
 	public function eliminar_destino(){
 		$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_empresas_visitadas = '".$this->input->post('id_empresa_visitada')."'";
 		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
@@ -121,7 +125,8 @@ class Solicitud extends CI_Controller {
 			'nombre_empresa' => $filaofi->nombre_oficina,
 			'direccion_empresa' => $filaofi->nombre_oficina,
 			'distancia' => '0.00',
-			'tipo' => 'destino_oficina'
+			'tipo' => 'destino_oficina',
+			'id_destino' => $filaofi->id_oficina
 			);
 
 		if($this->solicitud_model->verficar_cumpla_kilometros($data)){
@@ -138,7 +143,8 @@ class Solicitud extends CI_Controller {
 			'nr' => $this->input->post('nr'),
 			'nombre_completo' => $this->input->post('nombre_empleado'),
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),
-			'actividad_realizada' => saltos_sql($this->input->post('actividad'))
+			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
+			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
 			);
 			echo $this->solicitud_model->insertar_mision($data);			
 		}else if($this->input->post('band') == "edit"){
@@ -147,7 +153,8 @@ class Solicitud extends CI_Controller {
 			'nr' => $this->input->post('nr'),
 			'nombre_completo' => $this->input->post('nombre_empleado'),
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),			
-			'actividad_realizada' => saltos_sql($this->input->post('actividad'))
+			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
+			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
 			);
 			echo $this->solicitud_model->editar_mision($data);
 		}else if($this->input->post('band') == "delete"){
@@ -167,56 +174,29 @@ class Solicitud extends CI_Controller {
 
 
 	public function gestionar_destinos(){
-        if($this->input->post('band') == "save"){
-			$data = array(
-				"id_mision" => $this->input->post('id_mision'),
-	            "departamento" => $this->input->post('departamento'),
-	            "municipio" => $this->input->post('municipio'),
-	            "nombre_empresa" => $this->input->post('nombre_empresa'),
-	            "direccion_empresa" => $this->input->post('direccion_empresa'),
-	            "distancia" => $this->input->post('distancia'),
-	            "tipo" =>  $this->input->post('tipo'),
-	            "band" => $this->input->post('band'),
-	            "descripcion_destino" => $this->input->post('descripcion_destino'),
-	            "id_oficina_origen" => $this->input->post('id_oficina_origen'),
-	            "latitud_destino" => $this->input->post('latitud_destino'),
-	            "longitud_destino" => $this->input->post('longitud_destino')
-	        );
-	        if($this->solicitud_model->insertar_ruta($data)){
-	        	echo $this->solicitud_model->insertar_destino($data);
-	        }else{
-	        	echo "fracaso";
-	        }
-						
-		}else if($this->input->post('band') == "edit"){
-			$data = array(
-	            "id_mision" => $this->input->post('id_mision'),
-	            "departamento" => $this->input->post('departamento'),
-	            "municipio" => $this->input->post('municipio'),
-	            "nombre_empresa" => $this->input->post('nombre_empresa'),
-	            "direccion_empresa" => $this->input->post('direccion_empresa'),
-	            "distancia" => $this->input->post('distancia'),
-	            "tipo" =>  $this->input->post('tipo'),
-	            "band" => $this->input->post('band'),
-	            "latitud_destino" => $this->input->post('latitud_destino'),
-	            "longitud_destino" => $this->input->post('longitud_destino')
-	        );
-			echo $this->solicitud_model->editar_destino($data);
-		}else if($this->input->post('band') == "delete"){
-			$data = array(
-	            "id_mision" => $this->input->post('id_mision'),
-	            "departamento" => $this->input->post('departamento'),
-	            "municipio" => $this->input->post('municipio'),
-	            "nombre_empresa" => $this->input->post('nombre_empresa'),
-	            "direccion_empresa" => $this->input->post('direccion_empresa'),
-	            "distancia" => $this->input->post('distancia'),
-	            "tipo" =>  $this->input->post('tipo'),
-	            "band" => $this->input->post('band'),
-	            "latitud_destino" => $this->input->post('latitud_destino'),
-	            "longitud_destino" => $this->input->post('longitud_destino')
-	        );
-			echo $this->solicitud_model->eliminar_destino($data);
-		}
+			
+		$data = array(
+			"id_mision" => $this->input->post('id_mision'),
+            "departamento" => $this->input->post('departamento'),
+            "municipio" => $this->input->post('municipio'),
+            "nombre_empresa" => $this->input->post('nombre_empresa'),
+            "direccion_empresa" => $this->input->post('direccion_empresa'),
+            "distancia" => $this->input->post('distancia'),
+            "tipo" =>  $this->input->post('tipo'),
+            "band" => $this->input->post('band'),
+            "descripcion_destino" => $this->input->post('descripcion_destino'),
+            "id_oficina_origen" => $this->input->post('id_oficina_origen'),
+            "latitud_destino" => $this->input->post('latitud_destino'),
+            "longitud_destino" => $this->input->post('longitud_destino'),
+            "id_destino" => $this->input->post('id_destino'),
+        );
+
+        if($this->input->post('existe') == "true"){
+        	echo $this->solicitud_model->insertar_destino($data);
+        }else{
+        	echo $this->solicitud_model->insertar_ruta($data);
+        }
+	        
 		
 	}
 }

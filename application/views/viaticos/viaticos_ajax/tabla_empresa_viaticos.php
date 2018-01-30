@@ -65,7 +65,7 @@
 		                $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' ORDER BY orden");
 		                if($empresas->num_rows() > 0){
 		                    foreach ($empresas->result() as $fila) {
-		                    	$id_destino = $fila->id_municipio;
+		                    	$id_destino = $fila->id_destino;
 
 		                    	$direcciones = $this->db->query("SELECT m.*, d.* FROM org_municipio AS m INNER JOIN org_departamento AS d WHERE m.id_departamento_pais = d.id_departamento AND id_municipio = '".$id_destino."'");
 		                    	if($direcciones->num_rows() > 0){
@@ -74,7 +74,7 @@
 		                    		}
 		                    	}
 
-		                    	$kilometraje = $this->db->query("SELECT km_vyp_rutas FROM vyp_rutas WHERE id_municipio_vyp_rutas = '".$id_destino."' AND id_oficina_origen_vyp_rutas = ".$id_origen);
+		                    	$kilometraje = $this->db->query("SELECT km_vyp_rutas FROM vyp_rutas WHERE id_vyp_rutas = '".$id_destino."' AND id_oficina_origen_vyp_rutas = ".$id_origen);
 		                    	if($kilometraje->num_rows() > 0){
 		                    		foreach ($kilometraje->result() as $fila2) { $km = $fila2->km_vyp_rutas; }
 		                    	}else{
