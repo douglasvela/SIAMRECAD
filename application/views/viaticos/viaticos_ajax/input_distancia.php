@@ -30,11 +30,11 @@
                    $km = $fila2->km_vyp_rutas;
                 }
                 echo '<input type="number" id="distancia" name="distancia" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" readonly value="'.$km.'">';
-                echo '<input type="text" id="id_destino_vyp" name="id_destino_vyp" class="form-control" readonly value="'.$fila2->id_vyp_rutas.'">';
+                echo '<input type="hidden" id="id_destino_vyp" name="id_destino_vyp" class="form-control" readonly value="'.$fila2->id_vyp_rutas.'">';
             }else{
                 $km = $distancia2;
                 echo '<input type="number" id="distancia" name="distancia" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" value="'.$km.'">';
-                echo '<input type="text" id="id_destino_vyp" name="id_destino_vyp" class="form-control" readonly value="">';
+                echo '<input type="hidden" id="id_destino_vyp" name="id_destino_vyp" class="form-control" readonly value="">';
             }
         ?>
     

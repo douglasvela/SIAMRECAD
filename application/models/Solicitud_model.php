@@ -26,6 +26,21 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function insertar_actividad($data){
+		$name = strtoupper($data['nueva_actividad']);
+		$query = $this->db->query("select * from vyp_actividades where nombre_vyp_actividades = '$name'");
+
+		if($query->num_rows() <= 0){
+				if($this->db->insert('vyp_actividades', array('nombre_vyp_actividades' => $name, 'depende_vyp_actividades' => 0))){
+					return "exito";
+				}else{
+					return "fracaso";
+				}
+		}else{
+			return "duplicado";
+		}
+	}
+
 	function insertar_ruta($data){
 		if($data["tipo"] == "destino_oficina"){
 			$query = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_departamento = '".$data['departamento']."' AND id_municipio = '".$data['municipio']."'");
@@ -127,10 +142,18 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function editar_destino($data){
+		if($this->db->query("UPDATE vyp_empresas_visitadas SET kilometraje = '".$data['distancia']."' WHERE id_mision_oficial = '".$data['id_mision']."' AND id_destino = '".$data['id_destino']."'")){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function verficar_oficina_destino($data){
 		$query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$data['id_mision']."' AND tipo_destino = 'destino_oficina' AND id_municipio = '".$data['municipio']."' AND id_departamento = '".$data['departamento']."'");
 		if($query->num_rows() > 0){
-			return "exito"; 
+			return $this->editar_destino($data); 
 		}else{
 			return $this->insertar_destino($data);
 		}

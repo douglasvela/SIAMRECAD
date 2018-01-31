@@ -1,9 +1,5 @@
 <?php
     $user = $this->session->userdata('usuario_viatico');
-    if(empty($user)){
-        header("Location: ".site_url()."/login");
-        exit();
-    }
 
     $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
     $nr_usuario = "";

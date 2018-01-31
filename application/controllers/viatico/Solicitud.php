@@ -6,6 +6,7 @@ class Solicitud extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('solicitud_model');
+		$this->load->library('FPDF/fpdf');
 	}
 
 	public function index(){
@@ -26,6 +27,10 @@ class Solicitud extends CI_Controller {
 		$this->load->view('viaticos/viaticos_ajax/combo_municipio');
 	}
 
+	public function combo_actividad_realizada(){
+		$this->load->view('viaticos/viaticos_ajax/combo_actividad_realizada');
+	}
+
 	public function input_distancia(){
 		$this->load->view('viaticos/viaticos_ajax/input_distancia');
 	}
@@ -40,6 +45,10 @@ class Solicitud extends CI_Controller {
 
 	public function imprimir_solicitud(){
 		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud');
+	}
+
+	public function imprimir_solicitud_copia(){
+		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud_copia');
 	}
 
 	public function observaciones(){
@@ -124,7 +133,7 @@ class Solicitud extends CI_Controller {
 			'municipio' => $filaofi->id_municipio,
 			'nombre_empresa' => $filaofi->nombre_oficina,
 			'direccion_empresa' => $filaofi->nombre_oficina,
-			'distancia' => '0.00',
+			'distancia' => $this->input->post('distancia'),
 			'tipo' => 'destino_oficina',
 			'id_destino' => $filaofi->id_oficina
 			);
@@ -196,8 +205,14 @@ class Solicitud extends CI_Controller {
         }else{
         	echo $this->solicitud_model->insertar_ruta($data);
         }
-	        
-		
+	}
+
+	public function nueva_actividad(){
+		$data = array(
+			"nueva_actividad" => $this->input->post('nueva_actividad'),
+        );
+
+        echo $this->solicitud_model->insertar_actividad($data);
 	}
 }
 ?>
