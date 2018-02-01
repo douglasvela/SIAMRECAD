@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-01-2018 a las 03:30:56
+-- Tiempo de generación: 01-02-2018 a las 06:24:52
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.0.22
 
@@ -30,15 +30,22 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `vyp_pasajes` (
   `id_solicitud_pasaje` int(11) NOT NULL,
-  `fecha_mision` datetime NOT NULL,
+  `fecha_mision` date NOT NULL,
   `no_expediente` varchar(15) NOT NULL,
   `empresa_visitada` varchar(30) NOT NULL,
-  `direccion_empresa` varchar(30) NOT NULL,
+  `direccion_empresa` varchar(50) NOT NULL,
   `nr` varchar(10) NOT NULL,
   `hora_salida` time NOT NULL,
-  `hora_llegada` int(11) NOT NULL,
+  `hora_llegada` time NOT NULL,
   `monto_pasaje` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_pasajes`
+--
+
+INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `fecha_mision`, `no_expediente`, `empresa_visitada`, `direccion_empresa`, `nr`, `hora_salida`, `hora_llegada`, `monto_pasaje`) VALUES
+(0, '2018-01-31', '123r-e', 'CIVIL. SA DE CV', 'CALLE PONIENTE 5TA AVENIDA NORTE', '2588', '12:00:00', '02:00:00', 2);
 
 --
 -- Índices para tablas volcadas
@@ -49,16 +56,7 @@ CREATE TABLE `vyp_pasajes` (
 --
 ALTER TABLE `vyp_pasajes`
   ADD PRIMARY KEY (`id_solicitud_pasaje`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `vyp_pasajes`
---
-ALTER TABLE `vyp_pasajes`
-  MODIFY `id_solicitud_pasaje` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
