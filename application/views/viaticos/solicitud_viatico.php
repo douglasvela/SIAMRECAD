@@ -70,6 +70,10 @@
     #search_input:focus {
         border-color: #4d90fe;
     }
+
+    .list-task .task-done span {
+        text-decoration: line-through;
+    }
 </style>
 
 <script type="text/javascript">
@@ -819,7 +823,11 @@
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
-                    estado_revision();
+                    if(recorre_observaciones()){
+                        estado_revision();
+                    }else{
+                        swal({ title: "Observaciones pendientes", text: "Parece que aún no ha resuelto todas las observaciones, verifique y marque todas las observaciones resueltas", type: "warning", showConfirmButton: true });
+                    }
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }           
@@ -1004,6 +1012,34 @@
         $("#modal_actividad").modal('show');
     }
 
+    function poner_linea(obj){      
+        var input = $(obj).siblings("input");
+        if(input[0].checked){
+            $(obj).css('text-decoration','none')
+        }else{
+            $(obj).css('text-decoration','line-through')
+        }
+    }
+
+    function recorre_observaciones(){
+        var checkbox = $("#tasklist").find("input");
+        var imprimir = "";
+
+        var tiene_observaciones = false;
+
+        for(i=0; i<checkbox.length; i++){
+            if(!checkbox[i].checked){
+                tiene_observaciones = true;
+            }
+        }
+
+        if(tiene_observaciones){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 </script>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
@@ -1081,6 +1117,25 @@
                                     }
                                 }
 
+                                if($info_empleado->num_rows() > 0){ 
+                                    foreach ($info_empleado->result() as $filas) {}
+                                }
+
+                                $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+
+                                if($oficina_origen->num_rows() > 0){ 
+                                    foreach ($oficina_origen->result() as $filaofi) {}
+                                }
+
+                                $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
+
+                                if($director_jefe_regional->num_rows() > 0){ 
+                                    foreach ($director_jefe_regional->result() as $filadir) {}
+                                }
+
+                                $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
+                                $nr_jefe_regional = $filadir->nr;
+
                                 $empleado = $this->db->query("SELECT e.id_empleado, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.nr = '".$nr_usuario."' ORDER BY primer_nombre");
 
                                 if($empleado->num_rows() > 0){
@@ -1092,6 +1147,8 @@
                             ?>
                             <input type="hidden" id="id_mision" name="id_mision" value="">
                             <input type="hidden" id="nr" name="nr" value="<?php echo $nr_usuario; ?>">
+                            <input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="<?php echo $nr_jefe_inmediato; ?>">
+                            <input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="<?php echo $nr_jefe_regional; ?>">
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <h5>Nombre del empleado: <span class="text-danger">*</span></h5>
@@ -1244,7 +1301,7 @@
         foreach ($oficina_origen->result() as $filaofi) {}
     }
 ?>
-<input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="<?php echo $filaofi->id_oficina; ?>">
+        <input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="<?php echo $filaofi->id_oficina; ?>">
         <!-- ============================================================== -->
         <!-- Fin CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->

@@ -89,9 +89,7 @@ class Solicitud extends CI_Controller {
 	}
 
 	public function estado_revision(){
-		//if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
-			echo $this->solicitud_model->estado_revision($_POST['id_mision']);
-		//}
+		echo $this->solicitud_model->estado_revision($_POST['id_mision']);
 	}
 
 	function cargar_viaticos(){
@@ -150,6 +148,8 @@ class Solicitud extends CI_Controller {
 		if($this->input->post('band') == "save"){
 			$data = array(
 			'nr' => $this->input->post('nr'),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
 			'nombre_completo' => $this->input->post('nombre_empleado'),
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),
 			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
@@ -160,6 +160,8 @@ class Solicitud extends CI_Controller {
 			$data = array(
 			'id_mision' => $this->input->post('id_mision'), 
 			'nr' => $this->input->post('nr'),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
 			'nombre_completo' => $this->input->post('nombre_empleado'),
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),			
 			'actividad_realizada' => saltos_sql($this->input->post('actividad')),

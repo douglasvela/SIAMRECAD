@@ -9,7 +9,7 @@ class Solicitud_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad']))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -77,7 +77,7 @@ class Solicitud_model extends CI_Model {
 
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
-		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad']))){
+		if($this->db->update('vyp_mision_oficial', array('fecha_mision' => $data['fecha_mision'], 'actividad_realizada' => $data['actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -85,9 +85,32 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function estado_revision($data){
+		$query = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$data."'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$estado = $fila->estado; 
+			}
+		}		
+		$newestado = 1;
+		if($estado == 0){
+			$newestado = 1;
+		}else if($estado == 1){
+			$newestado = 1;
+		}else if($estado == 2){
+			$newestado = 1;
+		}else if($estado == 3){
+			$newestado = 3;
+		}else if($estado == 4){
+			$newestado = 3;
+		}else if($estado == 5){
+			$newestado = 5;
+		}else if($estado == 5){
+			$newestado = 5;
+		}
+
 		$this->db->where("id_mision_oficial",$data);
 		$fecha = date("Y-m-d H:i:s");
-		if($this->db->update('vyp_mision_oficial', array('fecha_solicitud' => $fecha, 'estado' => 1))){
+		if($this->db->update('vyp_mision_oficial', array('fecha_solicitud' => $fecha, 'estado' => $newestado)) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'")){
 			return "exito";
 		}else{
 			return "fracaso";

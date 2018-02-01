@@ -170,7 +170,7 @@ $(function(){
           //  alert (res);
             if(res == "exito"){
                 var c = new Date();
-                localStorage["expira"] = c.getFullYear()+"-"+c.getMonth()+"-"+c.getDate()+" "+c.getHours()+":"+c.getMinutes()+":"+c.getSeconds();
+                localStorage["expira"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
                 location.href = "<?php echo base_url(); ?>";
             }else if(res == "usuario"){
                 swal({ title: "¡Usuario no existe!", text: "El usuario que intenta identificar no exíste.", type: "warning", showConfirmButton: true });

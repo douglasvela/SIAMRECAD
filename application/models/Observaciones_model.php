@@ -53,7 +53,7 @@ class Observaciones_model extends CI_Model {
 	}
 
 	function verificar_observaciones($data){
-		$query = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$data."'");
+		$query = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$data."' AND corregido = 0");
 		if($query->num_rows() > 0){
 			return true;
 		}else{

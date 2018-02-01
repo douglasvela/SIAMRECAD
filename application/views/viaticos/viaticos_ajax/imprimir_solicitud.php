@@ -1,20 +1,5 @@
 <?php
 
-
-$user = $this->session->userdata('usuario_viatico');
-if(empty($user)){
-    header("Location: ".site_url()."/login");
-    exit();
-}
-
-$nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
-$nr_usuario = "";
-if($nr->num_rows() > 0){
-    foreach ($nr->result() as $fila) { 
-        $nr_usuario = $fila->nr; 
-    }
-}
-
 $id_mision = $_GET["id_mision"];
 
 $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' ORDER BY orden");
@@ -208,6 +193,8 @@ $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_ofi
             foreach ($mision->result() as $fila2) { $fecha_mision = $fila2->fecha_mision; }
         }
 
+        $nr_usuario = $fila2->nr_empleado;
+
         $fecha_mision = date("d/m/Y",strtotime($fecha_mision));
 
             $pdf->SetAligns(array('L','L','C','C','R','R'));
@@ -218,8 +205,8 @@ $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_ofi
                         $array = array(
                             $fecha_mision,
                             $fila->origen." - ".$fila->direccion_empresa,
-                            substr($fila->hora_salida,0,5),
-                            substr($fila->hora_llegada,0,5),
+                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida)),
+                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada)),
                             "$ ".number_format($fila->viaticos, 2, '.', ''),
                             "$ ".number_format($fila->pasajes, 2, '.', '')
                         );
@@ -292,7 +279,7 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 
         $pdf->Row(array("Nombre: ".nombres($filae->nombre_completo), "Firma: _____________________________________"),
             array('0','0','0'),
-            array('Arial','B','08'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -300,7 +287,7 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 
         $pdf->Row(array("Cargo nominal: ".parrafo($filacn->cargo_nominal), "                              Recibido conforme"),
             array('0','0','0'),
-            array('Arial','B','08'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -308,7 +295,7 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 
         $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_usuario."            Sueldo:   $".number_format($filae->salario, 2, '.', '')),
             array('0','0','0'),
-            array('Arial','B','08'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -316,7 +303,7 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 
         $pdf->Row(array("Nombre del banco: ".parrafo($filac->nombre), "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
             array('0','0','0'),
-            array('Arial','B','08'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -324,12 +311,12 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
 
         $pdf->Row(array("Cuenta del banco No: ".$filac->numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
             array('0','0','0'),
-            array('Arial','B','08'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
             $altura = 5);
 
 
-$pdf->Output();
+$pdf->Output($id_mision.'_solicitudViatico_'.$nr_usuario.".pdf",'I');
 ?>
