@@ -365,22 +365,22 @@
                      <li class="nav-item"> <a id="initial_user" style="display: none;" class="nav-link waves-effect waves-dark" href="javascript:void(0)"><span id="contador"></span></a> </li>
 
                         <?php
-                            /*$notificaciones = 0;
+                            $notificaciones = 0;
 
                             $notificacion_rutas = $this->db->query("SELECT * FROM vyp_rutas WHERE estado_vyp_rutas = 0");
                             $notificacion_rutas = $notificacion_rutas->num_rows();
                             if($notificacion_rutas > 0){
                                 $notificaciones++;
-                            }*/
+                            }
 
 
                         ?>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i style="font-size: 25px;" class="mdi mdi-bell"></i>
-                                <?php //if($notificaciones > 0){ ?>
-                                <span class="label label-danger" style=" font-size: 10px; position: absolute; top: 9px; right: 5px; border-radius: 50%; padding: 3px 8px;"><?php //echo $notificaciones; ?></span>
-                                <?php //} ?>
+                                <?php if($notificaciones > 0){ ?>
+                                <span class="label label-danger" style=" font-size: 10px; position: absolute; top: 9px; right: 5px; border-radius: 50%; padding: 3px 8px;"><?php echo $notificaciones; ?></span>
+                                <?php } ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox scale-up">
                                 <ul>
