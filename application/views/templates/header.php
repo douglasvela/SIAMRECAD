@@ -26,9 +26,8 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo_min.png">
+
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
-
-
     <title>SIAMRECAD</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -393,7 +392,7 @@
                                             <a href="<?php echo site_url(); ?>/configuraciones/rutas">
                                                 <div class="btn btn-danger btn-circle"><i style="font-size: 20px;" class="mdi mdi-map"></i></div>
                                                 <div class="mail-contnet">
-                                                    <h5>Revisión de rutas <span class="label label-danger"><?php //echo $notificacion_rutas; ?></span></h5>
+                                                    <h5>Revisión de rutas <span class="label label-danger"><?php echo $notificacion_rutas; ?></span></h5>
                                                     <span class="mail-desc">Clic para revisar rutas pendientes</span>
                                                 </div>
                                             </a>

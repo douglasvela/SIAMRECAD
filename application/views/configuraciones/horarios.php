@@ -182,7 +182,7 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <h5>Tipo: <span class="text-danger">*</span></h5>
-                                    <select id="id_tipo" name="id_tipo" class="form-control"  style="width: 100%" required="">
+                                    <select id="id_tipo" name="id_tipo" class="form-control custom-select"  style="width: 100%" required="">
                                         <option value="">[Elija el tipo]</option>
                                         <option class="m-l-50" value="1">Viático</option>
                                         <option class="m-l-50" value="2">Restricción</option>
@@ -190,15 +190,18 @@
                                     <div class="help-block"></div>
                                 </div>
                               </div>
-                            </div>
-                            <button id="submit" type="submit" style="display: none;"></button>
-                            <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
-                            </div>
-                            <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+
+
+                                <button id="submit" type="submit" style="display: none;"></button>
+                                <div align="right" id="btnadd">
+                                    <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                    <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                </div>
+                                <div align="right" id="btnedit" style="display: none;">
+                                    <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                    <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                </div>
+
                             </div>
 
                         <?php echo form_close(); ?>

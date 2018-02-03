@@ -1,4 +1,10 @@
 <?php
+	
+	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");
+	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
+
     $user = $this->session->userdata('usuario_viatico');
     if(empty($user)){
         header("Location: ".site_url()."/login");
@@ -16,9 +22,6 @@
             $nombre_usuario = $fila->nombre_completo;
         }
     }
-
-
-
 
     $empleado = $this->db->query("SELECT e.id_empleado, e.correo, e.telefono_casa, e.telefono_contacto, e.direccion, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.nr = '".$nr_usuario."' ORDER BY primer_nombre");
 
@@ -55,11 +58,30 @@
         }
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                document.getElementById("cnt_bancos").innerHTML=xmlhttpB.responseText;
+                document.getElementById("cnt_cuentas_bancarias").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+                firma_digital();
+                $("#id_banco2").select2();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/informacion_empleado/tabla_cuentas?nr="+nr,true);
+        xmlhttpB.send(); 
+    }
+
+    function firma_digital(){ 
+		var nr = $("#nr").val();   
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_firma_digital").innerHTML=xmlhttpB.responseText;
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/cuenta/perfil/tabla_cuentas?nr="+nr,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/informacion_empleado/firma_digital?nr="+nr,true);
         xmlhttpB.send(); 
     }
 
@@ -75,17 +97,16 @@
             if (ajax.readyState == 4){
                 var response = ajax.responseText;
                 if(response == "exito"){
-                    swal({   
-                        title: "¡Registro exitoso!",   
-                        text: "Para actualizar la informacion la página será recargada",   
-                        type: "success",   
-                        showCancelButton: false,   
-                        confirmButtonColor: "#1e88e5",   
-                        confirmButtonText: "Aceptar",   
-                        closeOnConfirm: true 
-                    }, function(){   
-                        location.reload();
-                    });
+	                $.toast({ heading: 'Modificación exitosa', text: 'Firma digital modificada exitosamente.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 3500, stack: 6
+	                });
+	                $("#getCroppedCanvasModal").modal("hide");
+	                $('html,body').animate({
+		                scrollTop: $("body").offset().top
+		            }, 1000);
+
+	                firma_digital();
+	                //$('#imagen_firma').attr('src', '<?php echo base_url(); ?>assets/firmas/'+nr+'.png);
+
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
@@ -114,7 +135,7 @@
     }
 
     function cambiar_informacion(){
-    	var nr = $("#nr_empleado").val();   
+    	var nr = $("#nr").val();   
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -123,12 +144,28 @@
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttpB.responseText;
-                //$('[data-toggle="tooltip"]').tooltip();
+                tabla_cuentas();
                 $(".select2").select2();
             }
         }
         xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/informacion_empleado/tabla_informacion_empleado?nr="+nr,true);
         xmlhttpB.send(); 
+    }
+
+    function cambiar_editar(id, nr, id_banco, cuenta, estado, band){
+    	$("#id_empleado_banco").val(id);
+    	$("#nr2").val(nr);
+    	$("#id_banco").val(id_banco).trigger('change.select2');
+    	$("#cuenta").val(cuenta);
+    	$("#estado").val(estado);
+
+    	if(band == 'edit'){
+    		$("#modal_cuenta_bancaria").modal('show');
+    		$("#band").val(band);
+    	}else{
+    		$("#band").val(band);
+    		$("#submitbutton").click();
+    	}
     }
 
 </script>
@@ -164,11 +201,10 @@
                 </div>
                 <div class="card-body b-t">
                 	<?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
-                    <div class="row">
-                    	<input type="hidden" id="nr" name="nr" value="<?php echo $nr_usuario; ?>">
+                    <div class="row">                    	
                         <div class="form-group col-lg-8"> 
                             <h5>Empleado a modificar: <span class="text-danger">*</span></h5>                           
-                            <select id="nr_empleado" name="nr_empleado" class="select2" style="width: 100%" required="" onchange="cambiar_informacion();">
+                            <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="cambiar_informacion();">
                                 <option value="">[Elija el empleado a editar sus datos]</option>
                                 <?php 
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
@@ -183,38 +219,20 @@
                         </div>
                     </div>
 
-                    <div id="cnt_informacion_empleado"></div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6"> 
-                            <h5>Banco: <span class="text-danger">*</span></h5>
-                            <select id="id_banco" name="id_banco" class="select2" style="width: 100%" required="">
-                                <option value="">[Elija el banco]</option>
-                                <?php 
-                                    $banco = $this->db->query("SELECT * FROM vyp_bancos");
-                                    if($banco->num_rows() > 0){
-                                        foreach ($banco->result() as $fila) {              
-                                           echo '<option class="m-l-50" value="'.$fila->id_banco.'">'.$fila->nombre.'</option>';
-                                        }
-                                    }
-                                ?>
-                            </select>
-                            <div class="help-block"></div>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <h5>Número de cuenta: <span class="text-danger">*</span></h5>
-                            <div class="controls">
-                                <input type="text" id="cuenta" name="cuenta" class="form-control" required="" data-validation-required-message="Este campo es requerido">
-                                <div class="help-block"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div align="right" id="btnadd">
-                        <button type="submit" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Actualizar información</button>
-                    </div>
+                    <h5>Información laboral del empleado</h5>
+                    <blockquote class="m-t-10">
+                    	<div id="cnt_informacion_empleado"></div>
+                    </blockquote>
 
 	                <?php echo form_close(); ?>
+	                <br>
+	                <h5>Cuenta(s) bancaria(s) del empleado</h5>
+	                <blockquote class="m-t-10">
+	                	<?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+	                    <div id="cnt_cuentas_bancarias"></div>
+	                    <?php echo form_close(); ?>
+	                </blockquote>
+
                 </div>
 
 
@@ -226,7 +244,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-actions">
-                                    <a class="btn-minimize" data-action="expand"><i class="mdi mdi-arrow-expand"></i></a>
                                     <a class="btn-close" onclick="ocultar_firma();"><i class="ti-close"></i></a>
                                 </div>
                                 <h4 class="card-title m-b-0">Asistente para recortes de firma</h4>
@@ -312,19 +329,63 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+            	<h4 class="modal-title" id="getCroppedCanvasTitle">Firma recortada</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="getCroppedCanvasTitle">Cropped</h4>
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-info" onclick="guardar();">Subir</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" onclick="guardar();"><span class="mdi mdi-upload"></span> Aceptar</a>
                 <a style="display: none;" class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Subir</a> </div>
         </div>
     </div>
 </div>
 <!-- /.modal -->
 
+
+<div id="modal_cuenta_bancaria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+            <div class="modal-header">
+                <h4 class="modal-title">Nueva actividad realizada</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+            	<input type="text" id="band" name="band" value="edit">
+            	<input type="text" id="nr2" name="nr2" value="edit">
+            	<input type="text" id="id_empleado_banco" name="id_empleado_banco" value="edit">
+            	<input type="text" id="estado" name="estado" value="">
+                <div class="form-group col-lg-12">
+                    <h5>Banco: <span class="text-danger">*</span></h5>
+                    <select id="id_banco" name="id_banco" class="select2" style="width: 100%" required="">
+                        <option value="">[Elija el banco]</option>
+                        <?php 
+                            $banco = $this->db->query("SELECT * FROM vyp_bancos");
+                            if($banco->num_rows() > 0){
+                                foreach ($banco->result() as $fila) {              
+                                   echo '<option class="m-l-50" value="'.$fila->id_banco.'">'.$fila->nombre.'</option>';
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group col-lg-12">
+                    <h5>Banco: <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input type="text" id="cuenta" name="cuenta" class="form-control" required="">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info waves-effect" id="submitbutton">Actualizar</button>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 
     </div> 
@@ -345,7 +406,7 @@ $(function(){
         formData.append("dato", "valor");
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/cuenta/perfil/info_empleado",
+            url: "<?php echo site_url(); ?>/configuraciones/informacion_empleado/info_empleado",
             type: "post",
             dataType: "html",
             data: formData,
@@ -355,17 +416,9 @@ $(function(){
         })
         .done(function(res){
             if(res == "exito"){
-                swal({   
-                    title: "¡Registro exitoso!",   
-                    text: "Para actualizar la informacion la página será recargada",   
-                    type: "success",   
-                    showCancelButton: false,   
-                    confirmButtonColor: "#1e88e5",   
-                    confirmButtonText: "Aceptar",   
-                    closeOnConfirm: true 
-                }, function(){   
-                    location.reload();
+                $.toast({ heading: 'Modificación exitosa', text: 'Se aplicaron los cambios exitosamente.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 3500, stack: 6
                 });
+                cambiar_informacion();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -373,6 +426,20 @@ $(function(){
             
     });
 
+	$("#formcuentas2").on("submit", function(e){
+        e.preventDefault();
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formcuentas2"));
+        formData.append("dato", "valor");
+        $("#band").val('save')
+        $("#nr2").val($("#nr").val())
+
+        $("#cuenta").val($("#n_cuenta").val());
+        $("#id_banco").val($("#id_banco2").val()).trigger('change.select2');
+
+        //$("#modal_cuenta_bancaria").modal('show')
+        $("#submitbutton").click();
+    });
 
     $("#formajax2").on("submit", function(e){
         e.preventDefault();
@@ -381,7 +448,7 @@ $(function(){
         formData.append("dato", "valor");
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/cuenta/perfil/gestionar_cuentas_bancos",
+            url: "<?php echo site_url(); ?>/configuraciones/informacion_empleado/gestionar_cuentas_bancos",
             type: "post",
             dataType: "html",
             data: formData,
@@ -398,8 +465,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-
-                $("#band").val('save');
+                $("#band").val('edit');
                 tabla_cuentas();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
