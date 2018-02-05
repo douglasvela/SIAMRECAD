@@ -1,3 +1,4 @@
+ 
 <style>
 
      @media screen and (max-width: 770px) {
@@ -101,7 +102,13 @@
 
    function tablaActividades(){
        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/actividad/tabla_actividad", function() {
-           $('#myTable').DataTable();
+          // $('#myTable').DataTable();
+           $('#myTable').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                  'copy', 'csv', 'excel', 'pdf', 'print'
+              ]
+          });
            $('[data-toggle="tooltip"]').tooltip();
        });
    }
@@ -206,7 +213,7 @@
 
                                </div>
                                <div class="col-md-6 form-group" id="div_combo_actividades">
-                                   <div class="">
+                                   <div >
                                        <label for="depende_vyp_actividades" class="font-weight-bold">Depende de la Actividad: <span class="text-danger"></span></label>
                                        <select id="depende_vyp_actividades" name="depende_vyp_actividades" class="form-control" onchange="">
                                            <option value="0">[Seleccione]</option>

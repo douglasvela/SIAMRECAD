@@ -9,7 +9,10 @@
         <div class="pull-right">
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
         </div>
+
+
         <div class="table-responsive">
+          
             <table id="myTable" class="table table-bordered product-overview">
                 <thead class="bg-info text-white">
                     <tr>

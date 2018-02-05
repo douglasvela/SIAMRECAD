@@ -4,7 +4,7 @@
         header("Location: ".site_url()."/login");
         exit();
     }
-    
+
 
     $pos = strpos($user, ".")+1;
     $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
@@ -26,9 +26,11 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo_min.png">
+    
+
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
-    
-    
+
+
     <title>SIAMRECAD</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -72,6 +74,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+    
 </head>
 <script>
    //var barra = setTimeout(function(){ $("#clic").click(); }, 500);
@@ -173,12 +176,12 @@
         return xmlhttp;
     }
 
-    function verificar_usuario2(){      
+    function verificar_usuario2(){
         var usuario = $("#ususario_val").val();
-        var password = $("#password_val").val(); 
+        var password = $("#password_val").val();
 
         jugador = document.getElementById('jugador');
-        
+
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/login/verificar_usuario2", true);
         ajax.onreadystatechange = function() {
@@ -191,9 +194,9 @@
                     $("#password_val").val("");
                 }
             }
-        } 
+        }
 
-        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         ajax.send("&usuario="+usuario+"&password="+password)
     }
 
@@ -285,12 +288,12 @@
 
 <input type="hidden" name="jugador" id="jugador">
 <section id="congelar" style="display: none;">
-    <div class="login-register" style="background-image: url(<?php echo base_url()."assets/images/portadas/seguridad7.jpg"; ?>); background-color: rgb(238, 245, 249);" >        
+    <div class="login-register" style="background-image: url(<?php echo base_url()."assets/images/portadas/seguridad7.jpg"; ?>); background-color: rgb(238, 245, 249);" >
         <div class="login-box card">
             <div class="card-body" style="z-index: 999;">
                 <div class="form-group">
                   <div class="col-xs-12 text-center">
-                    <div class="user-thumb text-center"> 
+                    <div class="user-thumb text-center">
                         <h3 class="text-warning"><span class="mdi mdi-information"></span> La sesión ha expirado</h3>
                         <h4 style="font-size: 70px; margin-bottom: 0;" class="text-info mdi mdi-account"></h4>
                         <h4><?php echo ucwords(strtolower($this->session->userdata('nombre_usuario_viatico'))); ?></h4>
@@ -311,10 +314,10 @@
             </div>
           </div>
     </div>
-    
+
 </section>
 
-    
+
 <div id="main-wrapper">
         <!-- ============================================================== -->
         <!-- Barra superior -->
@@ -337,7 +340,7 @@
                         <!-- Logo text --><span>
                          <!-- dark Logo text -->
                          <img src="<?php echo base_url(); ?>assets/images/logo_text.png" height='15px;' alt="homepage" class="dark-logo" />
-                         <!-- Light Logo text -->    
+                         <!-- Light Logo text -->
                          <img src="<?php echo base_url(); ?>assets/images/logo_text.png" style="margin-left: 10px; margin-top: 10px;"  height='15px;' class="light-logo" alt="homepage" /></span> </a>
                 </div>
                 <!-- ============================================================== -->
@@ -373,7 +376,7 @@
                                 $notificaciones++;
                             }*/
 
-                            
+
                         ?>
 
                         <li class="nav-item dropdown">
@@ -393,8 +396,8 @@
                                             <a href="<?php echo site_url(); ?>/configuraciones/rutas">
                                                 <div class="btn btn-danger btn-circle"><i style="font-size: 20px;" class="mdi mdi-map"></i></div>
                                                 <div class="mail-contnet">
-                                                    <h5>Revisión de rutas <span class="label label-danger"><?php //echo $notificacion_rutas; ?></span></h5> 
-                                                    <span class="mail-desc">Clic para revisar rutas pendientes</span> 
+                                                    <h5>Revisión de rutas <span class="label label-danger"><?php //echo $notificacion_rutas; ?></span></h5>
+                                                    <span class="mail-desc">Clic para revisar rutas pendientes</span>
                                                 </div>
                                             </a>
                                         </div>
@@ -463,7 +466,7 @@
                                 foreach ($modulos->result() as $fila) {
                         ?>
                             <li> <a class="has-arrow waves-effect waves-dark" href="<?php echo $fila->url_modulo; ?>" aria-expanded="false"><i class="<?php echo $fila->img_modulo; ?>"></i><span class="hide-menu"> <?php echo $fila->nombre_modulo; ?></span></a>
-                                <?php 
+                                <?php
                                     $modulos2 = $this->db->query("SELECT * FROM org_modulo WHERE id_sistema = $id_sistema AND dependencia = ".$fila->id_modulo." ORDER BY orden");
                                     if($modulos2->num_rows() > 0){
                                         echo '<ul aria-expanded="false" class="collapse">';
