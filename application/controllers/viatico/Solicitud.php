@@ -6,6 +6,7 @@ class Solicitud extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('solicitud_model');
+		$this->load->library('FPDF/fpdf');
 	}
 
 	public function index(){
@@ -26,6 +27,10 @@ class Solicitud extends CI_Controller {
 		$this->load->view('viaticos/viaticos_ajax/combo_municipio');
 	}
 
+	public function combo_actividad_realizada(){
+		$this->load->view('viaticos/viaticos_ajax/combo_actividad_realizada');
+	}
+
 	public function input_distancia(){
 		$this->load->view('viaticos/viaticos_ajax/input_distancia');
 	}
@@ -40,6 +45,10 @@ class Solicitud extends CI_Controller {
 
 	public function imprimir_solicitud(){
 		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud');
+	}
+
+	public function imprimir_solicitud_copia(){
+		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud_copia');
 	}
 
 	public function observaciones(){
@@ -80,9 +89,7 @@ class Solicitud extends CI_Controller {
 	}
 
 	public function estado_revision(){
-		//if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
-			echo $this->solicitud_model->estado_revision($_POST['id_mision']);
-		//}
+		echo $this->solicitud_model->estado_revision($_POST['id_mision']);
 	}
 
 	function cargar_viaticos(){
@@ -124,7 +131,7 @@ class Solicitud extends CI_Controller {
 			'municipio' => $filaofi->id_municipio,
 			'nombre_empresa' => $filaofi->nombre_oficina,
 			'direccion_empresa' => $filaofi->nombre_oficina,
-			'distancia' => '0.00',
+			'distancia' => $this->input->post('distancia'),
 			'tipo' => 'destino_oficina',
 			'id_destino' => $filaofi->id_oficina
 			);
@@ -141,6 +148,8 @@ class Solicitud extends CI_Controller {
 		if($this->input->post('band') == "save"){
 			$data = array(
 			'nr' => $this->input->post('nr'),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
 			'nombre_completo' => $this->input->post('nombre_empleado'),
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),
 			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
@@ -151,6 +160,8 @@ class Solicitud extends CI_Controller {
 			$data = array(
 			'id_mision' => $this->input->post('id_mision'), 
 			'nr' => $this->input->post('nr'),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
 			'nombre_completo' => $this->input->post('nombre_empleado'),
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),			
 			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
@@ -196,8 +207,14 @@ class Solicitud extends CI_Controller {
         }else{
         	echo $this->solicitud_model->insertar_ruta($data);
         }
-	        
-		
+	}
+
+	public function nueva_actividad(){
+		$data = array(
+			"nueva_actividad" => $this->input->post('nueva_actividad'),
+        );
+
+        echo $this->solicitud_model->insertar_actividad($data);
 	}
 }
 ?>

@@ -67,6 +67,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $combo;
 	}
 
+
+
 	function parrafo($cadena){
         $cadena = ucfirst(mb_strtolower($cadena));
         return ($cadena);

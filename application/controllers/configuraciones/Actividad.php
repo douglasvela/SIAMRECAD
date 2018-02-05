@@ -8,10 +8,11 @@ class Actividad extends CI_Controller {
 		$this->load->model('actividad_model');
 	}
 
-	public function index()
+	public function index($id_modulo)
 	{
+		$data['id_modulo']=$id_modulo;
 		$this->load->view('templates/header');
-		$this->load->view('configuraciones/actividad');
+		$this->load->view('configuraciones/actividad',$data);
 		$this->load->view('templates/footer');
 	}
 	public function mostrarComboMunicipi($id)
@@ -22,6 +23,7 @@ class Actividad extends CI_Controller {
 
 		$this->load->view('configuraciones/comboMunicipio',$nuevo);
 	}
+
 
 	public function mostrarActividad($id){
 		$nuevo['depende_vyp_actividades']=$id;

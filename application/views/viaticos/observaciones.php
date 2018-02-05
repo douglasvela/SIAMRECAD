@@ -1,19 +1,21 @@
 <script type="text/javascript">   
 
     var gid_mision;
-    function cambiar_mision(id_mision){  
+    function cambiar_mision(id_mision, estado){  
         gid_mision = id_mision;     
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
         $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
         $("#ttl_form").children("h4").html("<span class='mdi mdi-wrench'></span> Revisando solicitud");
+        $("#estado").val(estado);
         tabla_empresas_visitadas(gid_mision);
     }
 
     function cerrar_mantenimiento(){
         $("#cnt_tabla").show(0);
         $("#cnt_form").hide(0);
+        $("#cnt_tabla_empresas").html('');
     }
 
     function editar_banco(){
@@ -71,26 +73,16 @@
     }
 
     function tabla_empresas_visitadas(id_mision){    
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttpB=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-        xmlhttpB.onreadystatechange=function(){
-            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                document.getElementById("cnt_tabla_empresas").innerHTML=xmlhttpB.responseText;
-                //$('#myTable').DataTable();
-                $('[data-toggle="tooltip"]').tooltip();
-                $('#demo-foo-row-toggler').footable();
-                var ths = $("#demo-foo-row-toggler").find("thead").find("th").removeClass("footable-sortable");
-                $("#demo-foo-row-toggler").find("thead").find("span").remove();
-                listado_observaciones()
-                //var ths = $("#myTable").find("thead").find("th");
-                //$(ths[0]).click();
-            }
-        }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/observaciones/tabla_empresas_visitadas?id_mision="+id_mision,true);
-        xmlhttpB.send(); 
+        var iframe = $('<embed onload="loaded(this)">');
+            iframe.attr('width','100%');
+            iframe.attr('src',"<?php echo site_url(); ?>/viatico/solicitud/imprimir_solicitud?id_mision="+id_mision);
+            $('#cnt_tabla_empresas').append(iframe);
+            $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
+    }
+
+    function funcion(iframe){
+        iframe.attr('height','500px;');
+        listado_observaciones();
     }
 
     function listado_observaciones(){    
@@ -161,6 +153,7 @@
     }
 
     function verificar_observaciones(){
+        var estado_solicitud = $("#estado").val();
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/verificar_observaciones", true);
         ajax.onreadystatechange = function() {
@@ -175,7 +168,13 @@
                         confirmButtonText: "Sí, deseo observar!",   
                         closeOnConfirm: true 
                     }, function(){   
-                         cambiar_estado_solicitud(2);
+                        if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(2);    //cambiar estado solicitud a observada por jefe inmediato
+                        }else if(estado_solicitud == "3"){  //si la solicitud es revisada por el direc. o jefe de regional
+                            cambiar_estado_solicitud(4);    //cambiar estado solicitud a observada direc. o jefe de regional
+                        }else if(estado_solicitud == "5"){  //si la solicitud es revisada por fondo circulante
+                            cambiar_estado_solicitud(6);    //cambiar estado a observada por fondo circulante
+                        }
                     });
                 }else if(ajax.responseText == "aprobar"){
                     swal({   
@@ -186,8 +185,14 @@
                         confirmButtonColor: "#fc4b6c",   
                         confirmButtonText: "Sí, deseo aprobar!",   
                         closeOnConfirm: true 
-                    }, function(){   
-                         cambiar_estado_solicitud("aprobada");
+                    }, function(){
+                        if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(3);    //enviar a revision a director o jefe de regional
+                        }else if(estado_solicitud == "3"){  //si la solicitud es revisada por el direc. o jefe de regional
+                            cambiar_estado_solicitud(5);    //enviar a revision al fondo cirulante
+                        }else if(estado_solicitud == "5"){  //si la solicitud es revisada por fondo circulante
+                            cambiar_estado_solicitud(6);    //se aprueba la solicitud
+                        }
                     });
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -204,7 +209,7 @@
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
-                    alert("Cambios aplicados exitosamente")
+                    swal({ title: "¡Cambios aplicados!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
@@ -252,6 +257,7 @@
 
 
                         <div id="cnt_tabla_empresas"></div>
+                        <input type="hidden" name="estado" id="estado">
 
 
                         <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
