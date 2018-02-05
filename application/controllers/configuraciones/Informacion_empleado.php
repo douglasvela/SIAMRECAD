@@ -15,16 +15,16 @@ class Informacion_empleado extends CI_Controller {
 	}
 
 	public function tabla_informacion_empleado(){
-		$this->load->view('configuraciones/combos_informacion_empleado');
+		$this->load->view('configuraciones/informacion_empleado_ajax/combos_informacion_empleado');
 	}
 
 	public function firma_digital(){
-		$this->load->view('configuraciones/firma_digital');
+		$this->load->view('configuraciones/informacion_empleado_ajax/firma_digital');
 	}
 
 
 	public function tabla_cuentas(){
-		$this->load->view('configuraciones/tabla_cuentas');
+		$this->load->view('configuraciones/informacion_empleado_ajax/tabla_cuentas');
 	}
 
 	public function info_empleado(){

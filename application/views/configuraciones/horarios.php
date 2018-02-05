@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,tipo,estado,bandera){
+    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,tipo,id_categoria,estado,bandera){
         $("#idhorario").val(id);
         $("#descripcion").val(descripcion);
         $("#hora_inicio").val(hora_inicio);
@@ -8,13 +8,17 @@
         $("#estado").val(estado);
         $("#id_tipo").val(tipo);
 
+        $( "#cnt_combo_viatico_hora" ).load("<?php echo site_url(); ?>/configuraciones/horarios/combo_viatico_hora?id_tipo="+tipo, function() {
+            $("#id_categoria").val(id_categoria);
+        });
+
 
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
             $("#btnadd").hide(0);
             $("#btnedit").show(0);
-            $("#cnt-tabla").hide(0);
+            $("#cnt_tabla").hide(0);
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar viático");
         }else{
@@ -38,14 +42,15 @@
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
 
-        $("#cnt-tabla").hide(0);
+        $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
+        combo_viatico_hora();
 
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo viático");
     }
 
     function cerrar_mantenimiento(){
-        $("#cnt-tabla").show(0);
+        $("#cnt_tabla").show(0);
         $("#cnt_form").hide(0);
     }
 
@@ -101,11 +106,37 @@
         return xmlhttp;
     }
 
-    function tablahorarios(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/horarios/tabla_horarios", function() {
-            $('#myTable').DataTable();
-            $('[data-toggle="tooltip"]').tooltip();
-        });  
+    function tablahorarios(){
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_tabla").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+                $('#myTable').DataTable();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/horarios/tabla_horarios",true);
+        xmlhttpB.send();
+    }
+
+    function combo_viatico_hora(){
+        var id_tipo = $("#id_tipo").val(); 
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_combo_viatico_hora").innerHTML=xmlhttpB.responseText;                
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/horarios/combo_viatico_hora?id_tipo="+id_tipo,true);
+        xmlhttpB.send(); 
     }
 
 </script>
@@ -144,12 +175,12 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idhorario" name="idhorario" value="">
                             <input type="hidden" id="estado" name="estado" value="1">
                             <div class="row">
-                                <div class="form-group col-lg-8 col-sm-12">
+                                <div class="form-group col-lg-4 col-sm-12">
                                     <h5>Descripción: <span class="text-danger">*</span></h5>
                                     <div class="controls">
                                         <input type="text" id="descripcion" name="descripcion" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
@@ -162,6 +193,15 @@
                                         <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
                                         <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.01" step="0.01">
                                     </div>
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <h5>Tipo: <span class="text-danger">*</span></h5>
+                                    <select id="id_tipo" name="id_tipo" class="form-control custom-select"  style="width: 100%" required="" onchange="combo_viatico_hora();">
+                                        <option value="">[Elija el tipo]</option>
+                                        <option class="m-l-50" value="1">Viático</option>
+                                        <option class="m-l-50" value="2">Restricción</option>
+                                    </select>
                                     <div class="help-block"></div>
                                 </div>
                             </div>
@@ -180,14 +220,7 @@
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-4">
-                                    <h5>Tipo: <span class="text-danger">*</span></h5>
-                                    <select id="id_tipo" name="id_tipo" class="form-control custom-select"  style="width: 100%" required="">
-                                        <option value="">[Elija el tipo]</option>
-                                        <option class="m-l-50" value="1">Viático</option>
-                                        <option class="m-l-50" value="2">Restricción</option>
-                                    </select>
-                                    <div class="help-block"></div>
+                                <div class="col-lg-4" id="cnt_combo_viatico_hora">
                                 </div>
                               </div>
 
@@ -215,7 +248,7 @@
             <!-- ============================================================== -->
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt-tabla">
+            <div class="col-lg-12" id="cnt_tabla">
 
             </div>
             

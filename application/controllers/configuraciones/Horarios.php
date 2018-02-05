@@ -15,7 +15,11 @@ class Horarios extends CI_Controller {
 	}
 
 	public function tabla_horarios(){
-		$this->load->view('configuraciones/tabla_horarios');
+		$this->load->view('configuraciones/horarios_ajax/tabla_horarios');
+	}
+
+	public function combo_viatico_hora(){
+		$this->load->view('configuraciones/horarios_ajax/combo_viatico_hora');
 	}
 
 	public function gestionar_horarios(){
@@ -28,6 +32,7 @@ class Horarios extends CI_Controller {
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
 			'monto' => number_format($this->input->post('monto'),2),
 			'id_tipo' => $this->input->post('id_tipo'),
+			'id_categoria' => $this->input->post('id_categoria'),
 			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->insertar_horario($data);
@@ -41,6 +46,7 @@ class Horarios extends CI_Controller {
 			'hora_fin' => date("Y-m-d ").$this->input->post('hora_fin'),
 			'monto' => number_format($this->input->post('monto'),2),
 			'id_tipo' => $this->input->post('id_tipo'),
+			'id_categoria' => $this->input->post('id_categoria'),
 			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->editar_horario($data);
@@ -48,6 +54,7 @@ class Horarios extends CI_Controller {
 		}else if($this->input->post('band') == "delete"){
 			$data = array(
 			'idhorario' => $this->input->post('idhorario'),
+			'id_categoria' => $this->input->post('id_categoria'),
 			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->eliminar_horario($data);
