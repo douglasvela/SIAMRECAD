@@ -118,7 +118,12 @@ class Login extends CI_Controller {
 	}
 
 	public function cerrar_sesion(){
-		$this->session->sess_destroy();
+		unset(
+		    $_SESSION['id_usuario_viatico'],
+		    $_SESSION['usuario_viatico'],
+		    $_SESSION['nombre_usuario_viatico'],
+		    $_SESSION['sesion_viatico']
+		);
 		$this->index();
 	}
 
