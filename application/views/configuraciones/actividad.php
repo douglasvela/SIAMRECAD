@@ -86,7 +86,16 @@
    }
 
    function iniciar(){
-       tablaActividades();
+    <?php
+          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+          $data['id_permiso']="1";
+          if(buscar_permiso($data)){
+    ?>
+       tablaActividades(<?php echo $id_modulo; ?>);
+      <?php
+          }
+      ?>
    }
 
    function objetoAjax(){
@@ -100,8 +109,8 @@
        return xmlhttp;
    }
 
-   function tablaActividades(){
-       $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/actividad/tabla_actividad", function() {
+   function tablaActividades($id_modulo){
+       $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/actividad/tabla_actividad/"+$id_modulo, function() {
           // $('#myTable').DataTable();
            $('#myTable').DataTable({
               dom: 'Bfrtip',
@@ -241,6 +250,7 @@
            </div>
            <div class="col-lg-1"></div>
                <div class="col-lg-12" id="cnt-tabla">
+                No tiene permiso para este formulario.
            </div>
 
        </div>

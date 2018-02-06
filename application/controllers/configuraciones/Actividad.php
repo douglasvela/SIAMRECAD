@@ -30,8 +30,9 @@ class Actividad extends CI_Controller {
 		$this->load->view('configuraciones/combo_actividad',$nuevo);
 	}
 
-	public function tabla_actividad(){
-		$this->load->view('configuraciones/tabla_actividad');
+	public function tabla_actividad($id_modulo){
+		$data['id_modulo']=$id_modulo;
+		$this->load->view('configuraciones/tabla_actividad',$data);
 	}
 
 	public function gestionar_actividad(){
@@ -58,6 +59,9 @@ class Actividad extends CI_Controller {
 			echo $this->actividad_model->eliminar_actividad($data);
 
 		}
+	}
+	function buscar_permiso($data){
+		
 	}
 
 }

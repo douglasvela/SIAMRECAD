@@ -7,7 +7,16 @@
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
+          <?php 
+          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+          $data['id_permiso']="2";
+          if(buscar_permiso($data)){
+          ?>
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+          <?php
+          } 
+          ?>
         </div>
 
 
@@ -42,11 +51,21 @@
                               }
                           echo "<td>";
                           $array = array($fila->id_vyp_actividades,$fila->nombre_vyp_actividades,$fila->depende_vyp_actividades);
-                          array_push($array, "edit");
-                          echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                          unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                          array_push($array, "delete");
-                          echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                          $data1['id_modulo'] = $this->uri->segment(4);
+                          $data1['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                          $data1['id_permiso']="4";
+                          if(buscar_permiso($data1)){
+                            array_push($array, "edit");
+                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                          }
+                          $data2['id_modulo'] = $this->uri->segment(4);
+                          $data2['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                          $data2['id_permiso']="3";
+                          if(buscar_permiso($data2)){
+                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            array_push($array, "delete");
+                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                          }
                           echo "</td>";
                           echo "</tr>";
                         }
