@@ -51,6 +51,8 @@
     <link href="<?php echo base_url(); ?>assets/plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
     <!-- Date picker plugins css -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Select plugins css -->
     <link href="<?php echo base_url(); ?>assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
@@ -84,13 +86,13 @@
 
     $(document).ready(function() {
         $("#password_val").val("");
-        if(hora() >= 60*minutos || localStorage["expira"] == "expirada"){
+        if(hora() >= 60*minutos || localStorage["expirasesionvyp"] == "expirada"){
             cerrar_sesion(0);
         }
     });
 
     function cambiar_hora_expira(s){
-        if(localStorage["expira"] == "expirada"){
+        if(localStorage["expirasesionvyp"] == "expirada"){
             $("#contador").text("Expira: expirada");
         }else{
             s = (60*minutos) - s;
@@ -105,13 +107,13 @@
     }
 
     window.onbeforeunload = function() {
-        //localStorage["expira"] = 0;
+        //localStorage["expirasesionvyp"] = 0;
     }
 
     function hora(){
         var c = new Date();
         var a = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
-        var b = new Date(localStorage["expira"]);
+        var b = new Date(localStorage["expirasesionvyp"]);
         //La diferencia se da en milisegundos así que debes dividir entre 1000
         var result = ((a-b)/1000);
         cambiar_hora_expira(result);
@@ -129,13 +131,13 @@
             moviendo= true;
         };
         setInterval (function() {
-            if (!moviendo || localStorage["expira"] == "expirada") {
+            if (!moviendo || localStorage["expirasesionvyp"] == "expirada") {
                 // No ha habido movimiento desde hace un segundo, aquí tu codigo
                 condicion = ((60*minutos)-hora())
                 if(hora() >= 60*minutos){
                     cerrar_sesion(1000);
                 }
-                if(localStorage["expira"] == "expirada"){
+                if(localStorage["expirasesionvyp"] == "expirada"){
                     cerrar_sesion(0);
                 }
                 if(condicion < (warning*60) && condicion > (danger*60)){
@@ -152,7 +154,7 @@
             } else {
                 moviendo=false;
                 var c = new Date();
-                localStorage["expira"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
+                localStorage["expirasesionvyp"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
                 hora();
                 $("#initial_user").hide(0);
             }
@@ -162,7 +164,7 @@
     function cerrar_sesion(t){
         $("#congelar").fadeIn(t);
         $("#main-wrapper").fadeOut(t);
-        localStorage["expira"] = "expirada";
+        localStorage["expirasesionvyp"] = "expirada";
     }
 
     function objetoAjax(){
@@ -204,7 +206,7 @@
         $("#congelar").fadeOut(1000);
         $("#main-wrapper").fadeIn(1000);
         var c = new Date();
-        localStorage["expira"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
+        localStorage["expirasesionvyp"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
     }
 
     function esEnter(e) {

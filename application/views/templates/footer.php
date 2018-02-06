@@ -70,6 +70,8 @@
      <!-- Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/moment/moment.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- Clock Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
     <!-- Color Picker Plugin JavaScript -->
@@ -88,6 +90,12 @@
         $(".select2").select2();
         $('.selectpicker').selectpicker();
     });
+
+    jQuery('#date-range').datepicker({
+        toggleActive: true
+    });
+
+    
 
     </script>
  
