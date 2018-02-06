@@ -474,7 +474,7 @@
                                         echo '<ul aria-expanded="false" class="collapse">';
                                         foreach ($modulos2->result() as $fila2) {
                                 ?>
-                                    <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
+                                    <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo."/index/".$fila2->id_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
                                 <?php
                                         }
                                         echo "</ul>";
