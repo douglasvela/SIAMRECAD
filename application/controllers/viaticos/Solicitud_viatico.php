@@ -85,21 +85,46 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/viaticos_ajax/input_distancia');
 	}
 
+	public function obtener_id_municipio(){
+		echo $this->solicitud_model->obtener_id_municipio($_POST['id_municipio']);
+	}
+
+	public function obtener_id_departamento(){
+		echo $this->solicitud_model->obtener_id_departamento($_POST['id_municipio']);
+	}
+
+	public function gestionar_destinos(){
+			
+		$data = array(
+			"id_mision" => $this->input->post('id_mision'),
+            "departamento" => $this->input->post('departamento'),
+            "municipio" => $this->input->post('municipio'),
+            "nombre_empresa" => $this->input->post('nombre_empresa'),
+            "direccion_empresa" => $this->input->post('direccion_empresa'),
+            "distancia" => $this->input->post('distancia'),
+            "tipo" =>  $this->input->post('tipo'),
+            "band" => $this->input->post('band'),
+            "descripcion_destino" => $this->input->post('descripcion_destino'),
+            "id_oficina_origen" => $this->input->post('id_oficina_origen'),
+            "latitud_destino" => $this->input->post('latitud_destino'),
+            "longitud_destino" => $this->input->post('longitud_destino'),
+            "id_destino" => $this->input->post('id_destino'),
+        );
+
+        if($this->input->post('existe') == "true"){
+        	echo $this->solicitud_model->insertar_destino($data);
+        }else{
+        	echo $this->solicitud_model->insertar_ruta($data);
+        }
+	}
+
+	public function tabla_empresas_viaticos(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_empresa_viaticos');
+	}
+
 /*	
 
 	
-
-	
-
-	
-
-	
-
-	
-
-	public function tabla_empresas_viaticos(){
-		$this->load->view('viaticos/viaticos_ajax/tabla_empresa_viaticos');
-	}
 
 	public function imprimir_solicitud(){
 		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud');
@@ -122,13 +147,9 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
 	}
 
-	public function obtener_id_municipio(){
-		echo $this->solicitud_model->obtener_id_municipio($_POST['id_municipio']);
-	}
+	
 
-	public function obtener_id_departamento(){
-		echo $this->solicitud_model->obtener_id_departamento($_POST['id_municipio']);
-	}
+	
 
 	public function ordenar_empresas_visitadas(){
 		echo $this->solicitud_model->ordenar_empresas_visitadas($_POST['query']);
@@ -205,30 +226,7 @@ class Solicitud_viatico extends CI_Controller {
 	
 
 
-	public function gestionar_destinos(){
-			
-		$data = array(
-			"id_mision" => $this->input->post('id_mision'),
-            "departamento" => $this->input->post('departamento'),
-            "municipio" => $this->input->post('municipio'),
-            "nombre_empresa" => $this->input->post('nombre_empresa'),
-            "direccion_empresa" => $this->input->post('direccion_empresa'),
-            "distancia" => $this->input->post('distancia'),
-            "tipo" =>  $this->input->post('tipo'),
-            "band" => $this->input->post('band'),
-            "descripcion_destino" => $this->input->post('descripcion_destino'),
-            "id_oficina_origen" => $this->input->post('id_oficina_origen'),
-            "latitud_destino" => $this->input->post('latitud_destino'),
-            "longitud_destino" => $this->input->post('longitud_destino'),
-            "id_destino" => $this->input->post('id_destino'),
-        );
-
-        if($this->input->post('existe') == "true"){
-        	echo $this->solicitud_model->insertar_destino($data);
-        }else{
-        	echo $this->solicitud_model->insertar_ruta($data);
-        }
-	}
+	
 
 	public function nueva_actividad(){
 		$data = array(

@@ -21,9 +21,17 @@ if(!empty($nr_usuario)){
 
 	    $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
 	    $nr_jefe_regional = $filadir->nr;
+	    $latitud_oficina = $filaofi->latitud_oficina;
+	    $longitud_oficina = $filaofi->longitud_oficina;
+	    $nombre_oficina = $filaofi->nombre_oficina;
+	    $id_oficina_origen = $filaofi->id_oficina;
 
 	    echo '<input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required>';
 		echo '<input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required>';
+		echo '<input type="hidden" id="latitud_oficina" name="latitud_oficina" value="'.$latitud_oficina.'">';
+		echo '<input type="hidden" id="longitud_oficina" name="longitud_oficina" value="'.$longitud_oficina.'">';
+		echo '<input type="hidden" id="nombre_oficina" name="nombre_oficina" value="'.$nombre_oficina.'">';
+		echo '<input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="'.$id_oficina_origen.'">';
 
     }else{
     	echo '<div class="col-lg-12"><div class="card"><div class="card-body b-t">';

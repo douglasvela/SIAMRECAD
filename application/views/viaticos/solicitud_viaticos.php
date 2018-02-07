@@ -198,6 +198,7 @@
     }
 
     function form_oficinas(){
+    	$("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
         $("#nombre_empresa").parent().hide(0);
         $("#direccion_empresa").parent().hide(0);
         $("#municipio").parent().hide(0);
@@ -205,6 +206,9 @@
         $("#direccion_empresa").val("");
         combo_oficina_departamento("oficina");
     }
+
+    var id_departamento_mapa = "";
+    var id_municipio_mapa = "";
 
     function combo_oficina_departamento(tipo){
     	var newName = 'Otro nombre',
@@ -295,6 +299,175 @@
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
         xmlhttp_municipio.send();
+    }
+
+    function form_folleto_viaticos(){
+    	$("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+        combo_oficina_departamento("departamento");
+        $("#nombre_empresa").parent().show(0);
+        $("#direccion_empresa").parent().show(0);
+        $("#municipio").parent().show(0);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+    }
+
+    function form_mapa(){
+        var container = document.getElementById("input-div");
+        container.innerHTML= '<input type="text" class="controlers" id="search_input" placeholder="Escribe una ubicación a buscar"/>';
+        LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
+            lat: parseFloat($("#latitud_oficina").val()), 
+            lng: parseFloat($("#longitud_oficina").val())
+        };
+
+        $("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
+        $.when(initMap()).then($("#dirigir").click());
+
+        combo_oficina_departamento("mapa");
+        $("#nombre_empresa").parent().show(0);
+        $("#direccion_empresa").parent().show(0);
+        $("#municipio").parent().show(0);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+    }
+
+    function finalizarBusquedaMapa(){
+        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+
+        $("#direccion_empresa").val(direccion_mapa);
+
+        var municipio = municipio_mayus(direccion_mapa);
+        
+        obtener_id_municipio(municipio);
+    }
+
+    function municipio_mayus(municipio_minus){
+        var direccion = municipio_minus;
+        var ultimacoma = direccion.lastIndexOf(",");
+        direccion = direccion.substring(0,ultimacoma);
+
+        var pultimacoma = direccion.lastIndexOf(",");
+
+        if(pultimacoma == -1){
+            direccion = direccion.trim();
+        }else{
+            direccion = direccion.substring(pultimacoma+1);
+            direccion = direccion.trim();
+        }
+        var municipio = direccion;
+
+        municipio = municipio.replace(/[Áá]/gi,"A");
+        municipio = municipio.replace(/[Éé]/gi,"E");
+        municipio = municipio.replace(/[Íí]/gi,"I");
+        municipio = municipio.replace(/[Óó]/gi,"O");
+        municipio = municipio.replace(/[Úú]/gi,"U");
+
+        municipio = municipio.toUpperCase();
+        return municipio;
+    }
+
+    function obtener_id_municipio(municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_id_municipio",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                var municipio = municipio_mayus(direccion_departamento_mapa);
+                obtener_id_municipio2(municipio);
+            }else{
+                id_municipio_mapa = res;
+                obtener_id_departamento(res);
+            }
+             
+        });
+    }
+
+    function obtener_id_municipio2(municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_id_municipio",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
+                input_distancia("mapa");
+            }else{
+                id_municipio_mapa = res;
+                obtener_id_departamento(res);
+                swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no se el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
+            }
+             
+        });
+    }
+
+    function obtener_id_departamento(id_municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", id_municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_id_departamento",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
+            }else{
+                id_departamento_mapa = res;
+                combo_oficina_departamento("mapa");
+            }
+        });
+    }
+
+    function gestionar_destino(band){
+        $("#band2").val(band);
+        $("#btn_submit").click();
+    }
+
+    function tabla_empresas_viaticos(tipo){
+        var id_mision = $("#id_mision").val();
+        var nr = $("#nr").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("tabla_viaticos").innerHTML=xmlhttp_municipio.responseText;
+                  $('[data-toggle="tooltip"]').tooltip();
+
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
+        xmlhttp_municipio.send();
+    }
+
+    function form_viaticos(){
+        $("#cnt_mision").hide(0);
+        $("#cnt_rutas").hide(0);
+        $("#cnt_viaticos").show(0);
+        tabla_empresas_viaticos("guardar");
     }
 
 </script>
@@ -487,7 +660,7 @@
                             <!-- Fin de la TABLA EMPRESAS VISITADAS -->
 
                             <div align="right">
-                                <button type="button" onclick="verficar_oficina_destino();" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                                <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
 
                         </div>
@@ -505,7 +678,9 @@
                                 Detalle de viáticos y pasajes
                             </h3>
                             <hr class="m-t-0 m-b-10">
+                            <?php echo form_open('', array('id' => 'form_empresas_viaticos', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <div id="tabla_viaticos"></div>
+                            <?php echo form_close(); ?>
                         </div>
                         <!-- ============================================================== -->
                         <!-- Fin del FORMULARIO DE VIÁTICOS Y PASAJES -->
@@ -700,11 +875,11 @@ $(function(){
             var longitud = "";
         }
 
-        /*if(tipo == "destino_oficina"){
-            var descripcion = "<?php echo $filaofi->nombre_oficina; ?>"+" - "+$("#departamento option:selected").text();
+        if(tipo == "destino_oficina"){
+            var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text();
         }else{            
-            var descripcion = "<?php echo $filaofi->nombre_oficina; ?>"+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
-        }*/
+            var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
+        }
 
         var formData = {
             "id_mision" : $("#id_mision").val(),
@@ -724,13 +899,15 @@ $(function(){
         };
         $.ajax({
             type:  'POST',
-            url:   '<?php echo site_url(); ?>/viatico/solicitud/gestionar_destinos',
+            url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_destinos',
             data: formData,
             cache: false
         })
         .done(function(data){
             if(data == "exito"){
                 tabla_empresas_visitadas();
+                $.toast({ heading: 'Registro exitoso', text: 'Se agregó una nueva empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6
+	            });
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -738,7 +915,7 @@ $(function(){
     });
 
 
-    $("#form_actividades").on("submit", function(e){
+    /*$("#form_actividades").on("submit", function(e){
         e.preventDefault();      
         var formData = new FormData(document.getElementById("form_actividades"));
         $.ajax({
@@ -761,7 +938,7 @@ $(function(){
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
-    });
+    });*/
 
 });
 
@@ -776,13 +953,9 @@ $(function(){
     var direccion_departamento_mapa;
 
     var LatDestino = "";    // Guardará el destino buscado por el usuario
+    var LatOrigen = "";
 
     function initMap() {
-        var LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
-            lat: <?php echo $filaofi->latitud_oficina; ?>, 
-            lng: <?php echo $filaofi->longitud_oficina; ?>
-        };
-
         var markersD = [];      //Se le agregarán las marcas de punto del destino
         var flightPath = ""; //Agregado para dibujar linea recta (Para mostrar distancia lineal)
         var distancia_faltante = "";    //Servirá para agregar la distancia faltante al punto buscado, ya que google
@@ -873,7 +1046,7 @@ $(function(){
         var marker = new google.maps.Marker({
             position: LatOrigen,
             map: map,
-            title: 'Origen: <?php echo $filaofi->nombre_oficina; ?>',
+            title: $("#nombre_oficina").val(),
             icon: '<?php echo base_url()."/assets/images/marker_origen.png"; ?>'
         });
 

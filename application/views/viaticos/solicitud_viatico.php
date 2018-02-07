@@ -129,7 +129,7 @@
             $("#modal_perfil").modal('show');
         <?php } ?>
 
-        //initMap();
+        initMap();
     }
 
     function objetoAjax(){
@@ -343,8 +343,6 @@
     }
 
     function form_oficinas(){
-        
-        
         $("#nombre_empresa").parent().hide(0);
         $("#direccion_empresa").parent().hide(0);
         $("#municipio").parent().hide(0);
@@ -1544,6 +1542,8 @@ $(function(){
             lat: <?php echo $filaofi->latitud_oficina; ?>, 
             lng: <?php echo $filaofi->longitud_oficina; ?>
         };
+
+        alert(LatOrigen)
 
         var markersD = [];      //Se le agregarán las marcas de punto del destino
         var flightPath = ""; //Agregado para dibujar linea recta (Para mostrar distancia lineal)
