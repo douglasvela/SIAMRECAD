@@ -93,11 +93,35 @@
         xmlhttp_municipio.send();
     }
 
+    function informacion_empleado(){
+    	var nr_usuario = $("#nr").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttp_municipio.responseText;
+                  //$(".select2").select2();
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/informacion_empleado?nr_usuario="+nr_usuario,true);
+        xmlhttp_municipio.send();
+    }
+
+    function cerrar_mantenimiento(){
+        $("#cnt_tabla").show(0);
+        $("#cnt_form").hide(0);
+    }
+
     function cambiar_nuevo(){
         $("#id_mision").val("");
+        $("#nr").val("").trigger('change.select2');
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
-        $("#actividad").val("").trigger('change.select2');
+        $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
         $("#band").val("save");
 
@@ -113,6 +137,164 @@
         //form_mision();
 
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
+    }
+
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,bandera){
+        $("#id_mision").val(id);
+        $("#nr").val(nr).trigger('change.select2');
+        $("#fecha_mision_inicio").val(fecha_mision_inicio);
+        $("#fecha_mision_fin").val(fecha_mision_fin);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+        $("#detalle_actividad").val(detalle_actividad);
+        $('#id_actividad').val(actividad_realizada).trigger('change.select2');       
+
+        if(bandera == "edit"){
+            //observaciones(id);
+            $("#ttl_form").removeClass("bg-success");
+            $("#ttl_form").addClass("bg-info");
+            $("#btnadd").hide(0);
+            $("#btnedit").show(0);
+            $("#cnt_tabla").hide(0);
+            $("#cnt_form").show(0);
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");
+        }else{
+            eliminar_mision();
+        }
+    }
+
+    function editar_mision(){
+        $("#band").val("edit");
+        $("#submit_button").click();
+    }
+
+    function form_rutas(){
+        tabla_empresas_visitadas(function(){ form_oficinas() });
+        $("#cnt_mision").hide(0);
+        $("#cnt_rutas").show(0);
+        $("#cnt_viaticos").hide(0);
+        document.getElementById("destino_oficina").checked = true;
+    }
+
+    function tabla_empresas_visitadas(callback){
+        var id_mision = $("#id_mision").val();
+        var nr = $("#nr").val();    
+        var newName = 'John Smith',
+    	xhr = new XMLHttpRequest();
+		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onload = function() {
+		    if (xhr.status === 200 && xhr.responseText !== newName) {
+		        document.getElementById("cnt_empresas").innerHTML = xhr.responseText;
+		        if(typeof callback == "function"){
+		        	callback();
+		      	}
+		    }
+		    else if (xhr.status !== 200) {
+		        alert('Request failed.  Returned status of ' + xhr.status);
+		    }
+		};
+		xhr.send(encodeURI('name=' + newName));
+    }
+
+    function form_oficinas(){
+        $("#nombre_empresa").parent().hide(0);
+        $("#direccion_empresa").parent().hide(0);
+        $("#municipio").parent().hide(0);
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
+        combo_oficina_departamento("oficina");
+    }
+
+    function combo_oficina_departamento(tipo){
+    	var newName = 'Otro nombre',
+    	xhr = new XMLHttpRequest();
+
+		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_oficinas_departamentos?tipo="+tipo);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onload = function() {
+		    if (xhr.status === 200 && xhr.responseText !== newName) {
+		        document.getElementById("combo_departamento").innerHTML = xhr.responseText;
+		        $(".select2").select2();
+			   	if(tipo == "mapa"){
+			    	$('#departamento').val(id_departamento_mapa).trigger('change.select2');
+			    }else{
+			    	combo_municipio(tipo);
+			   	}
+		    }
+		    else if (xhr.status !== 200) {
+		        alert('Request failed.  Returned status of ' + xhr.status);
+		    }
+		};
+		xhr.send(encodeURI('name=' + newName));
+    }
+
+    function combo_municipio(tipo){   	
+        var id_departamento = $("#departamento").val();
+        var newName = 'John Smith',
+
+    	xhr = new XMLHttpRequest();
+		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onload = function() {
+		    if (xhr.status === 200 && xhr.responseText !== newName) {
+		        document.getElementById("combo_municipio").innerHTML = xhr.responseText;
+		        $(".select2").select2();
+              	if(tipo == "oficina"){
+                    if($("#departamento").val() != ""){
+                        $("#nombre_empresa").val($("#departamento option:selected").text());
+                        $("#direccion_empresa").val($("#departamento option:selected").text());
+                        $("#nombre_empresa").parent().hide(0);
+                        $("#direccion_empresa").parent().hide(0);
+                        $("#municipio").parent().hide(0);
+                    }else{
+                        $("#nombre_empresa").parent().hide(0);
+                        $("#direccion_empresa").parent().hide(0);
+                        $("#municipio").parent().hide(0);
+                        $("#nombre_empresa").val("");
+                        $("#direccion_empresa").val("");
+                    }
+                    input_distancia(tipo);
+              	}else if(tipo == "departamento"){
+                    $("#nombre_empresa").parent().show(0);
+                    $("#direccion_empresa").parent().show(0);
+                    $("#municipio").parent().show(0);
+                    input_distancia(tipo);
+              	}else if(tipo == "mapa"){
+                    $("#nombre_empresa").parent().show(0);
+                    $("#direccion_empresa").parent().show(0);
+                    $("#municipio").parent().show(0);
+                    $('#municipio').val(id_municipio_mapa).trigger('change.select2');
+                    //input_distancia(tipo);
+              	}
+		    }
+		    else if (xhr.status !== 200) {
+		        alert('Request failed.  Returned status of ' + xhr.status);
+		    }
+		};
+		xhr.send(encodeURI('name=' + newName));
+    }
+
+    function input_distancia(tipo){
+        var id_departamento = $("#departamento").val();
+        var id_municipio = $("#municipio").val();
+
+        var distancia_total_mapa = 0;
+
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("input_distancia").innerHTML=xmlhttp_municipio.responseText;
+                  $(".select2").select2();
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
+        xmlhttp_municipio.send();
     }
 
 </script>
@@ -182,15 +364,12 @@
                             <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_mision" name="id_mision" value="">
-                            
-
-
                             <input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="">
                             <input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="">
                             <div class="row">
                                 <div class="form-group col-lg-6"> 
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
-			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="cambiar_informacion();">
+			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
 			                            <option value="">[Elija el empleado]</option>
 			                            <?php 
 			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
@@ -203,17 +382,19 @@
 			                        </select>
 			                        <div class="help-block"></div>
 			                    </div>
-                                <div class="form-group col-lg-6">   
-                                    <h5>Fecha de misión: <span class="text-danger">*</span></h5>
-                                    <!--<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha_mision')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
-                                    <div class="help-block"></div>-->
-                                    <div class="input-daterange input-group" id="date-range">
-                                        <input type="text" class="form-control" name="start" />
-                                        <span class="input-group-addon bg-info b-0 text-white">to</span>
-                                        <input type="text" class="form-control" name="end" />
-                                    </div>
+                                <div class="form-group col-lg-3">   
+                                    <h5>Fecha de misión (inicio): <span class="text-danger">*</span></h5>
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" data-date-start-date="-4d" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy">
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group col-lg-3">   
+                                    <h5>Fecha misión (fin): <span class="text-danger">*</span></h5>
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="0d" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy">
+                                    <div class="help-block"></div>
                                 </div>
                             </div>
+
+                            <div class="row" id="cnt_informacion_empleado"></div>
 
                             <div class="row" id="cnt_combo_actividad">
                                                                
@@ -222,7 +403,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Detalle de la actividad: <span class="text-danger">*</span></h5>
-                                    <textarea type="text" onkeyup="TEXTO('actividad',3,500);" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
+                                    <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
                                     <div class="help-block"></div>
                                 </div>
                             </div>
@@ -392,7 +573,6 @@
     <!-- /.modal-dialog -->
 </div>
 
-
 <div id="modal_perfil" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -443,11 +623,24 @@
 <script>
 $(function(){  
 
-    $(document).ready(function(){         
-        $('#fecha_mision').datepicker({
+    $(document).ready(function(){  
+    	var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+
+        $('#fecha_mision_inicio').datepicker({
             format: 'dd-mm-yyyy',
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            daysOfWeekDisabled: [0,6]
+        });
+
+        $('#fecha_mision_fin').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            daysOfWeekDisabled: [0,6]
         });
 
         $('#dirigir').click(function(){ //Id del elemento cliqueable
@@ -460,9 +653,10 @@ $(function(){
     $("#formajax").on("submit", function(e){
         e.preventDefault();      
         var formData = new FormData(document.getElementById("formajax"));
+        formData.append('nombre_completo', $("#nr option:selected").text());
         $.ajax({
                 type:  'POST',
-                url:   '<?php echo site_url(); ?>/viatico/solicitud/gestionar_mision',
+                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
                 dataType: "html",
                 data: formData,
                 cache: false,
@@ -506,11 +700,12 @@ $(function(){
             var longitud = "";
         }
 
-        if(tipo == "destino_oficina"){
+        /*if(tipo == "destino_oficina"){
             var descripcion = "<?php echo $filaofi->nombre_oficina; ?>"+" - "+$("#departamento option:selected").text();
         }else{            
             var descripcion = "<?php echo $filaofi->nombre_oficina; ?>"+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
-        }
+        }*/
+
         var formData = {
             "id_mision" : $("#id_mision").val(),
             "departamento" : $("#departamento").val(),

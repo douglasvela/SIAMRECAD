@@ -18,11 +18,11 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades");
+                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.actividad_realizada = a.id_vyp_actividades");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                           echo "<tr>";
-                            echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision_inicio))."</td>";
+                            echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision))."</td>";
                             echo "<td>".$fila->nombre_actividad."</td>";
                             if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Incompleta</span></td>';
@@ -30,22 +30,12 @@
                                 echo '<td><span class="label label-success">Revisión 1</span></td>';
                             }else if($fila->estado == 2){
                                 echo '<td><span class="label label-danger">Observaciones 1</span></td>';
-                            }else if($fila->estado == 3){
-                                echo '<td><span class="label label-success">Revisión 2</span></td>';
-                            }else if($fila->estado == 4){
-                                echo '<td><span class="label label-danger">Observaciones 2</span></td>';
-                            }else if($fila->estado == 5){
-                                echo '<td><span class="label label-success">Revisión 3</span></td>';
-                            }else if($fila->estado == 6){
-                                echo '<td><span class="label label-danger">Observaciones 3</span></td>';
-                            }else if($fila->estado == 7){
-                                echo '<td><span class="label label-success">Aprobada</span></td>';
                             }else if($fila->estado == 8){
-                                echo '<td><span class="label label-success">Pagada</span></td>';
+                                echo '<td><span class="label label-success">'.$fila->estado.'</span></td>';
                             }
                             
                             echo "<td>";
-                            $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad);
+                            $array = array($fila->id_mision_oficial, $fila->nombre_completo, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->actividad_realizada, $fila->detalle_actividad);
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

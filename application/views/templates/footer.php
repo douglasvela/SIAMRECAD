@@ -80,22 +80,13 @@
     <script src="<?php echo base_url(); ?>assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
     <!-- Date Picker Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- Date range Plugin JavaScript -->
-    <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/toast-master/js/jquery.toast.js"></script>
     <script>
     jQuery(document).ready(function() {
         // For select 2
         $(".select2").select2();
         $('.selectpicker').selectpicker();
-    });
-
-    jQuery('#date-range').datepicker({
-        toggleActive: true
-    });
-
-    
+    });    
 
     </script>
  

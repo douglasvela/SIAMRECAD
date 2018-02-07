@@ -393,7 +393,7 @@
         $("#id_mision").val("");
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
-        $("#actividad").val("").trigger('change.select2');
+        $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
         $("#band").val("save");
 
@@ -411,14 +411,14 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nombre,fecha_mision,actividad_realizada,detalle_actividad,bandera){
+    function cambiar_editar(id,nr,fecha_mision,actividad_realizada,detalle_actividad,bandera){
         $("#id_mision").val(id);
         $("#nombre_empleado").val(nombre);
         $("#fecha_mision").val(fecha_mision);
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
-        $('#actividad').val(actividad_realizada).trigger('change.select2');       
+        $('#id_actividad').val(actividad_realizada).trigger('change.select2');       
 
         if(bandera == "edit"){
             observaciones(id);
@@ -1147,8 +1147,6 @@
                             ?>
                             <input type="hidden" id="id_mision" name="id_mision" value="">
                             <input type="hidden" id="nr" name="nr" value="<?php echo $nr_usuario; ?>">
-                            <input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="<?php echo $nr_jefe_inmediato; ?>">
-                            <input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="<?php echo $nr_jefe_regional; ?>">
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <h5>Nombre del empleado: <span class="text-danger">*</span></h5>
@@ -1157,7 +1155,7 @@
                                 </div>
                                 <div class="form-group col-lg-6">   
                                     <h5>Fecha de misión: <span class="text-danger">*</span></h5>
-                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha_mision')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision" name="fecha_mision" placeholder="dd/mm/yyyy">
                                     <div class="help-block"></div>                   
                                 </div>
                             </div>
@@ -1169,7 +1167,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Detalle de la actividad: <span class="text-danger">*</span></h5>
-                                    <textarea type="text" onkeyup="TEXTO('actividad',3,500);" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
+                                    <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
                                     <div class="help-block"></div>
                                 </div>
                             </div>

@@ -23,26 +23,79 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/combo_actividad_realizada');
 	}
 
+	public function informacion_empleado(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/informacion_empleado');
+	}
 
-/*	
+	public function gestionar_mision(){
+
+		if($this->input->post('band') == "save"){
+			$data = array(
+			'nr' => $this->input->post('nr'),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
+			'nombre_completo' => $this->input->post('nombre_completo'),
+			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
+			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),
+			'id_actividad_realizada' => $this->input->post('id_actividad'),
+			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
+			);
+			echo $this->solicitud_model->insertar_mision($data);			
+		}else if($this->input->post('band') == "edit"){
+			$data = array(
+			'id_mision' => $this->input->post('id_mision'), 
+			'nr' => $this->input->post('nr'),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
+			'nombre_completo' => $this->input->post('nombre_completo'),
+			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
+			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),			
+			'id_actividad_realizada' => saltos_sql($this->input->post('id_actividad')),
+			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
+			);
+			echo $this->solicitud_model->editar_mision($data);
+		}else if($this->input->post('band') == "delete"){
+			$data = array(
+			'id_mision' => $this->input->post('id_mision')
+			);
+
+			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
+			
+			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_registros_viaticos($this->input->post('id_mision')) == true){
+				echo $this->solicitud_model->eliminar_mision($data);
+			}else{
+				echo "fracaso";
+			}
+		}
+	}
+
+	public function tabla_empresas_visitadas(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_empresas_visitadas');
+	}
 
 	public function combo_oficinas_departamentos(){
-		$this->load->view('viaticos/viaticos_ajax/combo_oficinas_departamentos');
+		$this->load->view('viaticos/solicitud_viaticos_ajax/combo_oficinas_departamentos');
 	}
 
 	public function combo_municipios(){
-		$this->load->view('viaticos/viaticos_ajax/combo_municipio');
+		$this->load->view('viaticos/solicitud_viaticos_ajax/combo_municipio');
 	}
-
-	
 
 	public function input_distancia(){
 		$this->load->view('viaticos/viaticos_ajax/input_distancia');
 	}
 
-	public function tabla_empresas_visitadas(){
-		$this->load->view('viaticos/viaticos_ajax/tabla_empresas_visitadas');
-	}
+/*	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	public function tabla_empresas_viaticos(){
 		$this->load->view('viaticos/viaticos_ajax/tabla_empresa_viaticos');
@@ -149,44 +202,7 @@ class Solicitud_viatico extends CI_Controller {
 		
 	}
 
-	public function gestionar_mision(){
-		if($this->input->post('band') == "save"){
-			$data = array(
-			'nr' => $this->input->post('nr'),
-			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
-			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
-			'nombre_completo' => $this->input->post('nombre_empleado'),
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),
-			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
-			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
-			);
-			echo $this->solicitud_model->insertar_mision($data);			
-		}else if($this->input->post('band') == "edit"){
-			$data = array(
-			'id_mision' => $this->input->post('id_mision'), 
-			'nr' => $this->input->post('nr'),
-			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
-			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
-			'nombre_completo' => $this->input->post('nombre_empleado'),
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha_mision'))),			
-			'actividad_realizada' => saltos_sql($this->input->post('actividad')),
-			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
-			);
-			echo $this->solicitud_model->editar_mision($data);
-		}else if($this->input->post('band') == "delete"){
-			$data = array(
-			'id_mision' => $this->input->post('id_mision')
-			);
-
-			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
-			
-			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_registros_viaticos($this->input->post('id_mision')) == true){
-				echo $this->solicitud_model->eliminar_mision($data);
-			}else{
-				echo "fracaso";
-			}
-		}
-	}
+	
 
 
 	public function gestionar_destinos(){
