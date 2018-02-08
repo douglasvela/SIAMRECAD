@@ -60,9 +60,7 @@ class Actividad extends CI_Controller {
 
 		}
 	}
-	function buscar_permiso($data){
-		
-	}
+	 
 
 }
 ?>

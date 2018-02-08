@@ -2,7 +2,7 @@
 
       @media screen and (max-width: 770px) {
         .otro {
-            height: 500px;
+            height: 1500px;
         }
       }
 
@@ -11,7 +11,7 @@
       }
 
       #map {
-        height: 100%;
+        height: 420px;
       }
 
       #output {
@@ -37,6 +37,7 @@
         $("#btnedit").show(0);
         mostrarpanel_oficina();$("#panel_mapa").hide(50);
         $("#band").val("edit");
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta a Oficina");
      }
      function editar_municipio(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas){
         limpiar();
@@ -57,15 +58,16 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
         $("#btnadd").hide(0);
         $("#btnedit").show(0);
         $("#band").val("edit");
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta a Municipio");
     }
 
     function editar_mapa(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,nombre_empresa_vyp_rutas,direccion_empresa_vyp_rutas){
         limpiar();
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        $("#cnt_form").removeClass("col-lg-10");
-        $("#cnt_form").addClass("col-lg-6");
-        $("#form_mapa").show(500);
+        //$("#cnt_form").removeClass("col-lg-10");
+        //$("#cnt_form").addClass("col-lg-10");
+        $("#form_mapa").show(0);
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
         $("#panel_mapa").show(50);
         document.getElementById('destino_mapa').checked = true;
@@ -84,6 +86,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
             $("#btnadd").hide(0);
         $("#btnedit").show(0);
         $("#band").val("edit");
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta a Punto Especifico");
     }
     function cambiar_nuevo(){
 
@@ -98,11 +101,13 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
 
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-        $("#cnt_form").removeClass("col-lg-6");
-        $("#cnt_form").addClass("col-lg-10");
+        //$("#cnt_form").removeClass("col-lg-10");
+        //$("#cnt_form").addClass("col-lg-10");
         $("#panel_mapa").hide(10);
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Ruta");
         limpiar();
+        mostrarpanel_oficina();
+         document.getElementById('destino_oficina').checked = true;
     }
 
 
@@ -182,11 +187,11 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
 
     function mostrarpanel_oficina(){
         $("#panel_oficina").show(50);
-        $("#cnt_form").removeClass("col-lg-10");
-        $("#cnt_form").addClass("col-lg-6");
+        //$("#cnt_form").removeClass("col-lg-10");
+        //$("#cnt_form").addClass("col-lg-10");
         $("#panel_mapa").hide(10);
 
-        $("#panel_municipio").hide(50);$("#form_mapa").show(10);initMap();
+        $("#panel_municipio").hide(50);$("#form_mapa").show(0);initMap();
           if($('#id_oficina_origen_vyp_rutas').val()!=""){
             obtenerOrigen($("#id_oficina_origen_vyp_rutas").val(),"2");
             obtenerDestino($("#id_oficina_destino_vyp_rutas").val(),"1");
@@ -196,10 +201,10 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
 
     function mostrarpanel_mapa(){
        //$("#btnadd").hide(0);
-        $("#cnt_form").removeClass("col-lg-10");
-        $("#cnt_form").addClass("col-lg-6");
+        //$("#cnt_form").removeClass("col-lg-10");
+        //$("#cnt_form").addClass("col-lg-10");
         $("#panel_mapa").show(10);
-        $("#form_mapa").show(500);initMap();
+        $("#form_mapa").show(0);initMap();
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
         if($('#id_oficina_origen_vyp_rutas').val()!=""){
             obtenerOrigen($("#id_oficina_origen_vyp_rutas").val(),"2");
@@ -207,11 +212,17 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
 
     }
     function mostrarpanel_municipio(){
-        $("#form_mapa").hide(10);
-        $("#cnt_form").addClass("col-lg-6");
-        $("#cnt_form").removeClass("col-lg-10");
+        $("#form_mapa").hide(0);
+       // $("#cnt_form").addClass("col-lg-10");
+        //$("#cnt_form").removeClass("col-lg-10");
         $("#panel_municipio").show(50);$("#panel_oficina").hide(50);
-        $("#form_mapa").show(500);initMap();
+        $("#form_mapa").show(0);initMap();
+        if($('#id_oficina_origen_vyp_rutas').val()!=""){
+            var departamento = $("#id_departamento_vyp_rutas option:selected").html();
+            var municipio = $("#id_municipio option:selected").html();
+            $("#address").val(municipio.trim()+","+departamento.trim());
+            $("#submit_ubi").click();
+        }
         $("#panel_mapa").hide(10);
     }
     function buscarMunicipio(id_departamento,seleccion,buscar){
@@ -476,6 +487,17 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
         $("#address").val(municipio.trim()+","+departamento.trim());
         $("#submit_ubi").click();
      }
+     function autocompletar_descripcion_destino_oficina(){
+         var departamento = $("#id_oficina_origen_vyp_rutas option:selected").html();
+        var municipio = $("#id_oficina_destino_vyp_rutas option:selected").html();
+        $("#descripcion_destino_vyp_rutas").val(departamento.trim()+" - "+municipio.trim());
+     }
+     function autocompletar_descripcion_destino_municipio(){
+        var origen_oficina = $("#id_oficina_origen_vyp_rutas option:selected").html(); 
+         var departamento = $("#id_departamento_vyp_rutas option:selected").html();
+        var municipio = $("#id_municipio option:selected").html();
+        $("#descripcion_destino_vyp_rutas").val(origen_oficina.trim()+" - ("+departamento.trim()+" - "+municipio.trim()+")");
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -498,9 +520,35 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
+        <div class="col-lg-12" style="display: none;" id="form_mapa">
+                 <div class="card">
+                     <div class="card-body b-t">
+                     <div  class="row" id="divider">
+
+                                 &nbsp;&nbsp;&nbsp;&nbsp;<div id="output">Los resultados aparecerán aquí</div>
+                                 <div class="col-lg-4" >
+                                    <div class="form-group">
+                                        <input id="address" name="address" class="form-control" type="text" placeholder="Buscar: municipio, departamento, pais"/> 
+                                        <div style="display:none;">
+                                        <button  id="submit_ubi" name="submit_ubi" type="button"  >clicks</button>
+                                    </div>
+                                    </div>
+                                </div>
+                         
+                                <div class="col-lg-12 col-md-7 otro" >
+                                        <div id="map" ></div>
+                                </div>
+                                 
+                                 
+                            </div>
+                              
+                     
+                      </div>
+                 </div>
+             </div>
         <div class="row justify-content-center">
 
-            <div class="col-lg-10 " id="cnt_form" style="display: none;">
+            <div class="col-lg-12" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -513,8 +561,11 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" placeholder="id#" id="id_vyp_rutas" name="id_vyp_rutas">
-
-
+                            <input class="form-control" type="hidden" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas" placeholder="destino lat">
+                                    <input class="form-control" type="hidden" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas" placeholder="destino lng">
+                                    <input type="hidden" class="form-control" id="direccion_origen1" name="">
+                                    <input type="hidden" class="form-control" id="direccion_origen2" name="">
+    
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -541,7 +592,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                  <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
-                                    <input type="radio" id="destino_oficina"   name="t_destinos" value="destino_oficina" onclick="mostrarpanel_oficina()">
+                                    <input type="radio" id="destino_oficina"  name="t_destinos" value="destino_oficina" onclick="mostrarpanel_oficina()">
                                          <label for="destino_oficina">Oficina</label>
                                     <input type="radio" id="destino_municipio"  name="t_destinos" value="destino_municipio" onclick="mostrarpanel_municipio()">
                                           <label for="destino_municipio">Municipio</label>
@@ -617,7 +668,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Oficina de destino: <span class="text-danger">*</span></label><br>
-                                        <select id="id_oficina_destino_vyp_rutas" name="id_oficina_destino_vyp_rutas" class="form-control" onchange="obtenerDestino(this.value,'1')">
+                                        <select id="id_oficina_destino_vyp_rutas" name="id_oficina_destino_vyp_rutas" class="form-control" onchange="obtenerDestino(this.value,'1');autocompletar_descripcion_destino_oficina()">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $seccion = $this->db->get("vyp_oficinas");
@@ -625,7 +676,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                                 if(!empty($seccion)){
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
-                                                <option  value="<?php echo $fila->id_oficina ?>" onclick="" >
+                                                <option  value="<?php echo $fila->id_oficina ?>" onchange="" >
                                                     <?php echo $fila->nombre_oficina ?>
                                                 </option>;
                                             <?php
@@ -655,39 +706,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
 
                 </div>
             </div>
-             <div class="col-lg-6" style="display: none;" id="form_mapa">
-                 <div class="card">
-                     <div class="card-body b-t">
-                     <div  class="row" id="divider">
-
-                                <div class="col-lg-4 col-md-5" >
-                                    <div class="form-group">
-                                        <label>Buscar ubicación</label>
-                                        <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
-                                    </div>
-                                    <div align="right">
-                                        <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
-                                    </div>
-                                    <br><br>
-                                    <input class="form-control" type="text" id="latitud_destino_vyp_rutas" name="latitud_destino_vyp_rutas">
-                                    <input class="form-control" type="text" id="longitud_destino_vyp_rutas" name="longitud_destino_vyp_rutas">
-                                    <input type="text" class="form-control" id="direccion_origen1" name="">
-                                    <input type="text" class="form-control" id="direccion_origen2" name="">
-                                    <div>
-                                        <strong>Resultados</strong>
-                                    </div>
-                                   <div id="output">Los resultados aparecerán aquí</div>
-
-
-                                    <br><br><br><br><br><br><br><br>
-                                </div>
-                                <div class="col-lg-8 col-md-7 otro" >
-                                        <div id="map" ></div>
-                                </div>
-                            </div>
-                      </div>
-                 </div>
-             </div>
+             
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla">
             </div>
@@ -761,11 +780,11 @@ $(function(){
         var service = new google.maps.DistanceMatrixService;
 
         var directionsService = new google.maps.DirectionsService();
-
+        
         if(latOrigen){
             var map = new google.maps.Map(document.getElementById('map'), {
                 center:  new google.maps.LatLng(latOrigen, lngDestino),
-                zoom: 12
+                zoom: 16
             });
             origin1 = new google.maps.LatLng(latOrigen, lngOrigen);
             destinationA = new google.maps.LatLng(latDestino, lngDestino);
@@ -788,6 +807,7 @@ $(function(){
         var directionsDisplay = new google.maps.DirectionsRenderer({
           map: map
         });
+        
         /*map.addListener('click', function(e) {
             deleteMarkers_O();
             addMarker_origen(e.latLng, map);
@@ -839,6 +859,7 @@ $(function(){
             }
 
         });//termina event
+        
         function calcula_distancia(){
           service.getDistanceMatrix({
           origins: [origin1],
@@ -901,10 +922,9 @@ $(function(){
                     showGeocodedAddressOnMap(true));
 
                 outputDiv.innerHTML += "<b>Origen:</b> "+originList[i] +
+                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Distancia:</b> ' + results[j].distance.text+    //Distancia carretera
                     '<br><b>Destino:</b> ' + destinationList[j] +
-                    '<br><b>Distancia:</b> ' + results[j].distance.text+    //Distancia carretera
-                    '<br><b>Distancia Lineal:</b> ' + distancia +" Km"+     //Distancia lineal
-                    '<br><b>Tiempo:</b> ' + results[j].duration.text + '<br>';
+                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Tiempo:</b> ' + results[j].duration.text + '<br>';
                     var km = results[j].distance.text;
                     var km_nuevo = km.substr(0,km.length-3);
                     $("#km_vyp_rutas").val(km_nuevo.replace(',','.'));
@@ -937,9 +957,14 @@ $(function(){
         }
 
 
-        document.getElementById('submit_ubi').addEventListener('click', function() {
+        document.getElementById('address').addEventListener('keyup', function() {
             origen = new google.maps.LatLng($("#direccion_origen1").val(),$("#direccion_origen2").val());
           geocodeAddress(geocoder, map);
+        });
+        document.getElementById('submit_ubi').addEventListener('click', function() {
+         origen = new google.maps.LatLng($("#direccion_origen1").val(),$("#direccion_origen2").val());
+          geocodeAddress(geocoder, map);
+
         });
         function geocodeAddress(geocoder, resultsMap) {
 
@@ -959,7 +984,7 @@ $(function(){
                calcula_distancia();pinta_recorrido();
               }
             } else {
-              alert('Geocode no tuvo éxito por la siguiente razón: ' + status);
+              //alert('Geocode no tuvo éxito por la siguiente razón: ' + status);
 
             }
           });
