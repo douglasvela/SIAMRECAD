@@ -51,7 +51,7 @@
 
                     if($retorno->num_rows() > 0){
                         foreach ($retorno->result() as $fila2) {
-                            echo "<tr style='display: none;''>";
+                            echo "<tr style='display: block;''>";
                             ?>
                             <td><?php echo $fila2->nombre_empresa; ?><input type="hidden" value="<?php echo $fila2->id_empresas_visitadas; ?>"></td>
                             <td><?php echo $fila2->direccion_empresa; ?></td>

@@ -27,6 +27,8 @@
     <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/icheck/icheck.init.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <!-- jQuery file upload -->
+    <script src="<?php echo base_url(); ?>assets/plugins/dropify/dist/js/dropify.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-switch/bootstrap-switch.min.js"></script>
     <script>
     ! function(window, document, $) {
@@ -81,6 +83,9 @@
     <!-- Date Picker Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/toast-master/js/jquery.toast.js"></script>
+    <!-- Magnific popup JavaScript -->
+    <script src="<?php echo base_url(); ?>assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js"></script>
     <script>
     jQuery(document).ready(function() {
         // For select 2

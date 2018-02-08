@@ -456,10 +456,45 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("tabla_viaticos").innerHTML=xmlhttp_municipio.responseText;
                   $('[data-toggle="tooltip"]').tooltip();
-
+                  $('.dropify').dropify();
+                  $('.image-popup-no-margins').magnificPopup({
+						type: 'image',
+						closeOnContentClick: true,
+						closeBtnInside: false,
+						fixedContentPos: true,
+						mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+						image: {
+							verticalFit: true
+						},
+						zoom: {
+							enabled: true,
+							duration: 300 // don't foget to change the duration also in CSS
+						}
+					});
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
+        xmlhttp_municipio.send();
+    }
+
+    function form_empresas_viaticos(tipo){
+        var id_mision = $("#id_mision").val();
+        var nr = $("#nr").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt_form_viaticos").innerHTML=xmlhttp_municipio.responseText;
+                  	$('[data-toggle="tooltip"]').tooltip();
+                  	$('.dropify').dropify();
+                  	
+                  tabla_empresas_viaticos(tipo);
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/form_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
         xmlhttp_municipio.send();
     }
 
@@ -467,7 +502,19 @@
         $("#cnt_mision").hide(0);
         $("#cnt_rutas").hide(0);
         $("#cnt_viaticos").show(0);
-        tabla_empresas_viaticos("guardar");
+        form_empresas_viaticos("guardar");
+    }
+
+    function cambiarkilometraje(id_destino){
+    	$("#id_distancia").val(id_destino);
+    }
+
+    function cambiarFactura(obj){
+    	if(obj.checked){
+    		$("#factura").show(500);
+    	}else{
+    		$("#factura").hide(500);
+    	}
     }
 
 </script>
@@ -502,6 +549,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <!-- ============================================================== -->
         <!-- Fin TITULO de la página de sección -->
@@ -678,9 +727,10 @@
                                 Detalle de viáticos y pasajes
                             </h3>
                             <hr class="m-t-0 m-b-10">
-                            <?php echo form_open('', array('id' => 'form_empresas_viaticos', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
-                            <div id="tabla_viaticos"></div>
+                            <?php echo form_open('', array('id' => 'form_empresas_viaticos', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'enctype' => 'multipart/form-data')); ?>
+                            <div id="cnt_form_viaticos"></div>
                             <?php echo form_close(); ?>
+                            <div id="tabla_viaticos"></div>
                         </div>
                         <!-- ============================================================== -->
                         <!-- Fin del FORMULARIO DE VIÁTICOS Y PASAJES -->
@@ -853,6 +903,45 @@ $(function(){
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
+        });
+    });
+
+
+    $("#form_empresas_viaticos").on("submit", function(e){
+        e.preventDefault();   
+        var formData = new FormData(document.getElementById("form_empresas_viaticos"));
+        //formData.append('nombre_completo', $("#nr option:selected").text());
+        formData.append("nombre_origen", $("#id_origen option:selected").text());
+        formData.append("nombre_destino", $("#id_destino option:selected").text());
+        formData.append("kilometraje", $("#id_distancia option:selected").text());
+        formData.append("id_mision", $("#id_mision").val());
+        $.ajax({
+                type:  'POST',
+                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_viaticos',
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+        })
+        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+
+        	alert(data)
+
+            /*if(data == "exito"){
+                if($("#band").val() == "save"){
+                    //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                    buscar_idmision();
+                }else if($("#band").val() == "edit"){
+                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                    form_rutas();
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                tabla_solicitudes();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }*/
         });
     });
 
