@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 26-12-2017 a las 20:03:38
--- Versión del servidor: 5.7.20-0ubuntu0.17.04.1
--- Versión de PHP: 7.0.22-0ubuntu0.17.04.1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 08-02-2018 a las 05:08:24
+-- Versión del servidor: 10.1.29-MariaDB
+-- Versión de PHP: 7.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -35,7 +37,8 @@ CREATE TABLE `vyp_oficinas` (
   `latitud_oficina` varchar(50) NOT NULL,
   `longitud_oficina` varchar(50) NOT NULL,
   `id_departamento` int(5) UNSIGNED ZEROFILL NOT NULL,
-  `id_municipio` int(11) NOT NULL
+  `id_municipio` int(5) UNSIGNED ZEROFILL NOT NULL,
+  `id_zona` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -57,6 +60,8 @@ ALTER TABLE `vyp_oficinas`
 --
 ALTER TABLE `vyp_oficinas`
   MODIFY `id_oficina` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

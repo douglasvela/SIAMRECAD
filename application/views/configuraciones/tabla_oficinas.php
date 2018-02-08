@@ -75,7 +75,7 @@
 
                             /******* botones para la edición de OFICINAS **********/
                             echo "<td>";
-                              $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina,$fila->id_departamento,$fila->id_municipio);
+                              $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina,$fila->id_departamento,$fila->id_municipio,$fila->id_zona);
                               array_push($array, "edit");
                               echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                               unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

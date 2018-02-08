@@ -1,4 +1,4 @@
-<select id="id_municipio" name="id_municipio" class="form-control" onchange="buscarmapa()">
+<select id="id_municipio" name="id_municipio" class="select2" style="width: 100%" onchange="buscarmapa()">
     <option value="">[Seleccione]</option>
         <?php
             //$this->db->where("id_departamento_pais",$id_departamento);

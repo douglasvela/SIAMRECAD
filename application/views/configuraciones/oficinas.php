@@ -20,16 +20,19 @@
     </style>
 <script type="text/javascript">
 
-    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,id_departamento,id_municipio,bandera){
+    function cambiar_editar(id_oficina,nombre_oficina,direccion_oficina,jefe_oficina,email_oficina,latitud_oficina,longitud_oficina,id_departamento,id_municipio,id_zona,bandera){
         $("#id_oficina").val(id_oficina);
         $("#nombre_oficina").val(nombre_oficina);
         $("#direccion_oficina").val(direccion_oficina);
         $("#latitud_oficina").val(latitud_oficina);
         $("#longitud_oficina").val(longitud_oficina);
-        $("#jefe_oficina").val(jefe_oficina);
+        $("#jefe_oficina").val(jefe_oficina).trigger("change.select2");
         $("#email_oficina").val(email_oficina);
-         $("#id_departamento").val(id_departamento);
-         buscarMunicipio(id_departamento,id_municipio);
+         $("#id_departamento").val(id_departamento).trigger("change.select2");
+         $("#id_municipio").val(id_municipio).trigger("change.select2");
+         $("#id_zona").val(id_zona).trigger("change.select2");
+
+         //buscarMunicipio(id_departamento,id_municipio);
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
@@ -75,8 +78,11 @@
         $("#cnt_form").hide(0);
          $("#jefe_oficina").val("");
          $("#email_oficina").val("");
-         $("#id_departamento").val("");
-         buscarMunicipio();
+         $("#id_departamento").val("").trigger("change.select2");
+         $("#id_municipio").val("").trigger("change.select2");
+         $("#jefe_oficina").val("").trigger("change.select2");
+         $("#id_zona").val("0").trigger("change.select2");
+         //buscarMunicipio();
     }
 
     function editar_horario(){
@@ -119,7 +125,7 @@
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
-            buscarMunicipio(0,"null");
+           // buscarMunicipio(0,"null");
         });  
     }
 
@@ -198,6 +204,7 @@
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("municipios").innerHTML=xmlhttp_municipio.responseText;
+                  $("#id_municipio").val().trigger('change.select2');
             }
         }
 
@@ -220,7 +227,8 @@
         for(var i = 0; i < options.length; i++){
             texto = $(options[i]).html().trim();
             if(texto.toUpperCase().indexOf(municipio) > -1){
-                $("#id_municipio").val($(options[i]).val());
+                //$("#id_municipio").val($(options[i]).val());
+                $("#id_municipio").val($(options[i]).val()).trigger('change.select2');
                 buscar_id2();
             }
         }
@@ -239,7 +247,8 @@
             processData: false
         })
         .done(function(res){
-             $("#id_departamento").val(res);
+             //$("#id_departamento").val(res);
+             $('#id_departamento').val(res).trigger('change.select2');
         });
     }
     function buscarCorreo(){
@@ -258,6 +267,52 @@
         .done(function(res){
              $("#email_oficina").val(res);
         });
+    }
+    function seleccionar_zona(){
+        switch($("#id_departamento").val()){
+            case '00001':
+                $("#id_zona").val('1').trigger("change.select2");
+            break;
+            case '00002':
+                $("#id_zona").val('1').trigger("change.select2");
+            break;
+            case '00003':
+                $("#id_zona").val('1').trigger("change.select2");
+            break;
+            case '00004':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00005':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00005':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00007':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00008':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00009':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00010':
+                $("#id_zona").val('2').trigger("change.select2");
+            break;
+            case '00011':
+                $("#id_zona").val('3').trigger("change.select2");
+            break;
+            case '00012':
+                $("#id_zona").val('3').trigger("change.select2");
+            break;
+            case '00013':
+                $("#id_zona").val('3').trigger("change.select2");
+            break;
+            case '00014':
+                $("#id_zona").val('3').trigger("change.select2");
+            break;
+        }
     }
 </script>
 
@@ -319,10 +374,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
-                                        <select id="id_departamento" name="id_departamento" class="form-control" onchange="buscarMunicipio(this.value,'null')">
+                                        <select id="id_departamento" name="id_departamento" class="select2" onchange="seleccionar_zona()" style="width: 100%">
                                             <option value="">[Seleccione]</option>
                                             <?php
                                                 $this->db->where("id_departamento <","15");
@@ -331,7 +386,7 @@
                                                 if(!empty($seccion)){
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
-                                                <option  value="<?php echo $fila->id_departamento ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null')" > 
+                                                <option  value="<?php echo $fila->id_departamento ?>" onclick="','null')" > 
                                                     <?php echo $fila->departamento ?>
                                                 </option>;
                                             <?php
@@ -343,14 +398,39 @@
                                     </div>
 
                                 </div>
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <div class="form-group">
                                           <label for="id_municipio" class="font-weight-bold">Municipio de la Oficina: <span class="text-danger">*</span></label>
-                                        <div id="municipios">
-                                            <select class="form-control" id="id_municipio">
-                                                <option>[Seleccione]</option>
-                                            </select>
-                                        </div>
+                                        <select id="id_municipio" name="id_municipio" class="select2" style="width: 100%" onchange="">
+                                            <option value="">[Seleccione]</option>
+                                                <?php
+                                                    //$this->db->where("id_departamento_pais",$id_departamento);
+                                                    $seccion = $this->db->get("org_municipio");
+                                                    if(!empty($seccion)){
+                                                    foreach ($seccion->result() as $fila) {
+                                                ?>
+                                                    <option  value="<?php echo $fila->id_municipio ?>"> 
+                                                <?php 
+                                                    echo $fila->municipio;
+                                                ?>
+                                                    </option>;
+                                                <?php
+                                                    }
+                                                    }
+                                                ?>
+                                        </select>
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                          <label for="id_zona" class="font-weight-bold">Zona de la Oficina: <span class="text-danger">*</span></label>
+                                        <select id="id_zona" name="id_zona" class="select2" style="width: 100%" onchange="">
+                                            <option value="0">[Seleccione]</option>
+                                                    <option  value="1">Zona Occidente</option>
+                                                    <option  value="2">Zona Central</option>
+                                                    <option  value="3">Zona Oriental</option>
+                                        </select>
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
@@ -360,7 +440,7 @@
                                   <div class="form-group">
                                       <label for="jefe_oficina" class="font-weight-bold">Jefe de la Oficina: <span class="text-danger">*</span></label>
                                       <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
-                                      <select id="jefe_oficina" name="jefe_oficina" class="form-control"  style="width: 100%" onchange="buscarCorreo(this.value);">
+                                      <select id="jefe_oficina" name="jefe_oficina" class="select2"  style="width: 100%" onchange="buscarCorreo(this.value);">
                                         <option value="">[Elija el Jefe]</option>
                                         <?php 
                                             $empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.fecha_inicio = (SELECT MAX(i2.fecha_inicio) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.id_estado = '00001' AND cf.id_nivel = '1' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");

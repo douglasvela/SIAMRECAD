@@ -68,7 +68,8 @@ class Oficinas extends CI_Controller {
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
 			'longitud_oficina' => $this->input->post('longitud_oficina'),
 			'id_departamento' => $this->input->post('id_departamento'),
-			'id_municipio' => $this->input->post('id_municipio')
+			'id_municipio' => $this->input->post('id_municipio'),
+			'id_zona' => $this->input->post('id_zona')
 			);
 			
                 echo $this->oficina_model->insertar_oficina($data);
@@ -84,7 +85,8 @@ class Oficinas extends CI_Controller {
 			'latitud_oficina' => $this->input->post('latitud_oficina'),
 			'longitud_oficina' => $this->input->post('longitud_oficina'),
 			'id_departamento' => $this->input->post('id_departamento'),
-			'id_municipio' => $this->input->post('id_municipio')
+			'id_municipio' => $this->input->post('id_municipio'),
+			'id_zona' => $this->input->post('id_zona')
 			);
 			
 				echo $this->oficina_model->editar_oficina($data);
