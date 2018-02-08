@@ -37,6 +37,13 @@
     .list-task .task-done span {
         text-decoration: line-through;
     }
+
+    .nueva_clase{
+    	background-color: #0000001a;
+    	padding-left: 3px;
+    	padding-right: 3px;
+    	font-weight: 500;
+    }
 </style>
 
 <script type="text/javascript">

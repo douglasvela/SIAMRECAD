@@ -99,8 +99,12 @@ function eliminar_pasaje(){
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
-                $('#myTable').DataTable();
-                $('[data-toggle="tooltip"]').tooltip();
+                
+                $('#fecha').datepicker({
+                    format: 'dd-mm-yyyy',
+                    autoclose: true,
+                    todayHighlight: true
+                });
             }
         }
         xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/pasaje/tabla_pasaje_unidad",true);
@@ -141,8 +145,7 @@ function eliminar_pasaje(){
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="cnt_form" style="display: none;">
+            <div class="col-lg-12" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -155,117 +158,30 @@ function eliminar_pasaje(){
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idb" name="idb" value="">
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    
-                                         <h5>Fecha de misión: <span class="text-danger">*</span></h5>
-                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy">
-
-                                          <div class="help-block"></div>
-                                   
-                                </div>
-
-
-                                 <?php 
-                             $pasajes = $this->db->get("vyp_pasajes");
-                      $user = $this->session->userdata('usuario_viatico');
-                                $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
-                                $nr_usuario = ""; $nombre_usuario;
-                    if(!empty($pasajes) && ($nr->num_rows() > 0)){
-
-                        foreach ($pasajes->result() as $fila) {
-                           foreach($nr->result() as $fila1){
-                                        $nr_usuario = $fila1->nr; 
+                           <div class="row">                        
+                        <div class="form-group col-lg-8"> 
+                            <h5>Empleado a modificar: <span class="text-danger">*</span></h5>                           
+                            <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="cambiar_informacion();">
+                                <option value="">[Elija el empleado a editar sus datos]</option>
+                                <?php 
+                                    $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                    if($otro_empleado->num_rows() > 0){
+                                        foreach ($otro_empleado->result() as $fila) {              
+                                           echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.' - '.$fila->nr.'</option>';
                                         }
-                                        }
-                                        }
-            
-              ?>
-                                <div class="form-group col-lg-6">
-                                    <h5>NR: </h5>
-                                    <div class="controls">
-                                        <input type="text" id="nr" name="nr" class="form-control" value="<?php echo $nr_usuario; ?>" readonly>
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
+                                    }
+                                ?>
+                            </select>
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
 
-                             <div class="row">
-
-                             <div class="form-group col-lg-6">
-                                    <h5>Número de expediente: </h5>
-                                    <div class="controls">
-                                        <input type="text" id="expediente" name="expediente" class="form-control">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <h5>Empresa visitada: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="text" id="empresa" name="empresa" class="form-control" required="" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-
-                               
-                            </div>
-
-                           <div class="row">
-                                <div class="form-group col-lg-12" style="height: 83px;">
-                                    <h5>Direccion: <span class="text-danger">*</span></h5>
-                                    <textarea type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
-                                    <div class="help-block"></div>
-                                </div>
-                            </div>
-                             
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <h5>Hora de salida: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                       <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required=""  data-validation-required-message="Formato de hora no válido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-6">
-                                    <h5>Hora de llegada: </h5>
-                                    <div class="controls">
-                                       <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" data-validation-required-message="Formato de hora no válido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <h5>Monto: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                           
-
-                            <button id="submit" type="submit" style="display: none;"></button>
-                            <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                 <button type="submit"  class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Agregar</button>
-                            </div>
-                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_pasaje()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                            </div>
-                            <div id="cnt_pasaje"> <!--para imprimir la tabla -->
-                                
-                                </div>
-
-                                   </div>   
+                                <div id="cnt_pasaje"></div> <!--para imprimir la tabla -->
+                                 
                         <?php echo form_close(); ?>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -335,11 +251,7 @@ $(function(){
  <script>
 
     $(document).ready(function(){         
-        $('#fecha').datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true,
-            todayHighlight: true
-        });
+        
 
         $('#dirigir').click(function(){ //Id del elemento cliqueable
             $('html, body').animate({scrollTop:0}, 1000);

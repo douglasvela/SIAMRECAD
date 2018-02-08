@@ -1,15 +1,15 @@
-        <div class="table-responsive">
+        <div class="table-responsive" style="font-size: 14px;">
 			<table id="tabla_viaticos" name="tabla_viaticos" class="table table-hover table-bordered" width="100%">
-			  	<thead class="bg-inverse text-white" style="font-size: 15px;">
+			  	<thead class="bg-inverse text-white" style="font-size: 13px;">
 			        <tr>
 			        	<th>Fecha misión</th>
-			      		<th>Lugar de salida</th>
-			      		<th>Lugar de llegada</th>
+			      		<th>Lugar de salida a lugar de llegada</th>
 			      		<th>Hora de salida</th>
 			      		<th>Hora de llegada</th>
 			      		<th>Distancia (Km)</th>
-			      		<th>Viaticos ($)</th>
-			      		<th>Pasaje ($)</th>
+			      		<th>54403 ($)</th>
+			      		<th>54401 ($)</th>
+                        <th>(*)</th>
 			    	</tr>
 			  	</thead>
 			  	<tbody>
@@ -18,30 +18,48 @@
     $tipo = $_GET["tipo"];
     $nr_usuario = $_GET["nr"];
 
+    function hora($time){
+        return date("H:i A",strtotime(date("Y-m-d")." ".$time));
+    }
+
+    function fecha_es($date){
+        return date("d-m-Y",strtotime($date));
+    }
+
 
     $empresa_viatico = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$id_mision."'");
     if($empresa_viatico->num_rows() > 0){
         foreach ($empresa_viatico->result() as $filam) {
 ?>
         <tr>
-            <td><?php echo $filam->fecha; ?></td>
-            <td><?php echo $filam->nombre_origen; ?></td>
-            <td><?php echo $filam->nombre_destino; ?></td>
-            <td><?php echo $filam->hora_salida; ?></td>
-            <td><?php echo $filam->hora_llegada; ?></td>
-            <td><?php echo $filam->fecha; ?></td>
-            <td><?php echo $filam->viatico; ?>
-                <?php if(floatval($filam->alojamiento)){ ?>
+            <td><?php echo fecha_es($filam->fecha); ?></td>
+            <td><?php echo $filam->nombre_origen." - ".$filam->nombre_destino; ?></td>
+            <td><?php echo hora($filam->hora_salida); ?></td>
+            <td><?php echo hora($filam->hora_llegada); ?></td>
+            <td><?php echo $filam->kilometraje; ?></td>
+            <td><?php if(floatval($filam->alojamiento) > 0){ ?>
                  <p><span class="mytooltip tooltip-effect-5" style="z-index: 0;">
-                    <span class="tooltip-item">Fact.</span> 
+                    <span class="nueva_clase"><?php echo number_format((($filam->viatico)+($filam->alojamiento)), 2); ?></span> 
                         <span class="tooltip-content clearfix">
                           <a class="image-popup-no-margins" href="<?php echo base_url(); ?>assets/viaticos/facturas/<?php echo $filam->factura."?".rand(); ?>" title="Estadia en: <?php echo $filam->nombre_destino; ?>"><img src="<?php echo base_url(); ?>assets/viaticos/facturas/<?php echo $filam->factura."?".rand(); ?>" style="height: 140;" width="180"/></a>
                         </span>
                     </span>
                 </p>
-                <?php } ?>
+                <?php }else{
+                    echo ($filam->viatico);
+                } ?>
             </td>
             <td><?php echo $filam->pasaje; ?></td>
+            <?php
+                echo "<td>";
+                $array = array($filam->id_empresa_viatico, $filam->id_origen, $filam->id_destino,$filam->hora_salida, $filam->hora_llegada, $filam->pasaje,$filam->viatico, $filam->alojamiento, $filam->horarios_viaticos, $filam->fecha, $filam->id_mision, $filam->factura, $filam->kilometraje);
+                array_push($array, "edit");
+                echo generar_boton($array,"cambiar_editar_viatico","btn-info","fa fa-wrench","Editar");
+                unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                array_push($array, "delete");
+                echo generar_boton($array,"cambiar_editar_viatico","btn-danger","fa fa-close","Eliminar");
+                echo "</td>";
+            ?>
         </tr>
 <?php
         }

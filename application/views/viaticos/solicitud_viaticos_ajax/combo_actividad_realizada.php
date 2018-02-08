@@ -11,7 +11,7 @@
                    $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."'");
                         if($activida_sub->num_rows() > 0){
                             foreach ($activida_sub->result() as $filasub) {              
-                               echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';
+                               echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';
                             }
                         }
                 }
