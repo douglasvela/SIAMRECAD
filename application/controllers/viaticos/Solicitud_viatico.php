@@ -196,6 +196,10 @@ class Solicitud_viatico extends CI_Controller {
 
 	}
 
+	public function obtener_ultima_mision(){
+		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
+	}
+
 /*	
 
 	
@@ -217,9 +221,7 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
 	}
 
-	public function obtener_ultima_mision(){
-		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
-	}
+	
 
 	
 

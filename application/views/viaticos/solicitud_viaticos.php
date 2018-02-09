@@ -1,3 +1,10 @@
+<?php
+    $mantenimiento = true;
+    if($mantenimiento){
+        header("Location: ".site_url()."/mantenimiento");
+        exit();
+    }
+?>
 <style>
 
     #map {
@@ -522,6 +529,21 @@
     	}else{
     		$("#factura").hide(500);
     	}
+    }
+
+    function buscar_idmision(){
+        var nr = $("#nr").val();
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_ultima_mision", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $("#id_mision").val(ajax.responseText);
+                form_rutas();              
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&nr="+nr)
     }
 
 </script>
