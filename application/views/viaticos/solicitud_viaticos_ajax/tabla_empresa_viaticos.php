@@ -39,7 +39,7 @@
             <td><?php echo $filam->kilometraje; ?></td>
             <td><?php if(floatval($filam->alojamiento) > 0){ ?>
                  <p><span class="mytooltip tooltip-effect-5" style="z-index: 0;">
-                    <span class="nueva_clase"><?php echo number_format((($filam->viatico)+($filam->alojamiento)), 2); ?></span> 
+                    <span class="tooltip-item nueva_clase"><?php echo number_format((($filam->viatico)+($filam->alojamiento)), 2); ?></span> 
                         <span class="tooltip-content clearfix">
                           <a class="image-popup-no-margins" href="<?php echo base_url(); ?>assets/viaticos/facturas/<?php echo $filam->factura."?".rand(); ?>" title="Estadia en: <?php echo $filam->nombre_destino; ?>"><img src="<?php echo base_url(); ?>assets/viaticos/facturas/<?php echo $filam->factura."?".rand(); ?>" style="height: 140;" width="180"/></a>
                         </span>

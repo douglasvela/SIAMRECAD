@@ -1,4 +1,10 @@
 <?php
+    $mantenimiento = true;
+    if($mantenimiento){
+        header("Location: ".site_url()."/mantenimiento");
+        exit();
+    }
+
     $user = $this->session->userdata('usuario_viatico');
     if(empty($user)){
         header("Location: ".site_url()."/login");

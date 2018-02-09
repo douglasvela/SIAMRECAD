@@ -1,5 +1,5 @@
 <?php
-    $mantenimiento = true;
+    $mantenimiento = false;
     if($mantenimiento){
         header("Location: ".site_url()."/mantenimiento");
         exit();
@@ -165,6 +165,7 @@
 
         if(bandera == "edit"){
             //observaciones(id);
+            form_mision();
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
             $("#btnadd").hide(0);
@@ -180,6 +181,12 @@
     function editar_mision(){
         $("#band").val("edit");
         $("#submit_button").click();
+    }
+
+    function form_mision(){
+        $("#cnt_mision").show(0);
+        $("#cnt_rutas").hide(0);
+        $("#cnt_viaticos").hide(0);
     }
 
     function form_rutas(){
@@ -470,7 +477,7 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("tabla_viaticos").innerHTML=xmlhttp_municipio.responseText;
                   $('[data-toggle="tooltip"]').tooltip();
-                  $('.dropify').dropify();
+                  imagen("");
                   $('.image-popup-no-margins').magnificPopup({
 						type: 'image',
 						closeOnContentClick: true,
@@ -491,6 +498,23 @@
         xmlhttp_municipio.send();
     }
 
+    function imagen(ruta){
+        alert(ruta)
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("factura").innerHTML=xmlhttp_municipio.responseText;
+                  $('.dropify').dropify();
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/dropify?ruta="+ruta,true);
+        xmlhttp_municipio.send();
+    }
+
     function form_empresas_viaticos(tipo){
         var id_mision = $("#id_mision").val();
         var nr = $("#nr").val();
@@ -503,9 +527,7 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("cnt_form_viaticos").innerHTML=xmlhttp_municipio.responseText;
                   	$('[data-toggle="tooltip"]').tooltip();
-                  	$('.dropify').dropify();
-                  	
-                  tabla_empresas_viaticos(tipo);
+                    tabla_empresas_viaticos(tipo);
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/form_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
@@ -523,8 +545,8 @@
     	$("#id_distancia").val(id_destino);
     }
 
-    function cambiarFactura(obj){
-    	if(obj.checked){
+    function cambiarFactura(){
+    	if(document.getElementById("band_factura").checked){
     		$("#factura").show(500);
     	}else{
     		$("#factura").hide(500);
@@ -544,6 +566,33 @@
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
         ajax.send("&nr="+nr)
+    }
+
+    function cambiar_editar_viatico(id_viatico, id_origen, id_destino, hora_salida, hora_llegada, pasaje, viatico, alojamiento, horarios, fecha, id_mision, factura, kilometraje){
+        $("#id_empresa_viatico").val(id_viatico);
+        $("#fecha_mision").val(fecha);
+        $("#id_origen").val(id_origen);
+        $("#id_destino").val(id_destino);
+        $("#hora_salida").val(hora_salida);
+        $("#hora_llegada").val(hora_llegada);
+        $("#pasaje").val(pasaje);
+        $("#viatico").val(viatico);
+        $("#id_distancia").val(id_destino);
+        $("#alojamiento").val(alojamiento);
+
+        var ruta = "";
+
+        if(parseFloat(alojamiento) > 0){
+            document.getElementById("band_factura").checked = 1;
+            cambiarFactura();
+            ruta = "<?php echo base_url(); ?>assets/viaticos/facturas/"+factura;
+        }else{
+            document.getElementById("band_factura").checked = 0;
+            cambiarFactura();
+            ruta = "";
+        }
+
+        imagen(ruta);
     }
 
 </script>

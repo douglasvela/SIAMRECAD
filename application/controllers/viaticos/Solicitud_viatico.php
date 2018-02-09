@@ -27,6 +27,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/informacion_empleado');
 	}
 
+	public function dropify(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/dropify');
+	}
+
 	public function gestionar_mision(){
 
 		if($this->input->post('band') == "save"){

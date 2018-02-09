@@ -44,14 +44,15 @@
 <br>
 	<h5>Registro de lugares visitados</h5>
 	<blockquote>
+    <input type="text" id="id_empresa_viatico" name="id_empresa_viatico">
 	<div class="row">
-		<div class="form-group col-lg-2">   
+		<div class="form-group col-lg-2">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
             <select id="fecha_mision" name="fecha_mision" class="form-control custom-select"  style="width: 100%" required="">
                 <?php
                 	$nuevafecha = $fecha_inicio;
                 	for($i=0; $i<=$duracion; $i++){
-                		echo '<option value="'.date( 'Y-d-m', strtotime($nuevafecha)).'">'.date( 'd/m/Y', strtotime($nuevafecha)).'</option>';
+                		echo '<option value="'.date( 'Y-m-d', strtotime($nuevafecha)).'">'.date( 'd/m/Y', strtotime($nuevafecha)).'</option>';
                 		$nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;
                 		$nuevafecha = date( 'Y-m-d', $nuevafecha);
                 	}
@@ -143,7 +144,7 @@
         <div class="form-group col-lg-4" style="margin-bottom: 5px;" align="center">
             <h5>¿utilizó alojamiento? <span class="text-danger">*</span></h5>
             <div class="switch">
-	            <label>No<input type="checkbox" id="band_factura" onchange="cambiarFactura(this)"><span class="lever"></span>Sí</label>
+	            <label>No<input type="checkbox" id="band_factura" onchange="cambiarFactura()"><span class="lever"></span>Sí</label>
 	        </div>
         </div>
         <div class="form-group col-lg-4" style="margin-bottom: 5px;">
@@ -157,8 +158,7 @@
 	</div>
 
 	<div id="factura" style="display: none;">
-	    <label for="input-file-now">Adjunte la factura</label>
-	    <input type="file" id="file" name="file" class="dropify" />
+	    
 	</div>
 
 	<hr style="margin: 10px;">
