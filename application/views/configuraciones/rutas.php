@@ -154,7 +154,17 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
     }
 
     function iniciar(){
-        tablaRutas("destino_oficina");
+        <?php
+          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+          $data['id_permiso']="1";
+        
+          if(buscar_permiso($data)){
+        ?>
+            tablaRutas("destino_oficina",<?php echo $this->uri->segment(4);?>);
+        <?php
+          }
+        ?>
     }
 
     function objetoAjax(){
@@ -168,16 +178,11 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
         return xmlhttp;
     }
 
-    function tablaoficinas(){
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
-            $('#myTable').DataTable();
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    }
+   
 
-    function tablaRutas(destino){
+    function tablaRutas(tipo_destino,id_modulo){
 
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/rutas/tabla_rutas/"+destino, function() {
+    $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/rutas/tabla_rutas/"+tipo_destino+"/"+id_modulo, function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });
@@ -279,7 +284,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablaRutas("destino_oficina");$("#band").val('save');limpiar();
+                tablaRutas("destino_oficina",<?php echo $this->uri->segment(4); ?>);$("#band").val('save');limpiar();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -709,6 +714,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
              
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla">
+                    Usted no tiene permiso en este formulario.
             </div>
 
         </div>
@@ -746,7 +752,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablaRutas();$("#band").val('save');
+                tablaRutas("destino_oficina",<?php echo $this->uri->segment(4); ?>);$("#band").val('save');
             }else if(res == "fracaso"){
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.!", type: "error", showConfirmButton: true });
             }else if (res=="duplicado"){

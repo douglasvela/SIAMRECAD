@@ -8,7 +8,7 @@
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
           <?php 
-          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_modulo'] = $id_modulo;
           $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
           $data['id_permiso']="2";
           if(buscar_permiso($data)){
