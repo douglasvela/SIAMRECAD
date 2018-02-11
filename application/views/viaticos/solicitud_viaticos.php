@@ -5,60 +5,142 @@
         exit();
     }
 ?>
-<style>
 
-    #map {
-        height: 450px;
-    }
-
-    #output {
-        font-size: 14px;
-    }
-  
-    .controlers {
-        margin-top: 10px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
-
-    #search_input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 500px;
-    }
-
-    #search_input:focus {
-        border-color: #4d90fe;
-    }
-
-    .list-task .task-done span {
-        text-decoration: line-through;
-    }
-
-    .nueva_clase{
-    	background-color: #0000001a;
-    	padding-left: 3px;
-    	padding-right: 3px;
-    	font-weight: 500;
-    }
-</style>
+<?php
+    $horario_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '1' AND estado = '1'");
+    $restric_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '2' AND estado = '1'");
+?>
 
 <script type="text/javascript">
     /*****************************************************************************************************
     ******************************* Recuperando los horarios de viaticos ********************************/
 
+    var viaticos = [];
+    var restricciones = [];
+
+    function cargarViaticos(){
+        <?php
+            if($horario_viaticos->num_rows() > 0){
+                foreach ($horario_viaticos->result() as $filahor) {
+        ?>
+        viaticos.push([
+            <?php
+                echo "'".$filahor->id_horario_viatico."', ";
+                echo "'".$filahor->descripcion."', ";
+                echo "'".substr($filahor->hora_inicio,0,5)."', ";
+                echo "'".substr($filahor->hora_fin,0,5)."', ";
+                echo "'".$filahor->monto."'";
+            ?>
+        ]);
+        <?php
+                }
+            }
+        ?>
+
+        <?php
+            if($restric_viaticos->num_rows() > 0){
+                foreach ($restric_viaticos->result() as $filares) {
+        ?>
+        restricciones.push([
+            <?php
+                echo "'".$filares->id_horario_viatico."', ";
+                echo "'".$filares->descripcion."', ";
+                echo "'".substr($filares->hora_inicio,0,5)."', ";
+                echo "'".substr($filares->hora_fin,0,5)."', ";
+                echo "'".$filares->id_restriccion."'";
+            ?>
+        ]);
+        <?php
+                }
+            }
+        ?>
+    }
+
+    function verificar_viaticos(){        
+        var hora_salida = $("#hora_salida").val();
+        var hora_llegada = $("#hora_llegada").val();
+
+        if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada)){
+            for(j=0; j<viaticos.length; j++){
+
+                if(((hora_salida < viaticos[j][2] && hora_llegada >= viaticos[j][2]) || (hora_salida >= viaticos[j][2] && hora_salida <= viaticos[j][3]))){
+                    if(!tiene_restriccion(hora_salida, hora_llegada)){
+                        $("#cnt"+viaticos[j][0]).show(0);
+                        document.getElementById("checkbox"+viaticos[j][0]).checked = 1;
+                    }else{
+                        $("#cnt"+viaticos[j][0]).hide(0);
+                        document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
+                    }
+                }else{
+                    $("#cnt"+viaticos[j][0]).hide(0);
+                    document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
+                }
+
+            }
+
+            $("#myModal").modal("show");
+        }else{
+            if(hora_salida == "" || hora_llegada == ""){
+                alert("Horas de mision incompletas")
+            }else{
+                alert("hora de salida debe ser menor a hora de llegada")
+            }
+            
+        }
+
+    }
+
+    function calcular_viaticos(){
+        var total_viaticos = 0;
+        var id_horarios = "";
+        
+        for(k=0; k<viaticos.length; k++){
+            if(document.getElementById("checkbox"+viaticos[k][0]).checked){
+                total_viaticos = parseFloat(total_viaticos) + parseFloat(viaticos[k][4]);
+                id_horarios += viaticos[k][0]+",";
+            }
+        }
+
+        id_horarios = id_horarios.substring(0, (id_horarios.length-1))
+
+        $("#viatico").val(total_viaticos.toFixed(2));
+        $("#horarios").val(id_horarios);
+        $("#myModal").modal("hide");
+    }
+
+    function tiene_restriccion(hora_salida, hora_llegada){
+        var band_rest = false;
+
+        for(i=0; i<restricciones.length; i++){
+            if(restricciones[i][4] == "1"){
+                if(hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]){
+                    band_rest = true;
+                    //$.toast({ heading: 'Restricción hora salida', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                }
+            }else if($restricciones[i][4] == "2"){
+                if(hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3]){
+                    band_rest = true;
+                    //$.toast({ heading: 'Restricción hora llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                }
+            }else if($restricciones[i][4] == "3"){
+                if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) && (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
+                    band_rest = true;
+                    //$.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                }
+            }else if($restricciones[i][4] == "4"){
+                if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) || (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
+                    band_rest = true;
+                    //$.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                }
+            }
+        }
+
+        return band_rest;
+    }
+
     function iniciar(){
         tabla_solicitudes();
+        cargarViaticos();
     }
 
     function objetoAjax(){
@@ -499,7 +581,6 @@
     }
 
     function imagen(ruta){
-        alert(ruta)
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -575,6 +656,7 @@
         $("#id_destino").val(id_destino);
         $("#hora_salida").val(hora_salida);
         $("#hora_llegada").val(hora_llegada);
+        $("#horarios").val(horarios);
         $("#pasaje").val(pasaje);
         $("#viatico").val(viatico);
         $("#id_distancia").val(id_destino);
@@ -593,9 +675,59 @@
         }
 
         imagen(ruta);
+
+        $( "html, body" ).animate({scrollTop:100}, '500');
     }
 
 </script>
+
+<style>
+
+    #map {
+        height: 450px;
+    }
+
+    #output {
+        font-size: 14px;
+    }
+  
+    .controlers {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #search_input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 500px;
+    }
+
+    #search_input:focus {
+        border-color: #4d90fe;
+    }
+
+    .list-task .task-done span {
+        text-decoration: line-through;
+    }
+
+    .nueva_clase{
+        background-color: #0000001a;
+        padding-left: 3px;
+        padding-right: 3px;
+        font-weight: 500;
+    }
+</style>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
@@ -846,16 +978,13 @@
             </div>
             <div class="modal-body" id="contenedor_viatico">
                 <p>Seleccione los viáticos a cobrar.</p>
-                <?php 
-
-                    $horarios = $this->db->get("vyp_horario_viatico");
-
-                    if(!empty($horarios)){
-                        foreach ($horarios->result() as $fila) {
+                <?php
+                    if($horario_viaticos->num_rows() > 0){
+                        foreach ($horario_viaticos->result() as $fila) {
                 ?>
                     <div class="form-check" id="cnt<?php echo $fila->id_horario_viatico; ?>">
                         <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" value="<?php echo $fila->id_horario_viatico; ?>">
+                            <input type="checkbox" id="checkbox<?php echo $fila->id_horario_viatico; ?>" class="custom-control-input" value="<?php echo $fila->id_horario_viatico; ?>">
                             <span class="custom-control-indicator"></span>
                             <span class="custom-control-description"><?php echo $fila->descripcion; ?></span>
                         </label>
@@ -868,7 +997,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="recorrer_modal();" class="btn btn-success waves-effect">Aceptar</button>
+                <button type="button" onclick="calcular_viaticos();" class="btn btn-success waves-effect">Aceptar</button>
             </div>
         </div>
         <!-- /.modal-content -->

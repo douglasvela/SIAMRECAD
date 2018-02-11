@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo_min.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/Logo-min.png">
     <title>Login - Pago de Viáticos</title>
     <!-- Bootstrap Core CSS -->
   <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
@@ -94,7 +94,7 @@
   <div class="login-box card">
     <div class="card-body">
      <?php echo form_open('', array('id' => 'loginform', 'style' => 'margin-top: 0px;', 'class' => 'form-horizontal form-material')); ?>
-        <a href="javascript:void(0)" class="text-center db"><img width="230px;" src="<?php echo base_url(); ?>assets/images/logo_completo.png" alt="Home" /></a>  
+        <a href="javascript:void(0)" class="text-center db"><img width="230px;" src="<?php echo base_url(); ?>assets/images/Logo.png" alt="Home" /></a>  
         
        <div class="form-group m-t-40">
           <div class="col-xs-12">

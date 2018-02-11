@@ -39,7 +39,7 @@
 
                            
                             echo "<td>";
-                            $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2), $fila->id_tipo, $fila->id_categoria, $fila->estado);
+                            $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2), $fila->id_tipo, $fila->id_restriccion, $fila->estado);
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

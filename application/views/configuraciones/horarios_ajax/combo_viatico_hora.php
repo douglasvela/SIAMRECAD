@@ -20,7 +20,8 @@
         <option value="">[Elija el tipo]</option>
         <option class="m-l-50" value="1">Hora Inicio</option>
         <option class="m-l-50" value="2">Hora Fin</option>
-        <option class="m-l-50" value="3">Ambas</option>
+        <option class="m-l-50" value="3">Hora inicio y hora fin</option>
+        <option class="m-l-50" value="3">Hora inicio ó hora fin</option>
     </select>
     <div class="help-block"></div>
 </div>

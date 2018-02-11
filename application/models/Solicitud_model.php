@@ -27,7 +27,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function insertar_viaticos($data){
-		if($this->db->insert('vyp_empresa_viatico', array('id_empresa_viatico' => $data['id_empresa_viatico'], 'id_mision' => $data['id_mision'], 'id_origen' => $data['id_origen'], 'id_destino' => $data['id_destino'], 'nombre_origen' => $data['nombre_origen'], 'nombre_destino' => $data['nombre_destino'], 'hora_salida' => $data['hora_salida'], 'hora_llegada' => $data['hora_llegada'], 'pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'viatico' => $data['viatico'], 'fecha' => $data['fecha'], 'factura' => $data['factura'], 'kilometraje' => $data['kilometraje']))){
+		if($this->db->insert('vyp_empresa_viatico', array('id_empresa_viatico' => $data['id_empresa_viatico'], 'id_mision' => $data['id_mision'], 'id_origen' => $data['id_origen'], 'id_destino' => $data['id_destino'], 'nombre_origen' => $data['nombre_origen'], 'nombre_destino' => $data['nombre_destino'], 'hora_salida' => $data['hora_salida'], 'hora_llegada' => $data['hora_llegada'], 'pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'viatico' => $data['viatico'], 'fecha' => $data['fecha'], 'factura' => $data['factura'], 'kilometraje' => $data['kilometraje'], 'horarios_viaticos' => $data['horarios']))){
 			return "exito";
 		}else{
 			return "fracaso";

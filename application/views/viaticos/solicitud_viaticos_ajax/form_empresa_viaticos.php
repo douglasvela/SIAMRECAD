@@ -45,6 +45,7 @@
 	<h5>Registro de lugares visitados</h5>
 	<blockquote>
     <input type="text" id="id_empresa_viatico" name="id_empresa_viatico">
+    <input type="text" id="horarios" name="horarios">
 	<div class="row">
 		<div class="form-group col-lg-2">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
@@ -95,15 +96,15 @@
 		<div class="form-group col-lg-3">
             <h5>Hora salida: <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="time" id="hora_salida" name="hora_salida" class="form-control" required="" value="08:00">
+                <input type="time" id="hora_salida" name="hora_salida" class="form-control" required="">
                 <div class="help-block"></div>
             </div>
         </div>
         <div class="form-group col-lg-3">
             <h5>Hora llegada: <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="" value="11:00">
-                <div class="help-block"></div>
+            <div class="input-group">
+                <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="">
+                <div class="input-group-addon btn btn-success" onclick="verificar_viaticos();" data-toggle="tooltip" title="Verificar viáticos"><i class="fa fa-check"></i></div>
             </div>
         </div>
         <div class="form-group col-lg-3">

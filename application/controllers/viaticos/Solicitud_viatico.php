@@ -163,6 +163,7 @@ class Solicitud_viatico extends CI_Controller {
 					"hora_llegada" => $this->input->post('hora_llegada'),
 					"pasaje" => $this->input->post('pasaje'),
 					"viatico" => $this->input->post('viatico'),
+					"horarios" => $this->input->post('horarios'),
 					"alojamiento" => $this->input->post('alojamiento'),
 					"factura" => $nombre
 		        );
@@ -190,6 +191,7 @@ class Solicitud_viatico extends CI_Controller {
 				"hora_llegada" => $this->input->post('hora_llegada'),
 				"pasaje" => $this->input->post('pasaje'),
 				"viatico" => $this->input->post('viatico'),
+				"horarios" => $this->input->post('horarios'),
 				"alojamiento" => $this->input->post('alojamiento'),
 				"factura" => ""
 	        );

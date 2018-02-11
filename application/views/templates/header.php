@@ -25,13 +25,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/logo_min.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/Logo-min.png">
     
 
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
 
 
-    <title>SIAMRECAD</title>
+    <title>TravelExp</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/dropify/dist/css/dropify.min.css" rel="stylesheet">
@@ -330,20 +330,20 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="">
                         <!-- Logo icono --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="<?php echo base_url(); ?>assets/images/logo_min.png" height='45px' alt="homepage" class="dark-logo" />
+                            <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="dark-logo" />
                             <!-- Light Logo icon -->
-                            <img src="<?php echo base_url(); ?>assets/images/logo_min.png" height='45px' alt="homepage" class="light-logo" />
+                            <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="light-logo" />
                         </b>
                         <!--Fin Logo icon -->
                         <!-- Logo text --><span>
                          <!-- dark Logo text -->
-                         <img src="<?php echo base_url(); ?>assets/images/logo_text.png" height='15px;' alt="homepage" class="dark-logo" />
+                         <img src="<?php echo base_url(); ?>assets/images/texto.png" height='30px;' alt="homepage" class="dark-logo" />
                          <!-- Light Logo text -->
-                         <img src="<?php echo base_url(); ?>assets/images/logo_text.png" style="margin-left: 10px; margin-top: 10px;"  height='15px;' class="light-logo" alt="homepage" /></span> </a>
+                         <img src="<?php echo base_url(); ?>assets/images/texto.png" style="margin-left: 10px; margin-top: 10px;"  height='30px;' class="light-logo" alt="homepage" /></span> </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- Fin Logo -->
