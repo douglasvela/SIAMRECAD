@@ -83,6 +83,15 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function editar_viaticos($data){
+		$this->db->where("id_empresa_viatico",$data["id_empresa_viatico"]);
+		if($this->db->update('vyp_empresa_viatico', array('id_origen' => $data['id_origen'], 'id_destino' => $data['id_destino'], 'nombre_origen' => $data['nombre_origen'], 'nombre_destino' => $data['nombre_destino'], 'hora_salida' => $data['hora_salida'], 'hora_llegada' => $data['hora_llegada'], 'pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'viatico' => $data['viatico'], 'fecha' => $data['fecha'], 'factura' => $data['factura'], 'kilometraje' => $data['kilometraje'], 'horarios_viaticos' => $data['horarios']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
 		if($this->db->update('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional']))){
@@ -127,6 +136,14 @@ class Solicitud_model extends CI_Model {
 
 	function eliminar_mision($data){
 		if($this->db->delete("vyp_mision_oficial",array('id_mision_oficial' => $data['id_mision']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function eliminar_viaticos($data){
+		if($this->db->delete("vyp_empresa_viatico",array('id_empresa_viatico' => $data['id_empresa_viatico']))){
 			return "exito";
 		}else{
 			return "fracaso";

@@ -46,6 +46,7 @@
 	<blockquote>
     <input type="text" id="id_empresa_viatico" name="id_empresa_viatico">
     <input type="text" id="horarios" name="horarios">
+    <input type="text" id="band_viatico" name="band_viatico" value="save">
 	<div class="row">
 		<div class="form-group col-lg-2">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
@@ -111,7 +112,7 @@
             <h5>Pasaje: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="pasaje" name="pasaje" class="form-control" required="" placeholder="0.00" value="0.00">
+                <input type="number" id="pasaje" name="pasaje" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
             </div>
             <div class="help-block"></div>
         </div>
@@ -119,7 +120,7 @@
             <h5>Viático: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" value="0.00">
+                <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
             </div>
             <div class="help-block"></div>
         </div>
@@ -152,7 +153,7 @@
             <h5>Monto alojamiento: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" placeholder="0.00" value="0.00">
+                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
             </div>
             <div class="help-block"></div>
         </div>

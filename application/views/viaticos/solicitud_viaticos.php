@@ -649,7 +649,7 @@
         ajax.send("&nr="+nr)
     }
 
-    function cambiar_editar_viatico(id_viatico, id_origen, id_destino, hora_salida, hora_llegada, pasaje, viatico, alojamiento, horarios, fecha, id_mision, factura, kilometraje){
+    function cambiar_editar_viatico(id_viatico, id_origen, id_destino, hora_salida, hora_llegada, pasaje, viatico, alojamiento, horarios, fecha, id_mision, factura, kilometraje,band){
         $("#id_empresa_viatico").val(id_viatico);
         $("#fecha_mision").val(fecha);
         $("#id_origen").val(id_origen);
@@ -662,21 +662,41 @@
         $("#id_distancia").val(id_destino);
         $("#alojamiento").val(alojamiento);
 
-        var ruta = "";
+        $("#band_viatico").val(band);
 
-        if(parseFloat(alojamiento) > 0){
-            document.getElementById("band_factura").checked = 1;
-            cambiarFactura();
-            ruta = "<?php echo base_url(); ?>assets/viaticos/facturas/"+factura;
+        if(band == "edit"){
+            var ruta = "";
+
+            if(parseFloat(alojamiento) > 0){
+                document.getElementById("band_factura").checked = 1;
+                cambiarFactura();
+                ruta = "<?php echo base_url(); ?>assets/viaticos/facturas/"+factura;
+            }else{
+                document.getElementById("band_factura").checked = 0;
+                cambiarFactura();
+                ruta = "";
+            }
+
+            imagen(ruta);
+
+            $( "html, body" ).animate({scrollTop:100}, '500');
         }else{
-            document.getElementById("band_factura").checked = 0;
-            cambiarFactura();
-            ruta = "";
+            eliminar_viaticos()
         }
+    }
 
-        imagen(ruta);
-
-        $( "html, body" ).animate({scrollTop:100}, '500');
+    function eliminar_viaticos(){
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            $("#btn_submit3").click();
+        });
     }
 
 </script>
@@ -1133,22 +1153,19 @@ $(function(){
         })
         .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
 
-        	alert(data)
-
-            /*if(data == "exito"){
-                if($("#band").val() == "save"){
-                    //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                    buscar_idmision();
-                }else if($("#band").val() == "edit"){
-                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                    form_rutas();
+            if(data == "exito"){
+                if($("#band_viatico").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band_viatico").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tabla_solicitudes();
+                tabla_empresas_viaticos();
+                $("#band_viatico").val("save")
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-            }*/
+            }
         });
     });
 

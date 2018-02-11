@@ -132,25 +132,65 @@ class Solicitud_viatico extends CI_Controller {
 
 
 	public function gestionar_viaticos(){
-		$id_empresa_viatico = $this->solicitud_model->obtener_ultimo_id("vyp_empresa_viatico","id_empresa_viatico");
 
-        if(floatval($this->input->post('alojamiento')) > 0){
-        	if(isset($_FILES["file"])){
 
-			    $file = $_FILES["file"];
-			    $nombre = $file["name"];
-			    $tipo = $file["type"];
-			    $ruta_provisional = $file["tmp_name"];
-			    $size = $file["size"];
-			    $dimensiones = getimagesize($ruta_provisional);
-			    $width = $dimensiones[0];
-			    $height = $dimensiones[1];
-			    $carpeta = "assets/viaticos/facturas/";
+		if($this->input->post('band_viatico') == "save" || ($this->input->post('band_viatico') == "edit")){
 
-			    $info = new SplFileInfo($nombre);
+			if($this->input->post('band_viatico') == "save"){
+				$id_empresa_viatico = $this->solicitud_model->obtener_ultimo_id("vyp_empresa_viatico","id_empresa_viatico");
+			}else{
+				$id_empresa_viatico = $this->input->post('id_empresa_viatico');
+			}
+			
+	        if(floatval($this->input->post('alojamiento')) > 0){
+	        	if(isset($_FILES["file"])){
 
-			    $nombre = str_pad($id_empresa_viatico, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
-			    $data = array(
+				    $file = $_FILES["file"];
+				    $nombre = $file["name"];
+				    $tipo = $file["type"];
+				    $ruta_provisional = $file["tmp_name"];
+				    $size = $file["size"];
+				    $dimensiones = getimagesize($ruta_provisional);
+				    $width = $dimensiones[0];
+				    $height = $dimensiones[1];
+				    $carpeta = "assets/viaticos/facturas/";
+
+				    $info = new SplFileInfo($nombre);
+
+				    $nombre = str_pad($id_empresa_viatico, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+				    $data = array(
+						"id_empresa_viatico" => $id_empresa_viatico,
+						"id_mision" => $this->input->post('id_mision'),
+						"fecha" => $this->input->post('fecha_mision'),
+						"id_origen" => $this->input->post('id_origen'),
+						"id_destino" => $this->input->post('id_destino'),
+						"nombre_origen" => $this->input->post('nombre_origen'),
+						"nombre_destino" => $this->input->post('nombre_destino'),
+						"kilometraje" => $this->input->post('kilometraje'),
+						"hora_salida" => $this->input->post('hora_salida'),
+						"hora_llegada" => $this->input->post('hora_llegada'),
+						"pasaje" => $this->input->post('pasaje'),
+						"viatico" => $this->input->post('viatico'),
+						"horarios" => $this->input->post('horarios'),
+						"alojamiento" => $this->input->post('alojamiento'),
+						"factura" => $nombre
+			        );
+
+				    $src = $carpeta.$nombre;
+				    if(move_uploaded_file($ruta_provisional, $src)){
+						if($this->input->post('band_viatico') == "save"){
+							echo $this->solicitud_model->insertar_viaticos($data);
+						}else{
+							echo $this->solicitud_model->editar_viaticos($data);
+						}
+					}else{
+						echo "imagen";
+					}	    
+				}else{
+					echo "vacio";
+				}
+	        }else{
+	        	$data = array(
 					"id_empresa_viatico" => $id_empresa_viatico,
 					"id_mision" => $this->input->post('id_mision'),
 					"fecha" => $this->input->post('fecha_mision'),
@@ -165,38 +205,22 @@ class Solicitud_viatico extends CI_Controller {
 					"viatico" => $this->input->post('viatico'),
 					"horarios" => $this->input->post('horarios'),
 					"alojamiento" => $this->input->post('alojamiento'),
-					"factura" => $nombre
+					"factura" => ""
 		        );
-
-			    $src = $carpeta.$nombre;
-			    if(move_uploaded_file($ruta_provisional, $src)){
+	        	if($this->input->post('band_viatico') == "save"){
 					echo $this->solicitud_model->insertar_viaticos($data);
 				}else{
-					echo "imagen";
-				}	    
-			}else{
-				echo "vacio";
-			}
-        }else{
-        	$data = array(
-				"id_empresa_viatico" => $id_empresa_viatico,
-				"id_mision" => $this->input->post('id_mision'),
-				"fecha" => $this->input->post('fecha_mision'),
-				"id_origen" => $this->input->post('id_origen'),
-				"id_destino" => $this->input->post('id_destino'),
-				"nombre_origen" => $this->input->post('nombre_origen'),
-				"nombre_destino" => $this->input->post('nombre_destino'),
-				"kilometraje" => $this->input->post('kilometraje'),
-				"hora_salida" => $this->input->post('hora_salida'),
-				"hora_llegada" => $this->input->post('hora_llegada'),
-				"pasaje" => $this->input->post('pasaje'),
-				"viatico" => $this->input->post('viatico'),
-				"horarios" => $this->input->post('horarios'),
-				"alojamiento" => $this->input->post('alojamiento'),
-				"factura" => ""
+					echo $this->solicitud_model->editar_viaticos($data);
+				}
+	        }
+		}else{
+			$data = array(
+				"id_empresa_viatico" => $this->input->post('id_empresa_viatico')
 	        );
-        	echo $this->solicitud_model->insertar_viaticos($data);
-        }
+	    	echo $this->solicitud_model->eliminar_viaticos($data);
+		}
+
+		
 
 		
 
