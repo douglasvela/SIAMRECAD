@@ -92,7 +92,14 @@
     }
 
     function iniciar(){
-        tablahorarios();        
+        <?php
+          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+          $data['id_permiso']="1";
+          if(buscar_permiso($data)){
+        ?>
+        tablahorarios(<?php echo $this->uri->segment(4);?>);        
+        <?php } ?>
     }
 
     function objetoAjax(){
@@ -106,7 +113,7 @@
         return xmlhttp;
     }
 
-    function tablahorarios(){
+    function tablahorarios(id_modulo){
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -119,7 +126,7 @@
                 $('#myTable').DataTable();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/horarios/tabla_horarios",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/horarios/tabla_horarios/"+id_modulo,true);
         xmlhttpB.send();
     }
 
@@ -249,7 +256,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt_tabla">
-
+                    Usted no tiene permiso en este formulario.
             </div>
             
             <!-- ============================================================== -->
