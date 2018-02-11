@@ -7,7 +7,14 @@
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
+            <?php 
+            $data['id_modulo'] = $this->uri->segment(4);
+            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+            $data['id_permiso']="2";
+              if(buscar_permiso($data)){
+            ?>
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+            <?php } ?>
         </div>
         <div class="table-responsive">
             <table id="myTable" class="table table-bordered product-overview">
@@ -69,18 +76,33 @@
 
                             /******* botón para la gestión de TELEFONOS **********/
                             echo "<td>";
-                              $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
-                              echo generar_boton($arrayTel,"cambiar_phone","btn-info","mdi mdi-phone-plus","Teléfono(s)");
+                                 $data['id_modulo'] = $this->uri->segment(4);
+                                $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                                $data['id_permiso']="4";
+                                if(buscar_permiso($data)){
+                                    $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
+                                    echo generar_boton($arrayTel,"cambiar_phone","btn-info","mdi mdi-phone-plus","Teléfono(s)");
+                                }
                             echo "</td>";
 
                             /******* botones para la edición de OFICINAS **********/
                             echo "<td>";
                               $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina,$fila->id_departamento,$fila->id_municipio,$fila->id_zona);
-                              array_push($array, "edit");
-                              echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                              unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                              array_push($array, "delete");
-                              echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                               $data['id_modulo'] = $this->uri->segment(4);
+                                $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                                $data['id_permiso']="4";
+                                if(buscar_permiso($data)){
+                                    array_push($array, "edit");
+                                    echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                                }
+                                $data['id_modulo'] = $this->uri->segment(4);
+                                $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                                $data['id_permiso']="3";
+                                if(buscar_permiso($data)){
+                                    unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                    array_push($array, "delete");
+                                    echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                                }
                             echo "</td>";
 
                            echo "</tr>";

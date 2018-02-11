@@ -60,7 +60,14 @@
     }
 
     function iniciar(){
-        tablabancos();
+        <?php
+          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+          $data['id_permiso']="1";
+          if(buscar_permiso($data)){
+        ?>
+        tablabancos(<?php echo $this->uri->segment(4);?>);
+        <?php } ?>
     }
 
     function objetoAjax(){
@@ -74,8 +81,8 @@
         return xmlhttp;
     }
 
-    function tablabancos(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos", function() {
+    function tablabancos(id_modulo){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/"+id_modulo, function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
@@ -160,7 +167,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
-
+                Usted no tiene permiso en este formulario.
             </div>
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->

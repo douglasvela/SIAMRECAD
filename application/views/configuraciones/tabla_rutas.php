@@ -1,5 +1,5 @@
 <?php
-
+        
 ?>
 <div class="card">
     <div class="card-header">
@@ -13,16 +13,25 @@
         <div class="pull-left">
             <div class="">
             <label for="" class="font-weight-bold">Opcion de destino:  </label><br>
-            <input type="radio" id="m_destino_oficina" <?php if($tipo_destino=="destino_oficina"){?> checked <?php }?> name="m_gender" value="m_destino_oficina" onclick="tablaRutas('destino_oficina');">
+            <input type="radio" id="m_destino_oficina" <?php if($this->uri->segment(4)=="destino_oficina"){?> checked <?php }?> name="m_gender" value="m_destino_oficina" onclick="tablaRutas('destino_oficina',<?php  echo $this->uri->segment(5); ?>);">
             <label for="m_destino_oficina">Oficina</label>
-            <input type="radio" id="m_destino_municipio" <?php if($tipo_destino=="destino_municipio"){?> checked <?php }?> name="m_gender" value="m_destino_municipio" onclick="tablaRutas('destino_municipio');">
+            <input type="radio" id="m_destino_municipio" <?php if($this->uri->segment(4)=="destino_municipio"){?> checked <?php }?> name="m_gender" value="m_destino_municipio" onclick="tablaRutas('destino_municipio',<?php echo $this->uri->segment(5) ?>);">
             <label for="m_destino_municipio">Municipio</label>
-            <input type="radio" id="m_destino_mapa" <?php if($tipo_destino=="destino_mapa"){?> checked <?php }?> name="m_gender" value="m_destino_mapa" onclick="tablaRutas('destino_mapa');">
+            <input type="radio" id="m_destino_mapa" <?php if($this->uri->segment(4)=="destino_mapa"){?> checked <?php }?> name="m_gender" value="m_destino_mapa" onclick="tablaRutas('destino_mapa',<?php  echo $this->uri->segment(5); ?>);">
             <label for="m_destino_mapa">Buscar en Mapa</label>
         </div>
         </div>
         <div class="pull-right">
+        <?php 
+            $data['id_modulo'] = $this->uri->segment(5);
+            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+            $data['id_permiso']="2";
+          if(buscar_permiso($data)){
+        ?>
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+            <?php
+          } 
+          ?>
         </div>
 
         <div class="table-responsive">
@@ -85,12 +94,22 @@
 
                             echo "<td>";
                             $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_oficina_destino_vyp_rutas,$fila->km_vyp_rutas);
-                            array_push($array, "edit");
-                            echo generar_boton($array,"editar_oficina","btn-info","fa fa-wrench","Editar");
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            $array = array($fila->id_vyp_rutas);
-                            array_push($array, "delete");
-                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            $data['id_modulo'] = $this->uri->segment(5);
+                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                            $data['id_permiso']="4";
+                            if(buscar_permiso($data)){
+                                array_push($array, "edit");
+                                echo generar_boton($array,"editar_oficina","btn-info","fa fa-wrench","Editar");
+                            }
+                            $data['id_modulo'] = $this->uri->segment(5);
+                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                            $data['id_permiso']="3";
+                            if(buscar_permiso($data)){
+                                unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                $array = array($fila->id_vyp_rutas);
+                                array_push($array, "delete");
+                                echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            }
                             echo "</td>";
 
                            echo "</tr>";
@@ -125,11 +144,21 @@
 
                             echo "<td>";
                             $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_departamento_vyp_rutas,$fila->id_municipio_vyp_rutas,$fila->km_vyp_rutas);
-                            array_push($array, "edit");
-                            echo generar_boton($array,"editar_municipio","btn-info","fa fa-wrench","Editar");
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            array_push($array, "delete");
-                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            $data['id_modulo'] = $this->uri->segment(5);
+                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                            $data['id_permiso']="4";
+                            if(buscar_permiso($data)){
+                                array_push($array, "edit");
+                                echo generar_boton($array,"editar_municipio","btn-info","fa fa-wrench","Editar");
+                            }
+                            $data['id_modulo'] = $this->uri->segment(5);
+                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                            $data['id_permiso']="3";
+                            if(buscar_permiso($data)){
+                                unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                array_push($array, "delete");
+                                echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            }
                             echo "</td>";
 
                            echo "</tr>";
@@ -165,11 +194,21 @@
 
                             echo "<td>";
                             $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_departamento_vyp_rutas,$fila->id_municipio_vyp_rutas,$fila->km_vyp_rutas,$fila->latitud_destino_vyp_rutas,$fila->longitud_destino_vyp_rutas,$fila->nombre_empresa_vyp_rutas,$fila->direccion_empresa_vyp_rutas);
-                            array_push($array, "edit");
-                            echo generar_boton($array,"editar_mapa","btn-info","fa fa-wrench","Editar");
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            array_push($array, "delete");
-                            echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            $data['id_modulo'] = $this->uri->segment(5);
+                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                            $data['id_permiso']="4";
+                            if(buscar_permiso($data)){
+                                array_push($array, "edit");
+                                echo generar_boton($array,"editar_mapa","btn-info","fa fa-wrench","Editar");
+                            }
+                            $data['id_modulo'] = $this->uri->segment(5);
+                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                            $data['id_permiso']="3";
+                            if(buscar_permiso($data)){
+                                unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                array_push($array, "delete");
+                                echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
+                            }
                             echo "</td>";
 
                            echo "</tr>";

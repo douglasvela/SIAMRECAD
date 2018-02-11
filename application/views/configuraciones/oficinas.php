@@ -106,7 +106,16 @@
     }
 
     function iniciar(){
-      tablaoficinas();
+        <?php
+          $data['id_modulo'] = $this->uri->segment(4);
+          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+          $data['id_permiso']="1";
+          if(buscar_permiso($data)){
+        ?>
+        tablaoficinas(<?php echo $this->uri->segment(4);?>);
+        <?php
+          }
+        ?>
     }
     
 
@@ -121,8 +130,8 @@
         return xmlhttp;
     }
 
-    function tablaoficinas(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas", function() {
+    function tablaoficinas(id_modulo){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas/"+id_modulo, function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
            // buscarMunicipio(0,"null");
@@ -565,6 +574,7 @@
             </div>
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla-phone">
+                    Usted no tiene permiso para este formulario.
             </div>
 
         </div>
