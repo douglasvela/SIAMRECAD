@@ -44,9 +44,9 @@
 <br>
 	<h5>Registro de lugares visitados</h5>
 	<blockquote>
-    <input type="text" id="id_empresa_viatico" name="id_empresa_viatico">
-    <input type="text" id="horarios" name="horarios">
-    <input type="text" id="band_viatico" name="band_viatico" value="save">
+    <input type="hidden" id="id_empresa_viatico" name="id_empresa_viatico">
+    <input type="hidden" id="horarios" name="horarios">
+    <input type="hidden" id="band_viatico" name="band_viatico" value="save">
 	<div class="row">
 		<div class="form-group col-lg-2">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
@@ -103,9 +103,8 @@
         </div>
         <div class="form-group col-lg-3">
             <h5>Hora llegada: <span class="text-danger">*</span></h5>
-            <div class="input-group">
+            <div class="controls">
                 <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="">
-                <div class="input-group-addon btn btn-success" onclick="verificar_viaticos();" data-toggle="tooltip" title="Verificar viáticos"><i class="fa fa-check"></i></div>
             </div>
         </div>
         <div class="form-group col-lg-3">
@@ -121,6 +120,7 @@
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
                 <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
+                <div class="input-group-addon btn btn-success" onclick="verificar_viaticos();" data-toggle="tooltip" title="Verificar viáticos"><i class="fa fa-check"></i></div>
             </div>
             <div class="help-block"></div>
         </div>
@@ -169,6 +169,6 @@
         <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Agregar destino</button>
     </div>
     <div align="right" id="btnedit3" style="display: none;">
-        <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+        <button type="submit" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
     </div>
     </blockquote>

@@ -65,7 +65,7 @@ class Solicitud_viatico extends CI_Controller {
 
 			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
 			
-			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_registros_viaticos($this->input->post('id_mision')) == true){
+			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_empresas_viaticos($this->input->post('id_mision')) == true){
 				echo $this->solicitud_model->eliminar_mision($data);
 			}else{
 				echo "fracaso";
@@ -133,7 +133,6 @@ class Solicitud_viatico extends CI_Controller {
 
 	public function gestionar_viaticos(){
 
-
 		if($this->input->post('band_viatico') == "save" || ($this->input->post('band_viatico') == "edit")){
 
 			if($this->input->post('band_viatico') == "save"){
@@ -150,9 +149,9 @@ class Solicitud_viatico extends CI_Controller {
 				    $tipo = $file["type"];
 				    $ruta_provisional = $file["tmp_name"];
 				    $size = $file["size"];
-				    $dimensiones = getimagesize($ruta_provisional);
-				    $width = $dimensiones[0];
-				    $height = $dimensiones[1];
+				    //$dimensiones = getimagesize($ruta_provisional);
+				    //$width = $dimensiones[0];
+				    //$height = $dimensiones[1];
 				    $carpeta = "assets/viaticos/facturas/";
 
 				    $info = new SplFileInfo($nombre);
@@ -184,7 +183,27 @@ class Solicitud_viatico extends CI_Controller {
 							echo $this->solicitud_model->editar_viaticos($data);
 						}
 					}else{
-						echo "imagen";
+						if($this->input->post('band_viatico') == "save"){
+							echo "imagen";
+						}else{
+							$data = array(
+								"id_empresa_viatico" => $id_empresa_viatico,
+								"id_mision" => $this->input->post('id_mision'),
+								"fecha" => $this->input->post('fecha_mision'),
+								"id_origen" => $this->input->post('id_origen'),
+								"id_destino" => $this->input->post('id_destino'),
+								"nombre_origen" => $this->input->post('nombre_origen'),
+								"nombre_destino" => $this->input->post('nombre_destino'),
+								"kilometraje" => $this->input->post('kilometraje'),
+								"hora_salida" => $this->input->post('hora_salida'),
+								"hora_llegada" => $this->input->post('hora_llegada'),
+								"pasaje" => $this->input->post('pasaje'),
+								"viatico" => $this->input->post('viatico'),
+								"horarios" => $this->input->post('horarios'),
+								"alojamiento" => $this->input->post('alojamiento')
+					        );
+							echo $this->solicitud_model->editar_viaticos2($data);
+						}
 					}	    
 				}else{
 					echo "vacio";
@@ -220,15 +239,33 @@ class Solicitud_viatico extends CI_Controller {
 	    	echo $this->solicitud_model->eliminar_viaticos($data);
 		}
 
-		
-
-		
-
 	}
 
 	public function obtener_ultima_mision(){
 		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
 	}
+
+	function fecha_repetida(){
+		$fecha1 = date("Y-m-d",strtotime($_POST['fecha1']));
+		$fecha2 = date("Y-m-d",strtotime($_POST['fecha2']));
+
+		$sql = "SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial <> '".$_POST['id_mision']."' AND ((fecha_mision_inicio >= '".$fecha1."' AND fecha_mision_inicio <= '".$fecha2."') OR (fecha_mision_inicio <= '".$fecha1."' AND fecha_mision_fin >= '".$fecha1."'))";
+
+		if($this->solicitud_model->fecha_repetida($sql)){
+			echo "fecha_repetida";
+		}else{
+			echo "exito";
+		}
+	}
+
+	function generear_solicitud(){
+		if($this->solicitud_model->verficar_cumpla_kilometros($_POST['id_mision'])){
+			echo $this->solicitud_model->cambiar_estado_revision($_POST['id_mision']);
+		}else{
+			echo "kilometraje";
+		}
+	}
+
 
 /*	
 

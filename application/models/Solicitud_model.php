@@ -34,7 +34,7 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
-	function insertar_actividad($data){
+	/*function insertar_actividad($data){
 		$name = strtoupper($data['nueva_actividad']);
 		$query = $this->db->query("select * from vyp_actividades where nombre_vyp_actividades = '$name'");
 
@@ -47,7 +47,7 @@ class Solicitud_model extends CI_Model {
 		}else{
 			return "duplicado";
 		}
-	}
+	}*/
 
 	function insertar_ruta($data){
 		if($data["tipo"] == "destino_oficina"){
@@ -92,6 +92,15 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function editar_viaticos2($data){
+		$this->db->where("id_empresa_viatico",$data["id_empresa_viatico"]);
+		if($this->db->update('vyp_empresa_viatico', array('id_origen' => $data['id_origen'], 'id_destino' => $data['id_destino'], 'nombre_origen' => $data['nombre_origen'], 'nombre_destino' => $data['nombre_destino'], 'hora_salida' => $data['hora_salida'], 'hora_llegada' => $data['hora_llegada'], 'pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'viatico' => $data['viatico'], 'fecha' => $data['fecha'], 'kilometraje' => $data['kilometraje'], 'horarios_viaticos' => $data['horarios']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
 		if($this->db->update('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional']))){
@@ -101,13 +110,23 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
-	function estado_revision($data){
+	function fecha_repetida($sql){
+		$query = $this->db->query($sql);
+		if($query->num_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	function cambiar_estado_revision($data){
 		$query = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$data."'");
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
 			}
-		}		
+		}
+
 		$newestado = 1;
 		if($estado == 0){
 			$newestado = 1;
@@ -158,13 +177,15 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
-	function eliminar_registros_viaticos($data){
-		if($this->db->delete("vyp_viatico_empresa_horario",array('id_mision' => $data))){
+	function eliminar_empresas_viaticos($data){
+		if($this->db->delete("vyp_empresa_viatico",array('id_mision' => $data))){
 			return true;
 		}else{
 			return false;
 		}
 	}
+
+	/*
 
 	function ordenar_empresas_visitadas($data){
 		if($this->db->query($data)){
@@ -188,7 +209,7 @@ class Solicitud_model extends CI_Model {
 		}else{
 			return "fracaso";
 		}
-	}
+	}*/
 
 	function editar_destino($data){
 		if($this->db->query("UPDATE vyp_empresas_visitadas SET kilometraje = '".$data['distancia']."' WHERE id_mision_oficial = '".$data['id_mision']."' AND id_destino = '".$data['id_destino']."'")){
@@ -198,7 +219,16 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
-	function verficar_oficina_destino($data){
+	function verficar_cumpla_kilometros($data){
+		$query = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$data."' AND kilometraje > 15");
+		if($query->num_rows() > 0){
+			return true; 
+		}else{
+			return false;
+		}
+	}
+
+	/*function verficar_oficina_destino($data){
 		$query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$data['id_mision']."' AND tipo_destino = 'destino_oficina' AND id_municipio = '".$data['municipio']."' AND id_departamento = '".$data['departamento']."'");
 		if($query->num_rows() > 0){
 			return $this->editar_destino($data); 
@@ -207,14 +237,7 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
-	function verficar_cumpla_kilometros($data){
-		$query = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$data['id_mision']."' AND kilometraje > 15");
-		if($query->num_rows() > 0){
-			return true; 
-		}else{
-			return false;
-		}
-	}
+	*/
 
 	function obtener_ultimo_id($tabla,$nombreid){
 		$this->db->order_by($nombreid, "asc");
