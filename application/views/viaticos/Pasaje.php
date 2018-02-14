@@ -212,7 +212,7 @@ function eliminar_pasaje(){
                         <h4 class="card-title m-b-0 text-white">Pasajes</h4>
                     </div>
                     <div class="card-body b-t">
-                        
+                    <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <input type="hidden" id="band" name="band" value="save">
                            
                             <input type="hidden" id="idb" name="idb" value="">
@@ -235,13 +235,11 @@ function eliminar_pasaje(){
                     </div>
                     <h5>Pasajes del empleado</h5>
                     <blockquote class="m-t-10">
-                       
-                        <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                                               
                                 <div id="cnt_pasaje"></div> <!--para imprimir la tabla -->
                                  
-                        <?php echo form_close(); ?>
                         </blockquote>
-                        
+                    <?php echo form_close(); ?>
                     </div>
                 </div>
             </div>
@@ -270,13 +268,13 @@ $(function(){
 
 $("#formcuentas2").on("submit", function(e){
    
-      e.preventDefault();
-        
+        e.preventDefault();
+
         var f = $(this);
         var formData = new FormData(document.getElementById("formcuentas2"));
         formData.append("dato", "valor");
        
-        $("#band").val('save')
+        /*$("#band").val('save')
         $("#fecha_mision").val($("#fecha").val());
          $("#expediente").val($("#expediente").val());
           $("#empresa").val($("#empresa").val());
@@ -287,7 +285,7 @@ $("#formcuentas2").on("submit", function(e){
         
 
         //$("#modal_cuenta_bancaria").modal('show')
-        $("#submitbutton").click();
+        $("#submitbutton").click();*/
         
      
 
@@ -299,7 +297,7 @@ $("#formcuentas2").on("submit", function(e){
         formData.append("dato", "valor");*/
         
         $.ajax({
-            url: "<?php echo site_url(); ?>//viatico/Pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
             type: "post",
             dataType: "html",
             data: formData,
@@ -308,6 +306,7 @@ $("#formcuentas2").on("submit", function(e){
             processData: false
         })
         .done(function(res){
+            alert(res)
             if(res == "exito"){
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
@@ -316,8 +315,8 @@ $("#formcuentas2").on("submit", function(e){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                $("#band").val('edit');
-                tabla_cuentas();
+                $("#band").val('save');
+                //tabla_cuentas();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }

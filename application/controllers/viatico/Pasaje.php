@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class pasaje extends CI_Controller {
+class Pasaje extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -32,7 +32,6 @@ class pasaje extends CI_Controller {
 			$data = array(
 
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			'fecha_mision' => $this->input->post('fecha'), 
 			'expediente' => $this->input->post('expediente'),
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
@@ -46,7 +45,6 @@ class pasaje extends CI_Controller {
 			$data = array(
 			'idb' => $this->input->post('idb'), 
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			//'fecha_mision' => $this->input->post('fecha'), 
 			'expediente' => $this->input->post('expediente'),
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
