@@ -68,14 +68,14 @@
                 //$(ths[0]).click();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/observaciones/tabla_observaciones",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/tabla_observaciones",true);
         xmlhttpB.send(); 
     }
 
     function tabla_empresas_visitadas(id_mision){    
         var iframe = $('<embed onload="loaded(this)">');
             iframe.attr('width','100%');
-            iframe.attr('src',"<?php echo site_url(); ?>/viatico/solicitud/imprimir_solicitud?id_mision="+id_mision);
+            iframe.attr('src',"<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud?id_mision="+id_mision);
             $('#cnt_tabla_empresas').append(iframe);
             $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
     }
@@ -97,7 +97,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/observaciones/listado_observaciones?id_mision="+gid_mision,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/listado_observaciones?id_mision="+gid_mision,true);
         xmlhttpB.send(); 
     }
 
@@ -115,7 +115,7 @@
 
     function eliminar_observacion(id_observacion){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/eliminar_observacion", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/eliminar_observacion", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
@@ -135,7 +135,7 @@
         var id_empresa_visitada = $("#id_empresa_visitada").val();
 
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/eliminar_observacion_empresa", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/eliminar_observacion_empresa", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
@@ -155,7 +155,7 @@
     function verificar_observaciones(){
         var estado_solicitud = $("#estado").val();
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/verificar_observaciones", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/verificar_observaciones", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "observaciones"){
@@ -205,7 +205,7 @@
 
     function cambiar_estado_solicitud(estado){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viatico/observaciones/cambiar_estado_solicitud", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/cambiar_estado_solicitud", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
@@ -357,7 +357,7 @@ $(function(){
         };
         $.ajax({
             type:  'POST',
-            url:   '<?php echo site_url(); ?>/viatico/observaciones/observar_empresa',
+            url:   '<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/observar_empresa',
             data: formData,
             cache: false
         })
@@ -384,7 +384,7 @@ $(function(){
         };
         $.ajax({
             type:  'POST',
-            url:   '<?php echo site_url(); ?>/viatico/observaciones/otra_observacion',
+            url:   '<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/otra_observacion',
             data: formData,
             cache: false
         })

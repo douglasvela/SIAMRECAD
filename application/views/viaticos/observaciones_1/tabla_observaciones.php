@@ -38,7 +38,7 @@
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";
                             echo "<td>".$fila->fecha_solicitud."</td>";
-                            echo "<td>".$fila->actividad_realizada."</td>";
+                            echo "<td>".$fila->id_actividad_realizada."</td>";
                             echo "<td>".$fila->nombre_completo."</td>";
 
                             echo "<td>";

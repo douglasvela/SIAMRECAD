@@ -70,7 +70,17 @@
                 	$origenes = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 				    if($origenes->num_rows() > 0){
 				    	foreach ($origenes->result() as $filao) {
-				    		echo '<option value="'.$filao->id_destino.'">'.$filao->nombre_empresa.'</option>';
+                            $ubicacion = $this->db->query("SELECT m.municipio, d.departamento FROM org_municipio AS m JOIN org_departamento AS d ON d.id_departamento = m.id_departamento_pais AND m.id_municipio = '".$filao->id_municipio."'");
+                            if($ubicacion->num_rows() > 0){
+                                foreach ($ubicacion->result() as $filaubi) {}
+                            }
+
+                            if($filao->tipo_destino == "destino_oficina"){
+                                echo '<option value="'.$filao->id_destino.'">'.$filao->nombre_empresa.'</option>';
+                            }else{
+                                echo '<option value="'.$filao->id_destino.'">'.$filao->nombre_empresa." (".parrafo($filaubi->municipio)."/".parrafo($filaubi->departamento).")".'</option>';
+                            }
+				    		
 				    	}
 				    }
                 ?>
@@ -84,7 +94,16 @@
                 	$destinos = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 				    if($destinos->num_rows() > 0){
 				    	foreach ($destinos->result() as $filad) {
-				    		echo '<option value="'.$filad->id_destino.'">'.$filad->nombre_empresa.'</option>';
+				    		$ubicacion = $this->db->query("SELECT m.municipio, d.departamento FROM org_municipio AS m JOIN org_departamento AS d ON d.id_departamento = m.id_departamento_pais AND m.id_municipio = '".$filad->id_municipio."'");
+                            if($ubicacion->num_rows() > 0){
+                                foreach ($ubicacion->result() as $filaubi) {}
+                            }
+
+                            if($filad->tipo_destino == "destino_oficina"){
+                                echo '<option value="'.$filad->id_destino.'">'.$filad->nombre_empresa.'</option>';
+                            }else{
+                                echo '<option value="'.$filad->id_destino.'">'.$filad->nombre_empresa." (".parrafo($filaubi->municipio)."/".parrafo($filaubi->departamento).")".'</option>';
+                            }
 				    	}
 				    }
 				    echo '<option value="'.$id_oficina_origen.'">'.$nombre_oficina_origen.'</option>';
@@ -130,7 +149,7 @@
             <h5>Distancia: <span class="text-danger">*</span></h5>
             <div class="input-group">
             	<div class="input-group-addon">Km</div>
-	            <select id="id_distancia" name="id_distancia" class="form-control custom-select"  style="width: 100%" required="">
+	            <select id="id_distancia" name="hidden" class="form-control custom-select"  style="width: 100%" required="">
 	                <?php
 	                	$kilometrajes = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 					    if($kilometrajes->num_rows() > 0){

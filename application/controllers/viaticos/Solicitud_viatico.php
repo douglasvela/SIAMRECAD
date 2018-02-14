@@ -259,11 +259,16 @@ class Solicitud_viatico extends CI_Controller {
 	}
 
 	function generear_solicitud(){
-		if($this->solicitud_model->verficar_cumpla_kilometros($_POST['id_mision'])){
-			echo $this->solicitud_model->cambiar_estado_revision($_POST['id_mision']);
-		}else{
-			echo "kilometraje";
-		}
+		echo $this->solicitud_model->cambiar_estado_revision($_POST['id_mision']);
+	}
+
+	public function eliminar_destino(){
+		$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_empresas_visitadas = '".$this->input->post('id_empresa_visitada')."'";
+		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
+	}
+
+	public function imprimir_solicitud(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud');
 	}
 
 
@@ -271,9 +276,7 @@ class Solicitud_viatico extends CI_Controller {
 
 	
 
-	public function imprimir_solicitud(){
-		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud');
-	}
+	
 
 	public function imprimir_solicitud_copia(){
 		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud_copia');
@@ -283,10 +286,7 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/viaticos_ajax/observaciones');
 	}
 
-	public function eliminar_destino(){
-		$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_empresas_visitadas = '".$this->input->post('id_empresa_visitada')."'";
-		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
-	}
+	
 
 	
 

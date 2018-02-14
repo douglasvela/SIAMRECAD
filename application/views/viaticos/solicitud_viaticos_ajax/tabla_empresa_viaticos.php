@@ -55,7 +55,7 @@
     $subpasajes = 0;
     $subalojamientos = 0;
 
-    $empresa_viatico = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$id_mision."' ORDER BY fecha, hora_salida");
+    $empresa_viatico = $this->db->query("SELECT v.*, e.tipo_destino FROM vyp_empresa_viatico AS v JOIN vyp_empresas_visitadas AS e ON v.id_destino = e.id_destino AND v.id_mision = '".$id_mision."' ORDER BY v.fecha, v.hora_salida");
     if($empresa_viatico->num_rows() > 0){
         foreach ($empresa_viatico->result() as $filam) {
             $subviaticos += $filam->viatico;
@@ -64,9 +64,13 @@
 ?>
         <tr>
             <td><?php echo fecha_es($filam->fecha); ?>
-                <input type="text" style="width: 25px;" value="<?php echo $filam->id_empresa_viatico; ?>">
+                <input type="hidden" style="width: 25px;" value="<?php echo $filam->id_empresa_viatico; ?>">
+                <input type="hidden" style="width: 50px;" value="<?php echo $filam->id_destino; ?>">
             </td>
-            <td><?php echo $filam->nombre_origen." - ".$filam->nombre_destino; ?></td>
+            <td><?php 
+                echo $filam->nombre_origen." - ".$filam->nombre_destino;
+            ?>
+            </td>
             <td><?php echo hora($filam->hora_salida); ?></td>
             <td><?php echo hora($filam->hora_llegada); ?></td>
             <td align="right"><?php echo $filam->viatico; ?>
@@ -101,7 +105,15 @@
             <td align="right"><?php echo number_format($subviaticos, 2); ?></td>
             <td align="right"><?php echo number_format($subpasajes, 2); ?></td>
             <td align="right"><?php echo number_format($subalojamientos, 2); ?></td>
-            <td align="right"><b>$ <?php echo number_format($subviaticos+$subpasajes+$subalojamientos, 2); ?></b></td>
+            <td align="right">
+                <b>$ <?php
+                    $total_viaticos = $subviaticos+$subpasajes+$subalojamientos;
+                    echo number_format($total_viaticos, 2);
+                ?>
+                <input type="hidden" id="total_viaticos" name="total_viaticos" value="<?php echo $subviaticos; ?>">
+                </b>
+
+            </td>
         </tr>
 			  	</tbody>
 			</table>
