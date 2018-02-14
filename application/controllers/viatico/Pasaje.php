@@ -18,19 +18,26 @@ class pasaje extends CI_Controller {
 		$this->load->view('viaticos/tabla_pasajes');
 	}
 
-public function gestionar_pasaje(){		
+
+
+	
+	public function tabla_pasaje_unidad(){
+		$this->load->view('viaticos/viaticos_ajax/tabla_pasajes');
+	}
+
+	public function gestionar_pasaje(){		
 
 		if($this->input->post('band') == "save"){
 
 			$data = array(
+
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			//'fecha_mision' => $this->input->post('fecha'), 
+			'fecha_mision' => $this->input->post('fecha'), 
 			'expediente' => $this->input->post('expediente'),
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
 			'nr' => $this->input->post('nr'),
-			'hora_inicio' => $this->input->post('hora_inicio'),
-			'hora_fin' => $this->input->post('hora_fin'),
+			
 			'monto' => $this->input->post('monto')
 			);
 		echo $this->Pasaje_model->insertar_pasaje($data);
@@ -44,8 +51,7 @@ public function gestionar_pasaje(){
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
 			'nr' => $this->input->post('nr'),
-			'hora_inicio' => $this->input->post('hora_inicio'),
-			'hora_fin' => $this->input->post('hora_fin'),
+			
 			'monto' => $this->input->post('monto')
 
 			);
@@ -60,12 +66,6 @@ public function gestionar_pasaje(){
 
 		}
 	}
-	
-	public function tabla_pasaje_unidad(){
-		$this->load->view('viaticos/viaticos_ajax/tabla_pasajes');
-	}
-
-	
 		
 }
 ?>

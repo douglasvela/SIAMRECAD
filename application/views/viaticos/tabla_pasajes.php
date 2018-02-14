@@ -51,7 +51,8 @@
                               echo "<td>".$nr_usuario."</td>";
                               echo "<td>".$fila->monto_pasaje."</td>";
              echo "<td>";
-             $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa,$nr_usuario,$fila->hora_salida,$fila->hora_llegada,$fila->monto_pasaje);
+             $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa,$nr_usuario,$fila->monto_pasaje, 
+                $fila->estado);
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

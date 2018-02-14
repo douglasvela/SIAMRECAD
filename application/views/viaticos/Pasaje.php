@@ -1,16 +1,66 @@
+<?php
+    
+    header("Cache-Control: no-store, no-cache, must-revalidate");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
+
+    $user = $this->session->userdata('usuario_viatico');
+    if(empty($user)){
+        header("Location: ".site_url()."/login");
+        exit();
+    }
+
+    $pos = strpos($user, ".")+1;
+    $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
+
+    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+    $nr_usuario = ""; $nombre_usuario;
+    if($nr->num_rows() > 0){
+        foreach ($nr->result() as $fila) { 
+            $nr_usuario = $fila->nr; 
+            $nombre_usuario = $fila->nombre_completo;
+        }
+    }
+    
+
+    $cuenta_banco = $this->db->query("SELECT * FROM vyp_pasajes WHERE nr = '".$nr_usuario."' AND estado = 1");
+
+?>
+
+
+
 <script type="text/javascript">
 
 
-    function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario,hora_inicio,hora_fin, monto,bandera){
+
+   /* function cambiar_editar(id, nr, id_banco, cuenta, estado, band){
+        $("#id_empleado_banco").val(id);
+        $("#nr2").val(nr);
+        $("#id_banco").val(id_banco).trigger('change.select2');
+        $("#cuenta").val(cuenta);
+        $("#estado").val(estado);
+
+        if(band == 'edit'){
+            $("#modal_cuenta_bancaria").modal('show');
+            $("#band").val(band);
+        }else{
+            $("#band").val(band);
+            $("#submitbutton").click();
+        }
+    }*/
+
+
+
+
+    /*function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,bandera){
           tabla_pasaje_unidad();
         $("#idb").val(id);
         $("#fecha").val(fecha);
         $("#expediente").val(expediente);
         $("#empresa").val(empresa);
         $("#direccion").val(direccion);
-        $("#nr_usuario").val(nr_usuario);
-        $("#hora_inicio").val(hora_inicio);
-        $("#hora_fin").val(hora_fin);
+        $("#nr_usuario").val(nr_usuario)
         $("#monto").val(monto);
 
         if(bandera == "edit"){
@@ -24,7 +74,7 @@
         }else{
             eliminar_pasaje();
         }
-    }
+    }*/
 
     function editar_pasaje(){
 
@@ -35,16 +85,14 @@
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
     }
-    function cambiar_nuevo(){
+   /*function cambiar_nuevo(){
         tabla_pasaje_unidad();
         $("#idb").val("");
         $("#fecha").val("");
         $("#expediente").val("");
         $("#empresa").val("");
         $("#direccion").val("");
-        $("#nr_usuario").val("");
-        $("#hora_inicio").val("");
-        $("#hora_fin").val("");
+        $("#nr2").val("");
         $("#monto").val("");
         $("#band").val("save");
         $("#ttl_form").addClass("bg-success");
@@ -57,7 +105,7 @@
         $("#cnt_form").show(0);
 
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Pasajes");
-    }
+    }*/
 
 function eliminar_pasaje(){
         $("#band").val("delete");
@@ -76,7 +124,11 @@ function eliminar_pasaje(){
    
 
     function iniciar(){
-        tablapasajes();
+        tabla_pasaje_unidad();
+      // cambiar_nuevo();
+        $('html,body').animate({
+            scrollTop: $("body").offset().top
+        }, 500);
     }
 
     function objetoAjax(){
@@ -91,6 +143,7 @@ function eliminar_pasaje(){
     }
 
     function tabla_pasaje_unidad(){ 
+        var nr = $("#nr").val();   
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -99,17 +152,22 @@ function eliminar_pasaje(){
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
-                
+                 $('[data-toggle="tooltip"]').tooltip();
                 $('#fecha').datepicker({
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
+
                 });
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/pasaje/tabla_pasaje_unidad",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/pasaje/tabla_pasaje_unidad?nr="+nr,true);
         xmlhttpB.send(); 
     }
+
+
+
+   
 
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/viatico/Pasaje/tabla_pasajes", function() {
@@ -145,7 +203,7 @@ function eliminar_pasaje(){
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt_form" style="display: none;">
+            <div class="col-lg-10" id="cnt_form" >
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -155,13 +213,13 @@ function eliminar_pasaje(){
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
-                            <input type="hidden" id="band" name="band" value="save">
+                        <input type="hidden" id="band" name="band" value="save">
+                           
                             <input type="hidden" id="idb" name="idb" value="">
                            <div class="row">                        
                         <div class="form-group col-lg-8"> 
                             <h5>Empleado a modificar: <span class="text-danger">*</span></h5>                           
-                            <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="cambiar_informacion();">
+                            <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="tabla_pasaje_unidad();">
                                 <option value="">[Elija el empleado a editar sus datos]</option>
                                 <?php 
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
@@ -175,10 +233,15 @@ function eliminar_pasaje(){
                             <div class="help-block"></div>
                         </div>
                     </div>
-
+                    <h5>Pasajes del empleado</h5>
+                    <blockquote class="m-t-10">
+                       
+                        <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                                 <div id="cnt_pasaje"></div> <!--para imprimir la tabla -->
                                  
                         <?php echo form_close(); ?>
+                        </blockquote>
+                        
                     </div>
                 </div>
             </div>
@@ -188,9 +251,6 @@ function eliminar_pasaje(){
             <!-- ============================================================== -->
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt-tabla">
-
-            </div>
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->
             <!-- ============================================================== -->
@@ -203,48 +263,74 @@ function eliminar_pasaje(){
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
-
+<script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
 <script>
 
-$(function(){     
-    $("#formajax").on("submit", function(e){
+$(function(){
+
+$("#formcuentas2").on("submit", function(e){
+   
+      e.preventDefault();
+        
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formcuentas2"));
+        formData.append("dato", "valor");
+       
+        $("#band").val('save')
+        $("#fecha_mision").val($("#fecha").val());
+         $("#expediente").val($("#expediente").val());
+          $("#empresa").val($("#empresa").val());
+           $("#direccion").val($("#direccion").val());
+
+           $("#nr").val($("#nr").val())
+            $("#monto").val($("#monto").val());
+        
+
+        //$("#modal_cuenta_bancaria").modal('show')
+        $("#submitbutton").click();
+        
+     
+
+
+       /* $("#formajax2").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
-        var formData = new FormData(document.getElementById("formajax"));
-        formData.append("dato", "valor");
+        var formData = new FormData(document.getElementById("formajax2"));
+        formData.append("dato", "valor");*/
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>//viatico/Pasaje/gestionar_pasaje",
             type: "post",
             dataType: "html",
             data: formData,
             cache: false,
             contentType: false,
             processData: false
-
         })
         .done(function(res){
-       alert(res);
             if(res == "exito"){
-
-                cerrar_mantenimiento();
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                }else if($("#band").val() == "edit"){ 
+                }else if($("#band").val() == "edit"){
                     swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablapasajes();
+                $("#band").val('edit');
+                tabla_cuentas();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
-            
+           });    
     });
-});
+ 
+  
 
-</script>  -->
+
+
+
+</script> 
 
 
 
