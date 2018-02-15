@@ -33,7 +33,7 @@
                         }
                     }
 
-                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE (estado = 1 AND nr_jefe_inmediato = '".$nr_usuario."')");
+                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE (estado = 3 AND nr_jefe_regional = '".$nr_usuario."')");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";

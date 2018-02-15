@@ -23,14 +23,6 @@ class Observaciones extends CI_Controller {
 		$this->load->view('viaticos/observaciones_1/listado_observaciones');
 	}
 
-	public function observar_empresa(){		
-		$data = array(
-		'id_empresa' => $this->input->post('id_empresa_visitada'), 
-		'observacion' => $this->input->post('observacion_evisitada')
-		);
-		echo $this->observaciones_model->observar_empresa($data);
-	}
-
 	public function cambiar_estado_solicitud(){		
 		$data = array(
 		'id_mision' => $this->input->post('id_mision'), 
@@ -46,18 +38,13 @@ class Observaciones extends CI_Controller {
 		echo $this->observaciones_model->eliminar_observacion($data);
 	}
 
-	public function eliminar_observacion_empresa(){
-		$data = array(
-		'id_empresa' => $this->input->post('id_empresa'), 
-		'observacion' => ''
-		);
-		echo $this->observaciones_model->observar_empresa($data);
-	}
-
 	public function otra_observacion(){		
 		$data = array(
 		'id_mision' => $this->input->post('id_mision'), 
-		'observacion' => $this->input->post('observacion')
+		'observacion' => $this->input->post('observacion'),
+		'nr_observador' => $this->input->post('nr_observador'),
+		'id_tipo_observador' => $this->input->post('id_tipo_observador'),
+		'tipo_observador' => $this->input->post('tipo_observador')
 		);
 		echo $this->observaciones_model->otra_observacion($data);
 	}

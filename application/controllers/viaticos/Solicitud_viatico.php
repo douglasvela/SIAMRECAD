@@ -86,7 +86,7 @@ class Solicitud_viatico extends CI_Controller {
 	}
 
 	public function input_distancia(){
-		$this->load->view('viaticos/viaticos_ajax/input_distancia');
+		$this->load->view('viaticos/solicitud_viaticos_ajax/input_distancia');
 	}
 
 	public function obtener_id_municipio(){
@@ -279,11 +279,11 @@ class Solicitud_viatico extends CI_Controller {
 	
 
 	public function imprimir_solicitud_copia(){
-		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud_copia');
+		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud_copia');
 	}
 
 	public function observaciones(){
-		$this->load->view('viaticos/viaticos_ajax/observaciones');
+		$this->load->view('viaticos/solicitud_viaticos_ajax/observaciones');
 	}
 
 	

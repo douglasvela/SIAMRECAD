@@ -61,8 +61,9 @@
     function verificar_viaticos(){        
         var hora_salida = $("#hora_salida").val();
         var hora_llegada = $("#hora_llegada").val();
-
         var distancia = parseFloat($("#id_distancia option:selected").text().trim());
+        var visibles = [];
+        var hay_viaticos;
 
         if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada) && distancia > DistanciaMinima){
             for(j=0; j<viaticos.length; j++){
@@ -71,20 +72,28 @@
                     if(!tiene_restriccion(hora_salida, hora_llegada)){
                         $("#cnt"+viaticos[j][0]).show(0);
                         document.getElementById("checkbox"+viaticos[j][0]).checked = 1;
+                        visibles.push([viaticos[j][0],'visible']);
                     }else{
                         $("#cnt"+viaticos[j][0]).hide(0);
                         document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
+                        visibles.push([viaticos[j][0],'oculto']);
                     }
                 }else{
                     $("#cnt"+viaticos[j][0]).hide(0);
                     document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
+                    visibles.push([viaticos[j][0],'oculto']);
                 }
 
             }
 
-            recorre_tabla();
+            hay_viaticos = recorre_tabla(visibles);
+            if(hay_viaticos){
+                $("#myModal").modal("show");
+            }else{
+                $.toast({ heading: 'No hay viáticos', text: 'Viáticos no disponibles', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+                            bandera = false;
+            }
 
-            $("#myModal").modal("show");
         }else{
             if(hora_salida == "" || hora_llegada == ""){
                 swal({ title: "Horario no válido", text: "Completa la hora de salida y llegada del lugar visitado", type: "warning", showConfirmButton: true });
@@ -99,42 +108,63 @@
     }
 
 
-    function recorre_tabla(){
+    function recorre_tabla(viaticos_visibles){
         var fecha = $("#fecha_mision option:selected").text();
         var celdas;
         var filas = $("#tabla_viaticos").find("tbody").find("tr");
         var horarios = $("#horarios").val();
         var id_horarios;
+        var band_visible = false;
 
         for(l=0; l< (filas.length-1); l++){
             celdas = $(filas[l]).children("td");
             horarios2 = $($(celdas[4]).children("input")[0]).val();
             fecha2 = $(celdas[0]).text();
-            if(fecha == fecha2){
-                if(horarios == horarios2){
-                    if(horarios2 != ""){
-                        id_horarios = horarios2.split(",");
+            if(fecha.trim() == fecha2.trim()){
+                
+                    if(horarios == horarios2){
+                        if(horarios2 != ""){
+                            id_horarios = horarios2.split(",");
+                        }else{
+                            id_horarios = "";
+                        }
+                        for(m=0; m<id_horarios.length; m++){
+                            $("#cnt"+id_horarios[m]).show(0);
+                            document.getElementById("checkbox"+id_horarios[m]).checked = 1;
+                            for(z=0; z<viaticos_visibles.length; z++){
+                                if(viaticos_visibles[z][0] == id_horarios[m]){
+                                    viaticos_visibles[z][1] = 'visible';
+                                }
+                            }
+                        }
                     }else{
-                        id_horarios = "";
-                    }
-                    for(m=0; m<id_horarios.length; m++){
-                        $("#cnt"+id_horarios[m]).show(0);
-                        document.getElementById("checkbox"+id_horarios[m]).checked = 1;
-                    }
-                }else{
-                    if(horarios2 != ""){
-                        id_horarios = horarios2.split(",");
-                    }else{
-                        id_horarios = "";
-                    }
+                        if(horarios2 != ""){
+                            id_horarios = horarios2.split(",");
+                        }else{
+                            id_horarios = "";
+                        }
 
-                    for(m=0; m<id_horarios.length; m++){
-                        $("#cnt"+id_horarios[m]).hide(0);
-                        document.getElementById("checkbox"+id_horarios[m]).checked = 0;
+                        for(m=0; m<id_horarios.length; m++){
+                            $("#cnt"+id_horarios[m]).hide(0);
+                            document.getElementById("checkbox"+id_horarios[m]).checked = 0;
+                            for(z=0; z<viaticos_visibles.length; z++){
+                                if(viaticos_visibles[z][0] == id_horarios[m]){
+                                    viaticos_visibles[z][1] = 'oculto';
+                                }
+                            }
+                        }
                     }
-                }
+                
             }
         }
+
+        for(z=0; z<viaticos_visibles.length; z++){
+            if(viaticos_visibles[z][1] == "visible"){
+                band_visible = true;
+            }
+        }
+
+        return band_visible;
     }
 
     function validar_horarios_viaticos(){
@@ -204,22 +234,22 @@
             if(restricciones[i][4] == "1"){
                 if(hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]){
                     band_rest = true;
-                    //$.toast({ heading: 'Restricción hora salida', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    $.toast({ heading: 'Restricción hora salida', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
             }else if($restricciones[i][4] == "2"){
                 if(hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3]){
                     band_rest = true;
-                    //$.toast({ heading: 'Restricción hora llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    $.toast({ heading: 'Restricción hora llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
             }else if($restricciones[i][4] == "3"){
                 if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) && (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
                     band_rest = true;
-                    //$.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    $.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
             }else if($restricciones[i][4] == "4"){
                 if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) || (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
                     band_rest = true;
-                    //$.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    $.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
             }
         }
@@ -762,7 +792,6 @@
         if(tipo == "save"){
             celdas = $(filas[filas.length-2]).children("td");
             id_viatico = $($(celdas[0]).children("input")[1]).val();
-            alert(id_viatico)
             $("#id_distancia").val(id_viatico);
         }else{
             var id = $("#id_empresa_viatico").val();
@@ -817,6 +846,8 @@
         $("#band_viatico").val(band);
         $("#btnadd3").hide(0);
         $("#btnedit3").show(0);
+
+        cambiarkilometraje(id_destino)
 
         if(band == "edit"){
             var ruta = "";
@@ -1249,7 +1280,6 @@
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
 
-
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1292,7 +1322,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">Faltan datos en tu perfil</h4>
             </div>
-            <div class="modal-body" id="contenedor_viatico">
+            <div class="modal-body" id="">
                 <h4 style="margin-bottom: 20px;">Lamentamos los inconvenientes. <span class="mdi mdi-emoticon-sad" style="font-size: 35px;"></span></h4>
 
                 <p align="justify">Parece que a tu perfil le faltan datos que son requeridos para la elaboración de solicitud de viáticos y pasajes, por favor haz clic en el botón "ACEPTAR" y completa tu perfil para poder acceder a esta sección del sistema.</p>
@@ -1415,7 +1445,6 @@ $(function(){
                     processData: false
             })
             .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-                alert(data)
                 if(data == "exito"){
                     if($("#band_viatico").val() == "save"){
                         swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });

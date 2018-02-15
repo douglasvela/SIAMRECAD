@@ -68,7 +68,7 @@
                 //$(ths[0]).click();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/tabla_observaciones",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_director_regional/tabla_observaciones",true);
         xmlhttpB.send(); 
     }
 
@@ -81,7 +81,7 @@
     }
 
     function funcion(iframe){
-        iframe.attr('height','500px;');
+        $(iframe).attr('height','500px;');
         listado_observaciones();
     }
 
@@ -97,7 +97,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/listado_observaciones?id_mision="+gid_mision,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_director_regional/listado_observaciones?id_mision="+gid_mision,true);
         xmlhttpB.send(); 
     }
 
@@ -110,7 +110,7 @@
 
     function eliminar_observacion(id_observacion){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/eliminar_observacion", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_director_regional/eliminar_observacion", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
@@ -129,7 +129,7 @@
     function verificar_observaciones(){
         var estado_solicitud = $("#estado").val();
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/verificar_observaciones", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_director_regional/verificar_observaciones", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "observaciones"){
@@ -142,8 +142,8 @@
                         confirmButtonText: "Sí, deseo observar!",   
                         closeOnConfirm: true 
                     }, function(){   
-                        if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
-                            cambiar_estado_solicitud(2);    //cambiar estado solicitud a observada por jefe inmediato
+                        if(estado_solicitud == "3"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(4);    //cambiar estado solicitud a observada por jefe inmediato
                         }
                     });
                 }else if(ajax.responseText == "aprobar"){
@@ -156,8 +156,8 @@
                         confirmButtonText: "Sí, deseo aprobar!",   
                         closeOnConfirm: true 
                     }, function(){
-                        if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
-                            cambiar_estado_solicitud(3);    //enviar a revision a director o jefe de regional
+                        if(estado_solicitud == "3"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(5);    //enviar a revision a director o jefe de regional
                         }
                     });
                 }else{
@@ -171,7 +171,7 @@
 
     function cambiar_estado_solicitud(estado){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/cambiar_estado_solicitud", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_director_regional/cambiar_estado_solicitud", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
@@ -297,7 +297,7 @@ $(function(){
         };
         $.ajax({
             type:  'POST',
-            url:   '<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/otra_observacion',
+            url:   '<?php echo site_url(); ?>/viaticos/observaciones_director_regional/otra_observacion',
             data: formData,
             cache: false
         })

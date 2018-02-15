@@ -1,21 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 12-01-2018 a las 04:59:49
--- Versión del servidor: 10.1.16-MariaDB
--- Versión de PHP: 5.6.24
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Base de datos: `mtps`
 --
@@ -26,12 +8,16 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `vyp_observacion_solicitud`
 --
 
+DROP TABLE IF EXISTS `vyp_observacion_solicitud`;
 CREATE TABLE `vyp_observacion_solicitud` (
   `id_observacion_solicitud` int(10) UNSIGNED NOT NULL,
   `id_mision` int(10) UNSIGNED NOT NULL,
   `observacion` varchar(150) NOT NULL,
   `fecha_hora` datetime NOT NULL,
-  `corregido` tinyint(1) NOT NULL
+  `corregido` tinyint(1) NOT NULL,
+  `nr_observador` varchar(5) NOT NULL,
+  `id_tipo_observador` int(10) UNSIGNED NOT NULL,
+  `tipo_observador` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -53,6 +39,3 @@ ALTER TABLE `vyp_observacion_solicitud`
 --
 ALTER TABLE `vyp_observacion_solicitud`
   MODIFY `id_observacion_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

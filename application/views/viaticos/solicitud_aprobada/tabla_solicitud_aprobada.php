@@ -33,7 +33,7 @@
                         }
                     }
 
-                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE (estado = 1 AND nr_jefe_inmediato = '".$nr_usuario."')");
+                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial ");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";
@@ -42,8 +42,8 @@
                             echo "<td>".$fila->nombre_completo."</td>";
 
                             echo "<td>";
-                            $array = array($fila->id_mision_oficial, $fila->estado);
-                            echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                            $array = array($fila->id_mision_oficial);
+                            echo generar_boton($array,"imprimir_solicitud","btn-default","fa fa-print","Ver solicitud");
                             echo "</td>";
 
                            echo "</tr>";
