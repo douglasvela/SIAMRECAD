@@ -991,7 +991,7 @@
         ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2)
     }
 
-    function ver(){
+    function convertir_salida(){
         var hora_salida = convertToHour("08:00");
         var hora_llegada = convertToHour("10:00");
         var kilometraje = 23;
@@ -1005,10 +1005,24 @@
         var tiempo2 = convertToTime(hora_quince+hora_salida);
     }
 
+    function convertir_llegada(){
+        var hora_salida = convertToHour("08:00");
+        var hora_llegada = convertToHour("10:00");
+        var kilometraje = 23;
+
+        var distancia = kilometraje - DistanciaMinima; //kilometraje - 15 Km
+
+        var tiempo = hora_llegada-hora_salida;
+        var velocidad = kilometraje/tiempo;
+        var hora_quince = distancia / velocidad;
+
+        var tiempo2 = convertToTime(hora_quince+hora_salida);
+    }
+
     function convertToTime(hour){
         var contenedor = (hour.toString()).split(".");
-        var hours = parseInt(contenedor[0]);
-        var minutes = parseFloat(contenedor[1].substring(0,2));
+        var hours = parseInt(contenedor[0]);    //Obtiene la parte entera de la hora
+        var minutes = parseInt(parseFloat("0."+contenedor[1])*60);  // convierte decimales a minutos
 
         hours = hours < 10 ? '0' + hours : hours;
         minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -1091,7 +1105,7 @@
             </div>
         </div>
 
-        <button type="button" onclick="ver();">hacer algo</button>
+        <button type="button" onclick="convertir_salida();">hacer algo</button>
         <a id="dirigir" name="dirigir" href="#cnt_mapa"></a>
         
         <div  class="row" id="cnt_mapa" style="height: 0px; opacity: 0;">
