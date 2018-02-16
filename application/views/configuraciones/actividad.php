@@ -94,8 +94,12 @@
     ?>
        tablaActividades(<?php echo $id_modulo; ?>);
       <?php
+          }else{
+        ?>
+            $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
+        <?php
           }
-      ?>
+        ?>
    }
 
    function objetoAjax(){
@@ -250,7 +254,7 @@
            </div>
            <div class="col-lg-1"></div>
                <div class="col-lg-12" id="cnt-tabla">
-                No tiene permiso para este formulario.
+                 
            </div>
 
        </div>

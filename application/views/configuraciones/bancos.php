@@ -67,7 +67,13 @@
           if(buscar_permiso($data)){
         ?>
         tablabancos(<?php echo $this->uri->segment(4);?>);
-        <?php } ?>
+        <?php
+          }else{
+        ?>
+            $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
+        <?php
+          }
+        ?>
     }
 
     function objetoAjax(){
@@ -167,7 +173,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt-tabla">
-                Usted no tiene permiso en este formulario.
+                 
             </div>
             <!-- ============================================================== -->
             <!-- Fin de la TABLA -->

@@ -112,7 +112,11 @@
           $data['id_permiso']="1";
           if(buscar_permiso($data)){
         ?>
-        tablaoficinas(<?php echo $this->uri->segment(4);?>);
+            tablaoficinas(<?php echo $this->uri->segment(4);?>);
+        <?php
+          }else{
+        ?>
+            $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
         <?php
           }
         ?>
@@ -574,7 +578,7 @@
             </div>
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla-phone">
-                    Usted no tiene permiso para este formulario.
+                    
             </div>
 
         </div>
