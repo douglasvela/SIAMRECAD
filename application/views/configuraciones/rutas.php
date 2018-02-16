@@ -163,6 +163,10 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
         ?>
             tablaRutas("destino_oficina",<?php echo $this->uri->segment(4);?>);
         <?php
+          }else{
+        ?>
+            $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
+        <?php
           }
         ?>
     }
@@ -714,7 +718,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
              
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla">
-                    Usted no tiene permiso en este formulario.
+                    
             </div>
 
         </div>

@@ -99,7 +99,13 @@
           if(buscar_permiso($data)){
         ?>
         tablahorarios(<?php echo $this->uri->segment(4);?>);        
-        <?php } ?>
+        <?php
+          }else{
+        ?>
+            $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
+        <?php
+          }
+        ?>
     }
 
     function objetoAjax(){
@@ -256,7 +262,7 @@
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
             <div class="col-lg-12" id="cnt_tabla">
-                    Usted no tiene permiso en este formulario.
+                     
             </div>
             
             <!-- ============================================================== -->
@@ -300,7 +306,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablahorarios();
+                tablahorarios(<?php echo $this->uri->segment(4);?>);
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
