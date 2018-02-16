@@ -53,9 +53,9 @@
 
     $subviaticos = 0;
     $subpasajes = 0;
-    $subalojamientos = 0;
+    $subalojamientos = 0;    
 
-    $empresa_viatico = $this->db->query("SELECT v.*, e.tipo_destino FROM vyp_empresa_viatico AS v LEFT JOIN vyp_empresas_visitadas AS e ON v.id_destino = e.id_destino AND v.id_mision = '".$id_mision."' GROUP BY v.id_empresa_viatico ORDER BY v.fecha, v.hora_salida");
+    $empresa_viatico = $this->db->query("SELECT v.*, e.tipo_destino FROM vyp_empresa_viatico AS v JOIN vyp_empresas_visitadas AS e ON v.id_destino = e.id_destino AND v.id_mision = '".$id_mision."' GROUP BY v.id_empresa_viatico ORDER BY v.fecha, v.hora_salida");
     if($empresa_viatico->num_rows() > 0){
         foreach ($empresa_viatico->result() as $filam) {
             $subviaticos += $filam->viatico;
