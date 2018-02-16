@@ -46,7 +46,7 @@
 
                            
                             echo "<td>";
-                            $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2), $fila->id_tipo, $fila->id_restriccion, $fila->estado);
+                            $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2), $fila->id_tipo, $fila->id_restriccion, $fila->id_viatico_restriccion, $fila->estado);
                              $data['id_modulo'] = $this->uri->segment(4);
                                 $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
                                 $data['id_permiso']="4";

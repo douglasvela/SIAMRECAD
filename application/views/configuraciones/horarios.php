@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,tipo,id_categoria,estado,bandera){
+    function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,tipo,id_categoria,id_viatico_restric,estado,bandera){
         $("#idhorario").val(id);
         $("#descripcion").val(descripcion);
         $("#hora_inicio").val(hora_inicio);
@@ -10,6 +10,7 @@
 
         $( "#cnt_combo_viatico_hora" ).load("<?php echo site_url(); ?>/configuraciones/horarios/combo_viatico_hora?id_tipo="+tipo, function() {
             $("#id_categoria").val(id_categoria);
+             $("#id_viatico_restriccion").val(id_viatico_restric);
         });
 
 
@@ -33,7 +34,7 @@
         $("#hora_fin").val("");
         $("#monto").val("");
         $("#estado").val("1");
-        $("#id_tipo").val("");
+        $("#id_tipo").val("1");
         $("#band").val("save");
 
         $("#ttl_form").addClass("bg-success");
@@ -204,14 +205,13 @@
                                     <h5>Monto: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.01" step="0.01">
+                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" value="0.00">
                                     </div>
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <h5>Tipo: <span class="text-danger">*</span></h5>
                                     <select id="id_tipo" name="id_tipo" class="form-control custom-select"  style="width: 100%" required="" onchange="combo_viatico_hora();">
-                                        <option value="">[Elija el tipo]</option>
                                         <option class="m-l-50" value="1">Viático</option>
                                         <option class="m-l-50" value="2">Restricción</option>
                                     </select>
@@ -233,9 +233,13 @@
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4" id="cnt_combo_viatico_hora">
+                                <div class="col-lg-4">
                                 </div>
-                              </div>
+                            </div>
+
+                            <div class="row" id="cnt_combo_viatico_hora">
+                                
+                            </div>
 
 
                                 <button id="submit" type="submit" style="display: none;"></button>

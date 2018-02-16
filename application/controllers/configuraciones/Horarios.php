@@ -33,6 +33,7 @@ class Horarios extends CI_Controller {
 			'monto' => number_format($this->input->post('monto'),2),
 			'id_tipo' => $this->input->post('id_tipo'),
 			'id_categoria' => $this->input->post('id_categoria'),
+			'id_viatico_restriccion' => $this->input->post('id_viatico_restriccion'),
 			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->insertar_horario($data);
@@ -47,6 +48,7 @@ class Horarios extends CI_Controller {
 			'monto' => number_format($this->input->post('monto'),2),
 			'id_tipo' => $this->input->post('id_tipo'),
 			'id_categoria' => $this->input->post('id_categoria'),
+			'id_viatico_restriccion' => $this->input->post('id_viatico_restriccion'),
 			'estado' => $this->input->post('estado')
 			);
 			echo $this->horarios_model->editar_horario($data);

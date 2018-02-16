@@ -236,17 +236,17 @@
                     band_rest = true;
                     $.toast({ heading: 'Restricción hora salida', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
-            }else if($restricciones[i][4] == "2"){
+            }else if(restricciones[i][4] == "2"){
                 if(hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3]){
                     band_rest = true;
                     $.toast({ heading: 'Restricción hora llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
-            }else if($restricciones[i][4] == "3"){
+            }else if(restricciones[i][4] == "3"){
                 if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) && (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
                     band_rest = true;
                     $.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
-            }else if($restricciones[i][4] == "4"){
+            }else if(restricciones[i][4] == "4"){
                 if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) || (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
                     band_rest = true;
                     $.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
@@ -991,6 +991,38 @@
         ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2)
     }
 
+    function ver(){
+        var hora_salida = convertToHour("08:00");
+        var hora_llegada = convertToHour("10:00");
+        var kilometraje = 23;
+
+        var distancia = DistanciaMinima; //15 Km
+
+        var tiempo = hora_llegada-hora_salida;
+        var velocidad = kilometraje/tiempo;
+        var hora_quince = distancia / velocidad;
+
+        var tiempo2 = convertToTime(hora_quince+hora_salida);
+    }
+
+    function convertToTime(hour){
+        var contenedor = (hour.toString()).split(".");
+        var hours = parseInt(contenedor[0]);
+        var minutes = parseFloat(contenedor[1].substring(0,2));
+
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+        alert(hours+":"+minutes)
+    }
+
+    function convertToHour(hour){
+        var hora1 = (hour).split(":");
+        var hora = parseFloat(hora1[0])+(parseFloat(hora1[1]/60));
+
+        return hora;
+    }
+
 </script>
 
 <style>
@@ -1058,6 +1090,8 @@
                 	</h3>
             </div>
         </div>
+
+        <button type="button" onclick="ver();">hacer algo</button>
         <a id="dirigir" name="dirigir" href="#cnt_mapa"></a>
         
         <div  class="row" id="cnt_mapa" style="height: 0px; opacity: 0;">

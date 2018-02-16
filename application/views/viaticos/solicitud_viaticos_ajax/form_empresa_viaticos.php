@@ -149,7 +149,7 @@
             <h5>Distancia: <span class="text-danger">*</span></h5>
             <div class="input-group">
             	<div class="input-group-addon">Km</div>
-	            <select id="id_distancia" name="hidden" class="form-control custom-select"  style="width: 100%" required="">
+	            <select id="id_distancia" name="id_distancia" class="form-control custom-select"  style="width: 100%" required="">
 	                <?php
 	                	$kilometrajes = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 					    if($kilometrajes->num_rows() > 0){
