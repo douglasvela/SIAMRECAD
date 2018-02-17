@@ -435,6 +435,10 @@
        $("#quinto_mes").val("0");
        $("#sexto_mes").val("0");
      }
+     function prueba(){
+        var xhr = "<?php echo base_url()?>" 
+        window.open(xhr+"index.php/informes/menu_reportes/reporte_ejemplo","_blank");
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -513,6 +517,7 @@
                                                         <div class="col-md-10">
                                                           <div class="form-group">
                                                             <button type="button" onclick="mostrarReporteEmpleado()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                            <input type="button" value="prueba" onclick="prueba()">
                                                           </div>
                                                         </div>
                                                     </div>
