@@ -58,41 +58,121 @@
         ?>
     }
 
-    function verificar_viaticos(){        
+    function convertir_salida(dist){
+        var hs = convertToHour($("#hora_salida").val());
+        var hl = convertToHour($("#hora_llegada").val());
+        var km = dist;
+        var dist_rango = DistanciaMinima; //15 Km
+        var tiempo = hl - hs;
+        var velocidad = km/tiempo;
+        var hora_quince = dist_rango / velocidad;
+        var tiempo2 = convertToTime(hora_quince+hs);
+        return tiempo2;
+    }
+
+    function convertir_llegada(dist){
+        var hs = convertToHour($("#hora_salida").val());
+        var hl = convertToHour($("#hora_llegada").val());
+        var km = dist;
+        var dist_rango = km - DistanciaMinima; //kilometraje - 15 Km
+        var tiempo = hl - hs;
+        var velocidad = km/tiempo;
+        var hora_quince = dist_rango / velocidad;
+        var tiempo2 = convertToTime(hora_quince+hs);
+        return tiempo2;
+    }
+
+    function contar_registros_tabla_viaticos(){
+        var registros = $("#tabla_viaticos").find("tbody").find("tr");
+        return (registros.length-1);
+    }
+
+    function validar_viatico_primero(hs,hl){
+        var fecha_ruta = $("#fecha_mision").val();
+        var id_mision = $("#id_mision").val();
+        var band_viatico = false;
+        var reg_viaticos = [];
+        var monto = 0;
+
+        var body = $("#body_viaticos_encontrados");
+
+        body.html("");
+
+        for(j=0; j<viaticos.length; j++){
+            if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                if(!tiene_restriccion(hs, hl)){
+                    $("#cnt"+viaticos[j][0]).show(0);
+                    document.getElementById("checkbox"+viaticos[j][0]).checked = 1;
+                    band_viatico = true;
+                    reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1']);
+                    monto += parseFloat(viaticos[j][4]);
+                    body.append("<tr>"+
+                                "<td>"+fecha_ruta+"</td>"+
+                                "<td>"+viaticos[j][1]+"</td>"+
+                                "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                "</tr>");
+                }else{
+                    $("#cnt"+viaticos[j][0]).hide(0);
+                    document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
+                    reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '0']);
+                }
+            }else{
+                $("#cnt"+viaticos[j][0]).hide(0);
+                document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
+                reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '0']);
+            }
+        }
+
+        $("#viatico").val(monto.toFixed(2));
+        return band_viatico;
+    }
+
+    function verificar_viaticos(){
         var hora_salida = $("#hora_salida").val();
         var hora_llegada = $("#hora_llegada").val();
         var distancia = parseFloat($("#id_distancia option:selected").text().trim());
         var visibles = [];
-        var hay_viaticos;
+        var hay_viaticos = false;
+
+
+        var id_origenes = $("#id_origen").val();
+        var id_destinos = $("#id_destino").val();
+        var id_oficina_origenes =  $("#id_oficina_origen").val();
 
         if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada) && distancia > DistanciaMinima){
-            for(j=0; j<viaticos.length; j++){
 
-                if(((hora_salida <= viaticos[j][2] && hora_llegada >= viaticos[j][2]) || (hora_salida >= viaticos[j][2] && hora_salida <= viaticos[j][3]))){
-                    if(!tiene_restriccion(hora_salida, hora_llegada)){
-                        $("#cnt"+viaticos[j][0]).show(0);
-                        document.getElementById("checkbox"+viaticos[j][0]).checked = 1;
-                        visibles.push([viaticos[j][0],'visible']);
-                    }else{
-                        $("#cnt"+viaticos[j][0]).hide(0);
-                        document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
-                        visibles.push([viaticos[j][0],'oculto']);
-                    }
-                }else{
-                    $("#cnt"+viaticos[j][0]).hide(0);
-                    document.getElementById("checkbox"+viaticos[j][0]).checked = 0;
-                    visibles.push([viaticos[j][0],'oculto']);
-                }
-
+            if(id_origenes == id_oficina_origenes){
+                hora_salida = convertir_salida(distancia);
+                $.toast({ heading: 'Saliendo de la oficina', text: 'Alcanzó los 15 Km aproximadamente a las '+hora_salida, position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 6000, stack: 6 });
             }
 
-            hay_viaticos = recorre_tabla(visibles);
+            if(id_destinos == id_oficina_origenes){
+                hora_llegada = convertir_llegada(distancia);
+                $.toast({ heading: 'Llegando de la oficina', text: 'Entró en el radio de 15 Km aproximadamente a las '+hora_llegada, position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 6000, stack: 6 });
+            }
+
+            if(contar_registros_tabla_viaticos() == 0){
+                hay_viaticos = validar_viatico_primero(hora_salida,hora_llegada);
+            }else{
+                alert("falta la otra funcion para validar")
+            }
+
+            
+
             if(hay_viaticos){
                 $("#myModal").modal("show");
             }else{
                 $.toast({ heading: 'No hay viáticos', text: 'Viáticos no disponibles', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
                             bandera = false;
             }
+
+            /*hay_viaticos = recorre_tabla(visibles);
+            if(hay_viaticos){
+                $("#myModal").modal("show");
+            }else{
+                $.toast({ heading: 'No hay viáticos', text: 'Viáticos no disponibles', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+                            bandera = false;
+            }*/
 
         }else{
             if(hora_salida == "" || hora_llegada == ""){
@@ -167,49 +247,7 @@
         return band_visible;
     }
 
-    function validar_horarios_viaticos(){
-        var fecha = $("#fecha_mision option:selected").text();
-        var celdas, fecha2;
-        var filas = $("#tabla_viaticos").find("tbody").find("tr");
-
-        var hora_salida = $("#hora_salida").val();
-        var hora_llegada = $("#hora_llegada").val();
-        var id_empresa_viatico = $("#id_empresa_viatico").val();
-
-        var bandera = true;
-
-        if(hora_salida < hora_llegada){
-
-            for(l=0; l< (filas.length-1); l++){
-                celdas = $(filas[l]).children("td");
-                id_empresa_viatico2 = $($(celdas[0]).children("input")[0]).val();
-
-                hora_salida2 = $(celdas[2]).text().trim();
-                hora_salida2 = hora_salida2.substr(0,5);
-                hora_llegada2 = $(celdas[3]).text().trim();
-                hora_llegada2 = hora_llegada2.substr(0,5);
-                fecha2 = $(celdas[0]).text().trim();
-
-                if(fecha == fecha2){
-                    if(id_empresa_viatico2 != id_empresa_viatico){
-                        if(((hora_salida <= hora_salida2 && hora_llegada >= hora_salida2) || (hora_salida >= hora_salida2 && hora_salida <= hora_llegada2))){
-                            $.toast({ heading: 'Choque de horario', text: 'La hora de ejecución de la ruta choca con una ya existente', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
-                            bandera = false;
-                        }
-                    }
-                }
-            }
-
-        }else{
-            $.toast({ heading: 'Horas incorrectas', text: 'La hora de salida debe ser menor a la de llegada.', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
-            bandera = false;
-        }
-
-        return bandera;
-
-    }
-
-    function calcular_viaticos(){
+    /*function calcular_viaticos(){
         var total_viaticos = 0;
         var id_horarios = "";
         
@@ -225,7 +263,7 @@
         $("#viatico").val(total_viaticos.toFixed(2));
         $("#horarios").val(id_horarios);
         $("#myModal").modal("hide");
-    }
+    }*/
 
     function tiene_restriccion(hora_salida, hora_llegada){
         var band_rest = false;
@@ -255,6 +293,76 @@
         }
 
         return band_rest;
+    }
+
+    function validar_factura(){
+        var bandera = false;
+        var alojamiento = parseFloat($("#alojamiento").val().trim());
+
+        if(document.getElementById("band_factura").checked == 1 && $("#band_viatico").val() != "delete"){
+            if($("#file").data("defaultFile") != "" && alojamiento > 0){
+                bandera = true;
+            }else{
+                if($("#file").val() != "" && alojamiento > 0){
+                    bandera = true;
+                }else{
+                    if($("#file").val() == ""){
+                        swal({ title: "Falta factura", text: "Debes comprobar tu pago alojamiento subiendo una imagen de la factura que recibiste.", type: "warning", showConfirmButton: true });
+                    }else{
+                        swal({ title: "Monto alojamiento", text: "Debes ingresar el monto que se incurrió en alojamiento", type: "warning", showConfirmButton: true });
+                    }
+                    
+                }
+            }
+        }else{
+            bandera = true;
+        }
+
+        return bandera;
+    }
+
+    function validar_horarios_viaticos(){
+        var fecha = $("#fecha_mision option:selected").text();
+        var celdas, fecha2;
+        var filas = $("#tabla_viaticos").find("tbody").find("tr");
+
+        var hora_salida = $("#hora_salida").val();
+        var hora_llegada = $("#hora_llegada").val();
+
+
+        var id_empresa_viatico = $("#id_empresa_viatico").val();
+
+        var bandera = true;
+
+        if(hora_salida < hora_llegada){
+
+            for(l=0; l< (filas.length-1); l++){
+                celdas = $(filas[l]).children("td");
+                id_empresa_viatico2 = $($(celdas[0]).children("input")[0]).val();
+
+                hora_salida2 = $(celdas[2]).text().trim();
+                hora_salida2 = hora_salida2.substr(0,5);
+                hora_llegada2 = $(celdas[3]).text().trim();
+                hora_llegada2 = hora_llegada2.substr(0,5);
+                fecha2 = $(celdas[0]).text().trim();
+
+                if(fecha == fecha2){
+                    if(id_empresa_viatico2 != id_empresa_viatico){
+                        if(hora_salida <= hora_llegada2 || hora_llegada <= hora_llegada2){
+                            $.toast({ heading: 'Horario inválido', text: 'El nuevo registro debe respetar el orden ascendente de las fechas y horas', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+                            bandera = false;
+                        }
+                    }
+                }
+            }
+
+        }else{
+            $.toast({ heading: 'Horas incorrectas', text: 'La hora de salida debe ser menor a la de llegada.', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+            bandera = false;
+        }
+
+        return bandera;
+
     }
 
     function iniciar(){
@@ -339,6 +447,10 @@
         $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
         $("#band").val("save");
+        $("#fecha_mision_inicio").datepicker("setDate", moment().format("DD-MM-YYYY") );
+        $("#fecha_mision_fin").datepicker("setDate", moment().format("DD-MM-YYYY") );
+
+        //$('.datepicker').datepicker().trigger('changeDate');
 
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
@@ -357,8 +469,8 @@
     function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,bandera){
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
-        $("#fecha_mision_inicio").val(fecha_mision_inicio);
-        $("#fecha_mision_fin").val(fecha_mision_fin);
+        $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
+        $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
@@ -812,6 +924,7 @@
     		$("#factura").show(500);
     	}else{
     		$("#factura").hide(500);
+            $("#alojamiento").val("0.00");
     	}
     }
 
@@ -867,26 +980,6 @@
         }else{
             eliminar_viaticos()
         }
-    }
-
-    function validar_factura(){
-        var bandera = false;
-
-        if(document.getElementById("band_factura").checked == 1 && $("#band_viatico").val() != "delete"){
-            if($("#file").data("defaultFile") != ""){
-                bandera = true;
-            }else{
-                if($("#file").val() != ""){
-                    bandera = true;
-                }else{
-                    swal({ title: "Falta factura", text: "Debes comprobar tu pago alojamiento subiendo una imagen de la factura que recibiste.", type: "warning", showConfirmButton: true });
-                }
-            }
-        }else{
-            bandera = true;
-        }
-
-        return bandera;
     }
 
     function cambiar_nuevo_viatico(){
@@ -991,34 +1084,6 @@
         ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2)
     }
 
-    function convertir_salida(){
-        var hora_salida = convertToHour("08:00");
-        var hora_llegada = convertToHour("10:00");
-        var kilometraje = 23;
-
-        var distancia = DistanciaMinima; //15 Km
-
-        var tiempo = hora_llegada-hora_salida;
-        var velocidad = kilometraje/tiempo;
-        var hora_quince = distancia / velocidad;
-
-        var tiempo2 = convertToTime(hora_quince+hora_salida);
-    }
-
-    function convertir_llegada(){
-        var hora_salida = convertToHour("08:00");
-        var hora_llegada = convertToHour("10:00");
-        var kilometraje = 23;
-
-        var distancia = kilometraje - DistanciaMinima; //kilometraje - 15 Km
-
-        var tiempo = hora_llegada-hora_salida;
-        var velocidad = kilometraje/tiempo;
-        var hora_quince = distancia / velocidad;
-
-        var tiempo2 = convertToTime(hora_quince+hora_salida);
-    }
-
     function convertToTime(hour){
         var contenedor = (hour.toString()).split(".");
         var hours = parseInt(contenedor[0]);    //Obtiene la parte entera de la hora
@@ -1027,7 +1092,7 @@
         hours = hours < 10 ? '0' + hours : hours;
         minutes = minutes < 10 ? '0' + minutes : minutes;
 
-        alert(hours+":"+minutes)
+        return hours+":"+minutes;
     }
 
     function convertToHour(hour){
@@ -1104,8 +1169,6 @@
                 	</h3>
             </div>
         </div>
-
-        <button type="button" onclick="convertir_salida();">hacer algo</button>
         <a id="dirigir" name="dirigir" href="#cnt_mapa"></a>
         
         <div  class="row" id="cnt_mapa" style="height: 0px; opacity: 0;">
@@ -1119,7 +1182,6 @@
                 </div>
             </div>
         </div>
-
 
 
         <!-- ============================================================== -->
@@ -1158,6 +1220,7 @@
                             <input type="hidden" id="id_mision" name="id_mision" value="">
                             <input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="">
                             <input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="">
+
                             <div class="row">
                                 <div class="form-group col-lg-6"> 
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
@@ -1176,12 +1239,12 @@
 			                    </div>
                                 <div class="form-group col-lg-3">   
                                     <h5>Fecha de misión (inicio): <span class="text-danger">*</span></h5>
-                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy">
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy">
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group col-lg-3">   
                                     <h5>Fecha misión (fin): <span class="text-danger">*</span></h5>
-                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy">
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy">
                                     <div class="help-block"></div>
                                 </div>
                             </div>
@@ -1332,31 +1395,28 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Viáticos presentados</h4>
+                <h4 class="modal-title" id="myModalLabel">Viáticos encontrados</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body" id="contenedor_viatico">
-                <p>Seleccione los viáticos a cobrar.</p>
-                <?php
-                    if($horario_viaticos->num_rows() > 0){
-                        foreach ($horario_viaticos->result() as $fila) {
-                ?>
-                    <div class="form-check" id="cnt<?php echo $fila->id_horario_viatico; ?>">
-                        <label class="custom-control custom-checkbox">
-                            <input type="checkbox" id="checkbox<?php echo $fila->id_horario_viatico; ?>" class="custom-control-input" value="<?php echo $fila->id_horario_viatico; ?>">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description"><?php echo $fila->descripcion; ?></span>
-                        </label>
-                    </div>
-                <?php
-                        }
-                    }
-                ?>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered" width="100%">
+                        <thead class="bg-inverse text-white">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Viático</th>
+                                <th align="right">Monto ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body_viaticos_encontrados" name="body_viaticos_encontrados">
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="calcular_viaticos();" class="btn btn-success waves-effect">Aceptar</button>
+                <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -1425,14 +1485,14 @@ $(function(){
             autoclose: true,
             todayHighlight: true,
             daysOfWeekDisabled: [0,6]
-        });
+        }).datepicker("setDate", new Date());
 
         $('#fecha_mision_fin').datepicker({
             format: 'dd-mm-yyyy',
             autoclose: true,
             todayHighlight: true,
             daysOfWeekDisabled: [0,6]
-        });
+        }).datepicker("setDate", new Date());
 
         $('#dirigir').click(function(){ //Id del elemento cliqueable
             $('html, body').animate({scrollTop:0}, 1000);
@@ -1444,7 +1504,9 @@ $(function(){
     $("#formajax").on("submit", function(e){
         e.preventDefault();      
         var formData = new FormData(document.getElementById("formajax"));
-        formData.append('nombre_completo', $("#nr option:selected").text());
+        var nombre = $("#nr option:selected").text().split("-");
+        nombre = nombre[0].trim();
+        formData.append('nombre_completo', nombre);
         $.ajax({
                 type:  'POST',
                 url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
@@ -1471,7 +1533,6 @@ $(function(){
             }
         });
     });
-
 
     $("#form_empresas_viaticos").on("submit", function(e){
         e.preventDefault();   

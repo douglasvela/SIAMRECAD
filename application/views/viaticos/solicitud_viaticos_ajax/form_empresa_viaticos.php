@@ -154,7 +154,7 @@
 	                	$kilometrajes = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 					    if($kilometrajes->num_rows() > 0){
 					    	foreach ($kilometrajes->result() as $filak) {
-					    		echo '<option value="'.$filak->id_destino.'">'.$filak->kilometraje.'</option>';
+					    		echo '<option value="'.$filak->id_destino.'">'.number_format($filak->kilometraje,2).'</option>';
 					    	}
 					    }
 	                ?>

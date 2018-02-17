@@ -2,6 +2,7 @@
 </div>
    
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+    
     <script src="<?php echo base_url(); ?>assets/js/viaticos_validation.js"></script>
     
     <!-- Bootstrap tether Core JavaScript -->
@@ -68,6 +69,11 @@
     <script src="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.min.js"></script>
     <!-- This is data table -->
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+
+    <!-- importo la libreria moments -->
+    <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
+    <!-- importo todos los idiomas -->
+    <script src="<?php echo base_url(); ?>assets/js/moment-with-locales.min.js"></script>
 
      <!-- Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/moment/moment.js"></script>

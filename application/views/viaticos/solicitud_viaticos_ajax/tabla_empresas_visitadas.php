@@ -29,7 +29,7 @@
                 $id_municipio = $filaofi->id_municipio;
                 $id_departamento = $filaofi->id_departamento;
 
-                $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' AND (tipo_destino <> 'destino_oficina' OR id_municipio <> '".$id_municipio."' OR id_departamento <> '".$id_departamento."')");
+                $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 
                 if($empresas->num_rows() > 0){
                     foreach ($empresas->result() as $fila) {
@@ -46,21 +46,6 @@
                         echo "</td>";
 
                       	echo "</tr>";
-                    }
-                    $retorno = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."' AND (tipo_destino = 'destino_oficina' AND id_municipio = '".$id_municipio."' AND id_departamento = '".$id_departamento."')");
-
-                    if($retorno->num_rows() > 0){
-                        foreach ($retorno->result() as $fila2) {
-                            echo "<tr style='display: block;''>";
-                            ?>
-                            <td><?php echo $fila2->nombre_empresa; ?><input type="hidden" value="<?php echo $fila2->id_empresas_visitadas; ?>"></td>
-                            <td><?php echo $fila2->direccion_empresa; ?></td>
-                            <?php
-                            echo "<td>";
-                            echo "</td>";
-
-                            echo "</tr>";
-                        }
                     }
 
                 }else{
