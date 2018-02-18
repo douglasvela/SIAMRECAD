@@ -34,20 +34,13 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
-	/*function insertar_actividad($data){
-		$name = strtoupper($data['nueva_actividad']);
-		$query = $this->db->query("select * from vyp_actividades where nombre_vyp_actividades = '$name'");
-
-		if($query->num_rows() <= 0){
-				if($this->db->insert('vyp_actividades', array('nombre_vyp_actividades' => $name, 'depende_vyp_actividades' => 0))){
-					return "exito";
-				}else{
-					return "fracaso";
-				}
+	function insertar_viaticos_ruta($data){
+		if($this->db->query($data)){
+			return "exito";
 		}else{
 			return "duplicado";
 		}
-	}*/
+	}
 
 	function insertar_ruta($data){
 		if($data["tipo"] == "destino_oficina"){
@@ -162,7 +155,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function eliminar_viaticos($data){
-		if($this->db->delete("vyp_empresa_viatico",array('id_empresa_viatico' => $data['id_empresa_viatico']))){
+		if($this->db->delete("vyp_empresa_viatico",array('id_empresa_viatico' => $data['id_empresa_viatico'])) && $this->db->delete("vyp_horario_viatico_solicitud",array('id_ruta_visitada' => $data['id_empresa_viatico']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -256,6 +249,19 @@ class Solicitud_model extends CI_Model {
 
 	function obtener_ultima_mision($tabla,$nombreid,$nr){
 		$query = $this->db->query("SELECT ".$nombreid." FROM ".$tabla." WHERE nr_empleado = '".$nr."' ORDER BY ".$nombreid." ASC");
+		$ultimoid = 0;
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->$nombreid; 
+			}
+		}else{
+			$ultimoid = 1;
+		}
+		return $ultimoid;
+	}
+
+	function obtener_ultima_ruta($tabla,$nombreid,$nr){
+		$query = $this->db->query("SELECT ".$nombreid." FROM ".$tabla." WHERE id_mision = '".$nr."' ORDER BY ".$nombreid." ASC");
 		$ultimoid = 0;
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {

@@ -40,7 +40,7 @@
 <?php
 
     function hora($time){
-        return date("H:i A",strtotime(date("Y-m-d")." ".$time));
+        return date("H:i",strtotime(date("Y-m-d")." ".$time));
     }
 
     function hora2($time){
@@ -66,6 +66,7 @@
             <td><?php echo fecha_es($filam->fecha); ?>
                 <input type="hidden" style="width: 25px;" value="<?php echo $filam->id_empresa_viatico; ?>">
                 <input type="hidden" style="width: 50px;" value="<?php echo $filam->id_destino; ?>">
+                <input type="hidden" style="width: 50px;" value="<?php echo $filam->fecha; ?>">
             </td>
             <td><?php 
                 echo $filam->nombre_origen." - ".$filam->nombre_destino;

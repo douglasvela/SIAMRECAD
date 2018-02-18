@@ -31,6 +31,11 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/dropify');
 	}
 
+	function insertar_viaticos_ruta(){
+		$sql = $this->input->post('sql');
+		echo $this->solicitud_model->insertar_viaticos_ruta($sql);
+	}
+
 	public function gestionar_mision(){
 
 		if($this->input->post('band') == "save"){
@@ -171,7 +176,7 @@ class Solicitud_viatico extends CI_Controller {
 						"pasaje" => $this->input->post('pasaje'),
 						"viatico" => $this->input->post('viatico'),
 						"horarios" => $this->input->post('horarios'),
-						"alojamiento" => $this->input->post('alojamiento'),
+						"alojamiento" => $this->input->post('total_alojamiento'),
 						"factura" => $nombre
 			        );
 
@@ -200,7 +205,7 @@ class Solicitud_viatico extends CI_Controller {
 								"pasaje" => $this->input->post('pasaje'),
 								"viatico" => $this->input->post('viatico'),
 								"horarios" => $this->input->post('horarios'),
-								"alojamiento" => $this->input->post('alojamiento')
+								"alojamiento" => $this->input->post('total_alojamiento')
 					        );
 							echo $this->solicitud_model->editar_viaticos2($data);
 						}
@@ -223,7 +228,7 @@ class Solicitud_viatico extends CI_Controller {
 					"pasaje" => $this->input->post('pasaje'),
 					"viatico" => $this->input->post('viatico'),
 					"horarios" => $this->input->post('horarios'),
-					"alojamiento" => $this->input->post('alojamiento'),
+					"alojamiento" => $this->input->post('total_alojamiento'),
 					"factura" => ""
 		        );
 	        	if($this->input->post('band_viatico') == "save"){
@@ -243,6 +248,10 @@ class Solicitud_viatico extends CI_Controller {
 
 	public function obtener_ultima_mision(){
 		echo $this->solicitud_model->obtener_ultima_mision("vyp_mision_oficial","id_mision_oficial",$_POST['nr']);
+	}
+
+	public function obtener_ultima_ruta(){
+		echo $this->solicitud_model->obtener_ultima_ruta("vyp_empresa_viatico","id_empresa_viatico",$_POST['id_mision']);	
 	}
 
 	function fecha_repetida(){
