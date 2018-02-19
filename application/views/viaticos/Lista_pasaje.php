@@ -32,161 +32,9 @@
 
 <script type="text/javascript">
 
-var nr_empleado = "<?php echo $_GET["nr"]; ?>"
-
-   /* function cambiar_editar(id, nr, id_banco, cuenta, estado, band){
-        $("#id_empleado_banco").val(id);
-        $("#nr2").val(nr);
-        $("#id_banco").val(id_banco).trigger('change.select2');
-        $("#cuenta").val(cuenta);
-        $("#estado").val(estado);
-
-        if(band == 'edit'){
-            $("#modal_cuenta_bancaria").modal('show');
-            $("#band").val(band);
-        }else{
-            $("#band").val(band);
-            $("#submitbutton").click();
-        }
-    }*/
-
-
-
-
-    function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,bandera){
-          tabla_pasaje_unidad();
-        $("#id_pasaje").val(id);
-        $("#fecha2").datepicker("setDate", fecha );
-        $("#expediente2").val(expediente);
-        $("#empresa2").val(empresa);
-        $("#direccion2").val(direccion);
-        $("#monto2").val(monto);
-
-       $("#modal_pasaje").modal("show")
-    }
-
- function cerrar_mantenimiento(){
-        $("#cnt-tabla").show(0);
-        $("#cnt_form").hide(0);
-    }
-
-    function eliminar_pasaje(id_pasaje)
-    {
-
-        swal({   
-            title: "¿Está seguro?",   
-            text: "¡Desea eliminar el registro!",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#fc4b6c",   
-            confirmButtonText: "Sí, deseo eliminar!",   
-            closeOnConfirm: true 
-        }, function(){   
-            eliminar(id_pasaje); 
-        });        
-    }
-
-    function eliminar(id_pasaje){
-        var formData = new FormData();
-        formData.append("id_pasaje", id_pasaje);
-        formData.append("band", "delete");
-
-        $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
-            type: "post",
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        })
-        .done(function(res){
-            if(res == "exito"){
-                tabla_pasaje_unidad();
-            }else{
-                alert("date veneno")
-            }
-             
-        });
-    }
-
-
-
-    function editar_pasaje(){
-        var formData = new FormData();
-        formData.append("id_pasaje", $("#id_pasaje").val());
-        formData.append("fecha", $("#fecha2").val());
-        formData.append("expediente", $("#expediente2").val());
-        formData.append("empresa", $("#empresa2").val());
-        formData.append("direccion", $("#direccion2").val());
-        formData.append("monto", $("#monto2").val());
-        formData.append("band", "edit");
-
-        $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
-            type: "post",
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        })
-        .done(function(res){
-            alert(res)
-            if(res == "exito"){
-                tabla_pasaje_unidad();
-            }else{
-                alert("date veneno")
-            }
-             
-        });
-    }
-   /*function cambiar_nuevo(){
-        tabla_pasaje_unidad();
-        $("#idb").val("");
-        $("#fecha").val("");
-        $("#expediente").val("");
-        $("#empresa").val("");
-        $("#direccion").val("");
-        $("#nr2").val("");
-        $("#monto").val("");
-        $("#band").val("save");
-        $("#ttl_form").addClass("bg-success");
-        $("#ttl_form").removeClass("bg-info");
-
-        $("#btnadd").show(0);
-        $("#btnedit").hide(0);
-
-        $("#cnt-tabla").hide(0);
-        $("#cnt_form").show(0);
-
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Pasajes");
-    }*/
-   
-
-    function iniciar(){
-        tabla_pasaje_unidad();
-      // cambiar_nuevo();
-      $("#nr").val(nr_empleado).trigger('change.select2');
-        $('html,body').animate({
-            scrollTop: $("body").offset().top
-        }, 500);
-    }
-
-    function objetoAjax(){
-        var xmlhttp = false;
-        try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e) {
-            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
-        }
-        if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
-        return xmlhttp;
-    }
-
-    function tabla_pasaje_unidad(){ 
-        var nr = $("#nr").val();   
-        var fechas = $("#fecha1").val();
+   function ver_pasajes(){
+     var nr = $("#nr").val();   
+        var fechas = $("#fecha2").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -208,7 +56,57 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/pasaje/tabla_pasaje_unidad?nr="+nr + "&fecha1="+fechas, true);
+       location.href = "<?php echo site_url(); ?>/viatico/pasaje?nr="+nr + "&fecha2="+fechas;
+        //xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
+         
+        xmlhttpB.send();      
+    }
+   
+
+    function iniciar(){
+        tabla_pasaje_lista();
+      // cambiar_nuevo();
+        $('html,body').animate({
+            scrollTop: $("body").offset().top
+        }, 500);
+    }
+
+    function objetoAjax(){
+        var xmlhttp = false;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
+        return xmlhttp;
+    }
+
+    function tabla_pasaje_lista(){ 
+        var nr = $("#nr").val();   
+        var fechas = $("#fecha2").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
+                 $('[data-toggle="tooltip"]').tooltip();
+                 
+                $('#fecha').datepicker({
+                    format: 'dd-mm-yyyy',
+                    autoclose: true,
+                    todayHighlight: true
+
+
+                });
+
+            }
+        }
+       // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
         xmlhttpB.send(); 
     }
@@ -267,7 +165,7 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
                            <div class="row">                        
                         <div class="form-group col-lg-6"> 
                             <h5>Empleado a modificar: <span class="text-danger">*</span></h5>                           
-                            <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="tabla_pasaje_unidad();">
+                            <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="tabla_pasaje_lista();">
                                 <option value="">[Elija el empleado a editar sus datos]</option>
                                 <?php 
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
@@ -282,7 +180,7 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
                         </div>
                 <div class="form-group col-lg-6">  
                 <h5>Fecha: <span class="text-danger">*</span></h5>
-                <input type="month"  class="form-control" id="fecha1" name="fecha1"  onchange="tabla_pasaje_unidad();">
+                <input type="month"  class="form-control" id="fecha2" name="fecha2"  onchange="tabla_pasaje_lista();">
                 
                 <div class="help-block"></div>
                 </div>
@@ -330,24 +228,24 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
                 <input type="hidden" id="id_pasaje" name="id_pasaje">
                 <div class="form-group col-lg-12">
                     <h5>Fecha: <span class="text-danger">*</span></h5>
-                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}"  required=""  class="form-control" id="fecha2" name="fecha2" placeholder="dd/mm/yyyy">
+                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}"  required=""  class="form-control" id="fecha3" name="fecha3" placeholder="dd/mm/yyyy">
                 </div>
                 <div class="form-group col-lg-12">
                     <h5>Expediente: <span class="text-danger">*</span></h5>
-                    <input type="text" id="expediente2" name="expediente2" class="form-control">
+                    <input type="text" id="expediente3" name="expediente3" class="form-control">
                 </div>
                 <div class="form-group col-lg-12">
                     <h5>Empresa: <span class="text-danger">*</span></h5>
-                    <input type="text" id="empresa2" name="empresa2" class="form-control" required="" > 
+                    <input type="text" id="empresa3" name="empresa3" class="form-control" required="" > 
                 </div>
                 <div class="form-group col-lg-12">
                     <h5>Direccion: <span class="text-danger">*</span></h5>
-                   <input type="text"  id="direccion2" name="direccion2" class="form-control" required="" placeholder="Escriba la dirección" minlength="3">
+                   <input type="text"  id="direccion3" name="direccion3" class="form-control" required="" placeholder="Escriba la dirección" minlength="3">
                 </div>
 
                 <div class="form-group col-lg-12">
                     <h5>Monto: <span class="text-danger">*</span></h5>
-                    <input type="text" id="monto2" name="monto2" class="form-control" required="">
+                    <input type="text" id="monto3" name="monto3" class="form-control" required="">
                 </div>
 
             </div>
@@ -374,7 +272,7 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
 
 $(function(){
 
-    $('#fecha2').datepicker({
+    $('#fecha3').datepicker({
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true

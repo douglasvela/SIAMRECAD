@@ -26,8 +26,8 @@ class Pasaje_model extends CI_Model {
 
 
 function editar_pasaje($data){
-		$this->db->where("id_solicitud_pasaje",$data["idb"]);
-		if($this->db->update('vyp_pasajes', array('fecha_mision' => $data['fecha_mision'], 'no_expediente' => $data['expediente'], 'empresa_visitada' => $data['empresa'], 'direccion_empresa' => $data['direccion'], 'nr' => $data['nr'],  'monto_pasaje' => $data['monto'] ))){
+		$this->db->where("id_solicitud_pasaje",$data["id_pasaje"]);
+		if($this->db->update('vyp_pasajes', array('fecha_mision' => $data['fecha_mision'], 'no_expediente' => $data['expediente'], 'empresa_visitada' => $data['empresa'], 'direccion_empresa' => $data['direccion'],  'monto_pasaje' => $data['monto'] ))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -35,7 +35,7 @@ function editar_pasaje($data){
 	}
 
 	function eliminar_pasaje($data){
-		if($this->db->delete("vyp_pasajes",array('id_solicitud_pasaje' => $data['idb']))){
+		if($this->db->delete("vyp_pasajes",array('id_solicitud_pasaje' => $data['id_pasaje']))){
 			return "exito";
 		}else{
 			return "fracaso";
