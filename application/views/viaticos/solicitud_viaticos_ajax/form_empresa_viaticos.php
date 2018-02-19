@@ -170,7 +170,7 @@
         </div>
         <div class="form-group col-lg-3" id="cnt_fecha_alojamiento" style="display: none;">
             <h5>Salida alojamiento: <span class="text-danger">*</span></h5>
-            <select id="fecha_alojamiento" name="fecha_alojamiento" class="form-control custom-select"  style="width: 100%" required="">
+            <select id="fecha_alojamiento" name="fecha_alojamiento" class="form-control custom-select"  style="width: 100%">
                 <?php
                     $nuevafecha = $fecha_inicio;
                     $nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;

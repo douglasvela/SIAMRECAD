@@ -1751,14 +1751,12 @@ $(function(){
     $("#form_empresas_viaticos").on("submit", function(e){
         e.preventDefault();
 
-        var fecha1 = moment($("#fecha_mision").val());
-        var fecha2 = moment($("#fecha_alojamiento").val()); 
-
-        var diferencia = fecha2.diff(fecha1, 'days');
-
         var total_alojamiento = 0;
         var alojamiento = parseFloat($("#alojamiento").val());
         if(document.getElementById("band_factura").checked){
+            var fecha1 = moment($("#fecha_mision").val());
+            var fecha2 = moment($("#fecha_alojamiento").val()); 
+            var diferencia = fecha2.diff(fecha1, 'days');
             total_alojamiento = alojamiento * diferencia;
         }
 
