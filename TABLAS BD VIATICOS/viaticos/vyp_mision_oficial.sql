@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2018 a las 06:17:06
+-- Tiempo de generación: 19-02-2018 a las 18:46:09
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -31,15 +31,17 @@ CREATE TABLE `vyp_mision_oficial` (
   `id_mision_oficial` int(10) UNSIGNED NOT NULL,
   `nr_empleado` varchar(5) NOT NULL,
   `nombre_completo` varchar(100) NOT NULL,
-  `fecha_mision` date NOT NULL,
-  `nr_jefe_inmediato` varchar(45) NOT NULL,
+  `fecha_mision_inicio` date NOT NULL,
+  `fecha_mision_fin` date NOT NULL,
   `fecha_solicitud` datetime NOT NULL,
+  `id_actividad_realizada` int(10) UNSIGNED NOT NULL,
+  `detalle_actividad` varchar(500) NOT NULL,
+  `nr_jefe_inmediato` varchar(5) NOT NULL,
+  `nr_jefe_regional` varchar(5) NOT NULL,
   `aprobado1` tinyint(1) NOT NULL DEFAULT '0',
   `aprobado2` tinyint(1) NOT NULL DEFAULT '0',
   `aprobado3` tinyint(1) NOT NULL DEFAULT '0',
-  `estado` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `actividad_realizada` int(10) UNSIGNED NOT NULL,
-  `detalle_actividad` varchar(500) NOT NULL
+  `estado` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
