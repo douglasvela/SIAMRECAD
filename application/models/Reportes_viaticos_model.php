@@ -18,8 +18,20 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     function obtenerListaviatico($data)
     {
         $nr = $data['nr'];
-        $viaticos = $this->db->query("SELECT * FROM `vyp_mision_oficial` WHERE `nr_empleado`='$nr' and ( `estado` = 'revision' or `estado` = 'incompleta'  or `estado` = 'sin procesar' )");
+        $viaticos = $this->db->query("SELECT * FROM `vyp_mision_oficial` WHERE `nr_empleado`='$nr' and ( `estado` between '0' and '6')");
         return $viaticos;
+    }
+    function obtenerDetalleActividad($data)
+    {
+        $id_detalle_actividad = $data;
+        $detalle_actividad = $this->db->query("SELECT * FROM `vyp_actividades` WHERE `id_vyp_actividades`='$id_detalle_actividad'");
+        return $detalle_actividad;
+    }
+    function obtenerDetalleEstado($data)
+    {
+        $id_estado = $data;
+        $detalle_actividad = $this->db->query("SELECT * FROM `vyp_estado_solicitud` WHERE `id_estado_solicitud`='$id_estado'");
+        return $detalle_actividad;
     }
     function obtenerListaviaticoPagado($data){
       $this->db->where("nr_empleado",$data['nr']);
@@ -31,7 +43,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     }
     function obtenerDetalle($data){
       $this->db->where("id_mision_oficial",$data["id_mision_oficial"]);
-      $this->db->order_by("orden", "asc");
+      $this->db->order_by("id_empresas_visitadas", "asc");
       $viaticos = $this->db->get('vyp_empresas_visitadas');
       return $viaticos;
     }

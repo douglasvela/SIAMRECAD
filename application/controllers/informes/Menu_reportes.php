@@ -57,88 +57,96 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf->Output();
 	}
 	public function reporte_viatico_pendiente_empleado($id){
-		$this->load->library('pdf');
-
+		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->pdf = new Pdf('P','mm','Letter');
-		$this->pdf->SetTituloPagina('MINISTERIO DE TRABAJO Y PREVISION SOCIAL','UNIDAD FINANCIERA INSTITUCIONAL','FONDO CIRCULANTE DEL MONTO FIJO');
-		$this->pdf->SetTituloTabla1("FECHA");
-		$this->pdf->SetTituloTabla2("DESCRIPCIÓN");
-		$this->pdf->SetTituloTabla3("ESTADO");
-		$this->pdf->SetTitle(utf8_decode('VIÁTICOS PENDIENTES DE PAGO'));
-		$this->pdf->SetAutoPageBreak(true, 15);
-	 $this->pdf->SetMargins(9,3,6);
-	 $this->pdf->SetCuadros("viatico_pendiente_empleado");
-		$this->pdf->AddPage();
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="590px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
 
+	 	$pie = '{PAGENO} de {nbpg} páginas';
+
+
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
 		 $data = array('nr'=>$id);
 		$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
-		foreach ($empleado_NR_viatico->result() as $key) {
-			$this->pdf->Text(9,24,utf8_decode("VIÁTICOS PENDIENTES DE PAGO"),0,'C', 0);
-			$this->pdf->Text(9,28,"NR: 			 ".$id.", EMPLEADO: ".utf8_decode($key->nombre_completo) ,0,'C', 0);
+		foreach ($empleado_NR_viatico->result() as $key) {	
 		}
-
-		 $this->pdf->SetAligns(array('L','J','L'));
-		$this->pdf->SetWidths(array(25,142,28));
 		$ids = array('nr' =>  $id);
 		$viatico = $this->Reportes_viaticos_model->obtenerListaviatico($ids);
 
-		if($viatico->num_rows()>0){
+		
+		$cuerpo = '
+			<table  class="" border="1">
+				<caption>NR: '.$id.'	Empleado: '.($key->nombre_completo).'</caption>
+				<thead >
+					<tr>
+						<th align="center">Fecha Solicitud</th>
+						<th align="center">Fecha Inicio Mision</th>
+						<th align="center">Fecha Fin Mision</th>
+						<th align="center">Actividad</th>
+						<th align="center">Detalle Actividad</th>
+						<th align="center">Estado</th>
+						 
+					</tr>
+				</thead>
+				<tbody>
+					
+					';?>
+				<?php 
+				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-						$this->pdf->Row(
-						array(date('d-m-Y',strtotime($viaticos->fecha_mision)),utf8_decode($viaticos->actividad_realizada),ucfirst($viaticos->estado)),
-						array('0','0','0'),
-						array(array('Arial','','9'),array('','',''),array('','','')),
-						array(false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','211','0'),array('33','92','19'),array('192','10','2')));
-						$data  =array(
-							'id_mision_oficial'=>$viaticos->id_mision_oficial
-						);
-						$this->pdf->Ln(4);
-						$detalle = $this->Reportes_viaticos_model->obtenerDetalle($data);
-						$this->pdf->SetWidths(array(21,50,50,21,25,14,13));
-						 $this->pdf->SetAligns(array('L','L','L','L','L','L'));
-						$this->pdf->Row(
-						array("","Origen","Destino",trim("Hora Salida"),trim("Hora Llegada"),"Viatico","Pasaje"),
-						array('0','1','1','1','1','1','1'),
-						array(array('Arial','','08'),array('Arial','B','08'),array('','B',''),array('','B',''),array('','B',''),array('','B',''),array('','B','')),
-						array(false,false,false,false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
-						if($detalle->num_rows()>0){
-						foreach ($detalle->result() as $keyDetalle) {
-								$this->pdf->Row(
-								array("",utf8_decode($keyDetalle->origen),utf8_decode($keyDetalle->nombre_empresa),$keyDetalle->hora_salida,$keyDetalle->hora_llegada,number_format($keyDetalle->viaticos,2,".",","),number_format($keyDetalle->pasajes,2,".",",")),
-								array('0','0','0','0','0','0','0'),
-								array(array('Arial','','08'),array('','',''),array('','',''),array('','',''),array('','',''),array('','',''),array('','','')),
-								array(false,false,false,false,false,false,false),
-								array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-								array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
-								$this->pdf->Text(30,$this->pdf->GetY(),"______________________________________________________________________________________________________________",0,'C', 0);
-						}
-					}else{
-						$this->pdf->SetWidths(array(21,80,20,21,25,14,13));
-						$this->pdf->Row(
-						array("","No se han registrado empresas visitadas","","","","",""),
-						array('0','0','0','0','0','0','0'),
-						array(array('Arial','','08'),array('','',''),array('','',''),array('','',''),array('','',''),array('','',''),array('','','')),
-						array(false,false,false,false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
+				
+					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
+					foreach ($estado->result() as $estado_detalle) {}
+					$actividad = $this->Reportes_viaticos_model->obtenerDetalleActividad($viaticos->id_actividad_realizada);
+					foreach ($actividad->result() as $actividad_detalle) {}
+					$cuerpo .= '
+						<tr>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_solicitud)).'</td>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)).'</td>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_fin)).'</td>
+							<td>'.($actividad_detalle->nombre_vyp_actividades).'</td>
+							<td>'.utf8_decode($viaticos->detalle_actividad).'</td>
+							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
+						</tr>
+						';
 					}
-					 $this->pdf->Text($this->pdf->GetX(),$this->pdf->GetY(),"___________________________________________________________________________________________________________________________",0,'C', 0);
-
-						$this->pdf->SetWidths(array(25,142,28));
-						$this->pdf->SetAligns(array('L','J','L'));
-						$this->pdf->Ln(2);
-
 				}
-			}else{
-				$this->pdf->Text($this->pdf->GetX()+25,$this->pdf->GetY()+10,"No posee viaticos pendientes de pago!",0,'C', 0);
-			}
+				$cuerpo .= '
+					
+				</tbody>
+			</table>
+		';
+		// LOAD a stylesheet
+		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->WriteHTML($stylesheet,1);	// The parameter 1 tells that this is css/style only and no body/html/text
+		$this->mpdf->WriteHTML($cuerpo);
 
-	 $this->pdf->Output(); //Salida al navegador
+		$this->mpdf->Output();
 	}
 
 	public function reporte_viatico_pagado_empleado($id,$min,$max){
