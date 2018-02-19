@@ -43,13 +43,11 @@ class Pasaje extends CI_Controller {
 			
 		} else if($this->input->post('band') == "edit"){
 			$data = array(
-			'idb' => $this->input->post('idb'), 
+			'id_pasaje' => $this->input->post('id_pasaje'), 
 			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
 			'expediente' => $this->input->post('expediente'),
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
-			'nr' => $this->input->post('nr'),
-			
 			'monto' => $this->input->post('monto')
 
 			);
@@ -58,7 +56,7 @@ class Pasaje extends CI_Controller {
 		}else if($this->input->post('band') == "delete"){
 
 			$data = array(
-			'idb' => $this->input->post('idb')
+			'id_pasaje' => $this->input->post('id_pasaje')
 			);
 			echo $this->Pasaje_model->eliminar_pasaje($data);
 

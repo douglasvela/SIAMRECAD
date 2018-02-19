@@ -1,7 +1,9 @@
 <?php 
     $nr_empleado = $_GET["nr"];
+   $fecha_mes = $_GET["fecha1"];
 
-    if(!empty($nr_empleado)){
+    if(!empty($nr_empleado) AND !empty($fecha_mes) ){
+//echo ($fecha_mes);
 ?>
 <div class="table-responsive container">
     <table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
@@ -23,7 +25,7 @@
             <td style="padding: 7px 5px;">
               
 
-              <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha')" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;">
+              <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;">
             </td>
 
             <td style="padding: 7px 5px;">
@@ -46,10 +48,10 @@
            <button type="submit" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="Agregar"><span class="fa fa-plus"></span></button>
               
             </td>
-            
+          
 </tr>
         <?php 
-            $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."'");
+       $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
@@ -71,12 +73,7 @@
                     array_push($array, "edit");
                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                    array_push($array, "delete");
-                    if($fila->estado == 0){
-                        echo generar_boton($array,"cambiar_editar","btn-success","fa fa-chevron-up","Activar");
-                    }else{
-                        echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Desactivar");
-                    }
+                    echo generar_boton(array($fila->id_solicitud_pasaje),"eliminar_pasaje","btn-danger","fa fa-close","Eliminar");
                     echo "</td>";
                   echo "</tr>";
                 }
