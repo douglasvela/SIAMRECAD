@@ -82,6 +82,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_empresas_visitadas');
 	}
 
+	public function tabla_viaticos_encontrados(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_viaticos_encontrados');
+	}
+
 	public function combo_oficinas_departamentos(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/combo_oficinas_departamentos');
 	}

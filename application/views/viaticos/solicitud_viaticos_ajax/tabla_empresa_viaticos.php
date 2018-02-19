@@ -74,7 +74,7 @@
             </td>
             <td><?php echo hora($filam->hora_salida); ?></td>
             <td><?php echo hora($filam->hora_llegada); ?></td>
-            <td align="right"><?php echo $filam->viatico; ?>
+            <td align="right" onclick="tabla_viaticos_encontrados('<?php echo $filam->id_empresa_viatico; ?>')"><?php echo $filam->viatico; ?>
                 <input type="hidden" value="<?php echo $filam->horarios_viaticos; ?>">
             </td>
             <td align="right"><?php echo $filam->pasaje; ?></td>
@@ -89,7 +89,7 @@
                 echo "<td>";
                 $array = array($filam->id_empresa_viatico, $filam->id_origen, $filam->id_destino,hora2($filam->hora_salida), hora2($filam->hora_llegada), $filam->pasaje,$filam->viatico, $filam->alojamiento, $filam->horarios_viaticos, $filam->fecha, $filam->id_mision, $filam->factura, $filam->kilometraje);
                 array_push($array, "edit");
-                echo generar_boton($array,"cambiar_editar_viatico","btn-info","fa fa-wrench","Editar");
+                //echo generar_boton($array,"cambiar_editar_viatico","btn-info","fa fa-wrench","Editar");
                 unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                 array_push($array, "delete");
                 echo generar_boton($array,"cambiar_editar_viatico","btn-danger","fa fa-close","Eliminar");
