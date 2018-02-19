@@ -7576,8 +7576,8 @@ function _puthtmlheaders() {
 		else { $pntstr = ''; }
 		$html = str_replace($this->aliasNbPgGp,$pntstr,$html );	// {nbpg}
 		$html = str_replace($this->aliasNbPg,$nb,$html );	// {nb}
-		$html = preg_replace('/\{DATE\s+(.*?)\}/e',"date('\\1')",$html );
-
+		//$html = preg_replace('/\{DATE\s+(.*?)\}/e',"date('\\1')",$html );
+		 $html = preg_replace_callback('/\{DATE\s+(.*?)\}/', function($matches) { return date($matches[1]); },$html );
 		$this->HTMLheaderPageLinks = array();
 		$this->HTMLheaderPageAnnots = array();
 		$this->HTMLheaderPageForms = array();
@@ -11350,7 +11350,8 @@ function Header($content='') {
 	  if (isset($h[$side][$pos]['content']) && $h[$side][$pos]['content']) {
 		$hd = str_replace('{PAGENO}',$pgno,$h[$side][$pos]['content']);
 		$hd = str_replace($this->aliasNbPgGp,$this->nbpgPrefix.$this->aliasNbPgGp.$this->nbpgSuffix,$hd);
-		$hd = preg_replace('/\{DATE\s+(.*?)\}/e',"date('\\1')",$hd);
+		//$hd = preg_replace('/\{DATE\s+(.*?)\}/e',"date('\\1')",$hd);
+		$hd = preg_replace_callback('/\{DATE\s+(.*?)\}/', function($matches) { return date($matches[1]); },$hd );
 		if (isset($h[$side][$pos]['font-family']) && $h[$side][$pos]['font-family']) { $hff = $h[$side][$pos]['font-family']; }
 		else { $hff = $this->original_default_font; }
 		if (isset($h[$side][$pos]['font-size']) && $h[$side][$pos]['font-size']) { $hfsz = $h[$side][$pos]['font-size']; }
@@ -12489,7 +12490,8 @@ function Footer() {
 	  if (isset($h[$side][$pos]['content']) && $h[$side][$pos]['content']) {
 		$hd = str_replace('{PAGENO}',$pgno,$h[$side][$pos]['content']);
 		$hd = str_replace($this->aliasNbPgGp,$this->nbpgPrefix.$this->aliasNbPgGp.$this->nbpgSuffix,$hd);
-		$hd = preg_replace('/\{DATE\s+(.*?)\}/e',"date('\\1')",$hd);
+		//$hd = preg_replace('/\{DATE\s+(.*?)\}/e',"date('\\1')",$hd);
+		$hd = preg_replace_callback('/\{DATE\s+(.*?)\}/', function($matches) { return date($matches[1]); },$hd );
 		if (isset($h[$side][$pos]['font-family']) && $h[$side][$pos]['font-family']) { $hff = $h[$side][$pos]['font-family']; }
 		else { $hff = $this->original_default_font; }
 		if (isset($h[$side][$pos]['font-size']) && $h[$side][$pos]['font-size']) { $hfsz = $h[$side][$pos]['font-size']; }

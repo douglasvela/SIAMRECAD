@@ -16,29 +16,45 @@ class Menu_reportes extends CI_Controller {
 	}
 	public function reporte_ejemplo(){
 		$this->load->library('mpdf');
-		$this->mpdf = new M_portable_document('R','A4', 11,'Arial');
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','12','Arial',10,10,35,17,3,9,'L'); 
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="490px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
 
-		$html = '
-		<h1>mPDF</h1>
-		<h2>Annotations</h2>
-		<h5>Heading 5<annotation content="This is an annotation'."\n".'in the middle of the text" subject="My Subject" icon="Comment" color="#FE88EF" author="Ian Back" /></h5>
-		<h6>Heading 6</h6>
-		<p>P: Nulla felis erat, imperdiet eu, ullamcorper non, nonummy quis, elit. Suspendisse potenti. Ut a eros at ligula vehicula pretium. Maecenas feugiat pede vel risus. Nulla et lectus. <i>Fusce</i><annotation content="Fusce is a funny word!" subject="Idle Comments" icon="Note" author="Ian Back" pos-x="195" /> eleifend neque sit amet erat. Integer consectetuer nulla non orci. Morbi feugiat pulvinar dolor. Cras odio. Donec mattis, nisi id euismod auctor, neque metus pellentesque risus, at <span title="This annotation was automatically defined from the title attribute of a span element">eleifend</span> lacus sapien et risus. Phasellus metus. Phasellus feugiat, lectus ac aliquam molestie, leo lacus tincidunt turpis, vel aliquam quam odio et sapien. Mauris ante pede, auctor ac, suscipit quis, malesuada<annotation file="" content="This is a file attachment (embedded file)
-		Double-click to open attached file
-		Right-click to save file on your computer" icon="Graph" title="Attached File: tiger.jpg" pos-x="195" />  sed, nulla. Integer sit amet odio sit amet lectus luctus euismod. Donec et nulla. Sed quis orci. </p>
+	 	$pie = '{PAGENO} de {nbpg} páginas';
 
+
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
+
+		$cuerpo = '
+			
 		';
-		//==============================================================
-		//==============================================================
-		//==============================================================
 
-		$this->mpdf->title2annots = true;
-
-		$this->mpdf->WriteHTML($html);
+		$this->mpdf->WriteHTML($cuerpo);
 
 		$this->mpdf->Output();
-
-		exit;
 	}
 	public function reporte_viatico_pendiente_empleado($id){
 		$this->load->library('pdf');

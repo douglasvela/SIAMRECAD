@@ -2,7 +2,7 @@
     // Incluimos el archivo fpdf
     require_once APPPATH."/third_party/mpdf/mpdf.php";
 
-class M_portable_document extends MPDF
+class M_pdf extends MPDF
 {
     public function __construct() {
             parent::__construct();
