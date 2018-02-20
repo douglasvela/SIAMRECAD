@@ -425,7 +425,8 @@
         $quinto_mes = $("#quinto_mes").val();
         $sexto_mes = $("#sexto_mes").val();
         if($anio!=""){
-          window.open("menu_reportes/reporte_viaticos_por_periodo/"+$anio+"/"+$primer_mes+"/"+$segundo_mes+"/"+$tercer_mes+"/"+$cuarto_mes+"/"+$quinto_mes+"/"+$sexto_mes,"_blank");
+          var xhr = "<?php echo base_url()?>" 
+          window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_periodo/"+$anio+"/"+$primer_mes+"/"+$segundo_mes+"/"+$tercer_mes+"/"+$cuarto_mes+"/"+$quinto_mes+"/"+$sexto_mes,"_blank");
         }else{
           swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
         }

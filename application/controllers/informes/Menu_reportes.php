@@ -162,6 +162,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
         $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 
 		$this->mpdf->WriteHTML($cuerpo);
@@ -279,6 +280,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
         $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->SetTitle('Viaticos por Pagados por Empleado');
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 		$this->mpdf->WriteHTML($cuerpo);
 
@@ -286,56 +288,93 @@ class Menu_reportes extends CI_Controller {
 	}
 
 	public function reporte_monto_viatico_mayor_a_menor($anio,$dir){
-		$this->load->library('pdf');
-
+		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->pdf = new Pdf('P','mm','Letter');
-		$this->pdf->SetTituloPagina('MINISTERIO DE TRABAJO Y PREVISION SOCIAL','UNIDAD FINANCIERA INSTITUCIONAL','FONDO CIRCULANTE DEL MONTO FIJO');
-		$this->pdf->SetTituloTabla1("NR");
-		$this->pdf->SetTituloTabla2("NOMBRE EMPLEADO");
-		$this->pdf->SetTituloTabla3("PASAJES");
-		$this->pdf->SetTituloTabla4("VIÁTICOS");
-		$this->pdf->SetTituloTabla5("TOTAL");
-		$this->pdf->SetTitle(utf8_decode('VIÁTICOS DE MAYOR A MENOR'));
-		$this->pdf->SetAutoPageBreak(true, 15);
-	 $this->pdf->SetMargins(9,3,6);
-	 $this->pdf->SetCuadros("monto_viatico_mayor_a_menor");
-		$this->pdf->AddPage();
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
 
-		$datos = array('dir'=>$dir);
-		$datoSeccion = $this->Reportes_viaticos_model->obtenerNombreSeccion($datos);
-		foreach ($datoSeccion->result() as $datoSeccionNombre) {}
-		$this->pdf->Text(9,24,utf8_decode("VIÁTICOS POR EMPLEADO DE MAYOR A MENOR MONTO") ,0,'C', 0);
-		$this->pdf->Text(9,28,utf8_decode("AÑO: ").$anio."          ".utf8_decode("SECCIÓN: ").utf8_decode($datoSeccionNombre->nombre_seccion) ,0,'C', 0);
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$pie = '{PAGENO} de {nbpg} páginas';
 
 
-		 $this->pdf->SetAligns(array('L','J','R','R','R'));
-		$this->pdf->SetWidths(array(20,89,24,24,24));
-
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
 		$data  =array(
 			'anio'=> $anio,
 			'dir' => $dir
 		);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticoMayoraMenor($data);
 
-		if($viatico->num_rows()>0){
+		$cuerpo = '
+			<table  class="" border="1" style="width:100%">
+				<thead >
+					<tr>
+						<th align="center" rowspan="2">NR</th>
+						<th align="center" rowspan="2">Nombre Completo</th>
+						<th align="center" colspan="4">Detalle Montos</th>
+					</tr>
+					<tr>
+						<th align="center">Viaticos</th>
+						<th align="center">Pasajes</th>
+						<th align="center">Alojamiento</th>
+						<th align="center">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					';
+				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-						$this->pdf->Row(
-						array($viaticos->nr_empleado,utf8_decode(ucfirst($viaticos->nombre_completo)),"$ ".number_format($viaticos->pasajes,2,".",","),"$ ".number_format($viaticos->viaticos,2,".",","),"$ ".number_format($viaticos->total,2,".",",")),
-						array('0','0','0','0','0'),
-						array(array('Arial','','9'),array('','',''),array('','',''),array('','',''),array('','','')),
-						array(false,false,false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('192','10','2')));
-
-						$this->pdf->Ln(1);
-
+					$cuerpo .= '
+						<tr>
+							<td>'.($viaticos->nr_empleado).'</td>
+							<td>'.($viaticos->nombre_completo).'</td>
+							<td style="text-align:right">$'.number_format($viaticos->viaticos,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->pasajes,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->alojamientos,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->total,2,".",",").'</td>
+						</tr>
+						';
+					}
+				}else{
+					$cuerpo .= '
+						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+					';
 				}
-			}else{
-				$this->pdf->Text($this->pdf->GetX()+25,$this->pdf->GetY()+10,"Sin Registros",0,'C', 0);
-			}
+				$cuerpo .= '
+				</tbody>
+			</table>
+        ';         // LOAD a stylesheet         
+        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->SetTitle('Viaticos de Mayor a Menor');
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+		$this->mpdf->WriteHTML($cuerpo);
 
-	 $this->pdf->Output(); //Salida al navegador
+		$this->mpdf->Output();
 	}
 
 	public function mostrarCombo($id){
@@ -356,29 +395,41 @@ class Menu_reportes extends CI_Controller {
 	}
 
 	public function reporte_viaticos_por_periodo($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
-		$sumaPasajes=0;$sumaViaticos=0;$sumaTotal=0;
-		$this->load->library('pdf');
-
+		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->pdf = new Pdf('P','mm','Letter');
-		$this->pdf->SetTituloPagina('MINISTERIO DE TRABAJO Y PREVISION SOCIAL','UNIDAD FINANCIERA INSTITUCIONAL','FONDO CIRCULANTE DEL MONTO FIJO');
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
 
-		$this->pdf->SetTituloTabla1("MES");
-		$this->pdf->SetTituloTabla2("CONCEPTO DE GASTO");
-		$this->pdf->SetTituloTabla3("PASAJES");
-		$this->pdf->SetTituloTabla4("VIÁTICOS");
-		$this->pdf->SetTituloTabla5("TOTAL");
-		$this->pdf->SetTitle(utf8_decode('VIATICOS POR PERIODO'));
-		$this->pdf->SetAutoPageBreak(true, 15);
-	 $this->pdf->SetMargins(12,3,6);
-	 $this->pdf->SetCuadros("monto_por_periodo");
-		$this->pdf->AddPage();
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
 
-		$this->pdf->Text(12,26,utf8_decode("PAGO DE VIÁTICOS POR COMISIÓN INTERNA Y PASAJES AL INTERIOR CORRESPONDIENTE AL: ").$anio ,0,'C', 0);
-		//$this->pdf->Text(12,28,utf8_decode("AÑO: ").$anio ,0,'C', 0);
-		 $this->pdf->SetAligns(array('C','C','R','R','R'));
-		$this->pdf->SetWidths(array(31,80,22,22,22));
+	 	$pie = '{PAGENO} de {nbpg} páginas';
 
+
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
+		$sumaPasajes=0;$sumaViaticos=0;$sumaTotal=0;
 		$data  =array(
 			'anio'=> $anio,
 			'primer_mes'=>$primer_mes,
@@ -389,8 +440,25 @@ class Menu_reportes extends CI_Controller {
 			'sexto_mes'=>$sexto_mes
 		);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
-
-		if($viatico->num_rows()>0){
+		$cuerpo = '
+			<table  class="" border="1" style="width:100%">
+				<thead >
+					<tr>
+						<th align="center" rowspan="2">Mes</th>
+						<th align="center" rowspan="2">Concepto de Gasto</th>
+						<th align="center" colspan="4">Detalle Montos</th>
+					</tr>
+					<tr>
+						<th align="center">Viaticos</th>
+						<th align="center">Pasajes</th>
+						<th align="center">Alojamiento</th>
+						<th align="center">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					';
+				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
 					if($viaticos->mes=="1")$mes="Enero";
 					else if($viaticos->mes=="2")$mes="Febrero";
@@ -404,36 +472,34 @@ class Menu_reportes extends CI_Controller {
 					else if($viaticos->mes=="10")$mes="Octubre";
 					else if($viaticos->mes=="11")$mes="Noviembre";
 					else if($viaticos->mes=="12")$mes="Diciembre";
-
-					$sumaPasajes = $sumaPasajes + $viaticos->pasajes;
-					$sumaViaticos = $sumaViaticos + $viaticos->viaticos;
-					$sumaTotal = $sumaTotal+ $viaticos->total;
-						$this->pdf->Row(
-						array(strtoupper($mes),utf8_decode("VIÁTICOS POR COMISIÓN INTERNA Y PASAJES AL INTERIOR"),"$ ".number_format($viaticos->pasajes,2,".",","),"$ ".number_format($viaticos->viaticos,2,".",","),"$ ".number_format($viaticos->total,2,".",",")),
-						array('0','0','0','0','0'),
-						array(array('Arial','','9'),array('','',''),array('','',''),array('','',''),array('','','')),
-						array(false,false,false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('192','10','2')));
-						$this->pdf->Ln(1);
+					$cuerpo .= '
+						<tr>
+							<td>'.($mes).'</td>
+							<td>'.("Viáticos por Comisión Interna y Pasajes al Interior").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->viaticos,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->pasajes,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->alojamientos,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->total,2,".",",").'</td>
+						</tr>
+						';
+					}
+				}else{
+					$cuerpo .= '
+						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+					';
 				}
-				$this->pdf->Text(12,$this->pdf->GetY(),"_____________________________________________________________________________________________________",0,'C', 0);
-				$this->pdf->SetAligns(array('C','C','R','R','R'));
-	 		$this->pdf->SetWidths(array(111,22,22,22));$this->pdf->Ln(1);
-				$this->pdf->Row(
-				array(utf8_decode("TOTALES"),"$ ".number_format($sumaPasajes,2,".",","),"$ ".number_format($sumaViaticos,2,".",","),"$ ".number_format($sumaTotal,2,".",",")),
-				array('LR','0','0','0'),
-				array(array('Arial','B','9'),array('Arial','B','9'),array('Arial','B','9'),array('Arial','B','9'),),
-				array(true,false,false,false,false,false),
-				array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-				array(array('255','255','255'),array('33','92','19'),array('192','10','2'),array('192','10','2')));
-				$this->pdf->SetFont('Arial','',9);
-				$this->pdf->Text(12,$this->pdf->GetY(),"_____________________________________________________________________________________________________",0,'C', 0);
-			}else{
-				$this->pdf->Text($this->pdf->GetX()+35,$this->pdf->GetY()+10,"Sin Registros",0,'C', 0);
-			}
+				$cuerpo .= '
+				</tbody>
+			</table>
+        ';         // LOAD a stylesheet         
+        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->SetTitle('Viaticos por Periodo');
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+		$this->mpdf->WriteHTML($cuerpo);
 
-	 $this->pdf->Output(); //Salida al navegador
+		$this->mpdf->Output();
+		
 	}
 }
 ?>
