@@ -163,7 +163,7 @@ class NumeroALetras
 $pdf=new FPDF();
 $pdf->cambiarTitulo('San Salvador, El Salvador, C.A.','POR $   '.$monto);
 $pdf->AddPage();
-$pdf->MultiCell(190,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la candidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje la interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la candidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje la interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
 
 $pdf->Ln(3);
 
@@ -173,7 +173,7 @@ if($empresas_visitadas->num_rows() > 0){
     foreach ($empresas_visitadas->result() as $filae) {
         $registros--;
         if($registros > 0){
-            $pdf->Cell(190,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
+            $pdf->Cell(195,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
             $pdf->Ln(5);
         }
     }
@@ -181,7 +181,7 @@ if($empresas_visitadas->num_rows() > 0){
 
 $pdf->Ln(3);
 
-$pdf->SetWidths(array(22,80,20,20,13,13,13));
+$pdf->SetWidths(array(22,89,20,20,13,13,13));
 $pdf->SetAligns(array('C','C','C','C','C','C','C'));
 $pdf->Row(array("Fecha misión","Lugar de salida y llegada","Hora salida","Hora llegada","Viático","Pasaje","Alojam."),
 array('1','1','1','1','1','1','1','1'),
@@ -221,9 +221,9 @@ $altura = 5);
                 }
             }
 
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"____________________________________________________________________________________________________________________",0,'C', 0);
+        $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
         $pdf->Ln(2);
-        $pdf->SetWidths(array(142,13,13,13));
+        $pdf->SetWidths(array(151,13,13,13));
         $pdf->SetAligns(array('C','R','R','R'));
 
         $pdf->Row(
@@ -237,19 +237,19 @@ $altura = 5);
             array('255','255','255'),
             $altura = 3);
 
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"____________________________________________________________________________________________________________________",0,'C', 0);
+        $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
 
         $pdf->Ln(5);
         $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: San Salvador, ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
 
 
-$mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$id_mision."'");
+$mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND id_mision_oficial = '".$id_mision."'");
 
         if($mision->num_rows() > 0){
             foreach ($mision->result() as $fila2) { $nr_usuario = $fila2->nr_empleado; }
-        }   
+        }
 
-$empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+    $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
 
     if($empleado->num_rows() > 0){
         foreach ($empleado->result() as $filae) {              
@@ -318,6 +318,69 @@ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, 
             $altura = 5);
 
         $pdf->Row(array("Cuenta del banco No: ".$filac->numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Ln(10);
+        $pdf->SetWidths(array(142,13,13,13));
+        $pdf->SetAligns(array('C','R','R','R'));
+
+        $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 50, 'D');
+
+        $pdf->MultiCell(190,5,'USO EXCLUSIVO DE AUTORIZACIÓN DE PAGO',0,'C',false);
+        $pdf->Ln(2);
+        $pdf->MultiCell(190,5,'HAGO CONSTAR: '.nombres($filae->nombre_completo),0,'L',false);
+        $pdf->MultiCell(190,5,'ACTIVIDAD REALIZADA: '.$fila2->actividad,0,'L',false);
+        $pdf->MultiCell(190,5,'DETALLE DE LA ACTIVIDAD: '.$fila2->detalle_actividad,0,'L',false);
+        $pdf->Ln(5);
+
+        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_inmediato AND m.id_mision_oficial = '".$id_mision."'");
+
+        if($jfinmediato->num_rows() > 0){
+            foreach ($jfinmediato->result() as $filajf) {              
+            }
+        }
+
+        $jfregional = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_regional AND m.id_mision_oficial = '".$id_mision."'");
+
+        if($jfregional->num_rows() > 0){
+            foreach ($jfregional->result() as $filajr) {              
+            }
+        }
+
+
+        if(intval($fila2->estado) > 2){
+            $pdf->Image(base_url()."assets/firmas/".$filajf->nr.".png" , 45,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajf->nr.".png");
+        }
+        if(intval($fila2->estado) > 4){
+            $pdf->Image(base_url()."assets/firmas/".$filajr->nr.".png" , 140,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajr->nr.".png");
+        }
+
+        $pdf->Ln(7);
+        $pdf->SetWidths(array(95,95));
+        $pdf->SetAligns(array('C','C'));
+
+        $pdf->Row(array("Firma y sello: ______________________________________", "Firma y sello: ______________________________________"),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Nombre: ".nombres($filajf->nombre_completo), "Nombre: ".nombres($filajr->nombre_completo)),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Vo.Bo. Jefe Inmediato", "Autorizado Director de Área o Jefe de Regional"),
             array('0','0','0'),
             array('Arial','B','09'),
             array(false),
