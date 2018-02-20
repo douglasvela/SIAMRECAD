@@ -29,7 +29,7 @@
 
         if (file_exists($path)) {
         ?>
-            <img data-toggle="tooltip" id="imagen_firma" title="Haz clic sobre la imagen para cambiar la firma" style="cursor: pointer;" onclick="mostrar_firma();" src="<?php echo base_url(); ?>assets/firmas/<?php echo $nr_empleado.".png?".rand(); ?>" alt="firma digital">
+            <img data-toggle="tooltip" id="imagen_firma" title="Haz clic sobre la imagen para cambiar la firma" style="cursor: pointer; max-height: 100px; max-width: 450px;" onclick="mostrar_firma();" src="<?php echo base_url(); ?>assets/firmas/<?php echo $nr_empleado.".png?".rand(); ?>" alt="firma digital">
         <?php } ?>
     </div>
 

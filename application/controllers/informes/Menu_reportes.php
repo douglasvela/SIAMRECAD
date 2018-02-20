@@ -150,7 +150,7 @@ class Menu_reportes extends CI_Controller {
 					
 					}
 				}else{
-					$cuerpo .= '
+				$cuerpo .= '
 						<tr><td colspan="9"><center>No hay registros</center></td></tr>
 					';
 				}
@@ -163,6 +163,7 @@ class Menu_reportes extends CI_Controller {
         $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+
 		$this->mpdf->WriteHTML($cuerpo);
 
 		$this->mpdf->Output();

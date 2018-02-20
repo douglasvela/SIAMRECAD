@@ -18,7 +18,7 @@ $ = 'default' in $ ? $['default'] : $;
 
 var DEFAULTS = {
   // Define the view mode of the cropper
-  viewMode: 3, // 0, 1, 2, 3
+  viewMode: 1, // 0, 1, 2, 3
 
   // Define the dragging mode of the cropper
   dragMode: 'crop', // 'crop', 'move' or 'none'

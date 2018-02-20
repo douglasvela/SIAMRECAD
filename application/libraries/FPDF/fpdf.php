@@ -84,7 +84,7 @@ function SetAligns($a)
 }
 
 var $titulo1,$titulo2,$titulo3;
-var $mid_x = 104;
+var $mid_x = 106;
 function cambiarTitulo($e2,$e3){
   $this->titulo1=utf8_decode('MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL');
   $this->titulo2=utf8_decode($e2);
@@ -97,8 +97,8 @@ function Header()
 	
 	
 	$this->SetFont('Arial','',8);
-    $this->Image(('application/libraries/logomtps.jpeg'),13,7,30,17);
-    $this->Image(('application/libraries/escudo.jpg'),170,7,20,16);
+    $this->Image(('application/libraries/logomtps.jpeg'),10,7,30,17);
+    $this->Image(('application/libraries/escudo.jpg'),180,7,20,16);
     $this->SetFont('Arial','B',9);
 	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo1) / 2), 12, $this->titulo1,0,'C', 0);
 	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo2) / 2), 16, $this->titulo2,0,'C', 0);
