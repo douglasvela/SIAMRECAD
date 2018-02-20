@@ -134,6 +134,8 @@ class Menu_reportes extends CI_Controller {
 						</tr>
 						';
 					}
+				}else{
+					$cuerpo .='<tr><td colspan="6" align="center">No Existen Registros</td></tr>';
 				}
 				$cuerpo .= '
 					
