@@ -144,6 +144,7 @@ class Menu_reportes extends CI_Controller {
 		';
 		// LOAD a stylesheet
 		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		//$stylesheet = file_get_contents('table.css');
 		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
 		$this->mpdf->WriteHTML($stylesheet,1);	// The parameter 1 tells that this is css/style only and no body/html/text
 		$this->mpdf->WriteHTML($cuerpo);
