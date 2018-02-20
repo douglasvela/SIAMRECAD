@@ -312,7 +312,8 @@
        if(id=="" || fecha_max=="" || fecha_min==""){
          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
        }else{
-          window.open("menu_reportes/reporte_viatico_pagado_empleado/"+id+"/"+fecha_min+"/"+fecha_max,"_blank");
+         var xhr = "<?php echo base_url()?>" 
+          window.open(xhr+"index.php/informes/menu_reportes/reporte_viatico_pagado_empleado/"+id+"/"+fecha_min+"/"+fecha_max,"_blank");
        }
      }
      function mostrarReporteViaticosMayoraMenor(){
@@ -335,7 +336,8 @@
        if(fecha==""){
           swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
        }else{
-          window.open("menu_reportes/reporte_monto_viatico_mayor_a_menor/"+fecha+"/"+dir,"_blank");
+         var xhr = "<?php echo base_url()?>" 
+          window.open(xhr+"index.php/informes/menu_reportes/reporte_monto_viatico_mayor_a_menor/"+fecha+"/"+dir,"_blank");
        }
      }
 

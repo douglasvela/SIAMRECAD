@@ -15,7 +15,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 
 */
 
-    function obtenerListaviatico($data)
+    function obtenerListaviatico_pendiente($data)
     {
         $nr = $data['nr'];
         $viaticos = $this->db->query("SELECT * FROM `vyp_mision_oficial` WHERE `nr_empleado`='$nr' and ( `estado` between '0' and '6')");
@@ -33,11 +33,17 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
         $detalle_actividad = $this->db->query("SELECT * FROM `vyp_estado_solicitud` WHERE `id_estado_solicitud`='$id_estado'");
         return $detalle_actividad;
     }
+    function obtenerTotalMontos($data)
+    {
+        $id_mision_oficial = $data;
+        $detalle = $this->db->query("SELECT sum(`viatico`) as viatico,sum(`pasaje`) as pasaje,sum(`alojamiento`) as alojamiento FROM `vyp_empresa_viatico` WHERE `id_mision`='$id_mision_oficial'");
+        return $detalle;
+    }
     function obtenerListaviaticoPagado($data){
       $this->db->where("nr_empleado",$data['nr']);
-      $this->db->where("estado","pagado");
-      $this->db->where("fecha_mision >=",date("Y-m-d",strtotime($data['fmin'])));
-      $this->db->where("fecha_mision <=",date("Y-m-d",strtotime($data['fmax'])));
+      $this->db->where("estado","8");
+      $this->db->where("fecha_solicitud >=",date("Y-m-d",strtotime($data['fmin'])));
+      $this->db->where("fecha_solicitud <=",date("Y-m-d",strtotime($data['fmax'])));
       $viaticos = $this->db->get('vyp_mision_oficial');
       return $viaticos;
     }
@@ -66,9 +72,9 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
         $prueba = $this->db->query("SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir'");
 
         if($prueba->num_rows()>0){
-          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion IN (SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir')  GROUP BY mo.nr_empleado ORDER BY total DESC");
+          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos,(SUM(em.pasaje) + SUM(em.viatico)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion IN (SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir')  GROUP BY mo.nr_empleado ORDER BY total DESC");
         }else{
-          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion = '$dir'  GROUP BY mo.nr_empleado ORDER BY total DESC");
+          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos,(SUM(em.pasaje) + SUM(em.viatico)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion = '$dir'  GROUP BY mo.nr_empleado ORDER BY total DESC");
         }
         return $viaticos1;
     }

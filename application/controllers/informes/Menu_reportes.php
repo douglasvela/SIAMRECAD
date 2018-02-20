@@ -73,11 +73,12 @@ class Menu_reportes extends CI_Controller {
 			Orientacion: P / L
 		*/
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+
 		$cabecera = '<table><tr>
  		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
 		</td>
-		<td width="590px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		   
@@ -95,27 +96,34 @@ class Menu_reportes extends CI_Controller {
 		foreach ($empleado_NR_viatico->result() as $key) {	
 		}
 		$ids = array('nr' =>  $id);
-		$viatico = $this->Reportes_viaticos_model->obtenerListaviatico($ids);
+		$viatico = $this->Reportes_viaticos_model->obtenerListaviatico_pendiente($ids);
 
 		
 		$cuerpo = '
-			<table  class="" border="1">
-				<caption>NR: '.$id.'	Empleado: '.($key->nombre_completo).'</caption>
+		<h6>NR: '.$id.'	Empleado: '.($key->nombre_completo).'</h6>
+			<table  class="" border="1" style="width:100%">
+				
 				<thead >
+
 					<tr>
-						<th align="center">Fecha Solicitud</th>
-						<th align="center">Fecha Inicio Mision</th>
-						<th align="center">Fecha Fin Mision</th>
-						<th align="center">Actividad</th>
-						<th align="center">Detalle Actividad</th>
-						<th align="center">Estado</th>
+						<th align="center" rowspan="2">Fecha Solicitud</th>
+						<th align="center" rowspan="2">Fecha Inicio Mision</th>
+						<th align="center" rowspan="2">Fecha Fin Mision</th>
+						<th align="center" rowspan="2">Actividad</th>
+						<th align="center" rowspan="2">Detalle Actividad</th>
+						<th align="center" colspan="3">Detalle Montos</th>
+						<th align="center" rowspan="2">Estado</th>
 						 
+					</tr>
+					<tr>
+						<th align="center">Viaticos</th>
+						<th align="center">Pasajes</th>
+						<th align="center">Alojamiento</th>
 					</tr>
 				</thead>
 				<tbody>
 					
-					';?>
-				<?php 
+					';
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
 				
@@ -123,6 +131,9 @@ class Menu_reportes extends CI_Controller {
 					foreach ($estado->result() as $estado_detalle) {}
 					$actividad = $this->Reportes_viaticos_model->obtenerDetalleActividad($viaticos->id_actividad_realizada);
 					foreach ($actividad->result() as $actividad_detalle) {}
+					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
+					foreach ($totales->result() as $totales_detalle) {}
+						
 					$cuerpo .= '
 						<tr>
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_solicitud)).'</td>
@@ -130,52 +141,72 @@ class Menu_reportes extends CI_Controller {
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_fin)).'</td>
 							<td>'.($actividad_detalle->nombre_vyp_actividades).'</td>
 							<td>'.utf8_decode($viaticos->detalle_actividad).'</td>
+							<td>$'.number_format($totales_detalle->viatico,2,".",",").'</td>
+							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
+							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
 							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
 						</tr>
 						';
+					
 					}
+				}else{
+					$cuerpo .= '
+						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+					';
 				}
 				$cuerpo .= '
 					
 				</tbody>
 			</table>
-		';
-		// LOAD a stylesheet
-		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->WriteHTML($stylesheet,1);	// The parameter 1 tells that this is css/style only and no body/html/text
+
+        ';         // LOAD a stylesheet         
+        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 		$this->mpdf->WriteHTML($cuerpo);
 
 		$this->mpdf->Output();
 	}
 
 	public function reporte_viatico_pagado_empleado($id,$min,$max){
-
-		$this->load->library('pdf');
+		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->pdf = new Pdf('P','mm','Letter');
-		$this->pdf->SetTituloPagina('MINISTERIO DE TRABAJO Y PREVISION SOCIAL','UNIDAD FINANCIERA INSTITUCIONAL','FONDO CIRCULANTE DEL MONTO FIJO');
-		$this->pdf->SetTituloTabla1("FECHA");
-		$this->pdf->SetTituloTabla2("DESCRIPCIÓN");
-		$this->pdf->SetTituloTabla3("ESTADO");
-		$this->pdf->SetTitle(utf8_decode('VIÁTICOS PAGADOS EN UN PERIODO'));
-		$this->pdf->SetAutoPageBreak(true, 15);
-	 $this->pdf->SetMargins(9,3,6);
-		 $this->pdf->SetCuadros("viatico_pagado_empleado");
-		$this->pdf->AddPage();
-		// $this->pdf->Cuadros(); //MUESTRA LOS CUADROS
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$pie = '{PAGENO} de {nbpg} páginas';
 
 
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
 		 $data = array('nr'=>$id);
 		$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
-		foreach ($empleado_NR_viatico->result() as $key) {
-			$this->pdf->Text(9,24,utf8_decode("VIÁTICOS PAGADOS EN UN PERIODO") ,0,'C', 0);
-			$this->pdf->Text(9,28,"NR: 			 ".$key->nr.", EMPLEADO: ".utf8_decode($key->nombre_completo) ,0,'C', 0);
-			$this->pdf->Text(130,28,utf8_decode("PERÍODO DE: ").$min."  A  ".$max ,0,'C', 0);
+		foreach ($empleado_NR_viatico->result() as $key) {	
 		}
-
-		 $this->pdf->SetAligns(array('L','J','L'));
-		$this->pdf->SetWidths(array(25,142,28));
 		$ids = array(
 			'nr' =>  $key->nr,
 			'fmin' => $min,
@@ -183,56 +214,74 @@ class Menu_reportes extends CI_Controller {
 		);
 		$viatico = $this->Reportes_viaticos_model->obtenerListaviaticoPagado($ids);
 
-		if($viatico->num_rows()>0){
+		
+		$cuerpo = '
+		<h6>NR: '.$id.'	Empleado: '.($key->nombre_completo).'</h6>
+			<table  class="" border="1" style="width:100%">
+				
+				<thead >
+
+					<tr>
+						<th align="center" rowspan="2">Fecha Solicitud</th>
+						<th align="center" rowspan="2">Fecha Inicio Mision</th>
+						<th align="center" rowspan="2">Fecha Fin Mision</th>
+						<th align="center" rowspan="2">Actividad</th>
+						<th align="center" rowspan="2">Detalle Actividad</th>
+						<th align="center" colspan="3">Detalle Montos</th>
+						<th align="center" rowspan="2">Estado</th>
+						 
+					</tr>
+					<tr>
+						<th align="center">Viaticos</th>
+						<th align="center">Pasajes</th>
+						<th align="center">Alojamiento</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					';
+				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-						$this->pdf->Row(
-						array(date('d-m-Y',strtotime($viaticos->fecha_mision)),utf8_decode($viaticos->actividad_realizada),$viaticos->estado),
-						array('0','0','0'),
-						array(array('Arial','','9'),array('','',''),array('','','')),
-						array(false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','211','0'),array('33','92','19'),array('192','10','2')));
-						$data  =array(
-							'id_mision_oficial'=>$viaticos->id_mision_oficial
-						);
-						$this->pdf->Ln(4);
-						$detalle = $this->Reportes_viaticos_model->obtenerDetalle($data);
-						$this->pdf->SetWidths(array(21,50,50,21,25));
-						 $this->pdf->SetAligns(array('L','L','L','L'));
-						$this->pdf->Row(
-						array("","Origen","Destino",trim("Hora Salida"),trim("Hora Llegada")),
-						array('0','1','1','1','1'),
-						array(array('Arial','','08'),array('Arial','B','08'),array('','B',''),array('','B',''),array('','B','')),
-						array(false,false,false,false,false),
-						array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-						array(array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255'),array('255','255','255')));
-						foreach ($detalle->result() as $keyDetalle) {
-
-							//$this->pdf->Cell($this->pdf->GetX(),$this->pdf->GetY(),$keyDetalle->origen,'0');
-
-						//  $this->pdf->cuadrogrande_salto(21,$this->pdf->GetY(),146,5,0,'FD');
-							//$this->pdf->SetXY(9,$this->pdf->GetY());
-								$this->pdf->Row(
-								array("",utf8_decode($keyDetalle->origen),utf8_decode($keyDetalle->nombre_empresa),$keyDetalle->hora_salida,$keyDetalle->hora_llegada),
-								array('0','0','0','0','0'),
-								array(array('Arial','','08'),array('','',''),array('','',''),array('','',''),array('','','')),
-								array(false,false,false,false,false),
-								array(array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0'),array('0','0','0')),
-								array(array('255','211','0'),array('33','92','19'),array('192','10','2'),array('192','10','2'),array('255','255','255')));
-								$this->pdf->Text(30,$this->pdf->GetY(),"_____________________________________________________________________________________________",0,'C', 0);
-						}
-					 $this->pdf->Text($this->pdf->GetX(),$this->pdf->GetY(),"___________________________________________________________________________________________________________________________",0,'C', 0);
-
-						$this->pdf->SetWidths(array(25,142,28));
-						$this->pdf->SetAligns(array('L','J','L'));
-						$this->pdf->Ln(2);
-
+				
+					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
+					foreach ($estado->result() as $estado_detalle) {}
+					$actividad = $this->Reportes_viaticos_model->obtenerDetalleActividad($viaticos->id_actividad_realizada);
+					foreach ($actividad->result() as $actividad_detalle) {}
+					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
+					foreach ($totales->result() as $totales_detalle) {}
+						
+					$cuerpo .= '
+						<tr>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_solicitud)).'</td>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)).'</td>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_fin)).'</td>
+							<td>'.($actividad_detalle->nombre_vyp_actividades).'</td>
+							<td >'.utf8_decode($viaticos->detalle_actividad).'</td>
+							<td>$'.number_format($totales_detalle->viatico,2,".",",").'</td>
+							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
+							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
+							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
+						</tr>
+						';
+					
+					}
+				}else{
+					$cuerpo .= '
+						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+					';
 				}
-			}else{
-				$this->pdf->Text($this->pdf->GetX()+25,$this->pdf->GetY()+10,"No posee viaticos pagados en el periodo!",0,'C', 0);
-			}
+				$cuerpo .= '
+					
+				</tbody>
+			</table>
 
-	 $this->pdf->Output(); //Salida al navegador
+        ';         // LOAD a stylesheet         
+        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+		$this->mpdf->WriteHTML($cuerpo);
+
+		$this->mpdf->Output();
 	}
 
 	public function reporte_monto_viatico_mayor_a_menor($anio,$dir){
