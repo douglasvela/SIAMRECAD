@@ -32,23 +32,8 @@
 
 <script type="text/javascript">
 
-var nr_empleado = "<?php echo $_GET["nr"]; ?>"
-
-   /* function cambiar_editar(id, nr, id_banco, cuenta, estado, band){
-        $("#id_empleado_banco").val(id);
-        $("#nr2").val(nr);
-        $("#id_banco").val(id_banco).trigger('change.select2');
-        $("#cuenta").val(cuenta);
-        $("#estado").val(estado);
-
-        if(band == 'edit'){
-            $("#modal_cuenta_bancaria").modal('show');
-            $("#band").val(band);
-        }else{
-            $("#band").val(band);
-            $("#submitbutton").click();
-        }
-    }*/
+//var nr_empleado = "<?php //echo $_GET["nr"]; ?>"
+//var fecha_p = "<?php //echo $_GET["fecha2"]; ?>"
 
 
 
@@ -104,7 +89,7 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
             if(res == "exito"){
                 tabla_pasaje_unidad();
             }else{
-                alert("date veneno")
+               swal({ title: "¡Registro eliminado!", type: "success", showConfirmButton: true });
             }
              
         });
@@ -135,8 +120,9 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
             alert(res)
             if(res == "exito"){
                 tabla_pasaje_unidad();
+                swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
             }else{
-                alert("date veneno")
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
              
         });
@@ -168,6 +154,7 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
         tabla_pasaje_unidad();
       // cambiar_nuevo();
       $("#nr").val(nr_empleado).trigger('change.select2');
+     $("#fecha1").val(fecha_p).trigger('change.select2');
         $('html,body').animate({
             scrollTop: $("body").offset().top
         }, 500);

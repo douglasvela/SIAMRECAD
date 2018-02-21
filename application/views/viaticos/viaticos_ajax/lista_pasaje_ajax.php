@@ -5,10 +5,7 @@
     if(!empty($nr_empleado) AND !empty($fecha_mes) ){
 //echo ($fecha_mes);
 ?>
-<div class="pull-right">
-            <button type="button" onclick="window.location.href='../viatico/pasaje'" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic ver los registros"><span class="mdi mdi-plus"></span>Ver todos los pasajes</button>
-            
-        </div>
+
 
 <div class="table-responsive container">
     <table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
@@ -59,6 +56,6 @@
 
 <?php
 
- /*<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;"> */
+
 }
 ?>

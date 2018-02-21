@@ -18,7 +18,7 @@ class Pasaje_model extends CI_Model {
 		$estado = true;
 		if($this->db->insert('vyp_pasajes', array('id_solicitud_pasaje'=> $idb, 'fecha_mision' => $data['fecha_mision'], 'no_expediente' => $data['expediente'], 'empresa_visitada' => $data['empresa'], 'direccion_empresa' => $data['direccion'], 'nr' => $data['nr'], 'monto_pasaje' => $data['monto'], 'estado' => $estado )))
 		{
-			return "exito";
+			//return "exito";
 		}else{
 			return "fracaso";
 		}

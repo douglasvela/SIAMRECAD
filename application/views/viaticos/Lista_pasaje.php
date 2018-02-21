@@ -157,6 +157,7 @@
                         </div>
                         <h4 class="card-title m-b-0 text-white">Pasajes</h4>
                     </div>
+
                     <div class="card-body b-t">
                     <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <input type="hidden" id="band" name="band" value="save">
@@ -170,7 +171,8 @@
                                 <?php 
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                     if($otro_empleado->num_rows() > 0){
-                                        foreach ($otro_empleado->result() as $fila) {              
+                                        foreach ($otro_empleado->result() as $fila) {  
+                                        $nombre=$fila->nombre_completo;          
                                            echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.' - '.$fila->nr.'</option>';
                                         }
                                     }
@@ -179,16 +181,21 @@
                             <div class="help-block"></div>
                         </div>
                 <div class="form-group col-lg-6">  
+                
                 <h5>Fecha: <span class="text-danger">*</span></h5>
                 <input type="month"  class="form-control" id="fecha2" name="fecha2"  onchange="tabla_pasaje_lista();">
                 
                 <div class="help-block"></div>
+
                 </div>
                 </div>
 
                        
 
-
+<div class="pull-right">
+            <button type="button" onclick="window.location.href='../viatico/pasaje'" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar"><span class="mdi mdi-plus"></span>Nuevo</button>
+            
+        </div>
                     <h5>Pasajes del empleado</h5>
                     <blockquote class="m-t-10">
                                                
