@@ -1,8 +1,8 @@
 <?php 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha1"];
-
-    if(!empty($nr_empleado) AND !empty($fecha_mes) ){
+  
+    if(!empty($nr_empleado) AND !empty($fecha_mes)){
 //echo ($fecha_mes);
 ?>
 <div class="table-responsive container">
@@ -97,3 +97,8 @@
  /*<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;"> */
 }
 ?>
+
+
+
+
+

@@ -181,21 +181,17 @@
                             <div class="help-block"></div>
                         </div>
                 <div class="form-group col-lg-6">  
-                
+
                 <h5>Fecha: <span class="text-danger">*</span></h5>
                 <input type="month"  class="form-control" id="fecha2" name="fecha2"  onchange="tabla_pasaje_lista();">
                 
                 <div class="help-block"></div>
 
                 </div>
+
                 </div>
 
-                       
-
-<div class="pull-right">
-            <button type="button" onclick="window.location.href='../viatico/pasaje'" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar"><span class="mdi mdi-plus"></span>Nuevo</button>
-            
-        </div>
+                    
                     <h5>Pasajes del empleado</h5>
                     <blockquote class="m-t-10">
                                                
