@@ -32,11 +32,8 @@
 
 <script type="text/javascript">
 
-//var nr_empleado = "<?php //echo $_GET["nr"]; ?>"
-//var fecha_p = "<?php //echo $_GET["fecha2"]; ?>"
-
-
-
+var nr_empleado = "<?php echo $_GET["nr"]; ?>"
+var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
 
     function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,bandera){
           tabla_pasaje_unidad();
@@ -88,8 +85,9 @@
         .done(function(res){
             if(res == "exito"){
                 tabla_pasaje_unidad();
+                 swal({ title: "¡Registro eliminado!", type: "success", showConfirmButton: true });
             }else{
-               swal({ title: "¡Registro eliminado!", type: "success", showConfirmButton: true });
+               swal({ title: "¡Error!", type: "success", showConfirmButton: true });
             }
              
         });
@@ -153,6 +151,7 @@
     function iniciar(){
         tabla_pasaje_unidad();
       // cambiar_nuevo();
+
       $("#nr").val(nr_empleado).trigger('change.select2');
      $("#fecha1").val(fecha_p).trigger('change.select2');
         $('html,body').animate({
@@ -274,9 +273,6 @@
                 <div class="help-block"></div>
                 </div>
                 </div>
-
-                       
-
 
                     <h5>Pasajes del empleado</h5>
                     <blockquote class="m-t-10">

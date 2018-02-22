@@ -16,6 +16,7 @@ class Menu_reportes extends CI_Controller {
 	}
 	public function reporte_ejemplo(){
 		$this->load->library('mpdf');
+		
 		/*Constructor variables
 			Modo: c
 			Formato: A4 - default
@@ -29,28 +30,117 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','12','Arial',10,10,35,17,3,9,'L'); 
-		$cabecera = '<table><tr>
- 		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
-		</td>
-		<td width="490px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
-		</td>
-	 	</tr></table>';
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
-
-
-		$this->mpdf->SetHTMLHeader($cabecera);
-		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
-		$this->mpdf->setFooter($pie);
-
+	
+		 
+		
 		$cuerpo = '
-			
-		';
+		<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Example</title>
+
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="highcharts.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+</script>
+
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<div id="container1" style="width: 700px; height: 400px "></div>
+</body>
+</html>
+					';
+			       // LOAD a stylesheet         
+      
+		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
+		//$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+		$script = '
+var dat1 = [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4];
+		var chart1;
+$(document).ready(function(){
+  chart1 = new Highcharts.Chart({
+    chart: {renderTo: "container1"},
+    series: [{data: dat1}]
+  });
+});';	
+		$this->mpdf->WriteHTML($cuerpo);
+		$this->mpdf->setJS($scrit);
+		$this->mpdf->Output();
+	}
+	public function reporte_ejemplo1(){
+		$this->load->library('j_pgraph');
+		//$this->load->library('j_pgraph_bar');
+		//$this->load->library('j_pgraph_barPlot');
+
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		$data1y=array(12,8,19,3,10,5);
+		$data2y=array(8,2,11,7,14,4);
+		// Create the graph. These two calls are always required
+		$this->graph = new Graph(310,200);
+		$this->graph->clearTheme();
+		$this->graph->SetScale("textlin");
+
+		$this->graph->SetShadow();
+		$this->graph->img->SetMargin(40,30,20,40);
+
+		// Create the bar plots
+		$this->b1plot = new BarPlot($data1y);
+		$this->b1plot->SetFillColor("orange");
+
+
+		// Create the grouped bar plot
+		$this->gbplot = new AccBarPlot(array($this->b1plot));
+
+		// ...and add it to the graPH
+		$this->graph->Add($this->gbplot);
+
+		$this->graph->title->Set("Accumulated bar plots");
+		$this->graph->xaxis->title->Set("X-title");
+		$this->graph->yaxis->title->Set("Y-title");
+
+		$this->graph->title->SetFont(FF_FONT1,FS_BOLD);
+		$this->graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+		$this->graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+
+		
+		$this->load->library('mpdf');
+		
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+
+	
+		 
+		
+		$cuerpo = '
+		
+					';
+				// Display the graph
+				$this->graph->Stroke();
+				$cuerpo .= '
+				
+        ';         // LOAD a stylesheet         
+      
+		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 
 		$this->mpdf->WriteHTML($cuerpo);
 
