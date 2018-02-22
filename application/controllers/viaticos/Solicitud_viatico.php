@@ -284,6 +284,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud');
 	}
 
+	public function observaciones(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/observaciones');
+	}
+
 
 /*	
 
@@ -295,9 +299,7 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud_copia');
 	}
 
-	public function observaciones(){
-		$this->load->view('viaticos/solicitud_viaticos_ajax/observaciones');
-	}
+	
 
 	
 

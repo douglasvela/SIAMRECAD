@@ -1,7 +1,7 @@
 <?php 
                     $id_mision = $_GET["id_mision"];                   
                     $correlativo = 0;
-                    $query = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."'");
+                    $query = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."' AND corregido = 0");
                     if($query->num_rows() > 0){
                 ?>
                 <div class="card">

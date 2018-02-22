@@ -584,6 +584,74 @@
         $("#cnt_form").hide(0);
     }
 
+    function validar_dia_limite(estado_solicitud){
+        var lim_start = 10;
+        var days = 1;
+
+        if(estado_solicitud == "0"){ //incompleto
+            days += 1;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+
+        }else if(estado_solicitud == "1"){ //revision jefe inmediato
+            days += 2;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+            
+        }else if(estado_solicitud == "2"){ //observada por jefe inmediato
+            days += 2;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+            
+        }else if(estado_solicitud == "3"){ //revision director de area o jefe de regional
+            days += 3;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+
+        }else if(estado_solicitud == "4"){ //observada por director de area o jefe de regional
+            days += 3;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+         
+        }else if(estado_solicitud == "5"){ //revision fondo circulante
+            days += 4;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+
+        }else if(estado_solicitud == "6"){ //observaciones fondo circulante
+            days += 4;
+            var limite_fin = convert_lim_text(days);
+            var limite_inicio = convert_lim_text(lim_start + days);
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+
+        }
+    }
+
+    function convert_lim_text(lim){
+        var tlim = "-"+lim+"d";
+        return tlim;
+    }
+
     function cambiar_nuevo(){
         $("#id_mision").val("");
         $("#nr").val("").trigger('change.select2');
@@ -592,10 +660,10 @@
         $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
         $("#band").val("save");
+
+        validar_dia_limite("0");
         $("#fecha_mision_inicio").datepicker("setDate", moment().format("DD-MM-YYYY") );
         $("#fecha_mision_fin").datepicker("setDate", moment().format("DD-MM-YYYY") );
-
-        //$('.datepicker').datepicker().trigger('changeDate');
 
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
@@ -611,18 +679,19 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,bandera){
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,bandera){
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
-        $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
-        $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');       
 
         if(bandera == "edit"){
-            //observaciones(id);
+            observaciones(id);
+            validar_dia_limite(estado);
+            $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
+            $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
             form_mision();
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
@@ -632,8 +701,27 @@
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");
         }else{
+            $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
+            $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
             eliminar_mision();
         }
+    }
+
+    function observaciones(id_mision){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+                form_mision();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/observaciones?id_mision="+id_mision,true);
+        xmlhttpB.send(); 
     }
 
     function eliminar_mision(){
