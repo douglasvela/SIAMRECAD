@@ -14,7 +14,12 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 
 
 */
-
+    function obtenerViaticoAnual($data)
+    {
+      $anios = implode(",", $data);//de array a cadena
+        $viaticos = $this->db->query("SELECT year(fecha) as anio,sum(`viatico`) as monto FROM `vyp_empresa_viatico` WHERE YEAR(fecha) IN ($anios)  group by year(`fecha`)");
+        return $viaticos;
+    }
     function obtenerListaviatico_pendiente($data)
     {
         $nr = $data['nr'];

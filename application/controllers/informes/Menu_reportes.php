@@ -14,64 +14,119 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('templates/footer');
 
 	}
-	public function reporte_ejemplo(){
-		$this->load->library('mpdf');
+	public function crear_grafico_viaticos_x_anio($anios){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		$data = str_split($anios,4);//De cadena a array
 		
-		/*Constructor variables
-			Modo: c
-			Formato: A4 - default
-			Tamaño de Fuente: 12
-			Fuente: Arial
-			Magen Izq: 32
-			Margen Derecho: 25
-			Margen arriba: 47
-			Margen abajo: 47
-			Margen cabecera: 10
-			Margen Pie: 10
-			Orientacion: P / L
-		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$data1y = array();
+		$labels = array();
+		$i=0;
+		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnual($data);
+		foreach ($viatico_anual->result() as $viatico_anual_detalle) {	
+			$data1y[$i]=$viatico_anual_detalle->monto;
+			$labels[$i]=$viatico_anual_detalle->anio;
+			$i++;
+		}
+		
+		// Create the graph. These two calls are always required
+		$graph = new Graph(510,300);
+		$graph->clearTheme();
+		$graph->SetScale("textlin");
 
+		$graph->SetShadow();
+		$graph->img->SetMargin(45,30,30,40);
+
+		// Create the bar plots
+		$b1plot = new BarPlot($data1y);
+		$b1plot->SetFillColor("blue");
+
+
+		// Create the grouped bar plot
+		$gbplot = new AccBarPlot(array($b1plot));
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+
+		$graph->title->Set(utf8_decode("Viaticos por año"));
+		$graph->yaxis->title->Set("Cantidad en dolares");
+		$graph->xaxis->title->Set(utf8_decode("Años"));
+
+		$graph->title->SetFont(FF_FONT1,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "application/controllers/informes/graficas/grafica_va_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
 	
-		 
+	public function reporte_viaticos_x_anio($anios){
+		$this->load->library('mpdf');
+		$this->load->model('Reportes_viaticos_model');
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->crear_grafico_viaticos_x_anio($anios);
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$pie = '{PAGENO} de {nbpg} páginas';
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
 		
 		$cuerpo = '
-		<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Example</title>
-
-<script src="jquery.min.js" type="text/javascript"></script>
-<script src="highcharts.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-
-</script>
-
-<script type="text/javascript">
-
-</script>
-</head>
-<body>
-<div id="container1" style="width: 700px; height: 400px "></div>
-</body>
-</html>
+			<table  class="" border="1" >
+				<thead >
+					<tr>
+						<th align="center"  >Año</th>
+						<th align="center"  >Monto</th>
+					</tr>
+				</thead>
+				<tbody>
 					';
-			       // LOAD a stylesheet         
-      
-		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
-		//$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-		$script = '
-var dat1 = [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4];
-		var chart1;
-$(document).ready(function(){
-  chart1 = new Highcharts.Chart({
-    chart: {renderTo: "container1"},
-    series: [{data: dat1}]
-  });
-});';	
+				$data = str_split($anios,4);
+				//$data=array(2018,2017,2016,2015);
+				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnual($data);
+				if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$cuerpo .= '
+						<tr>
+							<td align="center" style="width:180px">'.($viaticos->anio).'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->monto,2,".",",").'</td>
+						</tr>
+						';
+					}
+				}else{
+				$cuerpo .= '
+						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+					';
+				}
+				$cuerpo .= '
+				</tbody>
+			</table><br>
+			<img src="application/controllers/informes/graficas/grafica_va_'.$this->session->userdata('usuario_viatico').'.png" alt="">
+        '; 
+		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		$this->mpdf->SetTitle('Viaticos por Año');
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 		$this->mpdf->WriteHTML($cuerpo);
-		$this->mpdf->setJS($scrit);
 		$this->mpdf->Output();
 	}
 	public function reporte_ejemplo1(){
@@ -250,9 +305,10 @@ $(document).ready(function(){
 			</table>
 
         ';         // LOAD a stylesheet         
-        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+        
 		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
 		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
+		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 
 		$this->mpdf->WriteHTML($cuerpo);
@@ -575,7 +631,7 @@ $(document).ready(function(){
 					}
 				}else{
 					$cuerpo .= '
-						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+						<tr><td colspan="6"><center>No hay registros</center></td></tr>
 					';
 				}
 				$cuerpo .= '
