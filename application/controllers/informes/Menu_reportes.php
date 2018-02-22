@@ -45,17 +45,11 @@ class Menu_reportes extends CI_Controller {
 <script src="highcharts.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-var dat1 = [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4];
+
 </script>
 
 <script type="text/javascript">
-var chart1;
-$(document).ready(function(){
-  chart1 = new Highcharts.Chart({
-    chart: {renderTo: "container1"},
-    series: [{data: dat1}]
-  });
-});
+
 </script>
 </head>
 <body>
@@ -67,9 +61,17 @@ $(document).ready(function(){
       
 		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
 		//$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-
+		$script = '
+var dat1 = [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4];
+		var chart1;
+$(document).ready(function(){
+  chart1 = new Highcharts.Chart({
+    chart: {renderTo: "container1"},
+    series: [{data: dat1}]
+  });
+});';	
 		$this->mpdf->WriteHTML($cuerpo);
-
+		$this->mpdf->setJS($scrit);
 		$this->mpdf->Output();
 	}
 	public function reporte_ejemplo1(){
