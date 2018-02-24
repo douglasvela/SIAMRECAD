@@ -288,7 +288,9 @@
 
         if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada) && distancia > DistanciaMinima){
 
-            if(id_origenes == id_oficina_origenes){
+
+            /******************** Validación de que al salir de la oficina cumpla con 15 km ***************************************/
+            /*if(id_origenes == id_oficina_origenes){
                 hora_salida = convertir_salida(distancia);
                 $.toast({ heading: 'Saliendo de la oficina', text: 'Alcanzó los 15 Km aproximadamente a las '+hora_salida, position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 6000, stack: 6 });
             }
@@ -296,7 +298,7 @@
             if(id_destinos == id_oficina_origenes){
                 hora_llegada = convertir_llegada(distancia);
                 $.toast({ heading: 'Llegando de la oficina', text: 'Entró en el radio de 15 Km aproximadamente a las '+hora_llegada, position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 6000, stack: 6 });
-            }
+            }*/
 
             if(contar_registros_tabla_viaticos() == 0){
                 hay_viaticos = validar_viatico_first(hora_salida,hora_llegada);
@@ -907,7 +909,6 @@
     }
 
     function form_folleto_viaticos(){
-    	$("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
         combo_oficina_departamento("departamento");
         $("#nombre_empresa").parent().show(0);
         $("#direccion_empresa").parent().show(0);
@@ -1134,6 +1135,7 @@
     }
 
     function form_viaticos(){
+        $("#cnt_mapa").animate({height: '0px', opacity: '0'}, 750);
         $("#cnt_mision").hide(0);
         $("#cnt_rutas").hide(0);
         $("#cnt_viaticos").show(0);

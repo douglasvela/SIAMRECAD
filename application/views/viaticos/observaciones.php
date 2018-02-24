@@ -39,7 +39,7 @@
     }
 
     function iniciar(){
-        tabla_observaciones();
+        //tabla_observaciones();
     }
 
     function objetoAjax(){
@@ -53,7 +53,7 @@
         return xmlhttp;
     }
 
-    function tabla_observaciones(){    
+    function tabla_observaciones1(){    
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -61,14 +61,55 @@
         }
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                document.getElementById("cnt_tabla").innerHTML=xmlhttpB.responseText;
-                $('#myTable').DataTable();
+                document.getElementById("cnt_tabla1").innerHTML=xmlhttpB.responseText;
+                $("#id_tipo_observador").val("1");
+                $('#myTable1').DataTable();
                 $('[data-toggle="tooltip"]').tooltip();
                 //var ths = $("#myTable").find("thead").find("th");
                 //$(ths[0]).click();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/tabla_observaciones",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones1",true);
+        xmlhttpB.send(); 
+    }
+
+    function tabla_observaciones2(){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_tabla2").innerHTML=xmlhttpB.responseText;
+                $('#myTable2').DataTable();
+                $("#id_tipo_observador").val("2");
+                $('[data-toggle="tooltip"]').tooltip();
+                //var ths = $("#myTable").find("thead").find("th");
+                //$(ths[0]).click();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones2",true);
+        xmlhttpB.send(); 
+    }
+
+    function tabla_observaciones3(){
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_tabla3").innerHTML=xmlhttpB.responseText;
+                $('#myTable3').DataTable();
+                $("#id_tipo_observador").val("3");
+                $('[data-toggle="tooltip"]').tooltip();
+                //var ths = $("#myTable").find("thead").find("th");
+                //$(ths[0]).click();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones3",true);
         xmlhttpB.send(); 
     }
 
@@ -97,7 +138,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/listado_observaciones?id_mision="+gid_mision,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/listado_observaciones?id_mision="+gid_mision,true);
         xmlhttpB.send(); 
     }
 
@@ -110,7 +151,7 @@
 
     function eliminar_observacion(id_observacion){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/eliminar_observacion", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones/eliminar_observacion", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
@@ -129,7 +170,7 @@
     function verificar_observaciones(){
         var estado_solicitud = $("#estado").val();
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/verificar_observaciones", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones/verificar_observaciones", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "observaciones"){
@@ -144,6 +185,10 @@
                     }, function(){   
                         if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
                             cambiar_estado_solicitud(2);    //cambiar estado solicitud a observada por jefe inmediato
+                        }else if(estado_solicitud == "3"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(4);    //cambiar estado solicitud a observada por jefe inmediato
+                        }else if(estado_solicitud == "5"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(6);    //cambiar estado solicitud a observada por jefe inmediato
                         }
                     });
                 }else if(ajax.responseText == "aprobar"){
@@ -158,6 +203,10 @@
                     }, function(){
                         if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
                             cambiar_estado_solicitud(3);    //enviar a revision a director o jefe de regional
+                        }else if(estado_solicitud == "3"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(5);    //cambiar estado solicitud a observada por jefe inmediato
+                        }else if(estado_solicitud == "5"){    //si la solicitud es revisada por el jefe inmediato
+                            cambiar_estado_solicitud(7);    //cambiar estado solicitud a observada por jefe inmediato
                         }
                     });
                 }else{
@@ -171,13 +220,19 @@
 
     function cambiar_estado_solicitud(estado){
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/cambiar_estado_solicitud", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/observaciones/cambiar_estado_solicitud", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 if(ajax.responseText == "exito"){
                     swal({ title: "¡Cambios aplicados!", type: "success", showConfirmButton: true });
                     cerrar_mantenimiento();
-                    tabla_observaciones();
+                    if($("#id_tipo_observador").val() == "1"){
+                        tabla_observaciones1();
+                    }else if($("#id_tipo_observador").val() == "2"){
+                        tabla_observaciones2();
+                    }else if($("#id_tipo_observador").val() == "3"){
+                        tabla_observaciones3();
+                    }
                     $('[data-toggle="tooltip"]').tooltip();
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -224,10 +279,10 @@
                     </div>
                     <div class="card-body b-t">
 
-
                         <div id="cnt_tabla_empresas"></div>
                         <input type="hidden" name="estado" id="estado">
                         <input type="hidden" id="nr_observador" name="nr_observador" value="<?php echo $nr_usuario; ?>">
+                        <input type="text" id="id_tipo_observador" name="id_tipo_observador" value="1">
 
 
                         <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
@@ -264,7 +319,77 @@
             <!-- ============================================================== -->
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
+
             <div class="col-lg-12" id="cnt_tabla">
+            
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title m-b-0">Listado de solicitudes</h4>
+                </div>
+                <div class="card-body b-t"  style="padding-top: 7px;">
+
+                    
+                        <?php
+                        $id_modulo_observaciones = $this->uri->segment(4);
+                            $modulos = $this->db->query("SELECT * FROM org_modulo WHERE dependencia = '".$id_modulo_observaciones."' ORDER BY orden");
+                            if($modulos->num_rows() > 0){
+                                $correlativo = 0;
+                                $contadorp = 0;
+                                $active = 0;
+                                foreach ($modulos->result() as $fila) {
+                                    $correlativo++;
+                                    $data['id_modulo'] = $fila->id_modulo;
+                                    $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+                                    $data['id_permiso']="1";
+                                    if(buscar_permiso($data)){
+                                        $contadorp++;
+                                        if($contadorp == 1){
+                                            echo '<ul class="nav nav-tabs customtab2" role="tablist">';
+                                            $active = $correlativo;
+                                        }
+                        ?>
+                            <li class="nav-item"> 
+                                <a class="nav-link <?php if($contadorp == 1){ echo "active"; } ?>" data-toggle="tab" href="#observacion<?php echo $correlativo; ?>" role="tab" onClick="<?php echo 'tabla_observaciones'.$correlativo.'();'; ?>">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down"><?php echo $fila->nombre_modulo; ?></span></a> 
+                            </li>
+                        <?php
+                                    }
+                                }
+                                if($contadorp > 0){
+                                echo "</ul>";
+                        ?>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane p-20 <?php if($active == 1){ echo "active"; } ?>" id="observacion1" role="tabpanel">
+
+                                <div id="cnt_tabla1"> Cargando <span class="fa fa-spinner fa-spin"></span></div>
+
+                            </div>
+                            <div class="tab-pane p-20 <?php if($active == 2){ echo "active"; } ?>" id="observacion2" role="tabpanel">
+
+                                <div id="cnt_tabla2"> Cargando <span class="fa fa-spinner fa-spin"></span></div>
+
+                            </div>
+                            <div class="tab-pane p-20 <?php if($active == 3){ echo "active"; } ?>" id="observacion3" role="tabpanel">
+                                
+                                <div id="cnt_tabla3"> Cargando <span class="fa fa-spinner fa-spin"></span></div>
+
+                            </div>
+                        </div>
+                        <?php
+                                }
+                            } 
+                            echo "<script>";
+                            echo 'setTimeout( tabla_observaciones'.$active.' , 500);';
+                            echo "</script>";
+                        ?>
+
+
+
+                </div>
+            </div>
 
             </div>
             <!-- ============================================================== -->
@@ -287,17 +412,25 @@
 $(function(){     
     $("#formajax2").on("submit", function(e){
         e.preventDefault();
+        var tipo_jefe = "Jefe inmediato";
+        if($("#id_tipo_observador").val() == "1"){
+            tipo_jefe = "Jefe inmediato";
+        }else if($("#id_tipo_observador").val() == "2"){
+            tipo_jefe = "Director de área o jefe de regional";
+        }else if($("#id_tipo_observador").val() == "3"){
+            tipo_jefe = "Fondo Circulante";
+        }
 
         var formData = {
             "id_mision" : gid_mision,
             "observacion" : $("#observacion").val(),
             "nr_observador" : $("#nr_observador").val(),
-            "id_tipo_observador" : "1",
-            "tipo_observador" : "Jefe inmediato"
+            "id_tipo_observador" : $("#id_tipo_observador").val(),
+            "tipo_observador" : tipo_jefe
         };
         $.ajax({
             type:  'POST',
-            url:   '<?php echo site_url(); ?>/viaticos/observaciones_jefe_inmediato/otra_observacion',
+            url:   '<?php echo site_url(); ?>/viaticos/observaciones/otra_observacion',
             data: formData,
             cache: false
         })

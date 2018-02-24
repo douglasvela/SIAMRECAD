@@ -1,10 +1,6 @@
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de solicitudes</h4>
-    </div>
-    <div class="card-body b-t"  style="padding-top: 7px;">
+        
         <div class="table-responsive">
-            <table id="myTable" class="table table-hover product-overview">
+            <table id="myTable3" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
                         <th>Fecha</th>
@@ -33,7 +29,7 @@
                         }
                     }
 
-                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE (estado = 1 AND nr_jefe_inmediato = '".$nr_usuario."')");
+                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE estado = 5");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";
@@ -53,10 +49,3 @@
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-</script>

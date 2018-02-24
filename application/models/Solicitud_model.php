@@ -130,11 +130,11 @@ class Solicitud_model extends CI_Model {
 		}else if($estado == 3){
 			$newestado = 3;
 		}else if($estado == 4){
-			$newestado = 3;
+			$newestado = 1;
 		}else if($estado == 5){
 			$newestado = 5;
-		}else if($estado == 5){
-			$newestado = 5;
+		}else if($estado == 6){
+			$newestado = 1;
 		}
 
 		$this->db->where("id_mision_oficial",$data);

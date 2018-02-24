@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Observaciones_jefe_inmediato extends CI_Controller {
+class Observaciones extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -10,17 +10,25 @@ class Observaciones_jefe_inmediato extends CI_Controller {
 
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('viaticos/observaciones_1');
+		$this->load->view('viaticos/observaciones');
 		$this->load->view('templates/footer');
 	}
 
-	public function tabla_observaciones(){
-		$this->load->view('viaticos/observaciones_1/tabla_observaciones');
+	public function tabla_observaciones1(){
+		$this->load->view('viaticos/observaciones/tabla_observaciones1');
+	}
+
+	public function tabla_observaciones2(){
+		$this->load->view('viaticos/observaciones/tabla_observaciones2');
+	}
+
+	public function tabla_observaciones3(){
+		$this->load->view('viaticos/observaciones/tabla_observaciones3');
 	}
 
 
 	public function listado_observaciones(){
-		$this->load->view('viaticos/observaciones_1/listado_observaciones');
+		$this->load->view('viaticos/observaciones/listado_observaciones');
 	}
 
 	public function cambiar_estado_solicitud(){		
