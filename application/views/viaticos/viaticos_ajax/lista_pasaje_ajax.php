@@ -32,7 +32,7 @@
                    $array = array(date("d-m-Y",strtotime($fila->fecha_mision)), $fila->nombre_completo,$fila->monto_pasaje);
                     array_push($array, "edit");
                     echo generar_boton($array,"ver_pasajes","btn-info","fa fa-wrench","Editar");
-
+                    echo generar_boton(array($fila->nr, $fila->fecha_mision),"imprimir_solicitud","btn-default","fa fa-print","Imprimir");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                    // echo generar_boton(array(),"eliminar_pasaje","btn-danger","fa fa-close","Eliminar");
                     echo "</td>";

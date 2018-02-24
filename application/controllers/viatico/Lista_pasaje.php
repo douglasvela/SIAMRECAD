@@ -6,6 +6,7 @@ class Lista_pasaje extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('Lista_pasaje_model');
+		$this->load->library('FPDF/fpdf');
 	}
 
 	public function index(){
@@ -16,6 +17,10 @@ class Lista_pasaje extends CI_Controller {
 	
 	public function tabla_pasaje_lista(){
 		$this->load->view('viaticos/viaticos_ajax/Lista_pasaje_ajax');
+	}
+
+	public function imprimir_solicitud(){
+		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud_pasaje');
 	}
 
 		
