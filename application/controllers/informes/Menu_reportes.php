@@ -31,32 +31,38 @@ class Menu_reportes extends CI_Controller {
 		}
 		
 		// Create the graph. These two calls are always required
-		$graph = new Graph(510,300);
-		$graph->clearTheme();
+		$graph = new Graph(560,320);
+		
 		$graph->SetScale("textlin");
 
 		$graph->SetShadow();
-		$graph->img->SetMargin(45,30,30,40);
+		$graph->img->SetMargin(40,30,30,70);
 
 		// Create the bar plots
 		$b1plot = new BarPlot($data1y);
-		$b1plot->SetFillColor("blue");
-
-
+		
 		// Create the grouped bar plot
 		$gbplot = new AccBarPlot(array($b1plot));
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
 
+		$b1plot->value->Show();
+		//$b1plot->SetColor("#0000CD");
+		$b1plot->SetFillColor('#B0C4DE');
+		$b1plot->SetLegend("Viaticos");
+
 		$graph->title->Set(utf8_decode("Viaticos por año"));
-		$graph->yaxis->title->Set("Cantidad en dolares");
+		$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Años"));
 
-		$graph->title->SetFont(FF_FONT1,FS_BOLD);
-		$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
 		$graph->xaxis->SetTickLabels($labels);
-		$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(10);
+
+		
 		
 		// Display the graph
 		$graph->Stroke(_IMG_HANDLER);
