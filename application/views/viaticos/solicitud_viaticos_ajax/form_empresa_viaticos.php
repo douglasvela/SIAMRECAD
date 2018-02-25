@@ -55,7 +55,15 @@
                 	$nuevafecha = $fecha_inicio;
                 	for($i=0; $i<=$duracion; $i++){
                 		echo '<option value="'.date( 'Y-m-d', strtotime($nuevafecha)).'">'.date( 'd/m/Y', strtotime($nuevafecha)).'</option>';
-                		$nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;
+                		
+                        $nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;
+                        if(date( 'w', $nuevafecha) == 6){
+                            $nuevafecha = strtotime ( '+2 day' , $nuevafecha ) ;
+                            $i += 2;
+                        }else if(date( 'w', $nuevafecha) == 6){
+                            $nuevafecha = strtotime ( '+1 day' , $nuevafecha ) ;
+                            $i++;
+                        }
                 		$nuevafecha = date( 'Y-m-d', $nuevafecha);
                 	}
                 ?>

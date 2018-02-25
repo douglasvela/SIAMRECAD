@@ -262,7 +262,7 @@ class Solicitud_viatico extends CI_Controller {
 		$fecha1 = date("Y-m-d",strtotime($_POST['fecha1']));
 		$fecha2 = date("Y-m-d",strtotime($_POST['fecha2']));
 
-		$sql = "SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial <> '".$_POST['id_mision']."' AND ((fecha_mision_inicio >= '".$fecha1."' AND fecha_mision_inicio <= '".$fecha2."') OR (fecha_mision_inicio <= '".$fecha1."' AND fecha_mision_fin >= '".$fecha1."'))";
+		$sql = "SELECT * FROM vyp_mision_oficial WHERE nr_empleado = '".$_POST['nr']."' AND id_mision_oficial <> '".$_POST['id_mision']."' AND ((fecha_mision_inicio >= '".$fecha1."' AND fecha_mision_inicio <= '".$fecha2."') OR (fecha_mision_inicio <= '".$fecha1."' AND fecha_mision_fin >= '".$fecha1."'))";
 
 		if($this->solicitud_model->fecha_repetida($sql)){
 			echo "fecha_repetida";
