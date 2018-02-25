@@ -459,6 +459,15 @@
           swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
         }
      }
+     function mostrarReportePorDepto(){
+        var anios = $("#anio_actual_depto").val();
+        if(anios){
+          var xhr = "<?php echo base_url()?>" 
+          window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_x_depto/"+anios,"_blank");
+        }else{
+          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+        }
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -502,6 +511,7 @@
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages3" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por empleado de mayor a menor</span></a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages4" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos Trimestral, Semestral y Anual</span></a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages5" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por Año</span></a> </li>
+                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages6" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por Departamento</span></a> </li>
                                           </ul>
                                           <!-- Tab panes -->
                                           <div class="tab-content">
@@ -813,11 +823,29 @@
                                                     <div class="col-md-10">
                                                       <div class="form-group">
                                                         <button type="button" onclick="mostrarReportePorAnio()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
-                                                        <button type="button" onclick="limpiarMeses()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-history"></i> Limpiar</button>
+                                                        
                                                       </div>
                                                     </div>
                                                 </div>
                                                   </div>
+                                                <div class="tab-pane" id="messages6" role="tabpanel">
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <div class="form-group">
+                                                              <h5>Año: <span class="text-danger">*</span></h5>
+                                                            <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual_depto" name="anio_actual" placeholder="yyyy">
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <div class="form-group">
+                                                                <button type="button" onclick="mostrarReportePorDepto()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                                
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                               </div>
                                           </div>
                                       </div>

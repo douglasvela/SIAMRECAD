@@ -34,15 +34,16 @@ class Menu_reportes extends CI_Controller {
 		$graph = new Graph(560,320);
 		
 		$graph->SetScale("textlin");
-
+		
 		$graph->SetShadow();
+
 		$graph->img->SetMargin(40,30,30,70);
 
 		// Create the bar plots
 		$b1plot = new BarPlot($data1y);
 		
 		// Create the grouped bar plot
-		$gbplot = new AccBarPlot(array($b1plot));
+		$gbplot = new GroupBarPlot(array($b1plot));
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
@@ -129,6 +130,158 @@ class Menu_reportes extends CI_Controller {
 			</table><br>
 			<img src="application/controllers/informes/graficas/grafica_va_'.$this->session->userdata('usuario_viatico').'.png" alt="">
         '; 
+		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		$this->mpdf->SetTitle('Viaticos por Año');
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
+		$this->mpdf->WriteHTML($cuerpo);
+		$this->mpdf->Output();
+	}
+
+	public function crear_grafico_viaticos_x_depto($anios){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		
+		
+		$data1y = array();
+		$data2y = array();
+		$data3y = array();
+		$data4y = array();
+		$labels = array();
+		$i=0;
+		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($anios);
+		foreach ($viatico_anual->result() as $viatico_anual_detalle) {	
+			$data1y[$i]=$viatico_anual_detalle->viatico;
+			$data2y[$i]=$viatico_anual_detalle->pasaje;
+			$data3y[$i]=$viatico_anual_detalle->alojamiento;
+			$data4y[$i]=$viatico_anual_detalle->total;
+			$labels[$i]=$viatico_anual_detalle->departamento;
+
+			$i++;
+		}
+		
+		// Create the graph. These two calls are always required
+		$graph = new Graph(700,500);
+		
+		$graph->SetScale("textlin");
+		$graph->Set90AndMargin(0,0,0,0);
+		$graph->SetShadow();
+
+		//$graph->img->SetMargin(40,30,30,70);
+
+		// Create the bar plots
+		$b1plot = new BarPlot($data1y);
+		$b2plot = new BarPlot($data2y);
+		$b3plot = new BarPlot($data3y);
+		$b4plot = new BarPlot($data4y);
+		
+		// Create the grouped bar plot
+		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+
+		$b1plot->value->Show();
+		//$b1plot->SetColor("#0000CD");
+		$b2plot->SetFillColor('#B0C4DE');
+		$b1plot->SetLegend("Viaticos");
+
+		$b2plot->value->Show();
+		$b2plot->SetLegend("Pasaje");
+		$b3plot->value->Show();
+		$b3plot->SetLegend("Alojamiento");
+		$b4plot->value->Show();
+		$b4plot->SetLegend("Total");
+
+		$graph->title->Set(utf8_decode("Viaticos por Departamento"));
+		//$graph->yaxis->title->Set("Cantidad en dólares");
+		$graph->xaxis->title->Set(utf8_decode("Departamentos"));
+
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(10);
+
+		
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "application/controllers/informes/graficas/grafica_depto_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
+
+	public function reporte_viaticos_x_depto($anios){
+		$this->load->library('mpdf');
+		$this->load->model('Reportes_viaticos_model');
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->crear_grafico_viaticos_x_depto($anios);
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$pie = '{PAGENO} de {nbpg} páginas';
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
+		
+		$cuerpo = '
+			<table  border="1" >
+				<thead >
+					<tr>
+						<th align="center" rowspan="1" >Año: '.($anios).'</th>
+
+						<th align="center" colspan="4" >Detalle Montos</th>
+					</tr>
+					<tr>
+						<th align="center" rowspan="1" >Departamento</th>
+						<th align="center"  >Pasaje</th>
+						<th align="center"  >Viatico</th>
+						<th align="center"  >Alojamiento</th>
+						<th align="center"  >Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					';
+					$data=$anios;
+				//$data = str_split($anios,4);
+				//$data=array(2018,2017,2016,2015);
+				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($data);
+				if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$cuerpo .= '
+						<tr>
+							<td align="center" style="width:180px">'.($viaticos->departamento).'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->total,2,".",",").'</td>
+						</tr>
+						';
+					}
+				}else{
+				$cuerpo .= '
+						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+					';
+				}
+				$cuerpo .= '
+				</tbody>
+			</table><br>
+			<img src="application/controllers/informes/graficas/grafica_depto_'.$this->session->userdata('usuario_viatico').'.png" alt="">
+			      '; 
 		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		$this->mpdf->SetTitle('Viaticos por Año');
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
