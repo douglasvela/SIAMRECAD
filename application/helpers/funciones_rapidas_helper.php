@@ -17,6 +17,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $boton;
 	}
 
+	function generar_boton_normal($opciones,$funcion,$color,$icono,$title, $title2){
+		$var = ""; $boton = "";
+		foreach ($opciones as $otro) {
+			$var .= '"'.$otro.'",';
+		}
+		$var = substr($var, 0, -1);
+		$boton .= "<button type='button' class='btn waves-effect waves-light ".$color."' onClick='".$funcion."(".$var.");' data-toggle='tooltip' title='".$title."'><span class='".$icono."'></span> ".$title2."</button>&nbsp;";
+		return $boton;
+	}
+
 	function saltos_sql($cadena){
 		return str_replace(array("\r\n", "\r", "\n"), " ", $cadena);
 	}

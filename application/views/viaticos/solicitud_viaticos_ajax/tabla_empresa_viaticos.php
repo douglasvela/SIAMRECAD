@@ -127,10 +127,14 @@
             <label for="input7">Text area</label>
         </div>
 
-		<div class="row">
-			<div class="form-group col-lg-12 m-b-5" align="right">
-		        <button type="button" onclick="verificar_fechas()" class="pull-right btn btn-info">
-		        Actualizar solicitud
-		        </button>
-		    </div>
-		</div>
+<div align="right">
+    <div class="pull-left">
+    <?php
+            echo generar_boton_normal(array(),"form_rutas","btn-default","mdi mdi-undo","Volver al paso 2","Volver");
+    ?>
+    </div>
+    <button type="button" onclick="verificar_fechas()" class="pull-right btn btn-info">
+    Actualizar solicitud
+    </button>
+</div>
+</div>

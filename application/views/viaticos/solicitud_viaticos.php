@@ -716,7 +716,7 @@
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
-        $('#id_actividad').val(actividad_realizada).trigger('change.select2');       
+        $('#id_actividad').val(actividad_realizada).trigger('change.select2');
 
         if(bandera == "edit"){
             observaciones(id);
@@ -736,6 +736,8 @@
             $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
             eliminar_mision();
         }
+        $( "html, body" ).animate({scrollTop:0}, '500');
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     function observaciones(id_mision){    
@@ -808,12 +810,16 @@
     }
 
     function form_rutas(){
+        cuantos = $("body").find(".tooltip.fade.show").hide(3000);
         $("#fechas_repetidas2").html($("#fechas_repetidas").html());
         tabla_empresas_visitadas(function(){ form_oficinas() });
         $("#cnt_mision").hide(0);
         $("#cnt_rutas").show(0);
         $("#cnt_viaticos").hide(0);
         document.getElementById("destino_oficina").checked = true;
+        $( "html, body" ).animate({scrollTop:0}, '500');
+
+        setTimeout(function(){ $('[data-toggle="tooltip"]').tooltip(); }, 600);
     }
 
     function tabla_empresas_visitadas(callback){
@@ -1165,11 +1171,13 @@
     }
 
     function form_viaticos(){
-        $("#fechas_repetidas3").html($("#fechas_repetidas").html());
+        $( "html, body" ).animate({scrollTop:0}, '500');
+        $('[data-toggle="tooltip"]').tooltip();
         $("#cnt_mapa").animate({height: '0px', opacity: '0'}, 750);
         $("#cnt_mision").hide(0);
         $("#cnt_rutas").hide(0);
         $("#cnt_viaticos").show(0);
+        $("#fechas_repetidas3").html($("#fechas_repetidas").html());
         form_empresas_viaticos("guardar");
     }
 
@@ -1685,10 +1693,6 @@
                             <!-- Inicio de la TABLA EMPRESAS VISITADAS -->
                             <div class="row" id="cnt_empresas"></div>
                             <!-- Fin de la TABLA EMPRESAS VISITADAS -->
-
-                            <div align="right">
-                                <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
-                            </div>
 
                         </div>
                         <!-- ============================================================== -->
