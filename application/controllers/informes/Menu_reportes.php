@@ -244,7 +244,7 @@ class Menu_reportes extends CI_Controller {
 					<tr>
 						<th align="center" rowspan="1" >Año: '.($anios).'</th>
 
-						<th align="center" colspan="4" >Detalle Montos</th>
+						<th align="center" colspan="4" >Tipo</th>
 					</tr>
 					<tr>
 						<th align="center" rowspan="1" >Departamento</th>
@@ -415,7 +415,7 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2">Fecha Fin Mision</th>
 						<th align="center" rowspan="2">Actividad</th>
 						<th align="center" rowspan="2">Detalle Actividad</th>
-						<th align="center" colspan="3">Detalle Montos</th>
+						<th align="center" colspan="3">Tipo</th>
 						<th align="center" rowspan="2">Estado</th>
 						 
 					</tr>
@@ -534,7 +534,7 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2">Fecha Fin Mision</th>
 						<th align="center" rowspan="2">Actividad</th>
 						<th align="center" rowspan="2">Detalle Actividad</th>
-						<th align="center" colspan="3">Detalle Montos</th>
+						<th align="center" colspan="3">Tipo</th>
 						<th align="center" rowspan="2">Estado</th>
 						 
 					</tr>
@@ -639,7 +639,7 @@ class Menu_reportes extends CI_Controller {
 					<tr>
 						<th align="center" rowspan="2">NR</th>
 						<th align="center" rowspan="2">Nombre Completo</th>
-						<th align="center" colspan="4">Detalle Montos</th>
+						<th align="center" colspan="4">Tipo</th>
 					</tr>
 					<tr>
 						<th align="center">Viaticos</th>
@@ -699,6 +699,107 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/comboSecciones4',$nuevo);
 	}
 
+	public function crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		
+		$data1y = array();
+		$data2y = array();
+		$data3y = array();
+		$data4y = array();
+		$labels = array();
+		$i=0;
+		$mes;
+		$data  =array(
+			'anio'=> $anio,
+			'primer_mes'=>$primer_mes,
+			'segundo_mes'=>$segundo_mes,
+			'tercer_mes'=>$tercer_mes,
+			'cuarto_mes'=>$cuarto_mes,
+			'quinto_mes'=>$quinto_mes,
+			'sexto_mes'=>$sexto_mes
+		);
+		$viatico_mes = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
+		foreach ($viatico_mes->result() as $viatico_mes_detalle) {	
+			if($viatico_mes_detalle->mes=="1")$mes="Enero";
+					else if($viatico_mes_detalle->mes=="2")$mes="Febrero";
+					else if($viatico_mes_detalle->mes=="3")$mes="Marzo";
+					else if($viatico_mes_detalle->mes=="4")$mes="Abril";
+					else if($viatico_mes_detalle->mes=="5")$mes="Mayo";
+					else if($viatico_mes_detalle->mes=="6")$mes="Junio";
+					else if($viatico_mes_detalle->mes=="7")$mes="Julio";
+					else if($viatico_mes_detalle->mes=="8")$mes="Agosto";
+					else if($viatico_mes_detalle->mes=="9")$mes="Septiembre";
+					else if($viatico_mes_detalle->mes=="10")$mes="Octubre";
+					else if($viatico_mes_detalle->mes=="11")$mes="Noviembre";
+					else if($viatico_mes_detalle->mes=="12")$mes="Diciembre";
+			$data1y[$i]=$viatico_mes_detalle->viaticos;
+			$data2y[$i]=$viatico_mes_detalle->pasajes;
+			$data3y[$i]=$viatico_mes_detalle->alojamientos;
+			$data4y[$i]=$viatico_mes_detalle->total;
+			$labels[$i]=$mes;
+
+			$i++;
+		}
+		
+		// Create the graph. These two calls are always required
+		$graph = new Graph(850,650);
+		
+		$graph->SetScale("textlin");
+		$graph->Set90AndMargin(0,0,0,0);
+		$graph->SetShadow();
+
+		//$graph->img->SetMargin(40,30,30,70);
+
+		// Create the bar plots
+		$b1plot = new BarPlot($data1y);
+		$b2plot = new BarPlot($data2y);
+		$b3plot = new BarPlot($data3y);
+		$b4plot = new BarPlot($data4y);
+		
+		// Create the grouped bar plot
+		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+
+		$b1plot->value->Show();
+		//$b1plot->SetColor("#0000CD");
+		$b2plot->SetFillColor('#B0C4DE');
+		$b1plot->SetLegend("Viaticos");
+
+		$b2plot->value->Show();
+		$b2plot->SetLegend("Pasaje");
+		$b3plot->value->Show();
+		$b3plot->SetLegend("Alojamiento");
+		$b4plot->value->Show();
+		$b4plot->SetLegend("Total");
+
+		$graph->title->Set(utf8_decode("Viaticos por Mes"));
+		//$graph->yaxis->title->Set("Cantidad en dólares");
+		$graph->xaxis->title->Set(utf8_decode("Mes"));
+
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(10);
+
+		
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "application/controllers/informes/graficas/grafica_vm_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
+
 	public function reporte_viaticos_por_periodo($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
@@ -734,7 +835,7 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf->SetHTMLHeader($cabecera);
 		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
 		$this->mpdf->setFooter($pie);
-		$sumaPasajes=0;$sumaViaticos=0;$sumaTotal=0;
+		
 		$data  =array(
 			'anio'=> $anio,
 			'primer_mes'=>$primer_mes,
@@ -744,6 +845,7 @@ class Menu_reportes extends CI_Controller {
 			'quinto_mes'=>$quinto_mes,
 			'sexto_mes'=>$sexto_mes
 		);
+		$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
 		$cuerpo = '
 			<table  class="" border="1" style="width:100%">
@@ -751,18 +853,23 @@ class Menu_reportes extends CI_Controller {
 					<tr>
 						<th align="center" rowspan="2">Mes</th>
 						<th align="center" rowspan="2">Concepto de Gasto</th>
-						<th align="center" colspan="4">Detalle Montos</th>
+						<th align="center" colspan="3">Tipo</th>
+						<th align="center" rowspan="2">Total</th>
 					</tr>
 					<tr>
 						<th align="center">Viaticos</th>
 						<th align="center">Pasajes</th>
 						<th align="center">Alojamiento</th>
-						<th align="center">Total</th>
+						
 					</tr>
 				</thead>
 				<tbody>
 					
 					';
+					$total_viatico=0;
+					$total_pasaje=0;
+					$total_alojamiento=0;
+					$total_total=0;
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
 					if($viaticos->mes=="1")$mes="Enero";
@@ -787,15 +894,28 @@ class Menu_reportes extends CI_Controller {
 							<td style="text-align:right">$'.number_format($viaticos->total,2,".",",").'</td>
 						</tr>
 						';
+						$total_viatico += $viaticos->viaticos;
+						$total_pasaje += $viaticos->pasajes;
+						$total_alojamiento += $viaticos->alojamientos;
+						$total_total  += $viaticos->total;
 					}
 				}else{
 					$cuerpo .= '
 						<tr><td colspan="6"><center>No hay registros</center></td></tr>
+
 					';
 				}
 				$cuerpo .= '
+				<tr>
+					<th colspan="2"><center>Totales</center></th>
+					<th ><center>$'.number_format($total_viatico,2,".",",").'</center></th>
+					<th ><center>$'.number_format($total_pasaje,2,".",",").'</center></th>
+					<th ><center>$'.number_format($total_alojamiento,2,".",",").'</center></th>
+					<th ><center>$'.number_format($total_total,2,".",",").'</center></th>
+				</tr>
 				</tbody>
-			</table>
+			</table><br>
+			<img src="application/controllers/informes/graficas/grafica_vm_'.$this->session->userdata('usuario_viatico').'.png" alt="">
         ';         // LOAD a stylesheet         
         $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
