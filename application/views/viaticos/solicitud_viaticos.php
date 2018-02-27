@@ -819,8 +819,13 @@
         document.getElementById("destino_oficina").checked = true;
         $( "html, body" ).animate({scrollTop:0}, '500');
 
-        setTimeout(function(){ $('[data-toggle="tooltip"]').tooltip(); }, 600);
+        //setTimeout(function(){ $("body").find(".tooltip.fade.show").hide(0); }, 600);
+        var myVar = setTimeout(alertFunc, 700);
     }
+
+function alertFunc() {
+    $('[data-toggle="tooltip"]').tooltip()
+}
 
     function tabla_empresas_visitadas(callback){
         var id_mision = $("#id_mision").val();
@@ -1353,6 +1358,21 @@
         var fecha2 = $("#fecha_mision_fin").val();
         var nr = $("#nr").val();
 
+        var filas = $("#tabla_viaticos").find("tbody").find("tr");
+        var celdas, hora1, hora2;
+
+        for(l=0; l < (filas.length-1); l++){
+            celdas = $(filas[l]).children("td");
+
+            if(l==0){
+                hora1 = $(celdas[2]).text().trim();
+            }
+
+            if(l == (filas.length-2)){
+                hora2 = $(celdas[3]).text().trim();
+            }
+        }
+
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/fecha_repetida", true);
         ajax.onreadystatechange = function() {
@@ -1361,24 +1381,14 @@
                 if(ajax.responseText == "exito"){
                     generar_solicitud();
                 }else if(ajax.responseText == "fecha_repetida"){
-                    swal({   
-                        title: "¿Está seguro?",   
-                        text: "¡Existe una solicitud que coincide con la fecha de ejecución de la misión!",   
-                        type: "warning",   
-                        showCancelButton: true,   
-                        confirmButtonColor: "#fc4b6c",   
-                        confirmButtonText: "Sí, deseo continuar!",   
-                        closeOnConfirm: false 
-                    }, function(){   
-                        generar_solicitud();
-                    });
+                    swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }           
             }
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&nr="+nr)
+        ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
     }
 
     function convertToTime(hour){

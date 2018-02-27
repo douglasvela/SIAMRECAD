@@ -82,7 +82,7 @@ function convertir2($fecha){
 }
 
 function convertir($fecha){
-	return date("d/m/Y H:i:s",strtotime($fecha));
+	return date("d/m/Y H:i",strtotime($fecha));
 }
 
 ?>

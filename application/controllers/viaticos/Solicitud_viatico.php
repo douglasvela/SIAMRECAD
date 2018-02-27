@@ -258,17 +258,81 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->obtener_ultima_ruta("vyp_empresa_viatico","id_empresa_viatico",$_POST['id_mision']);	
 	}
 
-	function fecha_repetida(){
+	function convertToHour($hour){
+        $hora1 = explode(":", $hour);
+        $hora = intval($hora1[0])+(floatval($hora1[1]/60));
+
+        return $hora;
+    }
+
+	public function fecha_repetida(){
 		$fecha1 = date("Y-m-d",strtotime($_POST['fecha1']));
 		$fecha2 = date("Y-m-d",strtotime($_POST['fecha2']));
+		$hora1 = $this->convertToHour(trim($_POST['hora1']));
+		$hora2 = $this->convertToHour(trim($_POST['hora2']));
 
-		$sql = "SELECT * FROM vyp_mision_oficial WHERE nr_empleado = '".$_POST['nr']."' AND id_mision_oficial <> '".$_POST['id_mision']."' AND ((fecha_mision_inicio >= '".$fecha1."' AND fecha_mision_inicio <= '".$fecha2."') OR (fecha_mision_inicio <= '".$fecha1."' AND fecha_mision_fin >= '".$fecha1."'))";
+		$sql = "SELECT * FROM vyp_mision_oficial WHERE nr_empleado = '".$_POST['nr']."' AND id_mision_oficial <> '".$_POST['id_mision']."' AND ((fecha_mision_inicio >= '".$fecha1."' AND fecha_mision_inicio <= '".$fecha2."') OR (fecha_mision_inicio <= '".$fecha1."' AND fecha_mision_fin >= '".$fecha1."')) AND estado <> 0";
 
-		if($this->solicitud_model->fecha_repetida($sql)){
-			echo "fecha_repetida";
+		if($this->solicitud_model->fecha_repetida($sql)){	// verifica si la fecha indicada choca con otra misión
+			$hora_salida = ""; $hora_llegada = ""; $band = false;
+
+			$fechas = $this->db->query($sql);
+			if($fechas->num_rows() > 0){
+
+				foreach ($fechas->result() as $filaf) {
+
+			    	$horarios = $this->db->query("SELECT v.* FROM vyp_empresa_viatico AS v WHERE v.id_mision = '".$filaf->id_mision_oficial."' ORDER BY v.fecha, v.hora_salida");
+
+			    	$contador = 0;
+			    	if($horarios->num_rows() > 0){
+			    		foreach ($horarios->result() as $filah) {
+			    			if($contador == 0){
+			    				$hora_salida = $this->convertToHour(substr($filah->hora_salida,0,5));
+			    				$fecha_inicio = $filaf->fecha_mision_inicio;
+			    			}
+			    			$contador++;
+			    		}
+			    		$hora_llegada = $this->convertToHour(substr($filah->hora_llegada,0,5));
+			    		$fecha_fin = $filaf->fecha_mision_fin;
+
+			    		if( !(($fecha2 <= $fecha_inicio) OR ($fecha1 >= $fecha_fin)) ){
+			    			$band = true;
+			    		}else{
+			    			if($fecha1 == $fecha2 && $fecha_inicio == $fecha_fin){
+			    				if( !(($hora2 < $hora_salida) OR ($hora1 > $hora_llegada)) ){
+			    					$band = true;
+			    				}
+			    			}else{
+			    				if($fecha2 == $fecha_inicio){
+
+				    				if( !($hora2 < $hora_salida) ){
+				    					$band = true;
+				    				}
+				    			}
+
+				    			if($fecha1 == $fecha_fin){				    				
+				    				if( !($hora1 > $hora_llegada) ){
+				    					$band = true;
+				    				}
+				    			}
+			    			}
+
+			    		}
+
+			    	}
+			    }
+			}
+
+			if($band){
+				echo "fecha_repetida";
+			}else{
+				echo "exito";
+			}
+
 		}else{
 			echo "exito";
 		}
+
 	}
 
 	function generear_solicitud(){
