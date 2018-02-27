@@ -16,13 +16,13 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 */
     function obtenerViaticoAnualxDepto($data){
       
-        $viaticos = $this->db->query("SELECT ruta.id_departamento_vyp_rutas, dep.departamento, SUM(viatico.pasaje) AS pasaje, SUM(viatico.viatico) AS viatico, SUM(viatico.alojamiento) AS alojamiento,(SUM(viatico.pasaje)+SUM(viatico.viatico)+SUM(viatico.alojamiento)) as total FROM vyp_empresa_viatico as viatico INNER JOIN vyp_rutas as ruta ON viatico.id_destino = ruta.id_vyp_rutas JOIN org_departamento AS dep ON ruta.id_departamento_vyp_rutas = dep.id_departamento WHERE year(viatico.fecha) IN ('$data') GROUP BY ruta.id_departamento_vyp_rutas order by total desc");
+        $viaticos = $this->db->query("SELECT ruta.id_departamento_vyp_rutas as id_depto, dep.departamento, SUM(viatico.pasaje) AS pasaje, SUM(viatico.viatico) AS viatico, SUM(viatico.alojamiento) AS alojamiento,(SUM(viatico.pasaje)+SUM(viatico.viatico)+SUM(viatico.alojamiento)) as total FROM vyp_empresa_viatico as viatico INNER JOIN vyp_rutas as ruta ON viatico.id_destino = ruta.id_vyp_rutas JOIN org_departamento AS dep ON ruta.id_departamento_vyp_rutas = dep.id_departamento WHERE year(viatico.fecha) IN ('$data') GROUP BY ruta.id_departamento_vyp_rutas order by total desc");
         return $viaticos;
     }
     function obtenerViaticoAnual($data)
     {
       $anios = implode(",", $data);//de array a cadena
-        $viaticos = $this->db->query("SELECT year(fecha) as anio,sum(`viatico`) as monto FROM `vyp_empresa_viatico` WHERE YEAR(fecha) IN ($anios)  group by year(`fecha`)");
+        $viaticos = $this->db->query("SELECT year(fecha) as anio,sum(`viatico`) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento, (sum(`viatico`) + sum(pasaje) + sum(alojamiento)) as total_anio FROM `vyp_empresa_viatico` WHERE YEAR(fecha) IN ($anios)  group by year(`fecha`) order by year(fecha) desc");
         return $viaticos;
     }
     function obtenerListaviatico_pendiente($data)

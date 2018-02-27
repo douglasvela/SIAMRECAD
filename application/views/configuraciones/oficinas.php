@@ -616,7 +616,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablaoficinas();$("#band").val('save');
+                tablaoficinas(<?php echo $this->uri->segment(4);?>);$("#band").val('save');
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
