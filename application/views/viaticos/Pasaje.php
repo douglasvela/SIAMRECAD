@@ -373,27 +373,6 @@ $("#formcuentas2").on("submit", function(e){
         var formData = new FormData(document.getElementById("formcuentas2"));
         formData.append("dato", "valor");
        
-        /*$("#band").val('save')
-        $("#fecha_mision").val($("#fecha").val());
-         $("#expediente").val($("#expediente").val());
-          $("#empresa").val($("#empresa").val());
-           $("#direccion").val($("#direccion").val());
-
-           $("#nr").val($("#nr").val())
-            $("#monto").val($("#monto").val());
-        
-
-        //$("#modal_cuenta_bancaria").modal('show')
-        $("#submitbutton").click();*/
-        
-     
-
-
-       /* $("#formajax2").on("submit", function(e){
-        e.preventDefault();
-        var f = $(this);
-        var formData = new FormData(document.getElementById("formajax2"));
-        formData.append("dato", "valor");*/
         
         $.ajax({
             url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",

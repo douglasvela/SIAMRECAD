@@ -112,6 +112,7 @@
     }
 
  function imprimir_solicitud(nr, fecha_de_pasaje){
+    
         window.open("<?php echo site_url(); ?>/viatico/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje, '_blank');
     }
 
