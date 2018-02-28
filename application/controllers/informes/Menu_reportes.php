@@ -328,59 +328,63 @@ class Menu_reportes extends CI_Controller {
 
 				$total_viaticos_central=0;
 				$total_pasajes_central=0;
-				$total_alojamiento_central=0;
+				$total_alojamientos_central=0;
 				$total_central=0;
 
 				$total_viaticos_oriental=0;
 				$total_pasajes_oriental=0;
-				$total_alojamiento_oriental=0;
+				$total_alojamientos_oriental=0;
 				$total_oriental=0;
 		
 		$data1y = array();
 		$data2y = array();
 		$data3y = array();
 		$data4y = array();
-		$data5y = array();
-		$data6y = array();
+
 		$labels = array();
 		$i=0;
 		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($anios);
 		foreach ($viatico_anual->result() as $viaticos) {	
-					if($viaticos->id_depto>="00001" && $viaticos->id_depto<='00003'){
+			if($viaticos->id_depto>="00001" && $viaticos->id_depto<='00003'){
 						$total_viaticos_occidental+= $viaticos->viatico;
 						$total_pasajes_occidental+= $viaticos->pasaje;
 						$total_alojamientos_occidental+= $viaticos->alojamiento;
-						$data1y[$i]=$total_viaticos_occidental;
-						$data2y[$i]=$total_pasajes_occidental;
-						$data3y[$i]=$total_alojamientos_occidental;
-						$labels[$i]="Occidental";
 					}
 
 					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
 						$total_viaticos_central+= $viaticos->viatico;
 						$total_pasajes_central+= $viaticos->pasaje;
-						$total_alojamiento_central+= $viaticos->alojamiento;
-						$data4y[$i]=$total_viaticos_central;
-						$data5y[$i]=$total_pasajes_central;
-						$data6y[$i]=$total_alojamiento_central;
-							$labels[$i]="Central";
+						$total_alojamientos_central+= $viaticos->alojamiento;
 					}
 
 					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
 						$total_viaticos_oriental+=$viaticos->viatico;
 						$total_pasajes_oriental+=$viaticos->pasaje;
-						$total_alojamiento_oriental+=$viaticos->alojamiento;
-						//$labels[$i]="Oriental";
+						$total_alojamientos_oriental+=$viaticos->alojamiento;
 					}
-
-			$i++;
 		}
 		$total_occidente = $total_viaticos_occidental + $total_pasajes_occidental + $total_alojamientos_occidental;
-		$total_central = $total_viaticos_central+$total_pasajes_central+$total_alojamiento_central;
-		$total_oriental = $total_viaticos_oriental+$total_pasajes_oriental+$total_alojamiento_oriental;
+		$total_central = $total_viaticos_central+$total_pasajes_central+$total_alojamientos_central;
+		$total_oriental = $total_viaticos_oriental+$total_pasajes_oriental+$total_alojamientos_oriental;
 			
 			
-			
+		$data1y[$i]=$total_viaticos_occidental;
+		$data2y[$i]=$total_pasajes_occidental;
+		$data3y[$i]=$total_alojamientos_occidental;
+		$data4y[$i]=$total_occidente;
+		$labels[$i]="Occidental";
+		$i++;
+		$data1y[$i]=$total_viaticos_central;
+		$data2y[$i]=$total_pasajes_central;
+		$data3y[$i]=$total_alojamientos_central;
+		$data4y[$i]=$total_central;
+		$labels[$i]="Central";
+		$i++;
+		$data1y[$i]=$total_viaticos_oriental;
+		$data2y[$i]=$total_pasajes_oriental;
+		$data3y[$i]=$total_alojamientos_oriental;
+		$data4y[$i]=$total_oriental;
+		$labels[$i]="Oriental";
 			
 			
 		//	$labels[1]="Central";
@@ -388,24 +392,23 @@ class Menu_reportes extends CI_Controller {
 
 			
 		// Create the graph. These two calls are always required
-		$graph = new Graph(700,500);
+		$graph = new Graph(700,450);
 		
 		$graph->SetScale("textlin");
 		//$graph->Set90AndMargin(0,0,0,0);
 		$graph->SetShadow();
 
-		//$graph->img->SetMargin(40,30,30,70);
+		$graph->img->SetMargin(50,30,30,100);
 
 		// Create the bar plots
 		$b1plot = new BarPlot($data1y);
 		$b2plot = new BarPlot($data2y);
 		$b3plot = new BarPlot($data3y);
 		$b4plot = new BarPlot($data4y);
-		$b5plot = new BarPlot($data5y);
-		$b6plot = new BarPlot($data6y);
+		
 		
 		// Create the grouped bar plot
-		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot,$b5plot,$b6plot));
+		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
@@ -421,9 +424,7 @@ class Menu_reportes extends CI_Controller {
 		$b3plot->SetLegend("Alojamiento");
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
-
-		$b5plot->value->Show();
-		$b6plot->value->Show();
+		
 
 		$graph->title->Set(utf8_decode("Viaticos por Zona"));
 		$graph->yaxis->title->Set("Cantidad en dólares");
@@ -433,7 +434,7 @@ class Menu_reportes extends CI_Controller {
 		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
 		$graph->xaxis->SetTickLabels($labels);
 		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
-		$graph->yaxis->scale->SetGrace(10);
+		$graph->yaxis->scale->SetGrace(5);
 
 		
 		
@@ -518,19 +519,19 @@ class Menu_reportes extends CI_Controller {
 
 					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
 						$total_viaticos_central+= $viaticos->viatico;
-						$total_viaticos_central+= $viaticos->pasaje;
-						$total_viaticos_central+= $viaticos->alojamiento;
+						$total_pasajes_central+= $viaticos->pasaje;
+						$total_alojamientos_central+= $viaticos->alojamiento;
 					}
 
 					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
 						$total_viaticos_oriental+=$viaticos->viatico;
-						$total_viaticos_oriental+=$viaticos->pasaje;
-						$total_viaticos_oriental+=$viaticos->alojamiento;
+						$total_pasajes_oriental+=$viaticos->pasaje;
+						$total_alojamientos_oriental+=$viaticos->alojamiento;
 					}
 				}
 				$total_occidente = $total_viaticos_occidental + $total_pasajes_occidental + $total_alojamientos_occidental;
-				$total_central = $total_viaticos_central+$total_viaticos_central+$total_viaticos_central;
-				$total_oriental = $total_viaticos_oriental+$total_viaticos_oriental+$total_viaticos_oriental;
+				$total_central = $total_viaticos_central+$total_pasajes_central+$total_alojamientos_central;
+				$total_oriental = $total_viaticos_oriental+$total_pasajes_oriental+$total_alojamientos_oriental;
 					$cuerpo .= '
 						<tr>
 							<td align="center" style="width:180px">Occidental</td>
@@ -542,15 +543,15 @@ class Menu_reportes extends CI_Controller {
 						<tr>
 							<td align="center" style="width:180px">Central</td>
 							<td align="center" style="width:180px">$'.number_format($total_viaticos_central,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_viaticos_central,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_viaticos_central,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasajes_central,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamientos_central,2,".",",").'</td>
 							<td align="center" style="width:180px">$'.number_format($total_central,2,".",",").'</td>
 						</tr>
 						<tr>
 							<td align="center" style="width:180px">Oriental</td>
 							<td align="center" style="width:180px">$'.number_format($total_viaticos_oriental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_viaticos_oriental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_viaticos_oriental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasajes_oriental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamientos_oriental,2,".",",").'</td>
 							<td align="center" style="width:180px">$'.number_format($total_oriental,2,".",",").'</td>
 						</tr>
 						';
