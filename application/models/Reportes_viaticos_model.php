@@ -113,35 +113,21 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     }
 }
 /*
-
-CONSULTA TERMINADA
-SELECT DISTINCT s4.id_seccion,s4.nombre_seccion,s4.depende FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende='36'
-
-consulta anidada
-SELECT distinct t2.nombre_seccion AS DESCRIPCION, t2.id_seccion
-  FROM org_seccion as t1
-LEFT JOIN org_seccion AS t2 ON (t2.depende = t1.id_seccion OR t1.id_seccion = t2.id_seccion )
-ORDER BY t1.depende ASC, t1.id_seccion ASC, t2.id_seccion ASC, t2.depende ASC
-
-segunda consulta anidada
-SELECT distinct t2.id_seccion ,t2.nombre_seccion FROM org_seccion as t1 LEFT JOIN org_seccion AS t2 ON (t2.depende = '34' OR t1.id_seccion = '34' ) ORDER BY t1.depende ASC, t1.id_seccion ASC, t2.id_seccion ASC, t2.depende ASC
+CONSULTA MOTORISTAS
+SELECT  empleado.id_empleado,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,empleado.nr,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,mision.nr_empleado,mision.id_mision_oficial,(viatico.viatico),viatico.id_empresa_viatico
+FROM sir_empleado as empleado 
+INNER JOIN sir_empleado_informacion_laboral as info ON empleado.id_empleado=info.id_empleado
+INNER JOIN org_seccion as seccion ON seccion.id_seccion = info.id_seccion
+INNER JOIN vyp_mision_oficial as mision ON mision.nr_empleado=empleado.nr
+INNER JOIN vyp_empresa_viatico as viatico ON mision.id_mision_oficial=viatico.id_mision
+WHERE info.id_cargo_funcional = 291
+GROUP BY viatico.id_empresa_viatico 
 
 
-consulta todas oficinas
-SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasajes) AS pasajes, SUM(em.viaticos) AS viaticos,(SUM(em.pasajes) + SUM(em.viaticos)) AS total,u.nombre_completo,u.id_seccion FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresas_visitadas AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision_oficial AND YEAR(mo.fecha_mision) = '2018' AND mo.nr_empleado=u.nr AND u.id_seccion  GROUP BY mo.nr_empleado ORDER BY total DESC
 
-consulta ordenada
-select s1.id_seccion,s2.id_seccion,s3.id_seccion,s4.id_seccion, s5.id_seccion from org_seccion s1 LEFT JOIN org_seccion as s2 ON s2.id_seccion=s1.depende LEFT JOIN org_seccion as s3 ON s3.id_seccion=s2.depende
-LEFT JOIN org_seccion as s4 ON s4.id_seccion=s3.depende
-LEFT JOIN org_seccion as s5 ON s5.id_seccion=s4.depende
-ORDER BY `s5`.`id_seccion`  DESC,
- `s4`.`id_seccion`  DESC,
- `s3`.`id_seccion`  DESC,
- `s2`.`id_seccion`  DESC,
- `s1`.`id_seccion`  DESC
+SELECT mision.nr_empleado,mision.id_mision_oficial,sum(viatico.viatico),empleado.nr,empleado.id_empleado,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre FROM vyp_mision_oficial as mision INNER JOIN vyp_empresa_viatico as viatico ON viatico.id_mision=mision.id_mision_oficial INNER JOIN sir_empleado as empleado ON empleado.nr=mision.nr_empleado
 
-
- consulta por peridodo
- SELECT month(mo.fecha_mision),sum(ev.pasajes),sum(ev.viaticos),sum(ev.viaticos)+sum(ev.pasajes) FROM vyp_mision_oficial as mo INNER JOIN vyp_empresas_visitadas as ev ON ev.id_mision_oficial=mo.id_mision_oficial WHERE year(mo.fecha_mision)='2018' and month(mo.fecha_mision) IN (1,2,3) GROUP by month(mo.fecha_mision)
+jose.pleitez
+rolando.carrillo
 */
 ?>
