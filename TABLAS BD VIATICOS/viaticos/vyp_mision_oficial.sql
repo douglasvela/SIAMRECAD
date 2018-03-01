@@ -1,10 +1,4 @@
 --
--- Base de datos: `mtps`
---
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `vyp_mision_oficial`
 --
 
@@ -20,10 +14,12 @@ CREATE TABLE `vyp_mision_oficial` (
   `detalle_actividad` varchar(500) NOT NULL,
   `nr_jefe_inmediato` varchar(5) NOT NULL,
   `nr_jefe_regional` varchar(5) NOT NULL,
-  `aprobado1` tinyint(1) NOT NULL DEFAULT '0',
-  `aprobado2` tinyint(1) NOT NULL DEFAULT '0',
-  `aprobado3` tinyint(1) NOT NULL DEFAULT '0',
-  `estado` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `aprobado1` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `aprobado2` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `aprobado3` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `estado` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `ruta_justificacion` varchar(200) NOT NULL,
+  `ultima_observacion` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

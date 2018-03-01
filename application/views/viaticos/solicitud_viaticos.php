@@ -554,7 +554,6 @@
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_tabla").innerHTML=xmlhttpB.responseText;
-                combo_actividad_realizada();
                 $('#myTable').DataTable();
                 $('[data-toggle="tooltip"]').tooltip();
             }
@@ -563,26 +562,14 @@
         xmlhttpB.send(); 
     }
 
-    function combo_actividad_realizada(){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-
-        xmlhttp_municipio.onreadystatechange=function(){
-            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
-                  document.getElementById("cnt_combo_actividad").innerHTML=xmlhttp_municipio.responseText;
-                  $(".select2").select2();
-            }
-        }
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_actividad_realizada",true);
-        xmlhttp_municipio.send();
+    function cerrar_mantenimiento(){
+        $("#cnt_tabla").show(0);
+        $("#cnt_form").hide(0);
     }
 
-    function informacion_empleado(){
+    function informacion_empleado(callback){
         var id_mision = $("#id_mision").val();
-    	var nr_usuario = $("#nr").val();
+        var nr_usuario = $("#nr").val();
         var fecha1 = $("#fecha_mision_inicio").val();
         var fecha2 = $("#fecha_mision_fin").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -595,15 +582,13 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttp_municipio.responseText;
                   //$(".select2").select2();
+                    if(typeof callback == "function"){
+                        callback();
+                    }
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/informacion_empleado?nr_usuario="+nr_usuario+"&fecha1="+fecha1+"&fecha2="+fecha2+"&id_mision="+id_mision,true);
         xmlhttp_municipio.send();
-    }
-
-    function cerrar_mantenimiento(){
-        $("#cnt_tabla").show(0);
-        $("#cnt_form").hide(0);
     }
 
     function validar_dia_limite(estado_solicitud){
@@ -611,12 +596,24 @@
         var days = 1;
 
         if(estado_solicitud == "0"){ //incompleto
-            days += 1;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+            var limite_inicio =  moment().subtract('days',18);
+            var limite_fin =  moment().subtract('days',1);
+
+            if(limite_fin.format("e") == 0){
+                limite_fin.subtract('days',2);
+            }else if(limite_fin.format("e") == 6){
+                limite_fin.subtract('days',1);
+            }
+
+            if(moment().format("e") == 1){
+                limite_inicio.add('days',2);
+            }else if(moment().format("e") == 2){
+                limite_inicio.add('days',1);
+            }
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
+            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
 
         }else if(estado_solicitud == "1"){ //revision jefe inmediato
             days += 2;
@@ -710,7 +707,7 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,bandera){
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,bandera){
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
         $("#nombre_empresa").val("");
@@ -719,6 +716,7 @@
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
 
         if(bandera == "edit"){
+            $("#band").val(bandera);
             observaciones(id);
             validar_dia_limite(estado);
             $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
@@ -731,7 +729,18 @@
             $("#cnt_tabla").hide(0);
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");
+
+            if(ruta_justificacion == ""){
+                document.getElementById("justificacion").checked = 0;
+                cambiarJustificacion();
+            }else{
+                document.getElementById("justificacion").checked = 1;
+                cambiarJustificacion("<?php echo base_url(); ?>"+ruta_justificacion);
+            }
+
         }else{
+            document.getElementById("justificacion").checked = 0;
+            cambiarJustificacion();
             $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
             $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
             eliminar_mision();
@@ -1237,7 +1246,7 @@ function alertFunc() {
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 $("#id_mision").val(ajax.responseText);
-                form_rutas();              
+                informacion_empleado(function(){ form_rutas() });
             }
         } 
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
@@ -1464,6 +1473,78 @@ function alertFunc() {
         }
     }
 
+    function cambiarJustificacion(ruta){
+        if(document.getElementById("justificacion").checked){
+            $("#modal_justificacion").modal("show");
+            $("#notificacion_justificacion").show(750);
+            if($("#band").val()=="save"){
+                imagen_justificacion("");
+            }else{
+                imagen_justificacion(ruta);
+            }
+        }else{
+            if($("#band").val()=="save"){
+                validar_dia_limite("0");
+                var nueva_fecha =  moment();
+
+                if(nueva_fecha.format("e") == 6){
+                    nueva_fecha.add('days',2);
+                }else if(nueva_fecha.format("e") == 0){
+                    nueva_fecha.add('days',1);
+                }
+
+                $("#fecha_mision_inicio").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
+                $("#fecha_mision_fin").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
+                imagen_justificacion("");
+            }else{
+                document.getElementById("cnt_justificacion").innerHTML = "";
+            }
+            $("#notificacion_justificacion").hide(750);
+        }
+    }
+
+    function imagen_justificacion(ruta){
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_municipio=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt_justificacion").innerHTML=xmlhttp_municipio.responseText;
+                   $("#fecha_mision_inicio").datepicker("setStartDate", "" );
+                    $("#fecha_mision_fin").datepicker("setStartDate", "" );
+                  $('.dropify').dropify();
+            }
+        }
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?ruta="+ruta,true);
+        xmlhttp_municipio.send();
+    }
+
+
+
+
+    function validar_justificacion(){
+        var bandera = false;
+
+        if(document.getElementById("justificacion").checked == 1){
+            if($("#file2").data("defaultFile") != ""){
+                bandera = true;
+            }else{
+                if($("#file2").val() != ""){
+                    bandera = true;
+                }else{
+                    swal({ title: "Falta justificación", text: "Debes agregar una justificación.", type: "warning", showConfirmButton: true });                  
+                }
+            }
+
+        }else{
+            bandera = true;
+        }
+
+        return bandera;
+    }
+
 </script>
 
 <style>
@@ -1584,6 +1665,18 @@ function alertFunc() {
                             <input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="">
 
                             <div class="row">
+                                <div class="col-lg-12" id="cnt_informacion_empleado"></div>
+                            </div>
+
+<div id='notificacion_justificacion' style='width: 100%; display: none;'>
+    <div class="alert alert-info" style="width: 100%;">
+        <h5> Justificación de viáticos activa.
+            <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-info pull-right" onclick="$('#modal_justificacion').modal('show');" data-toggle="tooltip" title="" data-original-title="Cambiar solicitud"><span class="fa fa-wrench"></span></button>
+        </h5>
+    </div>
+</div>
+
+                            <div class="row">
                                 <div class="form-group col-lg-6"> 
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
 			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
@@ -1611,9 +1704,38 @@ function alertFunc() {
                                 </div>
                             </div>
 
-                            <div class="row" id="cnt_informacion_empleado"></div>
+                            <div class="row">
 
-                            <div class="row" id="cnt_combo_actividad">
+                                <div class="form-group col-lg-9"> 
+                                    <h5>Actividad realizada: <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
+                                            <option value=''>[Elija una actividad]</option>
+                                        <?php 
+                                            $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+                                            if($actividad->num_rows() > 0){
+                                                foreach ($actividad->result() as $filaa) {              
+                                                   echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
+                                                   $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."'");
+                                                        if($activida_sub->num_rows() > 0){
+                                                            foreach ($activida_sub->result() as $filasub) {              
+                                                               echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';
+                                                            }
+                                                        }
+                                                }
+                                            }
+                                        ?>
+                                        </select>
+                                    </div> 
+                                </div>
+
+                                <div class="col-lg-3" align="center">
+                                    <h5>Justificación de viático: <span class="text-danger">*</span></h5>
+                                    <div class="switch">
+                                        <label>No
+                                            <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion()"><span class="lever"></span>Sí</label>
+                                    </div>
+                                </div>
                                                                
                             </div>
 
@@ -1631,6 +1753,29 @@ function alertFunc() {
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
+
+<!-- /.modal-justificacion -->
+<div id="modal_justificacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Justificación de viáticos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                
+                <div id="cnt_justificacion"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
@@ -1797,7 +1942,7 @@ function alertFunc() {
 
             </div>
             <div class="modal-footer">
-                <a href="<?php echo site_url().'/cuenta/perfil'; ?>" class="btn btn-info waves-effect text-white">ACEPTAR</a>
+                <a href="<?php echo site_url().'/cuenta/perfil'; ?>" class="btn btn-info waves-effect text-white">Aceptar</a>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -1815,7 +1960,7 @@ function alertFunc() {
                 <div id="cnt_viaticos_encontrados"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">ACEPTAR</button>
+                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -1836,6 +1981,7 @@ $(function(){
             format: 'dd-mm-yyyy',
             autoclose: true,
             todayHighlight: true,
+            endDate: moment().format("DD-MM-YYYY"),
             daysOfWeekDisabled: [0,6]
         }).datepicker("setDate", new Date());
 
@@ -1843,6 +1989,7 @@ $(function(){
             format: 'dd-mm-yyyy',
             autoclose: true,
             todayHighlight: true,
+            endDate: moment().format("DD-MM-YYYY"),
             daysOfWeekDisabled: [0,6]
         }).datepicker("setDate", new Date());
 
@@ -1859,31 +2006,37 @@ $(function(){
         var nombre = $("#nr option:selected").text().split("-");
         nombre = nombre[0].trim();
         formData.append('nombre_completo', nombre);
-        $.ajax({
-                type:  'POST',
-                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
-                dataType: "html",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false
-        })
-        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-            if(data == "exito"){
-                if($("#band").val() == "save"){
-                    //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                    buscar_idmision();
-                }else if($("#band").val() == "edit"){
-                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                    form_rutas();
+
+        if(validar_justificacion()){
+
+            $.ajax({
+                    type:  'POST',
+                    url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+            })
+            .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+                alert(data)
+                if(data == "exito"){
+                    if($("#band").val() == "save"){
+                        //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                        buscar_idmision();
+                    }else if($("#band").val() == "edit"){
+                        //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                        form_rutas();
+                    }else{
+                        swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                    }
+                    tabla_solicitudes();
                 }else{
-                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
-                tabla_solicitudes();
-            }else{
-                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-            }
-        });
+            });
+
+        }
     });
 
     $("#form_empresas_viaticos").on("submit", function(e){

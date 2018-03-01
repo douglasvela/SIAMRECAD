@@ -42,8 +42,8 @@ if(!empty($nr_usuario)){
     	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
     	echo "Parece que tus datos estan incompletos, solicita a recursos humanos que registren a que oficina pertenes y quien es tu superior inmediato, asi como tu firma digital si no estuviese registrada";
     	echo '</div>';
-    	echo '<input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="" required>';
-		echo '<input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="" required>';
+    	echo '<input type="text" style="display: none;" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="" required>';
+		echo '<input type="text" style="display: none;" id="nr_jefe_regional" name="nr_jefe_regional" value="" required>';
     }
 }
 

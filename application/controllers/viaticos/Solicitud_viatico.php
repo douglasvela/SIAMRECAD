@@ -31,6 +31,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/dropify');
 	}
 
+	public function cnt_justificacion(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/cnt_justificacion');
+	}
+
 	function insertar_viaticos_ruta(){
 		$sql = $this->input->post('sql');
 		echo $this->solicitud_model->insertar_viaticos_ruta($sql);
@@ -49,7 +53,40 @@ class Solicitud_viatico extends CI_Controller {
 			'id_actividad_realizada' => $this->input->post('id_actividad'),
 			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
 			);
-			echo $this->solicitud_model->insertar_mision($data);			
+			
+			$resultado = $this->solicitud_model->insertar_mision($data);
+
+			if($resultado != "fracaso"){
+
+				if(isset($_FILES["file2"])){
+
+				    $file = $_FILES["file2"];
+				    $nombre = $file["name"];
+				    $tipo = $file["type"];
+				    $ruta_provisional = $file["tmp_name"];
+				    $size = $file["size"];
+				    $carpeta = "assets/viaticos/justificaciones/";
+				    $info = new SplFileInfo($nombre);
+				    $nombre = str_pad($resultado, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+				    $src = $carpeta.$nombre;
+
+				    $data2 = array(
+						'id_mision' => $resultado,
+						'ruta_justificacion' => $src
+					);
+
+
+				    if(move_uploaded_file($ruta_provisional, $src)){
+						echo $this->solicitud_model->editar_justificacion($data2);	
+					}
+
+				}else{
+
+					echo "exito";
+				}
+			}else{
+				echo "fracaso";
+			}
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
 			'id_mision' => $this->input->post('id_mision'), 
@@ -62,7 +99,46 @@ class Solicitud_viatico extends CI_Controller {
 			'id_actividad_realizada' => saltos_sql($this->input->post('id_actividad')),
 			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
 			);
-			echo $this->solicitud_model->editar_mision($data);
+			$resultado = $this->solicitud_model->editar_mision($data);
+
+			if($resultado == "exito"){
+				if(isset($_FILES["file2"])){
+
+				    $file = $_FILES["file2"];
+				    $nombre = $file["name"];
+				    $tipo = $file["type"];
+				    $ruta_provisional = $file["tmp_name"];
+				    $size = $file["size"];
+				    $carpeta = "assets/viaticos/justificaciones/";
+				    $info = new SplFileInfo($nombre);
+				    $nombre = str_pad($resultado, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+				    $src = $carpeta.$nombre;
+
+				    $data2 = array(
+						'id_mision' => $this->input->post('id_mision'),
+						'ruta_justificacion' => $src
+					);
+
+				    if($file["name"] != ""){
+					    if(move_uploaded_file($ruta_provisional, $src)){
+							echo $this->solicitud_model->editar_justificacion($data2);	
+						}
+					}else{
+						echo "exito";
+					}
+
+				}else{
+					$data2 = array(
+						'id_mision' => $this->input->post('id_mision'),
+						'ruta_justificacion' => ''
+					);
+
+					echo $this->solicitud_model->editar_justificacion($data2);	
+				}
+			}else{
+				echo "fracaso";
+			}
+
 		}else if($this->input->post('band') == "delete"){
 			$data = array(
 			'id_mision' => $this->input->post('id_mision')
