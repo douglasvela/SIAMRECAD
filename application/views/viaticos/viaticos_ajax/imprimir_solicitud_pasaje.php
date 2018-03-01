@@ -1,13 +1,18 @@
 
 
 
-<?php
+<?php 
+    $nr_empleado = $_GET["nr"];
+   $fecha_mes = $_GET["fecha2"];
+  
+//echo ($fecha_mes);
 
-$nr_empleado = $_GET["nr"];
-$fecha_mes = $_GET["fecha2"];
+
+//list($anio_pasaje, $mes_pasaje)= explode ("/",$fecha_mes);
 
 // $cuenta = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, p.fecha_mision, SUM(p.monto_pasaje) AS monto_pasaje FROM sir_empleado AS e JOIN vyp_pasajes AS p ON p.nr = e.nr AND p.fecha_mision LIKE '%".$fecha_mes."%' AND e.id_estado = '00001' GROUP BY e.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 $soli_pasaje = $this->db->query("SELECT sum(monto_pasaje) as monto_pasaje, fecha_mision  FROM vyp_pasajes WHERE nr = '".$nr_empleado."' OR fecha_mision LIKE '%".$fecha_mes."%'  GROUP BY nr ORDER BY fecha_mision");
+
 
 //$viaticos = 0.00;
 //$pasajes = 0.00;
@@ -168,15 +173,16 @@ class NumeroALetras
 /*********************************************************************************************************
                 INICIO DEL REPORTE - SOLICITUD DE VIÁTICOS
 *********************************************************************************************************/
-
+//$date=strtotime($fecha_mes);
+//$arrayfecha=explode ("-",$fecha_mes);
+//$mes_pasaje=$arrayfecha[0];
+list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes,2);
 $pdf=new FPDF();
 $pdf->cambiarTitulo('RECIBO DE PASAJES URBANO Y AL INTERIOR','POR $   '.$monto);
 $pdf->AddPage();
-$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de:   según detalle anexo:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de : ' .mes($mes_pasaje).' , según detalle anexo:',0,'J',false);
 
-$pdf->Ln(5);
 
- $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha de elaboracion: San Salvador, ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
 
 
 /*$empresas_visitadas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
@@ -191,8 +197,208 @@ if($empresas_visitadas->num_rows() > 0){
     }
 }*/
 
+$pdf->Ln(5);
+
+$pdf->SetWidths(array(22,89,45,20,13));
+$pdf->SetAligns(array('C','C','C','C','C'));
+$pdf->Row(array("Fecha","No.Expediente","Empresa visitada","Dirección","Valor"),
+array('1','1','1','1','1'),
+array('Arial','B','08'),
+array(false),
+array('0','0','0'),
+array('255','255','255'),
+$altura = 3);  
+
+
+ $pdf->SetAligns(array('C','C','C','C','C'));
+ $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' OR fecha_mision LIKE '%".$fecha_mes."%' ORDER by fecha_mision");
+ 
+    if($cuenta->num_rows() > 0){
+                foreach ($cuenta->result() as $fila1) {
+                  //  $fecha_mision = date("d/m/Y",strtotime($fila->fecha));
+$fila1->fecha_mision=date("d-m-Y",strtotime($fila->fecha_mision));
+ //if($fila->monto_pasaje == 0){ $ver_pasaje = ""; }else{ $ver_pasaje = "$ ".number_format($fila->monto_pasaje, 2, '.', ''); }
+                           $array = array( 
+                             $fila1->fecha_mision,
+                            $fila1->no_expediente,
+                            $fila1->empresa_visitada,
+                             $fila1->direccion_empresa,
+                             // echo "<td>".$fila->nr."</td>";
+                              $fila1->monto_pasaje,
+                        );
+                    $pdf->Row($array,
+                        array('0','0','0','0','0'),
+                        array('Arial','B','08'),
+                        array(false),
+                        array('0','0','0'),
+                        array('255','255','255'),
+                        $altura = 5); 
+                }
+            }
+$pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+        $pdf->Ln(4);
+        $pdf->SetWidths(array(151,13,13,13));
+        $pdf->SetAligns(array('C','R','R','R'));
+$pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+
+
+$lugar = $this->db->query("SELECT e.nombre_oficina, p.nr FROM vyp_oficinas AS e JOIN vyp_informacion_empleado AS p ON e.id_oficina = p.id_oficina_departamental GROUP BY p.nr");
+
+
+
+
+if($lugar->num_rows() > 0){
+    //echo($cuenta);
+    foreach ($lugar->result() as $filal) {
+       
+       $oficina=$filal->nombre_oficina;
+     
+   }
+}
+
+$pdf->Ln(10);
+
+ $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha de elaboracion: ".$oficina.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
+
+
+
+
+
+ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_empleado."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+
+    if($empleado->num_rows() > 0){
+        foreach ($empleado->result() as $filae) {              
+        }
+    }
+
+    $linea_trabajo = $this->db->query("SELECT * FROM org_linea_trabajo WHERE id_linea_trabajo = '".$filae->id_linea_trabajo."'");
+    $cargo_nominal = $this->db->query("SELECT * FROM sir_cargo_nominal WHERE id_cargo_nominal = '".$filae->id_cargo_nominal."'");
+    $cargo_funcional = $this->db->query("SELECT * FROM sir_cargo_funcional WHERE id_cargo_funcional = '".$filae->id_cargo_funcional."'");
+
+    if($linea_trabajo->num_rows() > 0){
+        foreach ($linea_trabajo->result() as $filalt) {              
+        }
+    }
+    if($cargo_nominal->num_rows() > 0){
+        foreach ($cargo_nominal->result() as $filacn) {              
+        }
+    }
+    if($cargo_funcional->num_rows() > 0){
+        foreach ($cargo_funcional->result() as $filacf) {              
+        }
+    }
+
+    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1");
+
+    if($cuenta->num_rows() > 0){
+        foreach ($cuenta->result() as $filac) {}
+    }
+
+
+        $pdf->Ln(7);
+        $pdf->SetWidths(array(100,90));
+        $pdf->SetAligns(array('L','L'));
+
+        $pdf->Row(array("Nombre: ".nombres($filae->nombre_completo), "Firma: _____________________________________"),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Cargo nominal: ".parrafo($filacn->cargo_nominal), "                              Recibido conforme"),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_empleado."            Sueldo:   $".number_format($filae->salario, 2, '.', '')),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Nombre del banco: ".parrafo($filac->nombre), "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Cuenta del banco No: ".$filac->numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Ln(10);
+        $pdf->SetWidths(array(142,13,13,13));
+        $pdf->SetAligns(array('C','R','R','R'));
+
+        $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 50, 'D');
+
+
+        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_inmediato ");
+
+        if($jfinmediato->num_rows() > 0){
+            foreach ($jfinmediato->result() as $filajf) {              
+            }
+        }
+
+        $jfregional = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_regional ");
+
+        if($jfregional->num_rows() > 0){
+            foreach ($jfregional->result() as $filajr) {              
+            }
+        }
+
+
+        
+
+        $pdf->Ln(7);
+        $pdf->SetWidths(array(95,95));
+        $pdf->SetAligns(array('C','C'));
+
+        $pdf->Row(array("Firma y sello: ______________________________________", "Firma y sello: ______________________________________"),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Nombre: ".nombres($filajf->nombre_completo), "Nombre: ".nombres($filajr->nombre_completo)),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+        $pdf->Row(array("Vo.Bo. Jefe Inmediato", "Autorizado Director de Área o Jefe de Regional"),
+            array('0','0','0'),
+            array('Arial','B','09'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 5);
+
+
+
+
+
+
+
+
 
 
 
 $pdf->Output($nr_empleado.'_solicitudPasaje_'.$fecha_mes.".pdf",'I');
-?>
