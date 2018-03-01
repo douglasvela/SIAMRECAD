@@ -131,13 +131,13 @@ jose.pleitez
 rolando.carrillo
 
 
-SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,mision.id_mision_oficial,sum(viatico.viatico), seccion.nombre_seccion FROM sir_empleado_informacion_laboral as info
+SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,mision.id_mision_oficial,(viatico.viatico), seccion.nombre_seccion,viatico.id_empresa_viatico FROM sir_empleado_informacion_laboral as info
 INNER JOIN sir_empleado as empleado ON empleado.id_empleado=info.id_empleado
 INNER JOIN vyp_mision_oficial as mision ON empleado.nr = mision.nr_empleado
 INNER JOIN vyp_empresa_viatico as viatico ON viatico.id_mision=mision.id_mision_oficial
 INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion
 WHERE info.id_cargo_funcional = 291
-GROUP BY mision.id_mision_oficial
-ORDER BY info.fecha_inicio DESC limit 1
+GROUP BY viatico.id_empresa_viatico 
+/*ORDER BY info.fecha_inicio DESC limit 1
 */
 ?>
