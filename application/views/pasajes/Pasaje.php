@@ -74,7 +74,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         formData.append("band", "delete");
 
         $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
             type: "post",
             dataType: "html",
             data: formData,
@@ -106,7 +106,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         formData.append("band", "edit");
 
         $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
             type: "post",
             dataType: "html",
             data: formData,
@@ -194,7 +194,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/pasaje/tabla_pasaje_unidad?nr="+nr + "&fecha1="+fechas, true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr + "&fecha1="+fechas, true);
          
         xmlhttpB.send(); 
     }
@@ -204,7 +204,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
    
 
     function tablapasajes(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/viatico/Pasaje/tabla_pasajes", function() {
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
@@ -237,7 +237,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-10" id="cnt_form" >
+            <div class="col-lg-12" id="cnt_form" >
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -278,8 +278,16 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
                     <blockquote class="m-t-10">
                                                
                                 <div id="cnt_pasaje"></div> <!--para imprimir la tabla -->
+
                                  
                         </blockquote>
+                        <div class="row" align="right">
+                        <div class="col-lg-12">
+                            <button type="button" onclick="" class="pull-right btn btn-info">
+                            Enviar solicitud
+                            </button>
+                        </div>
+                        </div>
                     <?php echo form_close(); ?>
                     </div>
                 </div>
@@ -375,7 +383,7 @@ $("#formcuentas2").on("submit", function(e){
        
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
             type: "post",
             dataType: "html",
             data: formData,
@@ -405,7 +413,44 @@ $("#formcuentas2").on("submit", function(e){
   
 
 
+ function verificar_fechas(){
+        var id_mision = $("#id_mision").val();
+        var fecha1 = $("#fecha_mision_inicio").val();
+        var fecha2 = $("#fecha_mision_fin").val();
+        var nr = $("#nr").val();
 
+        var filas = $("#tabla_viaticos").find("tbody").find("tr");
+        var celdas, hora1, hora2;
+
+        for(l=0; l < (filas.length-1); l++){
+            celdas = $(filas[l]).children("td");
+
+            if(l==0){
+                hora1 = $(celdas[2]).text().trim();
+            }
+
+            if(l == (filas.length-2)){
+                hora2 = $(celdas[3]).text().trim();
+            }
+        }
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/pasajes/solicitud_viatico/fecha_repetida", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $("#area").val(ajax.responseText)
+                if(ajax.responseText == "exito"){
+                    generar_solicitud();
+                }else if(ajax.responseText == "fecha_repetida"){
+                    swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }           
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
+    }
 
 </script> 
 

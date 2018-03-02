@@ -10,19 +10,19 @@ class Pasaje extends CI_Controller {
 
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('viaticos/Pasaje');
+		$this->load->view('pasajes/Pasaje');
 		$this->load->view('templates/footer');
 	}
 
 	public function tabla_pasajes(){
-		$this->load->view('viaticos/tabla_pasajes');
+		$this->load->view('pasajes/tabla_pasajes');
 	}
 
 
 
 	
 	public function tabla_pasaje_unidad(){
-		$this->load->view('viaticos/viaticos_ajax/tabla_pasajes');
+		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes');
 	}
 
 	public function gestionar_pasaje(){		

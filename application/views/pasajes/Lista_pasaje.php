@@ -56,8 +56,8 @@
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-       location.href = "<?php echo site_url(); ?>/viatico/pasaje?nr="+nr + "&fecha2="+fechas;
-        //xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
+       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas;
+        //xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
         xmlhttpB.send();      
     }
@@ -106,20 +106,20 @@
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viatico/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
         xmlhttpB.send(); 
     }
 
  function imprimir_solicitud(nr, fecha_de_pasaje){
     
-        window.open("<?php echo site_url(); ?>/viatico/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje, '_blank');
+        window.open("<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje, '_blank');
     }
 
    
 
     function tablapasajes(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/viatico/Pasaje/tabla_pasajes", function() {
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
@@ -317,7 +317,7 @@ $("#formcuentas2").on("submit", function(e){
         formData.append("dato", "valor");*/
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/viatico/pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
             type: "post",
             dataType: "html",
             data: formData,

@@ -11,16 +11,16 @@ class Lista_pasaje extends CI_Controller {
 
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('viaticos/Lista_pasaje');
+		$this->load->view('pasajes/Lista_pasaje');
 		$this->load->view('templates/footer');
 	}
 	
 	public function tabla_pasaje_lista(){
-		$this->load->view('viaticos/viaticos_ajax/Lista_pasaje_ajax');
+		$this->load->view('pasajes/viaticos_ajax/Lista_pasaje_ajax');
 	}
 
 	public function imprimir_solicitud(){
-		$this->load->view('viaticos/viaticos_ajax/imprimir_solicitud_pasaje');
+		$this->load->view('pasajes/viaticos_ajax/imprimir_solicitud_pasaje');
 	}
 
 		

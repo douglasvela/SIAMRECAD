@@ -5,18 +5,13 @@
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha2"];
   
-//echo ($fecha_mes);
+ list($otrafecha)= explode ("-",$fecha_mes); 
 
-
-//list($anio_pasaje, $mes_pasaje)= explode ("/",$fecha_mes);
 
 // $cuenta = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, p.fecha_mision, SUM(p.monto_pasaje) AS monto_pasaje FROM sir_empleado AS e JOIN vyp_pasajes AS p ON p.nr = e.nr AND p.fecha_mision LIKE '%".$fecha_mes."%' AND e.id_estado = '00001' GROUP BY e.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
-$soli_pasaje = $this->db->query("SELECT sum(monto_pasaje) as monto_pasaje, fecha_mision  FROM vyp_pasajes WHERE nr = '".$nr_empleado."' OR fecha_mision LIKE '%".$fecha_mes."%'  GROUP BY nr ORDER BY fecha_mision");
+$soli_pasaje = $this->db->query("SELECT sum(monto_pasaje) as monto_pasaje, fecha_mision  FROM vyp_pasajes WHERE nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$otrafecha."%'  GROUP BY nr ORDER BY fecha_mision");
 
 
-//$viaticos = 0.00;
-//$pasajes = 0.00;
-//$alojamiento = 0.00;
 $total_pa= 0.00;
 $registros = count($soli_pasaje->result());
 if($soli_pasaje->num_rows() > 0){
@@ -180,28 +175,14 @@ list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes,2);
 $pdf=new FPDF();
 $pdf->cambiarTitulo('RECIBO DE PASAJES URBANO Y AL INTERIOR','POR $   '.$monto);
 $pdf->AddPage();
-$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de : ' .mes($mes_pasaje).' , según detalle anexo:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de ' .mes($mes_pasaje).', según detalle anexo:',0,'J',false);
 
-
-
-
-/*$empresas_visitadas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
-
-if($empresas_visitadas->num_rows() > 0){
-    foreach ($empresas_visitadas->result() as $filae) {
-        $registros--;
-        if($registros > 0){
-            $pdf->Cell(195,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
-            $pdf->Ln(5);
-        }
-    }
-}*/
 
 $pdf->Ln(5);
 
-$pdf->SetWidths(array(22,89,45,20,13));
+$pdf->SetWidths(array(22,20,45,89,13));
 $pdf->SetAligns(array('C','C','C','C','C'));
-$pdf->Row(array("Fecha","No.Expediente","Empresa visitada","Dirección","Valor"),
+$pdf->Row(array("Fecha","No.Exped.","Empresa visitada","Dirección","Valor"),
 array('1','1','1','1','1'),
 array('Arial','B','08'),
 array(false),
@@ -211,21 +192,20 @@ $altura = 3);
 
 
  $pdf->SetAligns(array('C','C','C','C','C'));
- $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' OR fecha_mision LIKE '%".$fecha_mes."%' ORDER by fecha_mision");
+ $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$otrafecha."%' ORDER by fecha_mision");
  
     if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila1) {
-                  //  $fecha_mision = date("d/m/Y",strtotime($fila->fecha));
-$fila1->fecha_mision=date("d-m-Y",strtotime($fila->fecha_mision));
- //if($fila->monto_pasaje == 0){ $ver_pasaje = ""; }else{ $ver_pasaje = "$ ".number_format($fila->monto_pasaje, 2, '.', ''); }
+                 
+                    $fila1->fecha_mision=date("d-m-Y",strtotime($fila1->fecha_mision));
+
                            $array = array( 
                              $fila1->fecha_mision,
-                            $fila1->no_expediente,
-                            $fila1->empresa_visitada,
+                             $fila1->no_expediente,
+                             $fila1->empresa_visitada,
                              $fila1->direccion_empresa,
-                             // echo "<td>".$fila->nr."</td>";
-                              $fila1->monto_pasaje,
-                        );
+                             $fila1->monto_pasaje,
+                                       );
                     $pdf->Row($array,
                         array('0','0','0','0','0'),
                         array('Arial','B','08'),
@@ -346,7 +326,7 @@ $pdf->Ln(10);
         $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 50, 'D');
 
 
-        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_inmediato ");
+        /*$jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_inmediato ");
 
         if($jfinmediato->num_rows() > 0){
             foreach ($jfinmediato->result() as $filajf) {              
@@ -389,13 +369,7 @@ $pdf->Ln(10);
             array(false),
             array('0','0','0'),
             array('255','255','255'),
-            $altura = 5);
-
-
-
-
-
-
+            $altura = 5);*/
 
 
 
