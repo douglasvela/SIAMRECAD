@@ -591,13 +591,19 @@
         xmlhttp_municipio.send();
     }
 
-    function validar_dia_limite(estado_solicitud){
+    var primer_fecha_inicio = "";
+    var primer_fecha_fin = "";
+
+    var ultima_fecha_inicio = "";
+    var ultima_fecha_fin = "";
+
+    function validar_dia_limite(estado_solicitud, bandera, fecha_rev_obs){
         var lim_start = 10;
         var days = 1;
 
-        if(estado_solicitud == "0"){ //incompleto
+        if(bandera == "save"){
 
-            var limite_inicio =  moment().subtract('days',18);
+            var limite_inicio =  moment().subtract('days',20);
             var limite_fin =  moment().subtract('days',1);
 
             if(limite_fin.format("e") == 0){
@@ -606,64 +612,144 @@
                 limite_fin.subtract('days',1);
             }
 
-            if(moment().format("e") == 1){
-                limite_inicio.add('days',2);
-            }else if(moment().format("e") == 2){
+            if(moment().format("e") == 0){
                 limite_inicio.add('days',1);
+            }else if(moment().format("e") == 6){
+                limite_inicio.add('days',2);
             }
 
             $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
             $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
 
-        }else if(estado_solicitud == "1"){ //revision jefe inmediato
-            days += 2;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
+            primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
+            primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
-            
-        }else if(estado_solicitud == "2"){ //observada por jefe inmediato
-            days += 2;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
+            var hoy = moment();
+            if(hoy.format("e") == 6){
+                hoy.add('days',2);
+            }else if(hoy.format("e") == 0){
+                hoy.add('days',1);
+            }
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
-            
-        }else if(estado_solicitud == "3"){ //revision director de area o jefe de regional
-            days += 3;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
+            ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
+            ultima_fecha_fin = hoy.format("DD-MM-YYYY");
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+            $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+            $("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
 
-        }else if(estado_solicitud == "4"){ //observada por director de area o jefe de regional
-            days += 3;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
+        }else if(bandera == "edit"){
+            if(estado_solicitud == "0"){
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
-         
-        }else if(estado_solicitud == "5"){ //revision fondo circulante
-            days += 4;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
+                var limite_inicio =  moment().subtract('days',20);
+                var limite_fin =  moment().subtract('days',1);
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+                var fecha_fin_mision = moment(fecha_rev_obs).add('days',1);
+                var diferencia = 0;
 
-        }else if(estado_solicitud == "6"){ //observaciones fondo circulante
-            days += 4;
-            var limite_fin = convert_lim_text(days);
-            var limite_inicio = convert_lim_text(lim_start + days);
+                if(limite_fin.format("e") == 0){
+                    limite_fin.subtract('days',2);
+                }else if(limite_fin.format("e") == 6){
+                    limite_fin.subtract('days',1);
+                }
 
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio );
-            $("#fecha_mision_fin").datepicker("setStartDate", limite_fin );
+                if(fecha_fin_mision.format("e") == 0){
+                    fecha_fin_mision.add('days',1);
+                }else if(limite_fin.format("e") == 6){
+                    fecha_fin_mision.add('days',2);
+                }
 
+                /*if(moment().format("e") == 0){
+                    limite_inicio.add('days',1);
+                }else if(moment().format("e") == 6){
+                    limite_inicio.add('days',2);
+                }*/
+
+                $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
+
+                primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
+                primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
+
+                if(document.getElementById("justificacion").checked == 1){
+                    $("#fecha_mision_fin").datepicker("setStartDate", "" );
+                }else{
+                    $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
+                }
+
+                var hoy = moment();
+                if(hoy.format("e") == 6){
+                    hoy.add('days',2);
+                }else if(hoy.format("e") == 0){
+                    hoy.add('days',1);
+                }
+
+                ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
+                ultima_fecha_fin = hoy.format("DD-MM-YYYY");
+
+                $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+                $("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+
+                diferencia = limite_fin.diff(fecha_fin_mision, 'days')
+
+                if(diferencia > 0){
+                    $.toast({ heading: 'Fecha vencida', text: "La ultima fecha para crear su solicitud fué el: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'error', hideAfter: 4000, stack: 6 });
+                }else{
+                    if(document.getElementById("justificacion").checked == 1){
+                        $.toast({ heading: 'Advertencia', text: "Envíe su solicitud lo antes posible", position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    }else{
+                        $.toast({ heading: 'Última fecha', text: "La ultima fecha para crear su solicitud es: HOY", position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    }
+                }
+
+            }else{
+
+                var limite_inicio =  moment(fecha_rev_obs).subtract('days',20);
+                var limite_fin =  moment(fecha_rev_obs).subtract('days',1);
+
+                var diferencia = 0;
+                var newdate = fecha_rev_obs.split("-").reverse().join("-");
+
+                if(limite_fin.format("e") == 0){
+                    limite_fin.subtract('days',2);
+                }else if(limite_fin.format("e") == 6){
+                    limite_fin.subtract('days',1);
+                }
+
+                /*if(moment().format("e") == 0){
+                    limite_inicio.add('days',1);
+                }else if(moment().format("e") == 6){
+                    limite_inicio.add('days',2);
+                }*/
+
+                $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
+
+                primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
+                primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
+
+                if(document.getElementById("justificacion").checked == 1){
+                    $("#fecha_mision_fin").datepicker("setStartDate", "" );
+                }else{
+                    $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
+                }
+
+                ultima_fecha_inicio = newdate.format("DD-MM-YYYY");
+                ultima_fecha_fin = newdate.format("DD-MM-YYYY");
+
+                $("#fecha_mision_inicio").datepicker("setEndDate", newdate.format("DD-MM-YYYY") );
+                $("#fecha_mision_fin").datepicker("setEndDate", newdate.format("DD-MM-YYYY") );
+
+                //diferencia = limite_fin.diff(fecha_fin_mision, 'days')
+
+                /*if(diferencia > 0){
+                    $.toast({ heading: 'Fecha vencida', text: "La ultima fecha para crear su solicitud fué el: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'error', hideAfter: 4000, stack: 6 });
+                }else{
+                    $.toast({ heading: 'Última fecha', text: "La ultima fecha para crear su solicitud es: HOY", position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                }*/
+
+            }
         }
+
+        return "fin";
+
     }
 
     function convert_lim_text(lim){
@@ -678,9 +764,8 @@
         $("#direccion_empresa").val("");
         $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
-        $("#band").val("save");
 
-        validar_dia_limite("0");
+        validar_dia_limite("0", "save");
 
         var nueva_fecha =  moment();
 
@@ -689,6 +774,9 @@
         }else if(nueva_fecha.format("e") == 0){
             nueva_fecha.add('days',1);
         }
+
+        document.getElementById("justificacion").checked = 0;
+        cambiarJustificacion();
 
         $("#fecha_mision_inicio").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
         $("#fecha_mision_fin").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
@@ -704,10 +792,12 @@
 
         form_mision();
 
+        $("#band").val("save");
+
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,bandera){
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,bandera){
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
         $("#nombre_empresa").val("");
@@ -715,12 +805,24 @@
         $("#detalle_actividad").val(detalle_actividad);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
 
+        var date = fecha_mision_fin;
+        var newdate = date.split("-").reverse().join("-");
+
         if(bandera == "edit"){
             $("#band").val(bandera);
             observaciones(id);
-            validar_dia_limite(estado);
+
+            aplicar(ruta_justificacion);
+            
+            if(estado == "0"){
+                valor = validar_dia_limite(estado, "edit", newdate);
+            }else{
+                valor = validar_dia_limite(estado, "edit", fecha_solicitud);
+            }
+
             $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
             $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
+
             form_mision();
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
@@ -728,15 +830,7 @@
             $("#btnedit").show(0);
             $("#cnt_tabla").hide(0);
             $("#cnt_form").show(0);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");
-
-            if(ruta_justificacion == ""){
-                document.getElementById("justificacion").checked = 0;
-                cambiarJustificacion();
-            }else{
-                document.getElementById("justificacion").checked = 1;
-                cambiarJustificacion("<?php echo base_url(); ?>"+ruta_justificacion);
-            }
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");            
 
         }else{
             document.getElementById("justificacion").checked = 0;
@@ -747,6 +841,16 @@
         }
         $( "html, body" ).animate({scrollTop:0}, '500');
         $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    function aplicar(ruta_justificacion){
+        if(ruta_justificacion == ""){
+            document.getElementById("justificacion").checked = 0;
+            cambiarJustificacion();
+        }else{
+            document.getElementById("justificacion").checked = 1;
+            cambiarJustificacion("<?php echo base_url(); ?>"+ruta_justificacion);
+        }
     }
 
     function observaciones(id_mision){    
@@ -1497,28 +1601,48 @@ function alertFunc() {
                 $("#fecha_mision_fin").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
                 imagen_justificacion("");
             }else{
-                document.getElementById("cnt_justificacion").innerHTML = "";
+                imagen_justificacion("");
             }
             $("#notificacion_justificacion").hide(750);
         }
     }
 
     function imagen_justificacion(ruta){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-        xmlhttp_municipio.onreadystatechange=function(){
-            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
-                  document.getElementById("cnt_justificacion").innerHTML=xmlhttp_municipio.responseText;
-                   $("#fecha_mision_inicio").datepicker("setStartDate", "" );
+        var newName = 'Otro nombre',
+        xhr = new XMLHttpRequest();
+
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?ruta="+ruta);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_justificacion").innerHTML = xhr.responseText;
+                if(document.getElementById("justificacion").checked){
+                    $("#fecha_mision_inicio").datepicker("setStartDate", "" );
                     $("#fecha_mision_fin").datepicker("setStartDate", "" );
-                  $('.dropify').dropify();
+
+                    var fecha_hoy =  moment();
+
+                    if(fecha_hoy.format("e") == 6){
+                        fecha_hoy.add('days',2);
+                    }else if(fecha_hoy.format("e") == 0){
+                        fecha_hoy.add('days',1);
+                    }
+
+                    $("#fecha_mision_inicio").datepicker("setEndDate", fecha_hoy.format("DD-MM-YYYY") );
+                    $("#fecha_mision_fin").datepicker("setEndDate", fecha_hoy.format("DD-MM-YYYY") );
+                }else{
+                    $("#fecha_mision_inicio").datepicker("setStartDate", primer_fecha_inicio );
+                    $("#fecha_mision_fin").datepicker("setStartDate", primer_fecha_fin );
+                    $("#fecha_mision_inicio").datepicker("setEndDate", utlima_fecha_inicio );
+                    $("#fecha_mision_fin").datepicker("setEndDate", utlima_fecha_fin );
+                }
+                $('.dropify').dropify();
+                
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
             }
-        }
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?ruta="+ruta,true);
-        xmlhttp_municipio.send();
+        };
+        xhr.send(encodeURI('name=' + newName));
     }
 
 
@@ -1670,7 +1794,7 @@ function alertFunc() {
 
 <div id='notificacion_justificacion' style='width: 100%; display: none;'>
     <div class="alert alert-info" style="width: 100%;">
-        <h5> Justificación de viáticos activa.
+        <h5> <span class="mdi mdi-file-document"></span> Justificación de viáticos activa.
             <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-info pull-right" onclick="$('#modal_justificacion').modal('show');" data-toggle="tooltip" title="" data-original-title="Cambiar solicitud"><span class="fa fa-wrench"></span></button>
         </h5>
     </div>

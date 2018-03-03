@@ -111,7 +111,7 @@ class Solicitud_viatico extends CI_Controller {
 				    $size = $file["size"];
 				    $carpeta = "assets/viaticos/justificaciones/";
 				    $info = new SplFileInfo($nombre);
-				    $nombre = str_pad($resultado, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+				    $nombre = str_pad($data["id_mision"], 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
 				    $src = $carpeta.$nombre;
 
 				    $data2 = array(

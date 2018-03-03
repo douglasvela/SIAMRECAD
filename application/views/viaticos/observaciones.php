@@ -243,6 +243,10 @@
         ajax.send("&id_mision="+gid_mision+"&estado="+estado)
     }
 
+    function cuantas_observaciones1(){
+        alert("Yuju")
+    }
+
 </script>
 
 <!-- ============================================================== -->
