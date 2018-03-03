@@ -477,6 +477,16 @@
           swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
         } 
      }
+     function mostrarReportePorZonaCargo(){
+        var anios = $("#anio_actual_cargo").val();
+        var cargo = $("#cargo_funcional").val();
+        if(anios){
+          var xhr = "<?php echo base_url()?>" 
+          window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/"+cargo+"/"+anios,"_blank");
+        }else{
+          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+        } 
+     }
 </script>
 
 <!-- ============================================================== -->
@@ -522,6 +532,7 @@
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages5" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por Año</span></a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages6" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por Departamento</span></a> </li>
                                               <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por Zona Departamental</span></a> </li>
+                                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages8" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Viáticos por Cargo</span></a> </li>
                                           </ul>
                                           <!-- Tab panes -->
                                           <div class="tab-content">
@@ -869,6 +880,44 @@
                                                         <div class="col-md-10">
                                                             <div class="form-group">
                                                                 <button type="button" onclick="mostrarReportePorZonaDepto()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                                                                
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                 <div class="tab-pane" id="messages8" role="tabpanel">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                              <h5>Año: <span class="text-danger">*</span></h5>
+                                                            <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual_cargo" name="anio_actual" placeholder="yyyy">
+                                                          </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                 <h5>Cargo Funcional: <span class="text-danger">*</span></h5>
+                                                                 <select class="select2" name="cargo_funcional" id="cargo_funcional" style="width: 200%">
+                                                                     <option value="0">[Seleccione]</option>
+                                                                     <option value="todo">[Todos]</option>
+                                                                     <?php
+                                                        $datos = $this->db->query("SELECT * FROM sir_cargo_funcional ");
+
+                                                        if($datos->num_rows() > 0){
+                                                            foreach ($datos->result() as $filadatos) {
+                                                        ?>
+  <option class="m-l-50" value="<?php echo $filadatos->id_cargo_funcional; ?>"><?php echo $filadatos->funcional; ?></option>
+                                                                     <?php
+                                                                 }
+                                                             }
+                                                                     ?>
+                                                                 </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <div class="form-group">
+                                                                <button type="button" onclick="mostrarReportePorZonaCargo()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
                                                                 
                                                               </div>
                                                         </div>
