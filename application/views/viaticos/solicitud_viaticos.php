@@ -198,7 +198,6 @@
                         }
                     }
                 }
-                //alert(monto)
                 $("#viatico").val(monto.toFixed(2));
             }else{  // sino si la fecha anterior es diferente a la nueva
 
@@ -1633,8 +1632,8 @@ function alertFunc() {
                 }else{
                     $("#fecha_mision_inicio").datepicker("setStartDate", primer_fecha_inicio );
                     $("#fecha_mision_fin").datepicker("setStartDate", primer_fecha_fin );
-                    $("#fecha_mision_inicio").datepicker("setEndDate", utlima_fecha_inicio );
-                    $("#fecha_mision_fin").datepicker("setEndDate", utlima_fecha_fin );
+                    $("#fecha_mision_inicio").datepicker("setEndDate", ultima_fecha_inicio );
+                    $("#fecha_mision_fin").datepicker("setEndDate", ultima_fecha_fin );
                 }
                 $('.dropify').dropify();
                 
@@ -1644,9 +1643,6 @@ function alertFunc() {
         };
         xhr.send(encodeURI('name=' + newName));
     }
-
-
-
 
     function validar_justificacion(){
         var bandera = false;
@@ -1667,6 +1663,12 @@ function alertFunc() {
         }
 
         return bandera;
+    }
+
+    function limpiar_empresas_visitadas(){
+        $("#departamento").val("").trigger("change.select2");
+        $("#nombre_empresa").val("");
+        $("#direccion_empresa").val("");
     }
 
 </script>
@@ -1873,11 +1875,6 @@ function alertFunc() {
 
                             <button type="submit" id="submit_button" style="display: none;" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
 
-                            <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
-                            </div>
-
 <!-- /.modal-justificacion -->
 <div id="modal_justificacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -1899,9 +1896,11 @@ function alertFunc() {
     </div>
     <!-- /.modal-dialog -->
 </div>
-
+                            
+                            <div align="right" id="btnadd">
+                                <button type="submit" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                            </div>
                             <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         <?php echo form_close(); ?>
@@ -1960,11 +1959,11 @@ function alertFunc() {
                             <button style="display: none;" type="submit" id="btn_submit" class="btn waves-effect waves-light btn-success2">submit</button>
 
                             <div align="right" id="btnadd2">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="limpiar_empresas_visitadas();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="gestionar_destino('save')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Agregar destino</button>
                             </div>
                             <div align="right" id="btnedit2" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="button" onclick="limpiar_empresas_visitadas();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                             <?php echo form_close(); ?>
@@ -2143,7 +2142,6 @@ $(function(){
                     processData: false
             })
             .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-                alert(data)
                 if(data == "exito"){
                     if($("#band").val() == "save"){
                         //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
@@ -2262,7 +2260,7 @@ $(function(){
         })
         .done(function(data){
             if(data == "exito"){
-                tabla_empresas_visitadas();
+                tabla_empresas_visitadas(function(){ limpiar_empresas_visitadas() });
                 $.toast({ heading: 'Registro exitoso', text: 'Se agregó una nueva empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6 });
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });

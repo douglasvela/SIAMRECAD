@@ -19,11 +19,21 @@ class Observaciones_model extends CI_Model {
 	}
 
 	function cambiar_estado_solicitud($data){
+		$fecha = date("Y-m-d H:i:s");
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
-		if($this->db->update('vyp_mision_oficial', array('estado' => $data['estado']))){
-			return "exito";
+
+		if($data['estado'] == "2" || $data['estado'] == "4" || $data['estado'] == "6"){
+			if($this->db->update('vyp_mision_oficial', array('estado' => $data['estado'], 'ultima_observacion' => $fecha))){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
 		}else{
-			return "fracaso";
+			if($this->db->update('vyp_mision_oficial', array('estado' => $data['estado']))){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
 		}
 	}
 

@@ -75,9 +75,12 @@ class Solicitud_viatico extends CI_Controller {
 						'ruta_justificacion' => $src
 					);
 
-
-				    if(move_uploaded_file($ruta_provisional, $src)){
-						echo $this->solicitud_model->editar_justificacion($data2);	
+					if($file["name"] != ""){
+					    if(move_uploaded_file($ruta_provisional, $src)){
+							echo $this->solicitud_model->editar_justificacion($data2);
+						}
+					}else{
+						echo "exito";
 					}
 
 				}else{

@@ -49,5 +49,5 @@
                 </tbody>
             </table>
         </div>
-        <input type="text" id="numObservacion2" name="numObservacion2" value="<?php echo $mision->num_rows(); ?>">
+        <input type="hidden" id="numObservacion2" name="numObservacion2" value="<?php echo $mision->num_rows(); ?>">
     

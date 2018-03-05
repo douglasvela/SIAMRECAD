@@ -65,8 +65,10 @@
                 $("#id_tipo_observador").val("1");
                 $('#myTable1').DataTable();
                 $('[data-toggle="tooltip"]').tooltip();
-                //var ths = $("#myTable").find("thead").find("th");
-                //$(ths[0]).click();
+
+                if($("#numObservacion1").val() != "0"){
+                    $("#notify1").html('<span class="label label-danger" style="padding: 3px 5px;">'+$("#numObservacion1").val()+'</span>');
+                }
             }
         }
         xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones1",true);
@@ -85,8 +87,9 @@
                 $('#myTable2').DataTable();
                 $("#id_tipo_observador").val("2");
                 $('[data-toggle="tooltip"]').tooltip();
-                //var ths = $("#myTable").find("thead").find("th");
-                //$(ths[0]).click();
+                if($("#numObservacion2").val() != "0"){
+                    $("#notify2").html('<span class="label label-danger" style="padding: 3px 5px;">'+$("#numObservacion2").val()+'</span>');
+                }
             }
         }
         xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones2",true);
@@ -105,8 +108,9 @@
                 $('#myTable3').DataTable();
                 $("#id_tipo_observador").val("3");
                 $('[data-toggle="tooltip"]').tooltip();
-                //var ths = $("#myTable").find("thead").find("th");
-                //$(ths[0]).click();
+                if($("#numObservacion3").val() != "0"){
+                    $("#notify3").html('<span class="label label-danger" style="padding: 3px 5px;">'+$("#numObservacion3").val()+'</span>');
+                }
             }
         }
         xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones3",true);
@@ -243,10 +247,6 @@
         ajax.send("&id_mision="+gid_mision+"&estado="+estado)
     }
 
-    function cuantas_observaciones1(){
-        alert("Yuju")
-    }
-
 </script>
 
 <!-- ============================================================== -->
@@ -356,7 +356,7 @@
                             <li class="nav-item"> 
                                 <a class="nav-link <?php if($contadorp == 1){ echo "active"; } ?>" data-toggle="tab" href="#observacion<?php echo $correlativo; ?>" role="tab" onClick="<?php echo 'tabla_observaciones'.$correlativo.'();'; ?>">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
-                                    <span class="hidden-xs-down"><?php echo $fila->nombre_modulo; ?></span></a> 
+                                    <span class="hidden-xs-down"><?php echo $fila->nombre_modulo; ?> <output id="notify<?php echo $correlativo; ?>"></output></span></a> 
                             </li>
                         <?php
                                     }
