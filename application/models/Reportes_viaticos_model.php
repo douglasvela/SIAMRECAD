@@ -124,6 +124,11 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 
 
     }
+    function buscar_cargo_funcional($data){
+       $idcargo=$data['cargo'];
+      $cargos= $this->db->query("select funcional from sir_cargo_funcional where id_cargo_funcional='$idcargo'");
+        return $cargos;
+    }
 }
 /*
 CONSULTA MOTORISTAS

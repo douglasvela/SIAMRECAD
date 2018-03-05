@@ -1255,17 +1255,23 @@ class Menu_reportes extends CI_Controller {
 		);
 		//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorCargo($data);
+
+		$cargos = $this->Reportes_viaticos_model->buscar_cargo_funcional($data);
+		foreach ($cargos->result() as $keycargo) {
+			# code...
+		}
 		$cuerpo = '
+
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
 						
-						<th align="center" rowspan="2">Sección</th>
-						<th align="center" rowspan="2">Cargo Funcional</th>
+						<th align="center" >Cargo Funcional: '.$keycargo->funcional.'</th>
 						<th align="center" colspan="3">Tipo</th>
 						
 					</tr>
 					<tr>
+						<th align="center">Sección</th>
 						<th align="center">Viaticos</th>
 						<th align="center">Pasajes</th>
 						<th align="center">Alojamiento</th>
@@ -1281,7 +1287,6 @@ class Menu_reportes extends CI_Controller {
 					$cuerpo .= '
 						<tr>
 							<td>'.($viaticos->nombre_seccion).'</td>
-							<td>'.($viaticos->funcional).'</td>
 							<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
 							<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 							<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
@@ -1303,7 +1308,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
         $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->SetTitle('Viaticos por Periodo');
+		$this->mpdf->SetTitle('Viaticos por Cargo');
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 		$this->mpdf->WriteHTML($cuerpo);
 
