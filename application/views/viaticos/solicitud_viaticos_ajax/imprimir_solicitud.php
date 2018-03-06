@@ -217,7 +217,7 @@ $altura = 5);
                         array(false),
                         array('0','0','0'),
                         array('255','255','255'),
-                        $altura = 3); 
+                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1); 
                 }
             }
 

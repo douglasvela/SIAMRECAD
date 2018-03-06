@@ -106,7 +106,7 @@ function Header()
     $this->Ln(20);
 }
 
-public function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill,$altura)
+public function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill,$altura,$vinculo="", $columna="")
 {
     //Calculate the height of the row
     $nb=0;
@@ -130,6 +130,9 @@ public function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill,$altura)
         $this->SetTextColor($color[0],$color[1],$color[2]);
         $this->SetFont($fuente[0],$fuente[1],$fuente[2]);
          $this->MultiCell($w,$altura,$data[$i],$dibujacelda[$i],$a,$v[0]);
+         if($vinculo != "" && $i == $columna){
+         	$this->Link($x,$y,$w,$altura,$vinculo);
+         }
         //Put the position to the right of the cell
         $this->SetXY($x+$w,$y);
     }

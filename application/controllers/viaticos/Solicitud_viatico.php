@@ -35,6 +35,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/cnt_justificacion');
 	}
 
+	public function tabla_rutas_almacenadas(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_rutas_almacenadas');
+	}
+
 	function insertar_viaticos_ruta(){
 		$sql = $this->input->post('sql');
 		echo $this->solicitud_model->insertar_viaticos_ruta($sql);
@@ -203,10 +207,15 @@ class Solicitud_viatico extends CI_Controller {
             "id_destino" => $this->input->post('id_destino'),
         );
 
-        if($this->input->post('existe') == "true"){
-        	echo $this->solicitud_model->insertar_destino($data);
+        if($this->input->post('id_ruta_visitada') == ""){
+        	if($this->input->post('existe') == "true"){
+	        	echo $this->solicitud_model->insertar_destino($data);
+	        }else{
+	        	echo $this->solicitud_model->insertar_ruta($data);
+	        }
         }else{
-        	echo $this->solicitud_model->insertar_ruta($data);
+        	$data["id_destino"] = $this->input->post('id_ruta_visitada');
+        	echo $this->solicitud_model->insertar_destino($data);
         }
 	}
 

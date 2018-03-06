@@ -797,6 +797,7 @@
     }
 
     function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,bandera){
+
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
         $("#nombre_empresa").val("");
@@ -806,6 +807,8 @@
 
         var date = fecha_mision_fin;
         var newdate = date.split("-").reverse().join("-");
+
+        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
         if(bandera == "edit"){
             $("#band").val(bandera);
@@ -961,11 +964,15 @@ function alertFunc() {
 
     function form_oficinas(){
     	$("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
-        $("#nombre_empresa").parent().hide(0);
+        $("#nombre_empresa").parent().parent().hide(0);
         $("#direccion_empresa").parent().hide(0);
         $("#municipio").parent().hide(0);
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
+        $("#id_ruta_visitada").val("");
+        name_company = "";
+        address_company = "";
+        id_ruta_visitada = "";
         combo_oficina_departamento("oficina");
     }
 
@@ -1009,11 +1016,11 @@ function alertFunc() {
                     if($("#departamento").val() != ""){
                         $("#nombre_empresa").val($("#departamento option:selected").text());
                         $("#direccion_empresa").val($("#departamento option:selected").text());
-                        $("#nombre_empresa").parent().hide(0);
+                        $("#nombre_empresa").parent().parent().hide(0);
                         $("#direccion_empresa").parent().hide(0);
                         $("#municipio").parent().hide(0);
                     }else{
-                        $("#nombre_empresa").parent().hide(0);
+                        $("#nombre_empresa").parent().parent().hide(0);
                         $("#direccion_empresa").parent().hide(0);
                         $("#municipio").parent().hide(0);
                         $("#nombre_empresa").val("");
@@ -1021,12 +1028,12 @@ function alertFunc() {
                     }
                     input_distancia(tipo);
               	}else if(tipo == "departamento"){
-                    $("#nombre_empresa").parent().show(0);
+                    $("#nombre_empresa").parent().parent().show(0);
                     $("#direccion_empresa").parent().show(0);
                     $("#municipio").parent().show(0);
                     input_distancia(tipo);
               	}else if(tipo == "mapa"){
-                    $("#nombre_empresa").parent().show(0);
+                    $("#nombre_empresa").parent().parent().show(0);
                     $("#direccion_empresa").parent().show(0);
                     $("#municipio").parent().show(0);
                     $('#municipio').val(id_municipio_mapa).trigger('change.select2');
@@ -1062,12 +1069,19 @@ function alertFunc() {
     }
 
     function form_folleto_viaticos(){
+        $("#bntmap1").hide(0);
+        $("#bntmap2").hide(0);
+        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
         combo_oficina_departamento("departamento");
-        $("#nombre_empresa").parent().show(0);
+        $("#nombre_empresa").parent().parent().show(0);
         $("#direccion_empresa").parent().show(0);
         $("#municipio").parent().show(0);
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
+        $("#id_ruta_visitada").val("");
+        name_company = "";
+        address_company = "";
+        id_ruta_visitada = "";
     }
 
     function form_mapa(){
@@ -1078,11 +1092,14 @@ function alertFunc() {
             lng: parseFloat($("#longitud_oficina").val())
         };
 
+        $("#bntmap1").show(0);
+        $("#bntmap2").show(0);
+
         $("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
         $.when(initMap()).then($("#dirigir").click());
 
         combo_oficina_departamento("mapa");
-        $("#nombre_empresa").parent().show(0);
+        $("#nombre_empresa").parent().parent().show(0);
         $("#direccion_empresa").parent().show(0);
         $("#municipio").parent().show(0);
         $("#nombre_empresa").val("");
@@ -1092,9 +1109,20 @@ function alertFunc() {
     function finalizarBusquedaMapa(){
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
-        $("#direccion_empresa").val(direccion_mapa);
+        if(name_company == ""){
+            $("#nombre_empresa").val("");
+            $("#direccion_empresa").val(direccion_mapa);
+            $("#id_ruta_visitada").val("");
+        }else{
+            $("#nombre_empresa").val(name_company);
+            $("#direccion_empresa").val(address_company);
+            $("#id_ruta_visitada").val(id_ruta_visitada);
+        }
         var municipio = municipio_mayus(direccion_mapa);
         obtener_id_municipio(municipio);
+        name_company = "";
+        address_company = "";
+        id_ruta_visitada = "";
     }
 
     function municipio_mayus(municipio_minus){
@@ -1669,6 +1697,58 @@ function alertFunc() {
         $("#departamento").val("").trigger("change.select2");
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
+        $("#id_ruta_visitada").val("");
+    }
+
+    function tabla_rutas_almacenadas(){
+        var id_oficina_origen = $("#id_oficina_origen").val()
+        var id_municipio = $("#municipios_rutas").val();
+           
+        var newName = 'John Smith',
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_rutas_almacenadas?id_municipio="+id_municipio+"&id_oficina_origen="+id_oficina_origen);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_rutas_almacenadas").innerHTML = xhr.responseText;
+                $('#tabla_rutas').DataTable();
+                $('[data-toggle="tooltip"]').tooltip();
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de empresas visitadas no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
+    }
+
+    function rutas_almacenadas(){
+        $("#modal_rutas_mapa").modal("show");
+        tabla_rutas_almacenadas();
+    }
+
+
+    var name_company = "";
+    var address_company = "";
+    var id_ruta_visitada = "";
+    function abrir_mapa(lat, lng, name, address, id){
+        $("#modal_rutas_mapa").modal("hide");
+        LatDestino = new google.maps.LatLng(lat,lng);
+
+        var container = document.getElementById("input-div");
+        container.innerHTML= '<input type="text" class="controlers" id="search_input" placeholder="Escribe una ubicación a buscar"/>';
+        LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
+            lat: parseFloat($("#latitud_oficina").val()), 
+            lng: parseFloat($("#longitud_oficina").val())
+        };
+
+        $("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
+        $.when(initMap()).then($("#dirigir").click());
+        $("#nombre_empresa").parent().parent().show(0);
+        $("#direccion_empresa").parent().show(0);
+        $("#municipio").parent().show(0);
+
+        name_company = name;
+        address_company = address;
+        id_ruta_visitada = id;
     }
 
 </script>
@@ -1923,6 +2003,8 @@ function alertFunc() {
                             <?php echo form_open('', array('id' => 'form_empresas_visitadas', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <div class="row">
                                 <input type="hidden" id="band2" name="band2" value="save">
+                                <input type="hidden" id="id_ruta_visitada" name="id_ruta_visitada" value="">
+
                                 <div class="form-group col-lg-12">
                                     <h5>Opciones de destino: <span class="text-danger">*</span></h5>
                                     <input type="radio" id="destino_oficina" checked="" name="r_destino" value="destino_oficina"> 
@@ -1944,13 +2026,15 @@ function alertFunc() {
                             
                                 <div class="form-group col-lg-6">
                                     <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
-                                    <input type="text" id="nombre_empresa" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa" required>
-                                    <span class="help-block"></span>
+                                    <div class="input-group">
+                                        <input type="text" id="nombre_empresa" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa" required>
+                                        <div id="bntmap1" class="input-group-addon btn btn-default" onclick="form_mapa();" data-toggle="tooltip" title="" data-original-title="Buscar en mapa"><i class="mdi mdi-google-maps"></i></div>
+                                        <div id="bntmap2" class="input-group-addon btn btn-default" onclick="rutas_almacenadas();" data-toggle="tooltip" title="" data-original-title="Buscar en registros almacenados"><i class="mdi mdi-map-marker-radius"></i></div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <h5>Dirección: <span class="text-danger">*</span></h5>
                                     <textarea id="direccion_empresa" name="direccion_empresa" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2" required></textarea>
-                                    <span class="help-block"></span>
                                 </div>
 
                                 
@@ -2052,27 +2136,6 @@ function alertFunc() {
     <!-- /.modal-dialog -->
 </div>
 
-<div id="modal_perfil" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Faltan datos en tu perfil</h4>
-            </div>
-            <div class="modal-body" id="">
-                <h4 style="margin-bottom: 20px;">Lamentamos los inconvenientes. <span class="mdi mdi-emoticon-sad" style="font-size: 35px;"></span></h4>
-
-                <p align="justify">Parece que a tu perfil le faltan datos que son requeridos para la elaboración de solicitud de viáticos y pasajes, por favor haz clic en el botón "ACEPTAR" y completa tu perfil para poder acceder a esta sección del sistema.</p>
-
-            </div>
-            <div class="modal-footer">
-                <a href="<?php echo site_url().'/cuenta/perfil'; ?>" class="btn btn-info waves-effect text-white">Aceptar</a>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 <div id="modal_viaticos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -2081,6 +2144,40 @@ function alertFunc() {
             </div>
             <div class="modal-body" id="">
                 <div id="cnt_viaticos_encontrados"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div id="modal_rutas_mapa" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Asistente de rutas almacenadas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                 <div class="row container">
+                    <div class="col-lg-12">
+                        <select id="municipios_rutas" name="municipios_rutas" class="select2" onchange="tabla_rutas_almacenadas();" style="width: 100%" required>
+                            <option value=''>[Elija el municipio]</option>
+                            <?php
+                                $municipio = $this->db->query("SELECT * FROM org_municipio");
+                                if($municipio->num_rows() > 0){
+                                    foreach ($municipio->result() as $fila2) {              
+                                       echo '<option class="m-l-50" value="'.$fila2->id_municipio.'">'.$fila2->municipio.'</option>';
+                                    }
+                                }
+                             ?>
+                        </select>
+                    </div>
+                 </div>
+                <div id="cnt_rutas_almacenadas"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Aceptar</button>
@@ -2207,8 +2304,6 @@ $(function(){
                 }
             });
         }
-
-
     });
 
 
@@ -2242,6 +2337,7 @@ $(function(){
             "municipio" : $("#municipio").val(),
             "nombre_empresa" : $("#nombre_empresa").val(),
             "direccion_empresa" : $("#direccion_empresa").val(),
+            "id_ruta_visitada" : $("#id_ruta_visitada").val(),
             "distancia" : $("#distancia").val(),
             "tipo" : tipo,
             "band" : $("#band2").val(),
@@ -2267,7 +2363,6 @@ $(function(){
             }
         });
     });
-
 });
 
 </script>
@@ -2383,6 +2478,9 @@ $(function(){
             deleteMarkers_D();
             addMarker_destino(e.latLng, map);
             pinta_recorrido();
+            name_company = "";
+            address_company = "";
+            id_ruta_visitada = "";
         });
 
         if(LatDestino != ""){            
