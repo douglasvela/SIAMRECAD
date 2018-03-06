@@ -1255,17 +1255,173 @@ class Menu_reportes extends CI_Controller {
 		);
 		//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorCargo($data);
+
+		
+		if($cargo!="todo"){
+			$cargos = $this->Reportes_viaticos_model->buscar_cargo_funcional($data);
+			foreach ($cargos->result() as $keycargo) {
+				# code...
+			}
+			$cuerpo = '
+
+				<table  class="" border="1" style="width:100%">
+					<thead >
+						<tr>
+							
+							<th align="center" >Cargo Funcional: '.$keycargo->funcional.'</th>
+							<th align="center" colspan="3">Tipo</th>
+							
+						</tr>
+						<tr>
+							<th align="center">Sección</th>
+							<th align="center">Viaticos</th>
+							<th align="center">Pasajes</th>
+							<th align="center">Alojamiento</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						
+						';
+						
+					if($viatico->num_rows()>0){
+					foreach ($viatico->result() as $viaticos) {
+						$cuerpo .= '
+							<tr>
+								<td>'.($viaticos->nombre_seccion).'</td>
+								<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
+								<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+								<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+								
+							</tr>
+							';
+							
+						}
+					}else{
+						$cuerpo .= '
+							<tr><td colspan="4"><center>No hay registros</center></td></tr>
+
+						';
+					}
+					$cuerpo .= '
+					</tbody>
+				</table><br>
+				
+	        ';         // LOAD a stylesheet   
+	    }else{
+	    	$cuerpo = '
+
+				<table  class="" border="1" style="width:100%">
+					<thead >
+						<tr>
+							<th align="center" rowspan="2">Sección</th>
+							<th align="center" rowspan="2">Cargo Funcional:</th>
+							<th align="center" colspan="3">Tipo</th>
+
+							
+						</tr>
+						<tr>
+							
+							<th align="center">Viaticos</th>
+							<th align="center">Pasajes</th>
+							<th align="center">Alojamiento</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						
+						';
+						
+					if($viatico->num_rows()>0){
+					foreach ($viatico->result() as $viaticos) {
+						$cuerpo .= '
+							<tr>
+								<td>'.($viaticos->nombre_seccion).'</td>
+								<td>'.($viaticos->funcional).'</td>
+								<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
+								<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+								<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+								
+							</tr>
+							';
+							
+						}
+					}else{
+						$cuerpo .= '
+							<tr><td colspan="4"><center>No hay registros</center></td></tr>
+
+						';
+					}
+					$cuerpo .= '
+					</tbody>
+				</table><br>
+				
+	        ';         // LOAD a stylesheet   
+	    }      
+        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+		$this->mpdf->SetTitle('Viaticos por Cargo');
+		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+		$this->mpdf->WriteHTML($cuerpo);
+
+		$this->mpdf->Output();
+		
+	}
+	public function reporte_viaticos_por_oficina($anio){
+		$this->load->library('mpdf');
+		$this->load->model('Reportes_viaticos_model');
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$pie = '{PAGENO} de {nbpg} páginas';
+
+
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
+		
+		$data  =array(
+			'anio' =>$anio
+		);
+		//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
+		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorOficina($data);
+
+		
 		$cuerpo = '
+
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
 						
 						<th align="center" rowspan="2">Sección</th>
-						<th align="center" rowspan="2">Cargo Funcional</th>
 						<th align="center" colspan="3">Tipo</th>
 						
 					</tr>
 					<tr>
+						
 						<th align="center">Viaticos</th>
 						<th align="center">Pasajes</th>
 						<th align="center">Alojamiento</th>
@@ -1281,7 +1437,6 @@ class Menu_reportes extends CI_Controller {
 					$cuerpo .= '
 						<tr>
 							<td>'.($viaticos->nombre_seccion).'</td>
-							<td>'.($viaticos->funcional).'</td>
 							<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
 							<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 							<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
@@ -1292,7 +1447,7 @@ class Menu_reportes extends CI_Controller {
 					}
 				}else{
 					$cuerpo .= '
-						<tr><td colspan="6"><center>No hay registros</center></td></tr>
+						<tr><td colspan="4"><center>No hay registros</center></td></tr>
 
 					';
 				}
@@ -1303,7 +1458,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
         $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->SetTitle('Viaticos por Periodo');
+		$this->mpdf->SetTitle('Viaticos por Cargo');
 		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 		$this->mpdf->WriteHTML($cuerpo);
 
