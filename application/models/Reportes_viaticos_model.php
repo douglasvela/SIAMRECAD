@@ -129,6 +129,18 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
       $cargos= $this->db->query("select funcional from sir_cargo_funcional where id_cargo_funcional='$idcargo'");
         return $cargos;
     }
+    function obtenerViaticosPorOficina($data){
+
+      $anio=$data['anio'];
+     
+        $viaticos= $this->db->query("SELECT id_seccion,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento FROM VISTA_VIATICOS  WHERE id_seccion IN (SELECT id_seccion FROM org_seccion) AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY viatico desc");
+        return $viaticos;
+    }
+    function buscar_oficina($data){
+       $id_seccion=$data['seccion'];
+        $seccion= $this->db->query("select nombre_seccion from org_seccion where id_seccion='$id_seccion'");
+        return $seccion;
+    }
 }
 /*
 CONSULTA MOTORISTAS
