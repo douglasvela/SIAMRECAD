@@ -153,7 +153,7 @@ class Solicitud_viatico extends CI_Controller {
 
 			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
 			
-			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_empresas_viaticos($this->input->post('id_mision')) == true){
+			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_empresas_viaticos($this->input->post('id_mision')) == true && $this->solicitud_model->eliminar_observaciones($this->input->post('id_mision')) == true){
 				echo $this->solicitud_model->eliminar_mision($data);
 			}else{
 				echo "fracaso";

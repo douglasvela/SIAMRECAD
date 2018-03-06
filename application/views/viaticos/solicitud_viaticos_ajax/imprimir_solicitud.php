@@ -221,8 +221,11 @@ $altura = 5);
                 }
             }
 
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
-        $pdf->Ln(2);
+        //$pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+
+        //$pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 5, 'D');
+
+        $pdf->Ln(0);
         $pdf->SetWidths(array(151,13,13,13));
         $pdf->SetAligns(array('C','R','R','R'));
 
@@ -230,24 +233,31 @@ $altura = 5);
             array("TOTAL", "$ ".number_format($viaticos, 2, '.', ''),
             "$ ".number_format($pasajes, 2, '.', ''),
             "$ ".number_format($alojamiento, 2, '.', '')),
-            array('0','0','0','0'),
+            array('1','1','1','1'),
             array('Arial','B','08'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
-            $altura = 3);
+            $altura = 5);
 
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+        //$pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+
+
+        $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND m.id_mision_oficial = '".$id_mision."'");
+        if($mision->num_rows() > 0){
+            foreach ($mision->result() as $fila2) { $nr_usuario = $fila2->nr_empleado; }
+        }
+
+        $oficina_empleado = $this->db->query("SELECT m.municipio FROM vyp_oficinas AS o JOIN vyp_informacion_empleado AS i ON o.id_oficina = i.id_oficina_departamental JOIN org_municipio As m ON m.id_municipio = o.id_municipio AND i.nr = '".$nr_usuario."'");
+        if($oficina_empleado->num_rows() > 0){
+            foreach ($oficina_empleado->result() as $fila3) { $oficina_origen = nombres($fila3->municipio); }
+        }
 
         $pdf->Ln(5);
         $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: San Salvador, ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
 
 
-$mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND id_mision_oficial = '".$id_mision."'");
 
-        if($mision->num_rows() > 0){
-            foreach ($mision->result() as $fila2) { $nr_usuario = $fila2->nr_empleado; }
-        }
 
     $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
 
@@ -279,7 +289,7 @@ $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS actividad FR
         foreach ($cuenta->result() as $filac) {}
     }
 
-        $pdf->Image(base_url()."assets/firmas/".$nr_usuario.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$nr_usuario.".png");
+        $pdf->Image(base_url()."assets/firmas/".$nr_usuario.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
 
         $pdf->Ln(7);
         $pdf->SetWidths(array(100,90));

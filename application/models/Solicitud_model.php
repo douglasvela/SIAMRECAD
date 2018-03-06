@@ -232,6 +232,14 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function eliminar_observaciones($data){
+		if($this->db->delete("vyp_observacion_solicitud",array('id_mision' => $data))){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	function eliminar_viaticos($data){
 		if($this->db->delete("vyp_empresa_viatico",array('id_empresa_viatico' => $data['id_empresa_viatico'])) && $this->db->delete("vyp_horario_viatico_solicitud",array('id_ruta_visitada' => $data['id_empresa_viatico']))){
 			return "exito";
@@ -249,7 +257,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function eliminar_empresas_viaticos($data){
-		if($this->db->delete("vyp_empresa_viatico",array('id_mision' => $data))){
+		if($this->db->delete("vyp_empresa_viatico",array('id_mision' => $data)) && $this->db->delete("vyp_horario_viatico_solicitud",array('id_mision' => $data))){
 			return true;
 		}else{
 			return false;
