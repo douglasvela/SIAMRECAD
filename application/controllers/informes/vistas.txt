@@ -1,7 +1,9 @@
 VISTA
-CREATE OR REPLACE VIEW VISTA_VIATICO_POR_CARGO AS 
+CREATE OR REPLACE VIEW VISTA_VIATICOS AS 
 SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,empleado.nr,CONCAT(empleado.primer_nombre,' 
-',empleado.segundo_nombre) as nombre,mision.id_mision_oficial,(viatico.viatico),viatico.pasaje,viatico.alojamiento, 
+',empleado.segundo_nombre) as nombre,mision.id_mision_oficial,
+
+(viatico.viatico),viatico.pasaje,viatico.alojamiento, 
 seccion.nombre_seccion,viatico.id_empresa_viatico,cargo.funcional,mision.fecha_solicitud FROM 
 sir_empleado_informacion_laboral as info INNER JOIN sir_empleado as empleado ON 
 empleado.id_empleado=info.id_empleado

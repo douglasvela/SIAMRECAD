@@ -115,10 +115,10 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
       $cargo=$data['cargo'];
      
       if($cargo=='todo'){
-        $viaticos= $this->db->query("SELECT id_cargo_funcional,funcional,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento FROM VISTA_VIATICO_POR_CARGO WHERE id_cargo_funcional IN (SELECT id_cargo_funcional FROM sir_cargo_funcional) AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY pasaje desc");
+        $viaticos= $this->db->query("SELECT id_cargo_funcional,funcional,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento FROM VISTA_VIATICOS  WHERE id_cargo_funcional IN (SELECT id_cargo_funcional FROM sir_cargo_funcional) AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY pasaje desc");
         return $viaticos;
       }else{
-        $viaticos= $this->db->query("SELECT id_cargo_funcional,funcional,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento FROM VISTA_VIATICO_POR_CARGO WHERE id_cargo_funcional IN ('$cargo') AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY pasaje desc");
+        $viaticos= $this->db->query("SELECT id_cargo_funcional,funcional,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento FROM VISTA_VIATICOS  WHERE id_cargo_funcional IN ('$cargo') AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY pasaje desc");
         return $viaticos;
       }
 
