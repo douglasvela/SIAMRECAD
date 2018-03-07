@@ -1269,7 +1269,7 @@ class Menu_reportes extends CI_Controller {
 						<tr>
 							
 							<th align="center" >Cargo Funcional: '.$keycargo->funcional.'</th>
-							<th align="center" colspan="3">Tipo</th>
+							<th align="center" colspan="4">Tipo</th>
 							
 						</tr>
 						<tr>
@@ -1277,21 +1277,31 @@ class Menu_reportes extends CI_Controller {
 							<th align="center">Viaticos</th>
 							<th align="center">Pasajes</th>
 							<th align="center">Alojamiento</th>
-							
+							<th align="center">Total</th>
 						</tr>
 					</thead>
 					<tbody>
 						
 						';
-						
+					$total_viatico1=0;
+					$total_pasaje1=0;
+					$total_alojamiento1=0;
+					$total_total1=0;
+					$total_total_=0;
 					if($viatico->num_rows()>0){
 					foreach ($viatico->result() as $viaticos) {
+							$total_viatico1+=$viaticos->viatico;
+							$total_pasaje1+=$viaticos->pasaje;
+							$total_alojamiento1+=$viaticos->alojamiento;
+							$total_total1=$viaticos->viatico+$viaticos->pasaje+$viaticos->alojamiento;
+							$total_total_+=$total_total1;
 						$cuerpo .= '
 							<tr>
 								<td>'.($viaticos->nombre_seccion).'</td>
 								<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
 								<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 								<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+								<td style="text-align:right">$'.number_format($total_total1,2,".",",").'</td>
 								
 							</tr>
 							';
@@ -1304,6 +1314,13 @@ class Menu_reportes extends CI_Controller {
 						';
 					}
 					$cuerpo .= '
+					<tr>
+					<th style="text-align:center">Totales</th>
+					<td style="text-align:right">$'.number_format($total_viatico1,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_pasaje1,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_alojamiento1,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_total_,2,".",",").'</td>
+					</tr>
 					</tbody>
 				</table><br>
 				
@@ -1316,7 +1333,7 @@ class Menu_reportes extends CI_Controller {
 						<tr>
 							<th align="center" rowspan="2">Sección</th>
 							<th align="center" rowspan="2">Cargo Funcional:</th>
-							<th align="center" colspan="3">Tipo</th>
+							<th align="center" colspan="4">Tipo</th>
 
 							
 						</tr>
@@ -1325,15 +1342,24 @@ class Menu_reportes extends CI_Controller {
 							<th align="center">Viaticos</th>
 							<th align="center">Pasajes</th>
 							<th align="center">Alojamiento</th>
-							
+							<th align="center">Total</th>
 						</tr>
 					</thead>
 					<tbody>
 						
 						';
-						
+					$total_viatico2=0;
+					$total_pasaje2=0;
+					$total_alojamiento2=0;
+					$total_total2=0;
+					$total_total__=0;
 					if($viatico->num_rows()>0){
 					foreach ($viatico->result() as $viaticos) {
+							$total_viatico2+=$viaticos->viatico;
+							$total_pasaje2+=$viaticos->pasaje;
+							$total_alojamiento2+=$viaticos->alojamiento;
+							$total_total2=$viaticos->viatico+$viaticos->pasaje+$viaticos->alojamiento;
+							$total_total__+=$total_total2;
 						$cuerpo .= '
 							<tr>
 								<td>'.($viaticos->nombre_seccion).'</td>
@@ -1341,6 +1367,7 @@ class Menu_reportes extends CI_Controller {
 								<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
 								<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 								<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+								<td style="text-align:right">$'.number_format($total_total2,2,".",",").'</td>
 								
 							</tr>
 							';
@@ -1353,6 +1380,13 @@ class Menu_reportes extends CI_Controller {
 						';
 					}
 					$cuerpo .= '
+					<tr>
+					<th colspan="2" style="text-align:center">Totales</th>
+					<td style="text-align:right">$'.number_format($total_viatico2,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_pasaje2,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_alojamiento2,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_total__,2,".",",").'</td>
+					</tr>
 					</tbody>
 				</table><br>
 				
