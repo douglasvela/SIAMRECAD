@@ -50,7 +50,7 @@
 	<div class="row">
 		<div class="form-group col-lg-2">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
-            <select id="fecha_mision" name="fecha_mision" class="form-control custom-select"  style="width: 100%" required="">
+            <select id="fecha_mision" name="fecha_mision" class="form-control custom-select"  style="width: 100%" required="" onchange="verificar_fecha_diferente();">
                 <?php
                 	$nuevafecha = $fecha_inicio;
                 	for($i=0; $i<=$duracion; $i++){
@@ -153,7 +153,7 @@
         </div>
 	</div>
 	<div class="row">
-		<div class="form-group col-lg-3">   
+		<div class="form-group col-lg-4">   
             <h5>Distancia: <span class="text-danger">*</span></h5>
             <div class="input-group">
             	<div class="input-group-addon">Km</div>
@@ -170,20 +170,18 @@
 	        </div>
             <div class="help-block"></div>
         </div>
-        <div class="form-group col-lg-3" style="margin-bottom: 5px;" align="center">
+        <div class="form-group col-lg-4" style="margin-bottom: 5px;" align="center">
             <h5>¿utilizó alojamiento? <span class="text-danger">*</span></h5>
             <div class="switch">
 	            <label>No<input type="checkbox" id="band_factura" onchange="cambiarFactura()"><span class="lever"></span>Sí</label>
 	        </div>
         </div>
-        <div class="form-group col-lg-3" id="cnt_fecha_alojamiento" style="display: none;">
+        <div class="form-group col-lg-3" style="display: none;">
             <h5>Salida alojamiento: <span class="text-danger">*</span></h5>
             <select id="fecha_alojamiento" name="fecha_alojamiento" class="form-control custom-select"  style="width: 100%">
                 <?php
                     $nuevafecha = $fecha_inicio;
-                    $nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;
-                    $nuevafecha = date( 'Y-m-d', $nuevafecha);
-                    for($i=1; $i<=$duracion; $i++){
+                    for($i=0; $i<=$duracion; $i++){
                         echo '<option value="'.date( 'Y-m-d', strtotime($nuevafecha)).'">'.date( 'd/m/Y', strtotime($nuevafecha)).'</option>';
                         $nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;
                         $nuevafecha = date( 'Y-m-d', $nuevafecha);
@@ -192,7 +190,7 @@
             </select>
             <div class="help-block"></div>
         </div>
-        <div class="form-group col-lg-3" style="margin-bottom: 5px; display: none;" id="cnt_alojamiento">
+        <div class="form-group col-lg-4" style="margin-bottom: 5px; display: none;" id="cnt_alojamiento">
             <h5>Monto por día: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>

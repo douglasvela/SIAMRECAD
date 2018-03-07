@@ -67,6 +67,7 @@
                 <input type="hidden" style="width: 25px;" value="<?php echo $filam->id_empresa_viatico; ?>">
                 <input type="hidden" style="width: 50px;" value="<?php echo $filam->id_destino; ?>">
                 <input type="hidden" style="width: 50px;" value="<?php echo $filam->fecha; ?>">
+                <input type="hidden" style="width: 50px;" value="<?php echo $filam->kilometraje; ?>">
             </td>
             <td><?php 
                 echo $filam->nombre_origen." - ".$filam->nombre_destino;

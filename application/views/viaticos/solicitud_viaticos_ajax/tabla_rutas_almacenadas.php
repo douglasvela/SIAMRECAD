@@ -41,6 +41,5 @@
 
 	  	</tbody>
 	</table>
-	<hr style="margin-top: 0px;">
 
 

@@ -44,6 +44,11 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->insertar_viaticos_ruta($sql);
 	}
 
+	function insertar_alojamiento(){
+		$sql = $this->input->post('sql');
+		echo $this->solicitud_model->insertar_alojamiento($sql);
+	}
+
 	public function gestionar_mision(){
 
 		if($this->input->post('band') == "save"){

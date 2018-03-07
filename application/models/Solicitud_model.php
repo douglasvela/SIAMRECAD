@@ -54,6 +54,14 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function insertar_alojamiento($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function insertar_ruta($data){
 		if($data["tipo"] == "destino_oficina"){
 			$query = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_departamento = '".$data['departamento']."' AND id_municipio = '".$data['municipio']."'");
@@ -241,7 +249,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function eliminar_viaticos($data){
-		if($this->db->delete("vyp_empresa_viatico",array('id_empresa_viatico' => $data['id_empresa_viatico'])) && $this->db->delete("vyp_horario_viatico_solicitud",array('id_ruta_visitada' => $data['id_empresa_viatico']))){
+		if($this->db->delete("vyp_empresa_viatico",array('id_empresa_viatico' => $data['id_empresa_viatico'])) && $this->db->delete("vyp_horario_viatico_solicitud",array('id_ruta_visitada' => $data['id_empresa_viatico'])) && $this->db->delete("vyp_alojamientos",array('id_ruta_visitada' => $data['id_empresa_viatico']))){
 			return "exito";
 		}else{
 			return "fracaso";

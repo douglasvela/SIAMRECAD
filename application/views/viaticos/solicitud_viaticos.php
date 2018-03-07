@@ -22,6 +22,7 @@
     var viaticos = [];
     var restricciones = [];
     var reg_viaticos = [];
+    var reg_alojamiento = [];
 
     function cargarViaticos(){
         <?php
@@ -95,6 +96,7 @@
         var id_mision = $("#id_mision").val();
         var band_viatico = false;
         reg_viaticos = [];
+        reg_alojamiento = [];
         var monto = 0;
 
         var body = $("#body_viaticos_encontrados");
@@ -111,10 +113,12 @@
                     band_viatico = true;
                     reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1']);
                     monto += parseFloat(viaticos[j][4]);
+                    var index = reg_viaticos.length;
                     body.append("<tr>"+
                                 "<td>"+fecha_ruta+"</td>"+
                                 "<td>"+viaticos[j][1]+"</td>"+
                                 "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                "<td>"+gcheckbox(index)+"</td>"+
                                 "</tr>");
                 }
             }
@@ -124,10 +128,75 @@
         return band_viatico;
     }
 
+    function gcheckbox(indice){      
+        return  '<div class="form-check">'+
+                    '<label class="custom-control custom-checkbox">'+
+                        '<input type="checkbox" onchange="cambiar_viaticos(this)" class="custom-control-input" checked value="'+indice+'">'+
+                        '<span class="custom-control-indicator"></span>'+
+                        '<span class="custom-control-description"></span>'+
+                    '</label>'+
+                '</div>';
+    }
+
+    function cambiar_viaticos(obj){
+        var id_buscado = parseInt(obj.value)-1;
+
+        if(obj.checked){
+            for(g=0; g<reg_viaticos.length; g++){
+                if(g == id_buscado){
+                    reg_viaticos[g][3] = '1';
+                    var nuevo_monto = parseFloat($("#viatico").val()) + parseFloat(viaticos[g][4]);
+                    $("#viatico").val(nuevo_monto.toFixed(2));
+                }
+            }  
+        }else{
+            for(g=0; g<reg_viaticos.length; g++){
+                if(g == id_buscado){
+                    reg_viaticos[g][3] = '0';
+                    var nuevo_monto = parseFloat($("#viatico").val()) - parseFloat(viaticos[g][4]);
+                    $("#viatico").val(nuevo_monto.toFixed(2));
+                }
+            } 
+        }
+    }
+
+    function verificar_fecha_diferente(){
+        var fecha_nueva = $("#fecha_mision").val();
+
+        var registros = $("#tabla_viaticos").find("tbody").find("tr");
+        var x = (registros.length-2);
+        var celdas = $(registros[x]).children("td");
+        var fecha_vieja = $($(celdas[0]).children("input")[2]).val().trim();
+        var kilometraje_old = $($(celdas[0]).children("input")[3]).val().trim();
+
+        var fecha1 = moment(fecha_vieja);
+        var fecha2 = moment(fecha_nueva);
+
+        //moment().format("DD-MM-YYYY")
+
+        var diferencia = fecha2.diff(fecha1, 'days');
+
+        if(diferencia > 0){
+            if(parseFloat(kilometraje_old) > DistanciaMinima){
+                document.getElementById("band_factura").checked = 1;
+                cambiarFactura();
+            }else{
+                document.getElementById("band_factura").checked = 0;
+                cambiarFactura();
+            }
+        }else{
+            document.getElementById("band_factura").checked = 0;
+            cambiarFactura();
+        }
+    }
+
+    var total_aloj = 0.00;
     function validar_viatico_next(hs,hl){
         var id_mision = $("#id_mision").val();
         var band_viatico = false;
         reg_viaticos = [];
+        reg_alojamiento = [];
+        total_aloj = 0.00;
         var monto = 0;
 
         var fecha_ruta_new = $("#fecha_mision").val();
@@ -139,6 +208,7 @@
         var fecha_ruta_old = $($(celdas[0]).children("input")[2]).val().trim();
         var hora_llegada_old = $(celdas[3]).text().trim();
         var hora_salida_old = $(celdas[2]).text().trim();
+        var kilometraje_old = $($(celdas[0]).children("input")[3]).val().trim();
 
         var id_ruta_old = $($(celdas[0]).children("input")[1]).val().trim();
         var id_oficina_origenes = $("#id_oficina_origen").val().trim(); 
@@ -164,10 +234,12 @@
 
         var ultimo_viatico = "";
 
-        for(h=0; h<viaticos.length; h++){
-            if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
-                if(!tiene_restriccion(hora_salida_old, hora_llegada_old, viaticos[h][2], viaticos[h][3])){
-                    ultimo_viatico = viaticos[h][0];
+        if(parseFloat(kilometraje_old) > DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
+            for(h=0; h<viaticos.length; h++){
+                if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
+                    if(!tiene_restriccion(hora_salida_old, hora_llegada_old, viaticos[h][2], viaticos[h][3])){
+                        ultimo_viatico = viaticos[h][0];
+                    }
                 }
             }
         }
@@ -189,10 +261,12 @@
                                 band_viatico = true;
                                 reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
                                 monto += parseFloat(viaticos[j][4]);
+                                var index = reg_viaticos.length;
                                 body.append("<tr>"+
                                             "<td>"+fecha_ruta_new+"</td>"+
                                             "<td>"+viaticos[j][1]+"</td>"+
                                             "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                            "<td>"+gcheckbox(index)+"</td>"+
                                             "</tr>");
                             }
                         }
@@ -206,28 +280,50 @@
                 body.html("");
                 if(document.getElementById("band_factura").checked){
                     hl = ultima_hora_llegada;
+                    $("#fecha_alojamiento").val(fecha_ruta_old)
+                    fecha_aloj = moment(fecha_ruta_old);
+                    for(a=0; a<diferencia; a++){
+                        
+                        if(fecha_aloj.format("e") == 6){
+                            fecha_aloj = fecha_aloj.add('days',2);
+                            diferencia = diferencia - 2;
+                        }else if(fecha_aloj.format("e") == 0){
+                            fecha_aloj = fecha_aloj.add('days',1);
+                            diferencia = diferencia - 1;
+                        }
+
+                        reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
+
+                        fecha_aloj = fecha_aloj.add('days',1);
+
+                    }
                 }
+
+                total_aloj = (parseFloat($("#alojamiento").val())*diferencia).toFixed(2);
                 hs = hora_llegada_old;
-                
+
                 for(j=0; j<viaticos.length; j++){
                     if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                         if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
                             if(viaticos[j][0]!=ultimo_viatico){
                                 band_viatico = true;
-                                reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1']);
                                 monto += parseFloat(viaticos[j][4]);
+                                var index = reg_viaticos.length;
                                 body.append("<tr>"+
-                                            "<td>"+fecha_ruta_new+"</td>"+
+                                            "<td>"+fecha_ruta_old+"</td>"+
                                             "<td>"+viaticos[j][1]+"</td>"+
                                             "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                            "<td>"+gcheckbox(index)+"</td>"+
                                             "</tr>");
                             }
                         }
                     }
                 }
                 
+                //validacion para los dias nuevos
                 for(f=0; f<diferencia; f++){                    
-                    if(f == (diferencia-1)){
+                    if(f == (diferencia-1)){ //validacion fecha nueva dia 0
                         fecha1 = fecha1.add('days',1);
                         if(fecha1.format("e") == 6){
                             fecha1 = fecha1.add('days',2);
@@ -243,15 +339,17 @@
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
                                     monto += parseFloat(viaticos[j][4]);
+                                    var index = reg_viaticos.length;
                                     body.append("<tr>"+
                                                 "<td>"+fecha_ruta_new+"</td>"+
                                                 "<td>"+viaticos[j][1]+"</td>"+
                                                 "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                "<td>"+gcheckbox(index)+"</td>"+
                                                 "</tr>");
                                 }
                             }
                         }
-                    }else{
+                    }else{ //validacion fecha nueva dia > 0   ---> 1,2,3,etc.
                         fecha1 = fecha1.add('days',1);
                         if(fecha1.format("e") == 6){
                             fecha1 = fecha1.add('days',2);
@@ -267,10 +365,12 @@
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
                                     monto += parseFloat(viaticos[j][4]);
+                                    var index = reg_viaticos.length;
                                     body.append("<tr>"+
                                                 "<td>"+fecha_ruta_new+"</td>"+
                                                 "<td>"+viaticos[j][1]+"</td>"+
                                                 "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                "<td>"+gcheckbox(index)+"</td>"+
                                                 "</tr>");
                                 }
                             }
@@ -938,9 +1038,9 @@
         var myVar = setTimeout(alertFunc, 700);
     }
 
-function alertFunc() {
-    $('[data-toggle="tooltip"]').tooltip()
-}
+    function alertFunc() {
+        $('[data-toggle="tooltip"]').tooltip()
+    }
 
     function tabla_empresas_visitadas(callback){
         var id_mision = $("#id_mision").val();
@@ -1290,6 +1390,11 @@ function alertFunc() {
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("cnt_form_viaticos").innerHTML=xmlhttp_municipio.responseText;
                   	$('[data-toggle="tooltip"]').tooltip();
+                    if (document.getElementById("justificacion").checked) {
+                        $("#band_factura").removeAttr("disabled");
+                    } else {
+                        $("#band_factura").attr("disabled", true);
+                    }
                     tabla_empresas_viaticos(tipo);
             }
         }
@@ -1567,41 +1672,88 @@ function alertFunc() {
     function insertar_viaticos_ruta(id_ultima_ruta){ 
         if(reg_viaticos.length > 0){
             sql = "INSERT INTO vyp_horario_viatico_solicitud (fecha_ruta, id_horario_viatico, id_mision, estado, id_ruta_visitada) VALUES \n";
-            for(y=0; y<reg_viaticos.length; y++){
-                if(y == (reg_viaticos.length-1)){
-                    sql += "('"+reg_viaticos[y][0]+"','"+reg_viaticos[y][1]+"','"+reg_viaticos[y][2]+"','"+reg_viaticos[y][3]+"','"+id_ultima_ruta+"');";
-                }else{
-                    sql += "('"+reg_viaticos[y][0]+"','"+reg_viaticos[y][1]+"','"+reg_viaticos[y][2]+"','"+reg_viaticos[y][3]+"','"+id_ultima_ruta+"'),\n";
-                }
-            }        
 
-            var formData = {
-                "sql" : sql
-                //"departamento" : $("#departamento").val(),
-            };
-            $.ajax({
-                type:  'POST',
-                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/insertar_viaticos_ruta',
-                data: formData,
-                cache: false
-            })
-            .done(function(data){
-                if(data == "exito"){
-                    if($("#band_viatico").val() == "save"){
-                        swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                    }else if($("#band_viatico").val() == "edit"){
-                        swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                    }else{
-                        swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
-                    }
-                    cambiar_nuevo_viatico();
-                }else{
-                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            var contador_viaticos_activos = 0;
+            for(y=0; y<reg_viaticos.length; y++){
+                if(reg_viaticos[y][3] == "1"){
+                    sql += "('"+reg_viaticos[y][0]+"','"+reg_viaticos[y][1]+"','"+reg_viaticos[y][2]+"','"+reg_viaticos[y][3]+"','"+id_ultima_ruta+"'),\n";
+                    contador_viaticos_activos++;
                 }
-            });
+            }
+
+            sql = sql.substr(0, sql.length-2)+";";
+
+            if(contador_viaticos_activos > 0){
+
+                var formData = {
+                    "sql" : sql
+                    //"departamento" : $("#departamento").val(),
+                };
+                $.ajax({
+                    type:  'POST',
+                    url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/insertar_viaticos_ruta',
+                    data: formData,
+                    cache: false
+                })
+                .done(function(data){
+                    if(data == "exito"){
+                        if(reg_alojamiento.length > 0){
+                            insertar_alojamiento(id_ultima_ruta)
+                        }else{
+                            swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                            cambiar_nuevo_viatico();
+                        }
+                    }else{
+                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                    }
+                });
+            }else{
+                if(reg_alojamiento.length > 0){
+                    insertar_alojamiento()
+                }else{
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                    cambiar_nuevo_viatico();
+                } 
+            }
         }else{
-            cambiar_nuevo_viatico();
+            if(reg_alojamiento.length > 0){
+                insertar_alojamiento()
+            }else{
+                swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                cambiar_nuevo_viatico();
+            }
         }
+    }
+
+    function insertar_alojamiento(id_ultima_ruta){ 
+        sql = "INSERT INTO vyp_alojamientos (id_mision, fecha_alojamiento, monto, id_ruta_visitada) VALUES \n";
+        var y2 = 0;
+        for(y2=0; y2<reg_alojamiento.length; y2++){
+            if(y2 == (reg_alojamiento.length-1)){
+                sql += "('"+reg_alojamiento[y2][0]+"','"+reg_alojamiento[y2][1]+"','"+reg_alojamiento[y2][2]+"','"+id_ultima_ruta+"');";
+            }else{
+                sql += "('"+reg_alojamiento[y2][0]+"','"+reg_alojamiento[y2][1]+"','"+reg_alojamiento[y2][2]+"','"+id_ultima_ruta+"'),\n";
+            }
+        }        
+
+        var formData = {
+            "sql" : sql
+            //"departamento" : $("#departamento").val(),
+        };
+        $.ajax({
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/insertar_alojamiento',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                cambiar_nuevo_viatico();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
     }
 
     function cambiarJustificacion(ruta){
@@ -2119,6 +2271,7 @@ function alertFunc() {
                                 <th>Fecha</th>
                                 <th>Viático</th>
                                 <th align="right">Monto ($)</th>
+                                <th>(*)</th>
                             </tr>
                         </thead>
                         <tbody id="body_viaticos_encontrados" name="body_viaticos_encontrados">
@@ -2261,16 +2414,7 @@ $(function(){
     $("#form_empresas_viaticos").on("submit", function(e){
         e.preventDefault();
 
-        var total_alojamiento = 0;
-        var alojamiento = parseFloat($("#alojamiento").val());
-        if(document.getElementById("band_factura").checked){
-            var fecha1 = moment($("#fecha_mision").val());
-            var fecha2 = moment($("#fecha_alojamiento").val()); 
-            var diferencia = fecha2.diff(fecha1, 'days');
-            total_alojamiento = alojamiento * diferencia;
-        }
-
-        total_alojamiento = total_alojamiento.toFixed(2);
+        var total_alojamiento = total_aloj;
 
         if((validar_horarios_viaticos() && validar_factura()) || $("#band_viatico").val() == "delete"){
             var formData = new FormData(document.getElementById("form_empresas_viaticos"));
