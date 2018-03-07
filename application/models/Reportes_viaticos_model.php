@@ -51,7 +51,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     }
     function obtenerListaviaticoPagado($data){
       $this->db->where("nr_empleado",$data['nr']);
-      $this->db->where("estado","8");
+      $this->db->where("estado","9");
       $this->db->where("fecha_solicitud >=",date("Y-m-d",strtotime($data['fmin'])));
       $this->db->where("fecha_solicitud <=",date("Y-m-d",strtotime($data['fmax'])));
       $viaticos = $this->db->get('vyp_mision_oficial');
