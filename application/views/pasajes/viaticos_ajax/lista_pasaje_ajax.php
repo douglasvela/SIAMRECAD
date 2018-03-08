@@ -6,7 +6,7 @@
 //echo ($fecha_mes);
 ?>
 
-<div class="table-responsive container">
+<div class="table-responsive">
     <table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
         <thead class="bg-inverse text-white">
             <tr>

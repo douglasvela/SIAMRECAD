@@ -216,10 +216,21 @@ $altura = 3);
                 }
             }
 $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
-        $pdf->Ln(4);
-        $pdf->SetWidths(array(151,13,13,13));
+        
+$pdf->Ln(2);
+        $pdf->SetWidths(array(173,13,13,13));
         $pdf->SetAligns(array('C','R','R','R'));
-$pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+
+        $pdf->Row(
+            array("TOTAL", "$ ".number_format($monto, 2, '.', '')),
+            array('0','0','0','0'),
+            array('Arial','B','08'),
+            array(false),
+            array('0','0','0'),
+            array('255','255','255'),
+            $altura = 3);
+
+        $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
 
 
 $lugar = $this->db->query("SELECT e.nombre_oficina, p.nr FROM vyp_oficinas AS e JOIN vyp_informacion_empleado AS p ON e.id_oficina = p.id_oficina_departamental GROUP BY p.nr");
@@ -323,7 +334,12 @@ $pdf->Ln(10);
         $pdf->SetWidths(array(142,13,13,13));
         $pdf->SetAligns(array('C','R','R','R'));
 
-        $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 50, 'D');
+
+
+
+        
+
+       //pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 50, 'D');
 
 
         /*$jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_inmediato ");

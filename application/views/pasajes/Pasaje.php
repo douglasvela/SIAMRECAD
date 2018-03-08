@@ -68,6 +68,32 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         });        
     }
 
+
+function insertar_mision_pasaje(id_pasaje){
+        var formData = new FormData();
+        formData.append("id_pasaje", id_pasaje);
+        formData.append("band", "delete");
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                tabla_pasaje_unidad();
+                 swal({ title: "¡Registro eliminado!", type: "success", showConfirmButton: true });
+            }else{
+               swal({ title: "¡Error!", type: "success", showConfirmButton: true });
+            }
+             
+        });
+    }
+
     function eliminar(id_pasaje){
         var formData = new FormData();
         formData.append("id_pasaje", id_pasaje);
@@ -413,45 +439,6 @@ $("#formcuentas2").on("submit", function(e){
   
 
 
- function verificar_fechas(){
-        var id_mision = $("#id_mision").val();
-        var fecha1 = $("#fecha_mision_inicio").val();
-        var fecha2 = $("#fecha_mision_fin").val();
-        var nr = $("#nr").val();
-
-        var filas = $("#tabla_viaticos").find("tbody").find("tr");
-        var celdas, hora1, hora2;
-
-        for(l=0; l < (filas.length-1); l++){
-            celdas = $(filas[l]).children("td");
-
-            if(l==0){
-                hora1 = $(celdas[2]).text().trim();
-            }
-
-            if(l == (filas.length-2)){
-                hora2 = $(celdas[3]).text().trim();
-            }
-        }
-
-        ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/pasajes/solicitud_viatico/fecha_repetida", true);
-        ajax.onreadystatechange = function() {
-            if (ajax.readyState == 4){
-                $("#area").val(ajax.responseText)
-                if(ajax.responseText == "exito"){
-                    generar_solicitud();
-                }else if(ajax.responseText == "fecha_repetida"){
-                    swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
-                }else{
-                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-                }           
-            }
-        } 
-        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
-    }
-
 </script> 
 
 
@@ -474,3 +461,37 @@ $("#formcuentas2").on("submit", function(e){
 
 
 
+/*<script>
+
+/*$(function(){     
+    $("#formcuentas2").on("submit", function(e){
+        e.preventDefault();
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formcuentas2"));
+        formData.append("dato", "valor");
+        
+        $.ajax({
+            url: "<?php //echo site_url(); ?>/pasajes/pasaje/gestionar_mision_pasajes",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }
+                tabla_pasaje_unidad();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+            
+    });
+});
+*/
+</script>

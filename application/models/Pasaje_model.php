@@ -58,4 +58,19 @@ function editar_pasaje($data){
 		return $ultimoid;
 	}
 
+
+
+
+	function insertar_mision_pasajes($data)
+	{
+		$id = $this->obtener_ultimo_id("vyp_mision_pasajes","id_mision_pasajes");
+		if($this->db->insert('vyp_mision_pasajes', array('id_mision_pasajes' => $id, 'nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'],'mes_pasaje' => $data['mes_pasaje'], 'anio_pasaje' => $data['anio_pasaje']))){
+			$insert_id = $this->db->insert_id();
+			return $insert_id;
+		}else{
+			return "fracaso";
+		}
+	}
+	
+
 }
