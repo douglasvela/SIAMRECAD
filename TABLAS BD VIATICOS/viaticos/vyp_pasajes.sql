@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-02-2018 a las 04:18:06
+-- Tiempo de generación: 08-03-2018 a las 06:03:42
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.0.22
 
@@ -47,7 +47,8 @@ INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `fecha_mision`, `no_expediente
 (1, '2018-02-19', '1234-ee', 'vili', 'colonia las flores', '2588', 2.00, 1),
 (2, '2018-02-16', '4546-ee', 'Empresa AA', 'San Vicente barrio el centro', '2588', 3.40, 1),
 (3, '2018-01-17', '4566-t', 'Empresa2', 'Colonia RR', '2588', 6.00, 1),
-(4, '2018-02-16', '123-ww', 'Empresa 4', 'Cojutepeque', '335C', 3.00, 1);
+(4, '2018-02-16', '123-ww', 'Empresa 4', 'Cojutepeque', '335C', 3.00, 1),
+(5, '2018-02-22', '122323', 'SV12', 'San vicente colonia las brisas', '335C', 2.00, 1);
 
 --
 -- Índices para tablas volcadas
