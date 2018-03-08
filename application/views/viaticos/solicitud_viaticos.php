@@ -680,7 +680,22 @@
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttp_municipio.responseText;
-                  //$(".select2").select2();
+                    
+                    var newf1 = fecha1.split('-');
+                    newf1.reverse();
+                    newf1 = newf1.join('-');
+                    newf1 = moment(newf1);
+                    var newf2 = fecha2.split('-');
+                    newf2.reverse();
+                    newf2 = newf2.join('-');
+                    newf2 = moment(newf2);
+
+                    var diferencia = newf2.diff(newf1, 'days');
+
+                    if(Math.abs(diferencia) > 30){
+                        $("#fecha_mision_fin").val(fecha1)
+                    }
+
                     if(typeof callback == "function"){
                         callback();
                     }
@@ -819,15 +834,15 @@
                     limite_inicio.add('days',2);
                 }*/
 
-                $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
-
                 primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
                 primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
 
                 if(document.getElementById("justificacion").checked == 1){
                     $("#fecha_mision_fin").datepicker("setStartDate", "" );
+                    $("#fecha_mision_inicio").datepicker("setStartDate", "" );
                 }else{
                     $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
+                    $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
                 }
 
                 ultima_fecha_inicio = newdate.format("DD-MM-YYYY");
@@ -1150,6 +1165,7 @@
     function input_distancia(tipo){
         var id_departamento = $("#departamento").val();
         var id_municipio = $("#municipio").val();
+        var id_oficina_origen = $("#id_oficina_origen").val();
 
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_municipio=new XMLHttpRequest();
@@ -1164,7 +1180,7 @@
                   distancia_total_mapa = 0;
             }
         }
-        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&id_oficina_origen="+id_oficina_origen+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
         xmlhttp_municipio.send();
     }
 

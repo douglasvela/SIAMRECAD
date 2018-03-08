@@ -37,10 +37,10 @@ circle:hover
         	</div>
         	<div class="col-lg-8">
         		<br><br>
-        		<h2> Estamos trabajando para reparar esta página lo más pronto posible. Por favor espere hasta que terminemos todas las reparaciones. (si quiere mejor coloque puntitos abajo)</h2>
+        		<h2> Estamos trabajando para reparar esta página lo más pronto posible. Por favor espere hasta que terminemos todas las reparaciones.</h2>
 
                 <div class="row">
-                    <div class="col-lg-12" >
+                    <div class="col-lg-12" style="display: none;">
                         <svg id="svg_chuco" xmlns="http://www.w3.org/2000/svg" width="800" height="400" style="background-image: url('<?php echo base_url(); ?>/assets/images/croquis/Imagen1.png'); background-size: cover; background-repeat: no-repeat;"/>
                         <script type="text/javascript">
                             function makeSVG(tag, attrs) {
@@ -59,7 +59,51 @@ circle:hover
         	<div class="col-lg-1">
         	</div>
         </div>
-        
+        <div class="card">
+            <div class="table-responsive">
+                <table  id="myTable" class="table table-hover table-bordered" width="100%">
+                    <thead class="bg-inverse text-white">
+                        <tr>
+                            <th>NR</th>
+                            <th>Nombre completo</th>
+                            <th>id_cargo</th>
+                            <th>descripcion funcional</th>
+                            <th>nivel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+
+                            $viaticos_ruta = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, f.* FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS i ON e.id_empleado = i.id_empleado JOIN sir_cargo_funcional AS f ON f.id_cargo_funcional = i.id_cargo_funcional AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre");
+                            if($viaticos_ruta->num_rows() > 0){ 
+                                foreach ($viaticos_ruta->result() as $fila) {
+                        ?>
+                            <tr>
+                                <td><?php echo $fila->nr; ?></td>
+                                <td><?php echo $fila->nombre_completo; ?></td>
+                                <td><?php echo $fila->id_cargo_funcional; ?></td>
+                                <td><?php echo $fila->funcional; ?></td>
+                                <td><?php echo $fila->id_nivel; ?></td>
+                            </tr>
+                        <?php
+                                }
+                            }else{
+                        ?>
+                            <tr>
+                                <td colspan="3">Ningún registro de viático asociado...</td>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script type="text/javascript">
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+    });
+</script>
 
     </div> 
 </div>

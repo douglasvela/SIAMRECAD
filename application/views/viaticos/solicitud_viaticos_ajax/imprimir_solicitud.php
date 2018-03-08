@@ -254,7 +254,7 @@ $altura = 5);
         }
 
         $pdf->Ln(5);
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: San Salvador, ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
+        $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: ".$oficina_origen.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
 
 
 

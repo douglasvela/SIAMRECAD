@@ -6,6 +6,7 @@
         	$id_municipio = $_GET["id_municipio"];
         	$tipo = $_GET["tipo"];
             $distancia2 = "".$_GET["distancia"];
+            $id_oficina = $_GET["id_oficina_origen"];
         	$sql = "";
         	$km = "";
 
@@ -17,12 +18,12 @@
 
         	if($tipo == "oficina"){
         		$sql = " AND opcionruta_vyp_rutas = 'destino_oficina'";
-                $distancia = $this->db->query("SELECT * FROM vyp_rutas WHERE id_departamento_vyp_rutas = '".$id_departamento."' AND id_municipio_vyp_rutas = '".$id_municipio."'".$sql);
+                $distancia = $this->db->query("SELECT * FROM vyp_rutas WHERE id_oficina_origen_vyp_rutas = '".$id_oficina."' AND id_departamento_vyp_rutas = '".$id_departamento."' AND id_municipio_vyp_rutas = '".$id_municipio."'".$sql);
         	}else if($tipo == "departamento"){
                 $sql = " AND opcionruta_vyp_rutas = 'destino_municipio'";
-                $distancia = $this->db->query("SELECT * FROM vyp_rutas WHERE id_departamento_vyp_rutas = '".$id_departamento."' AND id_municipio_vyp_rutas = '".$id_municipio."'".$sql);
+                $distancia = $this->db->query("SELECT * FROM vyp_rutas WHERE id_oficina_origen_vyp_rutas = '".$id_oficina."' AND id_departamento_vyp_rutas = '".$id_departamento."' AND id_municipio_vyp_rutas = '".$id_municipio."'".$sql);
             }else if($tipo == "mapa"){
-                $distancia = $this->db->query("SELECT * FROM vyp_rutas WHERE id_departamento_vyp_rutas = '-----' AND id_municipio_vyp_rutas = '-----'");
+                $distancia = $this->db->query("SELECT * FROM vyp_rutas WHERE id_oficina_origen_vyp_rutas = '".$id_oficina."' AND id_departamento_vyp_rutas = '-----' AND id_municipio_vyp_rutas = '-----'");
             }
 
             if($distancia->num_rows() > 0){
