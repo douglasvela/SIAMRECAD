@@ -156,7 +156,7 @@
                  }else{
                      swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                  }
-                 tablaActividades();$("#band").val('save');
+                 tablaActividades(<?php echo $id_modulo; ?>);$("#band").val('save');
              }else if(res=="depende"){
                swal({ title: "¡Ups! Error", text: "Actividad tiene dependencias.", type: "error", showConfirmButton: true });
              }else if(res=="duplicado"){
