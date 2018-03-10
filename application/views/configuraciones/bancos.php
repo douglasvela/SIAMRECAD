@@ -216,7 +216,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablabancos();
+                tablabancos(<?php echo $this->uri->segment(4);?>);
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
