@@ -14,6 +14,12 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('templates/footer');
 
 	}
+	public function viaticos_pendientes(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_pendientes');
+		$this->load->view('templates/footer');
+
+	}
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
 		$this->load->model('Reportes_viaticos_model');
