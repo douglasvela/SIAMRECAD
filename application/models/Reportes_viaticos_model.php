@@ -16,7 +16,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 */
     function obtenerViaticoAnualxDepto($data){
       
-        $viaticos = $this->db->query("SELECT ruta.id_departamento_vyp_rutas as id_depto, dep.departamento, SUM(viatico.pasaje) AS pasaje, SUM(viatico.viatico) AS viatico, SUM(viatico.alojamiento) AS alojamiento,(SUM(viatico.pasaje)+SUM(viatico.viatico)+SUM(viatico.alojamiento)) as total FROM vyp_empresa_viatico as viatico INNER JOIN vyp_rutas as ruta ON viatico.id_destino = ruta.id_vyp_rutas JOIN org_departamento AS dep ON ruta.id_departamento_vyp_rutas = dep.id_departamento WHERE year(viatico.fecha) IN ('$data') GROUP BY ruta.id_departamento_vyp_rutas order by total desc");
+        $viaticos = $this->db->query("SELECT ruta.id_departamento_vyp_rutas as id_depto, dep.departamento, SUM(viatico.pasaje) AS pasaje, SUM(viatico.viatico) AS viatico, SUM(viatico.alojamiento) AS alojamiento,(SUM(viatico.pasaje)+SUM(viatico.viatico)+SUM(viatico.alojamiento)) as total FROM vyp_empresa_viatico as viatico INNER JOIN (SELECT CAST(r.id_vyp_rutas AS CHARACTER) AS id_vyp_rutas, r.id_departamento_vyp_rutas, r.id_municipio_vyp_rutas FROM vyp_rutas AS r UNION SELECT CAST(o.id_oficina AS CHARACTER), o.id_departamento, o.id_municipio FROM vyp_oficinas AS o) AS ruta ON viatico.id_destino = ruta.id_vyp_rutas JOIN org_departamento AS dep ON ruta.id_departamento_vyp_rutas = dep.id_departamento WHERE year(viatico.fecha) IN ('$data') GROUP BY ruta.id_departamento_vyp_rutas order by total desc");
         return $viaticos;
     }
     function obtenerViaticoAnual($data)
@@ -51,7 +51,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     }
     function obtenerListaviaticoPagado($data){
       $this->db->where("nr_empleado",$data['nr']);
-      $this->db->where("estado","9");
+      $this->db->where("estado","8");
       $this->db->where("fecha_solicitud >=",date("Y-m-d",strtotime($data['fmin'])));
       $this->db->where("fecha_solicitud <=",date("Y-m-d",strtotime($data['fmax'])));
       $viaticos = $this->db->get('vyp_mision_oficial');

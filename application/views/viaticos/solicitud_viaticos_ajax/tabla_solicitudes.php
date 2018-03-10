@@ -10,6 +10,7 @@
             <table id="myTable" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
+                        <th style="display: none;">Fecha</th>
                         <th>Fecha</th>
                         <th>Actividad realizada</th>
                         <th>Estado</th>
@@ -18,10 +19,13 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades");
+                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades ORDER BY m.fecha_mision_inicio DESC");
                     if($mision->num_rows() > 0){
+                        $contador = 0;
                         foreach ($mision->result() as $fila) {
+                            $contador++;
                           echo "<tr>";
+                            echo "<td style='display: none;'>".$contador."</td>";
                             if($fila->fecha_mision_inicio == $fila->fecha_mision_fin){
                                 echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision_inicio))."</td>";
                             }else{

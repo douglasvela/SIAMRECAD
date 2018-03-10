@@ -778,14 +778,14 @@
                     limite_inicio.add('days',2);
                 }*/
 
-                $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
-
                 primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
                 primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
 
                 if(document.getElementById("justificacion").checked == 1){
+                    $("#fecha_mision_inicio").datepicker("setStartDate", "" );
                     $("#fecha_mision_fin").datepicker("setStartDate", "" );
                 }else{
+                    $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
                     $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
                 }
 
@@ -1515,17 +1515,16 @@
         $("#horarios").val(horarios);
         $("#pasaje").val(pasaje);
         $("#viatico").val(viatico);
-        $("#id_distancia").val(id_destino);
         $("#alojamiento").val(alojamiento);
 
         $("#band_viatico").val(band);
         $("#btnadd3").hide(0);
         $("#btnedit3").show(0);
 
-        cambiarkilometraje(id_destino)
-
         if(band == "edit"){
             var ruta = "";
+            $("#id_distancia").val(id_destino);
+            cambiarkilometraje(id_destino)
             if(parseFloat(alojamiento) > 0){
                 document.getElementById("band_factura").checked = 1;
                 cambiarFactura();

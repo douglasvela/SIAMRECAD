@@ -40,7 +40,7 @@ circle:hover
         		<h2> Estamos trabajando para reparar esta página lo más pronto posible. Por favor espere hasta que terminemos todas las reparaciones.</h2>
 
                 <div class="row">
-                    <div class="col-lg-12" style="display: none;">
+                    <div class="col-lg-12" style="display: block;">
                         <svg id="svg_chuco" xmlns="http://www.w3.org/2000/svg" width="800" height="400" style="background-image: url('<?php echo base_url(); ?>/assets/images/croquis/Imagen1.png'); background-size: cover; background-repeat: no-repeat;"/>
                         <script type="text/javascript">
                             function makeSVG(tag, attrs) {

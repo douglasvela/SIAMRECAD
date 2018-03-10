@@ -184,7 +184,6 @@ class Menu_reportes extends CI_Controller {
 				$data3y[$i]=$viatico_anual_detalle->alojamiento;
 				$data4y[$i]=$viatico_anual_detalle->total;
 				$labels[$i]=$viatico_anual_detalle->departamento;
-
 				$i++;
 			}
 		
@@ -203,17 +202,36 @@ class Menu_reportes extends CI_Controller {
 		$b2plot = new BarPlot($data2y);
 		$b3plot = new BarPlot($data3y);
 		$b4plot = new BarPlot($data4y);
-		
+	
 		// Create the grouped bar plot
 		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
+		//$gbplot->value->SetFormat('%01.2f');
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
 
 		$b1plot->value->Show();
-		//$b1plot->SetColor("#0000CD");
 		$b2plot->SetFillColor('#B0C4DE');
 		$b1plot->SetLegend("Viaticos");
+
+
+		/******************************************************************
+			Inicio cambiando formato de etiquetas a $0.00 dinero
+		******************************************************************/
+
+		$b1plot->value->SetFormat('$%01.2f');
+		$b2plot->value->SetFormat('$%01.2f');
+		$b3plot->value->SetFormat('$%01.2f');
+		$b4plot->value->SetFormat('$%01.2f');
+
+		$b1plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		$b2plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		$b3plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+
+		/******************************************************************
+			Fin cambiando formato de etiquetas a $0.00 dinero
+		******************************************************************/
 
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
@@ -231,6 +249,15 @@ class Menu_reportes extends CI_Controller {
 		$graph->xaxis->SetTickLabels($labels);
 		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
 		$graph->yaxis->scale->SetGrace(10);
+
+		/******************************************************************
+			Inicio cambiando formato del eje Y a $0.00 dinero
+		******************************************************************/
+		$graph->yaxis->SetLabelFormat('$%d');
+		$graph->yaxis->SetFont(FF_ARIAL,FS_NORMAL,8);  // FS_BOLD para negrita
+		/******************************************************************
+			Inicio cambiando formato del eje Y a $0.00 dinero
+		******************************************************************/
 
 		
 		
