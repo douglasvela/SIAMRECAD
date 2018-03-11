@@ -2,23 +2,36 @@
 <html>
 <head>
 	<script type="text/javascript">
-		function mostrarReporteEmpleado(){
-	       var id = $("#id_empleado").val();
-	       if(id==""){
-	         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
-	       }else{
-	        var xhr = "<?php echo base_url()?>" 
-	         //window.open(xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id,"_blank");
-	       	//var pdfUrl = xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id;
+//var pdfUrl = xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id;
 	       	//var pdfViewerEmbed = document.getElementById("myPdfEmbed");
 			//pdfViewerEmbed.setAttribute("src", pdfUrl);
 			//pdfViewerEmbed.outerHTML = pdfViewerEmbed.outerHTML.replace(/src="(.+?)"/, 'src="' + pdfUrl + '"');
 	      	 //$("#informe").attr("src",xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id);
 
 
-   var html="<object data='"+xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id+"' type='application/pdf' width='780' height='400'> alt : <a href='goodies/pdfs/indice_contenido.pdf'></a></object>";
+   //var html="<object data='"+xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id+"' type='application/pdf' width='780' height='400'> alt : <a href='goodies/pdfs/indice_contenido.pdf'></a></object>";
  
-    $("#informe").html(html);
+    //$("#informe").html(html);
+
+
+
+		function mostrarReporteEmpleado(tipo){
+	       var id = $("#id_empleado").val();
+	       if(id==""){
+	         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
+	       }else{
+	        var xhr = "<?php echo base_url()?>";
+	        if(document.getElementById('radio_pdf_pendiente').checked==true && tipo==""){
+	         	window.open(xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/pdf/"+id,"_blank");
+	        }else if(document.getElementById('radio_excel_pendiente').checked==true && tipo==""){
+
+	        }else{
+	           $( "#informe_vista" ).load("<?php echo site_url(); ?>/informes/menu_reportes/reporte_viatico_pendiente_empleado/vista/"+id, function() {
+		       });
+
+
+	        }
+	       	
 	       }
 	     }
 	</script>
@@ -64,7 +77,19 @@
                                 </select>
                             </div>
                             <div align="right">
-                            <button type="button" onclick="mostrarReporteEmpleado()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
+                            <button type="button" onclick="mostrarReporteEmpleado('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Previa</button>
+                            </div><br>
+                            <div class="card-body b-t">
+                            	<div class="demo-radio-button">
+                                    <input name="group1" type="radio" id="radio_pdf_pendiente" checked="">
+                                    <label for="radio_pdf_pendiente">PDF</label>
+                                    <input name="group1" type="radio" id="radio_excel_pendiente">
+                                    <label for="radio_excel_pendiente">EXCEL</label>
+                                </div>
+
+                            </div>
+                            <div align="right">
+                            <button type="button" onclick="mostrarReporteEmpleado('')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Exportar Reporte</button>
                             </div>
 	                    </div>
 	                </div>
@@ -76,7 +101,7 @@
 	                    </div>
 	                    <div class="card-body b-t">
 							<!-- <embed id="" src="" width="770" height="400"> -->
-								<div id="informe">
+								<div id="informe_vista">
 									
 								</div>
 	                    </div>
