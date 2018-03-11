@@ -17,17 +17,22 @@
 
 		function mostrarReporteEmpleado(tipo){
 	       var id = $("#id_empleado").val();
+	       var xhr = "<?php echo base_url()?>";
 	       if(id==""){
 	         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
 	       }else{
-	        var xhr = "<?php echo base_url()?>";
+	        
 	        if(document.getElementById('radio_pdf_pendiente').checked==true && tipo==""){
 	         	window.open(xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/pdf/"+id,"_blank");
 	        }else if(document.getElementById('radio_excel_pendiente').checked==true && tipo==""){
-
+	        	window.open(xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/excel/"+id,"_blank");
 	        }else{
-	           $( "#informe_vista" ).load("<?php echo site_url(); ?>/informes/menu_reportes/reporte_viatico_pendiente_empleado/vista/"+id, function() {
-		       });
+	           
+	        	var html="<embed src='"+xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/vista/"+id+"'  width='780' height='400'>";
+ 
+    			$("#informe_vista").html(html);
+	           /*$( "#informe_vista" ).load("<?php echo site_url(); ?>/informes/menu_reportes/reporte_viatico_pendiente_empleado/vista/"+id, function() {
+		       });*/
 
 
 	        }
@@ -99,9 +104,9 @@
 	                    <div class="card-header bg-success2" id="">
 	                        <h4 class="card-title m-b-0 text-white">Vista Preliminar</h4>
 	                    </div>
-	                    <div class="card-body b-t">
-							<!-- <embed id="" src="" width="770" height="400"> -->
-								<div id="informe_vista">
+	                    <div class="card-body b-t"  >
+							 <!-- <embed src="" width="770" height="400"> -->
+								<div id="informe_vista"  >
 									
 								</div>
 	                    </div>

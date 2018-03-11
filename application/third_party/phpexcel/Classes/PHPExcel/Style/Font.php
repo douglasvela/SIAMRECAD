@@ -46,7 +46,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
      *
      * @var float
      */
-    protected $size = 11;
+    protected $size = 10;
 
     /**
      * Bold
