@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2018 a las 20:51:59
+-- Tiempo de generación: 11-03-2018 a las 06:52:42
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -110,7 +110,108 @@ INSERT INTO `glb_bitacora` (`id_bitacora`, `id_sistema`, `id_usuario`, `descripc
 (45, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-15 12:40:38', '::1', 1),
 (46, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-15 08:56:12', '::1', 1),
 (47, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-16 08:45:15', '::1', 1),
-(48, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-16 08:45:34', '::1', 1);
+(48, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-16 08:45:34', '::1', 1),
+(49, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-17 10:14:07', '::1', 1),
+(50, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-26 11:06:38', '::1', 1),
+(51, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-29 01:15:02', '::1', 1),
+(52, 14, 20, 'Se registró el modulo ''Actividades realizadas'' con id: 322 para el sistema con id: 15', '2018-01-29 01:16:23', '::1', 3),
+(53, 14, 20, 'Se modificó el modulo ''Actividad realizada'' con id: 322 para el sistema con id: 15', '2018-01-29 01:24:34', '::1', 4),
+(54, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 01:21:03', '::1', 1),
+(55, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 01:24:25', '::1', 1),
+(56, 14, 20, 'Se registró el modulo ''Solicitud pasaje'' con id: 323 para el sistema con id: 15', '2018-02-01 01:24:50', '::1', 3),
+(57, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 09:33:37', '::1', 1),
+(58, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 09:38:47', '::1', 1),
+(59, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 10:13:34', '::1', 1),
+(60, 14, 20, 'Se registró el modulo ''Informaci??n empleado'' con id: 324 para el sistema con id: 15', '2018-02-01 10:15:24', '::1', 3),
+(61, 14, 20, 'Se modificó el modulo ''Informaci??n empleado'' con id: 324 para el sistema con id: 15', '2018-02-01 10:18:43', '::1', 4),
+(62, 14, 20, 'Se modificó el modulo ''Información empleado'' con id: 324 para el sistema con id: 15', '2018-02-01 10:19:11', '::1', 4),
+(63, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-03 01:21:08', '::1', 1),
+(64, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-05 07:54:56', '::1', 1),
+(65, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-05 07:55:21', '::1', 2),
+(66, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-05 07:59:55', '::1', 1),
+(67, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-05 08:00:08', '::1', 2),
+(68, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-05 09:32:05', '::1', 1),
+(69, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-06 09:06:39', '::1', 1),
+(70, 14, 20, 'Se registró el modulo ''Solicitud viatico'' con id: 325 para el sistema con id: 15', '2018-02-06 09:07:46', '::1', 3),
+(71, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-06 09:08:12', '::1', 4),
+(72, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-10 05:28:11', '::1', 1),
+(73, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-11 02:21:26', '::1', 1),
+(74, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-14 12:33:45', '::1', 1),
+(75, 14, 20, 'Se eliminó el modulo ''Crear solicitud'' con id: 318 para el sistema con id: 15', '2018-02-14 12:34:56', '::1', 5),
+(76, 14, 20, 'Se modificó el modulo ''Observacion jefe. i.'' con id: 319 para el sistema con id: 15', '2018-02-14 12:36:20', '::1', 4),
+(77, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-14 12:40:58', '::1', 2),
+(78, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-14 06:13:28', '::1', 1),
+(79, 14, 20, 'Se registró el modulo ''Observacion jefe dir./reg.'' con id: 326 para el sistema con id: 15', '2018-02-14 06:14:31', '::1', 3),
+(80, 14, 20, 'Se modificó el modulo ''Observacion jefe dir./reg.'' con id: 326 para el sistema con id: 15', '2018-02-14 06:15:37', '::1', 4),
+(81, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-14 06:15:45', '::1', 4),
+(82, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-14 09:39:08', '::1', 1),
+(83, 14, 20, 'Se registró el modulo ''Observacion fondo c.'' con id: 327 para el sistema con id: 15', '2018-02-14 09:39:55', '::1', 3),
+(84, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-14 09:40:08', '::1', 4),
+(85, 14, 20, 'Se registró el modulo ''Pasajes'' con id: 328 para el sistema con id: 15', '2018-02-14 09:40:58', '::1', 3),
+(86, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-14 09:41:15', '::1', 4),
+(87, 14, 20, 'Se modificó el modulo ''Viáticos y pasajes'' con id: 317 para el sistema con id: 15', '2018-02-14 09:42:48', '::1', 4),
+(88, 14, 20, 'Se modificó el modulo ''Pasajes'' con id: 328 para el sistema con id: 15', '2018-02-14 09:43:00', '::1', 4),
+(89, 14, 20, 'Se registró el modulo ''Solicitud aprobada'' con id: 329 para el sistema con id: 15', '2018-02-14 10:10:37', '::1', 3),
+(90, 14, 20, 'Se modificó el modulo ''Solicitud aprobada'' con id: 329 para el sistema con id: 15', '2018-02-14 10:15:40', '::1', 4),
+(91, 14, 20, 'Se modificó el modulo ''Solicitud aprobada'' con id: 329 para el sistema con id: 15', '2018-02-14 10:15:55', '::1', 4),
+(92, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-15 10:09:01', '::1', 1),
+(93, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-15 10:20:02', '::1', 2),
+(94, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-19 02:38:36', '::1', 1),
+(95, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-19 01:17:04', '::1', 1),
+(96, 14, 20, 'Se eliminó el sistema ''SISTEMA DE SEGURIDAD'' con id: 14', '2018-02-19 01:24:01', '::1', 4),
+(97, 14, 20, 'Se registró el sistema ''NUEVO SISTEMA'' con id: 16', '2018-02-19 02:17:03', '::1', 3),
+(98, 14, 20, 'Se eliminó el sistema ''NUEVO SISTEMA'' con id: 16', '2018-02-19 02:17:11', '::1', 4),
+(99, 14, 20, 'Se registró el sistema ''SISTEMA DE PRUEBA'' con id: 16', '2018-02-19 02:17:26', '::1', 3),
+(100, 14, 20, 'Se modificó el sistema ''SISTEMA DE PRUEBA CON TíLDE'' con id: 16', '2018-02-19 02:17:41', '::1', 4),
+(101, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA INTEGRAL DE COMPRAS, BODEGA INSTITUCIONAL Y ACTIVOS FIJOS'' con id: 13', '2018-02-19 02:41:05', '::1', 4),
+(102, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:41:59', '::1', 4),
+(103, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:45:41', '::1', 4),
+(104, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:46:14', '::1', 4),
+(105, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:46:38', '::1', 4),
+(106, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:48:57', '::1', 4),
+(107, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:49:52', '::1', 4),
+(108, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA INTEGRAL DE COMPRAS, BODEGA INSTITUCIONAL Y ACTIVOS FIJOS'' con id: 13', '2018-02-19 02:52:11', '::1', 4),
+(109, 14, 20, 'Se registró el sistema ''SISTEMA DE SEGURIDAD'' con id: 14', '2018-02-19 02:52:44', '::1', 3),
+(110, 14, 20, 'Se registró el sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-19 02:53:01', '::1', 3),
+(111, 14, 20, 'Se registró el modulo ''Configuraciones'' con id: 312 para el sistema con id: 15', '2018-02-19 02:54:39', '::1', 3),
+(112, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-19 02:58:57', '::1', 4),
+(113, 14, 20, 'Se registró el modulo ''Posible error'' con id: 330 para el sistema con id: 15', '2018-02-19 03:01:20', '::1', 3),
+(114, 14, 20, 'Se eliminó el modulo ''Posible error'' con id: 330 para el sistema con id: 15', '2018-02-19 03:01:30', '::1', 5),
+(115, 14, 20, 'Se eliminó el modulo ''Menu reportes'' con id: 321 para el sistema con id: 15', '2018-02-19 03:01:39', '::1', 5),
+(116, 14, 20, 'Se registró el modulo ''Menú de reportes'' con id: 330 para el sistema con id: 15', '2018-02-19 03:02:04', '::1', 3),
+(117, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 07:40:29', '::1', 1),
+(118, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 03:48:20', '::1', 1),
+(119, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-20 05:09:59', '::1', 2),
+(120, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 05:10:33', '::1', 1),
+(121, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 10:11:00', '::1', 1),
+(122, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-21 10:38:36', '::1', 1),
+(123, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-21 10:39:30', '::1', 2),
+(124, 14, 914, 'El usuario beatriz.depaul inició sesión', '2018-02-21 10:39:45', '::1', 1),
+(125, 14, 914, 'El usuario beatriz.depaul cerró sesión', '2018-02-21 10:39:48', '::1', 2),
+(126, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-22 11:30:13', '::1', 1),
+(127, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-23 10:14:22', '::1', 1),
+(128, 14, 20, 'Se eliminó el modulo ''Observacion jefe. i.'' con id: 319 para el sistema con id: 15', '2018-02-23 10:14:44', '::1', 5),
+(129, 14, 20, 'Se eliminó el modulo ''Observacion jefe dir./reg.'' con id: 326 para el sistema con id: 15', '2018-02-23 10:14:48', '::1', 5),
+(130, 14, 20, 'Se eliminó el modulo ''Observacion fondo c.'' con id: 327 para el sistema con id: 15', '2018-02-23 10:14:52', '::1', 5),
+(131, 14, 20, 'Se registró el modulo ''Observaciones'' con id: 331 para el sistema con id: 15', '2018-02-23 10:15:15', '::1', 3),
+(132, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-23 10:15:23', '::1', 4),
+(133, 14, 20, 'Se registró el modulo ''Jefe inmediato'' con id: 332 para el sistema con id: 15', '2018-02-23 10:39:21', '::1', 3),
+(134, 14, 20, 'Se modificó el modulo ''Jefe inmediato'' con id: 332 para el sistema con id: 15', '2018-02-23 10:39:40', '::1', 4),
+(135, 14, 20, 'Se registró el modulo ''Director de área o jefe de regional'' con id: 333 para el sistema con id: 15', '2018-02-23 10:40:34', '::1', 3),
+(136, 14, 20, 'Se registró el modulo ''Fondo circulante'' con id: 334 para el sistema con id: 15', '2018-02-23 10:42:09', '::1', 3),
+(137, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-23 10:47:24', '::1', 1),
+(138, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-25 03:10:46', '::1', 1),
+(139, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-27 11:05:31', '::1', 1),
+(140, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-27 11:16:46', '::1', 2),
+(141, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-02 10:48:36', '::1', 1),
+(142, 11, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-05 11:51:34', '::1', 1),
+(143, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-07 11:02:48', '::1', 1),
+(144, 14, 20, 'Se modificó el modulo ''Solicitud pasaje'' con id: 323 para el sistema con id: 15', '2018-03-07 11:03:11', '::1', 4),
+(145, 14, 20, 'Se modificó el modulo ''Solicitud pasaje'' con id: 323 para el sistema con id: 15', '2018-03-07 11:03:51', '::1', 4),
+(146, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-08 11:05:02', '::1', 1),
+(147, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-09 09:56:15', '::1', 1),
+(148, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-03-09 10:51:07', '::1', 2),
+(149, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-10 11:46:16', '::1', 1);
 
 -- --------------------------------------------------------
 
@@ -294,7 +395,7 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (74, 5, 'Bitácora de vehículos', 'Exportación a hoja electrónica/pdf de los movimientos del historial de viajes por vehículo', 3, 71, 'transporte/bitacora_vehiculos', '', 3),
 (75, 5, 'Rediminiento vehicular', 'Exportación a hoja electrónica/pdf del rendimiento por combustible de los vehículos', 4, 71, 'transporte/reporte_vehicular', '', 3),
 (76, 5, 'Vales de Combustible', 'Registro y Asignación de vales de combustible', 2, NULL, 'NULL', 'vales.png', 3),
-(77, 5, 'Cerrar Sesión', 'Salir del Sistema', 6, NULL, 'sessiones/cerrar_session', 'cerrar.png', 1),
+(77, 5, 'Cerrar Sesión', 'Salir del Sistema', 7, NULL, 'sessiones/cerrar_session', 'cerrar.png', 1),
 (78, 5, 'Mantenimiento Vehicular', 'Lo relacionado al mantenimiento de vehiculos', 3, NULL, 'NULL', 'mantenimiento.png', 2),
 (79, 5, 'Control de vehículos', 'Gestión de vehículos ', 3, 78, 'vehiculo/vehiculos', NULL, 2),
 (80, 5, 'Control de presupuestos', 'Gestión de presupuestos', 1, 78, 'vehiculo/presupuestos', NULL, 2),
@@ -330,13 +431,13 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (110, 5, 'Estado y Mantenimiento', 'Muestra el estado de los vales y requisiciones, asi como tambiem mantenimiento de datos para el sistema', 6, 76, 'NULL', '', 3),
 (111, 5, 'Estado de Vales', 'Muestra la cantidad de vales con los que se cuenta', 1, 110, 'vales/estado', '', 3),
 (112, 5, 'Herramientas', 'Creación, modicación y eliminacion de herramientas que consumen combustible', 2, 110, 'vales/herramientas', '', 3),
-(113, 5, 'Informes', 'Muestra informes del consumo de vales de combustible', 6, 76, 'NULL', '', 3),
+(113, 5, 'Informes', 'Muestra informes del consumo de vales de combustible', 7, 76, 'NULL', '', 3),
 (114, 5, 'Consumo de vales y asignacion ', 'Muestra un informe de consumo de vales en comparación con lo asignado', 1, 113, 'vales/reporte_consumo', '', 3),
 (115, 5, 'Consumo por vehiculo', 'Muestra el consumo por vehiculo', 2, 113, 'vales/reporte_vehiculo', '', 3),
 (116, 5, 'Control de Vehículos en Taller Interno', 'Gestiona el proceso de los vehículos en el taller interno', 4, 78, 'vehiculo/control_taller', NULL, 2),
 (117, 5, 'Bodega', 'Inventario de los árticulos disponibles en bodega', 2, 78, 'vehiculo/bodega', NULL, 1),
 (118, 5, 'Control de Vehículos en Taller Externo', 'Gestiona el proceso de los vehículos en taller externo', 5, 78, 'vehiculo/control_taller_ext', NULL, 2),
-(119, 5, 'Fuentes de fondos', 'Gestionar fuente de fondo', 7, 110, 'vales/fuente_fondos', '', 1),
+(119, 5, 'Fuentes de fondos', 'Gestionar fuente de fondo', 6, 110, 'vales/fuente_fondos', '', 1),
 (123, 5, 'Consumo Historico', 'Muestra el consumo historico por vehiculo', 3, 113, 'vales/reporte_historico', '', 3),
 (124, 5, 'Asignación de vehiculos', 'Asignación de vehiculos a una sección de consumo', 4, 110, 'vales/asignacion_vehiculo', '', 1),
 (125, 7, 'Registrar comité', 'Registro de conformación de comité', 1, 100, 'acreditacion/registrar_comite', 'fa fa-caret-right', 2),
@@ -345,14 +446,14 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (128, 7, 'Capacitaciones', 'Reporte de capacitaciones ', 2, 91, 'acreditacion/capacitaciones', 'fa fa-caret-right', 2),
 (129, 7, 'Acreditaciones', 'Reporte de acreditaciones', 3, 91, 'acreditacion/acreditaciones', 'fa fa-caret-right', 2),
 (130, 7, 'Verificaciones', 'Reporte de verificaciones', 4, 91, 'verificacion/verificaciones', 'fa fa-caret-right', 2),
-(131, 5, 'Asignacion y Entrega ', 'Reporte de asignación y entrega de vales', 4, 113, 'vales/reporte_asignacion', NULL, 1),
+(131, 5, 'Asignacion y Entrega ', 'Reporte de asignación y entrega de vales', 5, 113, 'vales/reporte_asignacion', NULL, 1),
 (132, 7, 'Asignar visita', 'Asignación de visitas a empresas por promotores', 3, 93, 'promocion/asignacion', 'fa fa-caret-right', 2),
 (133, 7, 'Asignar visita', 'Asignación de visitas a empresas por promotores', 1, 101, 'verificacion/asignacion', 'fa fa-caret-right', 2),
 (134, 7, 'Informe mensual', 'Resumen del informe mensual de las actividades realizadas', 6, 91, 'inicio/informe_mensual', 'fa fa-caret-right', 2),
 (135, 5, 'Perfil', 'Ver informacion de usuario y cambiar clave', 5, NULL, 'usuarios/perfil', 'user.png', 4),
 (136, 5, 'Informes', 'Generar informes del área de mantenimiento vehicular', 6, 78, 'NULL', NULL, 2),
 (137, 5, 'Ver facturas', 'Administración de facturas', 5, 110, 'vales/ver_facturas', NULL, 3),
-(138, 5, 'Liquidacion de combustible', 'Ver reporte de liquidacion de combustible mensual', 4, 113, 'vales/reporte_liquidacion', NULL, 3),
+(138, 5, 'Liquidacion de combustible', 'Ver reporte de liquidacion de combustible mensual', 6, 113, 'vales/reporte_liquidacion', NULL, 3),
 (139, 8, 'NOTICIASOFERTAS', NULL, 0, 0, NULL, NULL, NULL),
 (140, 5, 'Gasolineras', 'Gestionar gasolineras', 7, 110, 'vales/gasolineras', '', 1),
 (141, 5, 'Kardex de artículos', 'Genera un Kardex de los artículos', 2, 136, 'vehiculo/kardex_articulo', NULL, 1),
@@ -401,17 +502,17 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (191, 11, 'Base de Datos', 'Control de Base de Datos', 4, NULL, 'seguridad/base_datos', 'base.png', 1),
 (192, 11, 'Cerrar Sesión', 'Salir del Sistema', 5, NULL, 'sessiones/cerrar_session', 'cerrar.png', 1),
 (193, 3, 'CAMBIO DE PROYECTO', 'módulo para cambio de proyecto en bienes', 21, 30, 'mod=cambio de proyecto&secc=guardar', NULL, NULL),
-(194, 5, 'Gasolina para vehiculos en taller', 'Habilita que se pueda depositar combustible a vehículos en taller', 5, NULL, NULL, NULL, 1),
+(194, 5, 'Gasolina para vehiculos en taller', 'Habilita que se pueda depositar combustible a vehículos en taller', 6, NULL, NULL, NULL, 1),
 (195, 13, 'Productos', 'registro de productos', 1, 0, '', 'icon-price', 1),
 (196, 13, 'Unidad Medida', 'registro de unidad medida para Bodega', 1, 195, 'Bodega/Unidadmedidas', 'icon-unidad', 4),
 (197, 13, 'Producto y Servicios', 'registro de productos para Bodega', 2, 195, 'Bodega/Productos', 'icon-price', 4),
 (198, 13, 'Especificos', 'registro de especificos para Bodega', 3, 195, 'Bodega/Especificos', 'icon-especifico', 4),
-(199, 13, 'Detalle Producto', 'registro de detalle Producto para Bodega', 0, 198, 'Bodega/detalleProductos', '', 4),
+(199, 13, 'Detalle Producto', 'registro de detalle Producto para Bodega', 1, 198, 'Bodega/detalleProductos', '', 4),
 (200, 13, 'Facturas', 'registro de facturas', 2, 0, '', 'icon-file-text2', 1),
 (201, 13, 'Proveedores', 'registro de proveedores para Bodega', 2, 200, 'Bodega/Proveedores', 'icon-proveedores', 4),
 (202, 13, 'Fuente de Fondos', 'registro de fuente de fondos para Bodega', 3, 200, 'Bodega/Fuentefondos', 'icon-fuente', 4),
 (203, 13, 'Factura', 'registro de facturas para Bodega', 4, 200, 'Bodega/Factura', 'icon-factura', 4),
-(204, 13, 'Detalle Factura', 'registro de detalle facturas para Bodega', 0, 203, 'Bodega/Detallefactura', '', 4),
+(204, 13, 'Detalle Factura', 'registro de detalle facturas para Bodega', 1, 203, 'Bodega/Detallefactura', '', 4),
 (205, 13, 'Bodega', 'gestionar bodega', 3, 0, '', 'icon-database', 1),
 (206, 13, 'Solicitudes', 'gention de solicitudes para Bodega', 1, 205, '', 'icon-solicitud', 4),
 (207, 13, '1-Solicitud de Bodega', 'registro de solicitudes para Bodega', 1, 206, 'Bodega/Solicitud', 'icon-solicitud', 4),
@@ -421,7 +522,7 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (211, 13, '2-Control Solicitud', 'Control Solicitud para Bodega', 2, 206, 'Bodega/Solicitud_control', 'icon-equalizer2', 2),
 (212, 13, 'Detalle Solicitud Control', 'registro de detalle Solicitud Control para Bodega', 0, 211, 'Bodega/detalle_solicitud_control', '', 4),
 (213, 13, 'Conteo Fisico', 'registro de conteo conteo fisico para Bodega', 2, 205, 'Bodega/ConteoFisico', 'icon-pencil', 4),
-(214, 13, 'Detalle Conteo', 'registro de detalle conteo para Bodega', 0, 213, 'Bodega/DetalleConteo', '', 4),
+(214, 13, 'Detalle Conteo', 'registro de detalle conteo para Bodega', 1, 213, 'Bodega/DetalleConteo', '', 4),
 (215, 13, 'Reportes', 'registro de reportes para Bodega', 3, 205, '', 'icon-reporte', 1),
 (216, 13, '1-Generación KARDEX', 'generacion kardex peps para Bodega', 1, 215, 'Bodega/kardex/ReporteKardex', 'icon-stats-dots', 1),
 (217, 13, '2-Inventario General', 'inventario general para Bodega', 2, 215, 'Bodega/Kardex/ReporteGeneral', 'icon-calculator', 1),
@@ -435,14 +536,14 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (225, 13, '10-Kardex Resumido', 'kardex resumido para Bodega', 10, 215, 'Bodega/Kardex_Todos/KardexResumido', 'icon-paragraph-left', 1),
 (226, 13, 'Compras', 'gestionar compras', 4, 0, '', 'icon-compra', 1),
 (227, 13, '1-Solicitud de Compras', 'registro de solicitudes de compras', 1, 226, 'Compras/Solicitud_Compra', 'icon-solicitud', 4),
-(228, 13, 'Detalle Solicitud Compras', 'registro de detalle Solicitud de Compras', 0, 227, 'Compras/Solicitud_Compra/Detalle_Solicitud_Compra', '', 4),
-(229, 13, 'Estado de solicitud de compras', 'Estado de solicitud de compras', 0, 227, 'Compras/Estado_solicitud', '', 4),
+(228, 13, 'Detalle Solicitud Compras', 'registro de detalle Solicitud de Compras', 1, 227, 'Compras/Solicitud_Compra/Detalle_Solicitud_Compra', '', 4),
+(229, 13, 'Estado de solicitud de compras', 'Estado de solicitud de compras', 2, 227, 'Compras/Estado_solicitud', '', 4),
 (230, 13, '2-Aprobar Solicitud', 'Aprobar/Denegar solictudes compra', 2, 226, 'Compras/Aprobar_Solicitud', 'icon-aprobar-compra', 2),
-(231, 13, 'Aprobar Detalle Solicitud Compra ', 'registro de detalle Solicitud de compra', 0, 230, 'Compras/Aprobar_Solicitud/Detalle_Solicitud_Compra', '', 4),
+(231, 13, 'Aprobar Detalle Solicitud Compra ', 'registro de detalle Solicitud de compra', 1, 230, 'Compras/Aprobar_Solicitud/Detalle_Solicitud_Compra', '', 4),
 (232, 13, '5-Orden de Compras', 'registro de orden de compras', 5, 226, 'Compras/Orden_Compra', 'icon-file-text2', 4),
-(233, 13, 'Detalle Orden de Compras', 'registro de orden de compras', 0, 232, 'Compras/Detalle_orden_compra', '', 4),
+(233, 13, 'Detalle Orden de Compras', 'registro de orden de compras', 1, 232, 'Compras/Detalle_orden_compra', '', 4),
 (234, 13, '3-Gestionar Solicitud', 'gestión de solicitudes por jefe de compras', 3, 226, 'Compras/Gestionar_Solicitud', 'icon-equalizer2', 4),
-(235, 13, 'Gestion Detalle Solicitud Compra ', 'registro de detalle Solicitud de compra', 0, 234, 'Compras/Gestionar_Solicitud/Detalle_Solicitud_Compra', '', 4),
+(235, 13, 'Gestion Detalle Solicitud Compra ', 'registro de detalle Solicitud de compra', 1, 234, 'Compras/Gestionar_Solicitud/Detalle_Solicitud_Compra', '', 4),
 (236, 13, '6-Compromiso Presupuestario', 'registro de compromiso presupuestario', 6, 226, 'Compras/Compromiso_Presupuestario', 'icon-compromiso', 4),
 (237, 13, '4-Solicitud Disponibilidad', 'registro de solicitud de disponibilidad financiera', 4, 226, 'Compras/Solicitud_Disponibilidad', 'icon-disponibilidad', 4),
 (239, 13, 'Activos Fijos', 'gestionar activos fijos', 5, 0, '', 'icon-office', 1),
@@ -460,8 +561,8 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (251, 13, 'Registro de Subcategorías', 'registro de Subcategorías', 0, 250, 'ActivoFijo/Subcategoria', '', 4),
 (252, 13, 'Condiciones del bien', 'registro de condiciones del bien', 5, 246, 'ActivoFijo/Condicion_bien', 'icon-table', 4),
 (253, 13, 'Institucionales', 'gention de catalogos institucionales', 3, 239, '', 'icon-stack', 4),
-(254, 13, 'Oficinas', 'registro de oficinas', 2, 253, 'ActivoFijo/Oficinas', 'icon-oficina', 4),
-(255, 13, 'Almacenes', 'registro de Almacenes', 3, 253, 'ActivoFijo/Almacenes', 'icon-floppy-disk', 4),
+(254, 13, 'Oficinas', 'registro de oficinas', 1, 253, 'ActivoFijo/Oficinas', 'icon-oficina', 4),
+(255, 13, 'Almacenes', 'registro de Almacenes', 2, 253, 'ActivoFijo/Almacenes', 'icon-floppy-disk', 4),
 (256, 13, 'Procesos', 'gestion de procesos referentes a AF', 4, 239, '', 'icon-users', 4),
 (257, 13, 'Movimientos', 'registro de movimientos', 1, 256, 'ActivoFijo/Movimiento', 'icon-share', 4),
 (258, 13, 'Detalle Movimiento', 'registro de detalle de movimiento', 0, 257, 'ActivoFijo/Detalle_Movimiento', '', 4),
@@ -480,7 +581,7 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (271, 13, '1-Reporte Orden de Compra', 'Generar reporte de orden de compra por fechas', 1, 270, 'Compras/Reportes/Reporte_orden_compra/reporte', 'icon-table', 1),
 (272, 13, '2-Reporte Disponibilidad Financiera', 'Generar reporte de solicitudes de disponibilidad finaciera por fechas', 2, 270, 'Compras/Reportes/Reporte_solicitud_disponibilidad/reporteDisponibilidad', 'icon-coin-dollar', 1),
 (273, 13, '3-Reporte por linea presupuestaria', 'Generar reporte por linea presupuestaria', 3, 270, 'Compras/Reportes/Reporte_linea_presupuestaria/reporte', 'icon-stats-dots', 1),
-(275, 13, 'Equipo Informático', 'gestión de equipos informaticos', 5, 239, '', 'icon-display', 4),
+(275, 13, 'Equipo Informático', 'gestión de equipos informaticos', 6, 239, '', 'icon-display', 4),
 (276, 13, 'Procesadores', 'registro de procesadores', 1, 275, 'ActivoFijo/Procesador', 'icon-cogs', 4),
 (277, 13, 'Discos Duros', 'registro de discos duros', 2, 275, 'ActivoFijo/Disco_Duro', 'icon-drawer', 4),
 (278, 13, 'Memorias', 'registro de memorias', 3, 275, 'ActivoFijo/Memoria', 'icon-meter', 4),
@@ -490,15 +591,15 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (282, 13, '4-Solicitud + Retiro', 'ingresar solicitud, y realizar ell retiro de bodega directamente', 4, 206, 'Bodega/Solicitud_retiro', 'icon-power', 4),
 (283, 13, '8- Reporte Depreciacion por Cuenta Contable', 'Reporte Depreciacion por Cuenta Contable', 8, 259, 'ActivoFijo/Reportes/Depreciacion_cuenta_contable/reporte', 'icon-sort-amount-desc', 1),
 (285, 13, 'Equipo informático\n', 'Registro de Equipo Informático', 0, 247, 'ActivoFijo/Equipo_informatico', '', 4),
-(286, 13, 'Detalle de productos', 'registro de detalle Solicitud de disponibilidad financiera', 0, 237, 'Compras/Detalle_Solicitud_Disponibilidad', '', 4),
-(287, 13, 'Detalle de montos', 'registro de detalle Solicitud de disponibilidad financiera', 0, 237, 'Compras/Detalle_disponibilidad_montos', '', 4),
+(286, 13, 'Detalle de productos', 'registro de detalle Solicitud de disponibilidad financiera', 1, 237, 'Compras/Detalle_Solicitud_Disponibilidad', '', 4),
+(287, 13, 'Detalle de montos', 'registro de detalle Solicitud de disponibilidad financiera', 2, 237, 'Compras/Detalle_disponibilidad_montos', '', 4),
 (288, 13, 'Categoría proveedores', 'registro de categoria de proveedores para Bodega', 1, 200, 'Bodega/Categoria_proveedor', 'icon-address-book', 4),
 (289, 13, '9- Reporte de Ingresos de Bienes Adquiridos', 'Detalle de bienes adquiridos en intervalos de fecha', 9, 259, 'ActivoFijo/Reportes/Reporte_ingreso/reporte', 'icon-bienadquirido', 1),
 (290, 13, '10- Reporte Tipo Computadora', 'Detalle de bienes de categoria equipo informatico por tipo de computadora', 10, 259, 'ActivoFijo/Reportes/Reporte_tipo_computadora/Reporte', 'icon-display', 1),
 (291, 13, '11- Reporte por Version de Sistema Operativo', 'Reporte por Version de Sistema Operativo', 11, 259, 'ActivoFijo/Reportes/Reporte_sistema_operativo/Reporte', 'icon-terminal', 1),
 (292, 13, '12- Reporte por versión de office', 'Reporte por versión de office', 12, 259, 'ActivoFijo/Reportes/Reporte_version_office/Reporte', 'icon-libreoffice', 1),
-(293, 13, 'Detalle Orden de Compras Resumen', 'Registro de los productos que serviran como resumen del detalle de la OC', 0, 232, 'Compras/Detalle_orden_resumen', '', 4),
-(294, 13, 'Detalle Proveedor', 'datos de los proveedores', 0, 201, 'Bodega/DetalleProveedor', '', 4),
+(293, 13, 'Detalle Orden de Compras Resumen', 'Registro de los productos que serviran como resumen del detalle de la OC', 2, 232, 'Compras/Detalle_orden_resumen', '', 4),
+(294, 13, 'Detalle Proveedor', 'datos de los proveedores', 1, 201, 'Bodega/DetalleProveedor', '', 4),
 (295, 13, 'Solicitud de movimientos', 'Ingreso de solicitud de movimientos', 2, 256, 'ActivoFijo/Solicitud_movimiento', 'icon-solicitud', 4),
 (296, 13, 'Detalle Solicitud Movimiento', 'ingreso de detalle solicitud de movimiento', 0, 295, 'ActivoFijo/Detalle_solicitud_movimiento', '', 4),
 (297, 13, 'Aprobar movimiento', 'Aprobacion de solicitudes de movimientos', 3, 256, 'ActivoFijo/Aprobar_movimiento', 'icon-aprobar-compra', 4),
@@ -514,17 +615,25 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (308, 13, 'Detalle Aprobar Movimiento Autorizante', 'registro de detalle de movimiento', 0, 307, 'ActivoFijo/Detalle_aprobar_movimiento_autorizante', '', 4),
 (309, 13, 'Empleados enlace', 'registro de empleados enlace', 8, 0, 'ActivoFijo/Enlace_af', 'icon-enlace', 4),
 (310, 13, 'Migrar pedidos', 'modulo para migrar pedidos a solicitudes de productos de bodega', 4, 205, 'Bodega/Migrar_pedidos', 'icon-database', 1),
-(311, 13, 'Detalle de Solicitudes de Compra', 'solicitudes asociadas a la OC', 0, 232, 'Compras/Detalle_solicitud_orden', '', 4),
-(312, 15, 'Configuraciones', '', 1, 0, '#!', 'mdi mdi-settings', 0),
-(313, 15, 'Horarios viáticos', '', 2, 312, 'configuraciones/horarios', 'mdi mdi-label', 0),
-(314, 15, 'Bancos', '', 1, 312, 'configuraciones/bancos', 'mdi mdi-label', 0),
-(315, 15, 'Oficinas mtps', '', 3, 312, 'configuraciones/oficinas', 'mdi mdi-label', 0),
-(316, 15, 'Gestion de rutas', '', 4, 312, 'configuraciones/rutas', 'mdi mdi-label', 0),
-(317, 15, 'Viáticos y pasajes', '', 2, 0, '#!', 'mdi mdi-bus', 0),
-(318, 15, 'Crear solicitud', '', 1, 317, 'viatico/solicitud', 'mdi mdi-label', 0),
-(319, 15, 'Observaciones', '', 2, 317, 'viatico/observaciones', 'mdi mdi-label', 0),
-(320, 15, 'Reportes', '', 3, 0, '#!', 'mdi mdi-file-document', 0),
-(321, 15, 'Menu reportes', '', 1, 320, 'informes/menu_reportes', 'mdi mdi-label', 0);
+(311, 13, 'Detalle de Solicitudes de Compra', 'solicitudes asociadas a la OC', 3, 232, 'Compras/Detalle_solicitud_orden', '', 4),
+(312, 15, 'Configuraciones', 'Módulo de configuraciones', 1, 0, '#!', 'mdi mdi-settings', 0),
+(313, 15, 'Horarios viáticos', '', 4, 312, 'configuraciones/horarios', 'mdi mdi-label', 0),
+(314, 15, 'Bancos', '', 2, 312, 'configuraciones/bancos', 'mdi mdi-label', 0),
+(315, 15, 'Oficinas mtps', '', 6, 312, 'configuraciones/oficinas', 'mdi mdi-label', 0),
+(316, 15, 'Gestion de rutas', '', 3, 312, 'configuraciones/rutas', 'mdi mdi-label', 0),
+(317, 15, 'Viáticos y pasajes', '', 2, 0, '#!', 'mdi mdi-food', 0),
+(320, 15, 'Reportes', '', 4, 0, '#!', 'mdi mdi-file-document', 0),
+(322, 15, 'Actividad realizada', '', 1, 312, '/configuraciones/actividad', 'mdi mdi-label', 0),
+(323, 15, 'Solicitud pasaje', '', 1, 328, 'pasajes/lista_pasaje', 'mdi mdi-label', 0),
+(324, 15, 'Información empleado', '', 5, 312, 'configuraciones/informacion_empleado', 'mdi mdi-label', 0),
+(325, 15, 'Solicitud viatico', '', 1, 317, 'viaticos/solicitud_viatico', 'mdi mdi-label', 0),
+(328, 15, 'Pasajes', '', 3, 0, '#!', 'mdi mdi-bus', 0),
+(329, 15, 'Solicitud aprobada', '', 3, 317, 'viaticos/solicitud_aprobada', 'mdi mdi-label', 0),
+(330, 15, 'Menú de reportes', '', 1, 320, 'informes/menu_reportes', 'mdi mdi-label', 0),
+(331, 15, 'Observaciones', '', 2, 317, 'viaticos/observaciones', 'mdi mdi-label', 0),
+(332, 15, 'Jefe inmediato', '', 1, 331, 'viaticos/observaciones/', 'mdi mdi-seat-recline-normal', 0),
+(333, 15, 'Director de área o jefe de regional', '', 2, 331, 'viaticos/observaciones', 'mdi mdi-city', 0),
+(334, 15, 'Fondo circulante', '', 3, 331, 'viaticos/observaciones/', 'mdi mdi-account-multiple', 0);
 
 -- --------------------------------------------------------
 
@@ -1442,7 +1551,8 @@ INSERT INTO `org_rol` (`id_rol`, `nombre_rol`, `descripcion_rol`) VALUES
 (54, 'JEFE AF', 'Para gestion de Activos fijos'),
 (55, 'COLABORADOR AF', 'Para soporte a gestion de Activos fijos'),
 (56, 'COLABORADOR COMPRAS', 'Para soporte a gestion de Compras'),
-(58, 'TECNICO UDT', 'Para gestion de Activos fijos especificamente equipo informatico');
+(58, 'TECNICO UDT', 'Para gestion de Activos fijos especificamente equipo informatico'),
+(59, 'toreto', 'Para viaticos');
 
 -- --------------------------------------------------------
 
@@ -1518,7 +1628,6 @@ INSERT INTO `org_rol_modulo_permiso` (`id_rol_permiso`, `id_rol`, `id_modulo`, `
 (57, 2, 5, 1, 0),
 (58, 2, 5, 2, 0),
 (59, 2, 5, 3, 0),
-(60, 2, 5, 4, 0),
 (61, 2, 6, 1, 1),
 (62, 2, 6, 2, 0),
 (63, 2, 6, 3, 0),
@@ -3330,7 +3439,46 @@ INSERT INTO `org_rol_modulo_permiso` (`id_rol_permiso`, `id_rol`, `id_modulo`, `
 (3890, 47, 310, 1, 1),
 (3891, 47, 310, 2, 1),
 (3892, 47, 310, 3, 1),
-(3893, 47, 310, 4, 1);
+(3893, 47, 310, 4, 1),
+(3965, 59, 314, 1, 1),
+(3966, 59, 316, 1, 1),
+(3967, 59, 313, 1, 1),
+(3968, 58, 322, 1, 1),
+(3969, 58, 322, 2, 1),
+(3970, 58, 322, 3, 1),
+(3971, 58, 322, 4, 1),
+(3972, 58, 314, 1, 1),
+(3973, 58, 314, 2, 1),
+(3974, 58, 314, 3, 1),
+(3975, 58, 314, 4, 1),
+(3976, 58, 316, 1, 1),
+(3977, 58, 316, 2, 1),
+(3978, 58, 316, 3, 1),
+(3979, 58, 316, 4, 1),
+(3980, 58, 313, 1, 1),
+(3981, 58, 313, 2, 1),
+(3982, 58, 313, 3, 1),
+(3983, 58, 313, 4, 1),
+(3984, 58, 324, 1, 1),
+(3985, 58, 324, 2, 1),
+(3986, 58, 324, 3, 1),
+(3987, 58, 324, 4, 1),
+(3988, 58, 315, 1, 1),
+(3989, 58, 315, 2, 1),
+(3990, 58, 315, 3, 1),
+(3991, 58, 315, 4, 1),
+(4028, 58, 332, 1, 1),
+(4029, 58, 332, 2, 1),
+(4030, 58, 332, 3, 1),
+(4031, 58, 332, 4, 1),
+(4032, 58, 333, 1, 1),
+(4033, 58, 333, 2, 1),
+(4034, 58, 333, 3, 1),
+(4035, 58, 333, 4, 1),
+(4036, 58, 334, 1, 1),
+(4037, 58, 334, 2, 1),
+(4038, 58, 334, 3, 1),
+(4039, 58, 334, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -3568,7 +3716,6 @@ CREATE TABLE `org_usuario` (
 --
 
 INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuario`, `password`, `id_seccion`, `estado`) VALUES
-(1, 'EDUARDO CALDERON', '2445', 'M', 'eduardo.calderon', '7bb0217d8a73a8145290bc5fa5f36692', 2, 1),
 (2, 'HUGO RAMIREZ', '2478', 'M', 'hugo.ramirez', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1),
 (3, 'SILVIA MORENO', '332C', 'F', 'silvia.moreno', 'a4e27d1507d2f0a8596a483c0f3f00e3', 108, 1),
 (4, 'MARCO CASTRO', '888C', 'M', 'marco.castro', '070d3ebd85611641e2f9af0d2cb3a1a3', 108, 1),
@@ -3591,7 +3738,7 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (21, 'USUARIO SAF', '0000', 'M', 'usuario.saf', '827ccb0eea8a706c4c34a16891f84e7b', 101, 1),
 (22, 'ANA LETICIA BARAHONA DE SANDOVAL', '1690', 'F', 'leticia.sandoval', '070d3ebd85611641e2f9af0d2cb3a1a3', 19, 1),
 (23, 'KARLA ARGENTINA CABRERA', '2865', 'F', 'karla.cabrera', '827ccb0eea8a706c4c34a16891f84e7b', NULL, 1),
-(24, 'ABEL  CABRERA ROMAN', '335C', 'M', 'abel.cabrera', '', 151, 1),
+(24, 'ABEL  CABRERA ROMAN', '335C', 'M', 'abel.cabrera', '47c0c47385684872f226215a86a53fec', 151, 1),
 (25, 'ABELTO  MACIAS ALVARADO', '1834', 'M', 'abelto.macias', '070d3ebd85611641e2f9af0d2cb3a1a3', 5, 1),
 (26, 'ADA YASMINIA VILLALTA ALVARENGA', '602C', 'F', 'ada.villalta', '', 16, 1),
 (27, 'ADILIO  ALFARO HERNANDEZ', '2585', 'M', 'adilio.alfaro', '070d3ebd85611641e2f9af0d2cb3a1a3', 60, 1),
@@ -3616,7 +3763,7 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (46, 'ALVARO ERNESTO MEJIA MIRA', '2101', 'M', 'alvaro.mejia', '070d3ebd85611641e2f9af0d2cb3a1a3', 21, 1),
 (47, 'AMADEO ERNESTO RODRIGUEZ CARBAJAL', '458C', 'M', 'amadeo.rodriguez', '070d3ebd85611641e2f9af0d2cb3a1a3', 154, 1),
 (48, 'AMERICA GUADALUPE MENA GAVIDIA', '476C', 'F', 'america.mena', '', 89, 1),
-(49, 'AMERICO  PORTILLO ESCALANTE', '844C', 'M', 'americo.portillo', '070d3ebd85611641e2f9af0d2cb3a1a3', 61, 1),
+(49, 'AMERICO  PORTILLO ESCALANTE', '844C', 'M', 'americo.portillo', 'b19953069333b2835b224073b92f8214', 61, 1),
 (50, 'AMILCAR  LOZANO VALDES', '2253', 'M', 'amilcar.lozano', '', 74, 1),
 (51, 'ANA MIRIAM AGUILAR ', '1859', 'F', 'ana.aguilar', '070d3ebd85611641e2f9af0d2cb3a1a3', 65, 1),
 (52, 'ANA ARACELY ARTIGA ', '2041', 'F', 'aracely.orantes', '', 121, 1),
@@ -3904,7 +4051,7 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (342, 'HECTOR SALVADOR AGUILAR AYALA', '2543', 'M', 'hector.aguilar', NULL, 151, 1),
 (343, 'HECTOR NOE AGUILAR BONILLA', '2145', 'M', 'hector.bonilla', '070d3ebd85611641e2f9af0d2cb3a1a3', 59, 1),
 (344, 'HECTOR ALFREDO CONTRERAS TRUJILLO', '2280', 'M', 'hector.contreras', '070d3ebd85611641e2f9af0d2cb3a1a3', 66, 1),
-(345, 'HECTOR BLADIMIR DE PAZ FUENTES', '820C', 'M', 'hector.depaz', NULL, 65, 1),
+(345, 'HECTOR BLADIMIR DE PAZ FUENTES', '820C', 'M', 'hector.depaz', '075af546509cfa7d5f11950b73c4288d', 65, 1),
 (346, 'HECTOR DAVID MELENDEZ AYALA', '775C', 'M', 'hector.melendez', NULL, 47, 1),
 (347, 'HECTOR ISAAC MELGAR FLORES', '2506', 'M', 'hector.melgar', '070d3ebd85611641e2f9af0d2cb3a1a3', 86, 1),
 (348, 'HECTOR VLADIMIR ORTIZ RIVERA', '2614', 'M', 'hector.ortiz', '', 67, 1),
@@ -4058,7 +4205,7 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (503, 'JUAN  RAUDA GARCIA', '2311', 'M', 'juan.rauda', '', 151, 1),
 (504, 'JUAN JOSE REYNOSA HERCULES', '546C', 'M', 'juan.reynosa', '', 125, 1),
 (505, 'JUAN CARLOS RIVERA GUILLEN', '2603', 'M', 'juan.rivera', '257b1a8d6236ee65242f87c5d99f8c5a', 115, 1),
-(506, 'JUAN FRANCISCO SANCHEZ CABRERA', '988C', 'M', 'francisco.sanchez', NULL, 108, 1),
+(506, 'JUAN FRANCISCO SANCHEZ CABRERA', '988C', 'M', 'francisco.sanchez', '7c85c58899268b892579512c89419e78', 108, 1),
 (507, 'JUAN FRANCISCO SERRANO ', '1806', 'M', 'juan.francisco', '', 77, 1),
 (508, 'JUAN CARLOS SERRANO CAMPOS', '2737', 'M', 'juan.serrano', '070d3ebd85611641e2f9af0d2cb3a1a3', 42, 1),
 (509, 'JUAN CARLOS SUAREZ SANTAMARIA', '963C', 'M', 'juan.suarez', '', 51, 1),
@@ -4457,7 +4604,7 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (911, 'VLADIMIR STALIN MARCIANO MELENDEZ', '2885', 'M', 'vladimir.marciano', '', 30, 1),
 (912, 'EDUARDO ANTONIO  PEREZ RODRIGUEZ ', '2894', 'M', 'eduardo.perez', NULL, 107, 1),
 (913, 'SARA MARIA  MENDOZA ACOSTA ', '2875', 'F', 'sara.mendoza', NULL, 40, 1),
-(914, 'AGUSTINA BEATRIZ  DE PAUL FLORES ', '997C', 'F', 'beatriz.depaul', NULL, 40, 1),
+(914, 'AGUSTINA BEATRIZ  DE PAUL FLORES ', '997C', 'F', 'beatriz.depaul', '1e8db9f87cec0a10ad72001294434bd6', 40, 1),
 (915, 'JOSELINE ISAMAR  FERNANDEZ GAMERO', '2890', 'F', 'joseline.fernandez', NULL, 1, 1),
 (916, 'HERBERT ALEXANDER  LOBATO ELIAS', '2893', 'M', 'herbert.lobato', '827ccb0eea8a706c4c34a16891f84e7b', 112, 1),
 (917, 'CARMEN ELENA  SIBRIAN  DE JOYA', '2947', 'F', 'carmen.sibrian', '070d3ebd85611641e2f9af0d2cb3a1a3', 37, 1),
@@ -4473,7 +4620,8 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (927, 'BLANCA AZUCENA CANIZALES ORTIZ', '2892', 'F', 'blanca.canizales', NULL, 121, 1),
 (928, 'ERICKA ASTRID SERRANO FLAMENCO', '2891', 'F', 'ericka.serrano', NULL, 116, 1),
 (929, 'ANA YANCY GARCÍA HERRERA', '2957', 'F', 'ana.garcia', NULL, 116, 1),
-(930, 'TALIA IVETTE CHICAS SANCHEZ', '2895', 'F', 'talia.chicas', NULL, 64, 1);
+(930, 'TALIA IVETTE CHICAS SANCHEZ', '2895', 'F', 'talia.chicas', NULL, 64, 1),
+(931, 'CELIA LUZ  TREJO  DE CANJURA', '2905', 'F', 'celia.trejo', NULL, 171, 1);
 
 -- --------------------------------------------------------
 
@@ -6557,10 +6705,6 @@ INSERT INTO `org_usuario_rol` (`id_usuario_rol`, `id_usuario`, `id_rol`) VALUES
 (3313, 139, 7),
 (3315, 930, 51),
 (3316, 930, 16),
-(3317, 506, 50),
-(3318, 506, 35),
-(3319, 506, 15),
-(3320, 506, 13),
 (3325, 15, 39),
 (3326, 15, 38),
 (3327, 15, 36),
@@ -6579,7 +6723,13 @@ INSERT INTO `org_usuario_rol` (`id_usuario_rol`, `id_usuario`, `id_rol`) VALUES
 (3341, 3, 15),
 (3342, 3, 58),
 (3343, 3, 5),
-(3344, 3, 2);
+(3344, 3, 2),
+(3345, 506, 58),
+(3346, 506, 59),
+(3347, 20, 58),
+(3348, 914, 58),
+(3349, 345, 58),
+(3350, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -6598,7 +6748,447 @@ CREATE TABLE `sir_cargo_funcional` (
 --
 
 INSERT INTO `sir_cargo_funcional` (`id_cargo_funcional`, `funcional`, `id_nivel`) VALUES
-(347, 'cargo funcional', NULL);
+(1, 'ADMINISTRADORA DE CENTRO RECREATIVO DE COATEPEQUE', 2),
+(2, 'ADMINISTRADOR DE CENTRO RECREATIVO CONCHALIO', 2),
+(3, 'ADMINISTRADOR DE CENTRO RECREATIVO LA PALMA', 2),
+(4, 'ADMINISTRADOR DE CENTRO RECREATIVO EL TAMARINDO', 2),
+(5, 'ASESOR CONSEJO SUPERIOR DEL TRABAJO', 4),
+(6, 'ASESORA CONSEJO SUPERIOR DEL TRABAJO', 4),
+(7, 'ASISTENTE DE DIRECCION EJECUTIVA', 4),
+(8, 'ASISTENTE DEL DESPACHO MINISTERIAL', 4),
+(9, 'ASISTENTE DEL DESPACHO VICEMINISTERIAL', 4),
+(10, 'ASISTENTE DE JEFATURA', 4),
+(11, 'AUXILIAR', 4),
+(12, 'AUXILIAR/CAPACITACION', 4),
+(13, 'AUXILIAR/EXPEDIENTES', 4),
+(14, 'AUXILIAR-PROGRAMADOR DE APLICACIONES', 3),
+(15, 'AUXILIAR DE ACTIVO FIJO', 4),
+(16, 'AUXILIAR DE ATENCION AL USUARIO', 4),
+(17, 'AUXILIAR DE BODEGA', 4),
+(18, 'AUXILIAR DE CLINICA', 4),
+(19, 'AUXILIAR DE CONMUTADOR', 4),
+(20, 'AUXILIAR DE RECEPCION', 4),
+(21, 'AUXILIAR DE RECURSOS HUMANOS', 4),
+(22, 'AUXILIAR DE SUPERVISORIA', 4),
+(23, 'AUXILIAR UNIDAD DE ACCESO A LA INFORMACION PUBLICA', 4),
+(24, 'AUXILIAR/DESARROLLO TECNOLOGICO', 3),
+(25, 'AUXILIAR DE AUDITORIA INTERNA', 4),
+(26, 'AUXILIAR DE MANTENIMIENTO', 5),
+(27, 'AUXILIAR DE DESPACHO MINISTERIAL', 4),
+(28, 'AUXILIAR DE SOPORTE TECNICO', 3),
+(29, 'AUXILIAR/UACI', 4),
+(30, 'AUXILIAR UFI/PAGADURIA', 3),
+(31, 'AUXILIAR-OIR', 4),
+(32, 'COLABORADOR ADMINISTRATIVO', 3),
+(33, 'COLABORADORA ADMINISTRATIVA', 3),
+(34, 'COLABORADOR DE ESTADISTICA E INFORMATICA LABORAL', 3),
+(35, 'COLABORADORA DE ESTADISTICA E INFORMATICA LABORAL', 3),
+(36, 'COLABORADOR DE ACTIVO FIJO', 3),
+(37, 'COLABORADORA DE ACTIVO FIJO', 3),
+(38, 'COLABORADOR DE APELACIONES', 3),
+(39, 'COLABORADORA DE APELACIONES', 3),
+(40, 'COLABORADOR DE ASESORIA LABORAL', 3),
+(41, 'COLABORADORA DE ASESORIA LABORAL', 3),
+(42, 'COLABORADOR DE AUDITORIA INTERNA', 3),
+(43, 'COLABORADORA DE AUDITORIA INTERNA', 3),
+(44, 'COLABORADOR DE BODEGA', 3),
+(45, 'COLABORADORA DE BODEGA', 3),
+(46, 'COLABORADOR DE COMUNICACIONES', 3),
+(47, 'COLABORADORA DE COMUNICACIONES', 3),
+(48, 'COLABORADOR DE COORDINACION', 3),
+(49, 'COLABORADORA DE COORDINACION', 3),
+(50, 'COLABORADOR DE DESPACHO', 3),
+(51, 'COLABORADORA DE DESPACHO', 3),
+(52, 'COLABORADOR DE DIRECCION GENERAL DE PREVISION SOCIAL', 3),
+(53, 'COLABORADORA DE DIRECCION GENERAL DE PREVISION SOCIAL', 3),
+(54, 'COLABORADORA DE DIRECCION GENERAL DE PREVISION SOCIAL', 3),
+(55, 'COLABORADOR DE INFRAESTRUCTURA', 3),
+(56, 'COLABORADORA ADMINISTRATIVA DE INSPECCION', 3),
+(57, 'COLABORADORA DE INFRAESTRUCTURA', 3),
+(58, 'COLABORADOR DE INSPECCION', 3),
+(59, 'COLABORADOR DE LIQUIDACION LABORAL', 3),
+(60, 'COLABORADORA DE LIQUIDACION LABORAL', 3),
+(61, 'COLABORADOR DE PLANIFICACION', 3),
+(62, 'COLABORADORA DE PLANIFICACION', 3),
+(63, 'COLABORADOR DE PROYECTOS/UFI', 3),
+(64, 'COLABORADOR DE RECURSOS HUMANOS', 3),
+(65, 'COLABORADORA DE RECURSOS HUMANOS', 3),
+(66, 'COLABORADOR DE SUPERVISION', 3),
+(67, 'COLABORADOR DE UNIDAD', 3),
+(68, 'COLABORADORA DE UNIDAD', 3),
+(69, 'COLABORADOR DE CONSEJO NACIONAL DEL SALARIO MINIMO', 3),
+(70, 'COLABORADOR JURIDICO', 3),
+(71, 'COLABORADORA JURIDICA', 3),
+(72, 'COLABORADORA JURIDICA/CIUDAD MUJER', 3),
+(73, 'COLABORADOR JURIDICO DE APELACIONES', 3),
+(74, 'COLABORADOR UACI', 3),
+(75, 'COLABORADORA UACI', 3),
+(76, 'COLABORADOR UFI/ PAGADURIA', 3),
+(77, 'COLABORADORA UFI / PAGADURIA', 3),
+(78, 'COLABORADOR UFI/PAGADURIA', 3),
+(79, 'COLABORADORA UFI/PAGADURIA', 3),
+(80, 'COLABORADOR UFI/PRESUPUESTO', 3),
+(81, 'COLABORADORA UFI/PRESUPUESTO', 3),
+(82, 'COLABORADORA UFI/CONTABILIDAD', 3),
+(83, 'COLABORADORA UFI/FONDO CIRCULANTE', 3),
+(84, 'COLABORADOR UFI', 3),
+(85, 'COLABORADORA', 3),
+(86, 'COLABORADOR', 3),
+(87, 'COLABORADORA DE UNIDAD DE ACCESO A LA INFORMACION PUBLICA', 3),
+(88, 'COLABORADOR DE DEPARTAMENTO', 3),
+(89, 'COLABORADORA DE DEPARTAMENTO', 3),
+(90, 'COLABORADOR DE RELACIONES INTERNACIONALES', 3),
+(91, 'COLABORADORA DE RELACIONES INTERNACIONALES', 3),
+(92, 'COLABORADORA DE SUPERVISION', 3),
+(93, 'COLABORADOR TECNICO JURIDICO', 3),
+(94, 'COLABORADORA TECNICA JURIDICA', 3),
+(95, 'COLABORADOR UFI / CONTABILIDAD', 3),
+(96, 'COLABORADORA UFI / CONTABILIDAD', 3),
+(97, 'COLABORADORA UFI / FONDO CIRCULANTE', 3),
+(98, 'COORDINADOR DE EMPLEO', 2),
+(99, 'COORDINADORA DE EMPLEO', 2),
+(100, 'COORDINADOR DE GESTORES DE EMPLEO', 2),
+(101, 'COORDINADORA DE GESTORES DE EMPLEO', 2),
+(102, 'COORDINADOR DE COMUNICACIONES', 2),
+(103, 'COORDINADORA DE COMUNICACIONES', 2),
+(104, 'COORDINADOR DE DEPARTAMENTO DE EMPLEO', 2),
+(105, 'COORDINADORA DE DEPARTAMENTO DE EMPLEO', 2),
+(106, 'COORDINADOR DE DEPARTAMENTO JURIDICO', 2),
+(107, 'COORDINADOR DE NOTIFICADORES', 2),
+(108, 'COORDINADOR DE RECURSOS HUMANOS', 2),
+(109, 'COORDINADOR DE REGISTRO DE ESTABLECIMIENTOS', 2),
+(110, 'COORDINADORA DE REGISTRO DE ESTABLECIMIENTOS', 2),
+(111, 'COORDINADOR DEL AREA DE EMPLEO', 2),
+(112, 'COORDINADORA DEL AREA DE EMPLEO', 2),
+(113, 'COORDINADOR DEPARTAMENTAL DE EMPLEO SAN SALVADOR', 2),
+(114, 'COORDINADOR UNIDAD DE EMPLEO JUVENIL Y FERIAS DE EMPLEO', 2),
+(115, 'COORDINADORA', 2),
+(116, 'COORDINADORA / UNIDAD DE APRENDICES', 2),
+(117, 'COORDINADORA AD-HONOREM DE LA UNIDAD DE DIALOGO SOCIAL', 2),
+(118, 'COORDINADORA AD-HONOREM DE LA UNIDAD PARA LA EQUIDAD ENTRE LOS GENEROS', 2),
+(119, 'COORDINADORA DE AREA', 2),
+(120, 'COORDINADOR DE AREA', 2),
+(121, 'COORDINADORA DE ATENCION AL USUARIO', 2),
+(122, 'COORDINADORA DE CAPACITACION', 2),
+(123, 'COORDINADOR DE CAPACITACION', 2),
+(124, 'COORDINADOR DE SECCION MULTAS', 2),
+(125, 'COORDINADORA DE UNIDAD/UNIDAD DE APRENDICES', 2),
+(126, 'COORDINADORA DE TRABAJO', 2),
+(127, 'COORDINADOR DE SERVICIOS GENERALES', 2),
+(128, 'COORDINADORA DEL DEPARATAMENTO DE CENTROS DE RECREACION A TRABAJADORES', 2),
+(129, 'COORDINADOR DE PREVENCION DE RIESGOS', 2),
+(130, 'COORDINADORA DE SECCION DE RELACIONES INDIVIDUALES DE TRABAJO', 2),
+(131, 'COORDINADOR DE CENTROS DE RECREACION A TRABAJADORES', 2),
+(132, 'COORDINADOR DEL AREA DE INTERMEDIACION LABORAL', 2),
+(133, 'COORDINADORA DE RELACIONES INDIVIDUALES DE TRABAJO', 2),
+(134, 'COORDINADOR DE RELACIONES INDIVIDUALES DE TRABAJO', 2),
+(135, 'COORDINADORA UNIDAD DE APELACIONES', 2),
+(136, 'DELEGADA', 3),
+(137, 'DELEGADO', 3),
+(138, 'DELEGADA INSTITUCIONAL (MIGRACION Y EXTRANJERIA)', 3),
+(139, 'DIRECTOR EJECUTIVO', 1),
+(140, 'DIRECTOR GENERAL DE INSPECCION DE TRABAJO', 1),
+(141, 'DIRECTOR ADMINISTRATIVO', 1),
+(142, 'DIRECTORA ADMINISTRATIVA', 1),
+(143, 'DIRECTORA DE RELACIONES INTERNACIONALES DE TRABAJO', 1),
+(144, 'DIRECTOR DE RELACIONES INTERNACIONALES DE TRABAJO', 1),
+(145, 'DIRECTORA GENERAL DE PREVISION SOCIAL Y EMPLEO', 1),
+(146, 'DIRECTOR GENERAL DE PREVISION SOCIAL Y EMPLEO', 1),
+(147, 'DIRECTOR GENERA DE TRABAJO', 1),
+(148, 'DIRECTORA GENERAL DE TRABAJO', 1),
+(149, 'ELECTRICISTA', 3),
+(150, 'ENCARGADA DE ARCHIVO GENERAL', 2),
+(151, 'ENCARGADO DE ARCHIVO GENERAL', 2),
+(152, 'ENCARGADA DE REGISTRO DE ESTABLECIMIENTOS', 2),
+(153, 'ENCARGADA DEL FONDO CIRCULANTE', 2),
+(154, 'ENCARGADA DE SALA CUNA', 5),
+(155, 'ENCARGADA DE CORRESPONDENCIA', 5),
+(156, 'ENCARGADO DE ACTIVO FIJO', 2),
+(157, 'ENCARGADO DE BODEGA', 2),
+(158, 'ENCARGADO DE LA OFICINA RECEPTORA DE QUEJAS', 2),
+(159, 'ENCARGADO DE TRANSPORTE', 2),
+(160, 'GESTOR DE EMPLEO', 3),
+(161, 'GESTORA DE EMPLEO', 3),
+(162, 'GESTORA DE EMPLEO/SEDE CIUDAD MUJER SAN MIGUEL', 3),
+(163, 'GESTOR DE EMPLEO/BOLSA DE EMPLEO SOYAPANGO', 3),
+(164, 'GESTOR DE EMPLEO/SEDE CIUDAD MUJER SAN MARTIN', 3),
+(165, 'GESTORA DE EMPLEO/SEDE CIUDAD MUJER SANTA ANA', 3),
+(166, 'GESTOR DE EMPLEO/BOLSA DE EMPLEO APOPA', 3),
+(167, 'GESTORA DE EMPLEO/SEDE CIUDAD MUJER SAN MARTIN', 3),
+(168, 'GESTORA DE EMPLEO/SEDE CIUDAD MUJER USULUTAN', 3),
+(169, 'GESTOR DE EMPLEO/BOLSA DE EMPLEO ILOPANGO', 3),
+(170, 'GESTOR DE EMPLEO/BOLSA DE EMPLEO MEJICANOS', 3),
+(171, 'GESTORA DE EMPLEO/SEDE CIUDAD MUJER MORAZAN', 3),
+(172, 'GESTOR DE EMPLEO/BOLSA DE EMPLEO NEJAPA', 3),
+(173, 'GESTOR DE EMPLEO/BOLSA DE EMPLEO SAN MARCOS', 3),
+(174, 'GESTORA DE EMPLEO/SEDE CIUDAD MUJER COLON', 3),
+(175, 'GESTOR DE EMPLEO/COLABORADOR DE COORDINACION DE EMPLEO', 3),
+(176, 'GESTOR DE EMPLEO/FERIAS DE EMPLEO', 3),
+(177, 'GESTOR DE EMPLEO/SECTORES VULNERABLES', 3),
+(178, 'GESTOR DE EMPLEO/UNIDAD DE ANALISIS', 3),
+(179, 'GESTOR DE EMPLEO JUVENIL', 3),
+(180, 'GESTORA DE EMPLEO JUVENIL', 3),
+(181, 'GESTORA DE EMPLEO/SECTORES VULNERABLES', 3),
+(182, 'GESTORA DE EMPLEO/APOYO A LA JEFATURA NACIONAL DE EMPLEO', 3),
+(183, 'GESTORA DE EMPLEO/EMPLEO JUVENIL', 3),
+(184, 'GESTORA DE EMPLEO/ENCARGADA DE ATENCION AL CLIENTE', 3),
+(185, 'GESTORA DE EMPLEO/ENCARGADA DE LAS OFERTAS DE EMPLEO', 3),
+(186, 'GESTORA DE EMPLEO/FERIAS DE EMPLEO', 3),
+(187, 'GESTORA DE EMPLEO/INTERMEDIACION LABORAL', 3),
+(188, 'GESTORA DE EMPLEO/ORIENTACION LABORAL', 3),
+(189, 'GESTORA DE EMPLEO/UNIDAD DE APRENDICES', 3),
+(190, 'INSPECTOR DE TRABAJO', 3),
+(191, 'INSPECTORA DE TRABAJO', 3),
+(192, 'INSPECTOR DE TRABAJO/COLABORADOR DE DIRECCION', 3),
+(193, 'INSPECTOR DE TRABAJO/ENCARGADO DE REGISTRO DE ESTABLECIMIENTOS C.N.R.', 3),
+(194, 'INSPECTORA DE TRABAJO/COLABORADORA DE DIRECCION', 3),
+(195, 'INSPECTORA DE TRABAJO/COLABORADORA DE SUBDIRECCION', 3),
+(196, 'INSPECTORA DE TRABAJO/SECRETARIA DE ACTUACIONES', 3),
+(197, 'INTENDENTE', 2),
+(198, 'JARDINERA', 5),
+(199, 'JARDINERO', 5),
+(200, 'JEFA DE ASESORIA LABORAL', 2),
+(201, 'JEFA DEL DEPARTAMENTO DE INSPECCION AGRICOLA', 2),
+(202, 'JEFE DE INSPECCION AGROPECUARIO', 2),
+(203, 'JEFA DE DEPARTAMENTO DE RECURSOS HUMANOS', 1),
+(204, 'JEFA DE OFICINA DEPARTAMENTAL DE AHUACHAPAN', 1),
+(205, 'JEFE DE OFICINA DEPARTAMENTAL DE AHUACHAPAN', 1),
+(206, 'JEFE DE OFICINA DEPARTAMENTAL DE MORAZAN', 1),
+(207, 'JEFA DE OFICINA DEPARTAMENTAL DE MORAZAN', 1),
+(208, 'JEFE DE OFICINA DEPARTAMENTAL DE SONSONATE', 1),
+(209, 'JEFA DE OFICINA DEPARTAMENTAL DE SONSONATE', 1),
+(210, 'JEFA DE OFICINA DEPARTAMENTAL DE CABAÑAS', 1),
+(211, 'JEFE DE OFICINA DEPARTAMENTAL DE CABAÑAS', 1),
+(212, 'JEFE DE OFICINA DEPARTAMENTAL DE SAN VICENTE', 1),
+(213, 'JEFA DE OFICINA DEPARTAMENTAL DE SAN VICENTE', 1),
+(214, 'JEFA DE OFICINA REGIONAL DE SANTA ANA', 1),
+(215, 'JEFE DE OFICINA REGIONAL DE SANTA ANA', 1),
+(216, 'JEFE DE OFICINA PARACENTRAL ZACATECOLUCA', 1),
+(217, 'JEFA DE OFICINA PARACENTRAL ZACATECOLUCA', 1),
+(218, 'JEFE DE PRESUPUESTO', 2),
+(219, 'JEFA DE PRESUPUESTO', 2),
+(220, 'JEFA DE SECCION DE RELACIONES INDIVIDUALES DE TRABAJO', 2),
+(221, 'JEFA DE SECCION DE SECTORES VULNERABLES', 2),
+(222, 'JEFA DE UNIDAD ESPECIAL DE PREVENCION DE ACTOS LABORALES DISCRIMINATORIOS', 2),
+(223, 'JEFE DE UNIDAD ESPECIAL DE PREVENCION DE ACTOS LABORALES DISCRIMINATORIOS', 2),
+(224, 'JEFE DEL DEPARTAMENTO DE INSPECCION INDUSTRIA Y COMERCIO', 2),
+(225, 'JEFA DEL DEPARTAMENTO DE INSPECCION INDUSTRIA Y COMERCIO', 2),
+(226, 'JEFA DEL DEPARTAMENTO DE ORGANISMOS Y NORMAS INTERNACIONALES DE TRABAJO', 2),
+(227, 'JEFE DEL DEPARTAMENTO DE ORGANIZACIONES SOCIALES', 2),
+(228, 'JEFA DEL DEPARTAMENTO DE ORGANIZACIONES SOCIALES', 2),
+(229, 'JEFA DEPARTAMENTO GESTION DE EMPLEO', 2),
+(230, 'JEFE DEPARTAMENTO GESTION DE EMPLEO', 2),
+(231, 'JEFA DE OFICINA DEPARTAMENTAL DE LA LIBERTAD', 1),
+(232, 'JEFE DE OFICINA DEPARTAMENTAL DE LA LIBERTAD', 1),
+(233, 'JEFE SECCION COMPRAS', 1),
+(234, 'JEFA SECCION COMPRAS', 2),
+(235, 'JEFA DE SECCION DE REGISTRO Y CONTROL DE ORGANIZACIONES SOCIALES', 2),
+(236, 'JEFE DE SECCION REGISTRO Y CONTROL DE ORGANIZACIONES SOCIALES', 2),
+(237, 'JEFE DE SECCION SEGURIDAD OCUPACIONAL', 2),
+(238, 'JEFA DE SECCION SEGURIDAD OCUPACIONAL', 2),
+(239, 'JEFE UACI', 1),
+(240, 'JEFA UACI', 1),
+(241, 'JEFE DE CONTABILIDAD', 2),
+(242, 'JEFE DE DEPARTAMENTO DE SERVICIOS GENERALES', 2),
+(243, 'JEFE DE INFRAESTRUCTURA', 2),
+(244, 'JEFA DE INFRAESTRUCTURA', 2),
+(245, 'JEFE DE LA UNIDAD DE ACTIVO FIJO', 2),
+(246, 'JEFA DE LA UNIDAD DE ACTIVO FIJO', 2),
+(247, 'JEFE DE LA UNIDAD DE AUDITORIA Y CONTROL INTERNO', 1),
+(248, 'JEFE DE MECANICOS', 3),
+(249, 'JEFE DE NOTIFICADORES', 2),
+(250, 'JEFE DE OFICINA DEPARTAMENTAL DE LA UNION', 1),
+(251, 'JEFE DE OFICINA DEPARTAMENTAL DE USULUTAN', 1),
+(252, 'JEFE DE OFICINA PARACENTRAL DE ZACATECOLUCA', 1),
+(253, 'JEFE DE SECCION DE CAPACITACION', 3),
+(254, 'JEFE DE SECCION DE DESARROLLO ECOLOGICO Y MANTENIMMIENTO DE CENTROS OBREROS', 2),
+(255, 'JEFE DE SECCION DE INSPECCION AGRICOLA', 2),
+(256, 'JEFE DE SECCION DE LIQUIDACION LABORAL', 2),
+(257, 'JEFE DE SECCION DE PREVENCION DE RIESGOS OCUPACIONALES', 2),
+(258, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 2),
+(259, 'JEFE DE SECCION DE REGLAMENTOS INTERNOS DE TRABAJO', 2),
+(260, 'JEFA DE SECCION DE REGLAMENTOS INTERNOS DE TRABAJO', 2),
+(261, 'JEFE DE SECCION DE RELACIONES COLECTIVAS DE TRABAJO', 2),
+(262, 'JEFA DE SECCION DE RELACIONES COLECTIVAS DE TRABAJO', 2),
+(263, 'JEFE DE SECCION DE TRABAJADORES MIGRANTES', 2),
+(264, 'JEFE UNIDAD DE PLANIFICACION', 1),
+(265, 'JEFA UNIDAD DE PLANIFICACION', 1),
+(266, 'JEFE DE UNIDAD DE PLANIFICACION', 1),
+(267, 'JEFA DE UNIDAD DE PLANIFICACION', 1),
+(268, 'JEFE DE UNIDAD FINANCIERA INSTITUCIONAL', 1),
+(269, 'JEFA DE UNIDAD FINANCIERA INSTITUCIONAL', 1),
+(270, 'JEFE UNIDAD JURIDICA', 1),
+(271, 'JEFA UNIDAD JURIDICA', 1),
+(272, 'JEFE DE UNIDAD', 2),
+(273, 'JEFA DE UNIDAD', 2),
+(274, 'JEFE DE SECCION DE INSPECCION AGROPECUARIA', 2),
+(275, 'JEFE DE LA UNIDAD DE ESTADISTICA E INFORMATICA LABORAL', 1),
+(276, 'JEFA DEL DEPARTAMENTO DE ESTADISTICA E INFORMATICA LABORAL', 1),
+(277, 'JEFE DEL DEPARTAMENTO DE RELACIONES DE TRABAJO', 2),
+(278, 'JEFA DEL DEPARTAMENTO DE RELACIONES DE TRABAJO', 2),
+(279, 'JEFE DEL DEPARTAMENTO DE SEGURIDAD E HIGIENE OCUPACIONAL', 2),
+(280, 'JEFE OFICINA DEPARTAMENTAL DE CHALATENANGO', 1),
+(281, 'JEFA DE OFICINA DEPARTAMENTAL DE CHALATENANGO', 1),
+(282, 'JEFE OFICINA DEPARTAMENTAL DE CUSCATLAN', 1),
+(283, 'JEFE DE OFICINA REGIONAL DE SAN MIGUEL', 1),
+(284, 'JEFE DE SECCION DE HIGIENE OCUPACIONAL', 2),
+(285, 'JEFE SECCION DE MANTENIMIENTO', 2),
+(286, 'JEFE DE UNIDAD DE COMUNICACIONES', 1),
+(287, 'JEFA DE UNIDAD DE COMUNICACIONES', 1),
+(288, 'JEFE UNIDAD DE DESARROLLO TECNOLOGICO', 1),
+(289, 'MECANICO', 3),
+(290, 'MINISTRO', 1),
+(291, 'MOTORISTA', 5),
+(292, 'NOTIFICADOR/COLABORADOR DE LA SECRETARIA DE ACTUACIONES', 4),
+(293, 'NOTIFICADOR', 5),
+(294, 'OFICIAL DE INFORMACION', 2),
+(295, 'ORDENANZA', 5),
+(296, 'ORDENANZA CENTRO RECREATIVO', 5),
+(297, 'PAGADOR INSTITUCIONAL', 2),
+(298, 'PRESIDENTE DEL CONSEJO NACIONAL DE SALARIO MINIMO', 2),
+(299, 'PROTOCOLO', 5),
+(300, 'RECEPCIONISTA', 5),
+(301, 'RECEPTOR DE QUEJAS', 4),
+(302, 'SECRETARIA', 4),
+(303, 'SECRETARIA DE ACTUACIONES', 3),
+(304, 'SECRETARIA DE ACTUACIONES DE DEPARTAMENTO DE INSPECCION AGROPECUARIA', 3),
+(305, 'SECRETARIA DEL DESPACHO MINISTERIAL', 4),
+(306, 'SECRETARIO GENERAL DEL CONSEJO SUPERIOR DEL TRABAJO', 2),
+(307, 'SECRETARIA GENERAL DEL CONSEJO SUPERIOR DEL TRABAJO', 2),
+(308, 'SECRETARIO DE ACTUACIONES', 2),
+(309, 'SECRETARIO DE LA DIRECCION GENERAL DE TRABAJO', 2),
+(310, 'SUPERVISOR', 2),
+(311, 'SOPORTE TECNICO', 3),
+(312, 'SUB DIRECTOR ADMINISTRATIVO', 1),
+(313, 'SUD DIRECTORA ADMINISTRATIVA', 1),
+(314, 'SUB DIRECTOR DE PREVISION SOCIAL Y EMPLEO', 1),
+(315, 'SUB DIRECTORA DE PREVISION SOCIAL Y EMPLEO', 1),
+(316, 'SUB DIRECTOR DE TRABAJO', 1),
+(317, 'SUB DIRECTORA DE TRABAJO', 1),
+(318, 'SUB DIRECTOR DE INSPECCION DE TRABAJO', 1),
+(319, 'SUB DIRECTORA DE INSPECCION DE TRABAJO', 1),
+(320, 'SUPERVISOR DE DEPARTAMENTO AGROPECUARIO', 2),
+(321, 'SUPERVISOR DE INSPECCION', 2),
+(322, 'SUPERVISOR DE TRABAJO', 2),
+(323, 'SUPERVISOR DE OBRAS', 3),
+(324, 'SUPERVISOR DE SEGURIDAD', 2),
+(325, 'SUPERVISOR DE VIGILANCIA', 5),
+(326, 'SUPERVISORA', 2),
+(327, 'SUPERVISORA DE INSPECCION', 2),
+(328, 'SUPERVISORA DE OBRAS', 3),
+(329, 'TECNICA EDUCADORA', 3),
+(330, 'TECNICA EDUCATIVA', 3),
+(331, 'TECNICA EN HIGIENE OCUPACIONAL', 3),
+(332, 'TECNICA EN INFORMATICA', 3),
+(333, 'TECNICA EN INFORMATICA/ADMINISTRACION DE PROYECTOS TECNOLOGICOS', 3),
+(334, 'TECNICA EN SEGURIDAD OCUPACIONAL', 3),
+(335, 'TECNICO EN MANTENIMIENTO', 3),
+(336, 'TECNICA ADMINISTRATIVA-BIENESTAR LABORAL', 3),
+(337, 'TECNICO EDUCADOR', 3),
+(338, 'TECNICO EDUCATIVO', 3),
+(339, 'TECNICO EN HIGIENE OCUPACIONAL', 3),
+(340, 'TECNICO EN INFORMATICA', 3),
+(341, 'TECNICO EN INFORMATICA/PROGRAMADOR DE APLICACIONES', 3),
+(342, 'TECNICO EN INFORMATICA/TELEFONIA', 3),
+(343, 'TECNICO EN MANTENIMIENTO DE PISCINA', 3),
+(344, 'TECNICO EN SEGURIDAD E HIGIENE OCUPACIONAL', 3),
+(345, 'TECNICO EN SEGURIDAD OCUPACIONAL', 3),
+(346, 'TECNICO EN SEGURIDAD Y SALUD OCUPACIONAL', 3),
+(347, 'TECNICO PROGRAMADOR DE APLICACIONES', 3),
+(348, 'TECNICA DE EMPLEO DEPARTAMENTAL', 3),
+(349, 'VICEMINISTRO', 1),
+(350, 'VIGILANTE', 5),
+(351, 'COLABORADOR DE CENTROS DE RECREACION', 5),
+(352, 'COLABORADORA DE CENTROS DE RECREACION', 3),
+(353, 'COLABORADOR TECNICO', 3),
+(354, 'COORDINADORA DEL DEPARTAMENTO NACIONAL DE ORGANIZACIONES SOCIALES', 2),
+(355, 'JEFA DE LA UNIDAD PARA LA EQUIDAD ENTRE LOS GENEROS', 1),
+(356, 'ASESORA DE RELACIONES INTERNACIONALES DE TRABAJO', 1),
+(357, 'COORDINADORA DE COMUNICACIONES', 2),
+(358, 'COLABORADOR DE CALL CENTER', 3),
+(359, 'COLABORADORA DE CALL CENTER', 3),
+(360, 'SUPERVISOR DE CALL CENTER', 2),
+(361, 'INSPECTORA DE TRABAJO/COLABORADORA JURIDICA', 3),
+(362, 'SECRETARIA AUXILIAR', 4),
+(363, 'SECRETARIA AUXILIAR', 4),
+(364, 'AUXILIAR DE 1ª C. SECRETARIA GENERAL', 4),
+(365, 'OFICIAL 4ª CLASE RELAC. PUBLICAS', 4),
+(366, 'OFICIAL 4ª CLASE SERV. ADMINIST. GENERALES', 4),
+(367, 'OFICIAL 4ª PLANEAMIENTO Y COORD.', 3),
+(368, 'OFICIAL 4ª CLASE ASESORIA Y PLANIFICACION', 3),
+(369, 'OFICIAL 2ª CLASE DEPTO. ASESORIA Y PLANIF.', 3),
+(370, 'OFICIAL DE 2ª CLASE PLANEAMIENTO Y COORD.', 3),
+(371, 'OFICIAL DE 2ª CLASE DEPTO. PLANIFICACION', 3),
+(372, 'OFICIAL DE 2ª CLASE SERV. ADMINIST. GENERAL.', 3),
+(373, 'OFICIAL 1ª CLASE SERV. ADMINIST. GRALES.', 4),
+(374, 'OFICIAL 1ª CLASE VIGILANCIA LEYES LAB.', 3),
+(375, 'COLABORADOR 5ª CLASE VIGILANCIA LEYES LAB.', 3),
+(376, 'COLABORADOR 5ª CLASE DEPTO. DE INSPECCION', 3),
+(377, 'OFICIAL 3ª CLASE DEPTO. DE INSPECCION', 3),
+(378, 'OFICIAL 2ª CLASE REL. OBRERO PATRONALES', 3),
+(379, 'OFICIAL 1ª CLASE REL. OBRERO PATRONALES', 3),
+(380, 'COLABORADOR DE 5ª CLASE PLANEAM. Y COORD.', 3),
+(381, 'COLABORADOR DE 3ª CLASE PLANEAM. COORD', 3),
+(382, 'SECRETARIA DE SERVICIOS ADMINIST. GENERALES', 4),
+(383, 'COLABORADOR TECNICO PROGRAMA 1.05', 3),
+(384, 'JEFE AD-HONOREM DEL DEPTO. NAC. DE ORGANIZACIONES SOCIALES', 1),
+(385, 'ASESOR DEL SESPACHO', 1),
+(386, 'ASESORA DEL DESPACHO', 1),
+(387, 'ENLACE DGIT/OIR', 3),
+(388, 'COLABORADORA DE DIRECCION', 3),
+(389, 'COLABORADOR DE DIRECCION', 3),
+(390, 'COORDINADOR DE UNIDAD', 2),
+(391, 'AUXILIAR UACI', 4),
+(392, 'DIRECTORA EJECUTIVA', 1),
+(393, 'JEFA AD-HONOREM DEL DEPARTAMENTO DE SEGURIDAD E HIGIENE OCUPACIONAL', 2),
+(394, 'TECNICA SISTEMA NACIONAL DE ACCIDENTES DE TRABAJO', 3),
+(395, 'JEFE DE BODEGA', 2),
+(396, 'JEFA OFICINA DEPARTAMENTAL DE CUSCATLAN', 2),
+(397, 'COLABORADORA DE INSPECCION', 3),
+(398, 'ENCARGADO DE ARCHIVO', 4),
+(399, 'AUXILIAR/ENCARGADO DE ARCHIVO', 4),
+(400, 'SUPERVISOR DE SEGURIDAD Y SALUD OCUPACIONAL', 2),
+(401, 'TECNICO AMBIENTAL', 3),
+(402, 'TECNICO AMBIENTAL', 3),
+(403, 'COORDINADOR DE DELEGADOS', 2),
+(404, 'COORDINADOR DE UNIDAD DE MEDIO AMBIENTE', 2),
+(405, 'COORDINADORA DE SECCION DE SEGURIDAD OCUPACIONAL', 2),
+(406, 'TECNICO EN GESTION DE LA INFORMACION DE UNIDAD DE ACCESO A LA INFORMACION PUBLICA', 3),
+(407, 'COLABORADOR DE CAPACITACION', 3),
+(408, 'TECNICA UAIP', 3),
+(409, 'TECNICA UAIP', 3),
+(410, 'INSPECTOR DE CASOS DEL DESPACHO/ADM. DEL SNIT/ENLACE CAPRES', 3),
+(411, 'GESTORA DE EMPLEO/VENTANILLA INTEGRAL DE LA MUJER', 3),
+(412, 'SUB DIRECTOR ADMINISTRATIVO EN FUNCIONES', 1),
+(413, 'GESTORA EMPRESARIAL', 3),
+(414, 'GESTOR EMPRESARIAL', 3),
+(415, 'TECNICA EN EMPRENDEDURISMO', 3),
+(416, 'TECNICO EN EMPRENDEDURISMO', 3),
+(417, 'ORIENTADORA LABORAL', 3),
+(418, 'ORIENTADOR LABORAL', 3),
+(419, 'AUXILIAR/UFI', 3),
+(420, 'COLABORADOR UFI/FONDO CIRCULANTE', 3),
+(421, 'JEFE AD-HONOREM DE OFICINA DEPARTAMENTAL DE CABAÃ‘AS', 2),
+(422, 'JEFA DEL DEPARTAMENTO DE SEGURIDAD E HIGIENE OCUPACIONAL', 2),
+(423, 'COORDINADORA DE INFRAESTRUCTURA', 2),
+(424, 'GESTORA DE EMPLEO/SEGUIMIENTO Y MONITOREO DE LA GESTION', 3),
+(425, 'GESTOR DE EMPLEO/SEGUIMIENTO Y MONITOREO DE LA GESTION', 3),
+(426, 'COORDINADOR DE UNIDAD DE FERIAS DE EMPLEO', 2),
+(427, 'COORDINADORA DE EMPLEO JUVENIL', 2),
+(428, 'COLABORADORA DE JEFATURA', 3),
+(429, 'COORDINADORA DE BIENESTAR LABORAL', 2),
+(430, 'JEFE INTERINO DE UNIDAD DE COMUNICACIONES', 2),
+(431, 'TECNICO DE GESTION', 3),
+(432, 'TECNICA DE GESTION', 3),
+(433, 'TECNICO EN ANALISIS ECONOMICO', 3),
+(434, 'TECNICA EN ANALISIS ECONOMICO', 3),
+(435, 'COORDINADORA DE DELEGADOS', 2),
+(436, 'COORDINADORA DE CALL CENTER', 2),
+(437, 'JEFA AD-HONOREM DE UACI', 2),
+(438, 'JEFA INTERINA', 2),
+(439, 'COLABORADOR JURIDICO IV', 2),
+(440, 'COORDINADOR DEL OBSERVATORIO DEL MERCADO LABORAL', 2),
+(441, 'GESTORA DE EMPLEO/OBSERVATORIO DEL MERCARDO LABORAL', 3);
 
 -- --------------------------------------------------------
 
@@ -6619,7 +7209,307 @@ CREATE TABLE `sir_cargo_nominal` (
 --
 
 INSERT INTO `sir_cargo_nominal` (`id_cargo_nominal`, `cargo_nominal`, `id_nivel`, `salario`, `plazas`) VALUES
-(00139, 'cargo nominal', 00002, 200, NULL);
+(00001, 'COLABORADOR DE RECURSOS HUMANOS', 00003, 300, 2),
+(00002, 'JEFE DEL DEPARTAMENTO DE ESTADISTICA E INFORMATICA LABORAL', 00001, 300, 1),
+(00003, 'ORDENANZA II', 00005, 300, 1),
+(00004, 'INTENDENTE', 00002, 300, 1),
+(00005, 'GESTOR DE EMPLEO II', 00003, 300, 83),
+(00006, 'ADMINISTRADOR DE CENTRO RECREATIVO', 00002, 300, 4),
+(00007, 'ASESOR CONSEJO SUPERIOR DEL TRABAJO', 00001, 300, 3),
+(00008, 'ASISTENTE DEL DESPACHO', 00004, 300, 1),
+(00009, 'AUXILIAR', 00004, 300, 1),
+(00010, 'AUXILIAR I', 00004, 300, 1),
+(00011, 'AUXILIAR II', 00004, 300, 1),
+(00012, 'AUXILIAR III', 00004, 300, 2),
+(00013, 'AUXILIAR IV', 00004, 300, 20),
+(00014, 'AUXILIAR V', 00004, 300, 3),
+(00015, 'AUXILIAR VI', 00004, 300, 8),
+(00016, 'AUXILIAR VI', 00004, 300, 3),
+(00017, 'COLABORADOR DE UNIDAD', 00003, 300, 5),
+(00018, 'COLABORADOR ADMINISTRATIVO', 00004, 300, 2),
+(00019, 'COLABORADOR DE ACTIVO FIJO', 00003, 300, 2),
+(00020, 'COLABORADOR DE AUDITORIA', 00003, 300, 4),
+(00021, 'COLABORADOR DE BODEGA', 00004, 300, 1),
+(00022, 'COLABORADOR DE COMUNICACIONES', 00003, 300, 3),
+(00023, 'COLABORADOR DE DESPACHO', 00004, 300, 1),
+(00024, 'COLABORADOR DE DESPACHO II', 00004, 300, 2),
+(00025, 'COLABORADOR DE ESTADISTICA E INFORMATICA LABORAL', 00003, 300, 6),
+(00026, 'COLABORADOR DE INFORMATICA', 00003, 300, 1),
+(00027, 'COLABORADOR DE PLANIFICACION', 00003, 300, 8),
+(00028, 'COLABORADOR DE PROYECTOS', 00003, 300, 1),
+(00029, 'COLABORADOR DE RELACIONES INTERNACIONALES', 00003, 300, 3),
+(00030, 'COLABORADOR DE UACI', 00003, 300, 4),
+(00031, 'COLABORADOR DE UNIDAD FINANCIERA', 00003, 300, 8),
+(00032, 'COLABORADOR JURIDICO I', 00003, 300, 35),
+(00033, 'COLABORADOR JURIDICO II', 00003, 300, 1),
+(00034, 'COLABORADOR JURIDICO III', 00003, 300, 4),
+(00035, 'COLABORADOR JURIDICO IV', 00003, 300, 3),
+(00036, 'COLABORADOR JURIDICO V', 00003, 300, 1),
+(00037, 'COORDINADOR DE AREA', 00002, 300, 1),
+(00038, 'COORDINADOR DE CAPACITACION', 00002, 300, 1),
+(00039, 'COORDINADOR DE CENTROS OBREROS', 00002, 300, 1),
+(00040, 'COORDINADOR DE COMUNICACIONES', 00002, 300, 1),
+(00041, 'COORDINADOR DE EMPLEO', 00002, 300, 1),
+(00042, 'COORDINADOR DE INFRAESTRUCTURA', 00002, 300, 1),
+(00043, 'COORDINADOR DE UNIDAD', 00002, 300, 1),
+(00044, 'DELEGADO I', 00003, 300, 33),
+(00045, 'DELEGADO II', 00003, 300, 1),
+(00046, 'DIRECTOR ADMINISTRATIVO', 00001, 300, 1),
+(00047, 'DIRECTOR DE RELACIONES INTERNACIONALES DE TRABAJO', 00001, 300, 1),
+(00048, 'DIRECTOR EJECUTIVO', 00001, 300, 1),
+(00049, 'DIRECTOR GENERAL DE INSPECCION DE TRABAJO', 00001, 300, 1),
+(00050, 'DIRECTOR GENERAL DE PREVISION SOCIAL Y EMPLEO', 00001, 300, 1),
+(00051, 'DIRECTOR GENERAL DE TRABAJO', 00001, 300, 1),
+(00052, 'ELECTRICISTA', 00003, 300, 1),
+(00053, 'ENCARGADO DE ARCHIVO GENERAL', 00002, 300, 1),
+(00054, 'ENCARGADO DE SERVICIO', 00005, 300, 1),
+(00055, 'ENCARGADO DEL FONDO CIRCULANTE', 00002, 300, 1),
+(00056, 'ESPECIALISTA EN MONITOREO Y SEGUIMIENTO', 00003, 300, 1),
+(00057, 'GESTOR DE EMPLEO I', 00003, 300, 18),
+(00058, 'JARDINERO', 00005, 300, 1),
+(00059, 'JEFE DE ACTIVO FIJO', 00002, 300, 1),
+(00060, 'JEFE DE AUDITORIA Y CONTROL INTERNO', 00001, 300, 1),
+(00061, 'JEFE DE BODEGA', 00002, 300, 1),
+(00062, 'JEFE DE COMPRAS UACI', 00002, 300, 1),
+(00063, 'JEFE DE COMUNICACIONES', 00001, 300, 1),
+(00064, 'JEFE DE CONTABILIDAD', 00002, 300, 1),
+(00065, 'JEFE DE DEPARTAMENTO DE INSPECCION AGRICOLA', 00002, 300, 1),
+(00066, 'JEFE DE LA UNIDAD FINANCIERA INSTITUCIONAL', 00001, 300, 1),
+(00067, 'JEFE DE OFICINA DEPARTAMENTAL I', 00001, 300, 7),
+(00068, 'JEFE DE OFICINA DEPARTAMENTA II', 00001, 300, 4),
+(00069, 'JEFE DE OFICINA REGIONAL', 00001, 300, 3),
+(00070, 'JEFE DE PLANIFICACION', 00001, 300, 1),
+(00071, 'JEFE DE PRESUPUESTO', 00002, 300, 1),
+(00072, 'JEFE DE SECCION', 00002, 300, 4),
+(00073, 'JEFE DE SECCION DE CAPACITACION', 00002, 300, 1),
+(00074, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE ORGANIZACIONES SOCIALES', 00002, 300, 1),
+(00075, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00076, 'JEFE DE SECCION DE RELACIONES COLECTIVAS DE TRABAJO', 00002, 300, 1),
+(00077, 'JEFE DE SECCION DESARROLLO ECOLOGICO Y MANTENIMIENTO DE CENTROS OBREROS', 00002, 300, 1),
+(00078, 'JEFE DE SECCION GESTION Y COLOCACION', 00002, 300, 1),
+(00079, 'JEFE DE SECCION HIGIENE OCUPACIONAL', 00002, 300, 1),
+(00080, 'JEFE DE SECCION INSPECCION AGRICOLA', 00002, 300, 1),
+(00081, 'JEFE DE SECCION LIQUDACION LABORAL', 00002, 300, 1),
+(00082, 'JEFE DE SECCION PROTECCION DE RIESGOS OCUPACIONALES', 00002, 300, 1),
+(00083, 'JEFE DE SECCION SEGURIDAD OCUPACIONAL', 00002, 300, 1),
+(00084, 'JEFE DE SECCION TRABAJADORES MIGRANTES', 00002, 300, 1),
+(00085, 'JEFE DE UNIDAD', 00002, 300, 1),
+(00086, 'JEFE DE UNIDAD ESPECIAL DE GENERO Y PREVENCION DE ACTOS LABORALES DISCRIMINATORIOS', 00002, 300, 1),
+(00087, 'JEFE DE UNIDAD JURIDICA', 00001, 300, 1),
+(00088, 'JEFE DEL DEPARTAMENTO DE INSPECCION DE INDUSTRIA COMERCIO Y SERVICIOS', 00002, 300, 1),
+(00089, 'JEFE DEL DEPARTAMENTO DE ORGANISMOS Y NORMAS INTERNACIONALES DE TRABAJO', 00002, 300, 1),
+(00090, 'JEFE DEL DEPARTAMENTO DE ORGANIZACIONES SOCIALES', 00002, 300, 1),
+(00091, 'JEFE DEL DEPARTAMENTO DE RELACIONES DE TRABAJO', 00002, 300, 1),
+(00092, 'JEFE DEL DEPARTAMENTO DE SERVICIOS GENERALES', 00002, 300, 1),
+(00093, 'JEFE DEL DEPARTAMENTO GESTION DE EMPLEO', 00002, 300, 1),
+(00094, 'JEFE DEL DEPARTAMENTO SEGURIDAD E HIGIENE OCUPACIONAL', 00002, 300, 1),
+(00095, 'JEFE DEPARTAMENTO DE RECURSOS HUMANOS', 00002, 300, 1),
+(00096, 'JEFE SECCION DE MANTENIMIENTO', 00002, 300, 1),
+(00097, 'JEFE UNIDAD DE ADQUISICIONES Y CONTRATACIONES INSTITUCIONALES', 00002, 300, 1),
+(00098, 'JEFE UNIDAD DE DESARROLLO TECNOLOGICO', 00001, 300, 1),
+(00099, 'MECANICO', 00003, 300, 1),
+(00100, 'MINISTRO', 00001, 300, 1),
+(00101, 'MOTORISTA DE DESPACHO', 00005, 300, 1),
+(00102, 'MOTORISTA I', 00005, 300, 40),
+(00103, 'MOTORISTA II', 00005, 300, 1),
+(00104, 'NOTIFICADOR', 00004, 300, 14),
+(00105, 'OFICIAL DE INFORMACION', 00002, 300, 1),
+(00106, 'PAGADOR INSTITUCIONAL', 00002, 300, 1),
+(00107, 'PRESIDENTE CONSEJO NACIONAL DE SALARIO MINIMO', 00001, 300, 1),
+(00108, 'SECRETARIA', 00004, 300, 1),
+(00109, 'SECRETARIA I', 00004, 300, 20),
+(00110, 'SECRETARIA III', 00004, 300, 18),
+(00111, 'SECRETARIA V', 00004, 300, 7),
+(00112, 'SECRETARIA II', 00004, 300, 10),
+(00113, 'SECRETARIA IV', 00004, 300, 7),
+(00114, 'SECRETARIA VI', 00004, 300, 1),
+(00115, 'SECRETARIO', 00002, 300, 2),
+(00116, 'SECRETARIO', 00002, 300, 1),
+(00117, 'SECRETARIO DE ACTUACIONES', 00002, 300, 1),
+(00118, 'SUBDIRECTOR ADMINISTRATIVO', 00001, 300, 1),
+(00119, 'SUBDIRECTOR DE INSPECCION DE TRABAJO', 00001, 300, 1),
+(00120, 'SUBDIRECTOR DE PREVISION SOCIAL Y EMPLEO', 00001, 300, 1),
+(00121, 'SUBDIRECTOR DE TRABAJO', 00001, 300, 1),
+(00122, 'SUPERVISOR', 00002, 300, 6),
+(00123, 'SUPERVISOR DE OBRAS DE INFRAESTRUCTURA', 00002, 300, 1),
+(00124, 'TECNICO', 00003, 300, 1),
+(00125, 'TECNICO ADMINISTRATIVO I', 00003, 300, 1),
+(00126, 'TECNICO ADMINISTRATIVO II', 00003, 300, 3),
+(00127, 'TECNICO DE EMPLEO DEPARTAMENTAL', 00003, 300, 3),
+(00128, 'TECNICO EDUCATIVO', 00003, 300, 13),
+(00129, 'TECNICO EDUCATIVO', 00003, 300, 9),
+(00130, 'TECNICO EN HIGIENE OCUPACIONAL', 00003, 300, 6),
+(00131, 'TECNICO EN HIGIENE OCUPACIONAL', 00003, 300, 17),
+(00132, 'TECNICO EN INFORMATICA I', 00003, 300, 5),
+(00133, 'TECNICO EN INFORMATICO II', 00003, 300, 1),
+(00134, 'TECNICO EN MANTENIMIENTO DE PISCINA', 00003, 300, 1),
+(00135, 'TECNICO EN MANTENIMIENTO I', 00003, 300, 11),
+(00136, 'TECNICO EN MANTENIMIENTO II', 00003, 300, 1),
+(00137, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 33),
+(00138, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 5),
+(00139, 'TECNICO PROGRAMADOR', 00003, 300, 1),
+(00140, 'VICEMINISTRO', 00001, 300, 1),
+(00141, 'VIGILANTE', 00005, 300, 42),
+(00142, 'AUXILIAR', 00004, 300, 3),
+(00143, 'COLABORADOR TECNICO EN TRATADOS DE LIBRE COMERCIO', 00003, 300, 1),
+(00144, 'ORDENANZA I', 00005, 300, 45),
+(00145, 'COORDINADOR DE RECURSOS HUMANOS', 00002, 300, 1),
+(00146, 'JEFE DE SECCION DE RELACIONES INDIVIDUALES DE TRABAJO', 00002, 300, 1),
+(00147, 'INSPECTOR DE TRABAJO', 00003, 300, 197),
+(00148, 'COLABORADOR DE UNIDAD', 00003, 300, 1),
+(00149, 'SUPERVISOR DE SEGURIDAD', 00002, 300, 1),
+(00150, 'JEFA DE SECCION', 00002, 300, 1),
+(00151, 'JEFA DE SECCION DE RELACIONES INDIVIDUALES DE TRABAJO', 00002, 300, 1),
+(00152, 'ASESORA DEL DESPACHO', 00001, 300, 1),
+(00153, 'ASESORA DEL DESPACHO I', 00001, 300, 1),
+(00154, 'TECNICA', 00003, 300, 1),
+(00155, 'SECRETARIA AUXILIAR', 00004, 300, 1),
+(00156, 'SECRETARIA AUXILIAR', 00004, 300, 1),
+(00157, 'AUXILIAR DE 1ª C. SECRETARIA GENERAL', 00004, 300, 1),
+(00158, 'OFICIAL 4ª CLASE RELAC. PUBLICAS', 00004, 300, 1),
+(00159, 'AUXILIAR DE 1ª C. SECRETARIA GENERAL', 00004, 300, 1),
+(00160, 'OFICIAL 4ª CLASE SERV. ADM. GENERALES ', 00004, 300, 1),
+(00161, 'OFICIAL 4ª CLASE PLANEAMIENTO Y COORD.', 00003, 300, 1),
+(00162, 'OFICIAL 4ª CLASE PLANEAMIENTO Y COORD.', 00003, 300, 1),
+(00163, 'OFICIAL 4ª CLASE ASESORIA Y PLANIFICACION', 00003, 300, 1),
+(00164, 'OFICIAL 2ª CLASE DEPTO. ASESORIA Y PLANIF.', 00003, 300, 1),
+(00165, 'OFICIAL 2ª CLASE DEPTO. ASESORIA Y PLANIF.', 00003, 300, 1),
+(00166, 'OFICIAL DE 2ª CLASE PLANEAMIENTO Y COORD.', 00003, 300, 1),
+(00167, 'OFICIAL 2ª CLASE DEPTO. PLANIFICACION', 00003, 300, 1),
+(00168, 'OFICIAL 2ª CLASE SERV. ADMINIST. GENERAL', 00004, 300, 1),
+(00169, 'OFICIAL 2ª CLASE SERV. ADMINIST. GENERAL', 00004, 300, 1),
+(00170, 'OFICIAL 1ª CLASE SERV. ADMINIST. GRALES', 00004, 300, 1),
+(00171, 'OFICIAL 1ª CLASE VIGILANCIA LEYES LAB.', 00003, 300, 1),
+(00172, 'COLABORADOR 5ª CLASE VIGILANCIA LEYES LAB.', 00003, 300, 1),
+(00173, 'COLABORADOR 5ª CLASE DEPTO. DE INSPECCION', 00003, 300, 1),
+(00174, 'COLABORADOR 5ª CLASE DEPTO. DE INSPECCION', 00003, 300, 1),
+(00175, 'COLABORADOR 5ª CLASE DEPTO. DE INSPECCION', 00003, 300, 1),
+(00176, 'OFICIAL 3ª CLASE DEPTO. DE INSPECCION', 00003, 300, 1),
+(00177, 'OFICIAL 2ª CLASE REL. OBRERO PATRONALES', 00003, 300, 1),
+(00178, 'OFICIAL 2ª CLASE REL. OBRERO PATRONALES', 00003, 300, 1),
+(00179, 'OFICIAL 1ª CLASE REL. OBRERO PATRONALES', 00003, 300, 1),
+(00180, 'COLABORADOR DE 5ª CLASE PLANEAM. Y COOD.', 00003, 300, 1),
+(00181, 'COLABORADOR DE 5ª CLASE PLANEAM. Y COOD.', 00003, 300, 1),
+(00182, 'COLABORADOR DE 3ª CLASE PLANEAM. Y COOD.', 00003, 300, 1),
+(00183, 'COLABORADOR DE 3ª CLASE PLANEAM. Y COOD.', 00003, 300, 1),
+(00184, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00185, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00186, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00187, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00188, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00189, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00190, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00191, 'SECRETARIA SERVICIOS ADMINIST. GENERALES', 00004, 300, 1),
+(00192, 'COLABORADOR TECNICO PROGRAMA 1.05', 00003, 300, 1),
+(00193, 'COLABORADOR TECNICO PROGRAMA 1.05', 00003, 300, 1),
+(00194, 'COLABORADOR TECNICO PROGRAMA 1.05', 00003, 300, 1),
+(00195, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00196, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00197, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00198, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00199, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00200, 'JEFE DE SECCION DE REGISTRO Y CONTROL DE PERSONAL', 00002, 300, 1),
+(00201, 'JEFE DE DEPARTANENTO', 00002, 300, 1),
+(00202, 'ASESOR DEL DESPACHO I', 00001, 300, 1),
+(00203, 'ASESORA DEL DESPACHO I', 00001, 300, 1),
+(00204, 'ASESOR DEL DESPACHO', 00001, 300, 1),
+(00205, 'ASESORA DEL DESPACHO', 00001, 300, 1),
+(00206, 'JEFE DE DEPARTAMENTO', 00002, 300, 1),
+(00207, 'AUXILIAR', 00004, 300, 1),
+(00208, 'MOTORISTA', 00005, 300, 1),
+(00209, 'MOTORISTA', 00005, 300, 1),
+(00210, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 1),
+(00211, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 1),
+(00212, 'NOTIFICADOR', 00005, 300, 1),
+(00213, 'NOTIFICADOR', 00005, 300, 1),
+(00214, 'TECNICO EN INFORMATICA', 00003, 300, 1),
+(00215, 'TECNICO EN INFORMATICA', 00003, 300, 1),
+(00216, 'SECRETARIA', 00004, 300, 1),
+(00217, 'SECRETARIA', 00004, 300, 1),
+(00218, 'AUXILIAR', 00004, 300, 1),
+(00219, 'AUXILIAR', 00005, 300, 1),
+(00220, 'COLABORADOR DE RECURSOS HUMANOS', 00004, 300, 1),
+(00221, 'COLABORADOR DE RECURSOS HUMANOS', 00004, 300, 1),
+(00222, 'INSPECTOR DE TRABAJO', 00003, 300, 1),
+(00223, 'SECRETARIA', 00004, 300, 1),
+(00224, 'ORDENANZA', 00005, 300, 1),
+(00225, 'ORDENANZA', 00005, 300, 1),
+(00226, 'AUXILIAR VI', 00004, 300, 1),
+(00227, 'SECRETARIA', 00004, 300, 1),
+(00228, 'INSPECTOR DE TRABAJO', 00003, 300, 1),
+(00229, 'SECRETARIA AUXILIAR', 00004, 300, 1),
+(00230, 'GESTOR DE EMPLEO', 00003, 300, 1),
+(00231, 'GESTOR DE EMPLEO', 00003, 300, 1),
+(00232, 'COORDINADOR DE UNIDAD', 00002, 300, 1),
+(00233, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 1),
+(00234, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 1),
+(00235, 'SECRETARIA', 00004, 300, 1),
+(00236, 'ORDENANZA CENTRO OBRERO', 00005, 300, 1),
+(00237, 'SECRETARIA DE ACTUACIONES', 00003, 300, 1),
+(00238, 'COLABORADORA JURIDICA', 00003, 300, 1),
+(00239, 'COLABORADOR DE PLANIFICACION', 00003, 300, 6),
+(00240, 'TECNICO EN INFORMATICA', 00003, 300, 1),
+(00241, 'COLABORADOR DE UNIDAD', 00003, 300, 1),
+(00242, 'JEFA DE LA UNIDAD DE GENERO', 00002, 300, 1),
+(00243, 'COLABORADOR DE UNIDAD', 00003, 300, 10),
+(00244, 'AUXILIAR VI', 00004, 300, 3),
+(00245, 'CCORDINADOR DE INFRAESTRUCTURA', 00002, 300, 1),
+(00246, 'SUPERVISOR DE OBRAS', 00003, 300, 1),
+(00247, 'COLABORADOR JURIDICO I', 00003, 300, 34),
+(00248, 'DELEGADO', 00003, 300, 1),
+(00249, 'GESTOR DE EMPLEO II', 00003, 300, 85),
+(00250, 'INSPECTOR DE TRABAJO', 00003, 300, 183),
+(00251, 'TECNICO EDUCATIVO', 00003, 300, 9),
+(00252, 'ASISTENTE', 00004, 300, 1),
+(00253, 'AUXILIAR', 00004, 300, 2),
+(00254, 'AUXILIAR', 00004, 300, 1),
+(00255, 'AUXILIAR', 00004, 300, 1),
+(00256, 'AUXILIAR II', 00004, 300, 1),
+(00257, 'AUXILIAR III', 00004, 300, 2),
+(00258, 'AUXILIAR IV', 00004, 300, 4),
+(00259, 'AUXILIAR IV', 00004, 300, 4),
+(00260, 'AUXILIAR IV', 00004, 300, 2),
+(00261, 'AUXILIAR IV', 00004, 300, 3),
+(00262, 'AUXILIAR IV', 00004, 300, 3),
+(00263, 'AUXILIAR V', 00004, 300, 1),
+(00264, 'AUXILIAR V', 00004, 300, 1),
+(00265, 'AUXILIAR V', 00004, 300, 1),
+(00266, 'AUXILIAR VI', 00004, 300, 2),
+(00267, 'AUXILIAR VI', 00004, 300, 3),
+(00268, 'AUXILIAR VI', 00004, 300, 4),
+(00269, 'AUXILIAR VI', 00004, 300, 1),
+(00270, 'COLABORADOR DE UNIDAD', 00003, 300, 1),
+(00271, 'COLABORADOR DE UNIDAD', 00003, 300, 1),
+(00272, 'COLABORADOR JURIDICO III', 00003, 300, 1),
+(00273, 'GESTOR DE EMPLEO I', 00003, 300, 17),
+(00274, 'JEFE DE OFICINA DEPARTAMENTAL', 00001, 300, 1),
+(00275, 'SECRETARIA III', 00004, 300, 1),
+(00276, 'SECRETARIA I', 00004, 300, 1),
+(00277, 'SECRETARIA II', 00004, 300, 2),
+(00278, 'SECRETARIA II', 00004, 300, 1),
+(00279, 'TECNICO EN SEGURIDAD OCUPACIONAL', 00003, 300, 1),
+(00280, 'GESTOR DE EMPLEO II', 00003, 300, 1),
+(00281, 'JEFE DE OFICINA DEPARTAMENTAL I', 00003, 300, 1),
+(00282, 'ASISTENTE DEL DESPACHO', 00003, 300, 2),
+(00283, 'GESTOR DE EMPLEO', 00003, 300, 20),
+(00284, 'ORIENTADOR', 00003, 300, 1),
+(00285, 'SECRETARIA II', 00004, 300, 1),
+(00286, 'JEFE DEL DEPARTAMENTO SEGURIDAD E HIGIENE OCUPACIONAL', 00002, 300, 1),
+(00287, 'TECNICO EN INFORMATICO II', 00003, 300, 1),
+(00288, 'TECNICO DE GESTION', 00003, 300, 5),
+(00289, 'TECNICO EN ANALISIS ECONIMICO', 00003, 300, 2),
+(00290, 'COLABORADOR DE ESTADISTICA E INFORMATICA LABORAL', 00003, 300, 5),
+(00291, 'GESTOR DE EMPLEO II', 00003, 300, 50),
+(00292, 'VIGILANTE', 00005, 300, 45),
+(00293, 'SECRETARIA I', 00004, 300, 1),
+(00294, 'COLABORADOR DE PLANIFICACION', 00003, 300, 5),
+(00295, 'MOTORISTA I', 00005, 300, 50),
+(00296, 'ORDENANZA I', 00005, 300, 50),
+(00297, 'INSPECTOR DE TRABAJO', 00003, 300, 100),
+(00298, 'JEFE DE OFICINA DEPARTAMENTAL II', 00002, 300, 7),
+(00299, 'SUPERVISORA DE OBRA DE INFRAESTRUCTURA', 00003, 300, 1),
+(00300, 'JEFE DE COMUNICACIONES', 00001, 300, 1),
+(00301, 'SECRETARIO', 00002, 300, 1);
 
 -- --------------------------------------------------------
 
@@ -9479,6 +10369,117 @@ CREATE TABLE `tcm_empleado_informacion_laboral` (
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `vista_viaticos`
+--
+CREATE TABLE `vista_viaticos` (
+`id_empleado` int(10)
+,`id_cargo_funcional` int(5)
+,`id_seccion` int(5)
+,`nr` varchar(4)
+,`nombre` text
+,`id_mision_oficial` int(10) unsigned
+,`viatico` float(5,2)
+,`pasaje` float(3,2)
+,`alojamiento` float(5,2)
+,`nombre_seccion` varchar(255)
+,`id_empresa_viatico` int(10) unsigned
+,`funcional` varchar(100)
+,`fecha_solicitud` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_viaticos_seccion`
+--
+CREATE TABLE `vista_viaticos_seccion` (
+`id_empresa_viatico` int(10) unsigned
+,`pasaje` double(19,2)
+,`viatico` double(19,2)
+,`alojamiento` double(19,2)
+,`id_seccion` int(50)
+,`nombre_seccion` varchar(255)
+,`id_cargo_funcional` int(5)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_actividades`
+--
+
+CREATE TABLE `vyp_actividades` (
+  `id_vyp_actividades` int(9) NOT NULL,
+  `nombre_vyp_actividades` varchar(125) NOT NULL,
+  `depende_vyp_actividades` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_actividades`
+--
+
+INSERT INTO `vyp_actividades` (`id_vyp_actividades`, `nombre_vyp_actividades`, `depende_vyp_actividades`) VALUES
+(1, 'INSPECCIÓN  PROGRAMADA', 0),
+(2, 'REINSPECCIÓN ', 0),
+(3, 'CAPACITACIÓN', 0),
+(4, 'PROYECTO', 0),
+(5, 'VISITAS TÉCNICAS DE HIGIENE OCUPACIONAL', 0),
+(6, 'NOTIFICAR', 0),
+(7, 'TRANSPORTANDO AL PERSONAL', 0),
+(8, 'FERIA DE EMPLEO', 0),
+(9, 'MANTENIMIENTO Y REPARACIÓN', 0),
+(10, 'ENTREGA DE DOCUMENTACIÓN ', 0),
+(11, 'ENTREGA DE INSUMOS CENTROS RECREATIVOS', 0),
+(12, 'SUPERVISIÓN DE OBRA', 0),
+(13, 'RETIRO DE VALE COMBUSTIBLE', 0),
+(14, 'RETIRO DE PAPELERIA', 0),
+(15, 'REUNIONES', 0),
+(16, 'HACIENDO TURNO DE VIGILANCIA', 0),
+(17, 'SOPORTE TÉCNICO', 0),
+(18, 'RECOLECCIÓN DE FONDOS A LOS CENTROS RECREATIVOS DE MTPS', 0),
+(19, 'ENTREGAR OFICIO DE EMBARGO A LOS JUZGADOS', 0),
+(20, 'TOMA MEDIDA DE UNIFORMES DEL PERSONAL  MTPS', 0),
+(21, 'SEGUIMIENTO DEL FUNCIONAMIENTO DE COMITÉ Y VERIFICACIÓN DE CUMPLIMIENTO DE ART. 10  DEL   R.G.P.L.T', 0),
+(22, 'INTERMEDIACIÓN LABORAL', 0),
+(23, 'ENTREGA DE ACREDITACIONES DE COMITÉ DE SEGURIDAD Y SALUD OCUPACIONAL', 0),
+(24, 'ASISTENCIA A ENTREGA DE JEFATURA ', 0),
+(25, 'ARQUEO DE CAJA CHICA, REVISIÓN DE DOCUMENTACIÓN ANUAL', 0),
+(26, 'REALIZANDO ASESORIA  EN LAS OFICINAS DEPARTAMENTALES MTPS', 0),
+(27, 'AUDITORIA INTERNA', 0),
+(28, 'ENTREGA DE PAQUETE DE MATERNIDAD,CLAUSULA N°56 DEL CONTRATO COLECTIVO MTPS', 0),
+(29, 'ENTREGA DE UNIFORMES AL PERSONAL  MTPS', 0),
+(30, 'ENTREGA DE CERTIFICADOS DEL SUPERMERCADO, CLAUSULA N°57 DEL CONTRATO  COLECTIVO  MTPS', 0),
+(31, 'REPRESENTACIÓN POR FALLECIMIENTO DE LA TRABAJADORA O TRABAJADOR', 0),
+(32, 'INVENTARIO ANUAL DE ACTIVO FIJO ', 0),
+(33, 'PROGRAMA DE REFUERZO DE CAPACIDADES TÉCNICAS NUEVAS EN LOS FORMATOS ICS-AG', 0),
+(34, 'CENSO DE CONTRATACION COLECTIVA DE TRABAJO', 0),
+(35, 'CHARLAS INFORMATIVAS SOBRE ENCUESTAS DE ESTABLECIMIENTOS EMPLEOS,HORAS ,SALARIOS', 0),
+(36, 'PROTOCOLO  INSTITUCIONALES Y GUBERNAMENTALES', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_alojamientos`
+--
+
+CREATE TABLE `vyp_alojamientos` (
+  `id_alojamiento` int(10) UNSIGNED NOT NULL,
+  `id_mision` int(10) UNSIGNED NOT NULL,
+  `fecha_alojamiento` date NOT NULL,
+  `monto` float(5,2) NOT NULL,
+  `id_ruta_visitada` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_alojamientos`
+--
+
+INSERT INTO `vyp_alojamientos` (`id_alojamiento`, `id_mision`, `fecha_alojamiento`, `monto`, `id_ruta_visitada`) VALUES
+(1, 15, '2017-08-16', 22.00, 32);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `vyp_bancos`
 --
 
@@ -9495,7 +10496,9 @@ CREATE TABLE `vyp_bancos` (
 INSERT INTO `vyp_bancos` (`id_banco`, `nombre`, `caracteristicas`) VALUES
 (1, 'Banco Agrícola', ''),
 (2, 'Banco Cuscatlán', ''),
-(3, 'Banco Hipotecario', '');
+(3, 'Banco Hipotecario', ''),
+(4, 'Banco Davivienda', ''),
+(5, 'Banco azul', '');
 
 -- --------------------------------------------------------
 
@@ -9516,7 +10519,22 @@ CREATE TABLE `vyp_empleado_cuenta_banco` (
 --
 
 INSERT INTO `vyp_empleado_cuenta_banco` (`id_empleado_banco`, `nr`, `id_banco`, `numero_cuenta`, `estado`) VALUES
-(1, '2588', 1, '0000-11-222-33', 1);
+(1, '2588', 1, '7894-457-784-95', 1),
+(2, '335C', 2, '0154-488-74-454', 1),
+(3, '1462', 3, '0047-7840-0484-764', 1),
+(4, '2665', 4, '03457-1819-187-045', 1),
+(5, '391C', 5, '8145-417-1575-5', 1),
+(6, '2818', 1, '0356-457-4874-457', 1),
+(7, '672C', 2, '06464-457-4575-45', 1),
+(8, '978C', 3, '034487-545-5454', 1),
+(9, '2905', 4, '34541-454-4454-45', 1),
+(10, '2788', 5, '21347-54-557-545', 1),
+(11, '749C', 1, '06457-487-454-5454', 1),
+(12, '2647', 2, '0644-764-545', 1),
+(13, '2347', 3, '6564-47451-547-304', 1),
+(14, '2781', 4, '9197-1245-5751-456', 1),
+(15, '854C', 5, '1867-54518-0848-054', 1),
+(16, '772C', 1, '0644-035-5406-045', 1);
 
 -- --------------------------------------------------------
 
@@ -9532,25 +10550,122 @@ CREATE TABLE `vyp_empresas_visitadas` (
   `nombre_empresa` varchar(100) NOT NULL,
   `direccion_empresa` varchar(200) NOT NULL,
   `tipo_destino` varchar(45) NOT NULL,
-  `origen` varchar(100) NOT NULL,
-  `hora_salida` time NOT NULL,
-  `hora_llegada` time NOT NULL,
-  `viaticos` float NOT NULL,
-  `pasajes` float NOT NULL,
-  `kilometraje` float NOT NULL,
-  `justificacion` varchar(500) NOT NULL,
-  `orden` int(10) UNSIGNED NOT NULL,
-  `observacion` varchar(200) NOT NULL
+  `kilometraje` float(5,2) NOT NULL,
+  `id_destino` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `vyp_empresas_visitadas`
 --
 
-INSERT INTO `vyp_empresas_visitadas` (`id_empresas_visitadas`, `id_mision_oficial`, `id_departamento`, `id_municipio`, `nombre_empresa`, `direccion_empresa`, `tipo_destino`, `origen`, `hora_salida`, `hora_llegada`, `viaticos`, `pasajes`, `kilometraje`, `justificacion`, `orden`, `observacion`) VALUES
-(2, 1, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 'Oficina Paracentral (La Paz)', '08:15:00', '10:00:00', 0, 0, 0, '', 3, ''),
-(3, 1, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'SAN MIGUEL', 'destino_oficina', 'Oficina Central (San Salvador)', '05:30:00', '06:30:00', 3, 0, 132.04, '', 1, ''),
-(4, 1, 00008, 00132, 'Oficina Paracentral (La Paz)', 'ZACATECOLUCA', 'destino_oficina', 'Oficina Regional de Oriente (San Miguel)', '06:40:00', '08:00:00', 4, 0, 62.08, '', 2, '');
+INSERT INTO `vyp_empresas_visitadas` (`id_empresas_visitadas`, `id_mision_oficial`, `id_departamento`, `id_municipio`, `nombre_empresa`, `direccion_empresa`, `tipo_destino`, `kilometraje`, `id_destino`) VALUES
+(1, 1, 00001, 00001, 'Empresa conducción', 'Dirección de la empresa conducción', 'destino_municipio', 252.00, '1'),
+(2, 1, 00002, 00013, 'Empresa conducción 2', 'Dirección segunda empresa de conducción 2', 'destino_municipio', 235.00, '2'),
+(3, 2, 00001, 00001, 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Ahuachapán', 'destino_oficina', 44.00, '3'),
+(4, 3, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 38.20, '5'),
+(5, 4, 00009, 00158, 'Empresa en ilobasco', 'Carretera desconocida, Ilobasco, El Salvador', 'destino_mapa', 32.84, '7'),
+(6, 4, 00010, 00172, 'Avicola los teques', 'Carretera desconocida, Santo Domingo, El Salvador', 'destino_mapa', 15.94, '8'),
+(7, 5, 00002, 00013, 'UES - Santa Ana', 'Calle Universitaria, Santa Ana, El Salvador', 'destino_mapa', 4.21, '9'),
+(8, 5, 00001, 00001, 'Instituto Nacional Alejandro de Humbolt', 'Ahuachapán, El Salvador', 'destino_mapa', 39.06, '10'),
+(9, 6, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 38.20, '6'),
+(10, 7, 00002, 00013, 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'destino_mapa', 21.92, '11'),
+(11, 8, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 40.50, '12'),
+(12, 9, 00002, 00013, 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 'destino_oficina', 44.00, '14'),
+(13, 10, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 30.40, '16'),
+(14, 11, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 54.60, '18'),
+(15, 12, 00005, 00084, 'Centro de Recreación conchalio', 'CA-2, La Libertad, El Salvador', 'destino_mapa', 72.46, '20'),
+(16, 13, 00007, 00116, 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Cuscatlán', 'destino_oficina', 61.30, '21'),
+(17, 14, 00005, 00084, 'Taller en Hato nuevo', 'Ruta Militar, Hato Nuevo, El Salvador', 'destino_mapa', 5.13, '23'),
+(18, 14, 00012, 00205, 'Empresa en comacaran', 'Calle San Miguel - Comacaran, Comacarán, El Salvador', 'destino_mapa', 16.31, '24'),
+(19, 15, 00006, 00097, 'Empresa capacitadora', 'Calle Las Victorias, San Salvador, El Salvador', 'destino_mapa', 67.44, '25');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_empresa_viatico`
+--
+
+CREATE TABLE `vyp_empresa_viatico` (
+  `id_empresa_viatico` int(10) UNSIGNED NOT NULL,
+  `id_origen` varchar(5) NOT NULL,
+  `id_destino` varchar(5) NOT NULL,
+  `nombre_origen` varchar(250) NOT NULL,
+  `nombre_destino` varchar(250) NOT NULL,
+  `hora_salida` time NOT NULL,
+  `hora_llegada` time NOT NULL,
+  `pasaje` float(3,2) NOT NULL,
+  `viatico` float(5,2) NOT NULL,
+  `alojamiento` float(5,2) NOT NULL,
+  `horarios_viaticos` varchar(20) NOT NULL,
+  `fecha` date NOT NULL,
+  `id_mision` int(10) UNSIGNED NOT NULL,
+  `factura` varchar(45) NOT NULL,
+  `kilometraje` float(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_empresa_viatico`
+--
+
+INSERT INTO `vyp_empresa_viatico` (`id_empresa_viatico`, `id_origen`, `id_destino`, `nombre_origen`, `nombre_destino`, `hora_salida`, `hora_llegada`, `pasaje`, `viatico`, `alojamiento`, `horarios_viaticos`, `fecha`, `id_mision`, `factura`, `kilometraje`) VALUES
+(1, '00002', '1', 'Oficina Regional de Oriente (San Miguel)', 'Empresa conducción (Ahuachapan/Ahuachapán)', '06:00:00', '08:30:00', 0.00, 3.00, 0.00, '', '2017-01-03', 1, '', 252.00),
+(2, '1', '2', 'Empresa conducción (Ahuachapan/Ahuachapán)', 'Empresa conducción 2 (Santa ana/Santa ana)', '10:00:00', '10:30:00', 0.00, 0.00, 0.00, '', '2017-01-03', 1, '', 252.00),
+(3, '2', '00002', 'Empresa conducción 2 (Santa ana/Santa ana)', 'Oficina Regional de Oriente (San Miguel)', '13:30:00', '15:30:00', 0.00, 4.00, 0.00, '', '2017-01-03', 1, '', 235.00),
+(4, '00005', '3', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de Ahuachapán', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-06-14', 2, '', 44.00),
+(5, '3', '00005', 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Sonsonate', '14:00:00', '16:00:00', 0.00, 4.00, 0.00, '', '2017-06-14', 2, '', 44.00),
+(6, '00010', '5', 'Oficina Departamental de San Vicente', 'Oficina Paracentral (La Paz)', '08:00:00', '09:00:00', 0.00, 0.00, 0.00, '', '2017-11-08', 3, '', 38.20),
+(7, '5', '00010', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de San Vicente', '14:00:00', '15:00:00', 0.00, 4.00, 0.00, '', '2017-11-08', 3, '', 38.20),
+(8, '00010', '7', 'Oficina Departamental de San Vicente', 'Empresa en ilobasco (Ilobasco/Cabañas)', '06:30:00', '07:30:00', 0.00, 3.00, 0.00, '', '2017-03-23', 4, '', 32.84),
+(9, '00003', '9', 'Oficina Regional de Occidente (Santa Ana)', 'UES - Santa Ana (Santa ana/Santa ana)', '07:30:00', '07:45:00', 0.00, 0.00, 0.00, '', '2017-09-05', 5, '', 4.21),
+(10, '9', '10', 'UES - Santa Ana (Santa ana/Santa ana)', 'Instituto Nacional Alejandro de Humbolt (Ahuachapan/Ahuachapán)', '12:30:00', '13:00:00', 0.00, 0.00, 0.00, '', '2017-09-05', 5, '', 39.06),
+(11, '10', '00003', 'Instituto Nacional Alejandro de Humbolt (Ahuachapan/Ahuachapán)', 'Oficina Regional de Occidente (Santa Ana)', '15:00:00', '15:30:00', 0.65, 4.00, 0.00, '', '2017-09-05', 5, '', 39.06),
+(12, '00004', '6', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de San Vicente', '06:00:00', '06:45:00', 0.00, 3.00, 0.00, '', '2017-05-10', 6, '', 38.20),
+(13, '6', '00004', 'Oficina Departamental de San Vicente', 'Oficina Paracentral (La Paz)', '14:00:00', '14:45:00', 0.00, 4.00, 0.00, '', '2017-05-10', 6, '', 38.20),
+(14, '00003', '11', 'Oficina Regional de Occidente (Santa Ana)', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador (Santa ana/Santa ana)', '06:00:00', '06:30:00', 0.00, 3.00, 0.00, '', '2017-08-04', 7, '', 21.92),
+(15, '11', '00003', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador (Santa ana/Santa ana)', 'Oficina Regional de Occidente (Santa Ana)', '16:00:00', '16:30:00', 0.35, 4.00, 0.00, '', '2017-08-04', 7, '', 21.92),
+(16, '00012', '12', 'Oficina Departamental de Morazán', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '07:00:00', 0.00, 3.00, 0.00, '', '2017-02-16', 8, '', 40.50),
+(17, '12', '00012', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de Morazán', '10:00:00', '11:00:00', 0.00, 0.00, 0.00, '', '2017-02-16', 8, '', 40.50),
+(18, '00005', '14', 'Oficina Departamental de Sonsonate', 'Oficina Regional de Occidente (Santa Ana)', '10:00:00', '11:00:00', 0.00, 0.00, 0.00, '', '2017-10-26', 9, '', 44.00),
+(19, '14', '00005', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Sonsonate', '14:45:00', '15:30:00', 0.00, 4.00, 0.00, '', '2017-10-26', 9, '', 44.00),
+(20, '00009', '16', 'Oficina Departamental de la Libertad', 'Oficina Central (San Salvador)', '07:00:00', '07:40:00', 0.50, 0.00, 0.00, '', '2017-04-07', 10, '', 30.40),
+(21, '16', '00009', 'Oficina Central (San Salvador)', 'Oficina Departamental de la Libertad', '14:00:00', '14:45:00', 0.65, 4.00, 0.00, '', '2017-04-07', 10, '', 30.40),
+(22, '00006', '18', 'Oficina Departamental de la Unión', 'Oficina Regional de Oriente (San Miguel)', '08:00:00', '09:00:00', 0.75, 0.00, 0.00, '', '2017-12-06', 11, '', 54.60),
+(23, '18', '00006', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de la Unión', '15:00:00', '16:00:00', 0.75, 4.00, 0.00, '', '2017-12-06', 11, '', 54.60),
+(24, '00008', '20', 'Oficina Departamental de Cuscatlán', 'Centro de Recreación conchalio (La libertad/Santa tecla)', '07:00:00', '08:30:00', 1.15, 0.00, 0.00, '', '2017-06-20', 12, '', 72.46),
+(25, '20', '00008', 'Centro de Recreación conchalio (La libertad/Santa tecla)', 'Oficina Departamental de Cuscatlán', '13:30:00', '15:00:00', 1.15, 4.00, 0.00, '', '2017-06-20', 12, '', 72.46),
+(26, '00011', '21', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Cuscatlán', '06:00:00', '07:00:00', 0.75, 3.00, 0.00, '', '2017-07-17', 13, '', 61.30),
+(27, '21', '00011', 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Chalatenango', '13:15:00', '14:15:00', 0.75, 4.00, 0.00, '', '2017-07-17', 13, '', 61.30),
+(28, '00002', '23', 'Oficina Regional de Oriente (San Miguel)', 'Taller en Hato nuevo (La libertad/Santa tecla)', '07:45:00', '08:00:00', 0.00, 0.00, 0.00, '', '2017-03-08', 14, '', 5.13),
+(29, '23', '24', 'Taller en Hato nuevo (La libertad/Santa tecla)', 'Empresa en comacaran (Comacaran/San miguel)', '10:00:00', '10:30:00', 0.00, 0.00, 0.00, '', '2017-03-08', 14, '', 16.31),
+(30, '24', '00002', 'Empresa en comacaran (Comacaran/San miguel)', 'Oficina Regional de Oriente (San Miguel)', '13:30:00', '14:00:00', 0.00, 4.00, 0.00, '', '2017-03-08', 14, '', 16.31),
+(31, '00003', '25', 'Oficina Regional de Occidente (Santa Ana)', 'Empresa capacitadora (San salvador/San salvador)', '16:00:00', '17:15:00', 0.65, 0.00, 0.00, '', '2017-08-16', 15, '', 67.44),
+(32, '25', '00003', 'Empresa capacitadora (San salvador/San salvador)', 'Oficina Regional de Occidente (Santa Ana)', '07:00:00', '08:00:00', 0.65, 7.00, 22.00, '', '2017-08-17', 15, '0000032.jpg', 67.44);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_estado_solicitud`
+--
+
+CREATE TABLE `vyp_estado_solicitud` (
+  `id_estado_solicitud` int(10) UNSIGNED NOT NULL,
+  `nombre_estado` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_estado_solicitud`
+--
+
+INSERT INTO `vyp_estado_solicitud` (`id_estado_solicitud`, `nombre_estado`) VALUES
+(0, 'Incompleta'),
+(1, 'Revisión jefe inmediato'),
+(2, 'Observaciones del jefe inmediato'),
+(3, 'Revisión del director o jefe de regional'),
+(4, 'Observaciones del director o jefe de regional'),
+(5, 'Revisión del Fondo Circulante del Monto Fijo'),
+(6, 'Observaciones del Fondo Circulante del Monto Fijo'),
+(7, 'Aprobada'),
+(8, 'Pagada');
 
 -- --------------------------------------------------------
 
@@ -9563,19 +10678,65 @@ CREATE TABLE `vyp_horario_viatico` (
   `descripcion` varchar(45) NOT NULL,
   `hora_inicio` time NOT NULL DEFAULT '00:00:00',
   `hora_fin` time NOT NULL DEFAULT '00:00:00',
-  `monto` float NOT NULL,
-  `tipo` int(10) UNSIGNED NOT NULL,
-  `estado` tinyint(1) NOT NULL
+  `monto` float(5,2) NOT NULL,
+  `id_tipo` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `id_restriccion` int(10) UNSIGNED NOT NULL,
+  `id_viatico_restriccion` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `vyp_horario_viatico`
 --
 
-INSERT INTO `vyp_horario_viatico` (`id_horario_viatico`, `descripcion`, `hora_inicio`, `hora_fin`, `monto`, `tipo`, `estado`) VALUES
-(1, 'Desayuno', '05:00:00', '06:30:00', 3, 0, 0),
-(2, 'Almuerzo', '06:31:00', '18:29:00', 4, 0, 0),
-(3, 'Cena', '18:30:00', '23:59:00', 4, 0, 0);
+INSERT INTO `vyp_horario_viatico` (`id_horario_viatico`, `descripcion`, `hora_inicio`, `hora_fin`, `monto`, `id_tipo`, `estado`, `id_restriccion`, `id_viatico_restriccion`) VALUES
+(1, 'Desayuno', '05:00:00', '06:30:00', 3.00, 1, 1, 1, 0),
+(2, 'Almuerzo', '11:30:00', '13:10:00', 4.00, 1, 1, 1, 0),
+(3, 'Cena', '18:30:00', '23:59:00', 4.00, 1, 1, 1, 0),
+(4, 'Restriccion de almuerzo', '11:31:00', '13:09:00', 0.00, 2, 1, 4, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_horario_viatico_solicitud`
+--
+
+CREATE TABLE `vyp_horario_viatico_solicitud` (
+  `id_horario_solicitud` int(10) UNSIGNED NOT NULL,
+  `fecha_ruta` date NOT NULL,
+  `id_horario_viatico` int(10) UNSIGNED NOT NULL,
+  `id_mision` int(10) UNSIGNED NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  `id_ruta_visitada` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_horario_viatico_solicitud`
+--
+
+INSERT INTO `vyp_horario_viatico_solicitud` (`id_horario_solicitud`, `fecha_ruta`, `id_horario_viatico`, `id_mision`, `estado`, `id_ruta_visitada`) VALUES
+(2, '2017-01-03', 1, 1, 1, '1'),
+(5, '2017-01-03', 2, 1, 1, '3'),
+(6, '2017-06-14', 1, 2, 1, '4'),
+(7, '2017-06-14', 2, 2, 1, '5'),
+(9, '2017-11-08', 2, 3, 1, '7'),
+(13, '2017-03-23', 1, 4, 1, '8'),
+(14, '2017-09-05', 2, 5, 1, '11'),
+(15, '2017-05-10', 1, 6, 1, '12'),
+(16, '2017-05-10', 2, 6, 1, '13'),
+(17, '2017-08-04', 1, 7, 1, '14'),
+(19, '2017-08-04', 2, 7, 1, '15'),
+(20, '2017-02-16', 1, 8, 1, '16'),
+(21, '2017-10-26', 2, 9, 1, '19'),
+(22, '2017-04-07', 2, 10, 1, '21'),
+(23, '2017-12-06', 2, 11, 1, '23'),
+(25, '2017-06-20', 2, 12, 1, '25'),
+(26, '2017-07-17', 1, 13, 1, '26'),
+(27, '2017-07-17', 2, 13, 1, '27'),
+(28, '2017-07-17', 2, 13, 1, '28'),
+(29, '2017-03-08', 2, 14, 1, '30'),
+(30, '2017-08-16', 3, 15, 1, '32'),
+(31, '2017-08-17', 1, 15, 1, '32');
 
 -- --------------------------------------------------------
 
@@ -9588,7 +10749,6 @@ CREATE TABLE `vyp_informacion_empleado` (
   `nr` varchar(4) NOT NULL,
   `nr_jefe_inmediato` varchar(4) NOT NULL,
   `id_oficina_departamental` varchar(5) NOT NULL,
-  `id_region` int(5) UNSIGNED ZEROFILL NOT NULL,
   `partida` varchar(45) NOT NULL,
   `sub_numero` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -9597,8 +10757,24 @@ CREATE TABLE `vyp_informacion_empleado` (
 -- Volcado de datos para la tabla `vyp_informacion_empleado`
 --
 
-INSERT INTO `vyp_informacion_empleado` (`id_informacion_empleado`, `nr`, `nr_jefe_inmediato`, `id_oficina_departamental`, `id_region`, `partida`, `sub_numero`) VALUES
-(1, '2588', '988C', '1', 00001, '', '');
+INSERT INTO `vyp_informacion_empleado` (`id_informacion_empleado`, `nr`, `nr_jefe_inmediato`, `id_oficina_departamental`, `partida`, `sub_numero`) VALUES
+(1, '2588', '988C', '00001', '', ''),
+(2, '335C', '988C', '00002', '', ''),
+(3, '1462', '988C', '00005', '', ''),
+(4, '2665', '988C', '00010', '', ''),
+(5, '391C', '988C', '00010', '', ''),
+(6, '2818', '988C', '00003', '', ''),
+(7, '672C', '988C', '00004', '', ''),
+(8, '978C', '988C', '00003', '', ''),
+(9, '2905', '988C', '00012', '', ''),
+(10, '2788', '988C', '00005', '', ''),
+(11, '749C', '988C', '00009', '', ''),
+(12, '2647', '988C', '00006', '', ''),
+(13, '2347', '988C', '00008', '', ''),
+(14, '2781', '988C', '00011', '', ''),
+(15, '854C', '988C', '00007', '', ''),
+(16, '772C', '988C', '00001', '', ''),
+(17, '988C', '997C', '00001', '', '');
 
 -- --------------------------------------------------------
 
@@ -9610,19 +10786,42 @@ CREATE TABLE `vyp_mision_oficial` (
   `id_mision_oficial` int(10) UNSIGNED NOT NULL,
   `nr_empleado` varchar(5) NOT NULL,
   `nombre_completo` varchar(100) NOT NULL,
-  `fecha_mision` date NOT NULL,
-  `actividad_realizada` varchar(500) NOT NULL,
-  `estado` varchar(45) NOT NULL,
-  `jefe_inmediato` varchar(45) NOT NULL,
-  `fecha_solicitud` datetime NOT NULL
+  `fecha_mision_inicio` date NOT NULL,
+  `fecha_mision_fin` date NOT NULL,
+  `fecha_solicitud` datetime NOT NULL,
+  `id_actividad_realizada` int(10) UNSIGNED NOT NULL,
+  `detalle_actividad` varchar(500) NOT NULL,
+  `nr_jefe_inmediato` varchar(5) NOT NULL,
+  `nr_jefe_regional` varchar(5) NOT NULL,
+  `aprobado1` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `aprobado2` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `aprobado3` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `estado` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `ruta_justificacion` varchar(200) NOT NULL,
+  `ultima_observacion` datetime NOT NULL,
+  `fecha_pago` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `vyp_mision_oficial`
 --
 
-INSERT INTO `vyp_mision_oficial` (`id_mision_oficial`, `nr_empleado`, `nombre_completo`, `fecha_mision`, `actividad_realizada`, `estado`, `jefe_inmediato`, `fecha_solicitud`) VALUES
-(1, '2588', 'JOSE ROBERTO  HENRIQUEZ GARCIA', '2018-01-16', 'probando solicitud', 'revision', '', '2018-01-16 21:56:52');
+INSERT INTO `vyp_mision_oficial` (`id_mision_oficial`, `nr_empleado`, `nombre_completo`, `fecha_mision_inicio`, `fecha_mision_fin`, `fecha_solicitud`, `id_actividad_realizada`, `detalle_actividad`, `nr_jefe_inmediato`, `nr_jefe_regional`, `aprobado1`, `aprobado2`, `aprobado3`, `estado`, `ruta_justificacion`, `ultima_observacion`, `fecha_pago`) VALUES
+(1, '335C', 'ABEL   CABRERA ROMAN', '2017-01-03', '2017-01-03', '2017-01-03 09:34:49', 7, 'transporte', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000001.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, '1462', 'ANA CELIA  HUEZO CACERES', '2017-06-14', '2017-06-14', '2017-06-14 11:23:19', 1, 'inspección', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000002.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, '2665', 'ANGEL WILLIAN  CRUZ GARCIA', '2017-11-08', '2017-11-08', '2017-11-08 11:45:29', 17, 'soporte tecnico', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000003.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, '391C', 'ANTONIO ALBERTO  PARRA PANIAGUA', '2017-03-23', '2017-03-23', '2017-03-23 11:58:53', 6, 'notificaciones', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000004.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, '2818', 'BRENDA PATRICIA  TEOS QUIJADA', '2017-09-05', '2017-09-05', '2017-09-05 19:34:01', 35, 'charlas', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000005.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, '672C', 'CARLOS ALBERTO  MENDEZ CASTRO', '2017-05-10', '2017-05-10', '2017-05-10 19:38:50', 9, 'mantenimiento', '988C', '862C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000006.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, '978C', 'CARLOS EDUARDO  SALDAÑA AGUILAR', '2017-08-04', '2017-08-04', '2017-08-04 19:44:14', 16, 'Vigilancia', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000007.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, '2905', 'CELIA LUZ  TREJO  DE CANJURA', '2017-02-16', '2017-02-16', '2017-02-16 20:50:40', 15, 'Charla sobre orientación laboral', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000008.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, '2788', 'CESAR RAMON  LINARES SERRANO', '2017-10-26', '2017-10-26', '2017-10-26 20:56:28', 17, 'soporte tecnico', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000009.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, '749C', 'EDGARDO ULISES  QUINTANILLA', '2017-04-07', '2017-04-07', '2017-04-07 21:01:02', 1, 'Inspeccion', '988C', '753C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000010.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, '2647', 'KENNETH VLADIMIR  SERRANO ROSALES', '2017-12-06', '2017-12-06', '2017-12-06 21:05:52', 9, 'Reparación de aire acondicionado', '988C', '845C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000011.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, '2347', 'JUAN SANTOS  GRACIAS ESCOBAR', '2017-06-20', '2017-06-20', '2017-06-20 21:15:22', 11, 'Entrega de insumos', '988C', '802C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000012.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, '2781', 'JOEL ANTONIO  FLORES MARTINEZ', '2017-07-17', '2017-07-17', '2017-07-17 22:16:11', 9, 'Reparación de fusible', '988C', '814C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000013.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, '335C', 'ABEL   CABRERA ROMAN', '2017-03-08', '2017-03-08', '2017-03-08 22:29:03', 7, 'transporte de personal', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000014.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, '2818', 'BRENDA PATRICIA  TEOS QUIJADA', '2017-08-16', '2017-08-17', '2017-08-17 22:55:57', 3, 'Capactacion', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000015.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -9635,7 +10834,10 @@ CREATE TABLE `vyp_observacion_solicitud` (
   `id_mision` int(10) UNSIGNED NOT NULL,
   `observacion` varchar(150) NOT NULL,
   `fecha_hora` datetime NOT NULL,
-  `corregido` tinyint(1) NOT NULL
+  `corregido` tinyint(1) NOT NULL,
+  `nr_observador` varchar(5) NOT NULL,
+  `id_tipo_observador` int(10) UNSIGNED NOT NULL,
+  `tipo_observador` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -9645,7 +10847,7 @@ CREATE TABLE `vyp_observacion_solicitud` (
 --
 
 CREATE TABLE `vyp_oficinas` (
-  `id_oficina` int(11) NOT NULL,
+  `id_oficina` int(5) UNSIGNED ZEROFILL NOT NULL,
   `nombre_oficina` varchar(200) NOT NULL,
   `direccion_oficina` varchar(400) NOT NULL,
   `jefe_oficina` varchar(250) NOT NULL,
@@ -9653,26 +10855,27 @@ CREATE TABLE `vyp_oficinas` (
   `latitud_oficina` varchar(50) NOT NULL,
   `longitud_oficina` varchar(50) NOT NULL,
   `id_departamento` int(5) UNSIGNED ZEROFILL NOT NULL,
-  `id_municipio` int(5) UNSIGNED ZEROFILL NOT NULL
+  `id_municipio` int(5) UNSIGNED ZEROFILL NOT NULL,
+  `id_zona` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `vyp_oficinas`
 --
 
-INSERT INTO `vyp_oficinas` (`id_oficina`, `nombre_oficina`, `direccion_oficina`, `jefe_oficina`, `email_oficina`, `latitud_oficina`, `longitud_oficina`, `id_departamento`, `id_municipio`) VALUES
-(1, 'Oficina Central (San Salvador)', 'Centro de Gobierno, San Salvador, El Salvador', '116 ', 'correo@mtps.gob.sv', '13.705537711909635', ' -89.20028865337372', 00006, 00097),
-(2, 'Oficina Regional de Oriente (San Miguel)', 'San Miguel, El Salvador', '218 ', 'correo@mtps.gob.sv', '13.478022085521037', ' -88.17572772502899', 00012, 00199),
-(3, 'Oficina Regional de Occidente (Santa Ana)', 'Urbanizacion Pinar, Santa Ana, El Salvador', '1000035 ', 'correo@mtps.gob.sv', '13.995933662977752', ' -89.55837696790695', 00002, 00013),
-(4, 'Oficina Paracentral (La Paz)', '3a Av. Sur, Zacatecoluca, La Paz.', '472 ', 'correo@mtps.gob.sv', '13.50745798979771', ' -88.86813461780548', 00008, 00132),
-(5, 'Oficina Departamental de Usulután', 'Usulután, El Salvador', '470 ', 'correo@mtps.gob.sv', '13.343002533617929', ' -88.43868026509881', 00011, 00176),
-(6, 'Oficina Departamental de Sonsonate', 'Final Res. Rafael Campos, Bulevard Las Palmeras, No.1, Sonsonate.', '197 ', 'correo@mtps.gob.sv', '13.72253757324673', ' -89.7272295691073', 00003, 00026),
-(7, 'Oficina Departamental de la Unión', 'La Unión, El Salvador', '761 ', 'correo@mtps.gob.sv', '13.33673891971017', ' -87.84370729699731', 00014, 00245),
-(8, 'Oficina Departamental de Ahuachapán', 'Ahuachapán, El Salvador', '458 ', 'correo@mtps.gob.sv', '13.921222237319311', ' -89.84681227477267', 00001, 00001),
-(9, 'Oficina Departamental de Cabañas', 'Barrio El Calvario, Sensuntepeque, El Salvador', '57 ', 'correo@mtps.gob.sv', '13.874194385184378', ' -88.63067764788866', 00009, 00154),
-(10, 'Oficina Departamental de Cuscatlán', 'Calle Francisco Lopez Oriente, Cojutepeque, El Salvador', '86 ', 'correo@mtps.gob.sv', '13.721834047305459', ' -88.93401478417218', 00007, 00116),
-(11, 'Oficina Departamental de la Libertad', 'Residencial Vila Camila, Santa Tecla, El Salvador', '349 ', 'correo@mtps.gob.sv', '13.677131076213042', ' -89.28797140717506', 00005, 00075),
-(12, 'Oficina Departamental de San Vicente', '3a Av. Nte. y 5a Calle Pte., San Vicente.', '818 ', 'correo@mtps.gob.sv', '13.64702941077421', ' -88.78594879992306', 00010, 00163);
+INSERT INTO `vyp_oficinas` (`id_oficina`, `nombre_oficina`, `direccion_oficina`, `jefe_oficina`, `email_oficina`, `latitud_oficina`, `longitud_oficina`, `id_departamento`, `id_municipio`, `id_zona`) VALUES
+(00001, 'Oficina Central (San Salvador)', 'Centro de Gobierno, San Salvador, El Salvador', '1000106 ', 'correo@mtps.gob.sv', '13.705537711909635', ' -89.20028865337372', 00006, 00097, 2),
+(00002, 'Oficina Regional de Oriente (San Miguel)', 'Av. José Simeón Cañas No.408, Barrio El Calvario, San Miguel', '218 ', 'correo@mtps.gob.sv', '13.478020143745484', ' -88.17572677799063', 00012, 00199, 3),
+(00003, 'Oficina Regional de Occidente (Santa Ana)', 'Urbanizacion Pinar, Santa Ana, El Salvador', '1000035 ', 'correo@mtps.gob.sv', '13.995933662977752', ' -89.5583762973547', 00002, 00013, 1),
+(00004, 'Oficina Paracentral (La Paz)', 'Zacatecoluca, El Salvador', '472 ', 'correo@mtps.gob.sv', '13.507455381779852', ' -88.86813059449196', 00008, 00132, 2),
+(00005, 'Oficina Departamental de Sonsonate', 'Colonia Santa Eugenia, Sonzacate, El Salvador', '197 ', 'correo@mtps.gob.sv', '13.732193904974437', ' -89.7128427028656', 00003, 00041, 1),
+(00006, 'Oficina Departamental de la Unión', 'Sector San Antonio, La Union, El Salvador', '761 ', 'correo@mtps.gob.sv', '13.338405970309157', ' -87.85244576632977', 00014, 00245, 3),
+(00007, 'Oficina Departamental de Ahuachapán', 'Ahuachapán, El Salvador', '458 ', 'correo@mtps.gob.sv', '13.92127967535732', ' -89.84679724999131', 00001, 00001, 1),
+(00008, 'Oficina Departamental de Cuscatlán', 'Cojutepeque, El Salvador', '86 ', 'correo@mtps.gob.sv', '13.721479677884348', ' -88.93028140068054', 00007, 00116, 2),
+(00009, 'Oficina Departamental de la Libertad', 'Residencial Vila Camila, Santa Tecla, El Salvador', '236 ', 'correo@mtps.gob.sv', '13.677130422693326', ' -89.28797056844309', 00005, 00075, 2),
+(00010, 'Oficina Departamental de San Vicente', 'Colonia dos Puentes, San Vicente, El Salvador', '818 ', 'correo@mtps.gob.sv', '13.647047397980815', ' -88.78603285368712', 00010, 00163, 2),
+(00011, 'Oficina Departamental de Chalatenango', 'Barrio El Calvario, San Alejo, El Salvador', '208 ', 'correo@mtps.gob.sv', '13.432384638700917', ' -87.96192592706672', 00014, 00258, 3),
+(00012, 'Oficina Departamental de Morazán', 'Barrio El Centro, San Francisco Gotera, El Salvador', '134 ', 'correo@mtps.gob.sv', '13.695739562788676', ' -88.10587495565414', 00013, 00219, 3);
 
 -- --------------------------------------------------------
 
@@ -9684,6 +10887,23 @@ CREATE TABLE `vyp_oficinas_telefono` (
   `id_vyp_oficinas_telefono` int(11) NOT NULL,
   `telefono_vyp_oficnas_telefono` varchar(9) NOT NULL,
   `id_oficina_vyp_oficnas_telefono` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_pasajes`
+--
+
+CREATE TABLE `vyp_pasajes` (
+  `id_solicitud_pasaje` int(11) NOT NULL,
+  `fecha_mision` date NOT NULL,
+  `no_expediente` varchar(15) NOT NULL,
+  `empresa_visitada` varchar(30) NOT NULL,
+  `direccion_empresa` varchar(50) NOT NULL,
+  `nr` varchar(10) NOT NULL,
+  `monto_pasaje` float(10,2) NOT NULL,
+  `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -9702,46 +10922,85 @@ CREATE TABLE `vyp_rutas` (
   `descripcion_destino_vyp_rutas` varchar(200) DEFAULT NULL,
   `latitud_destino_vyp_rutas` varchar(200) DEFAULT NULL,
   `longitud_destino_vyp_rutas` varchar(200) DEFAULT NULL,
-  `opcionruta_vyp_rutas` varchar(35) NOT NULL
+  `opcionruta_vyp_rutas` varchar(35) NOT NULL,
+  `nombre_empresa_vyp_rutas` varchar(200) DEFAULT NULL,
+  `direccion_empresa_vyp_rutas` varchar(400) DEFAULT NULL,
+  `estado_vyp_rutas` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `vyp_rutas`
 --
 
-INSERT INTO `vyp_rutas` (`id_vyp_rutas`, `id_oficina_origen_vyp_rutas`, `id_oficina_destino_vyp_rutas`, `id_departamento_vyp_rutas`, `id_municipio_vyp_rutas`, `km_vyp_rutas`, `descripcion_destino_vyp_rutas`, `latitud_destino_vyp_rutas`, `longitud_destino_vyp_rutas`, `opcionruta_vyp_rutas`) VALUES
-(1, 1, 8, 00001, 00001, 96.15, 'Oficina Central - Oficina Ahuachapán', '', '', 'destino_oficina'),
-(2, 1, 3, 00002, 00013, 65.69, 'Oficina Central - Oficina Santa Ana', '', '', 'destino_oficina'),
-(3, 1, 6, 00003, 00026, 66.36, 'Oficina Central - Oficina Sonsonate', '', '', 'destino_oficina'),
-(4, 1, 11, 00005, 00075, 15.71, 'Oficina Central - Oficina La Libertad', '', '', 'destino_oficina'),
-(5, 1, 10, 00007, 00116, 31.41, 'Oficina Central - Oficina Cuscatlán', '', '', 'destino_oficina'),
-(6, 1, 4, 00008, 00132, 62.08, 'Oficina Central - Oficina La Paz', '', '', 'destino_oficina'),
-(7, 1, 9, 00009, 00154, 80.18, 'Oficina Central - Oficina Cabañas', '', '', 'destino_oficina'),
-(8, 1, 12, 00010, 00163, 55.81, 'Oficina Central - Oficina San Vicente', '', '', 'destino_oficina'),
-(9, 1, 5, 00011, 00176, 113.17, 'Oficina Central - Oficina Usulután', '', '', 'destino_oficina'),
-(10, 1, 2, 00012, 00199, 132.04, 'Oficina Central - Oficina San Miguel', '', '', 'destino_oficina'),
-(11, 1, 7, 00014, 00245, 176.84, 'Oficina Central - Oficina La Unión', '', '', 'destino_oficina');
+INSERT INTO `vyp_rutas` (`id_vyp_rutas`, `id_oficina_origen_vyp_rutas`, `id_oficina_destino_vyp_rutas`, `id_departamento_vyp_rutas`, `id_municipio_vyp_rutas`, `km_vyp_rutas`, `descripcion_destino_vyp_rutas`, `latitud_destino_vyp_rutas`, `longitud_destino_vyp_rutas`, `opcionruta_vyp_rutas`, `nombre_empresa_vyp_rutas`, `direccion_empresa_vyp_rutas`, `estado_vyp_rutas`) VALUES
+(1, 2, 0, 00001, 00001, 252.00, 'Oficina Regional de Oriente (San Miguel) - AHUACHAPÁN/AHUACHAPAN', '', '', 'destino_municipio', 'Empresa conducción', 'Dirección de la empresa conducción', 0),
+(2, 2, 0, 00002, 00013, 235.00, 'Oficina Regional de Oriente (San Miguel) - SANTA ANA/SANTA ANA', '', '', 'destino_municipio', 'Empresa conducción 2', 'Dirección segunda empresa de conducción 2', 0),
+(3, 5, 7, 00001, 00001, 44.00, 'Oficina Departamental de Sonsonate - Oficina Departamental de Ahuachapán', '13.92127967535732', ' -89.84679724999131', 'destino_oficina', 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Ahuachapán', 0),
+(4, 7, 5, 00003, 00041, 44.00, 'Oficina Departamental de Ahuachapán - Oficina Departamental de Sonsonate', '13.732193904974437', ' -89.7128427028656', 'destino_oficina', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de Sonsonate', 0),
+(5, 10, 4, 00008, 00132, 38.20, 'Oficina Departamental de San Vicente - Oficina Paracentral (La Paz)', '13.507455381779852', ' -88.86813059449196', 'destino_oficina', 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 0),
+(6, 4, 10, 00010, 00163, 38.20, 'Oficina Paracentral (La Paz) - Oficina Departamental de San Vicente', '13.647047397980815', ' -88.78603285368712', 'destino_oficina', 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 0),
+(7, 10, 0, 00009, 00158, 32.84, 'Oficina Departamental de San Vicente - CABAÑAS/ILOBASCO', '13.834522184855262', '-88.85495385927561', 'destino_mapa', 'Empresa en ilobasco', 'Carretera desconocida, Ilobasco, El Salvador', 0),
+(8, 10, 0, 00010, 00172, 15.94, 'Oficina Departamental de San Vicente - SAN VICENTE/SANTO DOMINGO', '13.721805268603223', '-88.85241975348868', 'destino_mapa', 'Avicola los teques', 'Carretera desconocida, Santo Domingo, El Salvador', 0),
+(9, 3, 0, 00002, 00013, 4.21, 'Oficina Regional de Occidente (Santa Ana) - SANTA ANA/SANTA ANA', '13.970743229788164', '-89.57460152450267', 'destino_mapa', 'UES - Santa Ana', 'Calle Universitaria, Santa Ana, El Salvador', 0),
+(10, 3, 0, 00001, 00001, 39.06, 'Oficina Regional de Occidente (Santa Ana) - AHUACHAPÁN/AHUACHAPAN', '13.925049241350859', '-89.85095500946045', 'destino_mapa', 'Instituto Nacional Alejandro de Humbolt', 'Ahuachapán, El Salvador', 0),
+(11, 3, 0, 00002, 00013, 21.92, 'Oficina Regional de Occidente (Santa Ana) - SANTA ANA/SANTA ANA', '13.891254887219594', '-89.54903213372955', 'destino_mapa', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 0),
+(12, 12, 2, 00012, 00199, 40.50, 'Oficina Departamental de Morazán - Oficina Regional de Oriente (San Miguel)', '13.478020143745484', ' -88.17572677799063', 'destino_oficina', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 0),
+(13, 2, 12, 00013, 00219, 40.50, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de Morazán', '13.695739562788676', ' -88.10587495565414', 'destino_oficina', 'Oficina Departamental de Morazán', 'Oficina Departamental de Morazán', 0),
+(14, 5, 3, 00002, 00013, 44.00, 'Oficina Departamental de Sonsonate - Oficina Regional de Occidente (Santa Ana)', '13.995933662977752', ' -89.5583762973547', 'destino_oficina', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 0),
+(15, 3, 5, 00003, 00041, 44.00, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de Sonsonate', '13.732193904974437', ' -89.7128427028656', 'destino_oficina', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de Sonsonate', 0),
+(16, 9, 1, 00006, 00097, 30.40, 'Oficina Departamental de la Libertad - Oficina Central (San Salvador)', '13.705537711909635', ' -89.20028865337372', 'destino_oficina', 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 0),
+(17, 1, 9, 00005, 00075, 30.40, 'Oficina Central (San Salvador) - Oficina Departamental de la Libertad', '13.677130422693326', ' -89.28797056844309', 'destino_oficina', 'Oficina Departamental de la Libertad', 'Oficina Departamental de la Libertad', 0),
+(18, 6, 2, 00012, 00199, 54.60, 'Oficina Departamental de la Unión - Oficina Regional de Oriente (San Miguel)', '13.478020143745484', ' -88.17572677799063', 'destino_oficina', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 0),
+(19, 2, 6, 00014, 00245, 54.60, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de la Unión', '13.338405970309157', ' -87.85244576632977', 'destino_oficina', 'Oficina Departamental de la Unión', 'Oficina Departamental de la Unión', 0),
+(20, 8, 0, 00005, 00084, 72.46, 'Oficina Departamental de Cuscatlán - SANTA TECLA/LA LIBERTAD', '13.483360946780984', '-89.33601109748383', 'destino_mapa', 'Centro de Recreación conchalio', 'CA-2, La Libertad, El Salvador', 0),
+(21, 11, 8, 00007, 00116, 61.30, 'Oficina Departamental de Chalatenango - Oficina Departamental de Cuscatlán', '13.721479677884348', ' -88.93028140068054', 'destino_oficina', 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Cuscatlán', 0),
+(22, 8, 11, 00014, 00258, 61.30, 'Oficina Departamental de Cuscatlán - Oficina Departamental de Chalatenango', '13.432384638700917', ' -87.96192592706672', 'destino_oficina', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Chalatenango', 0),
+(23, 2, 0, 00005, 00084, 5.13, 'Oficina Regional de Oriente (San Miguel) - SANTA TECLA/LA LIBERTAD', '13.507530807345402', '-88.15479998017457', 'destino_mapa', 'Taller en Hato nuevo', 'Ruta Militar, Hato Nuevo, El Salvador', 0),
+(24, 2, 0, 00012, 00205, 16.31, 'Oficina Regional de Oriente (San Miguel) - SAN MIGUEL/COMACARAN', '13.529504779298957', '-88.0651089938109', 'destino_mapa', 'Empresa en comacaran', 'Calle San Miguel - Comacaran, Comacarán, El Salvador', 0),
+(25, 3, 0, 00006, 00097, 67.44, 'Oficina Regional de Occidente (Santa Ana) - SAN SALVADOR/SAN SALVADOR', '13.710369107588999', '-89.19902389671711', 'destino_mapa', 'Empresa capacitadora', 'Calle Las Victorias, San Salvador, El Salvador', 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `vyp_viatico_empresa_horario`
+-- Estructura Stand-in para la vista `vyp_vista_org_usuario`
 --
+CREATE TABLE `vyp_vista_org_usuario` (
+`id_usuario` int(50)
+,`nombre_completo` varchar(150)
+,`nr` varchar(10)
+,`sexo` varchar(1)
+,`usuario` varchar(100)
+,`password` varchar(300)
+,`id_seccion` int(50)
+,`estado` int(1)
+);
 
-CREATE TABLE `vyp_viatico_empresa_horario` (
-  `id_viatico_empresa_horario` int(10) UNSIGNED NOT NULL,
-  `id_empresa` int(10) UNSIGNED NOT NULL,
-  `id_horario` int(10) UNSIGNED NOT NULL,
-  `id_mision` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- --------------------------------------------------------
 
 --
--- Volcado de datos para la tabla `vyp_viatico_empresa_horario`
+-- Estructura para la vista `vista_viaticos`
 --
+DROP TABLE IF EXISTS `vista_viaticos`;
 
-INSERT INTO `vyp_viatico_empresa_horario` (`id_viatico_empresa_horario`, `id_empresa`, `id_horario`, `id_mision`) VALUES
-(1, 3, 1, 1),
-(2, 4, 2, 1);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_viaticos`  AS  select `info`.`id_empleado` AS `id_empleado`,`info`.`id_cargo_funcional` AS `id_cargo_funcional`,`info`.`id_seccion` AS `id_seccion`,`empleado`.`nr` AS `nr`,concat(`empleado`.`primer_nombre`,' \r\n',`empleado`.`segundo_nombre`) AS `nombre`,`mision`.`id_mision_oficial` AS `id_mision_oficial`,`viatico`.`viatico` AS `viatico`,`viatico`.`pasaje` AS `pasaje`,`viatico`.`alojamiento` AS `alojamiento`,`seccion`.`nombre_seccion` AS `nombre_seccion`,`viatico`.`id_empresa_viatico` AS `id_empresa_viatico`,`cargo`.`funcional` AS `funcional`,`mision`.`fecha_solicitud` AS `fecha_solicitud` from (((((`sir_empleado_informacion_laboral` `info` join `sir_empleado` `empleado` on((`empleado`.`id_empleado` = `info`.`id_empleado`))) join `vyp_mision_oficial` `mision` on((`empleado`.`nr` = convert(`mision`.`nr_empleado` using utf8)))) join `vyp_empresa_viatico` `viatico` on((`viatico`.`id_mision` = `mision`.`id_mision_oficial`))) join `org_seccion` `seccion` on((`seccion`.`id_seccion` = `info`.`id_seccion`))) join `sir_cargo_funcional` `cargo` on((`cargo`.`id_cargo_funcional` = `info`.`id_cargo_funcional`))) group by `viatico`.`id_empresa_viatico` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_viaticos_seccion`
+--
+DROP TABLE IF EXISTS `vista_viaticos_seccion`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_viaticos_seccion`  AS  select distinct `via`.`id_empresa_viatico` AS `id_empresa_viatico`,sum(distinct `via`.`pasaje`) AS `pasaje`,sum(distinct `via`.`viatico`) AS `viatico`,sum(distinct `via`.`alojamiento`) AS `alojamiento`,`s`.`id_seccion` AS `id_seccion`,`s`.`nombre_seccion` AS `nombre_seccion`,`eil`.`id_cargo_funcional` AS `id_cargo_funcional` from ((((`vyp_empresa_viatico` `via` join `vyp_mision_oficial` `mis` on((`via`.`id_mision` = `mis`.`id_mision_oficial`))) join `sir_empleado` `emp` on((`emp`.`nr` = convert(`mis`.`nr_empleado` using utf8)))) join `sir_empleado_informacion_laboral` `eil` on((`eil`.`id_empleado` = `emp`.`id_empleado`))) join `org_seccion` `s` on((`eil`.`id_seccion` = `s`.`id_seccion`))) group by `s`.`id_seccion`,`via`.`id_empresa_viatico` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vyp_vista_org_usuario`
+--
+DROP TABLE IF EXISTS `vyp_vista_org_usuario`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vyp_vista_org_usuario`  AS  select `org_usuario`.`id_usuario` AS `id_usuario`,`org_usuario`.`nombre_completo` AS `nombre_completo`,`org_usuario`.`nr` AS `nr`,`org_usuario`.`sexo` AS `sexo`,`org_usuario`.`usuario` AS `usuario`,`org_usuario`.`password` AS `password`,`org_usuario`.`id_seccion` AS `id_seccion`,`org_usuario`.`estado` AS `estado` from `org_usuario` ;
 
 --
 -- Índices para tablas volcadas
@@ -9901,6 +11160,18 @@ ALTER TABLE `tcm_empleado_informacion_laboral`
   ADD KEY `id_linea_trabajo` (`id_linea_trabajo`);
 
 --
+-- Indices de la tabla `vyp_actividades`
+--
+ALTER TABLE `vyp_actividades`
+  ADD PRIMARY KEY (`id_vyp_actividades`);
+
+--
+-- Indices de la tabla `vyp_alojamientos`
+--
+ALTER TABLE `vyp_alojamientos`
+  ADD PRIMARY KEY (`id_alojamiento`);
+
+--
 -- Indices de la tabla `vyp_empleado_cuenta_banco`
 --
 ALTER TABLE `vyp_empleado_cuenta_banco`
@@ -9913,10 +11184,28 @@ ALTER TABLE `vyp_empresas_visitadas`
   ADD PRIMARY KEY (`id_empresas_visitadas`);
 
 --
+-- Indices de la tabla `vyp_empresa_viatico`
+--
+ALTER TABLE `vyp_empresa_viatico`
+  ADD PRIMARY KEY (`id_empresa_viatico`);
+
+--
+-- Indices de la tabla `vyp_estado_solicitud`
+--
+ALTER TABLE `vyp_estado_solicitud`
+  ADD PRIMARY KEY (`id_estado_solicitud`);
+
+--
 -- Indices de la tabla `vyp_horario_viatico`
 --
 ALTER TABLE `vyp_horario_viatico`
   ADD PRIMARY KEY (`id_horario_viatico`);
+
+--
+-- Indices de la tabla `vyp_horario_viatico_solicitud`
+--
+ALTER TABLE `vyp_horario_viatico_solicitud`
+  ADD PRIMARY KEY (`id_horario_solicitud`);
 
 --
 -- Indices de la tabla `vyp_informacion_empleado`
@@ -9949,16 +11238,16 @@ ALTER TABLE `vyp_oficinas_telefono`
   ADD PRIMARY KEY (`id_vyp_oficinas_telefono`);
 
 --
+-- Indices de la tabla `vyp_pasajes`
+--
+ALTER TABLE `vyp_pasajes`
+  ADD PRIMARY KEY (`id_solicitud_pasaje`);
+
+--
 -- Indices de la tabla `vyp_rutas`
 --
 ALTER TABLE `vyp_rutas`
   ADD PRIMARY KEY (`id_vyp_rutas`);
-
---
--- Indices de la tabla `vyp_viatico_empresa_horario`
---
-ALTER TABLE `vyp_viatico_empresa_horario`
-  ADD PRIMARY KEY (`id_viatico_empresa_horario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -9973,7 +11262,7 @@ ALTER TABLE `glb_accion_bitacora`
 -- AUTO_INCREMENT de la tabla `glb_bitacora`
 --
 ALTER TABLE `glb_bitacora`
-  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla glb_bitacorá, para hacer referencia a la información', AUTO_INCREMENT=49;
+  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla glb_bitacorá, para hacer referencia a la información', AUTO_INCREMENT=150;
 --
 -- AUTO_INCREMENT de la tabla `org_departamento`
 --
@@ -9993,7 +11282,7 @@ ALTER TABLE `org_linea_trabajo`
 -- AUTO_INCREMENT de la tabla `org_modulo`
 --
 ALTER TABLE `org_modulo`
-  MODIFY `id_modulo` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=322;
+  MODIFY `id_modulo` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=335;
 --
 -- AUTO_INCREMENT de la tabla `org_municipio`
 --
@@ -10023,12 +11312,12 @@ ALTER TABLE `org_permiso`
 -- AUTO_INCREMENT de la tabla `org_rol`
 --
 ALTER TABLE `org_rol`
-  MODIFY `id_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT de la tabla `org_rol_modulo_permiso`
 --
 ALTER TABLE `org_rol_modulo_permiso`
-  MODIFY `id_rol_permiso` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3894;
+  MODIFY `id_rol_permiso` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4040;
 --
 -- AUTO_INCREMENT de la tabla `org_seccion`
 --
@@ -10043,22 +11332,22 @@ ALTER TABLE `org_sistema`
 -- AUTO_INCREMENT de la tabla `org_usuario`
 --
 ALTER TABLE `org_usuario`
-  MODIFY `id_usuario` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=931;
+  MODIFY `id_usuario` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=932;
 --
 -- AUTO_INCREMENT de la tabla `org_usuario_rol`
 --
 ALTER TABLE `org_usuario_rol`
-  MODIFY `id_usuario_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3345;
+  MODIFY `id_usuario_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3351;
 --
 -- AUTO_INCREMENT de la tabla `sir_cargo_funcional`
 --
 ALTER TABLE `sir_cargo_funcional`
-  MODIFY `id_cargo_funcional` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=348;
+  MODIFY `id_cargo_funcional` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=442;
 --
 -- AUTO_INCREMENT de la tabla `sir_cargo_nominal`
 --
 ALTER TABLE `sir_cargo_nominal`
-  MODIFY `id_cargo_nominal` int(5) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id_cargo_nominal` int(5) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
 --
 -- AUTO_INCREMENT de la tabla `sir_empleado`
 --
@@ -10085,30 +11374,50 @@ ALTER TABLE `sir_nivel`
 ALTER TABLE `tcm_empleado_informacion_laboral`
   MODIFY `id_empleado_informacion_laboral` int(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `vyp_actividades`
+--
+ALTER TABLE `vyp_actividades`
+  MODIFY `id_vyp_actividades` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT de la tabla `vyp_alojamientos`
+--
+ALTER TABLE `vyp_alojamientos`
+  MODIFY `id_alojamiento` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT de la tabla `vyp_empleado_cuenta_banco`
 --
 ALTER TABLE `vyp_empleado_cuenta_banco`
-  MODIFY `id_empleado_banco` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_empleado_banco` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `vyp_empresas_visitadas`
 --
 ALTER TABLE `vyp_empresas_visitadas`
-  MODIFY `id_empresas_visitadas` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_empresas_visitadas` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de la tabla `vyp_estado_solicitud`
+--
+ALTER TABLE `vyp_estado_solicitud`
+  MODIFY `id_estado_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `vyp_horario_viatico`
 --
 ALTER TABLE `vyp_horario_viatico`
-  MODIFY `id_horario_viatico` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_horario_viatico` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `vyp_horario_viatico_solicitud`
+--
+ALTER TABLE `vyp_horario_viatico_solicitud`
+  MODIFY `id_horario_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT de la tabla `vyp_informacion_empleado`
 --
 ALTER TABLE `vyp_informacion_empleado`
-  MODIFY `id_informacion_empleado` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_informacion_empleado` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `vyp_mision_oficial`
 --
 ALTER TABLE `vyp_mision_oficial`
-  MODIFY `id_mision_oficial` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_mision_oficial` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `vyp_observacion_solicitud`
 --
@@ -10118,7 +11427,7 @@ ALTER TABLE `vyp_observacion_solicitud`
 -- AUTO_INCREMENT de la tabla `vyp_oficinas`
 --
 ALTER TABLE `vyp_oficinas`
-  MODIFY `id_oficina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_oficina` int(5) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `vyp_oficinas_telefono`
 --
@@ -10128,12 +11437,7 @@ ALTER TABLE `vyp_oficinas_telefono`
 -- AUTO_INCREMENT de la tabla `vyp_rutas`
 --
 ALTER TABLE `vyp_rutas`
-  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT de la tabla `vyp_viatico_empresa_horario`
---
-ALTER TABLE `vyp_viatico_empresa_horario`
-  MODIFY `id_viatico_empresa_horario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- Restricciones para tablas volcadas
 --

@@ -1,13 +1,5 @@
 <?php
-    $user = $this->session->userdata('usuario_viatico');
-
-    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
-    $nr_usuario = "";
-    if($nr->num_rows() > 0){
-        foreach ($nr->result() as $fila) { 
-            $nr_usuario = $fila->nr; 
-        }
-    }
+    $nr_usuario = $_GET["nr"];
 
     $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
     if($info_empleado->num_rows() > 0){ 

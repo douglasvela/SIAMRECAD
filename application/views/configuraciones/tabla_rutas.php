@@ -72,6 +72,9 @@
                 if($tipo_destino=="destino_oficina") {
                     if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
+
+                            $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
+
                            echo "<tr>";
                             echo "<td>".$fila->id_vyp_rutas."</td>";
                            $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
@@ -118,6 +121,9 @@
                 }else if($tipo_destino=="destino_municipio"){
                     if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
+
+                            $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
+
                            echo "<tr>";
                           echo "<td>".$fila->id_vyp_rutas."</td>";
                           $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
@@ -167,6 +173,9 @@
                 }else if($tipo_destino=="destino_mapa"){
                      if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
+
+                            $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
+                                
                            echo "<tr>";
                           echo "<td>".$fila->id_vyp_rutas."</td>";
                            $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);

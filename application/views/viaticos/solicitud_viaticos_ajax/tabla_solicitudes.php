@@ -7,7 +7,7 @@
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
         </div>
         <div class="table-responsive">
-            <table id="myTable" class="table table-hover product-overview">
+            <table id="myTable" class="table table-hover product-overview" width="100%">
                 <thead class="bg-info text-white">
                     <tr>
                         <th style="display: none;">Fecha</th>

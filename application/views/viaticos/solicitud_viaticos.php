@@ -256,7 +256,7 @@
                 
                 for(j=0; j<viaticos.length; j++){
                     if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                        if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
+                        if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                             if(viaticos[j][0]!=ultimo_viatico){
                                 band_viatico = true;
                                 reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
@@ -304,7 +304,7 @@
 
                 for(j=0; j<viaticos.length; j++){
                     if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                        if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
+                        if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                             if(viaticos[j][0]!=ultimo_viatico){
                                 band_viatico = true;
                                 reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1']);
@@ -335,7 +335,7 @@
                         hl = hl2;
                         for(j=0; j<viaticos.length; j++){
                             if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
+                                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
                                     monto += parseFloat(viaticos[j][4]);
@@ -361,7 +361,7 @@
                         hl = ultima_hora_llegada;
                         for(j=0; j<viaticos.length; j++){
                             if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
+                                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
                                     monto += parseFloat(viaticos[j][4]);
@@ -1095,10 +1095,11 @@
     var id_municipio_mapa = "";
 
     function combo_oficina_departamento(tipo){
+        var nr = $("#nr").val();
     	var newName = 'Otro nombre',
     	xhr = new XMLHttpRequest();
 
-		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_oficinas_departamentos?tipo="+tipo);
+		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_oficinas_departamentos?tipo="+tipo+"&nr="+nr);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.onload = function() {
 		    if (xhr.status === 200 && xhr.responseText !== newName) {
@@ -1507,7 +1508,6 @@
 
     function cambiar_editar_viatico(id_viatico, id_origen, id_destino, hora_salida, hora_llegada, pasaje, viatico, alojamiento, horarios, fecha, id_mision, factura, kilometraje,band){
         $("#id_empresa_viatico").val(id_viatico);
-        $("#fecha_mision").val(fecha);
         $("#id_origen").val(id_origen);
         $("#id_destino").val(id_destino);
         $("#hora_salida").val(hora_salida);
@@ -1523,6 +1523,7 @@
 
         if(band == "edit"){
             var ruta = "";
+            $("#fecha_mision").val(fecha);
             $("#id_distancia").val(id_destino);
             cambiarkilometraje(id_destino)
             if(parseFloat(alojamiento) > 0){

@@ -3,24 +3,6 @@
     $tipo = $_GET["tipo"];
     $nr_usuario = $_GET["nr"];
 
-    /*$fecha_mision_es = date("d/m/Y",strtotime($_GET["fecha_mision"]));
-    $fecha_mision_en = date("Y-m-d",strtotime($_GET["fecha_mision"]));
-
-    $mision_oficial = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE fecha_mision = '".$fecha_mision_en."' AND nr_empleado = '".$nr_usuario."' AND id_mision_oficial <> '".$id_mision."' AND estado <> 'incompleta'");
-    if($mision_oficial->num_rows() > 0){ 
-        echo '<div class="alert alert-warning"> <i class="fa fa-warning"></i> Ya existe solicitud de viáticos para la fecha: '.$fecha_mision_es." y no podrás cobrar viáticos en los horarios siguientes:";
-        foreach ($mision_oficial->result() as $filam) {
-            echo '<hr style="margin: 5px;"">&emsp;&emsp;'.$filam->actividad_realizada.' ('.$filam->estado.')';
-            $hora_mision = $this->db->query("SELECT MIN(hora_salida) AS hora_salida, MAX(hora_llegada) AS hora_llegada FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$filam->id_mision_oficial."'");
-            if($hora_mision->num_rows() > 0){ 
-                foreach ($hora_mision->result() as $filah) {
-                    echo '<br>&emsp;&emsp;<i class="fa fa-circle"></i> Horario de la misión: '.hora($filah->hora_salida)." - ".hora($filah->hora_llegada);
-                }
-            }
-        }
-        echo '</div>';
-    }*/
-
 ?>
         <div class="table-responsive" style="font-size: 14px;">
 			<table id="tabla_viaticos" name="tabla_viaticos" class="table table-hover table-bordered" width="100%">
