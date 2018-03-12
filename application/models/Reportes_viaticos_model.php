@@ -78,14 +78,20 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
     function obtenerViaticoMayoraMenor($data){
         $anio = $data['anio'];
         $dir = $data['dir'];
+        $recursividad = $data['recursividad'];
 
-        $prueba = $this->db->query("SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir'");
+            $prueba = $this->db->query("SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir'");
 
-        if($prueba->num_rows()>0){
-          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos, sum(em.alojamiento) as alojamientos,(SUM(em.pasaje) + SUM(em.viatico) + sum(em.alojamiento)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion IN (SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir')  GROUP BY mo.nr_empleado ORDER BY total DESC");
-        }else{
-          $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos, sum(em.alojamiento) as alojamientos,(SUM(em.pasaje) + SUM(em.viatico) + sum(em.alojamiento)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion = '$dir'  GROUP BY mo.nr_empleado ORDER BY total DESC");
-        }
+            if($prueba->num_rows()>0){
+              if($recursividad=="si"){
+                $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos, sum(em.alojamiento) as alojamientos,(SUM(em.pasaje) + SUM(em.viatico) + sum(em.alojamiento)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion IN (SELECT DISTINCT s4.id_seccion FROM org_seccion as s1 LEFT JOIN org_seccion as s2 ON (s1.id_seccion=s2.depende or s1.id_seccion=s2.id_seccion) LEFT JOIN org_seccion as s3 ON (s2.id_seccion=s3.depende or s2.id_seccion=s3.id_seccion) LEFT JOIN org_seccion as s4 ON (s3.id_seccion=s4.depende or s3.id_seccion=s4.id_seccion) WHERE s1.depende = '$dir')  GROUP BY mo.nr_empleado ORDER BY total DESC");
+              }else{
+                $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos, sum(em.alojamiento) as alojamientos,(SUM(em.pasaje) + SUM(em.viatico) + sum(em.alojamiento)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion = '$dir'  GROUP BY mo.nr_empleado ORDER BY total DESC");
+              }
+
+            }else{
+              $viaticos1= $this->db->query("SELECT mo.nr_empleado, mo.nombre_completo, SUM(em.pasaje) AS pasajes, SUM(em.viatico) AS viaticos, sum(em.alojamiento) as alojamientos,(SUM(em.pasaje) + SUM(em.viatico) + sum(em.alojamiento)) AS total FROM vyp_mision_oficial AS mo INNER JOIN vyp_empresa_viatico AS em INNER JOIN org_usuario as u   WHERE mo.id_mision_oficial = em.id_mision AND YEAR(mo.fecha_solicitud) = '$anio' AND mo.nr_empleado=u.nr AND u.id_seccion = '$dir'  GROUP BY mo.nr_empleado ORDER BY total DESC");
+            }
         return $viaticos1;
     }
     function obtenerNombreSeccion($data){
