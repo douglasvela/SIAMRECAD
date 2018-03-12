@@ -20,6 +20,12 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('templates/footer');
 
 	}
+	public function viaticos_pagados(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_pagados');
+		$this->load->view('templates/footer');
+
+	}
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
 		$this->load->model('Reportes_viaticos_model');
@@ -946,7 +952,7 @@ class Menu_reportes extends CI_Controller {
 		}
 	}
 
-	public function reporte_viatico_pagado_empleado($id,$min,$max){
+	public function reporte_viatico_pagado_empleado($tipo,$id,$min,$max){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		/*Constructor variables
@@ -975,7 +981,18 @@ class Menu_reportes extends CI_Controller {
 		</td>
 	 	</tr></table>';
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -1007,7 +1024,7 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2">Detalle Actividad</th>
 						<th align="center" colspan="3">Tipo</th>
 						<th align="center" rowspan="2">Estado</th>
-						 
+						 <th align="center" rowspan="2">Fecha Pago</th>
 					</tr>
 					<tr>
 						<th align="center">Viaticos</th>
@@ -1039,6 +1056,7 @@ class Menu_reportes extends CI_Controller {
 							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
 							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
+							<td>'.date('d-m-Y',strtotime($viaticos->fecha_pago)).'</td>
 						</tr>
 						';
 					
@@ -1053,14 +1071,159 @@ class Menu_reportes extends CI_Controller {
 				</tbody>
 			</table>
 
-        ';         // LOAD a stylesheet         
-        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->SetTitle('Viaticos por Pagados por Empleado');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-		$this->mpdf->WriteHTML($cuerpo);
+        ';         // LOAD a stylesheet
+        if($tipo=="pdf"){         
+	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->SetTitle('Viaticos por Pagados por Empleado');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+			$this->mpdf->WriteHTML($cuerpo);
 
-		$this->mpdf->Output();
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.=$cuerpo;
+		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
+
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("Office 2007 XLSX Test Document")
+										 ->setSubject("Office 2007 XLSX Test Document")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','ESTADO','FECHA PAGO');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A10',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B10',  $titulosColumnas[1])
+			    ->setCellValue('C10',  $titulosColumnas[2])
+			    ->setCellValue('D10',  $titulosColumnas[3])
+			    ->setCellValue('E10',  $titulosColumnas[4])
+			    ->setCellValue('F10',  $titulosColumnas[5])
+			    ->setCellValue('G10',  $titulosColumnas[6])
+			    ->setCellValue('H10',  $titulosColumnas[7])
+			    ->setCellValue('I10',  $titulosColumnas[8])
+			    ->setCellValue('J10',  $titulosColumnas[9]);							 
+			$data = array('nr'=>$id);
+			$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
+			foreach ($empleado_NR_viatico->result() as $key) {	
+			}
+			$ids = array(
+				'nr' =>  $key->nr,
+				'fmin' => $min,
+				'fmax' => $max
+			);
+			$viatico = $this->Reportes_viaticos_model->obtenerListaviaticoPagado($ids);
+
+			// Add some data
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS PAGADOS POR EMPLEADO")
+			            ->setCellValue('A7', "NR")
+			            ->setCellValue('B7', $id)
+			            ->setCellValue('A8', "NOMBRE")
+			            ->setCellValue('B8', $key->nombre_completo);
+			    $f=11;
+			if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
+					foreach ($estado->result() as $estado_detalle) {}
+					$actividad = $this->Reportes_viaticos_model->obtenerDetalleActividad($viaticos->id_actividad_realizada);
+					foreach ($actividad->result() as $actividad_detalle) {}
+					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
+					foreach ($totales->result() as $totales_detalle) {}
+
+				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':H'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+
+				// Miscellaneous glyphs, UTF-8
+				$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, date('d-m-Y',strtotime($viaticos->fecha_solicitud)))
+				            ->setCellValue('B'.$f, date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)))
+				            ->setCellValue('C'.$f, date('d-m-Y',strtotime($viaticos->fecha_mision_fin)))
+				            ->setCellValue('D'.$f, ($actividad_detalle->nombre_vyp_actividades))
+				            ->setCellValue('E'.$f,utf8_decode($viaticos->detalle_actividad))
+				            ->setCellValue('F'.$f,number_format($totales_detalle->viatico,2,".",","))
+				            ->setCellValue('G'.$f,number_format($totales_detalle->pasaje,2,".",","))
+				            ->setCellValue('H'.$f,number_format($totales_detalle->alojamiento,2,".",","))
+				            ->setCellValue('I'.$f,ucwords($estado_detalle->nombre_estado))
+				            ->setCellValue('J'.$f,date('d-m-Y',strtotime($viaticos->fecha_pago)));
+				         $f++;
+				}
+			}else{
+				$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':D'.$f);
+
+			}
+			
+			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4')
+    			->mergeCells('B8:C8');
+
+			for($i = 'A'; $i <= 'J'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A8')->getFont()->setBold(true); 
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A10:K10')->getFont()->setBold(true); 
+
+
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Pagados');
+
+
+			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+			$this->objPHPExcel->setActiveSheetIndex(0);
+
+
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_pagados.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
+		}
 	}
 
 	public function reporte_monto_viatico_mayor_a_menor($anio,$dir){
