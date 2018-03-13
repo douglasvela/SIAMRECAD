@@ -12,21 +12,7 @@
 	       }else{
 			recursividad="no";
 	       }
-	       
-	      /* if($("#seccion4").val()!="0"){
-	         
-	       }else if($("#seccion3").val()!="0"){
-	         dir = $("#seccion3").val();
-	       }else if($("#seccion2").val()!="0"){
-	         dir = $("#seccion2").val();
-	       }else if($("#seccion1").val()!="0"){
-	         dir = $("#seccion1").val();
-	       }else if($("#seccion_principal").val()!="0"){
-	         dir = $("#seccion_principal").val();
-	       }else{
-	         swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
-	         return;
-	       }*/
+	        
 	       if(fecha==""){
 	          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
 	       }else{
