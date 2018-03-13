@@ -32,6 +32,12 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('templates/footer');
 
 	}
+	public function viaticos_por_periodo(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_periodo');
+		$this->load->view('templates/footer');
+
+	}
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
 		$this->load->model('Reportes_viaticos_model');
@@ -1630,7 +1636,7 @@ class Menu_reportes extends CI_Controller {
 		
 	}
 
-	public function reporte_viaticos_por_periodo($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
+	public function reporte_viaticos_por_periodo($tipo,$anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		/*Constructor variables
@@ -1659,7 +1665,18 @@ class Menu_reportes extends CI_Controller {
 		</td>
 	 	</tr></table>';
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -1747,14 +1764,19 @@ class Menu_reportes extends CI_Controller {
 			</table><br>
 			<img src="application/controllers/informes/graficas/grafica_vm_'.$this->session->userdata('usuario_viatico').'.png" alt="">
         ';         // LOAD a stylesheet         
-        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->SetTitle('Viaticos por Periodo');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-		$this->mpdf->WriteHTML($cuerpo);
+        if($tipo=="pdf"){
+	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->SetTitle('Viaticos por Periodo');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+			$this->mpdf->WriteHTML($cuerpo);
 
-		$this->mpdf->Output();
-		
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
+
+		}
 	}
 	public function reporte_viaticos_por_cargo($cargo,$anio){
 		$this->load->library('mpdf');
