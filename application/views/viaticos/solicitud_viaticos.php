@@ -94,6 +94,7 @@
     function validar_viatico_first(hs,hl){
         var fecha_ruta = $("#fecha_mision").val();
         var id_mision = $("#id_mision").val();
+        var kilometraje_new = parseFloat($("#id_distancia option:selected").text().trim());
         var band_viatico = false;
         reg_viaticos = [];
         reg_alojamiento = [];
@@ -107,21 +108,25 @@
             hl = ultima_hora_llegada;
         }
 
-        for(j=0; j<viaticos.length; j++){
-            if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
-                    band_viatico = true;
-                    reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1']);
-                    monto += parseFloat(viaticos[j][4]);
-                    var index = reg_viaticos.length;
-                    body.append("<tr>"+
-                                "<td>"+fecha_ruta+"</td>"+
-                                "<td>"+viaticos[j][1]+"</td>"+
-                                "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
-                                "<td>"+gcheckbox(index)+"</td>"+
-                                "</tr>");
+        if(kilometraje_new > DistanciaMinima){
+            for(j=0; j<viaticos.length; j++){
+                if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                    if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
+                        band_viatico = true;
+                        reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1']);
+                        monto += parseFloat(viaticos[j][4]);
+                        var index = reg_viaticos.length;
+                        body.append("<tr>"+
+                                    "<td>"+fecha_ruta+"</td>"+
+                                    "<td>"+viaticos[j][1]+"</td>"+
+                                    "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                    "<td>"+gcheckbox(index)+"</td>"+
+                                    "</tr>");
+                    }
                 }
             }
+        }else{
+            $.toast({ heading: 'No cumple con viáticos', text: 'Distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
         }
 
         $("#viatico").val(monto.toFixed(2));
@@ -177,15 +182,18 @@
         var diferencia = fecha2.diff(fecha1, 'days');
 
         if(diferencia > 0){
-            if(parseFloat(kilometraje_old) > DistanciaMinima){
+            if(parseFloat(kilometraje_old) > DistanciaMinima || document.getElementById("justificacion").checked == 1){
                 document.getElementById("band_factura").checked = 1;
+                document.getElementById("band_factura").disabled = false;
                 cambiarFactura();
             }else{
                 document.getElementById("band_factura").checked = 0;
+                document.getElementById("band_factura").disabled = true;
                 cambiarFactura();
             }
         }else{
             document.getElementById("band_factura").checked = 0;
+            document.getElementById("band_factura").disabled = true;
             cambiarFactura();
         }
     }
@@ -200,6 +208,7 @@
         var monto = 0;
 
         var fecha_ruta_new = $("#fecha_mision").val();
+        var kilometraje_new = parseFloat($("#id_distancia option:selected").text().trim());
 
         var registros = $("#tabla_viaticos").find("tbody").find("tr");
         var x = (registros.length-2);
@@ -249,29 +258,33 @@
             if(diferencia == 0){    //Si la fecha anterior es igual a la nueva
                 var body = $("#body_viaticos_encontrados");
                 body.html("");
-                if(document.getElementById("band_factura").checked){
-                    hl = ultima_hora_llegada;
-                }
                 hs = hora_llegada_old;
                 
-                for(j=0; j<viaticos.length; j++){
-                    if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                        if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
-                            if(viaticos[j][0]!=ultimo_viatico){
-                                band_viatico = true;
-                                reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
-                                monto += parseFloat(viaticos[j][4]);
-                                var index = reg_viaticos.length;
-                                body.append("<tr>"+
-                                            "<td>"+fecha_ruta_new+"</td>"+
-                                            "<td>"+viaticos[j][1]+"</td>"+
-                                            "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
-                                            "<td>"+gcheckbox(index)+"</td>"+
-                                            "</tr>");
+                if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                    for(j=0; j<viaticos.length; j++){
+                        if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                            if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                                if(viaticos[j][0]!=ultimo_viatico){
+                                    band_viatico = true;
+                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                    monto += parseFloat(viaticos[j][4]);
+                                    var index = reg_viaticos.length;
+                                    body.append("<tr>"+
+                                                "<td>"+fecha_ruta_new+"</td>"+
+                                                "<td>"+viaticos[j][1]+"</td>"+
+                                                "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                "<td>"+gcheckbox(index)+"</td>"+
+                                                "</tr>");
+
+                                    ultimo_viatico = viaticos[j][0];
+                                }
                             }
                         }
                     }
+                }else{
+                   $.toast({ heading: 'No cumple con viáticos', text: 'Distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 }); 
                 }
+
                 $("#viatico").val(monto.toFixed(2));
             }else{  // sino si la fecha anterior es diferente a la nueva
 
@@ -302,46 +315,17 @@
                 total_aloj = (parseFloat($("#alojamiento").val())*diferencia).toFixed(2);
                 hs = hora_llegada_old;
 
-                for(j=0; j<viaticos.length; j++){
-                    if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                        if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
-                            if(viaticos[j][0]!=ultimo_viatico){
-                                band_viatico = true;
-                                reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1']);
-                                monto += parseFloat(viaticos[j][4]);
-                                var index = reg_viaticos.length;
-                                body.append("<tr>"+
-                                            "<td>"+fecha_ruta_old+"</td>"+
-                                            "<td>"+viaticos[j][1]+"</td>"+
-                                            "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
-                                            "<td>"+gcheckbox(index)+"</td>"+
-                                            "</tr>");
-                            }
-                        }
-                    }
-                }
-                
-                //validacion para los dias nuevos
-                for(f=0; f<diferencia; f++){                    
-                    if(f == (diferencia-1)){ //validacion fecha nueva dia 0
-                        fecha1 = fecha1.add('days',1);
-                        if(fecha1.format("e") == 6){
-                            fecha1 = fecha1.add('days',2);
-                        }else if(fecha1.format("e") == 0){
-                            fecha1 = fecha1.add('days',1);
-                        }
-                        fecha_ruta_new = fecha1.format("YYYY-MM-DD");
-                        hs = primer_hora_salida;
-                        hl = hl2;
-                        for(j=0; j<viaticos.length; j++){
-                            if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                    for(j=0; j<viaticos.length; j++){
+                        if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                            if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                                if(viaticos[j][0]!=ultimo_viatico){
                                     band_viatico = true;
-                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                    reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1']);
                                     monto += parseFloat(viaticos[j][4]);
                                     var index = reg_viaticos.length;
                                     body.append("<tr>"+
-                                                "<td>"+fecha_ruta_new+"</td>"+
+                                                "<td>"+fecha_ruta_old+"</td>"+
                                                 "<td>"+viaticos[j][1]+"</td>"+
                                                 "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
                                                 "<td>"+gcheckbox(index)+"</td>"+
@@ -349,29 +333,63 @@
                                 }
                             }
                         }
-                    }else{ //validacion fecha nueva dia > 0   ---> 1,2,3,etc.
-                        fecha1 = fecha1.add('days',1);
-                        if(fecha1.format("e") == 6){
-                            fecha1 = fecha1.add('days',2);
-                        }else if(fecha1.format("e") == 0){
+                    }
+                }
+                
+
+                if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                    //validacion para los dias nuevos
+                    for(f=0; f<diferencia; f++){                    
+                        if(f == (diferencia-1)){ //validacion fecha nueva dia 0
                             fecha1 = fecha1.add('days',1);
-                        }
-                        fecha_ruta_new = fecha1.format("YYYY-MM-DD");
-                        hs = primer_hora_salida;
-                        hl = ultima_hora_llegada;
-                        for(j=0; j<viaticos.length; j++){
-                            if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                                if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
-                                    band_viatico = true;
-                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
-                                    monto += parseFloat(viaticos[j][4]);
-                                    var index = reg_viaticos.length;
-                                    body.append("<tr>"+
-                                                "<td>"+fecha_ruta_new+"</td>"+
-                                                "<td>"+viaticos[j][1]+"</td>"+
-                                                "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
-                                                "<td>"+gcheckbox(index)+"</td>"+
-                                                "</tr>");
+                            if(fecha1.format("e") == 6){
+                                fecha1 = fecha1.add('days',2);
+                            }else if(fecha1.format("e") == 0){
+                                fecha1 = fecha1.add('days',1);
+                            }
+                            fecha_ruta_new = fecha1.format("YYYY-MM-DD");
+                            hs = primer_hora_salida;
+                            hl = hl2;
+                            for(j=0; j<viaticos.length; j++){
+                                if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                                    if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                                        band_viatico = true;
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                        monto += parseFloat(viaticos[j][4]);
+                                        var index = reg_viaticos.length;
+                                        body.append("<tr>"+
+                                                    "<td>"+fecha_ruta_new+"</td>"+
+                                                    "<td>"+viaticos[j][1]+"</td>"+
+                                                    "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                    "<td>"+gcheckbox(index)+"</td>"+
+                                                    "</tr>");
+                                    }
+                                }
+                            }
+                        }else{ //validacion fecha nueva dia > 0   ---> 1,2,3,etc.
+                            fecha1 = fecha1.add('days',1);
+                            if(fecha1.format("e") == 6){
+                                fecha1 = fecha1.add('days',2);
+                            }else if(fecha1.format("e") == 0){
+                                fecha1 = fecha1.add('days',1);
+                            }
+                            fecha_ruta_new = fecha1.format("YYYY-MM-DD");
+                            hs = primer_hora_salida;
+                            hl = ultima_hora_llegada;
+                            for(j=0; j<viaticos.length; j++){
+                                if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                                    if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                                        band_viatico = true;
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                        monto += parseFloat(viaticos[j][4]);
+                                        var index = reg_viaticos.length;
+                                        body.append("<tr>"+
+                                                    "<td>"+fecha_ruta_new+"</td>"+
+                                                    "<td>"+viaticos[j][1]+"</td>"+
+                                                    "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                    "<td>"+gcheckbox(index)+"</td>"+
+                                                    "</tr>");
+                                    }
                                 }
                             }
                         }
@@ -398,7 +416,7 @@
         var id_destinos = $("#id_destino").val();
         var id_oficina_origenes =  $("#id_oficina_origen").val();
 
-        if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada) && distancia > DistanciaMinima){
+        if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada)){
 
 
             /******************** Validación de que al salir de la oficina cumpla con 15 km ***************************************/
@@ -438,8 +456,6 @@
                 swal({ title: "Horario no válido", text: "Completa la hora de salida y llegada del lugar visitado", type: "warning", showConfirmButton: true });
             }else if(hora_salida > hora_llegada){
                 swal({ title: "Horario no válido", text: "La hora de salida debe ser menor a la hora de llegada", type: "warning", showConfirmButton: true });
-            }else{
-                 swal({ title: "Distancia no válida", text: "La distancia debe ser mayor a 15 Km", type: "warning", showConfirmButton: true });
             }
             
         }
@@ -911,7 +927,7 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,bandera){
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,bandera){
 
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
@@ -920,34 +936,78 @@
         $("#detalle_actividad").val(detalle_actividad);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
 
+        var observacion_habilitada = true;
+
+        if(estado == "2" || estado == "4" || estado == "6"){
+            var ufobservacion = moment(fecha_observacion).add('days',1);
+            var fhoy = moment();
+
+            var reducir = 0;
+
+            if(ufobservacion.format("e") == 6){
+                ufobservacion.add('days',2);
+                reducir = 2;
+            }else if(ufobservacion.format("e") == 0){
+                ufobservacion.add('days',1);
+                reducir = 1;
+            }
+
+            var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
+            var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
+
+
+            var diferencia = fecha2.diff(fecha1, 'days');     
+
+            var plazo = diferencia - reducir;
+
+            if(plazo == 0){
+                var texto = "Ultimo día para corregir observaciones: HOY";
+            }else{
+                var texto = "Ultimo día para corregir observaciones: "+ufobservacion.format("DD-MM-YYYY");
+            }
+
+            if(diferencia < 0){
+                observacion_habilitada = false;
+            }else{
+                $.toast({ heading: 'Plazo de observaciones', text: texto, position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+            }
+        }
+
         var date = fecha_mision_fin;
         var newdate = date.split("-").reverse().join("-");
 
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
         if(bandera == "edit"){
-            $("#band").val(bandera);
-            observaciones(id);
 
-            aplicar(ruta_justificacion);
-            
-            if(estado == "0"){
-                valor = validar_dia_limite(estado, "edit", newdate);
+            if(observacion_habilitada){
+
+                $("#band").val(bandera);
+                observaciones(id);
+
+                aplicar(ruta_justificacion);
+                
+                if(estado == "0"){
+                    valor = validar_dia_limite(estado, "edit", newdate);
+                }else{
+                    valor = validar_dia_limite(estado, "edit", fecha_solicitud);
+                }
+
+                $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
+                $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
+
+                form_mision();
+                $("#ttl_form").removeClass("bg-success");
+                $("#ttl_form").addClass("bg-info");
+                $("#btnadd").hide(0);
+                $("#btnedit").show(0);
+                $("#cnt_tabla").hide(0);
+                $("#cnt_form").show(0);
+                $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");     
+
             }else{
-                valor = validar_dia_limite(estado, "edit", fecha_solicitud);
-            }
-
-            $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
-            $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
-
-            form_mision();
-            $("#ttl_form").removeClass("bg-success");
-            $("#ttl_form").addClass("bg-info");
-            $("#btnadd").hide(0);
-            $("#btnedit").show(0);
-            $("#cnt_tabla").hide(0);
-            $("#cnt_form").show(0);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");            
+                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó el: "+ufobservacion.format("DD-MM-YYYY"), type: "error", showConfirmButton: true });
+            }       
 
         }else{
             document.getElementById("justificacion").checked = 0;
@@ -1640,7 +1700,7 @@
             if (ajax.readyState == 4){
                 $("#area").val(ajax.responseText)
                 if(ajax.responseText == "exito"){
-                    generar_solicitud();
+                    recorre_observaciones();
                 }else if(ajax.responseText == "fecha_repetida"){
                     swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
                 }else{
@@ -1774,7 +1834,6 @@
 
     function cambiarJustificacion(ruta){
         if(document.getElementById("justificacion").checked){
-            $("#modal_justificacion").modal("show");
             $("#notificacion_justificacion").show(750);
             if($("#band").val()=="save"){
                 imagen_justificacion("");
@@ -1919,6 +1978,23 @@
         id_ruta_visitada = id;
     }
 
+    function recorre_observaciones(){
+        var checkbox = $("#tasklist").find("input");
+        var tiene_observaciones = false;
+
+        for(i=0; i<checkbox.length; i++){
+            if(!checkbox[i].checked){
+                tiene_observaciones = true;
+            }
+        }
+
+        if(tiene_observaciones){
+            swal({ title: "Faltan observaciones", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
+        }else{
+            generar_solicitud();
+        }
+    }
+
 </script>
 
 <style>
@@ -2059,7 +2135,7 @@
 			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 			                                if($otro_empleado->num_rows() > 0){
 			                                    foreach ($otro_empleado->result() as $fila) {              
-			                                       echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.' - '.$fila->nr.'</option>';
+			                                       echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
 			                                    }
 			                                }
 			                            ?>
