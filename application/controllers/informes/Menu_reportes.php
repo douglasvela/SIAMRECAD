@@ -1573,14 +1573,14 @@ class Menu_reportes extends CI_Controller {
 			$data1y[$i]=$viatico_mes_detalle->viaticos;
 			$data2y[$i]=$viatico_mes_detalle->pasajes;
 			$data3y[$i]=$viatico_mes_detalle->alojamientos;
-			$data4y[$i]=$viatico_mes_detalle->total;
+			//$data4y[$i]=$viatico_mes_detalle->total;
 			$labels[$i]=$mes;
 
 			$i++;
 		}
 		
 		// Create the graph. These two calls are always required
-		$graph = new Graph(850,650);
+		$graph = new Graph(850,800);
 		
 		$graph->SetScale("textlin");
 		$graph->Set90AndMargin(0,0,0,0);
@@ -1592,25 +1592,35 @@ class Menu_reportes extends CI_Controller {
 		$b1plot = new BarPlot($data1y);
 		$b2plot = new BarPlot($data2y);
 		$b3plot = new BarPlot($data3y);
-		$b4plot = new BarPlot($data4y);
+		//$b4plot = new BarPlot($data4y);
+		
+
+		
 		
 		// Create the grouped bar plot
-		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
+		$gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
 
+		$b1plot->value->SetFormat('$%01.2f');
+		$b1plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		$b2plot->value->SetFormat('$%01.2f');
+		$b2plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		$b3plot->value->SetFormat('$%01.2f');
+		$b3plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+
 		$b1plot->value->Show();
 		//$b1plot->SetColor("#0000CD");
-		$b2plot->SetFillColor('#B0C4DE');
+		//$b2plot->SetFillColor('#B0C4DE');
 		$b1plot->SetLegend("Viaticos");
 
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
 		$b3plot->value->Show();
 		$b3plot->SetLegend("Alojamiento");
-		$b4plot->value->Show();
-		$b4plot->SetLegend("Total");
+		//$b4plot->value->Show();
+		//$b4plot->SetLegend("Total");
 
 		$graph->title->Set(utf8_decode("Viaticos por Mes"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
@@ -1627,7 +1637,109 @@ class Menu_reportes extends CI_Controller {
 		// Display the graph
 		$graph->Stroke(_IMG_HANDLER);
 		$x = $this->session->userdata('usuario_viatico');
-		$fileName = "application/controllers/informes/graficas/grafica_vm_".$x.".png";
+		$fileName = "assets/graficas/grafica_vm_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
+	public function crear_grafico_viaticos_x_mes_totales($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		
+		$data1y = array(0);
+		$data2y = array(0);
+		$data3y = array(0);
+		$data4y = array(0);
+		$labels = array(0);
+		$i=0;
+		$mes;
+		$data  =array(
+			'anio'=> $anio,
+			'primer_mes'=>$primer_mes,
+			'segundo_mes'=>$segundo_mes,
+			'tercer_mes'=>$tercer_mes,
+			'cuarto_mes'=>$cuarto_mes,
+			'quinto_mes'=>$quinto_mes,
+			'sexto_mes'=>$sexto_mes
+		);
+		$viatico_mes = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
+		foreach ($viatico_mes->result() as $viatico_mes_detalle) {	
+			if($viatico_mes_detalle->mes=="1")$mes="Enero";
+					else if($viatico_mes_detalle->mes=="2")$mes="Febrero";
+					else if($viatico_mes_detalle->mes=="3")$mes="Marzo";
+					else if($viatico_mes_detalle->mes=="4")$mes="Abril";
+					else if($viatico_mes_detalle->mes=="5")$mes="Mayo";
+					else if($viatico_mes_detalle->mes=="6")$mes="Junio";
+					else if($viatico_mes_detalle->mes=="7")$mes="Julio";
+					else if($viatico_mes_detalle->mes=="8")$mes="Agosto";
+					else if($viatico_mes_detalle->mes=="9")$mes="Septiembre";
+					else if($viatico_mes_detalle->mes=="10")$mes="Octubre";
+					else if($viatico_mes_detalle->mes=="11")$mes="Noviembre";
+					else if($viatico_mes_detalle->mes=="12")$mes="Diciembre";
+			//$data1y[$i]=$viatico_mes_detalle->viaticos;
+			//$data2y[$i]=$viatico_mes_detalle->pasajes;
+			//$data3y[$i]=$viatico_mes_detalle->alojamientos;
+			$data4y[$i]=$viatico_mes_detalle->total;
+			$labels[$i]=$mes;
+
+			$i++;
+		}
+		
+		// Create the graph. These two calls are always required
+		$graph = new Graph(850,800);
+		
+		$graph->SetScale("textlin");
+		$graph->Set90AndMargin(0,0,0,0);
+		$graph->SetShadow();
+
+		//$graph->img->SetMargin(40,30,30,70);
+
+		// Create the bar plots
+		/*$b1plot = new BarPlot($data1y);
+		$b2plot = new BarPlot($data2y);
+		$b3plot = new BarPlot($data3y);*/
+		$b4plot = new BarPlot($data4y);
+		
+		// Create the grouped bar plot
+		$gbplot = new GroupBarPlot(array($b4plot));
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+
+		//$b1plot->value->Show();
+		//$b1plot->SetColor("#0000CD");
+		//$b2plot->SetFillColor('#B0C4DE');
+		//$b1plot->SetLegend("Viaticos");
+
+		//$b2plot->value->Show();
+		//$b2plot->SetLegend("Pasaje");
+		$b4plot->value->Show();
+		$b4plot->SetLegend("Total");
+		
+		$b4plot->value->SetFormat('$%01.2f');
+		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		 
+
+		$graph->title->Set(utf8_decode("Viaticos por Mes"));
+		//$graph->yaxis->title->Set("Cantidad en dólares");
+		$graph->xaxis->title->Set(utf8_decode("Mes"));
+
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(10);
+
+		
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "assets/graficas/grafica_vmt_".$x.".png";
 		$graph->img->Stream($fileName);
 
 		// mostrarlo en el navegador
@@ -1669,7 +1781,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
 		   
@@ -1693,6 +1805,7 @@ class Menu_reportes extends CI_Controller {
 			'sexto_mes'=>$sexto_mes
 		);
 		$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
+		$this->crear_grafico_viaticos_x_mes_totales($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
 		$cuerpo = '
 			<table  class="" border="1" style="width:100%">
@@ -1761,8 +1874,15 @@ class Menu_reportes extends CI_Controller {
 					<th ><center>$'.number_format($total_total,2,".",",").'</center></th>
 				</tr>
 				</tbody>
-			</table><br>
-			<img src="application/controllers/informes/graficas/grafica_vm_'.$this->session->userdata('usuario_viatico').'.png" alt="">
+			</table>';
+			if($primer_mes=="0" && $segundo_mes=="0" && $tercer_mes=="0" && $cuarto_mes=="0" && $quinto_mes=="0" && $sexto_mes=="0"){
+				$cuerpo .= '<pagebreak>';
+			}
+			$cuerpo .='
+			<br>
+			
+			<img src="'.base_url().'assets/graficas/grafica_vm_'.$this->session->userdata('usuario_viatico').'.png" width="100%">
+			<img src="'.base_url().'assets/graficas/grafica_vmt_'.$this->session->userdata('usuario_viatico').'.png" width="100%">
         ';         // LOAD a stylesheet         
         if($tipo=="pdf"){
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
@@ -1775,7 +1895,145 @@ class Menu_reportes extends CI_Controller {
 		}else if($tipo=="vista"){
 			echo $cabecera_vista.$cuerpo;
 		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
 
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("Office 2007 XLSX Test Document")
+										 ->setSubject("Office 2007 XLSX Test Document")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('MES', 'CONCEPTO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B7',  $titulosColumnas[1])
+			    ->setCellValue('C7',  $titulosColumnas[2])
+			    ->setCellValue('D7',  $titulosColumnas[3])
+			    ->setCellValue('E7',  $titulosColumnas[4])
+			    ->setCellValue('F7',  $titulosColumnas[5]);
+
+			
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS POR PERIODO");
+
+			$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
+					$total_viatico=0;
+					$total_pasaje=0;
+					$total_alojamiento=0;
+					$total_total=0;$f=8;
+				if($viatico->num_rows()>0){
+					foreach ($viatico->result() as $viaticos) {
+						if($viaticos->mes=="1")$mes="Enero";
+						else if($viaticos->mes=="2")$mes="Febrero";
+						else if($viaticos->mes=="3")$mes="Marzo";
+						else if($viaticos->mes=="4")$mes="Abril";
+						else if($viaticos->mes=="5")$mes="Mayo";
+						else if($viaticos->mes=="6")$mes="Junio";
+						else if($viaticos->mes=="7")$mes="Julio";
+						else if($viaticos->mes=="8")$mes="Agosto";
+						else if($viaticos->mes=="9")$mes="Septiembre";
+						else if($viaticos->mes=="10")$mes="Octubre";
+						else if($viaticos->mes=="11")$mes="Noviembre";
+						else if($viaticos->mes=="12")$mes="Diciembre";
+						 
+						$total_viatico += $viaticos->viaticos;
+						$total_pasaje += $viaticos->pasajes;
+						$total_alojamiento += $viaticos->alojamientos;
+						$total_total  += $viaticos->total;
+						$this->objPHPExcel->getActiveSheet()->getStyle('C'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						 
+						$this->objPHPExcel->setActiveSheetIndex(0)
+			           		->setCellValue('A'.$f, $mes)
+			           		->setCellValue('B'.$f, "Viáticos por Comisión Interna y Pasajes al Interior")
+			           		->setCellValue('C'.$f,number_format($viaticos->viaticos,2,".",","))
+			           		->setCellValue('D'.$f,number_format($viaticos->pasajes,2,".",","))
+			           		->setCellValue('E'.$f,number_format($viaticos->alojamientos,2,".",","))
+			           		->setCellValue('F'.$f,number_format($viaticos->total,2,".",","));
+			           	$f++;
+
+					}
+					$this->objPHPExcel->getActiveSheet()->getStyle('C'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f.':F'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->mergeCells('A'.$f.':B'.$f)
+							->setCellValue('A'.$f, "Total")
+				            ->setCellValue('C'.$f, number_format($total_viatico,2,".",","))
+				            ->setCellValue('D'.$f, number_format($total_pasaje,2,".",","))
+				            ->setCellValue('E'.$f, number_format($total_alojamiento,2,".",","))
+				            ->setCellValue('F'.$f, number_format($total_total,2,".",","));
+				    $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':F'.$f)->getFont()->setBold(true); 
+				}else{
+					$this->objPHPExcel->setActiveSheetIndex(0)
+			           		->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':D'.$f);
+				}
+			
+			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4');
+
+			for($i = 'A'; $i <= 'F'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A8')->getFont()->setBold(true); 
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:K7')->getFont()->setBold(true); 
+
+
+
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Periodo');
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_por_periodo.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
+
+			 
 		}
 	}
 	public function reporte_viaticos_por_cargo($cargo,$anio){
