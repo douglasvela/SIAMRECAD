@@ -38,6 +38,12 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('templates/footer');
 
 	}
+	public function viaticos_por_anio(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_anio');
+		$this->load->view('templates/footer');
+	}
+
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
 		$this->load->model('Reportes_viaticos_model');
@@ -117,7 +123,7 @@ class Menu_reportes extends CI_Controller {
 		
 	}
 	
-	public function reporte_viaticos_x_anio($anios){
+	public function reporte_viaticos_x_anio($tipo,$anios){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
@@ -181,11 +187,17 @@ class Menu_reportes extends CI_Controller {
 
 			<img  src="application/controllers/informes/graficas/grafica_va_'.$this->session->userdata('usuario_viatico').'.png" alt="">
         '; 
-		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		$this->mpdf->SetTitle('Viaticos por Año');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
-		$this->mpdf->WriteHTML($cuerpo);
-		$this->mpdf->Output();
+        if($tipo=="pdf"){
+			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->SetTitle('Viaticos por Año');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+
+		}else{
+			
+		}
 	}
 
 	public function crear_grafico_viaticos_x_depto($anios){
