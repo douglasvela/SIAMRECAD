@@ -316,6 +316,7 @@
                 hs = hora_llegada_old;
 
                 if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                             if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
@@ -334,10 +335,7 @@
                             }
                         }
                     }
-                }
                 
-
-                if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
                     //validacion para los dias nuevos
                     for(f=0; f<diferencia; f++){                    
                         if(f == (diferencia-1)){ //validacion fecha nueva dia 0
@@ -394,6 +392,8 @@
                             }
                         }
                     }
+                }else{
+                    $.toast({ heading: 'No cumple con viáticos', text: 'Distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 }); 
                 }
 
                 $("#viatico").val(monto.toFixed(2));
@@ -818,7 +818,7 @@
                 $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
                 $("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
 
-                diferencia = limite_fin.diff(fecha_fin_mision, 'days')
+                diferencia = limite_fin.diff(fecha_fin_mision, 'days');
 
                 if(diferencia > 0){
                     $.toast({ heading: 'Fecha vencida', text: "La ultima fecha para crear su solicitud fué el: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'error', hideAfter: 4000, stack: 6 });
@@ -826,7 +826,7 @@
                     if(document.getElementById("justificacion").checked == 1){
                         $.toast({ heading: 'Advertencia', text: "Envíe su solicitud lo antes posible", position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                     }else{
-                        $.toast({ heading: 'Última fecha', text: "La ultima fecha para crear su solicitud es: HOY", position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                        $.toast({ heading: 'Última fecha', text: "La ultima fecha para crear su solicitud es: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                     }
                 }
 
@@ -954,7 +954,6 @@
 
             var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
             var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
-
 
             var diferencia = fecha2.diff(fecha1, 'days');     
 
@@ -1861,6 +1860,13 @@
         }
     }
 
+    function cambiarJustificacion2(){
+        if(document.getElementById("justificacion").checked){
+            $("#modal_justificacion").modal("show");
+        }
+        cambiarJustificacion();
+    }
+
     function imagen_justificacion(ruta){
         var newName = 'Otro nombre',
         xhr = new XMLHttpRequest();
@@ -2183,7 +2189,7 @@
                                     <h5>Justificación de viático: <span class="text-danger">*</span></h5>
                                     <div class="switch">
                                         <label>No
-                                            <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion()"><span class="lever"></span>Sí</label>
+                                            <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion2()"><span class="lever"></span>Sí</label>
                                     </div>
                                 </div>
                                                                

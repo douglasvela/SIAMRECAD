@@ -89,6 +89,8 @@
 
     $(document).ready(function() {
         $("#password_val").val("");
+        localStorage["ventanasvyp"]++;
+        alert(localStorage["ventanasvyp"])
         if(hora() >= 60*minutos || localStorage["expirasesionvyp"] == "expirada"){
             cerrar_sesion(0);
         }
@@ -111,6 +113,7 @@
 
     window.onbeforeunload = function() {
         //localStorage["expirasesionvyp"] = 0;
+        localStorage["ventanasvyp"]--;
     }
 
     function hora(){

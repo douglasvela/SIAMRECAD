@@ -74,11 +74,11 @@ class Login extends CI_Controller {
 	               'sesion_viatico' => TRUE
 	            );
 				$this->session->set_userdata($usuario_data);
-				/*$this->bitacora_model->bitacora(array(
+				$this->bitacora_model->bitacora(array(
 	               'id_sistema' => "15",
 	               'descripcion' => "El usuario ".$this->input->post('usuario')." inició sesión",
 	               'id_accion' => "1"
-	            ));*/	
+	            ));
 			}else{
 				$response = "sesion";
 				$this->session->sess_destroy();
@@ -118,11 +118,18 @@ class Login extends CI_Controller {
 	}
 
 	public function cerrar_sesion(){
-		unset(
-		    $_SESSION['id_usuario_viatico'],
-		    $_SESSION['usuario_viatico'],
-		    $_SESSION['nombre_usuario_viatico'],
-		    $_SESSION['sesion_viatico']
+
+		/*$this->bitacora_model->bitacora(array(
+           'id_sistema' => "15",
+           'descripcion' => "El usuario ".$this->session->userdata('usuario_viatico')." cerró sesión",
+           'id_accion' => "2"
+        ));*/
+
+		$this->session->unset_userdata(
+		    'id_usuario_viatico',
+		    'usuario_viatico',
+		    'nombre_usuario_viatico',
+		    'sesion_viatico'
 		);
 		$this->index();
 	}
