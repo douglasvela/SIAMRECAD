@@ -239,7 +239,7 @@ class Menu_reportes extends CI_Controller {
 		   
 		</td>
 	 	</tr></table>';
-	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -394,7 +394,7 @@ class Menu_reportes extends CI_Controller {
 				            ->mergeCells('A'.$f.':D'.$f);
 			}
 
-			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 			$this->objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
 				->setCellValue("B".$f,$fecha)
@@ -990,7 +990,7 @@ class Menu_reportes extends CI_Controller {
 		   
 		</td>
 	 	</tr></table>';
-	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 	 	
 
@@ -1165,7 +1165,7 @@ class Menu_reportes extends CI_Controller {
 
 			}
 			
-			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 			$this->objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
 				->setCellValue("B".$f,$fecha)
@@ -1257,7 +1257,7 @@ class Menu_reportes extends CI_Controller {
 		   
 		</td>
 	 	</tr></table>';
-	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
@@ -1439,7 +1439,7 @@ class Menu_reportes extends CI_Controller {
 
 			}
 			
-			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 			$this->objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
 				->setCellValue("B".$f,$fecha)
@@ -1531,7 +1531,7 @@ class Menu_reportes extends CI_Controller {
 		   
 		</td>
 	 	</tr></table>';
-	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
@@ -1724,7 +1724,7 @@ class Menu_reportes extends CI_Controller {
 				            ->mergeCells('A'.$f.':D'.$f);
 			}
 
-			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 			$this->objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
 				->setCellValue("B".$f,$fecha)
@@ -2041,7 +2041,7 @@ class Menu_reportes extends CI_Controller {
 		   
 		</td>
 	 	</tr></table>';
-	 	$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
@@ -2242,7 +2242,7 @@ class Menu_reportes extends CI_Controller {
 				            ->mergeCells('A'.$f.':D'.$f);
 				}
 			
-			$fecha=strftime( "%d-%m-%Y - %H-%M-%S", time() );
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 			$this->objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
 				->setCellValue("B".$f,$fecha)
