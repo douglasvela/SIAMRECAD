@@ -13,25 +13,30 @@
                         <th style="display: none;">Fecha</th>
                         <th width="130px">Fecha</th>
                         <th>Actividad realizada</th>
+                        <th>Nombre del solicitante</th>
                         <th>Estado</th>
                         <th width="150px">(*)</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
-                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades ORDER BY m.fecha_mision_inicio DESC");
+                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades ORDER BY m.id_mision_oficial DESC");
                     if($mision->num_rows() > 0){
                         $contador = 0;
                         foreach ($mision->result() as $fila) {
                             $contador++;
                           echo "<tr>";
                             echo "<td style='display: none;'>".$contador."</td>";
-                            if($fila->fecha_mision_inicio == $fila->fecha_mision_fin){
-                                echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision_inicio))."</td>";
+
+                            if($fila->fecha_solicitud == "0000-00-00 00:00:00"){
+                                echo "<td>PENDIENTE</td>";
                             }else{
-                                echo "<td>".date("d/m/Y",strtotime($fila->fecha_mision_inicio))." - ".date("d/m/Y",strtotime($fila->fecha_mision_fin))."</td>";
+                                echo "<td>".date("d/m/Y",strtotime($fila->fecha_solicitud))."</td>";
                             }
+                            
                             echo "<td>".$fila->nombre_actividad."</td>";
+                            echo "<td>".$fila->nombre_completo."</td>";
+
                             if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Incompleta</span></td>';
                             }else if($fila->estado == 1){

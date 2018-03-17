@@ -307,7 +307,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function verficar_cumpla_kilometros($data){
-		$query = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$data."' AND kilometraje > 15");
+		$query = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$data."' AND kilometraje >= 15");
 		if($query->num_rows() > 0){
 			return true; 
 		}else{

@@ -108,7 +108,7 @@
             hl = ultima_hora_llegada;
         }
 
-        if(kilometraje_new > DistanciaMinima){
+        if(kilometraje_new >= DistanciaMinima){
             for(j=0; j<viaticos.length; j++){
                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                     if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
@@ -182,7 +182,7 @@
         var diferencia = fecha2.diff(fecha1, 'days');
 
         if(diferencia > 0){
-            if(parseFloat(kilometraje_old) > DistanciaMinima || document.getElementById("justificacion").checked == 1){
+            if(parseFloat(kilometraje_old) >= DistanciaMinima || document.getElementById("justificacion").checked == 1){
                 document.getElementById("band_factura").checked = 1;
                 document.getElementById("band_factura").disabled = false;
                 cambiarFactura();
@@ -243,7 +243,7 @@
 
         var ultimo_viatico = "";
 
-        if(parseFloat(kilometraje_old) > DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
+        if(parseFloat(kilometraje_old) >= DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
             for(h=0; h<viaticos.length; h++){
                 if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
                     if(!tiene_restriccion(hora_salida_old, hora_llegada_old, viaticos[h][2], viaticos[h][3])){
@@ -260,7 +260,7 @@
                 body.html("");
                 hs = hora_llegada_old;
                 
-                if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                             if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
@@ -315,7 +315,7 @@
                 total_aloj = (parseFloat($("#alojamiento").val())*diferencia).toFixed(2);
                 hs = hora_llegada_old;
 
-                if(kilometraje_old > DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
 
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
@@ -2089,6 +2089,35 @@
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
+
+
+
+
+
+
+
+
+        <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="summernote" class="summernote">
+                                    <h5 style="font-family: arial;">Default Summernote</h5s>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
         <div class="row">
 
             <div class="col-lg-1"></div>
@@ -2443,6 +2472,11 @@
 $(function(){  
 
     $(document).ready(function(){  
+
+
+        $('#summernote').summernote('fontName', 'Arial');
+
+
     	var date = new Date();
             var currentMonth = date.getMonth();
             var currentDate = date.getDate();

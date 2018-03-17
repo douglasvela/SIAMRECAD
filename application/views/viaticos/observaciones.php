@@ -284,6 +284,7 @@
                     <div class="card-body b-t">
 
                         <div id="cnt_tabla_empresas"></div>
+                        
                         <input type="hidden" name="estado" id="estado">
                         <input type="hidden" id="nr_observador" name="nr_observador" value="<?php echo $nr_usuario; ?>">
                         <input type="text" id="id_tipo_observador" name="id_tipo_observador" value="1">
