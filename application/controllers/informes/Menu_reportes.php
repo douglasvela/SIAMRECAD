@@ -269,10 +269,10 @@ class Menu_reportes extends CI_Controller {
 				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnual($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-					$total_viatico=$viaticos->viatico;
-					$total_pasaje=$viaticos->pasaje;
-					$total_alojamiento=$viaticos->alojamiento;
-					$total_total=$viaticos->total_anio;
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total_anio;
 					$cuerpo .= '
 						<tr>
 							<td align="center" style="width:180px">'.($viaticos->anio).'</td>
@@ -362,10 +362,10 @@ class Menu_reportes extends CI_Controller {
 				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnual($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-					$total_viatico=$viaticos->viatico;
-					$total_pasaje=$viaticos->pasaje;
-					$total_alojamiento=$viaticos->alojamiento;
-					$total_total=$viaticos->total_anio;
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total_anio;
 
 					$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 					$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
@@ -405,8 +405,7 @@ class Menu_reportes extends CI_Controller {
     			->mergeCells('A1:C1')
     			->mergeCells('A2:C2')
     			->mergeCells('A3:C3')
-    			->mergeCells('A4:C4')
-    			->mergeCells('B7:C7');
+    			->mergeCells('A4:C4');
 
 			for($i = 'A'; $i <= 'E'; $i++){
 				for($ii = '7'; $ii <= '50'; $ii++){
@@ -414,10 +413,7 @@ class Menu_reportes extends CI_Controller {
 				}
 			}
 			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
-			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A10:K10')->getFont()->setBold(true); 
-
-
-
+			
 			// Rename worksheet
 			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Año');
 			// Redirect output to a client’s web browser (Excel5)
