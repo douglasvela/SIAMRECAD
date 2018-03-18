@@ -891,7 +891,6 @@
                                                         <div class="col-md-10">
                                                             <div class="form-group">
                                                                 <button type="button" onclick="mostrarReportePorZonaDepto()" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Ejecutar Reporte</button>
-                                                                
                                                               </div>
                                                         </div>
                                                     </div>

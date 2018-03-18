@@ -43,6 +43,26 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/viaticos_por_anio');
 		$this->load->view('templates/footer');
 	}
+	public function viaticos_por_departamento(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_departamento');
+		$this->load->view('templates/footer');
+	}
+	public function viaticos_por_zona_depto(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_zona_depto');
+		$this->load->view('templates/footer');
+	}
+	public function viaticos_por_cargo(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_cargo');
+		$this->load->view('templates/footer');
+	}
+	public function viaticos_por_seccion(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_seccion');
+		$this->load->view('templates/footer');
+	}
 
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
@@ -547,7 +567,7 @@ class Menu_reportes extends CI_Controller {
 		
 	}
 
-	public function reporte_viaticos_x_depto($anios){
+	public function reporte_viaticos_x_depto($tipo,$anios){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
@@ -563,7 +583,19 @@ class Menu_reportes extends CI_Controller {
 		</td>
 	 	</tr></table>';
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+
 		$this->mpdf->SetHTMLHeader($cabecera);
 		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
 		$this->mpdf->setFooter($pie);
@@ -573,15 +605,15 @@ class Menu_reportes extends CI_Controller {
 				<thead >
 					<tr>
 						<th align="center" rowspan="1" >Año: '.($anios).'</th>
-
-						<th align="center" colspan="4" >Tipo</th>
+						<th align="center" colspan="3" >Tipo</th>
+						<th align="center" rowspan="2" >Total</th>
 					</tr>
 					<tr>
 						<th align="center" rowspan="1" >Departamento</th>
-						<th align="center"  >Pasaje</th>
 						<th align="center"  >Viatico</th>
+						<th align="center"  >Pasaje</th>
 						<th align="center"  >Alojamiento</th>
-						<th align="center"  >Total</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -589,14 +621,24 @@ class Menu_reportes extends CI_Controller {
 					$data=$anios;
 				//$data = str_split($anios,4);
 				//$data=array(2018,2017,2016,2015);
+
+				$total_pasaje=0;
+				$total_viatico=0;
+				$total_alojamiento=0;
+				$total_total=0;
+
 				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
+					$total_pasaje+=$viaticos->pasaje;
+					$total_viatico+=$viaticos->viatico;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total;
 					$cuerpo .= '
 						<tr>
 							<td align="center" style="width:180px">'.($viaticos->departamento).'</td>
-							<td align="center" style="width:180px">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 							<td align="center" style="width:180px">$'.number_format($viaticos->viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 							<td align="center" style="width:180px">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
 							<td align="center" style="width:180px">$'.number_format($viaticos->total,2,".",",").'</td>
 						</tr>
@@ -608,15 +650,28 @@ class Menu_reportes extends CI_Controller {
 					';
 				}
 				$cuerpo .= '
+						<tr>
+							<th align="center" style="width:180px">Total</th>
+							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+						</tr>
 				</tbody>
 			</table><br>
 			<img src="application/controllers/informes/graficas/grafica_depto_'.$this->session->userdata('usuario_viatico').'.png" alt="">
 			      '; 
-		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		$this->mpdf->SetTitle('Viaticos por Año');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
-		$this->mpdf->WriteHTML($cuerpo);
-		$this->mpdf->Output();
+		if($tipo=="pdf"){
+			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->SetTitle('Viaticos por Año');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
+
+		}
 	}
 
 	public function crear_grafico_viaticos_x_zona_depto($anios){
@@ -753,7 +808,7 @@ class Menu_reportes extends CI_Controller {
 		
 	}
 
-	public function reporte_viaticos_x_zona_depto($anios){
+	public function reporte_viaticos_x_zona_depto($tipo,$anios){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
@@ -769,7 +824,18 @@ class Menu_reportes extends CI_Controller {
 		</td>
 	 	</tr></table>';
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		$this->mpdf->SetHTMLHeader($cabecera);
 		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
 		$this->mpdf->setFooter($pie);
@@ -811,6 +877,11 @@ class Menu_reportes extends CI_Controller {
 				$total_viaticos_oriental=0;
 				$total_oriental=0;
 
+				$total_total_viatico=0;
+				$total_total_pasaje=0;
+				$total_total_alojamiento=0;
+				$total_total=0;
+
 				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
@@ -818,23 +889,37 @@ class Menu_reportes extends CI_Controller {
 						$total_viaticos_occidental+= $viaticos->viatico;
 						$total_pasajes_occidental+= $viaticos->pasaje;
 						$total_alojamientos_occidental+= $viaticos->alojamiento;
+
+						$total_total_viatico+=$viaticos->viatico;
+						$total_total_pasaje+=$viaticos->pasaje;
+						$total_total_alojamiento+=$viaticos->alojamiento;
+						 
 					}
 
 					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
 						$total_viaticos_central+= $viaticos->viatico;
 						$total_pasajes_central+= $viaticos->pasaje;
 						$total_alojamientos_central+= $viaticos->alojamiento;
+
+						$total_total_viatico+=$viaticos->viatico;
+						$total_total_pasaje+=$viaticos->pasaje;
+						$total_total_alojamiento+=$viaticos->alojamiento;
 					}
 
 					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
 						$total_viaticos_oriental+=$viaticos->viatico;
 						$total_pasajes_oriental+=$viaticos->pasaje;
 						$total_alojamientos_oriental+=$viaticos->alojamiento;
+
+						$total_total_viatico+=$viaticos->viatico;
+						$total_total_pasaje+=$viaticos->pasaje;
+						$total_total_alojamiento+=$viaticos->alojamiento;
 					}
 				}
 				$total_occidente = $total_viaticos_occidental + $total_pasajes_occidental + $total_alojamientos_occidental;
 				$total_central = $total_viaticos_central+$total_pasajes_central+$total_alojamientos_central;
 				$total_oriental = $total_viaticos_oriental+$total_pasajes_oriental+$total_alojamientos_oriental;
+
 					$cuerpo .= '
 						<tr>
 							<td align="center" style="width:180px">Occidental</td>
@@ -865,15 +950,28 @@ class Menu_reportes extends CI_Controller {
 					';
 				}
 				$cuerpo .= '
+					<tr>
+							<th align="center" style="width:180px">Total</th>
+							<th align="center" style="width:180px">$'.number_format($total_total_viatico,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_total_pasaje,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_total_alojamiento,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_occidente+$total_oriental+$total_central,2,".",",").'</th>
+						</tr>
 				</tbody>
 			</table><br>
 			<img src="application/controllers/informes/graficas/grafica_zona_depto_'.$this->session->userdata('usuario_viatico').'.png" alt="">
 			      '; 
-		$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		$this->mpdf->SetTitle('Viaticos por Año');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
-		$this->mpdf->WriteHTML($cuerpo);
-		$this->mpdf->Output();
+		if($tipo=="pdf"){
+			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->SetTitle('Viaticos por Año');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
+
+		}
 	}
 
 	public function reporte_ejemplo1(){
@@ -1325,7 +1423,7 @@ class Menu_reportes extends CI_Controller {
 					}
 				}else{
 					$cuerpo .= '
-						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+						<tr><td colspan="10"><center>No hay registros</center></td></tr>
 					';
 				}
 				$cuerpo .= '
@@ -1420,7 +1518,7 @@ class Menu_reportes extends CI_Controller {
 				            ->setCellValue('B'.$f, date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)))
 				            ->setCellValue('C'.$f, date('d-m-Y',strtotime($viaticos->fecha_mision_fin)))
 				            ->setCellValue('D'.$f, ($actividad_detalle->nombre_vyp_actividades))
-				            ->setCellValue('E'.$f,utf8_decode($viaticos->detalle_actividad))
+				            ->setCellValue('E'.$f,($viaticos->detalle_actividad))
 				            ->setCellValue('F'.$f,number_format($totales_detalle->viatico,2,".",","))
 				            ->setCellValue('G'.$f,number_format($totales_detalle->pasaje,2,".",","))
 				            ->setCellValue('H'.$f,number_format($totales_detalle->alojamiento,2,".",","))
@@ -2286,7 +2384,7 @@ class Menu_reportes extends CI_Controller {
 			 
 		}
 	}
-	public function reporte_viaticos_por_cargo($cargo,$anio){
+	public function reporte_viaticos_por_cargo($tipo,$cargo,$anio){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		/*Constructor variables
@@ -2315,7 +2413,18 @@ class Menu_reportes extends CI_Controller {
 		</td>
 	 	</tr></table>';
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR CARGO</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -2382,7 +2491,7 @@ class Menu_reportes extends CI_Controller {
 						}
 					}else{
 						$cuerpo .= '
-							<tr><td colspan="4"><center>No hay registros</center></td></tr>
+							<tr><td colspan="6"><center>No hay registros</center></td></tr>
 
 						';
 					}
@@ -2448,7 +2557,7 @@ class Menu_reportes extends CI_Controller {
 						}
 					}else{
 						$cuerpo .= '
-							<tr><td colspan="4"><center>No hay registros</center></td></tr>
+							<tr><td colspan="6"><center>No hay registros</center></td></tr>
 
 						';
 					}
@@ -2465,16 +2574,20 @@ class Menu_reportes extends CI_Controller {
 				
 	        ';         // LOAD a stylesheet   
 	    }      
-        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->SetTitle('Viaticos por Cargo');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-		$this->mpdf->WriteHTML($cuerpo);
+	    if($tipo=="pdf"){
+	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->SetTitle('Viaticos por Cargo');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
 
-		$this->mpdf->Output();
-		
+		}
 	}
-	public function reporte_viaticos_por_oficina($anio){
+	public function reporte_viaticos_por_oficina($tipo,$anio){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		/*Constructor variables
@@ -2503,7 +2616,18 @@ class Menu_reportes extends CI_Controller {
 		</td>
 	 	</tr></table>';
 
-	 	$pie = '{PAGENO} de {nbpg} páginas';
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR SECCIÓN</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -2515,17 +2639,20 @@ class Menu_reportes extends CI_Controller {
 		);
 		//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorOficina($data);
-
+		$total_viatico=0;
+		$total_pasaje=0;
+		$total_alojamiento=0;
+		$total_total=0;
 		
 		$cuerpo = '
-
+			Año: '.$anio.'
 			<table  class="" border="1" style="width:100%">
+
 				<thead >
 					<tr>
-						
 						<th align="center" rowspan="2">Sección</th>
 						<th align="center" colspan="3">Tipo</th>
-						
+						<th align="center" rowspan="2">total</th>						
 					</tr>
 					<tr>
 						
@@ -2541,12 +2668,17 @@ class Menu_reportes extends CI_Controller {
 					
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total;
 					$cuerpo .= '
 						<tr>
 							<td>'.($viaticos->nombre_seccion).'</td>
 							<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
 							<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 							<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->total,2,".",",").'</td>
 							
 						</tr>
 						';
@@ -2554,22 +2686,35 @@ class Menu_reportes extends CI_Controller {
 					}
 				}else{
 					$cuerpo .= '
-						<tr><td colspan="4"><center>No hay registros</center></td></tr>
+						<tr><td colspan="5"><center>No hay registros</center></td></tr>
 
 					';
 				}
 				$cuerpo .= '
+					<tr>
+							<th>Total</th>
+							<th style="text-align:right">$'.number_format($total_viatico,2,".",",").'</th>
+							<th style="text-align:right">$'.number_format($total_pasaje,2,".",",").'</th>
+							<th style="text-align:right">$'.number_format($total_alojamiento,2,".",",").'</th>
+							<th style="text-align:right">$'.number_format($total_total,2,".",",").'</th>
+							
+						</tr>
 				</tbody>
 			</table><br>
 			
         ';         // LOAD a stylesheet         
-        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-		//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
-		$this->mpdf->SetTitle('Viaticos por Cargo');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-		$this->mpdf->WriteHTML($cuerpo);
+	     if($tipo=="pdf"){
+	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->SetTitle('Viaticos por Cargo');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
 
-		$this->mpdf->Output();
+		}
 		
 	}
 }

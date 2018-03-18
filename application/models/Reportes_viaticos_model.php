@@ -139,7 +139,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 
       $anio=$data['anio'];
      
-        $viaticos= $this->db->query("SELECT id_seccion,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento FROM VISTA_VIATICOS  WHERE id_seccion IN (SELECT id_seccion FROM org_seccion) AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY viatico desc");
+        $viaticos= $this->db->query("SELECT id_seccion,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento,(sum(viatico)+sum(pasaje)+sum(alojamiento)) as total FROM VISTA_VIATICOS  WHERE id_seccion IN (SELECT id_seccion FROM org_seccion) AND year(fecha_solicitud)='$anio' GROUP BY id_seccion ORDER BY viatico desc");
         return $viaticos;
     }
     function buscar_oficina($data){
