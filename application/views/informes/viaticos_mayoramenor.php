@@ -13,7 +13,7 @@
 			recursividad="no";
 	       }
 	        
-	       if(fecha==""){
+	       if(fecha=="" || dir=="0"){
 	          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
 	       }else{
 	         var xhr = "<?php echo base_url()?>";

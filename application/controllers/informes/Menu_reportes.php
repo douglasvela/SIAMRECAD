@@ -1142,7 +1142,7 @@ class Menu_reportes extends CI_Controller {
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)).'</td>
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_fin)).'</td>
 							<td>'.($actividad_detalle->nombre_vyp_actividades).'</td>
-							<td>'.utf8_decode($viaticos->detalle_actividad).'</td>
+							<td>'.($viaticos->detalle_actividad).'</td>
 							<td>$'.number_format($totales_detalle->viatico,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
@@ -1244,7 +1244,7 @@ class Menu_reportes extends CI_Controller {
 				            ->setCellValue('B'.$f, date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)))
 				            ->setCellValue('C'.$f, date('d-m-Y',strtotime($viaticos->fecha_mision_fin)))
 				            ->setCellValue('D'.$f, ($actividad_detalle->nombre_vyp_actividades))
-				            ->setCellValue('E'.$f,utf8_decode($viaticos->detalle_actividad))
+				            ->setCellValue('E'.$f,($viaticos->detalle_actividad))
 				            ->setCellValue('F'.$f,number_format($totales_detalle->viatico,2,".",","))
 				            ->setCellValue('G'.$f,number_format($totales_detalle->pasaje,2,".",","))
 				            ->setCellValue('H'.$f,number_format($totales_detalle->alojamiento,2,".",","))
@@ -1411,7 +1411,7 @@ class Menu_reportes extends CI_Controller {
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_inicio)).'</td>
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_mision_fin)).'</td>
 							<td>'.($actividad_detalle->nombre_vyp_actividades).'</td>
-							<td >'.utf8_decode($viaticos->detalle_actividad).'</td>
+							<td >'.($viaticos->detalle_actividad).'</td>
 							<td>$'.number_format($totales_detalle->viatico,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
