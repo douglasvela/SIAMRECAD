@@ -4,16 +4,13 @@
     header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
     header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
-
     $user = $this->session->userdata('usuario_viatico');
     if(empty($user)){
         header("Location: ".site_url()."/login");
         exit();
     }
-
     $pos = strpos($user, ".")+1;
     $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
-
     $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
     $nr_usuario = ""; $nombre_usuario;
     if($nr->num_rows() > 0){
@@ -23,14 +20,13 @@
         }
     }
     
-
     $cuenta_banco = $this->db->query("SELECT * FROM vyp_pasajes WHERE nr = '".$nr_usuario."' AND estado = 1");
-
 ?>
 
 
 
 <script type="text/javascript">
+
 
    function ver_pasajes(){
      var nr = $("#nr").val();   
@@ -49,10 +45,7 @@
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
-
-
                 });
-
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
@@ -62,7 +55,6 @@
         xmlhttpB.send();      
     }
    
-
     function iniciar(){
         tabla_pasaje_lista();
       // cambiar_nuevo();
@@ -70,7 +62,6 @@
             scrollTop: $("body").offset().top
         }, 500);
     }
-
     function objetoAjax(){
         var xmlhttp = false;
         try {
@@ -81,7 +72,6 @@
         if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
         return xmlhttp;
     }
-
     function tabla_pasaje_lista(){ 
         var nr = $("#nr").val();   
         var fechas = $("#fecha2").val();
@@ -99,10 +89,7 @@
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
-
-
                 });
-
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
@@ -110,22 +97,17 @@
          
         xmlhttpB.send(); 
     }
-
  function imprimir_solicitud(nr, fecha_de_pasaje){
     
         window.open("<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje, '_blank');
     }
-
    
-
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
-
  }
-
  
 </script>
 
@@ -275,21 +257,15 @@
 <!-- ============================================================== -->
 <script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
 <script>
-
 $(function(){
-
     $('#fecha3').datepicker({
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
-
-
                 });
-
 $("#formcuentas2").on("submit", function(e){
    
         e.preventDefault();
-
         var f = $(this);
         var formData = new FormData(document.getElementById("formcuentas2"));
         formData.append("dato", "valor");
@@ -299,17 +275,13 @@ $("#formcuentas2").on("submit", function(e){
          $("#expediente").val($("#expediente").val());
           $("#empresa").val($("#empresa").val());
            $("#direccion").val($("#direccion").val());
-
            $("#nr").val($("#nr").val())
             $("#monto").val($("#monto").val());
         
-
         //$("#modal_cuenta_bancaria").modal('show')
         $("#submitbutton").click();*/
         
      
-
-
        /* $("#formajax2").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
@@ -345,29 +317,17 @@ $("#formcuentas2").on("submit", function(e){
     });
  
   
-
-
-
-
 </script> 
 
 
 
  <script>
-
     $(document).ready(function(){         
         
-
         $('#dirigir').click(function(){ //Id del elemento cliqueable
             $('html, body').animate({scrollTop:0}, 1000);
             return false;
         });
-
     });
-
     
-
 </script>
-
-
-

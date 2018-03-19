@@ -1,11 +1,40 @@
+
+
+
+
 <?php 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha1"];
   
     if(!empty($nr_empleado) AND !empty($fecha_mes)){
-//echo ($fecha_mes);
+
+    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
+    if($info_empleado->num_rows() > 0){ 
+        foreach ($info_empleado->result() as $filas) {}
+
+        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+      if($oficina_origen->num_rows() > 0){ 
+          foreach ($oficina_origen->result() as $filaofi) {}
+      }
+
+      $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
+
+      if($director_jefe_regional->num_rows() > 0){ 
+          foreach ($director_jefe_regional->result() as $filadir) {}
+      }
+
+      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
+      $nr_jefe_regional = $filadir->nr;
+     
+
+    //echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required>';
+   // echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required>';
+
+    }
+
 ?>
 
+      
 <div class="table-responsive">
     <table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
         <thead class="bg-inverse text-white">
@@ -26,7 +55,7 @@
             <td style="padding: 7px 5px;">
               
 
-              <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;">
+              <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;" onchange ="info_pasajes();">
             </td>
 
             <td style="padding: 7px 5px;">
@@ -48,8 +77,7 @@
             
            <button type="submit" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="Agregar"><span class="fa fa-plus"></span></button>
               
-            </td>
-          
+            </td>  
 </tr>
         <?php 
        $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision");
@@ -95,12 +123,6 @@
 
 
 <?php
-
  /*<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;"> */
 }
 ?>
-
-
-
-
-

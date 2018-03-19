@@ -4,16 +4,13 @@
     header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
     header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
-
     $user = $this->session->userdata('usuario_viatico');
     if(empty($user)){
         header("Location: ".site_url()."/login");
         exit();
     }
-
     $pos = strpos($user, ".")+1;
     $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
-
     $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
     $nr_usuario = ""; $nombre_usuario;
     if($nr->num_rows() > 0){
@@ -23,18 +20,14 @@
         }
     }
     
-
     $cuenta_banco = $this->db->query("SELECT * FROM vyp_pasajes WHERE nr = '".$nr_usuario."' AND estado = 1");
-
 ?>
 
 
 
 <script type="text/javascript">
-
 var nr_empleado = "<?php echo $_GET["nr"]; ?>"
 var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
-
     function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,bandera){
           tabla_pasaje_unidad();
         $("#id_pasaje").val(id);
@@ -43,18 +36,17 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         $("#empresa2").val(empresa);
         $("#direccion2").val(direccion);
         $("#monto2").val(monto);
-
        $("#modal_pasaje").modal("show")
     }
-
  function cerrar_mantenimiento(){
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
     }
 
+
+
     function eliminar_pasaje(id_pasaje)
     {
-
         swal({   
             title: "¿Está seguro?",   
             text: "¡Desea eliminar el registro!",   
@@ -68,37 +60,10 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         });        
     }
 
-
-function insertar_mision_pasaje(id_pasaje){
-        var formData = new FormData();
-        formData.append("id_pasaje", id_pasaje);
-        formData.append("band", "delete");
-
-        $.ajax({
-            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
-            type: "post",
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        })
-        .done(function(res){
-            if(res == "exito"){
-                tabla_pasaje_unidad();
-                 swal({ title: "¡Registro eliminado!", type: "success", showConfirmButton: true });
-            }else{
-               swal({ title: "¡Error!", type: "success", showConfirmButton: true });
-            }
-             
-        });
-    }
-
     function eliminar(id_pasaje){
         var formData = new FormData();
         formData.append("id_pasaje", id_pasaje);
         formData.append("band", "delete");
-
         $.ajax({
             url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
             type: "post",
@@ -118,9 +83,6 @@ function insertar_mision_pasaje(id_pasaje){
              
         });
     }
-
-
-
     function editar_pasaje(){
         var formData = new FormData();
         formData.append("id_pasaje", $("#id_pasaje").val());
@@ -130,7 +92,6 @@ function insertar_mision_pasaje(id_pasaje){
         formData.append("direccion", $("#direccion2").val());
         formData.append("monto", $("#monto2").val());
         formData.append("band", "edit");
-
         $.ajax({
             url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
             type: "post",
@@ -141,7 +102,7 @@ function insertar_mision_pasaje(id_pasaje){
             processData: false
         })
         .done(function(res){
-            alert(res)
+            //alert(res)
             if(res == "exito"){
                 tabla_pasaje_unidad();
                 swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
@@ -163,28 +124,22 @@ function insertar_mision_pasaje(id_pasaje){
         $("#band").val("save");
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
-
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
-
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Pasajes");
     }*/
    
-
     function iniciar(){
         tabla_pasaje_unidad();
       // cambiar_nuevo();
-
       $("#nr").val(nr_empleado).trigger('change.select2');
      $("#fecha1").val(fecha_p).trigger('change.select2');
         $('html,body').animate({
             scrollTop: $("body").offset().top
         }, 500);
     }
-
     function objetoAjax(){
         var xmlhttp = false;
         try {
@@ -195,7 +150,6 @@ function insertar_mision_pasaje(id_pasaje){
         if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
         return xmlhttp;
     }
-
     function tabla_pasaje_unidad(){ 
         var nr = $("#nr").val();   
         var fechas = $("#fecha1").val();
@@ -213,30 +167,86 @@ function insertar_mision_pasaje(id_pasaje){
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
-
-
                 });
-
             }
         }
+
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
         xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr + "&fecha1="+fechas, true);
-         
         xmlhttpB.send(); 
+   
+}
+
+function info_pasajes(){
+        //var nr_usuario = $("#nr").val();
+        var fechap = $("#fecha").val();
+
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_A=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_A=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+
+        xmlhttp_A.onreadystatechange=function(){
+            if (xmlhttp_A.readyState==4 && xmlhttp_A.status==200){
+                  document.getElementById("cnt_info_pasajes").innerHTML=xmlhttp_A.responseText;
+            }
+        }
+        xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr_empleado+"&fecha="+fechap,true);
+        xmlhttp_A.send();
     }
 
+function guardar_pasaje()
+{
+var f = $(this);
+var formData = new FormData();
+var nombre_empleado = $("#nr option:selected").text().split("-");
+var fecha = $("#fecha1").val().split("-");
+
+//alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
+formData.append("nr", $("#nr").val());
+formData.append("nombre_emple", nombre_empleado[0].trim());
+formData.append("jefe_inmediato", $("#nr_jefe_inmediato").val());
+formData.append("jefe_regional", $("#nr_jefe_regional").val());
+formData.append("mes", fecha[1].trim()); 
+formData.append("anio", fecha[0].trim()); 
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje_fecha",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+           alert(res)
+            if(res == "exito"){
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                $("#band").val('save');
+                tabla_pasaje_unidad();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+
+}
 
 
-   
 
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
-
  }
-
  
 </script>
 
@@ -276,6 +286,11 @@ function insertar_mision_pasaje(id_pasaje){
                         <input type="hidden" id="band" name="band" value="save">
                            
                             <input type="hidden" id="idb" name="idb" value="">
+                             <div class="row">
+              <div class="col-lg-12" id="cnt_info_pasajes">
+                
+              </div>
+      </div>
                            <div class="row">                        
                         <div class="form-group col-lg-6"> 
                             <h5>Empleado a modificar: <span class="text-danger">*</span></h5>                           
@@ -285,7 +300,7 @@ function insertar_mision_pasaje(id_pasaje){
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                     if($otro_empleado->num_rows() > 0){
                                         foreach ($otro_empleado->result() as $fila) {              
-                                           echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.' - '.$fila->nr.'</option>';
+                                           echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
                                         }
                                     }
                                 ?>
@@ -309,7 +324,7 @@ function insertar_mision_pasaje(id_pasaje){
                         </blockquote>
                         <div class="row" align="right">
                         <div class="col-lg-12">
-                            <button type="button" onclick="" class="pull-right btn btn-info">
+                            <button type="button" onclick="guardar_pasaje()" class="pull-right btn btn-info">
                             Enviar solicitud
                             </button>
                         </div>
@@ -388,21 +403,15 @@ function insertar_mision_pasaje(id_pasaje){
 <!-- ============================================================== -->
 <script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
 <script>
-
 $(function(){
-
     $('#fecha2').datepicker({
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
-
-
                 });
-
 $("#formcuentas2").on("submit", function(e){
    
         e.preventDefault();
-
         var f = $(this);
         var formData = new FormData(document.getElementById("formcuentas2"));
         formData.append("dato", "valor");
@@ -418,7 +427,7 @@ $("#formcuentas2").on("submit", function(e){
             processData: false
         })
         .done(function(res){
-            alert(res)
+           // alert(res)
             if(res == "exito"){
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
@@ -439,30 +448,28 @@ $("#formcuentas2").on("submit", function(e){
   
 
 
+
+
+
+
+
 </script> 
 
 
 
  <script>
-
     $(document).ready(function(){         
         
-
         $('#dirigir').click(function(){ //Id del elemento cliqueable
             $('html, body').animate({scrollTop:0}, 1000);
             return false;
         });
-
     });
-
     
-
 </script>
 
 
-
-/*<script>
-
+<script>
 /*$(function(){     
     $("#formcuentas2").on("submit", function(e){
         e.preventDefault();
