@@ -1,3 +1,7 @@
+
+
+
+
 <?php 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha1"];
@@ -5,7 +9,10 @@
     if(!empty($nr_empleado) AND !empty($fecha_mes)){
 //echo ($fecha_mes);
 ?>
-
+ <div class="row">
+<div class="col-lg-12" id="cnt_info_pasajes"></div>
+</div>
+      
 <div class="table-responsive">
     <table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
         <thead class="bg-inverse text-white">
@@ -26,7 +33,7 @@
             <td style="padding: 7px 5px;">
               
 
-              <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;">
+              <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;" onchange ="info_pasajes();">
             </td>
 
             <td style="padding: 7px 5px;">
@@ -48,8 +55,7 @@
             
            <button type="submit" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="Agregar"><span class="fa fa-plus"></span></button>
               
-            </td>
-          
+            </td>  
 </tr>
         <?php 
        $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision");
@@ -95,12 +101,6 @@
 
 
 <?php
-
  /*<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d" data-date-start-date="-5d" onkeyup="FECHA('fecha')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" style="width: 120px;"> */
 }
 ?>
-
-
-
-
-
