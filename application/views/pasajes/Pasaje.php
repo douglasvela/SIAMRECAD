@@ -42,6 +42,9 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
     }
+
+
+
     function eliminar_pasaje(id_pasaje)
     {
         swal({   
@@ -193,6 +196,51 @@ function info_pasajes(){
         xmlhttp_A.send();
     }
 
+function guardar_pasaje()
+{
+var f = $(this);
+var formData = new FormData();
+var nombre_empleado = $("#nr option:selected").text().split("-");
+var fecha = $("#fecha1").val().split("-");
+
+//alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
+formData.append("nr", $("#nr").val());
+formData.append("nombre_emple", nombre_empleado[0].trim());
+formData.append("jefe_inmediato", $("#nr_jefe_inmediato").val());
+formData.append("jefe_regional", $("#nr_jefe_regional").val());
+formData.append("mes", fecha[1].trim()); 
+formData.append("anio", fecha[0].trim()); 
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje_fecha",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+           alert(res)
+            if(res == "exito"){
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                $("#band").val('save');
+                tabla_pasaje_unidad();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+
+}
+
+
+
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
             $('#myTable').DataTable();
@@ -252,7 +300,7 @@ function info_pasajes(){
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                     if($otro_empleado->num_rows() > 0){
                                         foreach ($otro_empleado->result() as $fila) {              
-                                           echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.' - '.$fila->nr.'</option>';
+                                           echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
                                         }
                                     }
                                 ?>
@@ -276,7 +324,7 @@ function info_pasajes(){
                         </blockquote>
                         <div class="row" align="right">
                         <div class="col-lg-12">
-                            <button type="button" onclick="" class="pull-right btn btn-info">
+                            <button type="button" onclick="guardar_pasaje()" class="pull-right btn btn-info">
                             Enviar solicitud
                             </button>
                         </div>
@@ -398,6 +446,13 @@ $("#formcuentas2").on("submit", function(e){
     });
  
   
+
+
+
+
+
+
+
 </script> 
 
 
@@ -412,7 +467,6 @@ $("#formcuentas2").on("submit", function(e){
     });
     
 </script>
-
 
 
 <script>
