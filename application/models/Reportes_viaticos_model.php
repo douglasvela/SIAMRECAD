@@ -147,8 +147,26 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
         $seccion= $this->db->query("select nombre_seccion from org_seccion where id_seccion='$id_seccion'");
         return $seccion;
     }
+    function viaticos_por_genero($data){
+       $anio=$data['anio'];
+        $viaticos= $this->db->query("SELECT i.id_genero,g.genero, SUM(ev.viatico) AS viatico, SUM(ev.pasaje) AS pasaje, SUM(ev.alojamiento) AS alojamiento, (SUM(ev.viatico)+SUM(ev.pasaje)+SUM(ev.alojamiento)) as total FROM vyp_mision_oficial AS m JOIN sir_empleado AS i ON m.nr_empleado = i.nr JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial JOIN org_genero as g ON g.id_genero=i.id_genero WHERE year(m.fecha_solicitud)='$anio'  GROUP BY i.id_genero ORDER BY SUM(ev.viatico) DESC");
+        return $viaticos;
+    }
 }
-/*
+/* 
+
+
+SELECT u.id_seccion,s.nombre_seccion,v.id_genero,g.genero, SUM(v.viatico) as viatico,SUM(v.pasaje) AS pasaje, SUM(v.alojamiento) AS alojamiento, (SUM(v.viatico)+SUM(v.pasaje)+SUM(v.alojamiento)) as total  
+from vista_viaticos as v
+JOIN org_genero as g ON g.id_genero=v.id_genero
+JOIN org_usuario as u ON u.nr=v.nr
+JOIN org_seccion as s ON s.id_seccion=v.id_seccion
+WHERE year(v.fecha_solicitud)='2017'  AND u.id_seccion IN (SELECT id_seccion FROM org_seccion)
+GROUP BY v.id_genero ,u.id_seccion
+ORDER by SUM(v.viatico) DESC
+
+
+
 CONSULTA MOTORISTAS
 SELECT  empleado.id_empleado,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,empleado.nr,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,mision.nr_empleado,mision.id_mision_oficial,(viatico.viatico),viatico.id_empresa_viatico
 FROM sir_empleado as empleado 

@@ -63,6 +63,11 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/viaticos_por_seccion');
 		$this->load->view('templates/footer');
 	}
+	public function viaticos_por_genero(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_genero');
+		$this->load->view('templates/footer');
+	}
 
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
@@ -3270,6 +3275,136 @@ class Menu_reportes extends CI_Controller {
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
 			$this->mpdf->SetTitle('Viaticos por Cargo');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
+
+		}
+		
+	}
+	public function reporte_viaticos_por_genero($tipo,$seecion,$anio){
+		$this->load->library('mpdf');
+		$this->load->model('Reportes_viaticos_model');
+		/*Constructor variables
+			Modo: c
+			Formato: A4 - default
+			Tamaño de Fuente: 12
+			Fuente: Arial
+			Magen Izq: 32
+			Margen Derecho: 25
+			Margen arriba: 47
+			Margen abajo: 47
+			Margen cabecera: 10
+			Margen Pie: 10
+			Orientacion: P / L
+		*/
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR GENERO</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+
+
+		$this->mpdf->SetHTMLHeader($cabecera);
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
+		
+		$data  =array(
+			'anio' =>$anio
+		);
+		//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
+		$viatico = $this->Reportes_viaticos_model->viaticos_por_genero($data);
+		$total_viatico=0;
+		$total_pasaje=0;
+		$total_alojamiento=0;
+		$total_total=0;
+		
+		$cuerpo = '
+			Año: '.$anio.'
+			<table  class="" border="1" style="width:100%">
+
+				<thead >
+					<tr>
+						<th align="center" rowspan="2">Genero</th>
+						<th align="center" colspan="3">Tipo</th>
+						<th align="center" rowspan="2">total</th>						
+					</tr>
+					<tr>
+						
+						<th align="center">Viaticos</th>
+						<th align="center">Pasajes</th>
+						<th align="center">Alojamiento</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					
+					';
+					
+				if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total;
+					$cuerpo .= '
+						<tr>
+							<td>'.($viaticos->genero).'</td>
+							<td style="text-align:right">$'.number_format($viaticos->viatico,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($viaticos->total,2,".",",").'</td>
+							
+						</tr>
+						';
+						
+					}
+				}else{
+					$cuerpo .= '
+						<tr><td colspan="5"><center>No hay registros</center></td></tr>
+
+					';
+				}
+				$cuerpo .= '
+					<tr>
+							<th>Total</th>
+							<th style="text-align:right">$'.number_format($total_viatico,2,".",",").'</th>
+							<th style="text-align:right">$'.number_format($total_pasaje,2,".",",").'</th>
+							<th style="text-align:right">$'.number_format($total_alojamiento,2,".",",").'</th>
+							<th style="text-align:right">$'.number_format($total_total,2,".",",").'</th>
+							
+						</tr>
+				</tbody>
+			</table><br>
+			
+        ';         // LOAD a stylesheet         
+	     if($tipo=="pdf"){
+	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->SetTitle('Viaticos por Genero');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
 			$this->mpdf->Output();
