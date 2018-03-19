@@ -224,7 +224,7 @@ class Solicitud_model extends CI_Model {
 		}else{
 			$this->db->where("id_mision_oficial",$data);
 			$fecha = date("Y-m-d H:i:s");
-			if($this->db->update('vyp_mision_oficial', array('estado' => $newestado)) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'")){
+			if($this->db->update('vyp_mision_oficial', array('estado' => $newestado, 'ultima_observacion' => '0000-00-00 00:00:00')) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'")){
 				return "exito";
 			}else{
 				return "fracaso";
@@ -307,7 +307,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function verficar_cumpla_kilometros($data){
-		$query = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$data."' AND kilometraje > 15");
+		$query = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$data."' AND kilometraje >= 15");
 		if($query->num_rows() > 0){
 			return true; 
 		}else{

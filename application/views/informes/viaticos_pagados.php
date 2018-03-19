@@ -32,7 +32,7 @@
 
 	        <div class="row page-titles">
 	            <div class="align-self-center" align="center">
-	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos Pendientes de Pago</h3>
+	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos Pagados</h3>
 	            </div>
 	        </div>
 	         <div class="row ">

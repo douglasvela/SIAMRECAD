@@ -306,7 +306,7 @@ define('summernote/defaults', function () {
 
     // default language: en-US
     lang: {
-      'en-US': {
+      'es-ES': {
         font: {
           bold: 'Bold',
           italic: 'Italic',

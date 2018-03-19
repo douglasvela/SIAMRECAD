@@ -67,6 +67,7 @@
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!--This page css - Morris CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/c3-master/c3.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/plugins/summernote/dist/summernote.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
@@ -77,7 +78,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    
+    <!--Range slider CSS -->
+    <link href="<?php echo base_url(); ?>assets/plugins/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/plugins/ion-rangeslider/css/ion.rangeSlider.skinModern.css" rel="stylesheet">
 </head>
 <script>
    //var barra = setTimeout(function(){ $("#clic").click(); }, 500);
@@ -87,6 +90,8 @@
 
     $(document).ready(function() {
         $("#password_val").val("");
+        localStorage["ventanasvyp"]++;
+        //alert(localStorage["ventanasvyp"])
         if(hora() >= 60*minutos || localStorage["expirasesionvyp"] == "expirada"){
             cerrar_sesion(0);
         }
@@ -109,6 +114,7 @@
 
     window.onbeforeunload = function() {
         //localStorage["expirasesionvyp"] = 0;
+        localStorage["ventanasvyp"]--;
     }
 
     function hora(){

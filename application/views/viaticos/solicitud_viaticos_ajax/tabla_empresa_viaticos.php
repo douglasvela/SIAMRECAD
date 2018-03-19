@@ -57,7 +57,11 @@
             </td>
             <td><?php echo hora($filam->hora_salida); ?></td>
             <td><?php echo hora($filam->hora_llegada); ?></td>
-            <td align="right" onclick="tabla_viaticos_encontrados('<?php echo $filam->id_empresa_viatico; ?>')"><?php echo $filam->viatico; ?>
+            <td align="right"><?php if(floatval($filam->viatico) > 0){ ?>
+                 <a onclick="tabla_viaticos_encontrados('<?php echo $filam->id_empresa_viatico; ?>')" href="#!" class="nueva_clase text-dark" data-toggle="tooltip" title="Clic para ver viáticos"><?php echo number_format($filam->viatico, 2); ?></a>
+                <?php }else{
+                    echo $filam->viatico;
+                } ?>
                 <input type="hidden" value="<?php echo $filam->horarios_viaticos; ?>">
             </td>
             <td align="right"><?php echo $filam->pasaje; ?></td>

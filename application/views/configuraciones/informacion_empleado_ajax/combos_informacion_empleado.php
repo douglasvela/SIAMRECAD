@@ -35,7 +35,7 @@
                 if($otro_empleado->num_rows() > 0){
                     foreach ($otro_empleado->result() as $fila) {                    
                         if($fila->nr == $nr_jefe_inmediato){
-                            echo '<option class="m-l-50" value="'.$fila->nr.'" selected>'.$fila->nombre_completo." - ".$fila->nr.'</option>';
+                            echo '<option class="m-l-50" value="'.$fila->nr.'" selected>'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
                         }else{
                             echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.'</option>';
                         }        

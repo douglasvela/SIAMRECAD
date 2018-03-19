@@ -29,7 +29,7 @@
                         }
                     }
 
-                    $mision = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE (estado = 3 AND nr_jefe_regional = '".$nr_usuario."')");
+                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades  AND (m.estado = 3 AND m.nr_jefe_regional = '".$nr_usuario."') ORDER BY m.fecha_solicitud DESC");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";

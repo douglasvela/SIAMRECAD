@@ -194,7 +194,7 @@
             <h5>Monto por día: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
+                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" placeholder="0.00" value="0.00" max="25" step="any">
             </div>
             <div class="help-block"></div>
         </div>

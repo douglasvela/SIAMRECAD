@@ -2447,24 +2447,10 @@
           superscript: 'superscript',
           subscript: 'subscript'
         },
-        image: {
-          image: 'picture-o',
-          floatLeft: 'align-left',
-          floatRight: 'align-right',
-          floatNone: 'align-justify',
-          shapeRounded: 'square',
-          shapeCircle: 'circle-o',
-          shapeThumbnail: 'picture-o',
-          shapeNone: 'times',
-          remove: 'trash-o'
-        },
         link: {
           link: 'link',
           unlink: 'unlink',
           edit: 'edit'
-        },
-        table: {
-          table: 'table'
         },
         hr: {
           insert: 'minus'
@@ -2524,8 +2510,6 @@
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['height', ['height']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'hr']],
         ['view', ['fullscreen', 'codeview']],
         ['help', ['help']]
       ],
