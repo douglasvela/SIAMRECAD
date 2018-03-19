@@ -16,7 +16,7 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
 */
     function obtenerViaticoAnualxDepto($data){
       
-        $viaticos = $this->db->query("SELECT ruta.id_departamento_vyp_rutas as id_depto, dep.departamento, SUM(viatico.pasaje) AS pasaje, SUM(viatico.viatico) AS viatico, SUM(viatico.alojamiento) AS alojamiento,(SUM(viatico.pasaje)+SUM(viatico.viatico)+SUM(viatico.alojamiento)) as total FROM vyp_empresa_viatico as viatico INNER JOIN (SELECT CAST(r.id_vyp_rutas AS CHARACTER) AS id_vyp_rutas, r.id_departamento_vyp_rutas, r.id_municipio_vyp_rutas FROM vyp_rutas AS r UNION SELECT CAST(o.id_oficina AS CHARACTER), o.id_departamento, o.id_municipio FROM vyp_oficinas AS o) AS ruta ON viatico.id_destino = ruta.id_vyp_rutas JOIN org_departamento AS dep ON ruta.id_departamento_vyp_rutas = dep.id_departamento WHERE year(viatico.fecha) IN ('$data') GROUP BY ruta.id_departamento_vyp_rutas order by total desc");
+        $viaticos = $this->db->query("SELECT i.id_oficina_departamental as id_depto, o.id_departamento, depto.departamento ,m.id_mision_oficial,SUM(ev.viatico) AS viatico, SUM(ev.pasaje) AS pasaje, SUM(ev.alojamiento) AS alojamiento, (SUM(ev.viatico)+SUM(ev.pasaje)+SUM(ev.alojamiento)) as total FROM vyp_mision_oficial AS m JOIN vyp_informacion_empleado AS i ON m.nr_empleado = i.nr JOIN vyp_oficinas AS o ON o.id_oficina = i.id_oficina_departamental JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial JOIN org_departamento as depto ON depto.id_departamento=o.id_departamento WHERE year(m.fecha_solicitud)='$data' GROUP BY i.id_oficina_departamental ORDER BY SUM(ev.viatico) DESC");
         return $viaticos;
     }
     function obtenerViaticoAnual($data)

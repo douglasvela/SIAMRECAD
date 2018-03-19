@@ -476,7 +476,7 @@ class Menu_reportes extends CI_Controller {
 				$data1y[$i]=$viatico_anual_detalle->viatico;
 				$data2y[$i]=$viatico_anual_detalle->pasaje;
 				$data3y[$i]=$viatico_anual_detalle->alojamiento;
-				$data4y[$i]=$viatico_anual_detalle->total;
+				//$data4y[$i]=$viatico_anual_detalle->total;
 				$labels[$i]=$viatico_anual_detalle->departamento;
 				$i++;
 			}
@@ -495,17 +495,17 @@ class Menu_reportes extends CI_Controller {
 		$b1plot = new BarPlot($data1y);
 		$b2plot = new BarPlot($data2y);
 		$b3plot = new BarPlot($data3y);
-		$b4plot = new BarPlot($data4y);
+		//$b4plot = new BarPlot($data4y);
 	
 		// Create the grouped bar plot
-		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
+		$gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
 		//$gbplot->value->SetFormat('%01.2f');
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
 
 		$b1plot->value->Show();
-		$b2plot->SetFillColor('#B0C4DE');
+		//$b2plot->SetFillColor('#B0C4DE');
 		$b1plot->SetLegend("Viaticos");
 
 
@@ -516,12 +516,12 @@ class Menu_reportes extends CI_Controller {
 		$b1plot->value->SetFormat('$%01.2f');
 		$b2plot->value->SetFormat('$%01.2f');
 		$b3plot->value->SetFormat('$%01.2f');
-		$b4plot->value->SetFormat('$%01.2f');
+		//$b4plot->value->SetFormat('$%01.2f');
 
 		$b1plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
 		$b2plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
 		$b3plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
-		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		//$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
 
 		/******************************************************************
 			Fin cambiando formato de etiquetas a $0.00 dinero
@@ -531,6 +531,112 @@ class Menu_reportes extends CI_Controller {
 		$b2plot->SetLegend("Pasaje");
 		$b3plot->value->Show();
 		$b3plot->SetLegend("Alojamiento");
+		//$b4plot->value->Show();
+		//$b4plot->SetLegend("Total");
+
+		$graph->title->Set(utf8_decode("Viaticos por Departamento"));
+		//$graph->yaxis->title->Set("Cantidad en dólares");
+		$graph->xaxis->title->Set(utf8_decode("Departamentos"));
+
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(10);
+
+		/******************************************************************
+			Inicio cambiando formato del eje Y a $0.00 dinero
+		******************************************************************/
+		$graph->yaxis->SetLabelFormat('$%d');
+		$graph->yaxis->SetFont(FF_ARIAL,FS_NORMAL,8);  // FS_BOLD para negrita
+		/******************************************************************
+			Inicio cambiando formato del eje Y a $0.00 dinero
+		******************************************************************/
+
+		
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "assets/graficas/grafica_depto_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
+	public function crear_grafico_viaticos_x_depto_totales($anios){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		
+		
+		$data1y = array(0);
+		$data2y = array(0);
+		$data3y = array(0);
+		$data4y = array(0);
+		$labels = array(0);
+		$i=0;
+		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($anios);
+		
+			foreach ($viatico_anual->result() as $viatico_anual_detalle) {	
+				//$data1y[$i]=$viatico_anual_detalle->viatico;
+				//$data2y[$i]=$viatico_anual_detalle->pasaje;
+				//$data3y[$i]=$viatico_anual_detalle->alojamiento;
+				$data4y[$i]=$viatico_anual_detalle->total;
+				$labels[$i]=$viatico_anual_detalle->departamento;
+				$i++;
+			}
+		
+		
+		// Create the graph. These two calls are always required
+		$graph = new Graph(700,500);
+		
+		$graph->SetScale("textlin");
+		$graph->Set90AndMargin(0,0,0,0);
+		$graph->SetShadow();
+
+		//$graph->img->SetMargin(40,30,30,70);
+
+		// Create the bar plots
+		/*$b1plot = new BarPlot($data1y);
+		$b2plot = new BarPlot($data2y);
+		$b3plot = new BarPlot($data3y);*/
+		$b4plot = new BarPlot($data4y);
+	
+		// Create the grouped bar plot
+		$gbplot = new GroupBarPlot(array($b4plot));
+		//$gbplot->value->SetFormat('%01.2f');
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+
+		
+
+
+		/******************************************************************
+			Inicio cambiando formato de etiquetas a $0.00 dinero
+		******************************************************************/
+
+		//$b1plot->value->SetFormat('$%01.2f');
+		/*$b2plot->value->SetFormat('$%01.2f');
+		$b3plot->value->SetFormat('$%01.2f');*/
+		$b4plot->value->SetFormat('$%01.2f');
+
+		//$b1plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		//$b2plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		//$b3plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+
+		/******************************************************************
+			Fin cambiando formato de etiquetas a $0.00 dinero
+		******************************************************************/
+
+		/*$b2plot->value->Show();
+		$b2plot->SetLegend("Pasaje");
+		$b3plot->value->Show();
+		$b3plot->SetLegend("Alojamiento");*/
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
 
@@ -558,7 +664,7 @@ class Menu_reportes extends CI_Controller {
 		// Display the graph
 		$graph->Stroke(_IMG_HANDLER);
 		$x = $this->session->userdata('usuario_viatico');
-		$fileName = "application/controllers/informes/graficas/grafica_depto_".$x.".png";
+		$fileName = "assets/graficas/grafica_depto_t_".$x.".png";
 		$graph->img->Stream($fileName);
 
 		// mostrarlo en el navegador
@@ -572,6 +678,7 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
 		$this->crear_grafico_viaticos_x_depto($anios);
+		$this->crear_grafico_viaticos_x_depto_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
@@ -659,7 +766,8 @@ class Menu_reportes extends CI_Controller {
 						</tr>
 				</tbody>
 			</table><br>
-			<img src="application/controllers/informes/graficas/grafica_depto_'.$this->session->userdata('usuario_viatico').'.png" alt="">
+			<img src="'.base_url().'assets/graficas/grafica_depto_'.$this->session->userdata('usuario_viatico').'.png" alt=""  >
+			<img src="'.base_url().'assets/graficas/grafica_depto_t_'.$this->session->userdata('usuario_viatico').'.png" alt="">
 			      '; 
 		if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
@@ -670,7 +778,133 @@ class Menu_reportes extends CI_Controller {
 		}else if($tipo=="vista"){
 			echo $cabecera_vista.$cuerpo;
 		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
 
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("Office 2007 XLSX Test Document")
+										 ->setSubject("Office 2007 XLSX Test Document")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('DEPARTAMENTO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B7',  $titulosColumnas[1])
+			    ->setCellValue('C7',  $titulosColumnas[2])
+			    ->setCellValue('D7',  $titulosColumnas[3])
+			    ->setCellValue('E7',  $titulosColumnas[4])
+			    ;
+
+			 
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS POR DEPARTAMENTO")
+			            ;
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
+				$total_pasaje=0;
+				$total_viatico=0;
+				$total_alojamiento=0;
+				$total_total=0;
+				$f=8;$data=$anios;
+
+				$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.($f-2),"Año: ")
+							->setCellValue('B'.($f-2), $anios);
+
+				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($data);
+				if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$total_pasaje+=$viaticos->pasaje;
+					$total_viatico+=$viaticos->viatico;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total;
+
+					$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+					// Miscellaneous glyphs, UTF-8
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f, $viaticos->departamento)
+				            ->setCellValue('B'.$f, number_format($viaticos->viatico,2,".",","))
+				            ->setCellValue('C'.$f, number_format($viaticos->pasaje,2,".",","))
+				            ->setCellValue('D'.$f, number_format($viaticos->alojamiento,2,".",","))
+				            ->setCellValue('E'.$f, number_format($viaticos->total,2,".",","));
+						$f++;
+					}
+
+					$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					 
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f, "Total")
+				            ->setCellValue('B'.$f, number_format($total_viatico,2,".",","))
+				            ->setCellValue('C'.$f, number_format($total_pasaje,2,".",","))
+				            ->setCellValue('D'.$f, number_format($total_alojamiento,2,".",","))
+				            ->setCellValue('E'.$f, number_format($total_total,2,".",","));
+				    $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':F'.$f)->getFont()->setBold(true); 
+			}else{
+				$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':E'.$f);
+			}
+
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4');
+
+			for($i = 'A'; $i <= 'E'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
+			
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Departamento');
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_por_departamento.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
 		}
 	}
 
@@ -679,20 +913,20 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
 		
-				$total_viaticos_occidental=0;
-				$total_pasajes_occidental=0;
-				$total_alojamientos_occidental=0;
-				$total_occidente=0;
+				$zona_total_viaticos_occidental=0;
+				$zona_total_pasajes_occidental=0;
+				$zona_total_alojamientos_occidental=0;
+				$zona_total_occidente=0;
 
 				$total_viaticos_central=0;
-				$total_pasajes_central=0;
-				$total_alojamientos_central=0;
-				$total_central=0;
+				$zona_total_pasajes_central=0;
+				$zona_total_alojamientos_central=0;
+				$zona_total_central=0;
 
-				$total_viaticos_oriental=0;
-				$total_pasajes_oriental=0;
-				$total_alojamientos_oriental=0;
-				$total_oriental=0;
+				$zona_total_viaticos_oriental=0;
+				$zona_total_pasajes_oriental=0;
+				$zona_total_alojamientos_oriental=0;
+				$zona_total_oriental=0;
 		
 		$data1y = array();
 		$data2y = array();
@@ -704,44 +938,44 @@ class Menu_reportes extends CI_Controller {
 		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($anios);
 		foreach ($viatico_anual->result() as $viaticos) {	
 			if($viaticos->id_depto>="00001" && $viaticos->id_depto<='00003'){
-						$total_viaticos_occidental+= $viaticos->viatico;
-						$total_pasajes_occidental+= $viaticos->pasaje;
-						$total_alojamientos_occidental+= $viaticos->alojamiento;
+						$zona_total_viaticos_occidental+= $viaticos->viatico;
+						$zona_total_pasajes_occidental+= $viaticos->pasaje;
+						$zona_total_alojamientos_occidental+= $viaticos->alojamiento;
 					}
 
 					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
 						$total_viaticos_central+= $viaticos->viatico;
-						$total_pasajes_central+= $viaticos->pasaje;
-						$total_alojamientos_central+= $viaticos->alojamiento;
+						$zona_total_pasajes_central+= $viaticos->pasaje;
+						$zona_total_alojamientos_central+= $viaticos->alojamiento;
 					}
 
 					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
-						$total_viaticos_oriental+=$viaticos->viatico;
-						$total_pasajes_oriental+=$viaticos->pasaje;
-						$total_alojamientos_oriental+=$viaticos->alojamiento;
+						$zona_total_viaticos_oriental+=$viaticos->viatico;
+						$zona_total_pasajes_oriental+=$viaticos->pasaje;
+						$zona_total_alojamientos_oriental+=$viaticos->alojamiento;
 					}
 		}
-		$total_occidente = $total_viaticos_occidental + $total_pasajes_occidental + $total_alojamientos_occidental;
-		$total_central = $total_viaticos_central+$total_pasajes_central+$total_alojamientos_central;
-		$total_oriental = $total_viaticos_oriental+$total_pasajes_oriental+$total_alojamientos_oriental;
+		$zona_total_occidente = $zona_total_viaticos_occidental + $zona_total_pasajes_occidental + $zona_total_alojamientos_occidental;
+		$zona_total_central = $total_viaticos_central+$zona_total_pasajes_central+$zona_total_alojamientos_central;
+		$zona_total_oriental = $zona_total_viaticos_oriental+$zona_total_pasajes_oriental+$zona_total_alojamientos_oriental;
 			
 			
-		$data1y[$i]=$total_viaticos_occidental;
-		$data2y[$i]=$total_pasajes_occidental;
-		$data3y[$i]=$total_alojamientos_occidental;
-		$data4y[$i]=$total_occidente;
+		$data1y[$i]=$zona_total_viaticos_occidental;
+		$data2y[$i]=$zona_total_pasajes_occidental;
+		$data3y[$i]=$zona_total_alojamientos_occidental;
+		//$data4y[$i]=$zona_total_occidente;
 		$labels[$i]="Occidental";
 		$i++;
 		$data1y[$i]=$total_viaticos_central;
-		$data2y[$i]=$total_pasajes_central;
-		$data3y[$i]=$total_alojamientos_central;
-		$data4y[$i]=$total_central;
+		$data2y[$i]=$zona_total_pasajes_central;
+		$data3y[$i]=$zona_total_alojamientos_central;
+		//$data4y[$i]=$zona_total_central;
 		$labels[$i]="Central";
 		$i++;
-		$data1y[$i]=$total_viaticos_oriental;
-		$data2y[$i]=$total_pasajes_oriental;
-		$data3y[$i]=$total_alojamientos_oriental;
-		$data4y[$i]=$total_oriental;
+		$data1y[$i]=$zona_total_viaticos_oriental;
+		$data2y[$i]=$zona_total_pasajes_oriental;
+		$data3y[$i]=$zona_total_alojamientos_oriental;
+		//$data4y[$i]=$zona_total_oriental;
 		$labels[$i]="Oriental";
 			
 			
@@ -762,16 +996,157 @@ class Menu_reportes extends CI_Controller {
 		$b1plot = new BarPlot($data1y);
 		$b2plot = new BarPlot($data2y);
 		$b3plot = new BarPlot($data3y);
+		//$b4plot = new BarPlot($data4y);
+		
+		
+		// Create the grouped bar plot
+		$gbplot = new GroupBarPlot(array($b1plot,$b2plot,$b3plot));
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+		$b1plot->value->SetFormat('$%01.2f');
+		$b1plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
+		$b2plot->value->SetFormat('$%01.2f');
+		$b2plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
+		$b3plot->value->SetFormat('$%01.2f');
+		$b3plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
+
+		$b1plot->value->Show();
+		//$b1plot->SetColor("#0000CD");
+		//$b2plot->SetFillColor('#B0C4DE');
+		$b1plot->SetLegend("Viaticos");
+
+		$b2plot->value->Show();
+		$b2plot->SetLegend("Pasaje");
+		$b3plot->value->Show();
+		$b3plot->SetLegend("Alojamiento");
+		//$b4plot->value->Show();
+		//$b4plot->SetLegend("Total");
+		
+
+		$graph->title->Set(utf8_decode("Viaticos por Zona"));
+		$graph->yaxis->title->Set("Cantidad en dólares");
+		$graph->xaxis->title->Set(utf8_decode("Zonas"));
+
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(5);
+
+		
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "assets/graficas/grafica_zona_depto_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
+	public function crear_grafico_viaticos_x_zona_depto_total($anios){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		
+				$zona_total_viaticos_occidental=0;
+				$zona_total_pasajes_occidental=0;
+				$zona_total_alojamientos_occidental=0;
+				$zona_total_occidente=0;
+
+				$total_viaticos_central=0;
+				$zona_total_pasajes_central=0;
+				$zona_total_alojamientos_central=0;
+				$zona_total_central=0;
+
+				$zona_total_viaticos_oriental=0;
+				$zona_total_pasajes_oriental=0;
+				$zona_total_alojamientos_oriental=0;
+				$zona_total_oriental=0;
+		
+		$data1y = array();
+		$data2y = array();
+		$data3y = array();
+		$data4y = array();
+
+		$labels = array();
+		$i=0;
+		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($anios);
+		foreach ($viatico_anual->result() as $viaticos) {	
+			if($viaticos->id_depto>="00001" && $viaticos->id_depto<='00003'){
+						$zona_total_viaticos_occidental+= $viaticos->viatico;
+						$zona_total_pasajes_occidental+= $viaticos->pasaje;
+						$zona_total_alojamientos_occidental+= $viaticos->alojamiento;
+					}
+
+					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
+						$total_viaticos_central+= $viaticos->viatico;
+						$zona_total_pasajes_central+= $viaticos->pasaje;
+						$zona_total_alojamientos_central+= $viaticos->alojamiento;
+					}
+
+					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
+						$zona_total_viaticos_oriental+=$viaticos->viatico;
+						$zona_total_pasajes_oriental+=$viaticos->pasaje;
+						$zona_total_alojamientos_oriental+=$viaticos->alojamiento;
+					}
+		}
+		$zona_total_occidente = $zona_total_viaticos_occidental + $zona_total_pasajes_occidental + $zona_total_alojamientos_occidental;
+		$zona_total_central = $total_viaticos_central+$zona_total_pasajes_central+$zona_total_alojamientos_central;
+		$zona_total_oriental = $zona_total_viaticos_oriental+$zona_total_pasajes_oriental+$zona_total_alojamientos_oriental;
+			
+			
+		/*$data1y[$i]=$zona_total_viaticos_occidental;
+		$data2y[$i]=$zona_total_pasajes_occidental;
+		$data3y[$i]=$zona_total_alojamientos_occidental;*/
+		$data4y[$i]=$zona_total_occidente;
+		$labels[$i]="Occidental";
+		$i++;
+		/*$data1y[$i]=$total_viaticos_central;
+		$data2y[$i]=$zona_total_pasajes_central;
+		$data3y[$i]=$zona_total_alojamientos_central;*/
+		$data4y[$i]=$zona_total_central;
+		$labels[$i]="Central";
+		$i++;
+		/*$data1y[$i]=$zona_total_viaticos_oriental;
+		$data2y[$i]=$zona_total_pasajes_oriental;
+		$data3y[$i]=$zona_total_alojamientos_oriental;*/
+		$data4y[$i]=$zona_total_oriental;
+		$labels[$i]="Oriental";
+			
+			
+		//	$labels[1]="Central";
+		//	$labels[2]="Oriental";
+
+			
+		// Create the graph. These two calls are always required
+		$graph = new Graph(700,450);
+		
+		$graph->SetScale("textlin");
+		//$graph->Set90AndMargin(0,0,0,0);
+		$graph->SetShadow();
+
+		$graph->img->SetMargin(50,30,30,100);
+
+		// Create the bar plots
+		/*$b1plot = new BarPlot($data1y);
+		$b2plot = new BarPlot($data2y);
+		$b3plot = new BarPlot($data3y);*/
 		$b4plot = new BarPlot($data4y);
 		
 		
 		// Create the grouped bar plot
-		$gbplot = new GroupBarPlot(array($b4plot,$b1plot,$b2plot,$b3plot));
+		$gbplot = new GroupBarPlot(array($b4plot));
 
 		// ...and add it to the graPH
 		$graph->Add($gbplot);
+		$b4plot->value->SetFormat('$%01.2f');
+		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
 
-		$b1plot->value->Show();
+		/*$b1plot->value->Show();
 		//$b1plot->SetColor("#0000CD");
 		$b2plot->SetFillColor('#B0C4DE');
 		$b1plot->SetLegend("Viaticos");
@@ -779,7 +1154,7 @@ class Menu_reportes extends CI_Controller {
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
 		$b3plot->value->Show();
-		$b3plot->SetLegend("Alojamiento");
+		$b3plot->SetLegend("Alojamiento");*/
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
 		
@@ -799,7 +1174,7 @@ class Menu_reportes extends CI_Controller {
 		// Display the graph
 		$graph->Stroke(_IMG_HANDLER);
 		$x = $this->session->userdata('usuario_viatico');
-		$fileName = "application/controllers/informes/graficas/grafica_zona_depto_".$x.".png";
+		$fileName = "assets/graficas/grafica_zona_depto_t_".$x.".png";
 		$graph->img->Stream($fileName);
 
 		// mostrarlo en el navegador
@@ -813,6 +1188,7 @@ class Menu_reportes extends CI_Controller {
 		$this->load->model('Reportes_viaticos_model');
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
 		$this->crear_grafico_viaticos_x_zona_depto($anios);
+		$this->crear_grafico_viaticos_x_zona_depto_total($anios);
 		$cabecera = '<table><tr>
  		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
@@ -862,20 +1238,20 @@ class Menu_reportes extends CI_Controller {
 					$data=$anios;
 				//$data = str_split($anios,4);
 				//$data=array(2018,2017,2016,2015);
-				$total_viaticos_occidental=0;
-				$total_pasajes_occidental=0;
-				$total_alojamientos_occidental=0;
-				$total_occidente=0;
+				$zona_total_viaticos_occidental=0;
+				$zona_total_pasajes_occidental=0;
+				$zona_total_alojamientos_occidental=0;
+				$zona_total_occidente=0;
 
 				$total_viaticos_central=0;
-				$total_viaticos_central=0;
-				$total_viaticos_central=0;
-				$total_central=0;
+				$zona_total_pasajes_central=0;
+				$zona_total_alojamientos_central=0;
+				$zona_total_central=0;
 
-				$total_viaticos_oriental=0;
-				$total_viaticos_oriental=0;
-				$total_viaticos_oriental=0;
-				$total_oriental=0;
+				$zona_total_viaticos_oriental=0;
+				$zona_total_pasajes_oriental=0;
+				$zona_total_alojamientos_oriental=0;
+				$zona_total_oriental=0;
 
 				$total_total_viatico=0;
 				$total_total_pasaje=0;
@@ -886,9 +1262,9 @@ class Menu_reportes extends CI_Controller {
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
 					if($viaticos->id_depto>="00001" && $viaticos->id_depto<='00003'){
-						$total_viaticos_occidental+= $viaticos->viatico;
-						$total_pasajes_occidental+= $viaticos->pasaje;
-						$total_alojamientos_occidental+= $viaticos->alojamiento;
+						$zona_total_viaticos_occidental+= $viaticos->viatico;
+						$zona_total_pasajes_occidental+= $viaticos->pasaje;
+						$zona_total_alojamientos_occidental+= $viaticos->alojamiento;
 
 						$total_total_viatico+=$viaticos->viatico;
 						$total_total_pasaje+=$viaticos->pasaje;
@@ -898,8 +1274,8 @@ class Menu_reportes extends CI_Controller {
 
 					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
 						$total_viaticos_central+= $viaticos->viatico;
-						$total_pasajes_central+= $viaticos->pasaje;
-						$total_alojamientos_central+= $viaticos->alojamiento;
+						$zona_total_pasajes_central+= $viaticos->pasaje;
+						$zona_total_alojamientos_central+= $viaticos->alojamiento;
 
 						$total_total_viatico+=$viaticos->viatico;
 						$total_total_pasaje+=$viaticos->pasaje;
@@ -907,40 +1283,40 @@ class Menu_reportes extends CI_Controller {
 					}
 
 					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
-						$total_viaticos_oriental+=$viaticos->viatico;
-						$total_pasajes_oriental+=$viaticos->pasaje;
-						$total_alojamientos_oriental+=$viaticos->alojamiento;
+						$zona_total_viaticos_oriental+=$viaticos->viatico;
+						$zona_total_pasajes_oriental+=$viaticos->pasaje;
+						$zona_total_alojamientos_oriental+=$viaticos->alojamiento;
 
 						$total_total_viatico+=$viaticos->viatico;
 						$total_total_pasaje+=$viaticos->pasaje;
 						$total_total_alojamiento+=$viaticos->alojamiento;
 					}
 				}
-				$total_occidente = $total_viaticos_occidental + $total_pasajes_occidental + $total_alojamientos_occidental;
-				$total_central = $total_viaticos_central+$total_pasajes_central+$total_alojamientos_central;
-				$total_oriental = $total_viaticos_oriental+$total_pasajes_oriental+$total_alojamientos_oriental;
+				$zona_total_occidente = $zona_total_viaticos_occidental + $zona_total_pasajes_occidental + $zona_total_alojamientos_occidental;
+				$zona_total_central = $total_viaticos_central+$zona_total_pasajes_central+$zona_total_alojamientos_central;
+				$zona_total_oriental = $zona_total_viaticos_oriental+$zona_total_pasajes_oriental+$zona_total_alojamientos_oriental;
 
 					$cuerpo .= '
 						<tr>
 							<td align="center" style="width:180px">Occidental</td>
-							<td align="center" style="width:180px">$'.number_format($total_viaticos_occidental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_pasajes_occidental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_alojamientos_occidental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_occidente,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_viaticos_occidental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_pasajes_occidental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_alojamientos_occidental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_occidente,2,".",",").'</td>
 						</tr>
 						<tr>
 							<td align="center" style="width:180px">Central</td>
 							<td align="center" style="width:180px">$'.number_format($total_viaticos_central,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_pasajes_central,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_alojamientos_central,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_central,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_pasajes_central,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_alojamientos_central,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_central,2,".",",").'</td>
 						</tr>
 						<tr>
 							<td align="center" style="width:180px">Oriental</td>
-							<td align="center" style="width:180px">$'.number_format($total_viaticos_oriental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_pasajes_oriental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_alojamientos_oriental,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($total_oriental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_viaticos_oriental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_pasajes_oriental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_alojamientos_oriental,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_oriental,2,".",",").'</td>
 						</tr>
 						';
 					
@@ -955,11 +1331,12 @@ class Menu_reportes extends CI_Controller {
 							<th align="center" style="width:180px">$'.number_format($total_total_viatico,2,".",",").'</th>
 							<th align="center" style="width:180px">$'.number_format($total_total_pasaje,2,".",",").'</th>
 							<th align="center" style="width:180px">$'.number_format($total_total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_occidente+$total_oriental+$total_central,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($zona_total_occidente+$zona_total_oriental+$zona_total_central,2,".",",").'</th>
 						</tr>
 				</tbody>
 			</table><br>
-			<img src="application/controllers/informes/graficas/grafica_zona_depto_'.$this->session->userdata('usuario_viatico').'.png" alt="">
+			<img src="'.base_url().'assets/graficas/grafica_zona_depto_'.$this->session->userdata('usuario_viatico').'.png" alt="">
+			<img src="'.base_url().'assets/graficas/grafica_zona_depto_t_'.$this->session->userdata('usuario_viatico').'.png" alt="">
 			      '; 
 		if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
@@ -970,7 +1347,193 @@ class Menu_reportes extends CI_Controller {
 		}else if($tipo=="vista"){
 			echo $cabecera_vista.$cuerpo;
 		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
 
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("Office 2007 XLSX Test Document")
+										 ->setSubject("Office 2007 XLSX Test Document")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('ZONA','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B7',  $titulosColumnas[1])
+			    ->setCellValue('C7',  $titulosColumnas[2])
+			    ->setCellValue('D7',  $titulosColumnas[3])
+			    ->setCellValue('E7',  $titulosColumnas[4])
+			    ;
+
+			 
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS POR ZONA DEPARTAMENTAL")
+			            ;
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
+			
+			 //////////////////////////////////////////////////
+			 $data=$anios;
+				//$data = str_split($anios,4);
+				//$data=array(2018,2017,2016,2015);
+				$zona_total_viaticos_occidental=0;
+				$zona_total_pasajes_occidental=0;
+				$zona_total_alojamientos_occidental=0;
+				$zona_total_occidente=0;
+
+				$zona_total_viaticos_central=0;
+				$zona_total_pasajes_central=0;
+				$zona_total_alojamientos_central=0;
+				$zona_total_central=0;
+
+				$zona_total_viaticos_oriental=0;
+				$zona_total_pasajes_oriental=0;
+				$zona_total_alojamientos_oriental=0;
+				$zona_total_oriental=0;
+
+				$zona_total_total_viatico=0;
+				$zona_total_total_pasaje=0;
+				$zona_total_total_alojamiento=0;
+				$zona_total_total=0;
+				$f=8;
+				$viatico_zona = $this->Reportes_viaticos_model->obtenerViaticoAnualxDepto($data);
+				if($viatico_zona->num_rows()>0){
+				foreach ($viatico_zona->result() as $viaticos) {
+					if($viaticos->id_depto>="00001" && $viaticos->id_depto<='00003'){
+						$zona_total_viaticos_occidental+= $viaticos->viatico;
+						$zona_total_pasajes_occidental+= $viaticos->pasaje;
+						$zona_total_alojamientos_occidental+= $viaticos->alojamiento;
+
+						$zona_total_total_viatico+=$viaticos->viatico;
+						$zona_total_total_pasaje+=$viaticos->pasaje;
+						$zona_total_total_alojamiento+=$viaticos->alojamiento;
+						 
+					}
+
+					if($viaticos->id_depto>="00004" && $viaticos->id_depto<='00010'){
+						$zona_total_viaticos_central+= $viaticos->viatico;
+						$zona_total_pasajes_central+= $viaticos->pasaje;
+						$zona_total_alojamientos_central+= $viaticos->alojamiento;
+
+						$zona_total_total_viatico+=$viaticos->viatico;
+						$zona_total_total_pasaje+=$viaticos->pasaje;
+						$zona_total_total_alojamiento+=$viaticos->alojamiento;
+					}
+
+					if($viaticos->id_depto>="00011" && $viaticos->id_depto<='00014'){
+						$zona_total_viaticos_oriental+=$viaticos->viatico;
+						$zona_total_pasajes_oriental+=$viaticos->pasaje;
+						$zona_total_alojamientos_oriental+=$viaticos->alojamiento;
+
+						$zona_total_total_viatico+=$viaticos->viatico;
+						$zona_total_total_pasaje+=$viaticos->pasaje;
+						$zona_total_total_alojamiento+=$viaticos->alojamiento;
+					}
+				}
+				
+				$zona_total_occidente = $zona_total_viaticos_occidental + $zona_total_pasajes_occidental + $zona_total_alojamientos_occidental;
+				$zona_total_central = $total_viaticos_central+$zona_total_pasajes_central+$zona_total_alojamientos_central;
+				$zona_total_oriental = $zona_total_viaticos_oriental+$zona_total_pasajes_oriental+$zona_total_alojamientos_oriental;
+				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+					// Miscellaneous glyphs, UTF-8
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"OCCIDENTAL")
+							->setCellValue('B'.$f,number_format($zona_total_viaticos_occidental,2,".",","))
+							->setCellValue('C'.$f, number_format($zona_total_pasajes_occidental,2,".",","))
+							->setCellValue('D'.$f,number_format($zona_total_alojamientos_occidental,2,".",","))
+							->setCellValue('E'.$f, number_format($zona_total_occidente,2,".",","));
+							$f++;
+					$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"CENTRAL")
+							->setCellValue('B'.$f,number_format($zona_total_viaticos_central,2,".",","))
+							->setCellValue('C'.$f, number_format($zona_total_pasajes_central,2,".",","))
+							->setCellValue('D'.$f,number_format($zona_total_alojamientos_central,2,".",","))
+							->setCellValue('E'.$f, number_format($zona_total_central,2,".",","));
+							$f++;
+					$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"ORIENTAL")
+							->setCellValue('B'.$f,number_format($zona_total_viaticos_oriental,2,".",","))
+							->setCellValue('C'.$f, number_format($zona_total_pasajes_oriental,2,".",","))
+							->setCellValue('D'.$f,number_format($zona_total_alojamientos_oriental,2,".",","))
+							->setCellValue('E'.$f, number_format($zona_total_oriental,2,".",","));
+									
+				}else{
+					$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':E'.$f);
+				}
+				$f++;
+				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"TOTAL")
+							->setCellValue('B'.$f,number_format($zona_total_total_viatico,2,".",","))
+							->setCellValue('C'.$f, number_format($zona_total_total_pasaje,2,".",","))
+							->setCellValue('D'.$f,number_format($zona_total_total_alojamiento,2,".",","))
+							->setCellValue('E'.$f, number_format($zona_total_occidente+$zona_total_oriental+$zona_total_central,2,".",","));
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':E'.$f)->getFont()->setBold(true); 
+			 //////////////////////////////////////////////////
+			 ///
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4');
+
+			for($i = 'A'; $i <= 'E'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
+			
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Zona Departamental');
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_por_zona_departamental.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
 		}
 	}
 

@@ -30,7 +30,7 @@
 
 	        <div class="row page-titles">
 	            <div class="align-self-center" align="center">
-	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos Pendientes de Pago</h3>
+	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos por Cargo Funcional</h3>
 	            </div>
 	        </div>
 	         <div class="row ">
@@ -53,8 +53,10 @@
                                  	$datos = $this->db->query("SELECT * FROM sir_cargo_funcional ");
                                     if($datos->num_rows() > 0){
                                     foreach ($datos->result() as $filadatos) {
+    									echo '<option value="'.$filadatos->id_cargo_funcional.'" '.(($filadatos->id_cargo_funcional=='291')?'selected="selected"':"").'>'.$filadatos->funcional.'</option>';
                                  ?>
-  <option class="m-l-50" value="<?php echo $filadatos->id_cargo_funcional; ?>"><?php echo $filadatos->funcional; ?></option>
+
+
                                  <?php
                                        }
                                     }
