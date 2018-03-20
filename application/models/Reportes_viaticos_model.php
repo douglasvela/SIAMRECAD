@@ -152,8 +152,19 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
         $viaticos= $this->db->query("SELECT i.id_genero,g.genero, SUM(ev.viatico) AS viatico, SUM(ev.pasaje) AS pasaje, SUM(ev.alojamiento) AS alojamiento, (SUM(ev.viatico)+SUM(ev.pasaje)+SUM(ev.alojamiento)) as total FROM vyp_mision_oficial AS m JOIN sir_empleado AS i ON m.nr_empleado = i.nr JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial JOIN org_genero as g ON g.id_genero=i.id_genero WHERE year(m.fecha_solicitud)='$anio'  GROUP BY i.id_genero ORDER BY SUM(ev.viatico) DESC");
         return $viaticos;
     }
+    function viaticos_por_mes($data,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
+       $anios = implode(",", $data);
+       if($primer_mes=='0' && $segundo_mes=='0' && $tercer_mes=='0' && $cuarto_mes=='0' && $quinto_mes=='0' && $sexto_mes=='0'){
+        $viaticos= $this->db->query("SELECT year(fecha) as anio,month(fecha) as mes,sum(`viatico`) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento, (sum(`viatico`) + sum(pasaje) + sum(alojamiento)) as total_anio FROM `vyp_empresa_viatico` WHERE month(fecha) IN (01,02,03,04,05,06,07,08,09,10,11,12) and YEAR(fecha) IN ($anios)  group by month(fecha),year(`fecha`) order by month(fecha) desc,year(`fecha`) desc");
+        }else{
+          $viaticos= $this->db->query("SELECT year(fecha) as anio,month(fecha) as mes,sum(`viatico`) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento, (sum(`viatico`) + sum(pasaje) + sum(alojamiento)) as total_anio FROM `vyp_empresa_viatico` WHERE month(fecha) IN ('$primer_mes','$segundo_mes','$tercer_mes','$cuarto_mes','$quinto_mes','$sexto_mes') and YEAR(fecha) IN ($anios)  group by month(fecha),year(`fecha`) order by month(fecha) desc,year(`fecha`) desc");
+        }
+        return $viaticos;
+    }
 }
 /* 
+
+SELECT year(fecha) as anio,month(fecha) as mes,sum(`viatico`) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento, (sum(`viatico`) + sum(pasaje) + sum(alojamiento)) as total_anio FROM `vyp_empresa_viatico` WHERE month(fecha) IN (01,02,03,04,05,06,07,08,09,10,11,12) and YEAR(fecha) IN (2017,2016)  group by month(fecha),year(`fecha`) order by month(fecha) desc
 
 
 SELECT u.id_seccion,s.nombre_seccion,v.id_genero,g.genero, SUM(v.viatico) as viatico,SUM(v.pasaje) AS pasaje, SUM(v.alojamiento) AS alojamiento, (SUM(v.viatico)+SUM(v.pasaje)+SUM(v.alojamiento)) as total  
