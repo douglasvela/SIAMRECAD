@@ -173,6 +173,7 @@ class Menu_reportes extends CI_Controller {
 		$data4y = array(0);
 		$labels = array(0);
 		$i=0;
+
 		$viatico_anual = $this->Reportes_viaticos_model->obtenerViaticoAnual($data);
 		foreach ($viatico_anual->result() as $viatico_anual_detalle) {	
 			$data4y[$i]=$viatico_anual_detalle->total_anio;
@@ -1398,6 +1399,9 @@ class Menu_reportes extends CI_Controller {
 			            ->setCellValue('A4', "REPORTE VIATICOS POR ZONA DEPARTAMENTAL")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
+			 $this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A5',  "Año:")
+			    ->setCellValue('B5',  $anios);
 			
 			 //////////////////////////////////////////////////
 			 $data=$anios;
@@ -3286,7 +3290,136 @@ class Menu_reportes extends CI_Controller {
 		}else if($tipo=="vista"){
 			echo $cabecera_vista.$cuerpo;
 		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
 
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("Office 2007 XLSX Test Document")
+										 ->setSubject("Office 2007 XLSX Test Document")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('DEPARTAMENTO/OFICINA/SECCION','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B7',  $titulosColumnas[1])
+			    ->setCellValue('C7',  $titulosColumnas[2])
+			    ->setCellValue('D7',  $titulosColumnas[3])
+			    ->setCellValue('E7',  $titulosColumnas[4])
+			    ;
+
+			 
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS POR DEPARTAMENTO,OFICINA,SECCION")
+			            ;
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
+			 $this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A5',  "Año:")
+			    ->setCellValue('B5',  $anio);
+			
+			 //////////////////////////////////////////////////
+			$data  =array(
+				'anio' =>$anio
+			);
+		
+		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorOficina($data);
+		$total_viatico=0;
+		$total_pasaje=0;
+		$total_alojamiento=0;
+		$total_total=0;
+				$f=8;	
+				if($viatico->num_rows()>0){
+					foreach ($viatico->result() as $viaticos) {
+						$total_viatico+=$viaticos->viatico;
+						$total_pasaje+=$viaticos->pasaje;
+						$total_alojamiento+=$viaticos->alojamiento;
+						$total_total+=$viaticos->total;
+						$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+						// Miscellaneous glyphs, UTF-8
+						$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,$viaticos->nombre_seccion)
+							->setCellValue('B'.$f,number_format($viaticos->viatico,2,".",","))
+							->setCellValue('C'.$f, number_format($viaticos->pasaje,2,".",","))
+							->setCellValue('D'.$f,number_format($viaticos->alojamiento,2,".",","))
+							->setCellValue('E'.$f, number_format($viaticos->total,2,".",","));
+							$f++;
+					}
+				}else{
+					$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':E'.$f);
+				}
+				 
+				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"TOTAL")
+							->setCellValue('B'.$f,number_format($total_viatico,2,".",","))
+							->setCellValue('C'.$f, number_format($total_pasaje,2,".",","))
+							->setCellValue('D'.$f,number_format($total_alojamiento,2,".",","))
+							->setCellValue('E'.$f, number_format($total_total,2,".",","));
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':E'.$f)->getFont()->setBold(true); 
+			 //////////////////////////////////////////////////
+			 ///
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4');
+
+			for($i = 'A'; $i <= 'E'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
+			
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Seccion');
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_por_seccion.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
 		}
 		
 	}
@@ -3416,7 +3549,136 @@ class Menu_reportes extends CI_Controller {
 		}else if($tipo=="vista"){
 			echo $cabecera_vista.$cuerpo;
 		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
 
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("Office 2007 XLSX Test Document")
+										 ->setSubject("Office 2007 XLSX Test Document")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('GENERO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B7',  $titulosColumnas[1])
+			    ->setCellValue('C7',  $titulosColumnas[2])
+			    ->setCellValue('D7',  $titulosColumnas[3])
+			    ->setCellValue('E7',  $titulosColumnas[4])
+			    ;
+
+			 
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS POR GENERO")
+			            ;
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
+			 $this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A5',  "Año:")
+			    ->setCellValue('B5',  $anio);
+			
+			 //////////////////////////////////////////////////
+			$data  =array(
+				'anio' =>$anio
+			);
+			//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
+			$viatico = $this->Reportes_viaticos_model->viaticos_por_genero($data);
+			$total_viatico=0;
+			$total_pasaje=0;
+			$total_alojamiento=0;
+			$total_total=0;
+				$f=8;	
+				if($viatico->num_rows()>0){
+					foreach ($viatico->result() as $viaticos) {
+						$total_viatico+=$viaticos->viatico;
+						$total_pasaje+=$viaticos->pasaje;
+						$total_alojamiento+=$viaticos->alojamiento;
+						$total_total+=$viaticos->total;
+						$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+						// Miscellaneous glyphs, UTF-8
+						$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,$viaticos->genero)
+							->setCellValue('B'.$f,number_format($viaticos->viatico,2,".",","))
+							->setCellValue('C'.$f, number_format($viaticos->pasaje,2,".",","))
+							->setCellValue('D'.$f,number_format($viaticos->alojamiento,2,".",","))
+							->setCellValue('E'.$f, number_format($viaticos->total,2,".",","));
+							$f++;
+					}
+				}else{
+					$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':E'.$f);
+				}
+				 
+				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':E'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"TOTAL")
+							->setCellValue('B'.$f,number_format($total_viatico,2,".",","))
+							->setCellValue('C'.$f, number_format($total_pasaje,2,".",","))
+							->setCellValue('D'.$f,number_format($total_alojamiento,2,".",","))
+							->setCellValue('E'.$f, number_format($total_total,2,".",","));
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':E'.$f)->getFont()->setBold(true); 
+			 //////////////////////////////////////////////////
+			 ///
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4');
+
+			for($i = 'A'; $i <= 'E'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
+			
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Genero');
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_por_genero.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
 		}
 		
 	}
@@ -3540,8 +3802,6 @@ class Menu_reportes extends CI_Controller {
 				</tbody>
 			</table><br>
 
-			<img  src="'.base_url().'assets/graficas/grafica_va_'.$this->session->userdata('usuario_viatico').'.png" alt="">
-			<img  src="'.base_url().'assets/graficas/grafica_vat_'.$this->session->userdata('usuario_viatico').'.png" alt="">
         '; 
         if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
@@ -3552,7 +3812,160 @@ class Menu_reportes extends CI_Controller {
 		}else if($tipo=="vista"){
 			echo $cabecera_vista.$cuerpo;
 		}else{
+			/** Error reporting */
+			error_reporting(E_ALL);
+			ini_set('display_errors', TRUE);
+			ini_set('display_startup_errors', TRUE);
+			date_default_timezone_set('America/Mexico_City');
 
+			if (PHP_SAPI == 'cli')
+				die('Este reporte solo se ejecuta en un navegador web');
+
+			/** Include PHPExcel */
+			$this->load->library('phpe');
+
+
+			// Create new PHPExcel object
+			$this->objPHPExcel = new Phpe();
+
+			// Set document properties
+			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
+										 ->setLastModifiedBy("TravelExp")
+										 ->setTitle("REPORTE VIATICOS POR MES")
+										 ->setSubject("REPORTE VIATICOS POR MES")
+										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+										 ->setKeywords("office 2007 openxml php");
+
+			$titulosColumnas = array('AÑO','MES','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
+			    ->setCellValue('B7',  $titulosColumnas[1])
+			    ->setCellValue('C7',  $titulosColumnas[2])
+			    ->setCellValue('D7',  $titulosColumnas[3])
+			    ->setCellValue('E7',  $titulosColumnas[4])
+				->setCellValue('F7',  $titulosColumnas[5])
+			    ;
+
+			 
+			$this->objPHPExcel->setActiveSheetIndex(0)
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A4', "REPORTE VIATICOS POR MES")
+			            ;
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:F7')->getFont()->setBold(true); 
+			 
+			
+			 //////////////////////////////////////////////////
+				$total_viatico=0;
+				$total_pasaje=0;
+				$total_alojamiento=0;
+				$total_total=0;
+				$data = str_split($anios,4);
+				$f=8;
+				$viatico = $this->Reportes_viaticos_model->viaticos_por_mes($data,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
+				if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total_anio;
+
+					if($viaticos->mes=="1"){
+						$mimes="Enero";
+					}else if($viaticos->mes=="2"){
+						$mimes="Febrero";
+					}else if($viaticos->mes=="3"){
+						$mimes="Marzo";
+					}else if($viaticos->mes=="4"){
+						$mimes="Abril";
+					}else if($viaticos->mes=="5"){
+						$mimes="Mayo";
+					}else if($viaticos->mes=="6"){
+						$mimes="Junio";
+					}else if($viaticos->mes=="7"){
+						$mimes="Julio";
+					}else if($viaticos->mes=="8"){
+						$mimes="Agosto";
+					}else if($viaticos->mes=="9"){
+						$mimes="Septiembre";
+					}else if($viaticos->mes=="10"){
+						$mimes="Octubre";
+					}else if($viaticos->mes=="11"){
+						$mimes="Noviembre";
+					}else if($viaticos->mes=="12"){
+						$mimes="Diciembre";
+					}
+						$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+						// Miscellaneous glyphs, UTF-8
+						$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,$viaticos->anio)
+							->setCellValue('B'.$f,$mimes)
+							->setCellValue('C'.$f,number_format($viaticos->viatico,2,".",","))
+							->setCellValue('D'.$f, number_format($viaticos->pasaje,2,".",","))
+							->setCellValue('E'.$f,number_format($viaticos->alojamiento,2,".",","))
+							->setCellValue('F'.$f, number_format($viaticos->total_anio,2,".",","));
+							$f++;
+					}
+				}else{
+					$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
+				            ->mergeCells('A'.$f.':F'.$f);
+				}
+				 
+				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':F'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+					$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,"TOTAL")
+							->mergeCells('A'.$f.':B'.$f)
+							->setCellValue('C'.$f,number_format($total_viatico,2,".",","))
+							->setCellValue('D'.$f, number_format($total_pasaje,2,".",","))
+							->setCellValue('E'.$f,number_format($total_alojamiento,2,".",","))
+							->setCellValue('F'.$f, number_format($total_total,2,".",","));
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':F'.$f)->getFont()->setBold(true); 
+			 //////////////////////////////////////////////////
+			 ///
+			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+			$this->objPHPExcel->setActiveSheetIndex(0)
+				->setCellValue("A".$f+=4,"Fecha y Hora de Creación ")
+				->setCellValue("B".$f,$fecha)
+				->setCellValue("A".$f+=1,"Usuario")
+				->setCellValue("B".$f,$this->session->userdata('usuario_viatico'));
+
+			$this->objPHPExcel->setActiveSheetIndex(0)
+    			->mergeCells('A1:C1')
+    			->mergeCells('A2:C2')
+    			->mergeCells('A3:C3')
+    			->mergeCells('A4:C4');
+
+			for($i = 'A'; $i <= 'F'; $i++){
+				for($ii = '7'; $ii <= '50'; $ii++){
+			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
+				}
+			}
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
+			
+			// Rename worksheet
+			$this->objPHPExcel->getActiveSheet()->setTitle('Viaticos Por Mes');
+			// Redirect output to a client’s web browser (Excel5)
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="Viaticos_por_mes.xls"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			 
+
+        	$writer = new PHPExcel_Writer_Excel5($this->objPHPExcel);
+			header('Content-type: application/vnd.ms-excel');
+			$writer->save('php://output');
+			//exit;
 		}
 	}
 }
