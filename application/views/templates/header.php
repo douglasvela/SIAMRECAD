@@ -67,6 +67,7 @@
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!--This page css - Morris CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/c3-master/c3.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/plugins/dropzone-master/dist/dropzone.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>assets/plugins/summernote/dist/summernote.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
@@ -305,6 +306,9 @@
     <div class="login-register" style="background-image: url(<?php echo base_url()."assets/images/portadas/seguridad7.jpg"; ?>); background-color: rgb(238, 245, 249);" >
         <div class="login-box card">
             <div class="card-body" style="z-index: 999;">
+                <div align="right">
+                    <a class="btn" href="<?php echo site_url(); ?>/login" class="btn btn-default" data-toggle="tooltip" title="Ir al login"><span class="fa fa-chevron-left"></span> Volver </a>
+                </div>
                 <div class="form-group">
                   <div class="col-xs-12 text-center">
                     <div class="user-thumb text-center">

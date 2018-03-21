@@ -37,7 +37,7 @@ circle:hover
         	</div>
         	<div class="col-lg-8">
         		<br><br>
-        		<h2> Estamos trabajando para reparar esta página lo más pronto posible. Por favor espere hasta que terminemos todas las reparaciones.</h2>
+        		<h2> Estamos trabajando para reparar esta página lo más pronto posible. Por favor espere hasta que terminemos todas las reparaciones. Juegue con el mapita si quiere dele clic</h2>
 
                 <div class="row">
                     <div class="col-lg-12" style="display: block;">

@@ -1,12 +1,4 @@
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de misiones oficiales</h4>
-    </div>
-    <div class="card-body b-t" style="padding-top: 7px;">
-        <div class="pull-right">
-            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
-        </div>
-        <div class="table-responsive">
+<div class="table-responsive">
             <table id="myTable" class="table table-hover product-overview" width="100%">
                 <thead class="bg-info text-white">
                     <tr>
@@ -20,7 +12,15 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades ORDER BY m.id_mision_oficial DESC");
+                    echo $nr = $_GET["nr"];
+
+                    $add = "";
+
+                    if(!empty($nr)){
+                        $add = "AND m.nr_empleado = '".$nr."'";
+                    }
+
+                    $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades  ".$add." ORDER BY m.id_mision_oficial DESC");
                     if($mision->num_rows() > 0){
                         $contador = 0;
                         foreach ($mision->result() as $fila) {
@@ -80,8 +80,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#myTable').DataTable();

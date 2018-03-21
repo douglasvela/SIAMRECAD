@@ -49,6 +49,24 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->insertar_alojamiento($sql);
 	}
 
+	function formatSizeUnits($bytes){
+        if ($bytes >= 1073741824){
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        }else if ($bytes >= 1048576){
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        }elseif ($bytes >= 1024){
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        }elseif ($bytes > 1){
+            $bytes = $bytes . ' bytes';
+        }elseif ($bytes == 1){
+            $bytes = $bytes . ' byte';
+        }else{
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
+	}
+
 	public function gestionar_mision(){
 
 		if($this->input->post('band') == "save"){
@@ -60,42 +78,72 @@ class Solicitud_viatico extends CI_Controller {
 			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
 			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),
 			'id_actividad_realizada' => $this->input->post('id_actividad'),
-			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
+			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad')),
+			'ruta_justificacion' => base64_encode(trim($this->input->post('ruta_justificacion')))
 			);
 			
 			$resultado = $this->solicitud_model->insertar_mision($data);
 
 			if($resultado != "fracaso"){
 
-				if(isset($_FILES["file2"])){
+				$errores = false;
+				foreach($_FILES["file3"]['tmp_name'] as $key => $tmp_name){
+					//Validamos que el archivo exista
+					if($_FILES["file3"]["name"][$key]) {
+						$nuevoId = $this->solicitud_model->obtener_ultimo_id("vyp_justificaciones","id_justificacion");
 
-				    $file = $_FILES["file2"];
-				    $nombre = $file["name"];
-				    $tipo = $file["type"];
-				    $ruta_provisional = $file["tmp_name"];
-				    $size = $file["size"];
-				    $carpeta = "assets/viaticos/justificaciones/";
-				    $info = new SplFileInfo($nombre);
-				    $nombre = str_pad($resultado, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
-				    $src = $carpeta.$nombre;
+						$filename = $_FILES["file3"]["name"][$key]; //Obtenemos el nombre original del archivo
+						$source = $_FILES["file3"]["tmp_name"][$key]; //Obtenemos un nombre temporal del archivo
+						$size = $_FILES["file3"]["size"][$key]; //Obtenemos un nombre temporal del archivo
 
-				    $data2 = array(
-						'id_mision' => $resultado,
-						'ruta_justificacion' => $src
-					);
+						$size = $this->formatSizeUnits($size);
 
-					if($file["name"] != ""){
-					    if(move_uploaded_file($ruta_provisional, $src)){
-							echo $this->solicitud_model->editar_justificacion($data2);
+					    $info = new SplFileInfo($filename);
+					    $nombre = str_pad($nuevoId, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+					    $extension = pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+						
+						$directorio = 'assets/viaticos/justificaciones/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+						
+						//Validamos si la ruta de destino existe, en caso de no existir la creamos
+						if(!file_exists($directorio)){
+							mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
 						}
-					}else{
-						echo "exito";
+
+						$target_path = $directorio.$nombre; //Indicamos la ruta de destino, así como el nombre del archivo
+
+						$data2 = array(
+							'id_justificacion' => $nuevoId,
+							'ruta' => $target_path,
+							'size' => $size,
+							'id_mision' => $resultado,
+							'extension' => $extension,
+							'nombre' => $nombre
+							);
+						
+						if($this->solicitud_model->insertar_justificacion($data2) == "exito"){
+
+							$dir=opendir($directorio); //Abrimos el directorio de destino
+							
+							//Movemos y validamos que el archivo se haya cargado correctamente
+							//El primer campo es el origen y el segundo el destino
+							if(!move_uploaded_file($source, $target_path)) {	
+								$errores = true;
+							}
+							closedir($dir); //Cerramos el directorio de destino
+
+						}else{
+							$errores = true;
+						}
 					}
-
-				}else{
-
-					echo "exito";
 				}
+
+				if(!$errores){
+					echo "exito";
+				}else{
+					echo "fracaso";
+				}
+
+
 			}else{
 				echo "fracaso";
 			}
@@ -109,43 +157,68 @@ class Solicitud_viatico extends CI_Controller {
 			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
 			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),			
 			'id_actividad_realizada' => saltos_sql($this->input->post('id_actividad')),
-			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad'))
+			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad')),
+			'ruta_justificacion' => base64_encode(trim($this->input->post('ruta_justificacion')))
 			);
+			
 			$resultado = $this->solicitud_model->editar_mision($data);
 
 			if($resultado == "exito"){
-				if(isset($_FILES["file2"])){
+				$errores = false;
+				foreach($_FILES["file3"]['tmp_name'] as $key => $tmp_name){
+					//Validamos que el archivo exista
+					if($_FILES["file3"]["name"][$key]) {
+						$nuevoId = $this->solicitud_model->obtener_ultimo_id("vyp_justificaciones","id_justificacion");
 
-				    $file = $_FILES["file2"];
-				    $nombre = $file["name"];
-				    $tipo = $file["type"];
-				    $ruta_provisional = $file["tmp_name"];
-				    $size = $file["size"];
-				    $carpeta = "assets/viaticos/justificaciones/";
-				    $info = new SplFileInfo($nombre);
-				    $nombre = str_pad($data["id_mision"], 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
-				    $src = $carpeta.$nombre;
+						$filename = $_FILES["file3"]["name"][$key]; //Obtenemos el nombre original del archivo
+						$source = $_FILES["file3"]["tmp_name"][$key]; //Obtenemos un nombre temporal del archivo
+						$size = $_FILES["file3"]["size"][$key]; //Obtenemos un nombre temporal del archivo
 
-				    $data2 = array(
-						'id_mision' => $this->input->post('id_mision'),
-						'ruta_justificacion' => $src
-					);
+						$size = $this->formatSizeUnits($size);
 
-				    if($file["name"] != ""){
-					    if(move_uploaded_file($ruta_provisional, $src)){
-							echo $this->solicitud_model->editar_justificacion($data2);	
+					    $info = new SplFileInfo($filename);
+					    $nombre = str_pad($nuevoId, 7,"0", STR_PAD_LEFT).".".pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+					    $extension = pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+						
+						$directorio = 'assets/viaticos/justificaciones/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+						
+						//Validamos si la ruta de destino existe, en caso de no existir la creamos
+						if(!file_exists($directorio)){
+							mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
 						}
-					}else{
-						echo "exito";
+
+						$target_path = $directorio.$nombre; //Indicamos la ruta de destino, así como el nombre del archivo
+
+						$data2 = array(
+							'id_justificacion' => $nuevoId,
+							'ruta' => $target_path,
+							'size' => $size,
+							'id_mision' => $this->input->post('id_mision'),
+							'extension' => $extension,
+							'nombre' => $nombre
+							);
+						
+						if($this->solicitud_model->insertar_justificacion($data2) == "exito"){
+
+							$dir=opendir($directorio); //Abrimos el directorio de destino
+							
+							//Movemos y validamos que el archivo se haya cargado correctamente
+							//El primer campo es el origen y el segundo el destino
+							if(!move_uploaded_file($source, $target_path)) {	
+								$errores = true;
+							}
+							closedir($dir); //Cerramos el directorio de destino
+
+						}else{
+							$errores = true;
+						}
 					}
+				}
 
+				if(!$errores){
+					echo "exito";
 				}else{
-					$data2 = array(
-						'id_mision' => $this->input->post('id_mision'),
-						'ruta_justificacion' => ''
-					);
-
-					echo $this->solicitud_model->editar_justificacion($data2);	
+					echo "fracaso";
 				}
 			}else{
 				echo "fracaso";
@@ -437,6 +510,15 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);
 	}
 
+	public function eliminar_archivo_justificacion(){
+		$data = array(
+			"id_justificacion" => $this->input->post('id_justificacion'),
+			"ruta" => $this->input->post('ruta')
+        );
+
+		echo $this->solicitud_model->eliminar_archivo_justificacion($data);
+	}
+
 	public function imprimir_solicitud(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud');
 	}
@@ -445,110 +527,7 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/observaciones');
 	}
 
-
-/*	
-
-	
-
-	
-
-	public function imprimir_solicitud_copia(){
-		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud_copia');
-	}
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	public function ordenar_empresas_visitadas(){
-		echo $this->solicitud_model->ordenar_empresas_visitadas($_POST['query']);
-	}
-
-	public function guardar_registros_viaticos(){
-		if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
-			echo $this->solicitud_model->guardar_registros_viaticos($_POST['query']);
-		}
-	}
-
-	public function completar_tabla_viatico(){
-		//if($this->solicitud_model->eliminar_registros_viaticos($_POST['id_mision'])){
-			echo $this->solicitud_model->completar_tabla_viatico($_POST['query']);
-		//}
-	}
-
-	public function estado_revision(){
-		echo $this->solicitud_model->estado_revision($_POST['id_mision']);
-	}
-
-	function cargar_viaticos(){
-		$id_mision = $_POST['id_mision'];
-        $horario_viaticos = $this->db->query("SELECT h.*, v.id_empresa FROM vyp_horario_viatico AS h JOIN vyp_viatico_empresa_horario AS v ON v.id_horario = h.id_horario_viatico AND v.id_mision = '$id_mision' UNION SELECT h.*, '' FROM vyp_horario_viatico AS h WHERE h.id_horario_viatico NOT IN (SELECT v.id_horario FROM vyp_viatico_empresa_horario AS v WHERE v.id_mision = '$id_mision')");
-
-        $n = $horario_viaticos->num_rows();
-
-        $retorno = "";
-
-        if($horario_viaticos->num_rows() > 0){
-            foreach ($horario_viaticos->result() as $fila) {
-                $n--;
-                if($n == 0){
-                    $retorno .= "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."',]";
-                }else{
-                    $retorno .= "['".$fila->id_horario_viatico."', '".substr($fila->hora_inicio,0,5)."', '".substr($fila->hora_fin,0,5)."', '".$fila->descripcion."', '".$fila->monto."', '".$fila->id_empresa."',]";
-                }
-            }
-        }
-        echo $retorno;
-	}
-
-	public function verficar_oficina_destino(){
-
-		$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$this->input->post('nr')."'");
-        if($info_empleado->num_rows() > 0){ 
-            foreach ($info_empleado->result() as $filas) {}
-        }
-
-        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
-        if($oficina_origen->num_rows() > 0){ 
-            foreach ($oficina_origen->result() as $filaofi) {}
-        }
-
-		$data = array(
-			'id_mision' => $this->input->post('id_mision'),
-			'departamento' => $filaofi->id_departamento,
-			'municipio' => $filaofi->id_municipio,
-			'nombre_empresa' => $filaofi->nombre_oficina,
-			'direccion_empresa' => $filaofi->nombre_oficina,
-			'distancia' => $this->input->post('distancia'),
-			'tipo' => 'destino_oficina',
-			'id_destino' => $filaofi->id_oficina
-			);
-
-		if($this->solicitud_model->verficar_cumpla_kilometros($data)){
-			echo $this->solicitud_model->verficar_oficina_destino($data);
-		}else{
-			echo "viaticos";
-		}
 		
-	}
 
-	
-
-
-	
-
-	public function nueva_actividad(){
-		$data = array(
-			"nueva_actividad" => $this->input->post('nueva_actividad'),
-        );
-
-        echo $this->solicitud_model->insertar_actividad($data);
-	}*/
 }
 ?>

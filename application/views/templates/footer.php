@@ -82,6 +82,8 @@
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- Clock Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Dropzone Plugin JavaScript -->
+    <script src="<?php echo base_url(); ?>assets/plugins/dropzone-master/dist/dropzone.js"></script>
     <!-- Color Picker Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
@@ -106,7 +108,7 @@
     jQuery(document).ready(function() {
 
         $('.summernote').summernote({
-            height: 350, // set editor height
+            height: 300, // set editor height
             minHeight: null, // set minimum height of editor
             maxHeight: null, // set maximum height of editor
             focus: false // set focus to editable area after initializing summernote

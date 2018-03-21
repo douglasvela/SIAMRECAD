@@ -4,6 +4,17 @@
         header("Location: ".site_url()."/mantenimiento");
         exit();
     }
+
+    $user = $this->session->userdata('usuario_viatico');
+
+    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+    $nr_usuario = "";
+    if($nr->num_rows() > 0){
+        foreach ($nr->result() as $fila) { 
+            $nr_usuario = $fila->nr; 
+        }
+    }
+
 ?>
 
 <?php
@@ -183,8 +194,9 @@
 
         if(diferencia > 0){
             if(parseFloat(kilometraje_old) >= DistanciaMinima || document.getElementById("justificacion").checked == 1){
-                document.getElementById("band_factura").checked = 1;
+                document.getElementById("band_factura").checked = 0;
                 document.getElementById("band_factura").disabled = false;
+                $.toast({ heading: 'Alojamiento habilitado', text: 'Es posible que haya utilizado alojamiento', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
                 cambiarFactura();
             }else{
                 document.getElementById("band_factura").checked = 0;
@@ -660,7 +672,9 @@
         return xmlhttp;
     }
 
-    function tabla_solicitudes(){    
+    function tabla_solicitudes(){
+        var nr_empleado = $("#nr_search").val();
+
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -668,12 +682,12 @@
         }
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                document.getElementById("cnt_tabla").innerHTML=xmlhttpB.responseText;
+                document.getElementById("cnt_tabla_solicitudes").innerHTML=xmlhttpB.responseText;
                 $('#myTable').DataTable();
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_solicitudes",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_solicitudes?nr="+nr_empleado,true);
         xmlhttpB.send(); 
     }
 
@@ -935,6 +949,7 @@
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
+        $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
 
         var observacion_habilitada = true;
 
@@ -1574,7 +1589,6 @@
         $("#horarios").val(horarios);
         $("#pasaje").val(pasaje);
         $("#viatico").val(viatico);
-        $("#alojamiento").val(alojamiento);
 
         $("#band_viatico").val(band);
         $("#btnadd3").hide(0);
@@ -1584,9 +1598,10 @@
             var ruta = "";
             $("#fecha_mision").val(fecha);
             $("#id_distancia").val(id_destino);
+            $("#alojamiento").val(alojamiento);
             cambiarkilometraje(id_destino)
             if(parseFloat(alojamiento) > 0){
-                document.getElementById("band_factura").checked = 1;
+                document.getElementById("band_factura").checked = 0;
                 cambiarFactura();
                 ruta = "<?php echo base_url(); ?>assets/viaticos/facturas/"+factura;
             }else{
@@ -1835,9 +1850,9 @@
         if(document.getElementById("justificacion").checked){
             $("#notificacion_justificacion").show(750);
             if($("#band").val()=="save"){
-                imagen_justificacion("");
+                imagen_justificacion();
             }else{
-                imagen_justificacion(ruta);
+                imagen_justificacion();
             }
         }else{
             if($("#band").val()=="save"){
@@ -1852,9 +1867,9 @@
 
                 $("#fecha_mision_inicio").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
                 $("#fecha_mision_fin").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
-                imagen_justificacion("");
+                imagen_justificacion();
             }else{
-                imagen_justificacion("");
+                imagen_justificacion();
             }
             $("#notificacion_justificacion").hide(750);
         }
@@ -1862,8 +1877,9 @@
 
     function cambiarJustificacion2(){
         if(document.getElementById("justificacion").checked){
-            $("#modal_justificacion").modal("show");
+            mostrar_detalle_justifiacion();
         }
+
         cambiarJustificacion();
     }
 
@@ -1871,7 +1887,9 @@
         var newName = 'Otro nombre',
         xhr = new XMLHttpRequest();
 
-        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?ruta="+ruta);
+        var id_mision = $("#id_mision").val();
+
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?id_mision="+id_mision);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
             if (xhr.status === 200 && xhr.responseText !== newName) {
@@ -1896,7 +1914,6 @@
                     $("#fecha_mision_inicio").datepicker("setEndDate", ultima_fecha_inicio );
                     $("#fecha_mision_fin").datepicker("setEndDate", ultima_fecha_fin );
                 }
-                $('.dropify').dropify();
                 
             }else if (xhr.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -2001,6 +2018,66 @@
         }
     }
 
+    function mostrar_detalle_justifiacion(){
+        $("#cnt_detalle_justificacion").show(500);
+    }
+
+    function cerrar_detalle_justificacion(){
+        $("#cnt_detalle_justificacion").hide(500);   
+        //$("#file3").val(null);
+    }
+
+    function alerta_eliminar_justificacion(id,ruta){
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el archivo!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            eliminar_archivo_justificacion(id,ruta)
+        });
+    }
+
+    function eliminar_archivo_justificacion(id,ruta){
+        var formData = {
+            "id_justificacion" : id,
+            "ruta" : ruta
+        };
+
+        $.ajax({
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/eliminar_archivo_justificacion',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+
+            if(data == "exito"){
+                swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                imagen_justificacion();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });   
+    }
+
+    function validar_monto_alojamiento(obj){
+        monto = parseFloat(obj.value);
+        if(monto > 25){
+            obj.value = "25.00";
+        }
+    }
+
+    function validar_monto_pasaje(obj){
+        monto = parseFloat(obj.value);
+        if(monto > 5){
+            obj.value = "5.00";
+        }
+    }
+
 </script>
 
 <style>
@@ -2049,6 +2126,9 @@
         padding-right: 3px;
         font-weight: 500;
     }
+
+    .table-clase td, .table-clase th {
+  border-color: #a5a5a5; }
 </style>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
@@ -2091,30 +2171,30 @@
         <!-- ============================================================== -->
 
 
-
-
-
-
-
-
-        <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="summernote" class="summernote">
-                                    <h5 style="font-family: arial;">Default Summernote</h5s>
-                                </div>
+        <div class="row" id="cnt_detalle_justificacion" style="display: none;">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <div class="card-actions text-white">
+                            <a style="font-size: 16px;" onclick="cerrar_detalle_justificacion();"><i class="mdi mdi-window-close"></i></a>
+                        </div>
+                        <h4 class="card-title m-b-0 text-white">Justificación de pago de viáticos</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="summernote" class="summernote">
+                            <!-- <p style="font-family: arial;">Default Summernote</p> -->
+                        </div>
+                        <div class="row p-t-10">
+                            
+                            <div class="col-lg-12" align="right">
+                                <button type="button" onclick="cerrar_detalle_justificacion();" class="btn btn-danger">Finalizar</button>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
-
-
-
-
-
-
-
+            </div>
+        </div>
 
 
 
@@ -2156,7 +2236,7 @@
 <div id='notificacion_justificacion' style='width: 100%; display: none;'>
     <div class="alert alert-info" style="width: 100%;">
         <h5> <span class="mdi mdi-file-document"></span> Justificación de viáticos activa.
-            <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-info pull-right" onclick="$('#modal_justificacion').modal('show');" data-toggle="tooltip" title="" data-original-title="Cambiar solicitud"><span class="fa fa-wrench"></span></button>
+            <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-info pull-right" onclick="mostrar_detalle_justifiacion();" data-toggle="tooltip" title="" data-original-title="Cambiar solicitud"><span class="fa fa-wrench"></span></button>
         </h5>
     </div>
 </div>
@@ -2225,6 +2305,12 @@
                             </div>
 
                             <div class="row">
+                                <div class="col-lg-12 form-group">
+                                    <input type="file" class="form-control" id="file3[]" name="file3[]" multiple>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Detalle de la actividad: <span class="text-danger">*</span></h5>
                                     <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
@@ -2244,7 +2330,7 @@
             </div>
             <div class="modal-body">
                 
-                <div id="cnt_justificacion"></div>
+                
 
             </div>
             <div class="modal-footer">
@@ -2256,6 +2342,10 @@
     <!-- /.modal-dialog -->
 </div>
                             
+                            <div class="pull-left" id="subiendo_mision" style="display: none;">
+                                <span class="fa fa-spin text-success fa-2x"><span class="mdi mdi-sync"></span></span>
+                                Guardando los cambios...
+                            </div>
                             <div align="right" id="btnadd">
                                 <button type="submit" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
@@ -2263,6 +2353,8 @@
                                 <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                         <?php echo form_close(); ?>
+                        <hr>
+                        <div id="cnt_justificacion" class="row"></div>
                         </div>
                         <!-- ============================================================== -->
                         <!-- Fin del FORMULARIO DATOS DE MISIÓN -->
@@ -2369,7 +2461,38 @@
             <div class="col-lg-1"></div>
 
             <div class="col-lg-12" id="cnt_tabla">
-
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title m-b-0">Listado de misiones oficiales</h4>
+                    </div>
+                    <div class="card-body b-t" style="padding-top: 7px;">
+                        <div class="pull-left">
+                            <div class="form-group pull-left" style="width: 400px;"> 
+                                <select id="nr_search" name="nr_search" class="select2" style="width: 100%" required="" onchange="tabla_solicitudes();">
+                                    <option value="">[Todos los empleados]</option>
+                                <?php 
+                                    $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                    if($otro_empleado->num_rows() > 0){
+                                        foreach ($otro_empleado->result() as $fila) {        
+                                            if($nr_usuario == $fila->nr){      
+                                               echo '<option class="m-l-50" value="'.$fila->nr.'" selected>'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+                                            }else{
+                                                echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+                                            }
+                                        }
+                                    }
+                                ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+                        </div>
+                        
+                        <div id="cnt_tabla_solicitudes"></div>
+                        
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -2507,12 +2630,13 @@ $(function(){
 
     $("#formajax").on("submit", function(e){
         e.preventDefault();      
+        $("#subiendo_mision").show(0);
         var formData = new FormData(document.getElementById("formajax"));
         var nombre = $("#nr option:selected").text().split("-");
         nombre = nombre[0].trim();
         formData.append('nombre_completo', nombre);
-
-        if(validar_justificacion()){
+        var justificacion_value = $('#summernote').summernote('code');
+        formData.append('ruta_justificacion', justificacion_value);
 
             $.ajax({
                     type:  'POST',
@@ -2524,6 +2648,7 @@ $(function(){
                     processData: false
             })
             .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+                $("#subiendo_mision").hide(0);
                 if(data == "exito"){
                     if($("#band").val() == "save"){
                         //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
@@ -2539,8 +2664,6 @@ $(function(){
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
             });
-
-        }
     });
 
     $("#form_empresas_viaticos").on("submit", function(e){

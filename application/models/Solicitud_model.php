@@ -9,7 +9,7 @@ class Solicitud_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional']))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'ruta_justificacion' => $data['ruta_justificacion']))){
 			$insert_id = $this->db->insert_id();
 			return $insert_id;
 		}else{
@@ -26,6 +26,14 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+
+	function insertar_justificacion($data){
+		if($this->db->insert('vyp_justificaciones', array('id_justificacion' => $data["id_justificacion"], 'ruta' => $data['ruta'], 'size' => $data['size'], 'id_mision' => $data['id_mision'], 'extension' => $data['extension'], 'nombre' => $data['nombre']))){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 
 	function insertar_destino($data){
@@ -172,7 +180,7 @@ class Solicitud_model extends CI_Model {
 
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
-		if($this->db->update('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional']))){
+		if($this->db->update('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'ruta_justificacion' => $data['ruta_justificacion']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -233,7 +241,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function eliminar_mision($data){
-		if($this->db->delete("vyp_mision_oficial",array('id_mision_oficial' => $data['id_mision']))){
+		if($this->db->delete("vyp_mision_oficial",array('id_mision_oficial' => $data['id_mision'])) && $this->db->delete("vyp_justificaciones",array('id_mision' => $data['id_mision']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -245,6 +253,17 @@ class Solicitud_model extends CI_Model {
 			return true;
 		}else{
 			return false;
+		}
+	}
+
+	function eliminar_archivo_justificacion($data){
+		if($this->db->delete("vyp_justificaciones",array('id_justificacion' => $data["id_justificacion"]))){
+			if (file_exists($data["ruta"])){
+				unlink($data["ruta"]);
+			}
+			return "exito";
+		}else{
+			return "fracaso";
 		}
 	}
 
