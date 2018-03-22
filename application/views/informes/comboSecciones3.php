@@ -9,7 +9,7 @@ if($datos->num_rows() > 0){
     foreach ($datos->result() as $filadatos) {
 
 
-echo '<option class="m-l-50"   value="'.$filadatos->id_seccion.'">'.$filadatos->nombre_seccion.'</option>';
+echo '<option class="m-l-50"   value="'.$filadatos->id_seccion.'">'.$filadatos->id_seccion.'    '.$filadatos->nombre_seccion.'    ->'.$filadatos->depende.'</option>';
 
     }
 }

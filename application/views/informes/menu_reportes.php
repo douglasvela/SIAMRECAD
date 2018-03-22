@@ -652,7 +652,7 @@
                                                         if($datos->num_rows() > 0){
                                                             foreach ($datos->result() as $filadatos) {
                                                         ?>
-  <option class="m-l-50" value="<?php echo $filadatos->id_seccion; ?>"><?php echo $filadatos->nombre_seccion; ?></option>
+  <option class="m-l-50" value="<?php echo $filadatos->id_seccion; ?>"><?php echo $filadatos->id_seccion.'    '.$filadatos->nombre_seccion.'    ->'.$filadatos->depende; ?></option>
 
                                                         <?php
                                                             }
