@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    echo $nr = $_GET["nr"];
+                    $nr = $_GET["nr"];
 
                     $add = "";
 

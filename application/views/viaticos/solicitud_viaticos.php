@@ -124,7 +124,7 @@
                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                     if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
                         band_viatico = true;
-                        reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1']);
+                        reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                         monto += parseFloat(viaticos[j][4]);
                         var index = reg_viaticos.length;
                         body.append("<tr>"+
@@ -161,7 +161,7 @@
             for(g=0; g<reg_viaticos.length; g++){
                 if(g == id_buscado){
                     reg_viaticos[g][3] = '1';
-                    var nuevo_monto = parseFloat($("#viatico").val()) + parseFloat(viaticos[g][4]);
+                    var nuevo_monto = parseFloat($("#viatico").val()) + parseFloat(reg_viaticos[g][4]);
                     $("#viatico").val(nuevo_monto.toFixed(2));
                 }
             }  
@@ -169,7 +169,7 @@
             for(g=0; g<reg_viaticos.length; g++){
                 if(g == id_buscado){
                     reg_viaticos[g][3] = '0';
-                    var nuevo_monto = parseFloat($("#viatico").val()) - parseFloat(viaticos[g][4]);
+                    var nuevo_monto = parseFloat($("#viatico").val()) - parseFloat(reg_viaticos[g][4]);
                     $("#viatico").val(nuevo_monto.toFixed(2));
                 }
             } 
@@ -278,7 +278,7 @@
                             if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                 if(viaticos[j][0]!=ultimo_viatico){
                                     band_viatico = true;
-                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                     monto += parseFloat(viaticos[j][4]);
                                     var index = reg_viaticos.length;
                                     body.append("<tr>"+
@@ -303,8 +303,8 @@
                 var hl2 = hl;
                 var body = $("#body_viaticos_encontrados");
                 body.html("");
+                hl = ultima_hora_llegada;
                 if(document.getElementById("band_factura").checked){
-                    hl = ultima_hora_llegada;
                     $("#fecha_alojamiento").val(fecha_ruta_old)
                     fecha_aloj = moment(fecha_ruta_old);
                     for(a=0; a<diferencia; a++){
@@ -327,14 +327,14 @@
                 total_aloj = (parseFloat($("#alojamiento").val())*diferencia).toFixed(2);
                 hs = hora_llegada_old;
 
-                if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km                    
 
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                             if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                 if(viaticos[j][0]!=ultimo_viatico){
                                     band_viatico = true;
-                                    reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1']);
+                                    reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                     monto += parseFloat(viaticos[j][4]);
                                     var index = reg_viaticos.length;
                                     body.append("<tr>"+
@@ -349,7 +349,7 @@
                     }
                 
                     //validacion para los dias nuevos
-                    for(f=0; f<diferencia; f++){                    
+                    for(f=0; f<diferencia; f++){                   
                         if(f == (diferencia-1)){ //validacion fecha nueva dia 0
                             fecha1 = fecha1.add('days',1);
                             if(fecha1.format("e") == 6){
@@ -364,7 +364,7 @@
                                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                                     if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                         band_viatico = true;
-                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                         monto += parseFloat(viaticos[j][4]);
                                         var index = reg_viaticos.length;
                                         body.append("<tr>"+
@@ -390,7 +390,7 @@
                                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
                                     if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                         band_viatico = true;
-                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1']);
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                         monto += parseFloat(viaticos[j][4]);
                                         var index = reg_viaticos.length;
                                         body.append("<tr>"+
@@ -949,7 +949,6 @@
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
-        $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
 
         var observacion_habilitada = true;
 
@@ -993,6 +992,8 @@
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
         if(bandera == "edit"){
+
+            $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
 
             if(observacion_habilitada){
 

@@ -66,7 +66,7 @@ if($fechas->num_rows() > 0){
     			}
     			$contador++;
     		}
-    		echo "&emsp;&emsp;<i class='fa fa-circle'></i> Finalizó: &emsp;".convertir($filah->fecha." ".$filah->hora_llegada)."<br><br>";
+    		echo "&emsp;&emsp;<i class='fa fa-circle'></i> Finalizó: &emsp;".convertir($filaf->fecha_mision_fin." ".$filah->hora_llegada)."<br><br>";
     	}else{
     		echo "&emsp;&emsp;<i class='fa fa-circle'></i> Inició: &emsp;&emsp;".convertir2($filaf->fecha_mision_inicio)."<br>";
     		echo "&emsp;&emsp;<i class='fa fa-circle'></i> Finalizó: &emsp;".convertir2($filaf->fecha_mision_fin)."<br><br>";

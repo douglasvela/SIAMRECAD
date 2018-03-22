@@ -523,6 +523,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud');
 	}
 
+	public function imprimir_solicitud_detallada(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud_detallada');
+	}
+
 	public function observaciones(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/observaciones');
 	}

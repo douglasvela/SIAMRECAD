@@ -91,11 +91,8 @@ function cambiarTitulo($e2,$e3){
   $this->titulo3=utf8_decode($e3);
 }
 
-function Header()
-{
-	 // the middle of the "PDF screen", fixed by now.
-	
-	
+function Header(){
+	 // the middle of the "PDF screen", fixed by now.	
 	$this->SetFont('Arial','',8);
     $this->Image(('application/libraries/logomtps.jpeg'),10,7,30,17);
     $this->Image(('application/libraries/escudo.jpg'),180,7,20,16);
@@ -105,6 +102,23 @@ function Header()
 	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo3) / 2), 20, $this->titulo3,0,'C', 0);
     $this->Ln(20);
 }
+
+
+var $elaborador,$fecha_hora;
+function cambiarPie($m1,$m2){
+  $this->elaborador="Elaborado por: ".utf8_decode($m1);
+  $this->fecha_hora="Fecha y hora: ".utf8_decode($m2);
+}
+
+function Footer(){
+	$this->SetY(-14);
+	$this->SetFont('Arial','B',8);
+	$this->Cell(0,0,'________________________________________________________________________________________________________________________',0,0,'L');
+	$this->SetY(-10);
+	$this->SetFont('Arial','BI',8);
+	$this->Cell(0,0,$this->elaborador."         ".$this->fecha_hora,0,0,'L');
+}
+
 
 public function Row($data,$dibujacelda,$fuente,$v=true,$color,$fill,$altura,$vinculo="", $columna="")
 {
@@ -484,10 +498,6 @@ function AddPage($orientation='', $size='', $rotation=0)
 	$this->ColorFlag = $cf;
 }
 
-function Footer()
-{
-	// To be implemented in your own inherited class
-}
 
 function PageNo()
 {
