@@ -1692,7 +1692,7 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2">Detalle Actividad</th>
 						<th align="center" colspan="3">Tipo</th>
 						<th align="center" rowspan="2">Estado</th>
-						 <th align="center" rowspan="2">Fecha de Pago</th>
+						 
 					</tr>
 					<tr>
 						<th align="center">Viaticos</th>
@@ -1724,7 +1724,7 @@ class Menu_reportes extends CI_Controller {
 							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
 							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
-							<td>'.date('d-m-Y',strtotime($viaticos->fecha_pago)).'</td>
+							
 						</tr>
 						';
 					
@@ -1784,8 +1784,7 @@ class Menu_reportes extends CI_Controller {
 			    ->setCellValue('F10',  $titulosColumnas[5])
 			    ->setCellValue('G10',  $titulosColumnas[6])
 			    ->setCellValue('H10',  $titulosColumnas[7])
-			    ->setCellValue('I10',  $titulosColumnas[8])
-			    ->setCellValue('J10',  $titulosColumnas[9]);							 
+			    ->setCellValue('I10',  $titulosColumnas[8]);							 
 			$data = array('nr'=>$id);
 			$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
 			foreach ($empleado_NR_viatico->result() as $key) {	
@@ -1825,8 +1824,7 @@ class Menu_reportes extends CI_Controller {
 				            ->setCellValue('F'.$f,number_format($totales_detalle->viatico,2,".",","))
 				            ->setCellValue('G'.$f,number_format($totales_detalle->pasaje,2,".",","))
 				            ->setCellValue('H'.$f,number_format($totales_detalle->alojamiento,2,".",","))
-				            ->setCellValue('I'.$f,ucwords($estado_detalle->nombre_estado))
-				            ->setCellValue('J'.$f,date('d-m-Y',strtotime($viaticos->fecha_pago)));
+				            ->setCellValue('I'.$f,ucwords($estado_detalle->nombre_estado));
 				         $f++;
 				}
 			}else{
