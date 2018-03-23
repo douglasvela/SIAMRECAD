@@ -134,11 +134,28 @@
                 <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="">
             </div>
         </div>
+
+
+        <?php
+            $generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
+
+            $id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00";
+            if($generalidades->num_rows() > 0){
+                foreach ($generalidades->result() as $filag) {
+                    $id_generalidad = $filag->id_generalidad;
+                    $pasaje = $filag->pasaje;
+                    $alojamiento = $filag->alojamiento;
+                }
+            }
+        ?>
+
+
+
         <div class="form-group col-lg-3">
             <h5>Pasaje: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="pasaje" name="pasaje" onkeyup="validar_monto_pasaje(this);" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
+                <input type="number" id="pasaje" name="pasaje" onkeyup="validar_monto_pasaje(this, '<?php echo number_format($pasaje,2); ?>');" class="form-control" required="" placeholder="0.00" value="0.00">
             </div>
             <div class="help-block"></div>
         </div>
@@ -146,7 +163,7 @@
             <h5>Viático: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" value="0.00" step="any">
+                <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" value="0.00">
                 <div class="input-group-addon btn btn-success" onclick="verificar_viaticos();" data-toggle="tooltip" title="Verificar viáticos"><i class="fa fa-check"></i></div>
             </div>
             <div class="help-block"></div>
@@ -194,7 +211,7 @@
             <h5>Monto por día: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" onkeyup="validar_monto_alojamiento(this);" placeholder="0.00" value="0.00" max="25" step="any">
+                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" onkeyup="validar_monto_alojamiento(this, '<?php echo number_format($alojamiento,2); ?>');" placeholder="0.00" value="0.00" max="25">
             </div>
             <div class="help-block"></div>
         </div>

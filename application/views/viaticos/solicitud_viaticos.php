@@ -762,12 +762,12 @@
     var ultima_fecha_fin = "";
 
     function validar_dia_limite(estado_solicitud, bandera, fecha_rev_obs){
-        var lim_start = 10;
+        var lim_start = 13;
         var days = 1;
 
         if(bandera == "save"){
 
-            var limite_inicio =  moment().subtract('days',20);
+            var limite_inicio =  moment().subtract('days',lim_start);
             var limite_fin =  moment().subtract('days',1);
 
             if(limite_fin.format("e") == 0){
@@ -804,7 +804,7 @@
         }else if(bandera == "edit"){
             if(estado_solicitud == "0"){
 
-                var limite_inicio =  moment().subtract('days',20);
+                var limite_inicio =  moment().subtract('days',lim_start);
                 var limite_fin =  moment().subtract('days',1);
 
                 var fecha_fin_mision = moment(fecha_rev_obs).add('days',1);
@@ -866,7 +866,7 @@
 
             }else{
 
-                var limite_inicio =  moment(fecha_rev_obs).subtract('days',20);
+                var limite_inicio =  moment(fecha_rev_obs).subtract('days',lim_start);
                 var limite_fin =  moment(fecha_rev_obs).subtract('days',1);
 
                 var diferencia = 0;
@@ -2081,17 +2081,17 @@
         });   
     }
 
-    function validar_monto_alojamiento(obj){
+    function validar_monto_alojamiento(obj, max){
         monto = parseFloat(obj.value);
-        if(monto > 25){
-            obj.value = "25.00";
+        if(monto > max){
+            obj.value = max;
         }
     }
 
-    function validar_monto_pasaje(obj){
+    function validar_monto_pasaje(obj, max){
         monto = parseFloat(obj.value);
-        if(monto > 5){
-            obj.value = "5.00";
+        if(monto > max){
+            obj.value = max;
         }
     }
 
