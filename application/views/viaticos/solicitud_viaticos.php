@@ -115,14 +115,10 @@
 
         body.html("");
 
-        if(document.getElementById("band_factura").checked){
-            hl = ultima_hora_llegada;
-        }
-
         if(kilometraje_new >= DistanciaMinima){
             for(j=0; j<viaticos.length; j++){
                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                    if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3])){
+                    if(!tiene_restriccion(hs, "salida", viaticos[j][2], viaticos[j][3])){
                         band_viatico = true;
                         reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                         monto += parseFloat(viaticos[j][4]);
@@ -258,11 +254,36 @@
         if(parseFloat(kilometraje_old) >= DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
             for(h=0; h<viaticos.length; h++){
                 if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
-                    if(!tiene_restriccion(hora_salida_old, hora_llegada_old, viaticos[h][2], viaticos[h][3])){
+                    if(tiene_restriccion(hora_llegada_old, "llegada antigua", viaticos[h][2], viaticos[h][3])){
                         ultimo_viatico = viaticos[h][0];
                     }
                 }
             }
+        }
+
+        var id_origen = $("#id_origen").val();
+        var id_destino = $("#id_destino").val();
+        var restriccion_llegada = "";
+        var restriccion_salida = "";
+
+        if(id_origen == id_oficina_origenes){
+             for(f=0; f<viaticos.length; f++){
+                if( (hs >= viaticos[f][2] && hs <= viaticos[f][3]) ){
+                    if(tiene_restriccion(hs, "salida", viaticos[f][2], viaticos[f][3])){
+                        restriccion_salida = viaticos[f][0];
+                    }
+                }
+            } 
+        }
+
+        if(id_destino == id_oficina_origenes){
+             for(f2=0; f2<viaticos.length; f2++){
+                if( (hl >= viaticos[f2][2] && hl <= viaticos[f2][3]) ){
+                    if(tiene_restriccion(hl, "llegada", viaticos[f2][2], viaticos[f2][3])){
+                        restriccion_llegada = viaticos[f2][0];
+                    }
+                }
+            } 
         }
 
         if(id_ruta_old != id_oficina_origenes){ //Si no ha estado (permanencia) en la oficina de origen, se verifican viáticos
@@ -275,7 +296,7 @@
                 if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                            if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                            if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
                                 if(viaticos[j][0]!=ultimo_viatico){
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
@@ -331,7 +352,9 @@
 
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                            if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+
+                            //if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
+
                                 if(viaticos[j][0]!=ultimo_viatico){
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
@@ -344,7 +367,7 @@
                                                 "<td>"+gcheckbox(index)+"</td>"+
                                                 "</tr>");
                                 }
-                            }
+                            //}
                         }
                     }
                 
@@ -362,7 +385,9 @@
                             hl = hl2;
                             for(j=0; j<viaticos.length; j++){
                                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                                    if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                                    
+                                    if(viaticos[j][0] != restriccion_llegada){
+
                                         band_viatico = true;
                                         reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                         monto += parseFloat(viaticos[j][4]);
@@ -411,6 +436,36 @@
                 $("#viatico").val(monto.toFixed(2));
             }
 
+        }else{
+            var body = $("#body_viaticos_encontrados");
+                body.html("");
+                
+                if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                    for(j=0; j<viaticos.length; j++){
+                        if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                            if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
+                                if(viaticos[j][0]!=ultimo_viatico){
+                                    band_viatico = true;
+                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
+                                    monto += parseFloat(viaticos[j][4]);
+                                    var index = reg_viaticos.length;
+                                    body.append("<tr>"+
+                                                "<td>"+fecha_ruta_new+"</td>"+
+                                                "<td>"+viaticos[j][1]+"</td>"+
+                                                "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                "<td>"+gcheckbox(index)+"</td>"+
+                                                "</tr>");
+
+                                    ultimo_viatico = viaticos[j][0];
+                                }
+                            }
+                        }
+                    }
+                }else{
+                   $.toast({ heading: 'No cumple con viáticos', text: 'Distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 }); 
+                }
+
+                $("#viatico").val(monto.toFixed(2));
         }
 
         return band_viatico;
@@ -534,50 +589,15 @@
         return band_visible;
     }
 
-    /*function calcular_viaticos(){
-        var total_viaticos = 0;
-        var id_horarios = "";
-        
-        for(k=0; k<viaticos.length; k++){
-            if(document.getElementById("checkbox"+viaticos[k][0]).checked){
-                total_viaticos = parseFloat(total_viaticos) + parseFloat(viaticos[k][4]);
-                id_horarios += viaticos[k][0]+",";
-            }
-        }
-
-        id_horarios = id_horarios.substring(0, (id_horarios.length-1))
-
-        $("#viatico").val(total_viaticos.toFixed(2));
-        $("#horarios").val(id_horarios);
-        $("#myModal").modal("hide");
-    }*/
-
-    function tiene_restriccion(hora_salida, hora_llegada, viatico_inicio, viatico_fin){
+    function tiene_restriccion(hora, text, viatico_inicio, viatico_fin){
         var band_rest = false;
 
-        if((hora_salida >= viatico_inicio && hora_salida <= viatico_fin) || (hora_llegada >= viatico_inicio && hora_llegada <= viatico_fin)){
+        if((hora >= viatico_inicio && hora <= viatico_fin)){
 
             for(i=0; i<restricciones.length; i++){
-                if(restricciones[i][4] == "1"){
-                    if(hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]){
-                        band_rest = true;
-                        $.toast({ heading: 'Restricción hora salida', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
-                    }
-                }else if(restricciones[i][4] == "2"){
-                    if(hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3]){
-                        band_rest = true;
-                        $.toast({ heading: 'Restricción hora llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
-                    }
-                }else if(restricciones[i][4] == "3"){
-                    if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) && (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
-                        band_rest = true;
-                        $.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
-                    }
-                }else if(restricciones[i][4] == "4"){
-                    if((hora_salida >= restricciones[i][2] && hora_salida <= restricciones[i][3]) || (hora_llegada >= restricciones[i][2] && hora_llegada <= restricciones[i][3])){
-                        band_rest = true;
-                        $.toast({ heading: 'Restricción hora salida y llegada', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
-                    }
+                if(hora >= restricciones[i][2] && hora <= restricciones[i][3]){
+                    band_rest = true;
+                    $.toast({ heading: 'Restricción hora '+text, text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
             }
 
@@ -1850,6 +1870,8 @@
     function cambiarJustificacion(ruta){
         if(document.getElementById("justificacion").checked){
             $("#notificacion_justificacion").show(750);
+            $("#cnt_justificacion").show(750);
+            $("#cnt_file3").show(750);
             if($("#band").val()=="save"){
                 imagen_justificacion();
             }else{
@@ -1872,16 +1894,10 @@
             }else{
                 imagen_justificacion();
             }
+            $("#cnt_justificacion").hide(750);
             $("#notificacion_justificacion").hide(750);
+            $("#cnt_file3").hide(750);
         }
-    }
-
-    function cambiarJustificacion2(){
-        if(document.getElementById("justificacion").checked){
-            mostrar_detalle_justifiacion();
-        }
-
-        cambiarJustificacion();
     }
 
     function imagen_justificacion(ruta){
@@ -2299,13 +2315,13 @@
                                     <h5>Justificación de viático: <span class="text-danger">*</span></h5>
                                     <div class="switch">
                                         <label>No
-                                            <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion2()"><span class="lever"></span>Sí</label>
+                                            <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion()"><span class="lever"></span>Sí</label>
                                     </div>
                                 </div>
                                                                
                             </div>
 
-                            <div class="row">
+                            <div class="row" id="cnt_file3" style="display: none;">
                                 <div class="col-lg-12 form-group">
                                     <input type="file" class="form-control" id="file3[]" name="file3[]" multiple>
                                 </div>

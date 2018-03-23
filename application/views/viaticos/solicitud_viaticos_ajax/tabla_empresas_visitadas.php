@@ -63,7 +63,14 @@
     $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND id_mision_oficial = '".$id_mision."'");
     if($mision->num_rows() > 0){
         foreach ($mision->result() as $fila) {
-          $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)));
+
+            if($fila->ultima_observacion == "0000-00-00 00:00:00"){
+                $fecha_observacion = "falta";
+            }else{
+                $fecha_observacion = date("Y-m-d",strtotime($fila->ultima_observacion));
+            }
+            
+          $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)), $fecha_observacion);
         }
     }
 ?>
