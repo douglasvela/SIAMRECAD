@@ -73,6 +73,11 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/viaticos_por_mes');
 		$this->load->view('templates/footer');
 	}
+	public function viaticos_por_actividad(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/viaticos_por_actividad');
+		$this->load->view('templates/footer');
+	}
 
 	public function crear_grafico_viaticos_x_anio($anios){
 		$this->load->library('j_pgraph');
@@ -3964,6 +3969,141 @@ class Menu_reportes extends CI_Controller {
 			header('Content-type: application/vnd.ms-excel');
 			$writer->save('php://output');
 			//exit;
+		}
+	}
+	public function reporte_viaticos_por_actividad($tipo,$anios,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes,$id_vyp_actividades){
+		$this->load->library('mpdf');
+		$this->load->model('Reportes_viaticos_model');
+		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		//$this->crear_grafico_viaticos_x_anio($anios);
+		//$this->crear_grafico_viaticos_x_anio_totales($anios);
+		$cabecera = '<table><tr>
+ 		<td>
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
+		<td>
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+
+	 	$cabecera_vista = '<table><tr>
+ 		<td>
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		</td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
+		<td>
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		   
+		</td>
+	 	</tr></table>';
+	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+		
+		$this->mpdf->SetHTMLHeader($cabecera);
+
+		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
+		$this->mpdf->setFooter($pie);
+		
+		$cuerpo = '
+			<table  class="" border="1" style="width:100%">
+				<thead >
+					<tr>
+						<th align="center" rowspan="2" >ACTIVIDAD</th>
+						<th align="center" rowspan="2" >Año</th>
+						<th align="center" rowspan="2" >Mes</th>
+						<th align="center" colspan="3" >Tipo</th>
+						<th align="center" rowspan="2" >Total</th>
+					</tr>
+					<tr>
+						<th align="center"  >Viatico</th>
+						<th align="center"  >Pasaje</th>
+						<th align="center"  >Alojamiento</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					';
+				$total_viatico=0;
+					$total_pasaje=0;
+					$total_alojamiento=0;
+					$total_total=0;
+				$data = str_split($anios,4);
+
+				$viatico = $this->Reportes_viaticos_model->viaticos_por_actividad($data,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes,$id_vyp_actividades);
+				if($viatico->num_rows()>0){
+				foreach ($viatico->result() as $viaticos) {
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_alojamiento+=$viaticos->alojamiento;
+					$total_total+=$viaticos->total;
+
+					if($viaticos->mes=="1"){
+						$mimes="Enero";
+					}else if($viaticos->mes=="2"){
+						$mimes="Febrero";
+					}else if($viaticos->mes=="3"){
+						$mimes="Marzo";
+					}else if($viaticos->mes=="4"){
+						$mimes="Abril";
+					}else if($viaticos->mes=="5"){
+						$mimes="Mayo";
+					}else if($viaticos->mes=="6"){
+						$mimes="Junio";
+					}else if($viaticos->mes=="7"){
+						$mimes="Julio";
+					}else if($viaticos->mes=="8"){
+						$mimes="Agosto";
+					}else if($viaticos->mes=="9"){
+						$mimes="Septiembre";
+					}else if($viaticos->mes=="10"){
+						$mimes="Octubre";
+					}else if($viaticos->mes=="11"){
+						$mimes="Noviembre";
+					}else if($viaticos->mes=="12"){
+						$mimes="Diciembre";
+					}
+
+					$cuerpo .= '
+						<tr>
+							<td align="left" style="width:180px">'.($viaticos->actividad).'</td>
+							<td align="center" style="width:180px">'.($viaticos->anio).'</td>
+							<td align="center" style="width:180px">'.($mimes).'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($viaticos->total,2,".",",").'</td>
+						</tr>
+						';
+					}
+				}else{
+				$cuerpo .= '
+						<tr><td colspan="5"><center>No hay registros</center></td></tr>
+					';
+				}
+				$cuerpo .= '
+						<tr>
+							<th align="center" style="width:180px" colspan="3">Total</th>
+							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
+							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+						</tr>
+				</tbody>
+			</table><br>
+
+        '; 
+        if($tipo=="pdf"){
+			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->SetTitle('Viaticos por Mes');
+			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
+			$this->mpdf->WriteHTML($cuerpo);
+			$this->mpdf->Output();
+		}else if($tipo=="vista"){
+			echo $cabecera_vista.$cuerpo;
+		}else{
+
 		}
 	}
 }
