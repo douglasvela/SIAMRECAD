@@ -161,8 +161,31 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
         }
         return $viaticos;
     }
+    function viaticos_por_actividad($data,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes,$id_vyp_actividades){
+       $anios = implode(",", $data);
+       if($primer_mes=='0' && $segundo_mes=='0' && $tercer_mes=='0' && $cuarto_mes=='0' && $quinto_mes=='0' && $sexto_mes=='0'){
+          if($id_vyp_actividades=="todo"){
+            $viaticos= $this->db->query("SELECT m.id_actividad_realizada,act.nombre_vyp_actividades as actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial JOIN vyp_actividades as act ON m.id_actividad_realizada=act.id_vyp_actividades WHERE year(m.fecha_solicitud) IN ($anios) AND month(m.fecha_solicitud) IN (01,02,03,01,02,03,04,05,06,07,08,09,10,11,12) AND m.id_actividad_realizada IN (SELECT id_actividad_realizada FROM vyp_actividades) GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud) ORDER BY  m.id_actividad_realizada asc");
+          }else{
+            $viaticos= $this->db->query("SELECT m.id_actividad_realizada,act.nombre_vyp_actividades as actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial JOIN vyp_actividades as act ON m.id_actividad_realizada=act.id_vyp_actividades WHERE year(m.fecha_solicitud) IN ($anios) AND month(m.fecha_solicitud) IN (01,02,03,01,02,03,04,05,06,07,08,09,10,11,12) AND m.id_actividad_realizada IN ('$id_vyp_actividades') GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud) ORDER BY  m.id_actividad_realizada asc");
+          }
+        }else{
+          if($id_vyp_actividades=="todo"){
+          $viaticos= $this->db->query("SELECT m.id_actividad_realizada,act.nombre_vyp_actividades as actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial JOIN vyp_actividades as act ON m.id_actividad_realizada=act.id_vyp_actividades WHERE year(m.fecha_solicitud) IN ($anios) AND month(m.fecha_solicitud) IN ('$primer_mes','$segundo_mes','$tercer_mes','$cuarto_mes','$quinto_mes','$sexto_mes') AND m.id_actividad_realizada IN (SELECT id_actividad_realizada FROM vyp_actividades) GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud) ORDER BY m.id_actividad_realizada asc");
+          }else{
+             $viaticos= $this->db->query("SELECT m.id_actividad_realizada,act.nombre_vyp_actividades as actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial JOIN vyp_actividades as act ON m.id_actividad_realizada=act.id_vyp_actividades WHERE year(m.fecha_solicitud) IN ($anios) AND month(m.fecha_solicitud) IN ('$primer_mes','$segundo_mes','$tercer_mes','$cuarto_mes','$quinto_mes','$sexto_mes') AND m.id_actividad_realizada IN ('$id_vyp_actividades') GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud) ORDER BY  m.id_actividad_realizada asc");
+          }
+        }
+        return $viaticos;
+    }
 }
 /* 
+
+SELECT m.id_actividad_realizada,m.detalle_actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m
+JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial
+WHERE year(m.fecha_solicitud) IN (2016,2017) AND month(m.fecha_solicitud) IN (01,02,03) AND m.id_actividad_realizada IN (SELECT id_actividad_realizada FROM vyp_actividades)
+GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud)
+ORDER BY  m.id_actividad_realizada DESC
 
 SELECT year(fecha) as anio,month(fecha) as mes,sum(`viatico`) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento, (sum(`viatico`) + sum(pasaje) + sum(alojamiento)) as total_anio FROM `vyp_empresa_viatico` WHERE month(fecha) IN (01,02,03,04,05,06,07,08,09,10,11,12) and YEAR(fecha) IN (2017,2016)  group by month(fecha),year(`fecha`) order by month(fecha) desc
 
