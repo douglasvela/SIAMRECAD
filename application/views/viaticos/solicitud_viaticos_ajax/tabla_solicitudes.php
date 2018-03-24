@@ -13,11 +13,26 @@
                 <tbody>
                 <?php 
                     $nr = $_GET["nr"];
+                    $tipo = $_GET["tipo"];
 
                     $add = "";
 
                     if(!empty($nr)){
-                        $add = "AND m.nr_empleado = '".$nr."'";
+                        $add .= "AND m.nr_empleado = '".$nr."'";
+                    }
+
+                    if(!empty($tipo)){
+                        if($tipo == "1"){
+                            $add .= " AND m.estado = '0'";
+                        }else if($tipo == "2"){
+                            $add .= " AND (m.estado = '1' || m.estado = '3' || m.estado = '5')";
+                        }else if($tipo == "3"){
+                            $add .= " AND (m.estado = '2' || m.estado = '4' || m.estado = '6')";
+                        }else if($tipo == "4"){
+                            $add .= " AND m.estado = '7'";
+                        }else{
+                            $add .= " AND m.estado = '8'";
+                        }
                     }
 
                     $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades  ".$add." ORDER BY m.id_mision_oficial DESC");

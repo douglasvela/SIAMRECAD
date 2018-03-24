@@ -207,6 +207,7 @@
     }
 
     var total_aloj = 0.00;
+    
     function validar_viatico_next(hs,hl){
         var id_mision = $("#id_mision").val();
         var band_viatico = false;
@@ -471,6 +472,90 @@
         return band_viatico;
     }
 
+
+
+    function calcular_alojamiento(hs,hl){
+        var id_mision = $("#id_mision").val();
+        var band_viatico = false;
+        reg_viaticos = [];
+        reg_alojamiento = [];
+        total_aloj = 0.00;
+        var monto = 0;
+
+        var fecha_ruta_new = $("#fecha_mision").val();
+        var kilometraje_new = parseFloat($("#id_distancia option:selected").text().trim());
+
+        var registros = $("#tabla_viaticos").find("tbody").find("tr");
+        var x = (registros.length-2);
+
+        var celdas = $(registros[x]).children("td");
+        var fecha_ruta_old = $($(celdas[0]).children("input")[2]).val().trim();
+        var hora_llegada_old = $(celdas[3]).text().trim();
+        var hora_salida_old = $(celdas[2]).text().trim();
+        var kilometraje_old = $($(celdas[0]).children("input")[3]).val().trim();
+
+        var id_ruta_old = $($(celdas[0]).children("input")[1]).val().trim();
+        var id_oficina_origenes = $("#id_oficina_origen").val().trim(); 
+
+        var fecha1 = moment(fecha_ruta_old);
+        var fecha2 = moment(fecha_ruta_new);
+
+        //moment().format("DD-MM-YYYY")
+
+        var diferencia = fecha2.diff(fecha1, 'days');
+
+        var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
+        for(f=0; f<diferencia; f++){                    
+            fecha_copy = fecha_copy.add('days',1);
+            if(fecha_copy.format("e") == 6){
+                fecha_copy = fecha_copy.add('days',2);
+                diferencia = diferencia - 2;
+            }else if(fecha_copy.format("e") == 0){
+                fecha_copy = fecha_copy.add('days',1);
+                diferencia = diferencia - 1;
+            }
+        }
+
+        if(id_ruta_old != id_oficina_origenes){ //Si no ha estado (permanencia) en la oficina de origen, se verifican viáticos
+
+            if(diferencia == 0){    //Si la fecha anterior es igual a la nueva
+                
+            }else{  // sino si la fecha anterior es diferente a la nueva
+
+                var hl2 = hl;
+                var body = $("#body_viaticos_encontrados");
+                body.html("");
+                hl = ultima_hora_llegada;
+                if(document.getElementById("band_factura").checked){
+                    $("#fecha_alojamiento").val(fecha_ruta_old)
+                    fecha_aloj = moment(fecha_ruta_old);
+                    for(a=0; a<diferencia; a++){
+                        
+                        if(fecha_aloj.format("e") == 6){
+                            fecha_aloj = fecha_aloj.add('days',2);
+                            diferencia = diferencia - 2;
+                        }else if(fecha_aloj.format("e") == 0){
+                            fecha_aloj = fecha_aloj.add('days',1);
+                            diferencia = diferencia - 1;
+                        }
+
+                        reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
+
+                        fecha_aloj = fecha_aloj.add('days',1);
+
+                    }
+                }
+
+                total_aloj = (parseFloat($("#alojamiento").val())*diferencia).toFixed(2);
+            }
+
+        }
+
+    }
+
+
+
+
     function verificar_viaticos(){
         var hora_salida = $("#hora_salida").val();
         var hora_llegada = $("#hora_llegada").val();
@@ -692,6 +777,12 @@
         return xmlhttp;
     }
 
+    var estado_pestana = "";
+    function cambiar_pestana(tipo){
+        estado_pestana = tipo;
+        tabla_solicitudes();
+    }
+
     function tabla_solicitudes(){
         var nr_empleado = $("#nr_search").val();
 
@@ -707,7 +798,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_solicitudes?nr="+nr_empleado,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_solicitudes?nr="+nr_empleado+"&tipo="+estado_pestana,true);
         xmlhttpB.send(); 
     }
 
@@ -2483,8 +2574,9 @@
                         <h4 class="card-title m-b-0">Listado de misiones oficiales</h4>
                     </div>
                     <div class="card-body b-t" style="padding-top: 7px;">
+                    <div>
                         <div class="pull-left">
-                            <div class="form-group pull-left" style="width: 400px;"> 
+                            <div class="form-group" style="width: 400px;"> 
                                 <select id="nr_search" name="nr_search" class="select2" style="width: 100%" required="" onchange="tabla_solicitudes();">
                                     <option value="">[Todos los empleados]</option>
                                 <?php 
@@ -2502,10 +2594,48 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="pull-right">
                             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
                         </div>
-                        
+                    </div>
+
+                    <div class="row" style="width: 100%"></div>
+                    <div>
+                        <ul class="nav nav-tabs customtab2" role="tablist">
+                            <li class="nav-item"> 
+                                <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down">Todas</span></a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" onclick="cambiar_pestana('1');" data-toggle="tab" href="#">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down">Incompletas</span></a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" onclick="cambiar_pestana('2');" data-toggle="tab" href="#">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down">En revisión</span></a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" onclick="cambiar_pestana('3');" data-toggle="tab" href="#">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down">Observadas</span></a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" onclick="cambiar_pestana('4');" data-toggle="tab" href="#">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down">Aprobadas</span></a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" onclick="cambiar_pestana('5');" data-toggle="tab" href="#">
+                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+                                    <span class="hidden-xs-down">Pagadas</span></a> 
+                            </li>
+                        </ul>
+                    </div>
+
                         <div id="cnt_tabla_solicitudes"></div>
                         
                     </div>
@@ -2646,7 +2776,8 @@ $(function(){
     });
 
     $("#formajax").on("submit", function(e){
-        e.preventDefault();      
+        e.preventDefault();
+
         $("#subiendo_mision").show(0);
         var formData = new FormData(document.getElementById("formajax"));
         var nombre = $("#nr option:selected").text().split("-");
@@ -2685,6 +2816,13 @@ $(function(){
 
     $("#form_empresas_viaticos").on("submit", function(e){
         e.preventDefault();
+
+        var hs = $("#hora_salida").val();
+        var hl = $("#hora_llegada").val();
+
+        if(contar_registros_tabla_viaticos() > 0){
+            calcular_alojamiento(hs, hl);
+        }
 
         var total_alojamiento = total_aloj;
 
