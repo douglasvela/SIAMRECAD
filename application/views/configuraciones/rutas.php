@@ -292,6 +292,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
             }else if (res=="duplicado"){
                 swal({ title: "¡Ups! Error", text: "Ruta ya esta registrada.", type: "error", showConfirmButton: true });
             }else{
+                alert(res)
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
@@ -510,7 +511,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
      function buscarmapa(){
         var departamento = $("#id_departamento_vyp_rutas option:selected").html();
         var municipio = $("#id_municipio option:selected").html();
-        $("#address").val(municipio.trim()+","+departamento.trim());
+        $("#address").val(municipio.trim()+", "+departamento.trim());
         $("#submit_ubi").click();
      }
      function autocompletar_descripcion_destino_oficina(){
