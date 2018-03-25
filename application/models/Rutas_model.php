@@ -17,6 +17,11 @@ class Rutas_model extends CI_Model {
 					$data['id_municipio'] = $fila->id_municipio;
 				}
 			}
+			$this->db->where("id_oficina_origen_vyp_rutas",$data['id_oficina_origen_vyp_rutas']);
+			$this->db->where("id_oficina_destino_vyp_rutas",$data['id_oficina_destino_vyp_rutas']);
+			$query2 = $this->db->get("vyp_rutas");
+			if($query2->num_rows() > 0) return "duplicado";
+			 
 		}
 
 		if($this->db->insert('vyp_rutas', array('id_oficina_origen_vyp_rutas' => $data['id_oficina_origen_vyp_rutas'], 'id_oficina_destino_vyp_rutas' => $data['id_oficina_destino_vyp_rutas'], 'opcionruta_vyp_rutas' => $data['opcionruta_vyp_rutas'], 'descripcion_destino_vyp_rutas' => $data['descripcion_destino_vyp_rutas'], 'km_vyp_rutas' => $data['km_vyp_rutas'], 'id_departamento_vyp_rutas' => $data['id_departamento'], 'id_municipio_vyp_rutas' => $data['id_municipio'], 'latitud_destino_vyp_rutas' => $data['latitud_destino_vyp_rutas'], 'longitud_destino_vyp_rutas' => $data['longitud_destino_vyp_rutas'],'nombre_empresa_vyp_rutas' => $data['nombre_empresa_vyp_rutas'],'direccion_empresa_vyp_rutas' => $data['direccion_empresa_vyp_rutas'],'estado_vyp_rutas' => '1'))){

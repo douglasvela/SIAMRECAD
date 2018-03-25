@@ -289,6 +289,8 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
                 tablaRutas("destino_oficina",<?php echo $this->uri->segment(4); ?>);$("#band").val('save');limpiar();
+            }else if (res=="duplicado"){
+                swal({ title: "¡Ups! Error", text: "Ruta ya esta registrada.", type: "error", showConfirmButton: true });
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
