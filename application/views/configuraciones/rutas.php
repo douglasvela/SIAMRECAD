@@ -317,6 +317,21 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                             "",
                             ""
                         );
+                      var desc = $("#descripcion_destino_vyp_rutas").val().split('-');
+                      manttorutas("",
+                            $("#band").val(),
+                            $("#destino_oficina").val(),
+                            $("#id_oficina_destino_vyp_rutas").val(),
+                            $("#id_oficina_origen_vyp_rutas").val(),
+                            desc[1]+" - "+desc[0],
+                            $("#km_vyp_rutas").val(),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                        );
                   }
                 }else if($('input[id="destino_municipio"]').is(':checked')){
                     if($("#id_oficina_origen_vyp_rutas").val()=="" || $("#id_municipio").val()==""  || $("#id_departamento_vyp_rutas").val()=="" || $("#descripcion_destino_vyp_rutas").val()=="" || $("#km_vyp_rutas").val()==""){
