@@ -90,10 +90,10 @@
 	       }
 
 	        
-	        if((($("#mes").val()!="0" && document.getElementById('radio_mensual').checked==true)
-	         || ($("#trimestre").val()!="0" && document.getElementById('radio_trimestral').checked==true)
-	         || ($("#semestre").val()!="0" && document.getElementById('radio_semestral').checked==true)
-	         || document.getElementById('radio_anual').checked==true
+	        if(((($("#mes").val()!="0" && $("#id_vyp_actividades").val()!="0") && document.getElementById('radio_mensual').checked==true)
+	         || (($("#trimestre").val()!="0" && $("#id_vyp_actividades").val()!="0") && document.getElementById('radio_trimestral').checked==true)
+	         || (($("#semestre").val()!="0" && $("#id_vyp_actividades").val()!="0") && document.getElementById('radio_semestral').checked==true)
+	         || ($("#id_vyp_actividades").val()!="0") && document.getElementById('radio_anual').checked==true
 	         )){
 	          var xhr = "<?php echo base_url()?>";
 
