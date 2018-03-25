@@ -58,38 +58,88 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <?php
                         	$generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
 
-                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00";
+                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = "";
 			                if($generalidades->num_rows() > 0){
 			                    foreach ($generalidades->result() as $filag) {
 			                    	$id_generalidad = $filag->id_generalidad;
 			                    	$pasaje = $filag->pasaje;
 			                    	$alojamiento = $filag->alojamiento;
+                                    $id_banco = $filag->id_banco;
+                                    $banco = $filag->banco;
+                                    $num_cuenta = $filag->num_cuenta;
+                                    $limite_poliza = $filag->limite_poliza;
 			                    }
 			                }
                         ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_generalidad" name="id_generalidad" value="<?php echo $id_generalidad; ?>">
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <h5>Máximo pasaje: <span class="text-danger">*</span></h5>
-						            <div class="input-group">
-						                <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-						                <input type="number" id="pasaje" name="pasaje" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($pasaje,2); ?>">
-						            </div>
-                                </div>
 
-                                <div class="form-group col-lg-6">
-                                    <h5>Máximo alojamiento: <span class="text-danger">*</span></h5>
-						            <div class="input-group">
-						                <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-						                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($alojamiento,2); ?>">
-						            </div>
+                            <span>Sección de viáticos</span>
+                            <blockquote>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <h5>Máximo pasaje: <span class="text-danger">*</span></h5>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+                                            <input type="number" id="pasaje" name="pasaje" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($pasaje,2); ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <h5>Máximo alojamiento: <span class="text-danger">*</span></h5>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+                                            <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($alojamiento,2); ?>">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </blockquote>
+
+                            <span>Sección de poliza</span>
+                            <blockquote>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <h5>Banco: <span class="text-danger">*</span></h5>
+                                        <select id="id_banco" name="id_banco" class="select2" style="width: 100%" required="">
+                                            <option value="">[Elija el banco]</option>
+                                            <?php 
+                                                $banco = $this->db->query("SELECT * FROM vyp_bancos");
+                                                if($banco->num_rows() > 0){
+                                                    foreach ($banco->result() as $fila) {              
+                                                        if($id_banco == $fila->id_banco){
+                                                            echo '<option class="m-l-50" value="'.$fila->id_banco.'" selected>'.$fila->nombre.'</option>';
+                                                        }else{
+                                                            echo '<option class="m-l-50" value="'.$fila->id_banco.'">'.$fila->nombre.'</option>';
+                                                        }
+                                                       
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <h5>Cuenta bancaria: <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <input type="text" id="cuenta" name="cuenta" value="<?php echo $num_cuenta; ?>" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="form-group col-lg-6">
+                                        <h5>Monto límite de poliza: <span class="text-danger">*</span></h5>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+                                            <input type="number" id="limite_poliza" name="limite_poliza" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($limite_poliza,2); ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </blockquote>
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
@@ -127,7 +177,7 @@ $(function(){
         e.preventDefault();
         var f = $(this);
         var formData = new FormData(document.getElementById("formajax"));
-        formData.append("dato", "valor");
+        formData.append("banco", $("#id_banco option:selected").text().trim());
         
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/generalidades/gestionar_generalidades",
@@ -139,6 +189,7 @@ $(function(){
             processData: false
         })
         .done(function(res){
+            alert(res)
             if(res == "exito"){
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class poliza extends CI_Controller {
+class Poliza extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -10,7 +10,7 @@ class poliza extends CI_Controller {
 
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('viaticos/poliza');
+		$this->load->view('poliza/poliza');
 		$this->load->view('templates/footer');
 	}
 

@@ -6,8 +6,19 @@ DROP TABLE IF EXISTS `vyp_generalidades`;
 CREATE TABLE `vyp_generalidades` (
   `id_generalidad` int(10) UNSIGNED NOT NULL,
   `pasaje` float(5,2) NOT NULL,
-  `alojamiento` float(5,2) NOT NULL
+  `alojamiento` float(5,2) NOT NULL,
+  `id_banco` int(10) UNSIGNED NOT NULL,
+  `banco` varchar(100) NOT NULL,
+  `num_cuenta` varchar(45) NOT NULL,
+  `limite_poliza` float(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_generalidades`
+--
+
+INSERT INTO `vyp_generalidades` (`id_generalidad`, `pasaje`, `alojamiento`, `id_banco`, `banco`, `num_cuenta`, `limite_poliza`) VALUES
+(1, 7.00, 25.00, 1, 'Banco Agrícola', '590-057808-4', 500.00);
 
 --
 -- Índices para tablas volcadas
