@@ -3,15 +3,7 @@
 <head>
 	<title></title>
 	<script>
-		function ver(){
-			// Saving it's instance to var
-			//var slider = $("#range_04").data("ionRangeSlider");
-
-			// Get values
-			var minimo = slider.result.from;
-			var maximo = slider.result.to;
-			alert(to)
-		}
+		 
 		function mostrarReportePorAnio(tipo){
 			var slider = $("#range_04").data("ionRangeSlider");
 	        var minimo = slider.result.from;
@@ -36,6 +28,18 @@
 	          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
 	        }
 	     }
+	     function iniciar() {
+	     	<?php
+	          $data['id_modulo'] = $this->uri->segment(5);
+	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+	          $data['id_permiso']="1";
+	          if(!buscar_permiso($data)){
+	         ?>
+	            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
+	        <?php
+	          }
+	        ?>
+	     }
 	</script>
 </head>
 <body>
@@ -49,8 +53,8 @@
 	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos Por Año</h3>
 	            </div>
 	        </div>
-	         <div class="row ">
-	            <div class="col-lg-4" id="cnt_form" style="display: block;">
+	         <div class="row " id="cnt_form">
+	            <div class="col-lg-4"  style="display: block;">
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="">
 	                        <h4 class="card-title m-b-0 text-white">Datos</h4>

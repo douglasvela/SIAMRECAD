@@ -9,7 +9,7 @@ class Actividad_model extends CI_Model {
 
 	function insertar_actividad($data){
 		$name = $data['nombre_vyp_actividades'];
-		$query = $this->db->query("select * from vyp_actividades where nombre_vyp_actividades = '$name'");
+		$query = $this->db->query("select * from vyp_actividades where nombre_vyp_actividades = trim('$name')");
 		if($query->num_rows() <= 0){
 				if($this->db->insert('vyp_actividades', array('nombre_vyp_actividades' => $data['nombre_vyp_actividades'], 'depende_vyp_actividades' => $data['depende_vyp_actividades']))){
 					return "exito";

@@ -617,6 +617,8 @@ $(function(){
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
                 tablaoficinas(<?php echo $this->uri->segment(4);?>);$("#band").val('save');
+            }else if(res=="duplicado"){
+                swal({ title: "¡Ups! Error", text: "Oficina ya existe.", type: "error", showConfirmButton: true });
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }

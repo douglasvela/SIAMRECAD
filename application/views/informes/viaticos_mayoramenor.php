@@ -30,6 +30,18 @@
 	         
 	       }
 	     }
+	     function iniciar() {
+	     	<?php
+	          $data['id_modulo'] = $this->uri->segment(5);
+	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+	          $data['id_permiso']="1";
+	          if(!buscar_permiso($data)){
+	         ?>
+	            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
+	        <?php
+	          }
+	        ?>
+	     }
 	</script>
 </head>
 <body>
@@ -43,8 +55,8 @@
 	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos por Empleado de Mayor a Menor</h3>
 	            </div>
 	        </div>
-	         <div class="row ">
-	            <div class="col-lg-4" id="cnt_form" style="display: block;">
+	         <div class="row " id="cnt_form">
+	            <div class="col-lg-4"  style="display: block;">
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="">
 	                        <h4 class="card-title m-b-0 text-white">Datos</h4>

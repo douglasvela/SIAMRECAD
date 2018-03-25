@@ -2,18 +2,6 @@
 <html>
 <head>
 	<script type="text/javascript">
-//var pdfUrl = xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id;
-	       	//var pdfViewerEmbed = document.getElementById("myPdfEmbed");
-			//pdfViewerEmbed.setAttribute("src", pdfUrl);
-			//pdfViewerEmbed.outerHTML = pdfViewerEmbed.outerHTML.replace(/src="(.+?)"/, 'src="' + pdfUrl + '"');
-	      	 //$("#informe").attr("src",xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id);
-
-
-   //var html="<object data='"+xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/"+id+"' type='application/pdf' width='780' height='400'> alt : <a href='goodies/pdfs/indice_contenido.pdf'></a></object>";
- 
-    //$("#informe").html(html);
-
-
 
 		function mostrarReporteEmpleado(tipo){
 	       var id = $("#id_empleado").val();
@@ -29,15 +17,22 @@
 	        }else{
 	           
 	        	var html="<embed src='"+xhr+"index.php/informes/menu_reportes/reporte_viatico_pendiente_empleado/vista/"+id+"'  width='780' height='400'>";
- 
     			$("#informe_vista").html(html);
-	           /*$( "#informe_vista" ).load("<?php echo site_url(); ?>/informes/menu_reportes/reporte_viatico_pendiente_empleado/vista/"+id, function() {
-		       });*/
-
-
 	        }
 	       	
 	       }
+	     }
+	     function iniciar() {
+	     	<?php
+	          $data['id_modulo'] = $this->uri->segment(5);
+	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
+	          $data['id_permiso']="1";
+	          if(!buscar_permiso($data)){
+	         ?>
+	            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
+	        <?php
+	          }
+	        ?>
 	     }
 	</script>
 </head>
@@ -52,8 +47,8 @@
 	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos Pendientes de Pago</h3>
 	            </div>
 	        </div>
-	         <div class="row ">
-	            <div class="col-lg-4" id="cnt_form" style="display: block;">
+	         <div class="row " id="cnt_form">
+	            <div class="col-lg-4"  style="display: block;">
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="">
 	                        <h4 class="card-title m-b-0 text-white">Datos</h4>
