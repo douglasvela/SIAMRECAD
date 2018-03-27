@@ -18,6 +18,8 @@ class Lista_pasaje extends CI_Controller {
 	public function imprimir_solicitud(){
 		$this->load->view('pasajes/viaticos_ajax/imprimir_solicitud_pasaje');
 	}
+
+	
 		
 }
 ?>

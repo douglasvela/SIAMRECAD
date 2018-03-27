@@ -22,15 +22,29 @@
 <script type="text/javascript">   
 
    var gid_mision;
-    function cambiar_mision(id_mision, estado){  
-        gid_mision = id_mision;     
+   var nr_emple;
+   var estado;
+   var month;
+   var anio;
+/*var nr_empleado = "<?php //echo $_GET["nr"]; ?>"
+var id_mision = "<?php //echo $_GET["id_mision_pasajes"]; ?>"
+var estado = "<?php //echo $_GET["estado"]; ?>"
+var mes = "<?php //echo $_GET["month"]; ?>*/
+    function cambiar_mision(nr, id_mision, estado, fecha2){  
+
+        gid_mision = id_mision;
+   nr_emple = nr;
+   estado = estado;
+   month = fecha2;
+   
+
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
         $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
         $("#ttl_form").children("h4").html("<span class='mdi mdi-wrench'></span> Revisando solicitud");
         $("#estado").val(estado);
-       tabla_empresas_visitadas(gid_mision);
+       tabla_empresas_visitadas(gid_mision,nr_emple, estado, month);
     }
 
     function cerrar_mantenimiento(){
@@ -122,20 +136,21 @@
         xmlhttpB.send(); 
     }
 
-   /* function tabla_empresas_visitadas(id_mision){    
+   function tabla_empresas_visitadas(gid_mision,nr_emple, estado, month){   
+  
         var iframe = $('<embed onload="funcion(this)">');
             iframe.attr('width','100%');
-            iframe.attr('src',"<?php //echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud?id_mision="+id_mision);
+            iframe.attr('src',"<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr_emple + "&fecha2="+month, '_blank');
             //$('#cnt_tabla_empresas').append(iframe);
             $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
-    }*/
+    }
 
     function funcion(iframe){
         iframe.attr('height','500px;');
-       lista_observaciones();
+       listado_observaciones_pasajes();
     }
 
-    function lista_observaciones(){    
+    function listado_observaciones_pasajes(){    
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -147,7 +162,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/observaciones_pasajes/lista_observaciones?id_mision="+gid_mision,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/observaciones/listado_observaciones_pasajes?id_mision="+gid_mision,true);
         xmlhttpB.send(); 
     }
 

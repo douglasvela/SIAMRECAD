@@ -27,8 +27,8 @@ class Observaciones extends CI_Controller {
 	}
 
 
-	public function listado_observaciones(){
-		$this->load->view('viaticos/observaciones/listado_observaciones');
+	public function listado_observaciones_pasajes(){
+		$this->load->view('pasajes/observaciones_pasajes/listado_observaciones_pasajes');
 	}
 
 	public function cambiar_estado_solicitud(){		
@@ -59,7 +59,7 @@ class Observaciones extends CI_Controller {
 
 	function verificar_observaciones(){
 		$id_mision = $this->input->post('id_mision');
-		if($this->observaciones_model->verificar_observaciones($id_mision)){
+		if($this->observaciones_pasajes_model->verificar_observaciones($id_mision)){
 			echo "observaciones";
 		}else{
 			echo "aprobar";
