@@ -74,7 +74,7 @@
                                     $datos = $this->db->query("SELECT * FROM org_seccion order by depende ");
                                     if($datos->num_rows() > 0){
                                     foreach ($datos->result() as $filadatos) {
-                                    echo "<option class='m-l-50' value='$filadatos->id_seccion'>$filadatos->nombre_seccion</option>";
+                                    echo "<option class='m-l-50' value='$filadatos->id_seccion'>".preg_replace ('/[ ]+/', ' ',$filadatos->nombre_seccion)."</option>";
                                         }
                                     }
                                 //$u_rec_id = $this->session->userdata('rec_id');

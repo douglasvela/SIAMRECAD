@@ -65,7 +65,7 @@
                                  	$datos = $this->db->query("SELECT * FROM sir_cargo_funcional ");
                                     if($datos->num_rows() > 0){
                                     foreach ($datos->result() as $filadatos) {
-    									echo '<option value="'.$filadatos->id_cargo_funcional.'" '.(($filadatos->id_cargo_funcional=='291')?'selected="selected"':"").'>'.$filadatos->funcional.'</option>';
+    									echo '<option value="'.$filadatos->id_cargo_funcional.'" '.(($filadatos->id_cargo_funcional=='291')?'selected="selected"':"").'>'.preg_replace ('/[ ]+/', ' ',$filadatos->funcional).'</option>';
                                  ?>
 
 

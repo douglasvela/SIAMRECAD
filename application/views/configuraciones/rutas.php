@@ -606,7 +606,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
                                                 <option  value="<?php echo $fila->id_oficina ?>"  >
-                                                    <?php echo $fila->nombre_oficina ?>
+                                                    <?php echo preg_replace ('/[ ]+/', ' ',$fila->nombre_oficina) ?>
                                                 </option>;
                                             <?php
                                                     }
@@ -642,7 +642,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
                                                 <option  value="<?php echo $fila->id_departamento; ?>" onclick="buscarMunicipio('<?php echo $fila->id_departamento;?>','null','')" >
-                                                    <?php echo $fila->departamento ?>
+                                                    <?php echo preg_replace ('/[ ]+/', ' ',$fila->departamento) ?>
                                                 </option>;
                                             <?php
                                                     }
