@@ -26,10 +26,6 @@
    var estado;
    var month;
    var anio;
-/*var nr_empleado = "<?php //echo $_GET["nr"]; ?>"
-var id_mision = "<?php //echo $_GET["id_mision_pasajes"]; ?>"
-var estado = "<?php //echo $_GET["estado"]; ?>"
-var mes = "<?php //echo $_GET["month"]; ?>*/
     function cambiar_mision(nr, id_mision, estado, fecha2){  
 
         gid_mision = id_mision;
@@ -175,6 +171,7 @@ var mes = "<?php //echo $_GET["month"]; ?>*/
     }
 
     function eliminar_observacion(id_observacion){
+        alert(id_observacion);
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/pasajes/observaciones/eliminar_observacion", true);
         ajax.onreadystatechange = function() {
@@ -182,7 +179,7 @@ var mes = "<?php //echo $_GET["month"]; ?>*/
                 if(ajax.responseText == "exito"){
                     $.toast({ heading: 'Observación eliminada', text: 'El registro de observación fue eliminado exitosamente.', position: 'top-right', loaderBg:'#fc4b6c', icon: 'error', hideAfter: 3500, stack: 6
                     });
-                    listado_observaciones();
+                    listado_observaciones_pasajes();
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
@@ -471,7 +468,7 @@ $(function(){
             if(res == "exito"){
                 $.toast({ heading: 'Observación registrada', text: 'La observación se registró exitosamente.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 3500, stack: 6
                 });
-                lista_observaciones();
+                listado_observaciones_pasajes();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
