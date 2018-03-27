@@ -57,7 +57,7 @@
                                   <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual_seccion" name="anio_actual_seccion" placeholder="yyyy">
                              </div>
                               <div class="form-group" align="right">
-                               <button type="button" onclick="mostrarReportePorSeccion('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Preliminar</button>
+                               <button type="button" onclick="mostrarReportePorSeccion('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
  							</div>
                              <br>
                             <div class="card-body b-t">

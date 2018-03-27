@@ -12,7 +12,13 @@ from vyp_empresas_visitadas as ev
 where ev.id_mision_oficial IN (
 SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2499)
 
-
+SELECT m.*,
+(SELECT sum(viatico) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as viaticos,
+(SELECT sum(pasaje) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as pasajes,
+(SELECT sum(alojamiento) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as alojamiento,
+(SELECT nombre_vyp_actividades FROM vyp_actividades WHERE id_vyp_actividades=m.id_actividad_realizada) as nombre_actividad,
+(SELECT nombre_estado FROM vyp_estado_solicitud WHERE id_estado_solicitud=m.estado) as nombre_estado
+FROM vyp_mision_oficial as m WHERE m.nr_empleado IN (SELECT nr FROM sir_empleado)
 */
     function obtenerViaticoAnualxDepto($data){
       
@@ -176,6 +182,14 @@ SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2
              $viaticos= $this->db->query("SELECT m.id_actividad_realizada,act.nombre_vyp_actividades as actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial JOIN vyp_actividades as act ON m.id_actividad_realizada=act.id_vyp_actividades WHERE year(m.fecha_solicitud) IN ($anios) AND month(m.fecha_solicitud) IN ('$primer_mes','$segundo_mes','$tercer_mes','$cuarto_mes','$quinto_mes','$sexto_mes') AND m.id_actividad_realizada IN ('$id_vyp_actividades') GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud) ORDER BY month(m.fecha_solicitud) asc");
           }
         }
+        return $viaticos;
+    }
+    function misiones_empleados($data){
+      if($data['nr']=="todos"){
+          $viaticos= $this->db->query("SELECT m.*,(SELECT sum(viatico) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as viaticos,(SELECT sum(pasaje) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as pasajes,(SELECT sum(alojamiento) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as alojamientos,(SELECT sum(viatico)+sum(pasaje)+sum(alojamiento) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as total,(SELECT nombre_vyp_actividades FROM vyp_actividades WHERE id_vyp_actividades=m.id_actividad_realizada) as nombre_actividad,(SELECT nombre_estado FROM vyp_estado_solicitud WHERE id_estado_solicitud=m.estado) as nombre_estado FROM vyp_mision_oficial as m WHERE m.nr_empleado IN (SELECT nr FROM sir_empleado)");
+          }else{
+             $viaticos= $this->db->query("SELECT m.*,(SELECT sum(viatico) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as viaticos,(SELECT sum(pasaje) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as pasajes,(SELECT sum(alojamiento) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as alojamientos,(SELECT sum(viatico)+sum(pasaje)+sum(alojamiento) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as total,(SELECT nombre_vyp_actividades FROM vyp_actividades WHERE id_vyp_actividades=m.id_actividad_realizada) as nombre_actividad,(SELECT nombre_estado FROM vyp_estado_solicitud WHERE id_estado_solicitud=m.estado) as nombre_estado FROM vyp_mision_oficial as m WHERE m.nr_empleado IN ('".$data['nr']."')");
+          }
         return $viaticos;
     }
 }

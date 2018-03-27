@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div align="right">
-                            	<button type="button" onclick="mostrarReporteViaticosMayoraMenor('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Preliminar</button>
+                            	<button type="button" onclick="mostrarReporteViaticosMayoraMenor('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
                             </div><br>
                             <div class="card-body b-t">
 	                            	<div class="demo-radio-button">

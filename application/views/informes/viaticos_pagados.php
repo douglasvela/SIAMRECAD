@@ -85,7 +85,7 @@
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d"  onkeyup="FECHA('fecha_mision')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_max" name="fecha_max" placeholder="dd/mm/yyyy">
                                 </div>
                                 <div align="right">
-                                	 <button type="button" onclick="mostrarReportePagados('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Previa</button>
+                                	 <button type="button" onclick="mostrarReportePagados('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>
                                 </div>
                                  <div class="card-body b-t">
 	                            	<div class="demo-radio-button">

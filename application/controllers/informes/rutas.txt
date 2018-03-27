@@ -1,0 +1,13 @@
+informes/menu_reportes/viaticos_pendientes
+informes/menu_reportes/viaticos_pagados
+informes/menu_reportes/viaticos_mayoramenor
+informes/menu_reportes/viaticos_por_periodo
+informes/menu_reportes/viaticos_por_anio
+informes/menu_reportes/viaticos_por_departamento
+informes/menu_reportes/viaticos_por_zona_depto
+informes/menu_reportes/viaticos_por_cargo
+informes/menu_reportes/viaticos_por_seccion
+informes/menu_reportes/viaticos_por_genero
+informes/menu_reportes/viaticos_por_mes
+informes/menu_reportes/viaticos_por_actividad
+informes/menu_reportes/misiones
