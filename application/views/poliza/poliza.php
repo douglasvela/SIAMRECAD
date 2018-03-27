@@ -1,137 +1,4 @@
-
 <?php
-
-$monto = number_format(100.50, 2, '.', '');
-
-$decs = (($monto-intval($monto))*100);
-
-if($decs == 0){
-  $decs = "00";
-}
-
-//echo$formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
-  
-class NumeroALetras
-{
-    private static $UNIDADES = [
-        '',
-        'UN ',
-        'DOS ',
-        'TRES ',
-        'CUATRO ',
-        'CINCO ',
-        'SEIS ',
-        'SIETE ',
-        'OCHO ',
-        'NUEVE ',
-        'DIEZ ',
-        'ONCE ',
-        'DOCE ',
-        'TRECE ',
-        'CATORCE ',
-        'QUINCE ',
-        'DIECISEIS ',
-        'DIECISIETE ',
-        'DIECIOCHO ',
-        'DIECINUEVE ',
-        'VEINTE '
-    ];
-    private static $DECENAS = [
-        'VENTI',
-        'TREINTA ',
-        'CUARENTA ',
-        'CINCUENTA ',
-        'SESENTA ',
-        'SETENTA ',
-        'OCHENTA ',
-        'NOVENTA ',
-        'CIEN '
-    ];
-    private static $CENTENAS = [
-        'CIENTO ',
-        'DOSCIENTOS ',
-        'TRESCIENTOS ',
-        'CUATROCIENTOS ',
-        'QUINIENTOS ',
-        'SEISCIENTOS ',
-        'SETECIENTOS ',
-        'OCHOCIENTOS ',
-        'NOVECIENTOS '
-    ];
-    public static function convertir($number, $moneda = '', $centimos = '', $forzarCentimos = false)
-    {
-        $converted = '';
-        $decimales = '';
-        if (($number < 0) || ($number > 999999999)) {
-            return 'No es posible convertir el numero a letras';
-        }
-        $div_decimales = explode('.',$number);
-        if(count($div_decimales) > 1){
-            $number = $div_decimales[0];
-            $decNumberStr = (string) $div_decimales[1];
-            if(strlen($decNumberStr) == 2){
-                $decNumberStrFill = str_pad($decNumberStr, 9, '0', STR_PAD_LEFT);
-                $decCientos = substr($decNumberStrFill, 6);
-                $decimales = self::convertGroup($decCientos);
-            }
-        }
-        else if (count($div_decimales) == 1 && $forzarCentimos){
-            $decimales = 'CERO ';
-        }
-        $numberStr = (string) $number;
-        $numberStrFill = str_pad($numberStr, 9, '0', STR_PAD_LEFT);
-        $millones = substr($numberStrFill, 0, 3);
-        $miles = substr($numberStrFill, 3, 3);
-        $cientos = substr($numberStrFill, 6);
-        if (intval($millones) > 0) {
-            if ($millones == '001') {
-                $converted .= 'UN MILLON ';
-            } else if (intval($millones) > 0) {
-                $converted .= sprintf('%sMILLONES ', self::convertGroup($millones));
-            }
-        }
-        if (intval($miles) > 0) {
-            if ($miles == '001') {
-                $converted .= 'MIL ';
-            } else if (intval($miles) > 0) {
-                $converted .= sprintf('%sMIL ', self::convertGroup($miles));
-            }
-        }
-        if (intval($cientos) > 0) {
-            if ($cientos == '001') {
-                $converted .= 'UN ';
-            } else if (intval($cientos) > 0) {
-                $converted .= sprintf('%s ', self::convertGroup($cientos));
-            }
-        }
-        if(empty($decimales)){
-            $valor_convertido = $converted . strtoupper($moneda);
-        } else {
-            $valor_convertido = $converted . strtoupper($moneda);//' CON ' . $decimales . ' ' . strtoupper($centimos);
-        }
-        return $valor_convertido;
-    }
-    private static function convertGroup($n)
-    {
-        $output = '';
-        if ($n == '100') {
-            $output = "CIEN ";
-        } else if ($n[0] !== '0') {
-            $output = self::$CENTENAS[$n[0] - 1];
-        }
-        $k = intval(substr($n,1));
-        if ($k <= 20) {
-            $output .= self::$UNIDADES[$k];
-        } else {
-            if(($k > 30) && ($n[2] !== '0')) {
-                $output .= sprintf('%sY %s', self::$DECENAS[intval($n[1]) - 2], self::$UNIDADES[intval($n[2])]);
-            } else {
-                $output .= sprintf('%s%s', self::$DECENAS[intval($n[1]) - 2], self::$UNIDADES[intval($n[2])]);
-            }
-        }
-        return $output;
-    }
-}
 
 function mes($mes){
  setlocale(LC_TIME, 'spanish');  
@@ -156,17 +23,40 @@ if($generalidades->num_rows() > 0){
 }
 
 ?>
- 
 
+<script type="text/javascript">
+  function iniciar(){
+    tabla_generar_poliza();
+  }
+
+  function tabla_generar_poliza(){
+    var mes = $("#nombre7").val();
+    var anio = $("#nombre8").val();
+    var newName = 'AjaxCall', xhr = new XMLHttpRequest();
+
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza/tabla_generar_poliza?mes="+mes+"&anio="+anio);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200 && xhr.responseText !== newName) {
+            document.getElementById("cnt_generar_poliza").innerHTML = xhr.responseText;
+            
+        }else if (xhr.status !== 200) {
+            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+        }
+    };
+    xhr.send(encodeURI('name=' + newName));
+  }
+
+
+</script>
 
   <div class="page-wrapper">
     <div class="container-fluid">
-        <!-- ============================================================== -->
-        <!-- TITULO de la página de sección -->
-        <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- TITULO de la página de sección -->
+      <!-- ============================================================== -->
        <div class="table-responsive">
-
-            <div class="align-self-center" align="center">
+          <div class="align-self-center" align="center">
                  <h4 align="center" class="card-title m-b-0">MINISTERIO DE TRABAJO Y PREVISION SOCIAL <p align="center">POLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p></h4>
      
           <table width="1206" height="166" border="0">
@@ -205,7 +95,7 @@ if($generalidades->num_rows() > 0){
               </span></div></td>
               <td> <h5 align="justify"> EJERCICIO FINANCIERO FISCAL: </h5></td>
               <td><div align="justify"><span class="controls">
-                <input type="text" id="nombre8" name="nombre8" class="form-control" value="<?php echo date("Y"); ?>" />
+                <input type="text" id="nombre8" name="nombre8" class="form-control" onchange="tabla_generar_poliza();" value="<?php echo date("Y"); ?>" />
               </span></div></td>
             </tr>
             <tr>
@@ -252,53 +142,21 @@ if($generalidades->num_rows() > 0){
     </div>
    
 
-   <div class="card">
-   
+    <div class="card">
       <div class="card-body b-t"  style="padding-top: 7px; font-size: 11px;">
-      <div class="table-responsive">
-            <table id="" class="table table-hover product-overview"  >
-                <thead class="bg-info text-white">
-               
-                    <tr>
-                    <th width="59" rowspan="2">No. DOC</th>
-                    <th width="81" rowspan="2">No. POLIZA</th>
-                    <th width="60" rowspan="2">MES POLIZA</th>
-                    <th width="130" rowspan="2">FECHA ELABORACION</th>
-                    <th width="75" rowspan="2">No. CHEQUE/ CUENTA</th>
-                    <th width="90" rowspan="2">CÓDIGO EMPLEADO</th>
-                    <th width="67" rowspan="2">FECHA MISIÓN</th>
-                    <th width="94" rowspan="2">NOMBRE EMPLEADO</th>
-                    <th width="80" rowspan="2">DETALLE MISIÓN</th>
-                    <th width="41" rowspan="2">SEDE</th>
-                    <th width="96" rowspan="2">CARGO FUNCIONAL</th>
-                    <th width="44"  rowspan="2">UP/LT</th>
-                   <th colspan="4" ><div align="center">DETALLE DE OBJETOS ESPECIFICOS </div></th>
-                   <th width="67"  rowspan="2" >TOTAL</th>
-                    </tr>
-                    <tr>
-                      <th width="48"  >54401</th>
-                      <th width="67" >VALOR</th>
-                      <th width="48" >54403</th>
-                      <th width="56" >VALOR</th>
-                    </tr>
-                </thead>
-                <tbody>
-               
-                </tbody>
-    </table>
-     </div>
-     </div>
-     </div>
- </div>
+        <div id="cnt_generar_poliza"></div>
+      </div>
     </div>
+ </div>
+</div>
 
 </div>
 
 
-            <script>
+<script>
 $(function(){
     $(document).ready(function() {
         $('#myTable').DataTable();
     });
 });
-            </script>
+</script>

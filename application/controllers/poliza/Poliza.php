@@ -14,6 +14,10 @@ class Poliza extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function tabla_generar_poliza(){
+		$this->load->view('poliza/tabla_generar_poliza');
+	}
+
 	/*public function calcular_viaticos(){
 		$data = array(
 			'hora_inicio' => $this->input->post('hora_inicio'), 
