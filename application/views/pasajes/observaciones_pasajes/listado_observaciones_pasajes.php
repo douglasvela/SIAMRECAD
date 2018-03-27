@@ -19,7 +19,7 @@
                             		echo '<span class="time" style="margin-left: 32px;">'.$fila->fecha_hora."</span>";
                             	echo '</div>';
                             echo '<div class="user-img pull-right">';
-                            $array = array($fila->id_observacion_solicitud);
+                            $array = array($fila->id_observacion_pasaje);
                             echo generar_boton($array,"eliminar_observacion","btn-danger","fa fa-close","Eliminar observación");
                             echo "</div>";
 
