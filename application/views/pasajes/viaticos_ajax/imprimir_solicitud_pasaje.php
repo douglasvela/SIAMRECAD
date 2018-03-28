@@ -1,4 +1,16 @@
+
 <?php 
+$user = $this->session->userdata('usuario_viatico');
+
+    $nr_sql = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+    $nr_user = ""; $name_user = "";
+    if($nr_sql->num_rows() > 0){
+        foreach ($nr_sql->result() as $filauser) { 
+            $nr_user = $filauser->nr;
+            $name_user = $filauser->nombre_completo; 
+        }
+    }
+
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha2"];
   
@@ -9,6 +21,8 @@ list($mes, $anio)= explode ("-",$fecha_mes);
 echo $fecha_imp[1];
 echo $fecha_imp[0];
 */
+
+
 $soli_pasaje = $this->db->query("SELECT sum(monto_pasaje) as monto_pasaje, fecha_mision  FROM vyp_pasajes WHERE nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$otrafecha."%'  GROUP BY nr ORDER BY fecha_mision");
 $total_pa= 0.00;
 $registros = count($soli_pasaje->result());
@@ -165,6 +179,9 @@ class NumeroALetras
 list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes,2);
 $pdf=new FPDF();
 $pdf->cambiarTitulo('RECIBO DE PASAJES URBANO Y AL INTERIOR','POR $   '.$monto);
+$fecha_actual = date("d-m-Y H:i:s");
+$pdf->cambiarPie($name_user, $fecha_actual);
+//$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'C');
 $pdf->AddPage();
 $pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de ' .mes($mes_pasaje).', según detalle anexo:',0,'J',false);
 $pdf->Ln(5);
@@ -177,7 +194,7 @@ array(false),
 array('0','0','0'),
 array('255','255','255'),
 $altura = 3);  
- $pdf->SetAligns(array('C','C','C','C','C'));
+$pdf->SetAligns(array('C','C','C','C','C'));
  $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$otrafecha."%' ORDER by fecha_mision");
  
     if($cuenta->num_rows() > 0){
@@ -327,7 +344,7 @@ $pdf->Ln(10);
         $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 50, 'D');
 
         $pdf->MultiCell(190,5,'USO EXCLUSIVO DE AUTORIZACIÓN DE PAGO',0,'C',false);
-        $pdf->Ln(2);
+        $pdf->Ln(5);
         /*$pdf->MultiCell(190,5,'HAGO CONSTAR: '.nombres($filae->nombre_completo),0,'L',false);
         $pdf->MultiCell(190,5,'ACTIVIDAD REALIZADA: '.$fila2->actividad,0,'L',false);
         $pdf->MultiCell(190,5,'DETALLE DE LA ACTIVIDAD: '.$fila2->detalle_actividad,0,'L',false);
