@@ -62,7 +62,7 @@
                         <?php
                         	$generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
 
-                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = "";
+                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = ""; $cod_presupuestario = "";
 			                if($generalidades->num_rows() > 0){
 			                    foreach ($generalidades->result() as $filag) {
 			                    	$id_generalidad = $filag->id_generalidad;
@@ -72,6 +72,7 @@
                                     $banco = $filag->banco;
                                     $num_cuenta = $filag->num_cuenta;
                                     $limite_poliza = $filag->limite_poliza;
+                                    $cod_presupuestario = $filag->codigo_presupuestario;
 			                    }
 			                }
                         ?>
@@ -138,6 +139,13 @@
                                             <input type="number" id="limite_poliza" name="limite_poliza" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($limite_poliza,2); ?>">
                                         </div>
                                     </div>
+                                    <div class="form-group col-lg-6">
+                                        <h5>Código presupuestario: <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <input type="text" id="codigo_presupuestario" name="codigo_presupuestario" value="<?php echo $cod_presupuestario; ?>" class="form-control" required="">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </blockquote>
                             
@@ -189,7 +197,6 @@ $(function(){
             processData: false
         })
         .done(function(res){
-            alert(res)
             if(res == "exito"){
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
