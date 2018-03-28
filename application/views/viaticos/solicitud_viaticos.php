@@ -255,7 +255,7 @@
         if(parseFloat(kilometraje_old) >= DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
             for(h=0; h<viaticos.length; h++){
                 if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
-                    if(tiene_restriccion(hora_llegada_old, "llegada antigua", viaticos[h][2], viaticos[h][3])){
+                    if(!tiene_restriccion(hora_llegada_old, "llegada antigua", viaticos[h][2], viaticos[h][3])){
                         ultimo_viatico = viaticos[h][0];
                     }
                 }
@@ -333,10 +333,10 @@
                         
                         if(fecha_aloj.format("e") == 6){
                             fecha_aloj = fecha_aloj.add('days',2);
-                            diferencia = diferencia - 2;
+                            //diferencia = diferencia - 2;
                         }else if(fecha_aloj.format("e") == 0){
                             fecha_aloj = fecha_aloj.add('days',1);
-                            diferencia = diferencia - 1;
+                            //diferencia = diferencia - 1;
                         }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
@@ -477,7 +477,7 @@
     function calcular_alojamiento(hs,hl){
         var id_mision = $("#id_mision").val();
         var band_viatico = false;
-        reg_viaticos = [];
+        //reg_viaticos = [];
         reg_alojamiento = [];
         total_aloj = 0.00;
         var monto = 0;
@@ -533,10 +533,10 @@
                         
                         if(fecha_aloj.format("e") == 6){
                             fecha_aloj = fecha_aloj.add('days',2);
-                            diferencia = diferencia - 2;
+                            //diferencia = diferencia - 2;
                         }else if(fecha_aloj.format("e") == 0){
                             fecha_aloj = fecha_aloj.add('days',1);
-                            diferencia = diferencia - 1;
+                            //diferencia = diferencia - 1;
                         }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
@@ -834,7 +834,9 @@
                     var diferencia = newf2.diff(newf1, 'days');
 
                     if(Math.abs(diferencia) > 30){
-                        $("#fecha_mision_fin").val(fecha1)
+                        //$("#fecha_mision_fin").val(fecha1)
+
+                        $("#fecha_mision_fin").datepicker("setDate", fecha1 );
                     }
 
                     if(typeof callback == "function"){
@@ -1919,7 +1921,7 @@
             }
         }else{
             if(reg_alojamiento.length > 0){
-                insertar_alojamiento()
+                insertar_alojamiento();
             }else{
                 swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 cambiar_nuevo_viatico();
@@ -1952,6 +1954,8 @@
             if(data == "exito"){
                 swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 cambiar_nuevo_viatico();
+                total_aloj = 0.00;
+                $("#alojamiento").val("0.00");
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -1963,12 +1967,14 @@
             $("#notificacion_justificacion").show(750);
             $("#cnt_justificacion").show(750);
             $("#cnt_file3").show(750);
+            $('#summernote').summernote('code', 'justificacion');
             if($("#band").val()=="save"){
                 imagen_justificacion();
             }else{
                 imagen_justificacion();
             }
         }else{
+            $('#summernote').summernote('code', "");
             if($("#band").val()=="save"){
                 validar_dia_limite("0");
                 var nueva_fecha =  moment();

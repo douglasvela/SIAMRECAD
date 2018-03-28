@@ -274,7 +274,7 @@ $altura = 5);
 				            }
 
 				            if($tviaticos == 0){ $ver_viatico = ""; }else{ $ver_viatico = "$ ".number_format($tviaticos, 2, '.', ''); }
-	                        if($tpasaje == 0){ $ver_pasaje = ""; }else{ $ver_pasaje = "$ ".number_format($fila->tpasaje, 2, '.', ''); }
+	                        if($tpasaje == 0){ $ver_pasaje = ""; }else{ $ver_pasaje = "$ ".number_format($fila->pasaje, 2, '.', ''); }
 	                        if($talojamiento == 0){ $ver_alojamiento = ""; }else{ $ver_alojamiento = "$ ".number_format($talojamiento, 2, '.', ''); }
 
 		                        $array = array(

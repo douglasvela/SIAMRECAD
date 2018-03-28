@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2018 a las 06:52:42
+-- Tiempo de generación: 29-03-2018 a las 00:57:06
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -19,6 +19,24 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mtps`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cdr_centro`
+--
+
+CREATE TABLE `cdr_centro` (
+  `id_centro` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(200) NOT NULL,
+  `direccion` varchar(750) NOT NULL,
+  `telefonos` varchar(100) NOT NULL,
+  `correo` varchar(75) NOT NULL,
+  `descripcion` text NOT NULL,
+  `latitud` varchar(200) NOT NULL,
+  `longitud` varchar(200) NOT NULL,
+  `ruta_croquis` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -63,155 +81,188 @@ CREATE TABLE `glb_bitacora` (
 --
 
 INSERT INTO `glb_bitacora` (`id_bitacora`, `id_sistema`, `id_usuario`, `descripcion`, `fecha_hora`, `IP`, `id_accion`) VALUES
-(1, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-21 11:37:30', '::1', 1),
-(2, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-22 05:57:06', '::1', 1),
-(3, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-24 12:06:21', '::1', 1),
-(4, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-25 08:49:24', '::1', 1),
-(5, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-25 10:35:37', '::1', 1),
-(6, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-25 08:52:18', '::1', 1),
-(7, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-29 10:14:44', '::1', 1),
-(8, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-29 04:59:04', '::1', 1),
-(9, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-29 10:14:44', '::1', 1),
-(10, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-30 08:42:34', '::1', 1),
-(11, 14, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-30 08:42:46', '::1', 1),
-(12, 14, 20, 'Se modificó el modulo ''Crear solicitud'' con id: 318 para el sistema con id: 15', '2017-12-30 08:43:07', '::1', 4),
-(13, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-30 08:55:56', '::1', 1),
-(14, 15, 20, 'El usuario roberto.henriquez inició sesión', '2017-12-30 10:04:10', '::1', 1),
-(15, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-01 12:27:39', '::1', 1),
-(16, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-01 09:14:22', '::1', 1),
-(17, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-02 10:29:19', '::1', 1),
-(18, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-03 09:31:12', '::1', 1),
-(19, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-04 11:15:02', '::1', 1),
-(20, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-04 08:27:31', '::1', 1),
-(21, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-05 09:46:30', '::1', 1),
-(22, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-06 11:42:56', '::1', 1),
-(23, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-06 10:41:14', '::1', 1),
-(24, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-07 10:50:52', '::1', 1),
-(25, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-07 03:34:45', '::1', 1),
-(26, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-07 09:52:00', '::1', 1),
-(27, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-08 09:42:57', '::1', 1),
-(28, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-09 10:06:43', '::1', 1),
-(29, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-10 12:11:33', '::1', 1),
-(30, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-10 01:03:46', '::1', 1),
-(31, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-10 04:21:56', '::1', 1),
-(32, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-10 04:22:25', '::1', 1),
-(33, 14, 20, 'Se registró el modulo ''Observaciones'' con id: 319 para el sistema con id: 15', '2018-01-10 04:23:29', '::1', 3),
-(34, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-10 09:00:27', '::1', 1),
-(35, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-11 11:34:44', '::1', 1),
-(36, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-11 11:37:29', '::1', 1),
-(37, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-11 09:48:18', '::1', 1),
-(38, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-11 09:51:18', '::1', 1),
-(39, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-12 09:41:02', '::1', 1),
-(40, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-12 10:44:26', '::1', 1),
-(41, 14, 20, 'Se registró el modulo ''Reportes'' con id: 320 para el sistema con id: 15', '2018-01-12 10:46:43', '::1', 3),
-(42, 14, 20, 'Se registró el modulo ''Menu reportes'' con id: 321 para el sistema con id: 15', '2018-01-12 10:47:17', '::1', 3),
-(43, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-14 09:35:42', '::1', 1),
-(44, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-15 10:41:02', '::1', 1),
-(45, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-15 12:40:38', '::1', 1),
-(46, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-15 08:56:12', '::1', 1),
-(47, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-16 08:45:15', '::1', 1),
-(48, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-16 08:45:34', '::1', 1),
-(49, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-17 10:14:07', '::1', 1),
-(50, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-26 11:06:38', '::1', 1),
-(51, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-01-29 01:15:02', '::1', 1),
-(52, 14, 20, 'Se registró el modulo ''Actividades realizadas'' con id: 322 para el sistema con id: 15', '2018-01-29 01:16:23', '::1', 3),
-(53, 14, 20, 'Se modificó el modulo ''Actividad realizada'' con id: 322 para el sistema con id: 15', '2018-01-29 01:24:34', '::1', 4),
-(54, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 01:21:03', '::1', 1),
-(55, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 01:24:25', '::1', 1),
-(56, 14, 20, 'Se registró el modulo ''Solicitud pasaje'' con id: 323 para el sistema con id: 15', '2018-02-01 01:24:50', '::1', 3),
-(57, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 09:33:37', '::1', 1),
-(58, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 09:38:47', '::1', 1),
-(59, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-01 10:13:34', '::1', 1),
-(60, 14, 20, 'Se registró el modulo ''Informaci??n empleado'' con id: 324 para el sistema con id: 15', '2018-02-01 10:15:24', '::1', 3),
-(61, 14, 20, 'Se modificó el modulo ''Informaci??n empleado'' con id: 324 para el sistema con id: 15', '2018-02-01 10:18:43', '::1', 4),
-(62, 14, 20, 'Se modificó el modulo ''Información empleado'' con id: 324 para el sistema con id: 15', '2018-02-01 10:19:11', '::1', 4),
-(63, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-03 01:21:08', '::1', 1),
-(64, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-05 07:54:56', '::1', 1),
-(65, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-05 07:55:21', '::1', 2),
-(66, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-05 07:59:55', '::1', 1),
-(67, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-05 08:00:08', '::1', 2),
-(68, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-05 09:32:05', '::1', 1),
-(69, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-06 09:06:39', '::1', 1),
-(70, 14, 20, 'Se registró el modulo ''Solicitud viatico'' con id: 325 para el sistema con id: 15', '2018-02-06 09:07:46', '::1', 3),
-(71, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-06 09:08:12', '::1', 4),
-(72, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-10 05:28:11', '::1', 1),
-(73, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-11 02:21:26', '::1', 1),
-(74, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-14 12:33:45', '::1', 1),
-(75, 14, 20, 'Se eliminó el modulo ''Crear solicitud'' con id: 318 para el sistema con id: 15', '2018-02-14 12:34:56', '::1', 5),
-(76, 14, 20, 'Se modificó el modulo ''Observacion jefe. i.'' con id: 319 para el sistema con id: 15', '2018-02-14 12:36:20', '::1', 4),
-(77, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-14 12:40:58', '::1', 2),
-(78, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-14 06:13:28', '::1', 1),
-(79, 14, 20, 'Se registró el modulo ''Observacion jefe dir./reg.'' con id: 326 para el sistema con id: 15', '2018-02-14 06:14:31', '::1', 3),
-(80, 14, 20, 'Se modificó el modulo ''Observacion jefe dir./reg.'' con id: 326 para el sistema con id: 15', '2018-02-14 06:15:37', '::1', 4),
-(81, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-14 06:15:45', '::1', 4),
-(82, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-14 09:39:08', '::1', 1),
-(83, 14, 20, 'Se registró el modulo ''Observacion fondo c.'' con id: 327 para el sistema con id: 15', '2018-02-14 09:39:55', '::1', 3),
-(84, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-14 09:40:08', '::1', 4),
-(85, 14, 20, 'Se registró el modulo ''Pasajes'' con id: 328 para el sistema con id: 15', '2018-02-14 09:40:58', '::1', 3),
-(86, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-14 09:41:15', '::1', 4),
-(87, 14, 20, 'Se modificó el modulo ''Viáticos y pasajes'' con id: 317 para el sistema con id: 15', '2018-02-14 09:42:48', '::1', 4),
-(88, 14, 20, 'Se modificó el modulo ''Pasajes'' con id: 328 para el sistema con id: 15', '2018-02-14 09:43:00', '::1', 4),
-(89, 14, 20, 'Se registró el modulo ''Solicitud aprobada'' con id: 329 para el sistema con id: 15', '2018-02-14 10:10:37', '::1', 3),
-(90, 14, 20, 'Se modificó el modulo ''Solicitud aprobada'' con id: 329 para el sistema con id: 15', '2018-02-14 10:15:40', '::1', 4),
-(91, 14, 20, 'Se modificó el modulo ''Solicitud aprobada'' con id: 329 para el sistema con id: 15', '2018-02-14 10:15:55', '::1', 4),
-(92, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-15 10:09:01', '::1', 1),
-(93, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-15 10:20:02', '::1', 2),
-(94, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-19 02:38:36', '::1', 1),
-(95, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-19 01:17:04', '::1', 1),
-(96, 14, 20, 'Se eliminó el sistema ''SISTEMA DE SEGURIDAD'' con id: 14', '2018-02-19 01:24:01', '::1', 4),
-(97, 14, 20, 'Se registró el sistema ''NUEVO SISTEMA'' con id: 16', '2018-02-19 02:17:03', '::1', 3),
-(98, 14, 20, 'Se eliminó el sistema ''NUEVO SISTEMA'' con id: 16', '2018-02-19 02:17:11', '::1', 4),
-(99, 14, 20, 'Se registró el sistema ''SISTEMA DE PRUEBA'' con id: 16', '2018-02-19 02:17:26', '::1', 3),
-(100, 14, 20, 'Se modificó el sistema ''SISTEMA DE PRUEBA CON TíLDE'' con id: 16', '2018-02-19 02:17:41', '::1', 4),
-(101, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA INTEGRAL DE COMPRAS, BODEGA INSTITUCIONAL Y ACTIVOS FIJOS'' con id: 13', '2018-02-19 02:41:05', '::1', 4),
-(102, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:41:59', '::1', 4),
-(103, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:45:41', '::1', 4),
-(104, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:46:14', '::1', 4),
-(105, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:46:38', '::1', 4),
-(106, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:48:57', '::1', 4),
-(107, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE TRANSPORTE, COMBUSTIBLE Y MANTENIMIENTO DE VEHICULOS'' con id: 5', '2018-02-19 02:49:52', '::1', 4),
-(108, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA INTEGRAL DE COMPRAS, BODEGA INSTITUCIONAL Y ACTIVOS FIJOS'' con id: 13', '2018-02-19 02:52:11', '::1', 4),
-(109, 14, 20, 'Se registró el sistema ''SISTEMA DE SEGURIDAD'' con id: 14', '2018-02-19 02:52:44', '::1', 3),
-(110, 14, 20, 'Se registró el sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-19 02:53:01', '::1', 3),
-(111, 14, 20, 'Se registró el modulo ''Configuraciones'' con id: 312 para el sistema con id: 15', '2018-02-19 02:54:39', '::1', 3),
-(112, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-19 02:58:57', '::1', 4),
-(113, 14, 20, 'Se registró el modulo ''Posible error'' con id: 330 para el sistema con id: 15', '2018-02-19 03:01:20', '::1', 3),
-(114, 14, 20, 'Se eliminó el modulo ''Posible error'' con id: 330 para el sistema con id: 15', '2018-02-19 03:01:30', '::1', 5),
-(115, 14, 20, 'Se eliminó el modulo ''Menu reportes'' con id: 321 para el sistema con id: 15', '2018-02-19 03:01:39', '::1', 5),
-(116, 14, 20, 'Se registró el modulo ''Menú de reportes'' con id: 330 para el sistema con id: 15', '2018-02-19 03:02:04', '::1', 3),
-(117, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 07:40:29', '::1', 1),
-(118, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 03:48:20', '::1', 1),
-(119, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-20 05:09:59', '::1', 2),
-(120, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 05:10:33', '::1', 1),
-(121, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-20 10:11:00', '::1', 1),
-(122, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-21 10:38:36', '::1', 1),
-(123, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-21 10:39:30', '::1', 2),
-(124, 14, 914, 'El usuario beatriz.depaul inició sesión', '2018-02-21 10:39:45', '::1', 1),
-(125, 14, 914, 'El usuario beatriz.depaul cerró sesión', '2018-02-21 10:39:48', '::1', 2),
-(126, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-22 11:30:13', '::1', 1),
-(127, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-23 10:14:22', '::1', 1),
-(128, 14, 20, 'Se eliminó el modulo ''Observacion jefe. i.'' con id: 319 para el sistema con id: 15', '2018-02-23 10:14:44', '::1', 5),
-(129, 14, 20, 'Se eliminó el modulo ''Observacion jefe dir./reg.'' con id: 326 para el sistema con id: 15', '2018-02-23 10:14:48', '::1', 5),
-(130, 14, 20, 'Se eliminó el modulo ''Observacion fondo c.'' con id: 327 para el sistema con id: 15', '2018-02-23 10:14:52', '::1', 5),
-(131, 14, 20, 'Se registró el modulo ''Observaciones'' con id: 331 para el sistema con id: 15', '2018-02-23 10:15:15', '::1', 3),
-(132, 14, 20, 'Se modificó el orden de los modulos del sistema ''SISTEMA DE VIáTICOS Y PASAJES'' con id: 15', '2018-02-23 10:15:23', '::1', 4),
-(133, 14, 20, 'Se registró el modulo ''Jefe inmediato'' con id: 332 para el sistema con id: 15', '2018-02-23 10:39:21', '::1', 3),
-(134, 14, 20, 'Se modificó el modulo ''Jefe inmediato'' con id: 332 para el sistema con id: 15', '2018-02-23 10:39:40', '::1', 4),
-(135, 14, 20, 'Se registró el modulo ''Director de área o jefe de regional'' con id: 333 para el sistema con id: 15', '2018-02-23 10:40:34', '::1', 3),
-(136, 14, 20, 'Se registró el modulo ''Fondo circulante'' con id: 334 para el sistema con id: 15', '2018-02-23 10:42:09', '::1', 3),
-(137, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-23 10:47:24', '::1', 1),
-(138, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-25 03:10:46', '::1', 1),
-(139, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-02-27 11:05:31', '::1', 1),
-(140, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-02-27 11:16:46', '::1', 2),
-(141, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-02 10:48:36', '::1', 1),
-(142, 11, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-05 11:51:34', '::1', 1),
-(143, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-07 11:02:48', '::1', 1),
-(144, 14, 20, 'Se modificó el modulo ''Solicitud pasaje'' con id: 323 para el sistema con id: 15', '2018-03-07 11:03:11', '::1', 4),
-(145, 14, 20, 'Se modificó el modulo ''Solicitud pasaje'' con id: 323 para el sistema con id: 15', '2018-03-07 11:03:51', '::1', 4),
-(146, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-08 11:05:02', '::1', 1),
-(147, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-09 09:56:15', '::1', 1),
-(148, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-03-09 10:51:07', '::1', 2),
-(149, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-10 11:46:16', '::1', 1);
+(1, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:33:16', '::1', 1),
+(2, 15, 20, 'El usuario ROBERTO HENRIQUEZ cerró sesión', '2018-03-13 10:33:31', '::1', 2),
+(3, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:34:03', '::1', 1),
+(4, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:34:58', '::1', 1),
+(5, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:37:32', '::1', 1),
+(6, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:38:40', '::1', 1),
+(7, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:41:22', '::1', 1),
+(8, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:42:44', '::1', 1),
+(9, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:43:22', '::1', 1),
+(10, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:49:33', '::1', 1),
+(11, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:51:46', '::1', 1),
+(12, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:54:35', '::1', 1),
+(13, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:55:00', '::1', 1),
+(14, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 10:59:12', '::1', 1),
+(15, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:00:14', '::1', 1),
+(16, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:08:57', '::1', 1),
+(17, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:11:09', '::1', 1),
+(18, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:11:12', '::1', 1),
+(19, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:11:20', '::1', 1),
+(20, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:11:37', '::1', 1),
+(21, 15, 20, 'El usuario robert cerró sesión', '2018-03-13 11:16:50', '::1', 2),
+(22, 15, 20, 'El usuario robert cerró sesión', '2018-03-13 11:30:48', '::1', 2),
+(23, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:37:23', '::1', 1),
+(24, 15, 20, 'El usuario robert cerró sesión', '2018-03-13 11:37:26', '::1', 2),
+(25, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:38:30', '::1', 1),
+(26, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:41:07', '::1', 1),
+(27, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:41:16', '::1', 1),
+(28, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 12:03:46', '::1', 1),
+(29, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 12:33:13', '::1', 1),
+(30, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 03:36:32', '::1', 1),
+(31, 14, 20, 'Se registró el sistema ''SISTEMA DE CENTROS DE RECREACIóN'' con id: 16', '2018-03-13 03:37:21', '::1', 3),
+(32, 14, 20, 'Se registró el modulo ''Configuraciones'' con id: 335 para el sistema con id: 16', '2018-03-13 03:38:38', '::1', 3),
+(33, 14, 20, 'Se registró el modulo ''Centros'' con id: 336 para el sistema con id: 16', '2018-03-13 03:40:03', '::1', 3),
+(34, 14, 20, 'Se modificó el modulo ''Centros'' con id: 336 para el sistema con id: 16', '2018-03-13 03:40:49', '::1', 4),
+(35, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 09:18:08', '::1', 1),
+(36, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-13 11:31:57', '::1', 1),
+(37, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-14 10:09:56', '::1', 1),
+(38, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-14 11:45:17', '::1', 1),
+(39, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-14 12:36:13', '::1', 1),
+(40, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-14 04:28:22', '::1', 1),
+(41, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-14 05:16:31', '::1', 1),
+(42, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-14 08:24:57', '::1', 1),
+(43, 15, 506, 'El usuario francisco.sanchez inició sesión', '2018-03-14 08:27:11', '::1', 1),
+(44, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-03-14 08:29:50', '::1', 2),
+(45, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-15 09:24:23', '::1', 1),
+(46, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-15 09:32:48', '::1', 1),
+(47, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-22 09:33:46', '::1', 1),
+(48, 15, 506, 'El usuario francisco.sanchez inició sesión', '2018-03-15 09:47:15', '::1', 1),
+(49, 15, 914, 'El usuario beatriz.depaul inició sesión', '2018-03-15 11:25:26', '::1', 1),
+(50, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 12:15:32', '192.168.0.101', 1),
+(51, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-03-16 12:51:40', '::1', 2),
+(52, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 12:59:46', '::1', 1),
+(53, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 09:48:02', '::1', 1),
+(54, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 09:55:27', '::1', 1),
+(55, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 10:12:48', '::1', 1),
+(56, 15, 506, 'El usuario francisco.sanchez inició sesión', '2018-03-16 10:52:36', '::1', 1),
+(57, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 11:43:22', '::1', 1),
+(58, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 12:03:21', '::1', 1),
+(59, 14, 20, 'Se registró el sistema ''CUCHITO'' con id: 17', '2018-03-16 12:04:16', '::1', 3),
+(60, 14, 20, 'Se modificó el sistema ''CUCHITO2'' con id: 17', '2018-03-16 12:04:40', '::1', 4),
+(61, 14, 20, 'Se eliminó el sistema ''CUCHITO2'' con id: 17', '2018-03-16 12:04:53', '::1', 5),
+(62, 14, 20, 'Se registró el modulo ''Nuevo modulo'' con id: 337 para el sistema con id: 16', '2018-03-16 12:05:18', '::1', 3),
+(63, 14, 20, 'Se modificó el modulo ''Nuevo modulo 2'' con id: 337 para el sistema con id: 16', '2018-03-16 12:05:54', '::1', 4),
+(64, 14, 20, 'Se eliminó el modulo ''Nuevo modulo 2'' con id: 337 para el sistema con id: 16', '2018-03-16 12:06:04', '::1', 5),
+(65, 14, 20, 'Se modificó el usuario ''prueba.apellido'' con id: 932', '2018-03-16 12:15:01', '::1', 4),
+(66, 14, 20, 'Se cambió el estado del usuario con id: 933', '2018-03-16 12:17:43', '::1', 4),
+(67, 14, 20, 'Se registró el rol ''nuevo rol''', '2018-03-16 12:18:03', '::1', 3),
+(68, 14, 20, 'Se modificó el rol ''nuevo rol'' con id: 63', '2018-03-16 12:18:12', '::1', 4),
+(69, 14, 20, 'Se eliminó el rol con id: 63', '2018-03-16 12:18:17', '::1', 5),
+(70, 14, 20, 'El usuario roberto.henriquez cerró sesión', '2018-03-16 12:19:50', '::1', 2),
+(71, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 12:30:58', '::1', 1),
+(72, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 11:20:00', '::1', 1),
+(73, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 11:22:22', '::1', 1),
+(74, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 11:46:39', '::1', 1),
+(75, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 11:54:06', '::1', 1),
+(76, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-16 11:54:07', '::1', 1),
+(77, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 12:18:50', '::1', 1),
+(78, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 12:26:31', '::1', 1),
+(79, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 12:29:49', '::1', 1),
+(80, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 10:38:42', '::1', 1),
+(81, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 10:31:01', '::1', 1),
+(82, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 10:48:15', '::1', 1),
+(83, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-17 10:52:05', '::1', 1),
+(84, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-18 08:38:11', '::1', 1),
+(85, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-19 10:11:33', '::1', 1),
+(86, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-19 12:09:31', '::1', 1),
+(87, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-19 09:22:30', '::1', 1),
+(88, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-19 09:22:31', '::1', 1),
+(89, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-20 09:59:22', '::1', 1),
+(90, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-21 10:04:46', '::1', 1),
+(91, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-21 09:13:25', '::1', 1),
+(92, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-22 09:54:37', '::1', 1),
+(93, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-22 09:55:59', '::1', 1),
+(94, 14, 20, 'Se modificó el modulo ''Información emplea.'' con id: 324 para el sistema con id: 15', '2018-03-22 09:56:25', '::1', 4),
+(95, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-22 09:48:20', '::1', 1),
+(96, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-23 02:50:41', '::1', 1),
+(97, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-23 03:09:23', '::1', 1),
+(98, 14, 20, 'Se registró el modulo ''Generalidades'' con id: 337 para el sistema con id: 15', '2018-03-23 03:34:29', '::1', 3),
+(99, 14, 20, 'Se modificó el rol ''TECNICO UDT'' con id: 58', '2018-03-23 03:35:51', '::1', 4),
+(100, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-23 09:54:49', '::1', 1),
+(101, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 12:06:31', '::1', 1),
+(102, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 12:36:17', '::1', 1),
+(103, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 12:43:58', '::1', 1),
+(104, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 12:55:20', '::1', 1),
+(105, 15, 506, 'El usuario francisco.sanchez inició sesión', '2018-03-24 01:41:17', '::1', 1),
+(106, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 01:43:54', '::1', 1),
+(107, 15, 914, 'El usuario beatriz.depaul inició sesión', '2018-03-24 01:46:11', '::1', 1),
+(108, 15, 345, 'El usuario hector.depaz inició sesión', '2018-03-24 01:48:03', '::1', 1),
+(109, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 08:21:04', '::1', 1),
+(110, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-24 08:23:42', '::1', 1),
+(111, 14, 20, 'Se registró el modulo ''Poliza'' con id: 338 para el sistema con id: 15', '2018-03-24 08:24:39', '::1', 3),
+(112, 14, 20, 'Se modificó el modulo ''Poliza'' con id: 338 para el sistema con id: 15', '2018-03-24 08:24:50', '::1', 4),
+(113, 14, 20, 'Se registró el modulo ''Poliza'' con id: 339 para el sistema con id: 15', '2018-03-24 08:25:17', '::1', 3),
+(114, 14, 20, 'Se modificó el modulo ''Poliza'' con id: 338 para el sistema con id: 15', '2018-03-24 08:26:16', '::1', 4),
+(115, 14, 20, 'Se modificó el modulo ''Poliza'' con id: 338 para el sistema con id: 15', '2018-03-24 09:08:38', '::1', 4),
+(116, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-26 11:00:59', '::1', 1),
+(117, 14, 20, 'Se modificó el rol ''toreto'' con id: 59', '2018-03-26 11:01:25', '::1', 4),
+(118, 14, 20, 'Se registró el modulo ''Viaticos pendientes'' con id: 340 para el sistema con id: 15', '2018-03-26 11:05:43', '::1', 3),
+(119, 14, 20, 'Se modificó el modulo ''Viaticos pendientes'' con id: 340 para el sistema con id: 15', '2018-03-26 11:05:52', '::1', 4),
+(120, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-26 11:06:05', '::1', 1),
+(121, 14, 20, 'Se registró el modulo ''Viaticos pagados'' con id: 341 para el sistema con id: 15', '2018-03-26 11:07:13', '::1', 3),
+(122, 14, 20, 'Se registró el modulo ''Viaticos mayor-menor'' con id: 342 para el sistema con id: 15', '2018-03-26 11:07:40', '::1', 3),
+(123, 14, 20, 'Se registró el modulo ''Viaticos por periodo'' con id: 343 para el sistema con id: 15', '2018-03-26 11:08:12', '::1', 3),
+(124, 14, 20, 'Se registró el modulo ''Viaticos por año'' con id: 344 para el sistema con id: 15', '2018-03-26 11:08:31', '::1', 3),
+(125, 14, 20, 'Se registró el modulo ''Viaticos por departamento'' con id: 345 para el sistema con id: 15', '2018-03-26 11:08:53', '::1', 3),
+(126, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:09:34', '::1', 4),
+(127, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:09:49', '::1', 4),
+(128, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:10:26', '::1', 4),
+(129, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:10:46', '::1', 4),
+(130, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:11:00', '::1', 4),
+(131, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:11:15', '::1', 4),
+(132, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:11:45', '::1', 4),
+(133, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:12:09', '::1', 4),
+(134, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:12:24', '::1', 4),
+(135, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:13:16', '::1', 4),
+(136, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:13:26', '::1', 4),
+(137, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:13:39', '::1', 4),
+(138, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:13:55', '::1', 4),
+(139, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:14:07', '::1', 4),
+(140, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:19:53', '::1', 4),
+(141, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:20:13', '::1', 4),
+(142, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:20:48', '::1', 4),
+(143, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:21:16', '::1', 4),
+(144, 14, 20, 'Se registró el modulo ''Viaticos por zona'' con id: 346 para el sistema con id: 15', '2018-03-26 11:21:56', '::1', 3),
+(145, 14, 20, 'Se registró el modulo ''Viaticos por cargo'' con id: 347 para el sistema con id: 15', '2018-03-26 11:22:15', '::1', 3),
+(146, 14, 20, 'Se registró el modulo ''Viaticos por seccion'' con id: 348 para el sistema con id: 15', '2018-03-26 11:22:36', '::1', 3),
+(147, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:23:04', '::1', 4),
+(148, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:23:16', '::1', 4),
+(149, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:26:06', '::1', 4),
+(150, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:26:22', '::1', 4),
+(151, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:26:43', '::1', 4),
+(152, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:27:08', '::1', 4),
+(153, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:27:25', '::1', 4),
+(154, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:27:51', '::1', 4),
+(155, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:28:01', '::1', 4),
+(156, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:28:12', '::1', 4),
+(157, 14, 20, 'Se registró el modulo ''Viaticos por genero'' con id: 349 para el sistema con id: 15', '2018-03-26 11:28:44', '::1', 3),
+(158, 14, 20, 'Se registró el modulo ''Viaticos por mes'' con id: 350 para el sistema con id: 15', '2018-03-26 11:29:10', '::1', 3),
+(159, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:29:28', '::1', 4),
+(160, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:29:58', '::1', 4),
+(161, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:30:10', '::1', 4),
+(162, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:30:28', '::1', 4),
+(163, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:30:39', '::1', 4),
+(164, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:30:50', '::1', 4),
+(165, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:31:29', '::1', 4),
+(166, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:32:01', '::1', 4),
+(167, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:32:23', '::1', 4),
+(168, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:39:04', '::1', 4),
+(169, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:39:17', '::1', 4),
+(170, 14, 20, 'Se modificó el rol ''VYP_JEFE_AREA_REGIONAL'' con id: 61', '2018-03-26 11:41:13', '::1', 4),
+(171, 14, 20, 'Se modificó el rol ''VYP_JEFES_INMEDIATOS'' con id: 60', '2018-03-26 11:41:34', '::1', 4),
+(172, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-26 09:04:47', '::1', 1),
+(173, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-27 10:06:56', '::1', 1),
+(174, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-27 04:01:56', '::1', 1),
+(175, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-27 09:09:10', '::1', 1),
+(176, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-28 09:41:28', '::1', 1),
+(177, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-28 09:42:38', '192.168.0.116', 1),
+(178, 14, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-28 09:45:18', '192.168.0.116', 1),
+(179, 14, 20, 'Se registró el modulo ''Viaticos por actividad'' con id: 351 para el sistema con id: 15', '2018-03-28 09:46:30', '192.168.0.116', 3),
+(180, 14, 20, 'Se registró el modulo ''Misiones'' con id: 352 para el sistema con id: 15', '2018-03-28 09:46:48', '192.168.0.116', 3),
+(181, 14, 20, 'Se modificó el rol ''TECNICO UDT'' con id: 58', '2018-03-28 09:48:27', '192.168.0.116', 4),
+(182, 15, 20, 'El usuario roberto.henriquez inició sesión', '2018-03-28 11:48:29', '192.168.0.116', 1);
 
 -- --------------------------------------------------------
 
@@ -625,7 +676,7 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (320, 15, 'Reportes', '', 4, 0, '#!', 'mdi mdi-file-document', 0),
 (322, 15, 'Actividad realizada', '', 1, 312, '/configuraciones/actividad', 'mdi mdi-label', 0),
 (323, 15, 'Solicitud pasaje', '', 1, 328, 'pasajes/lista_pasaje', 'mdi mdi-label', 0),
-(324, 15, 'Información empleado', '', 5, 312, 'configuraciones/informacion_empleado', 'mdi mdi-label', 0),
+(324, 15, 'Información emplea.', '', 5, 312, 'configuraciones/informacion_empleado', 'mdi mdi-label', 0),
 (325, 15, 'Solicitud viatico', '', 1, 317, 'viaticos/solicitud_viatico', 'mdi mdi-label', 0),
 (328, 15, 'Pasajes', '', 3, 0, '#!', 'mdi mdi-bus', 0),
 (329, 15, 'Solicitud aprobada', '', 3, 317, 'viaticos/solicitud_aprobada', 'mdi mdi-label', 0),
@@ -633,7 +684,25 @@ INSERT INTO `org_modulo` (`id_modulo`, `id_sistema`, `nombre_modulo`, `descripci
 (331, 15, 'Observaciones', '', 2, 317, 'viaticos/observaciones', 'mdi mdi-label', 0),
 (332, 15, 'Jefe inmediato', '', 1, 331, 'viaticos/observaciones/', 'mdi mdi-seat-recline-normal', 0),
 (333, 15, 'Director de área o jefe de regional', '', 2, 331, 'viaticos/observaciones', 'mdi mdi-city', 0),
-(334, 15, 'Fondo circulante', '', 3, 331, 'viaticos/observaciones/', 'mdi mdi-account-multiple', 0);
+(334, 15, 'Fondo circulante', '', 3, 331, 'viaticos/observaciones/', 'mdi mdi-account-multiple', 0),
+(335, 16, 'Configuraciones', '', 1, 0, '#!', 'mdi mdi-settings', 0),
+(336, 16, 'Centros', '', 1, 335, 'configuraciones/centros', 'mdi mdi-label', 0),
+(337, 15, 'Generalidades', '', 7, 312, 'configuraciones/generalidades', 'mdi mdi-label', 0),
+(338, 15, 'Poliza', '', 5, 0, '#!', 'mdi mdi-cash-usd', 0),
+(339, 15, 'Poliza', '', 1, 338, 'poliza/poliza', 'mdi mdi-label', 0),
+(340, 15, 'Viaticos pendientes', '', 2, 320, 'informes/menu_reportes/viaticos_pendientes', 'mdi mdi-label', 0),
+(341, 15, 'Viaticos pagados', '', 3, 320, 'informes/menu_reportes/viaticos_pagados', 'mdi mdi-label', 0),
+(342, 15, 'Viaticos mayor-menor', '', 4, 320, 'informes/menu_reportes/viaticos_mayoramenor', 'mdi mdi-label', 0),
+(343, 15, 'Viaticos por periodo', '', 5, 320, 'informes/menu_reportes/viaticos_por_periodo', 'mdi mdi-label', 0),
+(344, 15, 'Viaticos por año', '', 6, 320, 'informes/menu_reportes/viaticos_por_anio', 'mdi mdi-label', 0),
+(345, 15, 'Viaticos por departamento', '', 7, 320, 'informes/menu_reportes/viaticos_por_departamento', 'mdi mdi-label', 0),
+(346, 15, 'Viaticos por zona', '', 8, 320, 'informes/menu_reportes/viaticos_por_zona_depto', 'mdi mdi-label', 0),
+(347, 15, 'Viaticos por cargo', '', 9, 320, 'informes/menu_reportes/viaticos_por_cargo', 'mdi mdi-label', 0),
+(348, 15, 'Viaticos por seccion', '', 10, 320, 'informes/menu_reportes/viaticos_por_seccion', 'mdi mdi-label', 0),
+(349, 15, 'Viaticos por genero', '', 11, 320, 'informes/menu_reportes/viaticos_por_genero', 'mdi mdi-label', 0),
+(350, 15, 'Viaticos por mes', '', 12, 320, 'informes/menu_reportes/viaticos_por_mes', 'mdi mdi-label', 0),
+(351, 15, 'Viaticos por actividad', '', 13, 320, 'informes/menu_reportes/viaticos_por_actividad', 'mdi mdi-file-pdf', 0),
+(352, 15, 'Misiones', '', 14, 320, 'informes/menu_reportes/misiones', 'mdi mdi-file-pdf', 0);
 
 -- --------------------------------------------------------
 
@@ -1552,7 +1621,10 @@ INSERT INTO `org_rol` (`id_rol`, `nombre_rol`, `descripcion_rol`) VALUES
 (55, 'COLABORADOR AF', 'Para soporte a gestion de Activos fijos'),
 (56, 'COLABORADOR COMPRAS', 'Para soporte a gestion de Compras'),
 (58, 'TECNICO UDT', 'Para gestion de Activos fijos especificamente equipo informatico'),
-(59, 'toreto', 'Para viaticos');
+(59, 'toreto', 'Para viaticos'),
+(60, 'VYP_JEFES_INMEDIATOS', 'Viaticos jefes inmediatos'),
+(61, 'VYP_JEFE_AREA_REGIONAL', 'Jefes de áea o regionales'),
+(62, 'VYP_FONDO_CIRCULANTE', 'Viaticos fondo circulante');
 
 -- --------------------------------------------------------
 
@@ -3440,45 +3512,247 @@ INSERT INTO `org_rol_modulo_permiso` (`id_rol_permiso`, `id_rol`, `id_modulo`, `
 (3891, 47, 310, 2, 1),
 (3892, 47, 310, 3, 1),
 (3893, 47, 310, 4, 1),
-(3965, 59, 314, 1, 1),
-(3966, 59, 316, 1, 1),
-(3967, 59, 313, 1, 1),
-(3968, 58, 322, 1, 1),
-(3969, 58, 322, 2, 1),
-(3970, 58, 322, 3, 1),
-(3971, 58, 322, 4, 1),
-(3972, 58, 314, 1, 1),
-(3973, 58, 314, 2, 1),
-(3974, 58, 314, 3, 1),
-(3975, 58, 314, 4, 1),
-(3976, 58, 316, 1, 1),
-(3977, 58, 316, 2, 1),
-(3978, 58, 316, 3, 1),
-(3979, 58, 316, 4, 1),
-(3980, 58, 313, 1, 1),
-(3981, 58, 313, 2, 1),
-(3982, 58, 313, 3, 1),
-(3983, 58, 313, 4, 1),
-(3984, 58, 324, 1, 1),
-(3985, 58, 324, 2, 1),
-(3986, 58, 324, 3, 1),
-(3987, 58, 324, 4, 1),
-(3988, 58, 315, 1, 1),
-(3989, 58, 315, 2, 1),
-(3990, 58, 315, 3, 1),
-(3991, 58, 315, 4, 1),
-(4028, 58, 332, 1, 1),
-(4029, 58, 332, 2, 1),
-(4030, 58, 332, 3, 1),
-(4031, 58, 332, 4, 1),
-(4032, 58, 333, 1, 1),
-(4033, 58, 333, 2, 1),
-(4034, 58, 333, 3, 1),
-(4035, 58, 333, 4, 1),
-(4036, 58, 334, 1, 1),
-(4037, 58, 334, 2, 1),
-(4038, 58, 334, 3, 1),
-(4039, 58, 334, 4, 1);
+(4151, 59, 314, 1, 1),
+(4152, 59, 316, 1, 1),
+(4153, 59, 313, 1, 1),
+(4154, 59, 339, 4, 1),
+(6017, 61, 322, 1, 1),
+(6018, 61, 322, 2, 1),
+(6019, 61, 322, 3, 1),
+(6020, 61, 322, 4, 1),
+(6021, 61, 314, 1, 1),
+(6022, 61, 314, 2, 1),
+(6023, 61, 314, 3, 1),
+(6024, 61, 314, 4, 1),
+(6025, 61, 316, 1, 1),
+(6026, 61, 316, 2, 1),
+(6027, 61, 316, 3, 1),
+(6028, 61, 316, 4, 1),
+(6029, 61, 313, 1, 1),
+(6030, 61, 313, 2, 1),
+(6031, 61, 313, 3, 1),
+(6032, 61, 313, 4, 1),
+(6033, 61, 324, 1, 1),
+(6034, 61, 324, 2, 1),
+(6035, 61, 324, 3, 1),
+(6036, 61, 324, 4, 1),
+(6037, 61, 315, 1, 1),
+(6038, 61, 315, 2, 1),
+(6039, 61, 315, 3, 1),
+(6040, 61, 315, 4, 1),
+(6041, 61, 337, 1, 1),
+(6042, 61, 337, 2, 1),
+(6043, 61, 337, 3, 1),
+(6044, 61, 337, 4, 1),
+(6045, 61, 325, 1, 1),
+(6046, 61, 325, 2, 1),
+(6047, 61, 325, 3, 1),
+(6048, 61, 325, 4, 1),
+(6053, 61, 333, 1, 1),
+(6054, 61, 333, 2, 1),
+(6055, 61, 333, 3, 1),
+(6056, 61, 333, 4, 1),
+(6057, 61, 334, 1, 1),
+(6058, 61, 334, 2, 1),
+(6059, 61, 334, 3, 1),
+(6060, 61, 334, 4, 1),
+(6061, 61, 329, 1, 1),
+(6062, 61, 329, 2, 1),
+(6063, 61, 329, 3, 1),
+(6064, 61, 329, 4, 1),
+(6065, 61, 323, 1, 1),
+(6066, 61, 323, 2, 1),
+(6067, 61, 323, 3, 1),
+(6068, 61, 323, 4, 1),
+(6069, 61, 340, 1, 1),
+(6070, 61, 340, 2, 1),
+(6071, 61, 340, 3, 1),
+(6072, 61, 340, 4, 1),
+(6073, 61, 341, 1, 1),
+(6074, 61, 341, 2, 1),
+(6075, 61, 341, 3, 1),
+(6076, 61, 341, 4, 1),
+(6077, 61, 342, 1, 1),
+(6078, 61, 342, 2, 1),
+(6079, 61, 342, 3, 1),
+(6080, 61, 342, 4, 1),
+(6081, 61, 343, 1, 1),
+(6082, 61, 343, 2, 1),
+(6083, 61, 343, 3, 1),
+(6084, 61, 343, 4, 1),
+(6085, 61, 344, 1, 1),
+(6086, 61, 344, 2, 1),
+(6087, 61, 344, 3, 1),
+(6088, 61, 344, 4, 1),
+(6089, 61, 345, 1, 1),
+(6090, 61, 345, 2, 1),
+(6091, 61, 345, 3, 1),
+(6092, 61, 345, 4, 1),
+(6093, 61, 346, 1, 1),
+(6094, 61, 346, 2, 1),
+(6095, 61, 346, 3, 1),
+(6096, 61, 346, 4, 1),
+(6097, 61, 347, 1, 1),
+(6098, 61, 347, 2, 1),
+(6099, 61, 347, 3, 1),
+(6100, 61, 347, 4, 1),
+(6101, 61, 348, 1, 1),
+(6102, 61, 348, 2, 1),
+(6103, 61, 348, 3, 1),
+(6104, 61, 348, 4, 1),
+(6105, 61, 349, 1, 1),
+(6106, 61, 349, 2, 1),
+(6107, 61, 349, 3, 1),
+(6108, 61, 349, 4, 1),
+(6109, 61, 350, 1, 1),
+(6110, 61, 350, 2, 1),
+(6111, 61, 350, 3, 1),
+(6112, 61, 350, 4, 1),
+(6113, 61, 339, 1, 1),
+(6114, 61, 339, 2, 1),
+(6115, 61, 339, 3, 1),
+(6116, 61, 339, 4, 1),
+(6117, 60, 322, 1, 1),
+(6118, 60, 322, 2, 1),
+(6119, 60, 322, 3, 1),
+(6120, 60, 322, 4, 1),
+(6121, 60, 314, 1, 1),
+(6122, 60, 314, 2, 1),
+(6123, 60, 314, 3, 1),
+(6124, 60, 314, 4, 1),
+(6125, 60, 316, 1, 1),
+(6126, 60, 316, 2, 1),
+(6127, 60, 316, 3, 1),
+(6128, 60, 316, 4, 1),
+(6129, 60, 313, 1, 1),
+(6130, 60, 313, 2, 1),
+(6131, 60, 313, 3, 1),
+(6132, 60, 313, 4, 1),
+(6133, 60, 324, 1, 1),
+(6134, 60, 324, 2, 1),
+(6135, 60, 324, 3, 1),
+(6136, 60, 324, 4, 1),
+(6137, 60, 315, 1, 1),
+(6138, 60, 315, 2, 1),
+(6139, 60, 315, 3, 1),
+(6140, 60, 315, 4, 1),
+(6141, 60, 337, 1, 1),
+(6142, 60, 337, 2, 1),
+(6143, 60, 337, 3, 1),
+(6144, 60, 337, 4, 1),
+(6145, 60, 325, 1, 1),
+(6146, 60, 325, 2, 1),
+(6147, 60, 325, 3, 1),
+(6148, 60, 325, 4, 1),
+(6149, 60, 332, 1, 1),
+(6150, 60, 332, 2, 1),
+(6151, 60, 332, 3, 1),
+(6152, 60, 332, 4, 1),
+(6153, 60, 334, 1, 1),
+(6154, 60, 334, 2, 1),
+(6155, 60, 334, 3, 1),
+(6156, 60, 334, 4, 1),
+(6157, 60, 329, 1, 1),
+(6158, 60, 329, 2, 1),
+(6159, 60, 329, 3, 1),
+(6160, 60, 329, 4, 1),
+(6161, 60, 323, 1, 1),
+(6162, 60, 323, 2, 1),
+(6163, 60, 323, 3, 1),
+(6164, 60, 323, 4, 1),
+(6165, 60, 340, 1, 1),
+(6166, 60, 340, 2, 1),
+(6167, 60, 340, 3, 1),
+(6168, 60, 340, 4, 1),
+(6169, 60, 341, 1, 1),
+(6170, 60, 341, 2, 1),
+(6171, 60, 341, 3, 1),
+(6172, 60, 341, 4, 1),
+(6173, 60, 342, 1, 1),
+(6174, 60, 342, 2, 1),
+(6175, 60, 342, 3, 1),
+(6176, 60, 342, 4, 1),
+(6177, 60, 343, 1, 1),
+(6178, 60, 343, 2, 1),
+(6179, 60, 343, 3, 1),
+(6180, 60, 343, 4, 1),
+(6181, 60, 344, 1, 1),
+(6182, 60, 344, 2, 1),
+(6183, 60, 344, 3, 1),
+(6184, 60, 344, 4, 1),
+(6185, 60, 345, 1, 1),
+(6186, 60, 345, 2, 1),
+(6187, 60, 345, 3, 1),
+(6188, 60, 345, 4, 1),
+(6189, 60, 346, 1, 1),
+(6190, 60, 346, 2, 1),
+(6191, 60, 346, 3, 1),
+(6192, 60, 346, 4, 1),
+(6193, 60, 347, 1, 1),
+(6194, 60, 347, 2, 1),
+(6195, 60, 347, 3, 1),
+(6196, 60, 347, 4, 1),
+(6197, 60, 348, 1, 1),
+(6198, 60, 348, 2, 1),
+(6199, 60, 348, 3, 1),
+(6200, 60, 348, 4, 1),
+(6201, 60, 349, 1, 1),
+(6202, 60, 349, 2, 1),
+(6203, 60, 349, 3, 1),
+(6204, 60, 349, 4, 1),
+(6205, 60, 350, 1, 1),
+(6206, 60, 350, 2, 1),
+(6207, 60, 350, 3, 1),
+(6208, 60, 350, 4, 1),
+(6209, 60, 339, 1, 1),
+(6210, 60, 339, 2, 1),
+(6211, 60, 339, 3, 1),
+(6212, 60, 339, 4, 1),
+(6213, 58, 322, 1, 1),
+(6214, 58, 322, 2, 1),
+(6215, 58, 322, 3, 1),
+(6216, 58, 322, 4, 1),
+(6217, 58, 314, 1, 1),
+(6218, 58, 314, 2, 1),
+(6219, 58, 314, 3, 1),
+(6220, 58, 314, 4, 1),
+(6221, 58, 316, 1, 1),
+(6222, 58, 316, 2, 1),
+(6223, 58, 316, 3, 1),
+(6224, 58, 316, 4, 1),
+(6225, 58, 313, 1, 1),
+(6226, 58, 313, 2, 1),
+(6227, 58, 313, 3, 1),
+(6228, 58, 313, 4, 1),
+(6229, 58, 324, 1, 1),
+(6230, 58, 324, 2, 1),
+(6231, 58, 324, 3, 1),
+(6232, 58, 324, 4, 1),
+(6233, 58, 315, 1, 1),
+(6234, 58, 315, 2, 1),
+(6235, 58, 315, 3, 1),
+(6236, 58, 315, 4, 1),
+(6237, 58, 337, 1, 1),
+(6238, 58, 337, 2, 1),
+(6239, 58, 337, 3, 1),
+(6240, 58, 337, 4, 1),
+(6241, 58, 334, 1, 1),
+(6242, 58, 334, 2, 1),
+(6243, 58, 334, 3, 1),
+(6244, 58, 334, 4, 1),
+(6245, 58, 340, 1, 1),
+(6246, 58, 341, 1, 1),
+(6247, 58, 342, 1, 1),
+(6248, 58, 343, 1, 1),
+(6249, 58, 344, 1, 1),
+(6250, 58, 345, 1, 1),
+(6251, 58, 346, 1, 1),
+(6252, 58, 347, 1, 1),
+(6253, 58, 348, 1, 1),
+(6254, 58, 349, 1, 1),
+(6255, 58, 350, 1, 1),
+(6256, 58, 351, 1, 1),
+(6257, 58, 352, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -3692,7 +3966,8 @@ INSERT INTO `org_sistema` (`id_sistema`, `nombre_sistema`) VALUES
 (12, 'SISTEMA DE GESTION DE CONTRATOS INDIVIDUALES DE TRABAJO'),
 (13, 'SISTEMA INTEGRAL DE COMPRAS, BODEGA INSTITUCIONAL Y ACTIVOS FIJOS'),
 (14, 'SISTEMA DE SEGURIDAD'),
-(15, 'SISTEMA DE VIáTICOS Y PASAJES');
+(15, 'SISTEMA DE VIáTICOS Y PASAJES'),
+(16, 'SISTEMA DE CENTROS DE RECREACIóN');
 
 -- --------------------------------------------------------
 
@@ -4621,7 +4896,9 @@ INSERT INTO `org_usuario` (`id_usuario`, `nombre_completo`, `nr`, `sexo`, `usuar
 (928, 'ERICKA ASTRID SERRANO FLAMENCO', '2891', 'F', 'ericka.serrano', NULL, 116, 1),
 (929, 'ANA YANCY GARCÍA HERRERA', '2957', 'F', 'ana.garcia', NULL, 116, 1),
 (930, 'TALIA IVETTE CHICAS SANCHEZ', '2895', 'F', 'talia.chicas', NULL, 64, 1),
-(931, 'CELIA LUZ  TREJO  DE CANJURA', '2905', 'F', 'celia.trejo', NULL, 171, 1);
+(931, 'CELIA LUZ  TREJO  DE CANJURA', '2905', 'F', 'celia.trejo', NULL, 171, 1),
+(932, 'prueba empleado apellido dos', NULL, 'F', 'prueba.apellido', 'f98cfc8e874e646cc27e448846914628', NULL, 1),
+(933, 'probando otro', NULL, 'M', 'probando.otro', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -6725,11 +7002,21 @@ INSERT INTO `org_usuario_rol` (`id_usuario_rol`, `id_usuario`, `id_rol`) VALUES
 (3343, 3, 5),
 (3344, 3, 2),
 (3345, 506, 58),
-(3346, 506, 59),
 (3347, 20, 58),
 (3348, 914, 58),
 (3349, 345, 58),
-(3350, NULL, 5);
+(3350, NULL, 5),
+(3351, 506, 60),
+(3352, 914, 61),
+(3353, 345, 61),
+(3354, 820, 61),
+(3355, 663, 61),
+(3356, 435, 61),
+(3357, 297, 61),
+(3358, 249, 61),
+(3359, 324, 61),
+(3360, 843, 61),
+(3361, 554, 61);
 
 -- --------------------------------------------------------
 
@@ -10475,7 +10762,34 @@ CREATE TABLE `vyp_alojamientos` (
 --
 
 INSERT INTO `vyp_alojamientos` (`id_alojamiento`, `id_mision`, `fecha_alojamiento`, `monto`, `id_ruta_visitada`) VALUES
-(1, 15, '2017-08-16', 22.00, 32);
+(15, 14, '2017-01-16', 25.00, 29),
+(16, 15, '2017-01-17', 10.00, 32),
+(17, 23, '2017-02-06', 25.00, 46),
+(21, 24, '2017-02-06', 25.00, 49),
+(22, 24, '2017-02-07', 25.00, 49),
+(23, 24, '2017-02-08', 25.00, 49),
+(42, 30, '2017-02-24', 25.00, 60),
+(43, 30, '2017-02-27', 25.00, 60),
+(44, 32, '2017-02-08', 10.00, 65),
+(45, 32, '2017-02-09', 25.00, 66),
+(46, 35, '2017-01-09', 25.00, 72),
+(47, 35, '2017-01-10', 25.00, 72),
+(48, 35, '2017-01-11', 25.00, 72),
+(49, 35, '2017-01-12', 25.00, 72),
+(50, 36, '2017-01-23', 25.00, 74),
+(51, 38, '2017-01-26', 25.00, 77),
+(52, 39, '2017-01-02', 25.00, 80),
+(53, 41, '2017-01-16', 25.00, 82),
+(54, 41, '2017-01-17', 25.00, 82),
+(55, 42, '2017-01-23', 25.00, 86),
+(56, 43, '2017-01-11', 25.00, 88),
+(57, 43, '2017-01-12', 25.00, 88),
+(58, 45, '2017-01-05', 25.00, 92),
+(59, 46, '2017-01-17', 25.00, 94),
+(60, 46, '2017-01-18', 25.00, 94),
+(61, 46, '2017-01-19', 25.00, 94),
+(62, 48, '2017-01-17', 25.00, 98),
+(63, 48, '2017-01-18', 25.00, 98);
 
 -- --------------------------------------------------------
 
@@ -10559,25 +10873,59 @@ CREATE TABLE `vyp_empresas_visitadas` (
 --
 
 INSERT INTO `vyp_empresas_visitadas` (`id_empresas_visitadas`, `id_mision_oficial`, `id_departamento`, `id_municipio`, `nombre_empresa`, `direccion_empresa`, `tipo_destino`, `kilometraje`, `id_destino`) VALUES
-(1, 1, 00001, 00001, 'Empresa conducción', 'Dirección de la empresa conducción', 'destino_municipio', 252.00, '1'),
-(2, 1, 00002, 00013, 'Empresa conducción 2', 'Dirección segunda empresa de conducción 2', 'destino_municipio', 235.00, '2'),
-(3, 2, 00001, 00001, 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Ahuachapán', 'destino_oficina', 44.00, '3'),
-(4, 3, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 38.20, '5'),
-(5, 4, 00009, 00158, 'Empresa en ilobasco', 'Carretera desconocida, Ilobasco, El Salvador', 'destino_mapa', 32.84, '7'),
-(6, 4, 00010, 00172, 'Avicola los teques', 'Carretera desconocida, Santo Domingo, El Salvador', 'destino_mapa', 15.94, '8'),
-(7, 5, 00002, 00013, 'UES - Santa Ana', 'Calle Universitaria, Santa Ana, El Salvador', 'destino_mapa', 4.21, '9'),
-(8, 5, 00001, 00001, 'Instituto Nacional Alejandro de Humbolt', 'Ahuachapán, El Salvador', 'destino_mapa', 39.06, '10'),
-(9, 6, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 38.20, '6'),
-(10, 7, 00002, 00013, 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'destino_mapa', 21.92, '11'),
-(11, 8, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 40.50, '12'),
-(12, 9, 00002, 00013, 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 'destino_oficina', 44.00, '14'),
-(13, 10, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 30.40, '16'),
-(14, 11, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 54.60, '18'),
-(15, 12, 00005, 00084, 'Centro de Recreación conchalio', 'CA-2, La Libertad, El Salvador', 'destino_mapa', 72.46, '20'),
-(16, 13, 00007, 00116, 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Cuscatlán', 'destino_oficina', 61.30, '21'),
-(17, 14, 00005, 00084, 'Taller en Hato nuevo', 'Ruta Militar, Hato Nuevo, El Salvador', 'destino_mapa', 5.13, '23'),
-(18, 14, 00012, 00205, 'Empresa en comacaran', 'Calle San Miguel - Comacaran, Comacarán, El Salvador', 'destino_mapa', 16.31, '24'),
-(19, 15, 00006, 00097, 'Empresa capacitadora', 'Calle Las Victorias, San Salvador, El Salvador', 'destino_mapa', 67.44, '25');
+(1, 1, 00013, 00219, 'Oficina Departamental de Morazán', 'Oficina Departamental de Morazán', 'destino_oficina', 40.50, '13'),
+(2, 2, 00002, 00013, 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 'destino_oficina', 44.00, '14'),
+(3, 4, 00001, 00001, 'Garabato SA de CV', 'Calle 9a Av. Luz', 'destino_municipio', 252.00, '1'),
+(4, 3, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 58.20, '47'),
+(5, 5, 00013, 00219, 'Oficina Departamental de Morazán', 'Oficina Departamental de Morazán', 'destino_oficina', 114.00, '136'),
+(6, 6, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 125.00, '78'),
+(7, 7, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 38.20, '6'),
+(8, 8, 00001, 00001, 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Ahuachapán', 'destino_oficina', 36.30, '72'),
+(9, 9, 00014, 00245, 'Oficina Departamental de la Unión', 'Oficina Departamental de la Unión', 'destino_oficina', 82.90, '140'),
+(10, 10, 00006, 00097, 'Empresa en san salvador', 'Pje N1, San Salvador, El Salvador', 'destino_mapa', 63.21, '142'),
+(11, 11, 00001, 00001, 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Ahuachapán', 'destino_oficina', 44.00, '3'),
+(12, 12, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 69.80, '93'),
+(13, 13, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 80.90, '49'),
+(14, 14, 00013, 00219, 'Oficina Departamental de Morazán', 'Oficina Departamental de Morazán', 'destino_oficina', 164.00, '50'),
+(15, 16, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 84.80, '65'),
+(16, 15, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 48.40, '91'),
+(17, 17, 00007, 00116, 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Cuscatlán', 'destino_oficina', 134.00, '143'),
+(18, 18, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 100.00, '42'),
+(19, 19, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 58.20, '47'),
+(20, 20, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 107.00, '54'),
+(21, 21, 00005, 00075, 'Oficina Departamental de la Libertad', 'Oficina Departamental de la Libertad', 'destino_oficina', 51.50, '102'),
+(22, 22, 00001, 00001, 'Centro Escolar en ahuachapán', '12A Calle Oriente, Ahuachapan, El Salvador', 'destino_mapa', 36.12, '145'),
+(23, 23, 00014, 00245, 'Oficina Departamental de la Unión', 'Oficina Departamental de la Unión', 'destino_oficina', 128.00, '146'),
+(24, 24, 00004, 00042, 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Chalatenango', 'destino_oficina', 129.00, '135'),
+(25, 25, 00001, 00001, 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Ahuachapán', 'destino_oficina', 163.00, '88'),
+(26, 26, 00013, 00219, 'Oficina Departamental de Morazán', 'Oficina Departamental de Morazán', 'destino_oficina', 131.00, '97'),
+(27, 27, 00004, 00042, 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Chalatenango', 'destino_oficina', 97.50, '148'),
+(28, 28, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 40.50, '12'),
+(29, 29, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 125.00, '78'),
+(30, 30, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 211.00, '57'),
+(31, 31, 00002, 00013, 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 'destino_oficina', 55.20, '77'),
+(32, 32, 00013, 00219, 'Oficina Departamental de Morazán', 'Oficina Departamental de Morazán', 'destino_oficina', 161.00, '138'),
+(33, 32, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 129.00, '134'),
+(34, 34, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 64.30, '36'),
+(35, 33, 00004, 00071, 'Empresa en chalatenango', 'Calle Principal, San Miguel de Mercedes, El Salvador', 'destino_mapa', 162.26, '149'),
+(36, 35, 00005, 00075, 'Oficina Departamental de la Libertad', 'Oficina Departamental de la Libertad', 'destino_oficina', 30.40, '17'),
+(37, 36, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 37.00, '45'),
+(38, 37, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 211.00, '57'),
+(39, 38, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 54.60, '18'),
+(40, 39, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 100.00, '42'),
+(41, 40, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 69.20, '128'),
+(42, 41, 00005, 00075, 'Oficina Departamental de la Libertad', 'Oficina Departamental de la Libertad', 'destino_oficina', 51.50, '102'),
+(43, 42, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 200.00, '53'),
+(44, 43, 00004, 00042, 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Chalatenango', 'destino_oficina', 161.00, '139'),
+(45, 44, 00008, 00132, 'Oficina Paracentral (La Paz)', 'Oficina Paracentral (La Paz)', 'destino_oficina', 141.00, '95'),
+(46, 45, 00010, 00163, 'Oficina Departamental de San Vicente', 'Oficina Departamental de San Vicente', 'destino_oficina', 120.00, '104'),
+(47, 46, 00006, 00097, 'Oficina Central (San Salvador)', 'Oficina Central (San Salvador)', 'destino_oficina', 69.30, '35'),
+(48, 47, 00002, 00013, 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 'destino_oficina', 98.30, '81'),
+(49, 48, 00004, 00042, 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Chalatenango', 'destino_oficina', 161.00, '139'),
+(50, 49, 00007, 00116, 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Cuscatlán', 'destino_oficina', 37.00, '44'),
+(51, 50, 00002, 00016, 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'SAN24E, El Salvador', 'destino_mapa', 93.45, '150'),
+(52, 51, 00012, 00199, 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 'destino_oficina', 54.60, '18'),
+(53, 52, 00002, 00013, 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Occidente (Santa Ana)', 'destino_oficina', 36.30, '73');
 
 -- --------------------------------------------------------
 
@@ -10608,38 +10956,111 @@ CREATE TABLE `vyp_empresa_viatico` (
 --
 
 INSERT INTO `vyp_empresa_viatico` (`id_empresa_viatico`, `id_origen`, `id_destino`, `nombre_origen`, `nombre_destino`, `hora_salida`, `hora_llegada`, `pasaje`, `viatico`, `alojamiento`, `horarios_viaticos`, `fecha`, `id_mision`, `factura`, `kilometraje`) VALUES
-(1, '00002', '1', 'Oficina Regional de Oriente (San Miguel)', 'Empresa conducción (Ahuachapan/Ahuachapán)', '06:00:00', '08:30:00', 0.00, 3.00, 0.00, '', '2017-01-03', 1, '', 252.00),
-(2, '1', '2', 'Empresa conducción (Ahuachapan/Ahuachapán)', 'Empresa conducción 2 (Santa ana/Santa ana)', '10:00:00', '10:30:00', 0.00, 0.00, 0.00, '', '2017-01-03', 1, '', 252.00),
-(3, '2', '00002', 'Empresa conducción 2 (Santa ana/Santa ana)', 'Oficina Regional de Oriente (San Miguel)', '13:30:00', '15:30:00', 0.00, 4.00, 0.00, '', '2017-01-03', 1, '', 235.00),
-(4, '00005', '3', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de Ahuachapán', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-06-14', 2, '', 44.00),
-(5, '3', '00005', 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Sonsonate', '14:00:00', '16:00:00', 0.00, 4.00, 0.00, '', '2017-06-14', 2, '', 44.00),
-(6, '00010', '5', 'Oficina Departamental de San Vicente', 'Oficina Paracentral (La Paz)', '08:00:00', '09:00:00', 0.00, 0.00, 0.00, '', '2017-11-08', 3, '', 38.20),
-(7, '5', '00010', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de San Vicente', '14:00:00', '15:00:00', 0.00, 4.00, 0.00, '', '2017-11-08', 3, '', 38.20),
-(8, '00010', '7', 'Oficina Departamental de San Vicente', 'Empresa en ilobasco (Ilobasco/Cabañas)', '06:30:00', '07:30:00', 0.00, 3.00, 0.00, '', '2017-03-23', 4, '', 32.84),
-(9, '00003', '9', 'Oficina Regional de Occidente (Santa Ana)', 'UES - Santa Ana (Santa ana/Santa ana)', '07:30:00', '07:45:00', 0.00, 0.00, 0.00, '', '2017-09-05', 5, '', 4.21),
-(10, '9', '10', 'UES - Santa Ana (Santa ana/Santa ana)', 'Instituto Nacional Alejandro de Humbolt (Ahuachapan/Ahuachapán)', '12:30:00', '13:00:00', 0.00, 0.00, 0.00, '', '2017-09-05', 5, '', 39.06),
-(11, '10', '00003', 'Instituto Nacional Alejandro de Humbolt (Ahuachapan/Ahuachapán)', 'Oficina Regional de Occidente (Santa Ana)', '15:00:00', '15:30:00', 0.65, 4.00, 0.00, '', '2017-09-05', 5, '', 39.06),
-(12, '00004', '6', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de San Vicente', '06:00:00', '06:45:00', 0.00, 3.00, 0.00, '', '2017-05-10', 6, '', 38.20),
-(13, '6', '00004', 'Oficina Departamental de San Vicente', 'Oficina Paracentral (La Paz)', '14:00:00', '14:45:00', 0.00, 4.00, 0.00, '', '2017-05-10', 6, '', 38.20),
-(14, '00003', '11', 'Oficina Regional de Occidente (Santa Ana)', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador (Santa ana/Santa ana)', '06:00:00', '06:30:00', 0.00, 3.00, 0.00, '', '2017-08-04', 7, '', 21.92),
-(15, '11', '00003', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador (Santa ana/Santa ana)', 'Oficina Regional de Occidente (Santa Ana)', '16:00:00', '16:30:00', 0.35, 4.00, 0.00, '', '2017-08-04', 7, '', 21.92),
-(16, '00012', '12', 'Oficina Departamental de Morazán', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '07:00:00', 0.00, 3.00, 0.00, '', '2017-02-16', 8, '', 40.50),
-(17, '12', '00012', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de Morazán', '10:00:00', '11:00:00', 0.00, 0.00, 0.00, '', '2017-02-16', 8, '', 40.50),
-(18, '00005', '14', 'Oficina Departamental de Sonsonate', 'Oficina Regional de Occidente (Santa Ana)', '10:00:00', '11:00:00', 0.00, 0.00, 0.00, '', '2017-10-26', 9, '', 44.00),
-(19, '14', '00005', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Sonsonate', '14:45:00', '15:30:00', 0.00, 4.00, 0.00, '', '2017-10-26', 9, '', 44.00),
-(20, '00009', '16', 'Oficina Departamental de la Libertad', 'Oficina Central (San Salvador)', '07:00:00', '07:40:00', 0.50, 0.00, 0.00, '', '2017-04-07', 10, '', 30.40),
-(21, '16', '00009', 'Oficina Central (San Salvador)', 'Oficina Departamental de la Libertad', '14:00:00', '14:45:00', 0.65, 4.00, 0.00, '', '2017-04-07', 10, '', 30.40),
-(22, '00006', '18', 'Oficina Departamental de la Unión', 'Oficina Regional de Oriente (San Miguel)', '08:00:00', '09:00:00', 0.75, 0.00, 0.00, '', '2017-12-06', 11, '', 54.60),
-(23, '18', '00006', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de la Unión', '15:00:00', '16:00:00', 0.75, 4.00, 0.00, '', '2017-12-06', 11, '', 54.60),
-(24, '00008', '20', 'Oficina Departamental de Cuscatlán', 'Centro de Recreación conchalio (La libertad/Santa tecla)', '07:00:00', '08:30:00', 1.15, 0.00, 0.00, '', '2017-06-20', 12, '', 72.46),
-(25, '20', '00008', 'Centro de Recreación conchalio (La libertad/Santa tecla)', 'Oficina Departamental de Cuscatlán', '13:30:00', '15:00:00', 1.15, 4.00, 0.00, '', '2017-06-20', 12, '', 72.46),
-(26, '00011', '21', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Cuscatlán', '06:00:00', '07:00:00', 0.75, 3.00, 0.00, '', '2017-07-17', 13, '', 61.30),
-(27, '21', '00011', 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Chalatenango', '13:15:00', '14:15:00', 0.75, 4.00, 0.00, '', '2017-07-17', 13, '', 61.30),
-(28, '00002', '23', 'Oficina Regional de Oriente (San Miguel)', 'Taller en Hato nuevo (La libertad/Santa tecla)', '07:45:00', '08:00:00', 0.00, 0.00, 0.00, '', '2017-03-08', 14, '', 5.13),
-(29, '23', '24', 'Taller en Hato nuevo (La libertad/Santa tecla)', 'Empresa en comacaran (Comacaran/San miguel)', '10:00:00', '10:30:00', 0.00, 0.00, 0.00, '', '2017-03-08', 14, '', 16.31),
-(30, '24', '00002', 'Empresa en comacaran (Comacaran/San miguel)', 'Oficina Regional de Oriente (San Miguel)', '13:30:00', '14:00:00', 0.00, 4.00, 0.00, '', '2017-03-08', 14, '', 16.31),
-(31, '00003', '25', 'Oficina Regional de Occidente (Santa Ana)', 'Empresa capacitadora (San salvador/San salvador)', '16:00:00', '17:15:00', 0.65, 0.00, 0.00, '', '2017-08-16', 15, '', 67.44),
-(32, '25', '00003', 'Empresa capacitadora (San salvador/San salvador)', 'Oficina Regional de Occidente (Santa Ana)', '07:00:00', '08:00:00', 0.65, 7.00, 22.00, '', '2017-08-17', 15, '0000032.jpg', 67.44);
+(1, '00002', '13', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de Morazán', '05:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-01-03', 1, '', 40.50),
+(2, '13', '00002', 'Oficina Departamental de Morazán', 'Oficina Regional de Oriente (San Miguel)', '15:00:00', '16:00:00', 0.00, 4.00, 0.00, '', '2017-01-03', 1, '', 40.50),
+(3, '00005', '14', 'Oficina Departamental de Sonsonate', 'Oficina Regional de Occidente (Santa Ana)', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-01-04', 2, '', 44.00),
+(4, '14', '00005', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Sonsonate', '16:00:00', '17:00:00', 0.00, 4.00, 0.00, '', '2017-01-04', 2, '', 44.00),
+(5, '00002', '1', 'Oficina Regional de Oriente (San Miguel)', 'Garabato SA de CV (Ahuachapan/Ahuachapán)', '09:00:00', '11:15:00', 3.00, 0.00, 0.00, '', '2017-01-18', 4, '', 252.00),
+(7, '00010', '47', 'Oficina Departamental de San Vicente', 'Oficina Central (San Salvador)', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-01-09', 3, '', 58.20),
+(8, '47', '00010', 'Oficina Central (San Salvador)', 'Oficina Departamental de San Vicente', '17:00:00', '18:00:00', 0.00, 4.00, 0.00, '', '2017-01-09', 3, '', 58.20),
+(9, '00010', '136', 'Oficina Departamental de San Vicente', 'Oficina Departamental de Morazán', '06:00:00', '10:00:00', 0.00, 3.00, 0.00, '', '2017-01-16', 5, '', 114.00),
+(10, '1', '00002', 'Garabato SA de CV (Ahuachapan/Ahuachapán)', 'Oficina Regional de Oriente (San Miguel)', '13:00:00', '14:00:00', 3.00, 4.00, 0.00, '', '2017-01-18', 4, '', 252.00),
+(11, '136', '00010', 'Oficina Departamental de Morazán', 'Oficina Departamental de San Vicente', '17:00:00', '19:00:00', 0.00, 8.00, 0.00, '', '2017-01-16', 5, '', 114.00),
+(12, '00003', '78', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de San Vicente', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2018-03-28', 6, '', 125.00),
+(13, '78', '00003', 'Oficina Departamental de San Vicente', 'Oficina Regional de Occidente (Santa Ana)', '17:00:00', '19:00:00', 0.00, 8.00, 0.00, '', '2018-03-28', 6, '', 125.00),
+(14, '00004', '6', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de San Vicente', '06:06:00', '07:00:00', 0.35, 3.00, 0.00, '', '2017-01-23', 7, '', 38.20),
+(15, '6', '00004', 'Oficina Departamental de San Vicente', 'Oficina Paracentral (La Paz)', '10:00:00', '11:00:00', 0.35, 0.00, 0.00, '', '2017-01-23', 7, '', 38.20),
+(16, '00003', '72', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Ahuachapán', '06:00:00', '07:00:00', 0.70, 3.00, 0.00, '', '2017-01-18', 8, '', 36.30),
+(17, '72', '00003', 'Oficina Departamental de Ahuachapán', 'Oficina Regional de Occidente (Santa Ana)', '13:00:00', '14:00:00', 0.70, 4.00, 0.00, '', '2017-01-18', 8, '', 36.30),
+(18, '00012', '140', 'Oficina Departamental de Morazán', 'Oficina Departamental de la Unión', '06:00:00', '07:00:00', 1.70, 3.00, 0.00, '', '2017-01-26', 9, '', 82.90),
+(19, '140', '00012', 'Oficina Departamental de la Unión', 'Oficina Departamental de Morazán', '17:00:00', '19:00:00', 1.70, 8.00, 0.00, '', '2017-01-26', 9, '', 82.90),
+(20, '00005', '3', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de Ahuachapán', '06:00:00', '07:00:00', 2.00, 3.00, 0.00, '', '2017-01-19', 11, '', 44.00),
+(21, '3', '00005', 'Oficina Departamental de Ahuachapán', 'Oficina Departamental de Sonsonate', '13:00:00', '14:00:00', 2.00, 4.00, 0.00, '', '2017-01-19', 11, '', 44.00),
+(22, '00005', '142', 'Oficina Departamental de Sonsonate', 'Empresa en san salvador (San salvador/San salvador)', '05:00:00', '06:30:00', 0.90, 3.00, 0.00, '', '2017-01-03', 10, '', 63.21),
+(23, '00009', '93', 'Oficina Departamental de la Libertad', 'Oficina Paracentral (La Paz)', '06:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-01-30', 12, '', 69.80),
+(24, '93', '00009', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de la Libertad', '15:00:00', '17:00:00', 7.00, 4.00, 0.00, '', '2017-01-30', 12, '', 69.80),
+(25, '00011', '49', 'Oficina Departamental de Chalatenango', 'Oficina Central (San Salvador)', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-01-31', 13, '', 80.90),
+(26, '49', '00011', 'Oficina Central (San Salvador)', 'Oficina Departamental de Chalatenango', '17:00:00', '20:00:00', 2.00, 8.00, 0.00, '', '2017-01-31', 13, '', 80.90),
+(27, '142', '00005', 'Empresa en san salvador (San salvador/San salvador)', 'Oficina Departamental de Sonsonate', '14:00:00', '15:30:00', 0.90, 4.00, 0.00, '', '2017-01-03', 10, '', 63.21),
+(28, '00001', '50', 'Oficina Central (San Salvador)', 'Oficina Departamental de Morazán', '05:00:00', '09:00:00', 1.00, 3.00, 0.00, '', '2017-01-16', 14, '', 164.00),
+(29, '50', '00001', 'Oficina Departamental de Morazán', 'Oficina Central (San Salvador)', '05:00:00', '08:00:00', 1.00, 11.00, 25.00, '', '2017-01-17', 14, '0000029.png', 164.00),
+(30, '00010', '65', 'Oficina Departamental de San Vicente', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '08:00:00', 1.50, 3.00, 0.00, '', '2017-01-20', 16, '', 84.80),
+(31, '00008', '91', 'Oficina Departamental de Cuscatlán', 'Oficina Paracentral (La Paz)', '06:00:00', '08:00:00', 0.00, 3.00, 25.00, '', '2017-01-17', 15, '', 48.40),
+(32, '00008', '91', 'Oficina Departamental de Cuscatlán', 'Oficina Paracentral (La Paz)', '06:00:00', '08:00:00', 1.00, 11.00, 10.00, '', '2017-01-18', 15, '0000032.png', 48.40),
+(33, '65', '00010', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de San Vicente', '13:00:00', '15:15:00', 1.50, 4.00, 0.00, '', '2017-01-20', 16, '', 84.80),
+(34, '00006', '143', 'Oficina Departamental de la Unión', 'Oficina Departamental de Cuscatlán', '10:00:00', '14:00:00', 3.00, 4.00, 10.00, '', '2017-01-25', 17, '', 134.00),
+(35, '143', '00006', 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de la Unión', '16:00:00', '18:00:00', 2.00, 0.00, 0.00, '', '2017-01-25', 17, '', 134.00),
+(36, '00007', '42', 'Oficina Departamental de Ahuachapán', 'Oficina Central (San Salvador)', '06:00:00', '09:00:00', 0.00, 3.00, 0.00, '', '2017-01-06', 18, '', 100.00),
+(37, '42', '00007', 'Oficina Central (San Salvador)', 'Oficina Departamental de Ahuachapán', '13:00:00', '14:00:00', 0.00, 4.00, 0.00, '', '2017-01-06', 18, '', 100.00),
+(38, '00010', '47', 'Oficina Departamental de San Vicente', 'Oficina Central (San Salvador)', '08:00:00', '09:30:00', 0.90, 0.00, 0.00, '', '2017-01-12', 19, '', 58.20),
+(39, '47', '00010', 'Oficina Central (San Salvador)', 'Oficina Departamental de San Vicente', '12:00:00', '13:30:00', 0.90, 4.00, 0.00, '', '2017-01-12', 19, '', 58.20),
+(40, '00002', '54', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Paracentral (La Paz)', '06:00:00', '09:00:00', 3.00, 3.00, 0.00, '', '2017-02-01', 20, '', 107.00),
+(41, '54', '00002', 'Oficina Paracentral (La Paz)', 'Oficina Regional de Oriente (San Miguel)', '13:00:00', '15:00:00', 3.00, 4.00, 0.00, '', '2017-02-01', 20, '', 107.00),
+(42, '00005', '102', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de la Libertad', '06:00:00', '08:00:00', 0.00, 3.00, 0.00, '', '2017-02-02', 21, '', 51.50),
+(43, '102', '00005', 'Oficina Departamental de la Libertad', 'Oficina Departamental de Sonsonate', '17:00:00', '19:00:00', 0.00, 8.00, 0.00, '', '2017-02-02', 21, '', 51.50),
+(44, '00003', '145', 'Oficina Regional de Occidente (Santa Ana)', 'Centro Escolar en ahuachapán (Ahuachapan/Ahuachapán)', '06:00:00', '07:00:00', 0.60, 3.00, 0.00, '', '2017-01-25', 22, '', 36.12),
+(45, '00010', '146', 'Oficina Departamental de San Vicente', 'Oficina Departamental de la Unión', '06:00:00', '10:00:00', 3.00, 3.00, 0.00, '', '2017-02-06', 23, '', 128.00),
+(46, '146', '00010', 'Oficina Departamental de la Unión', 'Oficina Departamental de San Vicente', '06:00:00', '10:00:00', 2.00, 11.00, 25.00, '', '2017-02-07', 23, '0000046.png', 128.00),
+(47, '145', '00003', 'Centro Escolar en ahuachapán (Ahuachapan/Ahuachapán)', 'Oficina Regional de Occidente (Santa Ana)', '14:00:00', '15:00:00', 0.60, 4.00, 0.00, '', '2017-01-25', 22, '', 36.12),
+(48, '00010', '135', 'Oficina Departamental de San Vicente', 'Oficina Departamental de Chalatenango', '06:00:00', '09:00:00', 4.00, 3.00, 0.00, '', '2017-02-06', 24, '', 129.00),
+(49, '135', '00010', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de San Vicente', '06:00:00', '09:00:00', 4.00, 33.00, 75.00, '', '2017-02-09', 24, '0000049.png', 129.00),
+(50, '00004', '97', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de Morazán', '06:00:00', '10:00:00', 3.00, 3.00, 0.00, '', '2017-02-09', 26, '', 131.00),
+(51, '97', '00004', 'Oficina Departamental de Morazán', 'Oficina Paracentral (La Paz)', '17:00:00', '19:00:00', 3.00, 8.00, 0.00, '', '2017-02-09', 26, '', 131.00),
+(52, '00004', '88', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de Ahuachapán', '06:00:00', '07:00:00', 2.35, 3.00, 0.00, '', '2017-01-10', 25, '', 163.00),
+(53, '88', '00004', 'Oficina Departamental de Ahuachapán', 'Oficina Paracentral (La Paz)', '15:00:00', '17:00:00', 2.30, 4.00, 0.00, '', '2017-01-10', 25, '', 163.00),
+(54, '00003', '148', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Chalatenango', '05:00:00', '09:00:00', 5.00, 3.00, 0.00, '', '2017-02-13', 27, '', 97.50),
+(55, '148', '00003', 'Oficina Departamental de Chalatenango', 'Oficina Regional de Occidente (Santa Ana)', '16:00:00', '18:00:00', 4.00, 4.00, 0.00, '', '2017-02-13', 27, '', 97.50),
+(56, '00012', '12', 'Oficina Departamental de Morazán', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '08:00:00', 4.00, 3.00, 0.00, '', '2017-02-21', 28, '', 40.50),
+(57, '12', '00012', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de Morazán', '18:00:00', '19:00:00', 3.00, 8.00, 0.00, '', '2017-02-21', 28, '', 40.50),
+(58, '00003', '78', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de San Vicente', '05:00:00', '06:45:00', 1.25, 3.00, 0.00, '', '2017-01-20', 29, '', 125.00),
+(59, '00005', '57', 'Oficina Departamental de Sonsonate', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-02-24', 30, '', 211.00),
+(60, '57', '00005', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de Sonsonate', '05:00:00', '09:00:00', 7.00, 22.00, 50.00, '', '2017-02-28', 30, '0000060.png', 211.00),
+(61, '00009', '77', 'Oficina Departamental de la Libertad', 'Oficina Regional de Occidente (Santa Ana)', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-02-27', 31, '', 55.20),
+(62, '00003', '78', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de San Vicente', '16:00:00', '17:15:00', 1.25, 4.00, 0.00, '', '2017-01-20', 29, '', 125.00),
+(63, '77', '00009', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de la Libertad', '16:00:00', '18:00:00', 2.00, 4.00, 0.00, '', '2017-02-27', 31, '', 55.20),
+(64, '00011', '138', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Morazán', '05:00:00', '07:00:00', 7.00, 3.00, 0.00, '', '2017-02-08', 32, '', 161.00),
+(65, '138', '134', 'Oficina Departamental de Morazán', 'Oficina Departamental de San Vicente', '06:00:00', '09:00:00', 5.00, 11.00, 10.00, '', '2017-02-09', 32, '0000065.png', 129.00),
+(66, '134', '00011', 'Oficina Departamental de San Vicente', 'Oficina Departamental de Chalatenango', '06:00:00', '09:00:00', 7.00, 11.00, 25.00, '', '2017-02-10', 32, '0000066.png', 129.00),
+(67, '00001', '36', 'Oficina Central (San Salvador)', 'Oficina Paracentral (La Paz)', '05:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-02-28', 34, '', 64.30),
+(68, '36', '00001', 'Oficina Paracentral (La Paz)', 'Oficina Central (San Salvador)', '17:00:00', '19:00:00', 6.00, 8.00, 0.00, '', '2017-02-28', 34, '', 64.30),
+(69, '00012', '149', 'Oficina Departamental de Morazán', 'Empresa en chalatenango (San miguel de mercedes/Chalatenango)', '06:00:00', '08:30:00', 1.75, 3.00, 0.00, '', '2017-01-09', 33, '', 162.26),
+(70, '00001', '17', 'Oficina Central (San Salvador)', 'Oficina Departamental de la Libertad', '05:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-01-09', 35, '', 30.40),
+(71, '149', '00012', 'Empresa en chalatenango (San miguel de mercedes/Chalatenango)', 'Oficina Departamental de Morazán', '13:10:00', '14:15:00', 1.75, 4.00, 0.00, '', '2017-01-09', 33, '', 162.26),
+(72, '17', '00001', 'Oficina Departamental de la Libertad', 'Oficina Central (San Salvador)', '17:00:00', '19:00:00', 7.00, 52.00, 100.00, '', '2017-01-13', 35, '0000072.png', 30.40),
+(73, '00008', '45', 'Oficina Departamental de Cuscatlán', 'Oficina Central (San Salvador)', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-01-23', 36, '', 37.00),
+(74, '45', '00008', 'Oficina Central (San Salvador)', 'Oficina Departamental de Cuscatlán', '06:00:00', '09:00:00', 7.00, 11.00, 25.00, '', '2017-01-24', 36, '0000074.png', 37.00),
+(75, '00006', '18', 'Oficina Departamental de la Unión', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-01-26', 38, '', 54.60),
+(76, '00005', '57', 'Oficina Departamental de Sonsonate', 'Oficina Regional de Oriente (San Miguel)', '08:00:00', '10:30:00', 2.33, 0.00, 0.00, '', '2017-01-12', 37, '', 211.00),
+(77, '18', '00006', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de la Unión', '14:00:00', '16:00:00', 7.00, 15.00, 25.00, '', '2017-01-27', 38, '0000077.png', 54.60),
+(78, '00005', '57', 'Oficina Departamental de Sonsonate', 'Oficina Regional de Oriente (San Miguel)', '15:00:00', '17:30:00', 2.33, 4.00, 0.00, '', '2017-01-12', 37, '', 211.00),
+(79, '00007', '42', 'Oficina Departamental de Ahuachapán', 'Oficina Central (San Salvador)', '06:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-01-02', 39, '', 100.00),
+(80, '42', '00007', 'Oficina Central (San Salvador)', 'Oficina Departamental de Ahuachapán', '17:00:00', '19:00:00', 7.00, 19.00, 25.00, '', '2017-01-03', 39, '0000080.png', 100.00),
+(81, '00005', '102', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de la Libertad', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-01-16', 41, '', 51.50),
+(82, '102', '00005', 'Oficina Departamental de la Libertad', 'Oficina Departamental de Sonsonate', '06:00:00', '09:00:00', 7.00, 22.00, 50.00, '', '2017-01-18', 41, '0000082.png', 51.50),
+(83, '00009', '128', 'Oficina Departamental de la Libertad', 'Oficina Departamental de San Vicente', '06:00:00', '07:30:00', 1.00, 3.00, 0.00, '', '2017-01-10', 40, '', 69.20),
+(84, '00003', '53', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-01-23', 42, '', 200.00),
+(85, '128', '00009', 'Oficina Departamental de San Vicente', 'Oficina Departamental de la Libertad', '14:00:00', '15:30:00', 1.00, 4.00, 0.00, '', '2017-01-10', 40, '', 69.20),
+(86, '53', '00003', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Occidente (Santa Ana)', '06:00:00', '09:00:00', 7.00, 11.00, 25.00, '', '2017-01-24', 42, '0000086.png', 200.00),
+(87, '00012', '139', 'Oficina Departamental de Morazán', 'Oficina Departamental de Chalatenango', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-01-11', 43, '', 161.00),
+(88, '139', '00012', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Morazán', '06:00:00', '09:00:00', 7.00, 22.00, 50.00, '', '2017-01-13', 43, '0000088.png', 161.00),
+(89, '00011', '95', 'Oficina Departamental de Chalatenango', 'Oficina Paracentral (La Paz)', '05:00:00', '07:30:00', 2.60, 3.00, 0.00, '', '2017-01-18', 44, '', 141.00),
+(90, '00005', '104', 'Oficina Departamental de Sonsonate', 'Oficina Departamental de San Vicente', '05:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-01-05', 45, '', 120.00),
+(91, '95', '00011', 'Oficina Paracentral (La Paz)', 'Oficina Departamental de Chalatenango', '15:00:00', '17:00:00', 2.60, 4.00, 0.00, '', '2017-01-18', 44, '', 141.00),
+(92, '104', '00005', 'Oficina Departamental de San Vicente', 'Oficina Departamental de Sonsonate', '16:00:00', '18:00:00', 7.00, 15.00, 25.00, '', '2017-01-06', 45, '0000092.png', 120.00),
+(93, '00003', '35', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Central (San Salvador)', '06:00:00', '08:00:00', 7.00, 3.00, 0.00, '', '2017-01-17', 46, '', 69.30),
+(94, '35', '00003', 'Oficina Central (San Salvador)', 'Oficina Regional de Occidente (Santa Ana)', '06:00:00', '09:00:00', 7.00, 33.00, 75.00, '', '2017-01-20', 46, '0000094.png', 69.30),
+(95, '00011', '81', 'Oficina Departamental de Chalatenango', 'Oficina Regional de Occidente (Santa Ana)', '08:00:00', '10:00:00', 1.65, 0.00, 0.00, '', '2017-01-02', 47, '', 98.30),
+(96, '81', '00011', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Chalatenango', '18:00:00', '20:30:00', 0.00, 8.00, 0.00, '', '2017-01-02', 47, '', 98.30),
+(97, '00012', '139', 'Oficina Departamental de Morazán', 'Oficina Departamental de Chalatenango', '06:00:00', '09:00:00', 7.00, 3.00, 0.00, '', '2017-01-17', 48, '', 161.00),
+(98, '139', '00012', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Morazán', '17:00:00', '19:00:00', 7.00, 30.00, 50.00, '', '2017-01-19', 48, '0000098.png', 161.00),
+(99, '00001', '44', 'Oficina Central (San Salvador)', 'Oficina Departamental de Cuscatlán', '06:30:00', '07:15:00', 0.35, 3.00, 0.00, '', '2017-01-25', 49, '', 37.00),
+(100, '44', '00001', 'Oficina Departamental de Cuscatlán', 'Oficina Central (San Salvador)', '12:00:00', '13:20:00', 0.35, 4.00, 0.00, '', '2017-01-25', 49, '', 37.00),
+(101, '00008', '150', 'Oficina Departamental de Cuscatlán', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador (Coatepeque/Santa ana)', '06:00:00', '08:30:00', 2.50, 3.00, 0.00, '', '2017-01-06', 50, '', 93.45),
+(102, '150', '00008', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador (Coatepeque/Santa ana)', 'Oficina Departamental de Cuscatlán', '10:00:00', '12:30:00', 2.50, 0.00, 0.00, '', '2017-01-06', 50, '', 93.45),
+(103, '00006', '18', 'Oficina Departamental de la Unión', 'Oficina Regional de Oriente (San Miguel)', '06:00:00', '08:00:00', 0.75, 3.00, 0.00, '', '2017-01-10', 51, '', 54.60),
+(104, '18', '00006', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Departamental de la Unión', '14:00:00', '16:00:00', 0.75, 4.00, 0.00, '', '2017-01-10', 51, '', 54.60),
+(105, '00007', '73', 'Oficina Departamental de Ahuachapán', 'Oficina Regional de Occidente (Santa Ana)', '06:00:00', '07:00:00', 0.35, 3.00, 0.00, '', '2017-01-30', 52, '', 36.30),
+(106, '73', '00007', 'Oficina Regional de Occidente (Santa Ana)', 'Oficina Departamental de Ahuachapán', '18:00:00', '19:00:00', 0.35, 8.00, 0.00, '', '2017-01-30', 52, '', 36.30);
 
 -- --------------------------------------------------------
 
@@ -10666,6 +11087,30 @@ INSERT INTO `vyp_estado_solicitud` (`id_estado_solicitud`, `nombre_estado`) VALU
 (6, 'Observaciones del Fondo Circulante del Monto Fijo'),
 (7, 'Aprobada'),
 (8, 'Pagada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_generalidades`
+--
+
+CREATE TABLE `vyp_generalidades` (
+  `id_generalidad` int(10) UNSIGNED NOT NULL,
+  `pasaje` float(5,2) NOT NULL,
+  `alojamiento` float(5,2) NOT NULL,
+  `id_banco` int(10) UNSIGNED NOT NULL,
+  `banco` varchar(100) NOT NULL,
+  `num_cuenta` varchar(45) NOT NULL,
+  `limite_poliza` float(5,2) NOT NULL,
+  `codigo_presupuestario` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `vyp_generalidades`
+--
+
+INSERT INTO `vyp_generalidades` (`id_generalidad`, `pasaje`, `alojamiento`, `id_banco`, `banco`, `num_cuenta`, `limite_poliza`, `codigo_presupuestario`) VALUES
+(1, 7.00, 25.00, 1, 'Banco Agrícola', '590-057808-4', 500.00, '2018-3300-3-21-1-VARIOS');
 
 -- --------------------------------------------------------
 
@@ -10715,28 +11160,187 @@ CREATE TABLE `vyp_horario_viatico_solicitud` (
 --
 
 INSERT INTO `vyp_horario_viatico_solicitud` (`id_horario_solicitud`, `fecha_ruta`, `id_horario_viatico`, `id_mision`, `estado`, `id_ruta_visitada`) VALUES
-(2, '2017-01-03', 1, 1, 1, '1'),
-(5, '2017-01-03', 2, 1, 1, '3'),
-(6, '2017-06-14', 1, 2, 1, '4'),
-(7, '2017-06-14', 2, 2, 1, '5'),
-(9, '2017-11-08', 2, 3, 1, '7'),
-(13, '2017-03-23', 1, 4, 1, '8'),
-(14, '2017-09-05', 2, 5, 1, '11'),
-(15, '2017-05-10', 1, 6, 1, '12'),
-(16, '2017-05-10', 2, 6, 1, '13'),
-(17, '2017-08-04', 1, 7, 1, '14'),
-(19, '2017-08-04', 2, 7, 1, '15'),
-(20, '2017-02-16', 1, 8, 1, '16'),
-(21, '2017-10-26', 2, 9, 1, '19'),
-(22, '2017-04-07', 2, 10, 1, '21'),
-(23, '2017-12-06', 2, 11, 1, '23'),
-(25, '2017-06-20', 2, 12, 1, '25'),
-(26, '2017-07-17', 1, 13, 1, '26'),
-(27, '2017-07-17', 2, 13, 1, '27'),
-(28, '2017-07-17', 2, 13, 1, '28'),
-(29, '2017-03-08', 2, 14, 1, '30'),
-(30, '2017-08-16', 3, 15, 1, '32'),
-(31, '2017-08-17', 1, 15, 1, '32');
+(57, '2017-01-03', 1, 1, 1, '1'),
+(58, '2017-01-04', 1, 2, 1, '3'),
+(60, '2017-01-09', 1, 3, 1, '7'),
+(61, '2017-01-09', 2, 3, 1, '8'),
+(62, '2017-01-16', 1, 5, 1, '9'),
+(63, '2017-01-18', 2, 4, 1, '10'),
+(64, '2017-01-16', 2, 5, 1, '11'),
+(65, '2017-01-16', 3, 5, 1, '11'),
+(66, '2018-03-28', 1, 6, 1, '12'),
+(67, '2018-03-28', 2, 6, 1, '13'),
+(68, '2018-03-28', 3, 6, 1, '13'),
+(69, '2017-01-23', 1, 7, 1, '14'),
+(70, '2017-01-18', 1, 8, 1, '16'),
+(71, '2017-01-18', 2, 8, 1, '17'),
+(72, '2017-01-26', 1, 9, 1, '18'),
+(73, '2017-01-26', 2, 9, 1, '19'),
+(74, '2017-01-26', 3, 9, 1, '19'),
+(75, '2017-01-19', 1, 11, 1, '20'),
+(76, '2017-01-19', 2, 11, 1, '21'),
+(77, '2017-01-03', 1, 10, 1, '22'),
+(78, '2017-01-30', 1, 12, 1, '23'),
+(79, '2017-01-30', 2, 12, 1, '24'),
+(80, '2017-01-31', 1, 13, 1, '25'),
+(81, '2017-01-31', 2, 13, 1, '26'),
+(82, '2017-01-31', 3, 13, 1, '26'),
+(84, '2017-01-03', 2, 10, 1, '27'),
+(86, '2017-01-16', 1, 14, 1, '28'),
+(88, '2017-01-16', 2, 14, 1, '29'),
+(89, '2017-01-16', 3, 14, 1, '29'),
+(90, '2017-01-17', 1, 14, 1, '29'),
+(91, '2017-01-20', 1, 16, 1, '30'),
+(92, '2017-01-17', 1, 15, 1, '31'),
+(93, '2017-01-17', 2, 15, 1, '32'),
+(94, '2017-01-17', 3, 15, 1, '32'),
+(95, '2017-01-18', 1, 15, 1, '32'),
+(96, '2017-01-20', 2, 16, 1, '33'),
+(97, '2017-01-25', 2, 17, 1, '34'),
+(98, '2017-01-06', 1, 18, 1, '36'),
+(99, '2017-01-06', 2, 18, 1, '37'),
+(100, '2017-01-12', 2, 19, 1, '39'),
+(101, '2017-02-01', 1, 20, 1, '40'),
+(102, '2017-02-01', 2, 20, 1, '41'),
+(103, '2017-02-02', 1, 21, 1, '42'),
+(104, '2017-02-02', 2, 21, 1, '43'),
+(105, '2017-02-02', 3, 21, 1, '43'),
+(106, '2017-01-25', 1, 22, 1, '44'),
+(107, '2017-02-06', 1, 23, 1, '45'),
+(108, '2017-02-06', 2, 23, 1, '46'),
+(109, '2017-02-06', 3, 23, 1, '46'),
+(110, '2017-02-07', 1, 23, 1, '46'),
+(111, '2017-01-25', 2, 22, 1, '47'),
+(122, '2017-02-06', 1, 24, 1, '48'),
+(123, '2017-02-06', 2, 24, 1, '49'),
+(124, '2017-02-06', 3, 24, 1, '49'),
+(125, '2017-02-07', 1, 24, 1, '49'),
+(126, '2017-02-07', 2, 24, 1, '49'),
+(127, '2017-02-07', 3, 24, 1, '49'),
+(128, '2017-02-08', 1, 24, 1, '49'),
+(129, '2017-02-08', 2, 24, 1, '49'),
+(130, '2017-02-08', 3, 24, 1, '49'),
+(131, '2017-02-09', 1, 24, 1, '49'),
+(132, '2017-02-09', 1, 26, 1, '50'),
+(133, '2017-02-09', 2, 26, 1, '51'),
+(134, '2017-02-09', 3, 26, 1, '51'),
+(135, '2017-01-10', 1, 25, 1, '52'),
+(136, '2017-01-10', 2, 25, 1, '53'),
+(137, '2017-02-13', 1, 27, 1, '54'),
+(138, '2017-02-13', 2, 27, 1, '55'),
+(139, '2017-02-21', 1, 28, 1, '56'),
+(140, '2017-02-21', 2, 28, 1, '57'),
+(141, '2017-02-21', 3, 28, 1, '57'),
+(142, '2017-01-20', 1, 29, 1, '58'),
+(143, '2017-02-24', 1, 30, 1, '59'),
+(198, '2017-02-24', 2, 30, 1, '60'),
+(199, '2017-02-24', 3, 30, 1, '60'),
+(200, '2017-02-27', 1, 30, 1, '60'),
+(201, '2017-02-27', 2, 30, 1, '60'),
+(202, '2017-02-27', 3, 30, 1, '60'),
+(203, '2017-02-28', 1, 30, 1, '60'),
+(204, '2017-02-27', 1, 31, 1, '61'),
+(205, '2017-01-20', 2, 29, 1, '62'),
+(206, '2017-02-27', 2, 31, 1, '63'),
+(207, '2017-02-08', 1, 32, 1, '64'),
+(208, '2017-02-08', 2, 32, 1, '65'),
+(209, '2017-02-08', 3, 32, 1, '65'),
+(210, '2017-02-09', 1, 32, 1, '65'),
+(211, '2017-02-09', 2, 32, 1, '66'),
+(212, '2017-02-09', 3, 32, 1, '66'),
+(213, '2017-02-10', 1, 32, 1, '66'),
+(214, '2017-02-28', 1, 34, 1, '67'),
+(215, '2017-02-28', 2, 34, 1, '68'),
+(216, '2017-02-28', 3, 34, 1, '68'),
+(217, '2017-01-09', 1, 33, 1, '69'),
+(218, '2017-01-09', 1, 35, 1, '70'),
+(219, '2017-01-09', 2, 33, 1, '71'),
+(220, '2017-01-09', 2, 35, 1, '72'),
+(221, '2017-01-09', 3, 35, 1, '72'),
+(222, '2017-01-10', 1, 35, 1, '72'),
+(223, '2017-01-10', 2, 35, 1, '72'),
+(224, '2017-01-10', 3, 35, 1, '72'),
+(225, '2017-01-11', 1, 35, 1, '72'),
+(226, '2017-01-11', 2, 35, 1, '72'),
+(227, '2017-01-11', 3, 35, 1, '72'),
+(228, '2017-01-12', 1, 35, 1, '72'),
+(229, '2017-01-12', 2, 35, 1, '72'),
+(230, '2017-01-12', 3, 35, 1, '72'),
+(231, '2017-01-13', 1, 35, 1, '72'),
+(232, '2017-01-13', 2, 35, 1, '72'),
+(233, '2017-01-13', 3, 35, 1, '72'),
+(234, '2017-01-23', 1, 36, 1, '73'),
+(235, '2017-01-23', 2, 36, 1, '74'),
+(236, '2017-01-23', 3, 36, 1, '74'),
+(237, '2017-01-24', 1, 36, 1, '74'),
+(238, '2017-01-26', 1, 38, 1, '75'),
+(239, '2017-01-26', 2, 38, 1, '77'),
+(240, '2017-01-26', 3, 38, 1, '77'),
+(241, '2017-01-27', 1, 38, 1, '77'),
+(242, '2017-01-27', 2, 38, 1, '77'),
+(243, '2017-01-12', 2, 37, 1, '78'),
+(244, '2017-01-02', 1, 39, 1, '79'),
+(245, '2017-01-02', 2, 39, 1, '80'),
+(246, '2017-01-02', 3, 39, 1, '80'),
+(247, '2017-01-03', 1, 39, 1, '80'),
+(248, '2017-01-03', 2, 39, 1, '80'),
+(249, '2017-01-03', 3, 39, 1, '80'),
+(250, '2017-01-16', 1, 41, 1, '81'),
+(251, '2017-01-16', 2, 41, 1, '82'),
+(252, '2017-01-16', 3, 41, 1, '82'),
+(253, '2017-01-17', 1, 41, 1, '82'),
+(254, '2017-01-17', 2, 41, 1, '82'),
+(255, '2017-01-17', 3, 41, 1, '82'),
+(256, '2017-01-18', 1, 41, 1, '82'),
+(257, '2017-01-10', 1, 40, 1, '83'),
+(258, '2017-01-23', 1, 42, 1, '84'),
+(259, '2017-01-10', 2, 40, 1, '85'),
+(260, '2017-01-23', 2, 42, 1, '86'),
+(261, '2017-01-23', 3, 42, 1, '86'),
+(262, '2017-01-24', 1, 42, 1, '86'),
+(263, '2017-01-11', 1, 43, 1, '87'),
+(264, '2017-01-11', 2, 43, 1, '88'),
+(265, '2017-01-11', 3, 43, 1, '88'),
+(266, '2017-01-12', 1, 43, 1, '88'),
+(267, '2017-01-12', 2, 43, 1, '88'),
+(268, '2017-01-12', 3, 43, 1, '88'),
+(269, '2017-01-13', 1, 43, 1, '88'),
+(270, '2017-01-18', 1, 44, 1, '89'),
+(271, '2017-01-05', 1, 45, 1, '90'),
+(272, '2017-01-18', 2, 44, 1, '91'),
+(273, '2017-01-05', 2, 45, 1, '92'),
+(274, '2017-01-05', 3, 45, 1, '92'),
+(275, '2017-01-06', 1, 45, 1, '92'),
+(276, '2017-01-06', 2, 45, 1, '92'),
+(277, '2017-01-17', 1, 46, 1, '93'),
+(278, '2017-01-17', 2, 46, 1, '94'),
+(279, '2017-01-17', 3, 46, 1, '94'),
+(280, '2017-01-18', 1, 46, 1, '94'),
+(281, '2017-01-18', 2, 46, 1, '94'),
+(282, '2017-01-18', 3, 46, 1, '94'),
+(283, '2017-01-19', 1, 46, 1, '94'),
+(284, '2017-01-19', 2, 46, 1, '94'),
+(285, '2017-01-19', 3, 46, 1, '94'),
+(286, '2017-01-20', 1, 46, 1, '94'),
+(288, '2017-01-02', 2, 47, 1, '96'),
+(289, '2017-01-02', 3, 47, 1, '96'),
+(290, '2017-01-17', 1, 48, 1, '97'),
+(291, '2017-01-17', 2, 48, 1, '98'),
+(292, '2017-01-17', 3, 48, 1, '98'),
+(293, '2017-01-18', 1, 48, 1, '98'),
+(294, '2017-01-18', 2, 48, 1, '98'),
+(295, '2017-01-18', 3, 48, 1, '98'),
+(296, '2017-01-19', 1, 48, 1, '98'),
+(297, '2017-01-19', 2, 48, 1, '98'),
+(298, '2017-01-19', 3, 48, 1, '98'),
+(299, '2017-01-25', 1, 49, 1, '99'),
+(300, '2017-01-25', 2, 49, 1, '100'),
+(301, '2017-01-06', 1, 50, 1, '101'),
+(302, '2017-01-10', 1, 51, 1, '103'),
+(303, '2017-01-10', 2, 51, 1, '104'),
+(304, '2017-01-30', 1, 52, 1, '105'),
+(305, '2017-01-30', 2, 52, 1, '106'),
+(306, '2017-01-30', 3, 52, 1, '106');
 
 -- --------------------------------------------------------
 
@@ -10779,6 +11383,21 @@ INSERT INTO `vyp_informacion_empleado` (`id_informacion_empleado`, `nr`, `nr_jef
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `vyp_justificaciones`
+--
+
+CREATE TABLE `vyp_justificaciones` (
+  `id_justificacion` int(10) UNSIGNED NOT NULL,
+  `ruta` varchar(45) NOT NULL,
+  `size` varchar(100) NOT NULL,
+  `id_mision` int(10) UNSIGNED NOT NULL,
+  `extension` varchar(45) NOT NULL,
+  `nombre` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `vyp_mision_oficial`
 --
 
@@ -10797,7 +11416,7 @@ CREATE TABLE `vyp_mision_oficial` (
   `aprobado2` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `aprobado3` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `estado` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `ruta_justificacion` varchar(200) NOT NULL,
+  `ruta_justificacion` text NOT NULL,
   `ultima_observacion` datetime NOT NULL,
   `fecha_pago` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -10807,21 +11426,58 @@ CREATE TABLE `vyp_mision_oficial` (
 --
 
 INSERT INTO `vyp_mision_oficial` (`id_mision_oficial`, `nr_empleado`, `nombre_completo`, `fecha_mision_inicio`, `fecha_mision_fin`, `fecha_solicitud`, `id_actividad_realizada`, `detalle_actividad`, `nr_jefe_inmediato`, `nr_jefe_regional`, `aprobado1`, `aprobado2`, `aprobado3`, `estado`, `ruta_justificacion`, `ultima_observacion`, `fecha_pago`) VALUES
-(1, '335C', 'ABEL   CABRERA ROMAN', '2017-01-03', '2017-01-03', '2017-01-03 09:34:49', 7, 'transporte', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000001.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, '1462', 'ANA CELIA  HUEZO CACERES', '2017-06-14', '2017-06-14', '2017-06-14 11:23:19', 1, 'inspección', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000002.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, '2665', 'ANGEL WILLIAN  CRUZ GARCIA', '2017-11-08', '2017-11-08', '2017-11-08 11:45:29', 17, 'soporte tecnico', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000003.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, '391C', 'ANTONIO ALBERTO  PARRA PANIAGUA', '2017-03-23', '2017-03-23', '2017-03-23 11:58:53', 6, 'notificaciones', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000004.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, '2818', 'BRENDA PATRICIA  TEOS QUIJADA', '2017-09-05', '2017-09-05', '2017-09-05 19:34:01', 35, 'charlas', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000005.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(6, '672C', 'CARLOS ALBERTO  MENDEZ CASTRO', '2017-05-10', '2017-05-10', '2017-05-10 19:38:50', 9, 'mantenimiento', '988C', '862C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000006.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, '978C', 'CARLOS EDUARDO  SALDAÑA AGUILAR', '2017-08-04', '2017-08-04', '2017-08-04 19:44:14', 16, 'Vigilancia', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000007.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, '2905', 'CELIA LUZ  TREJO  DE CANJURA', '2017-02-16', '2017-02-16', '2017-02-16 20:50:40', 15, 'Charla sobre orientación laboral', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000008.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(9, '2788', 'CESAR RAMON  LINARES SERRANO', '2017-10-26', '2017-10-26', '2017-10-26 20:56:28', 17, 'soporte tecnico', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000009.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(10, '749C', 'EDGARDO ULISES  QUINTANILLA', '2017-04-07', '2017-04-07', '2017-04-07 21:01:02', 1, 'Inspeccion', '988C', '753C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000010.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(11, '2647', 'KENNETH VLADIMIR  SERRANO ROSALES', '2017-12-06', '2017-12-06', '2017-12-06 21:05:52', 9, 'Reparación de aire acondicionado', '988C', '845C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000011.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(12, '2347', 'JUAN SANTOS  GRACIAS ESCOBAR', '2017-06-20', '2017-06-20', '2017-06-20 21:15:22', 11, 'Entrega de insumos', '988C', '802C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000012.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(13, '2781', 'JOEL ANTONIO  FLORES MARTINEZ', '2017-07-17', '2017-07-17', '2017-07-17 22:16:11', 9, 'Reparación de fusible', '988C', '814C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000013.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(14, '335C', 'ABEL   CABRERA ROMAN', '2017-03-08', '2017-03-08', '2017-03-08 22:29:03', 7, 'transporte de personal', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000014.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(15, '2818', 'BRENDA PATRICIA  TEOS QUIJADA', '2017-08-16', '2017-08-17', '2017-08-17 22:55:57', 3, 'Capactacion', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'assets/viaticos/justificaciones/0000015.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, '335C', 'ABEL CABRERA ROMAN', '2017-01-03', '2017-01-03', '2018-03-28 11:49:42', 1, 'inspeccion', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, '1462', 'ANA CELIA HUEZO CACERES', '2017-01-04', '2017-01-04', '2018-03-28 11:52:49', 3, 'capaitacion', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, '2665', 'ANGEL WILLIAN CRUZ GARCIA', '2017-01-09', '2017-01-09', '2018-03-28 13:55:54', 2, 'reinspeccion', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, '335C', 'ABEL CABRERA ROMAN', '2017-01-18', '2017-01-18', '2018-03-28 13:26:25', 7, 'Transporte de personal', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, '391C', 'ANTONIO ALBERTO PARRA PANIAGUA', '2017-01-16', '2017-01-16', '2018-03-28 14:05:16', 4, 'proyecto', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, '2818', 'BRENDA PATRICIA TEOS QUIJADA', '2018-03-28', '2018-03-28', '2018-03-28 14:06:46', 3, 'capacitacion', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, '672C', 'CARLOS ALBERTO MENDEZ CASTRO', '2017-01-23', '2017-01-23', '2018-03-28 14:10:42', 17, 'soporte tecnico', '988C', '862C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, '978C', 'CARLOS EDUARDO SALDAÑA AGUILAR', '2017-01-18', '2017-01-18', '2018-03-28 14:12:31', 12, 'supervisar', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, '2905', 'CELIA LUZ TREJO DE CANJURA', '2017-01-26', '2017-01-26', '2018-03-28 14:14:47', 27, 'auditar internamente', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, '1462', 'ANA CELIA HUEZO CACERES', '2017-01-03', '2017-01-03', '2018-03-28 14:20:25', 1, 'Inspecciones', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, '2788', 'CESAR RAMON LINARES SERRANO', '2017-01-19', '2017-01-19', '2018-03-28 14:16:17', 29, 'entrega de uniformes', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, '749C', 'EDGARDO ULISES QUINTANILLA', '2017-01-30', '2017-01-30', '2018-03-28 14:17:45', 32, 'inventariar', '988C', '753C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, '2781', 'JOEL ANTONIO FLORES MARTINEZ', '2017-01-31', '2017-01-31', '2018-03-28 14:18:50', 15, 'reunion de fin de mes', '988C', '814C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, '772C', 'JOSE FRANCISCO HUEZO', '2017-01-16', '2017-01-17', '2018-03-28 14:25:47', 12, 'supervision', '988C', '997C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, '2347', 'JUAN SANTOS GRACIAS ESCOBAR', '2017-01-17', '2017-01-18', '2018-03-28 14:28:31', 16, 'turno de vigilancia', '988C', '802C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, '2665', 'ANGEL WILLIAN CRUZ GARCIA', '2017-01-20', '2017-01-20', '2018-03-28 14:28:54', 9, 'Reparación de computadores', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(17, '2647', 'KENNETH VLADIMIR SERRANO ROSALES', '2017-01-25', '2017-01-25', '2018-03-28 14:31:32', 6, 'notificadores', '988C', '845C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, '854C', 'MARVIN ADALI ESCOBAR GUEVARA', '2017-01-06', '2017-01-06', '2018-03-28 14:32:52', 14, 'retiros de papeleria', '988C', '851C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(19, '391C', 'ANTONIO ALBERTO PARRA PANIAGUA', '2017-01-12', '2017-01-12', '2018-03-28 14:38:59', 6, 'notificaciones', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(20, '335C', 'ABEL CABRERA ROMAN', '2017-02-01', '2017-02-01', '2018-03-28 14:39:30', 10, 'entrega de documentos', '988C', '820C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, '1462', 'ANA CELIA HUEZO CACERES', '2017-02-02', '2017-02-02', '2018-03-28 14:40:49', 24, 'entrega de jefatura', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, '2818', 'BRENDA PATRICIA TEOS QUIJADA', '2017-01-25', '2017-01-25', '2018-03-28 14:43:55', 35, 'charla educativa', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, '2665', 'ANGEL WILLIAN CRUZ GARCIA', '2017-02-06', '2017-02-07', '2018-03-28 14:43:08', 26, 'asesorias a oficinas', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(24, '391C', 'ANTONIO ALBERTO PARRA PANIAGUA', '2017-02-06', '2017-02-09', '2018-03-28 14:47:11', 12, 'se superviso obras', '988C', '837C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(25, '672C', 'CARLOS ALBERTO MENDEZ CASTRO', '2017-01-10', '2017-01-10', '2018-03-28 14:59:50', 27, 'auditoria sobre seguridad ocupacional', '988C', '862C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(26, '672C', 'CARLOS ALBERTO MENDEZ CASTRO', '2017-02-09', '2017-02-09', '2018-03-28 14:59:07', 9, 'reparaciones', '988C', '862C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(27, '978C', 'CARLOS EDUARDO SALDAÑA AGUILAR', '2017-02-13', '2017-02-13', '2018-03-28 15:00:36', 15, 'reuniones', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(28, '2905', 'CELIA LUZ TREJO DE CANJURA', '2017-02-21', '2017-02-21', '2018-03-28 15:02:49', 1, 'inspeccion', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(29, '978C', 'CARLOS EDUARDO SALDAÑA AGUILAR', '2017-01-20', '2017-01-20', '2018-03-28 15:25:53', 16, 'Vigilancia', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(30, '2788', 'CESAR RAMON LINARES SERRANO', '2017-02-24', '2017-02-28', '2018-03-28 15:24:37', 16, 'turnos de vigilancia', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(31, '749C', 'EDGARDO ULISES QUINTANILLA', '2017-02-27', '2017-02-27', '2018-03-28 15:26:02', 11, 'entrega de insumos', '988C', '753C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(32, '2781', 'JOEL ANTONIO FLORES MARTINEZ', '2017-02-08', '2017-02-10', '2018-03-28 15:30:47', 22, 'laboral', '988C', '814C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(33, '2905', 'CELIA LUZ TREJO DE CANJURA', '2017-01-09', '2017-01-09', '2018-03-28 15:36:13', 35, 'Orientación laboral', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(34, '772C', 'JOSE FRANCISCO HUEZO', '2017-02-28', '2017-02-28', '2018-03-28 15:32:29', 20, 'toma de medidas', '988C', '997C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(35, '772C', 'JOSE FRANCISCO HUEZO', '2017-01-09', '2017-01-13', '2018-03-28 15:36:45', 4, 'proyectos', '988C', '997C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(36, '2347', 'JUAN SANTOS GRACIAS ESCOBAR', '2017-01-23', '2017-01-24', '2018-03-28 15:38:11', 8, 'empleos', '988C', '802C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(37, '2788', 'CESAR RAMON LINARES SERRANO', '2017-01-12', '2017-01-12', '2018-03-28 15:39:50', 17, 'soporte tecnico', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(38, '2647', 'KENNETH VLADIMIR SERRANO ROSALES', '2017-01-26', '2017-01-27', '2018-03-28 15:39:35', 18, 'recoleccion', '988C', '845C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(39, '854C', 'MARVIN ADALI ESCOBAR GUEVARA', '2017-01-02', '2017-01-03', '2018-03-28 15:40:51', 19, 'entrega de oficio', '988C', '851C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(40, '749C', 'EDGARDO ULISES QUINTANILLA', '2017-01-10', '2017-01-10', '2018-03-28 15:46:25', 12, 'Supervicion', '988C', '753C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(41, '1462', 'ANA CELIA HUEZO CACERES', '2017-01-16', '2017-01-18', '2018-03-28 15:45:28', 3, 'capacitacion', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(42, '2818', 'BRENDA PATRICIA TEOS QUIJADA', '2017-01-23', '2017-01-24', '2018-03-28 15:46:51', 23, 'entrega de acreditaciones', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(43, '2905', 'CELIA LUZ TREJO DE CANJURA', '2017-01-11', '2017-01-13', '2018-03-28 15:47:54', 10, 'entrega', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(44, '2781', 'JOEL ANTONIO FLORES MARTINEZ', '2017-01-18', '2017-01-18', '2018-03-28 15:51:08', 2, 'reinspeccion', '988C', '814C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(45, '1462', 'ANA CELIA HUEZO CACERES', '2017-01-05', '2017-01-06', '2018-03-28 15:51:15', 5, 'visita tecnica', '988C', '503C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(46, '2818', 'BRENDA PATRICIA TEOS QUIJADA', '2017-01-17', '2017-01-20', '2018-03-28 15:52:31', 21, 'seguimiento de comite', '988C', '2806', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(47, '2781', 'JOEL ANTONIO FLORES MARTINEZ', '2017-01-02', '2017-01-02', '2018-03-28 15:53:59', 9, 'Mantenimiento electrico', '988C', '814C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(48, '2905', 'CELIA LUZ TREJO DE CANJURA', '2017-01-17', '2017-01-19', '2018-03-28 15:54:18', 25, 'arqueo de caja', '988C', '827C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(49, '772C', 'JOSE FRANCISCO HUEZO', '2017-01-25', '2017-01-25', '2018-03-28 15:59:32', 9, 'comunicaciones', '988C', '997C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(50, '2347', 'JUAN SANTOS GRACIAS ESCOBAR', '2017-01-06', '2017-01-06', '2018-03-28 16:52:34', 11, 'Entrega de insumos', '988C', '802C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(51, '2647', 'KENNETH VLADIMIR SERRANO ROSALES', '2017-01-10', '2017-01-10', '2018-03-28 16:54:51', 9, 'mantenimiento', '988C', '845C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(52, '854C', 'MARVIN ADALI ESCOBAR GUEVARA', '2017-01-30', '2017-01-30', '2018-03-28 16:56:34', 1, 'inspeccion', '988C', '851C', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'anVzdGlmaWNhY2lvbg==', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -10874,7 +11530,7 @@ INSERT INTO `vyp_oficinas` (`id_oficina`, `nombre_oficina`, `direccion_oficina`,
 (00008, 'Oficina Departamental de Cuscatlán', 'Cojutepeque, El Salvador', '86 ', 'correo@mtps.gob.sv', '13.721479677884348', ' -88.93028140068054', 00007, 00116, 2),
 (00009, 'Oficina Departamental de la Libertad', 'Residencial Vila Camila, Santa Tecla, El Salvador', '236 ', 'correo@mtps.gob.sv', '13.677130422693326', ' -89.28797056844309', 00005, 00075, 2),
 (00010, 'Oficina Departamental de San Vicente', 'Colonia dos Puentes, San Vicente, El Salvador', '818 ', 'correo@mtps.gob.sv', '13.647047397980815', ' -88.78603285368712', 00010, 00163, 2),
-(00011, 'Oficina Departamental de Chalatenango', 'Barrio El Calvario, San Alejo, El Salvador', '208 ', 'correo@mtps.gob.sv', '13.432384638700917', ' -87.96192592706672', 00014, 00258, 3),
+(00011, 'Oficina Departamental de Chalatenango', 'Chalatenango, El Salvador', '208 ', 'correo@mtps.gob.sv', '14.043248396714018', ' -88.93669141068176', 00004, 00042, 2),
 (00012, 'Oficina Departamental de Morazán', 'Barrio El Centro, San Francisco Gotera, El Salvador', '134 ', 'correo@mtps.gob.sv', '13.695739562788676', ' -88.10587495565414', 00013, 00219, 3);
 
 -- --------------------------------------------------------
@@ -10904,6 +11560,37 @@ CREATE TABLE `vyp_pasajes` (
   `nr` varchar(10) NOT NULL,
   `monto_pasaje` float(10,2) NOT NULL,
   `estado` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vyp_poliza`
+--
+
+CREATE TABLE `vyp_poliza` (
+  `id_poliza` int(10) UNSIGNED NOT NULL,
+  `no_doc` int(10) UNSIGNED NOT NULL,
+  `no_poliz` int(10) UNSIGNED NOT NULL,
+  `mes_poliza` varchar(45) NOT NULL,
+  `fecha_elaboracion` date NOT NULL,
+  `no_cuenta_cheque` varchar(50) NOT NULL,
+  `nr` varchar(5) NOT NULL,
+  `fecha_mision` varchar(500) NOT NULL,
+  `nombre_empleado` varchar(100) NOT NULL,
+  `detalle_mision` varchar(500) NOT NULL,
+  `sede` varchar(500) NOT NULL,
+  `cargo_funcional` varchar(45) NOT NULL,
+  `linea_presup1` varchar(10) NOT NULL,
+  `linea_presup2` varchar(10) NOT NULL,
+  `viatico` float(10,2) NOT NULL,
+  `pasaje` float(10,2) NOT NULL,
+  `total` float(10,2) NOT NULL,
+  `mes` varchar(2) NOT NULL,
+  `anio` varchar(4) NOT NULL,
+  `cuenta_bancaria` varchar(50) NOT NULL,
+  `fecha_cancelado` date NOT NULL,
+  `cod_presupuestario` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -10953,11 +11640,136 @@ INSERT INTO `vyp_rutas` (`id_vyp_rutas`, `id_oficina_origen_vyp_rutas`, `id_ofic
 (18, 6, 2, 00012, 00199, 54.60, 'Oficina Departamental de la Unión - Oficina Regional de Oriente (San Miguel)', '13.478020143745484', ' -88.17572677799063', 'destino_oficina', 'Oficina Regional de Oriente (San Miguel)', 'Oficina Regional de Oriente (San Miguel)', 0),
 (19, 2, 6, 00014, 00245, 54.60, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de la Unión', '13.338405970309157', ' -87.85244576632977', 'destino_oficina', 'Oficina Departamental de la Unión', 'Oficina Departamental de la Unión', 0),
 (20, 8, 0, 00005, 00084, 72.46, 'Oficina Departamental de Cuscatlán - SANTA TECLA/LA LIBERTAD', '13.483360946780984', '-89.33601109748383', 'destino_mapa', 'Centro de Recreación conchalio', 'CA-2, La Libertad, El Salvador', 0),
-(21, 11, 8, 00007, 00116, 61.30, 'Oficina Departamental de Chalatenango - Oficina Departamental de Cuscatlán', '13.721479677884348', ' -88.93028140068054', 'destino_oficina', 'Oficina Departamental de Cuscatlán', 'Oficina Departamental de Cuscatlán', 0),
-(22, 8, 11, 00014, 00258, 61.30, 'Oficina Departamental de Cuscatlán - Oficina Departamental de Chalatenango', '13.432384638700917', ' -87.96192592706672', 'destino_oficina', 'Oficina Departamental de Chalatenango', 'Oficina Departamental de Chalatenango', 0),
+(21, 11, 8, 00007, 00116, 108.00, 'Oficina Departamental de Chalatenango - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 0),
+(22, 8, 11, 00004, 00042, 108.00, 'Oficina Departamental de Cuscatlán - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 0),
 (23, 2, 0, 00005, 00084, 5.13, 'Oficina Regional de Oriente (San Miguel) - SANTA TECLA/LA LIBERTAD', '13.507530807345402', '-88.15479998017457', 'destino_mapa', 'Taller en Hato nuevo', 'Ruta Militar, Hato Nuevo, El Salvador', 0),
 (24, 2, 0, 00012, 00205, 16.31, 'Oficina Regional de Oriente (San Miguel) - SAN MIGUEL/COMACARAN', '13.529504779298957', '-88.0651089938109', 'destino_mapa', 'Empresa en comacaran', 'Calle San Miguel - Comacaran, Comacarán, El Salvador', 0),
-(25, 3, 0, 00006, 00097, 67.44, 'Oficina Regional de Occidente (Santa Ana) - SAN SALVADOR/SAN SALVADOR', '13.710369107588999', '-89.19902389671711', 'destino_mapa', 'Empresa capacitadora', 'Calle Las Victorias, San Salvador, El Salvador', 0);
+(25, 3, 0, 00006, 00097, 67.44, 'Oficina Regional de Occidente (Santa Ana) - SAN SALVADOR/SAN SALVADOR', '13.710369107588999', '-89.19902389671711', 'destino_mapa', 'Empresa capacitadora', 'Calle Las Victorias, San Salvador, El Salvador', 0),
+(26, 3, 0, 00002, 00013, 5.45, 'Oficina Regional de Occidente (Santa Ana) - SANTA ANA/SANTA ANA', '13.99874489392614', '-89.53337111206054', 'destino_mapa', 'probando empresa cercana', 'Carretera desconocida, Santa Ana, El Salvador', 0),
+(27, 1, 0, 00001, 00001, 32.00, 'Oficina Central (San Salvador) - AHUACHAPÁN/AHUACHAPAN', '', '', 'destino_municipio', 'Empresa de ejemplo', 'fasoijdkajdklsa', 0),
+(28, 1, 0, 00006, 00097, 10.00, 'Oficina Central (San Salvador) - SAN SALVADOR/SAN SALVADOR', '', '', 'destino_municipio', 'ahi cerca', 'probando', 0),
+(29, 1, 0, 00012, 00199, 134.04, 'Oficina Central (San Salvador) - SAN MIGUEL/SAN MIGUEL', '13.476731142370154', '-88.18390528546774', 'destino_mapa', 'Black and white hotel', 'CA-1, San Miguel, El Salvador', 0),
+(30, 1, 0, 00006, 00097, 21.40, 'Oficina Central (San Salvador) - SAN SALVADOR/SAN SALVADOR', '13.737222544123016', '-89.06553447246552', 'destino_mapa', 'no se', 'RN 1E, San Salvador, El Salvador', 0),
+(31, 1, 0, 00005, 00079, 25.71, 'Oficina Central (San Salvador) - SANTA TECLA/COLON', '13.728217816527504', '-89.33572947978973', 'destino_mapa', 'sasdadada', 'Carretera desconocida, El Salvador', 0),
+(32, 2, 1, 00006, 00097, 135.00, ' Oficina Regional de Oriente (San Miguel) - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(33, 1, 2, 00012, 00199, 135.00, 'Oficina Central (San Salvador) - Oficina Regional de Oriente (San Miguel)', '', '', 'destino_oficina', '', '', 1),
+(34, 1, 3, 00002, 00013, 69.30, 'Oficina Central (San Salvador) - Oficina Regional de Occidente (Santa Ana)', '', '', 'destino_oficina', '', '', 1),
+(35, 3, 1, 00006, 00097, 69.30, ' Oficina Regional de Occidente (Santa Ana) - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(36, 1, 4, 00008, 00132, 64.30, 'Oficina Central (San Salvador) - Oficina Paracentral (La Paz)', '', '', 'destino_oficina', '', '', 1),
+(37, 4, 1, 00006, 00097, 64.30, ' Oficina Paracentral (La Paz) - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(38, 1, 5, 00003, 00041, 63.60, 'Oficina Central (San Salvador) - Oficina Departamental de Sonsonate', '', '', 'destino_oficina', '', '', 1),
+(39, 5, 1, 00006, 00097, 63.60, ' Oficina Departamental de Sonsonate - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(40, 1, 6, 00014, 00245, 206.00, 'Oficina Central (San Salvador) - Oficina Departamental de la Unión', '', '', 'destino_oficina', '', '', 1),
+(41, 6, 1, 00006, 00097, 206.00, ' Oficina Departamental de la Unión - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(42, 7, 1, 00006, 00097, 100.00, ' Oficina Departamental de Ahuachapán - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(43, 1, 7, 00001, 00001, 100.00, 'Oficina Central (San Salvador) - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(44, 1, 8, 00007, 00116, 37.00, 'Oficina Central (San Salvador) - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(45, 8, 1, 00006, 00097, 37.00, ' Oficina Departamental de Cuscatlán - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(46, 1, 10, 00010, 00163, 58.20, 'Oficina Central (San Salvador) - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(47, 10, 1, 00006, 00097, 58.20, ' Oficina Departamental de San Vicente - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(48, 1, 11, 00004, 00042, 80.90, 'Oficina Central (San Salvador) - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(49, 11, 1, 00006, 00097, 80.90, 'Oficina Departamental de Chalatenango - Oficina Central (San Salvador)', '', '', 'destino_oficina', '', '', 1),
+(50, 1, 12, 00013, 00219, 164.00, 'Oficina Central (San Salvador) - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(51, 12, 1, 00006, 00097, 164.00, ' Oficina Departamental de Morazán - Oficina Central (San Salvador) ', '', '', 'destino_oficina', '', '', 1),
+(52, 2, 3, 00002, 00013, 200.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Regional de Occidente (Santa Ana)', '', '', 'destino_oficina', '', '', 1),
+(53, 3, 2, 00012, 00199, 200.00, ' Oficina Regional de Occidente (Santa Ana) - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(54, 2, 4, 00008, 00132, 107.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Paracentral (La Paz)', '', '', 'destino_oficina', '', '', 1),
+(55, 4, 2, 00012, 00199, 107.00, ' Oficina Paracentral (La Paz) - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(56, 2, 5, 00003, 00041, 211.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de Sonsonate', '', '', 'destino_oficina', '', '', 1),
+(57, 5, 2, 00012, 00199, 211.00, ' Oficina Departamental de Sonsonate - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(58, 7, 2, 00012, 00199, 231.00, ' Oficina Departamental de Ahuachapán - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(59, 2, 7, 00001, 00001, 231.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(60, 2, 8, 00007, 00116, 101.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(61, 8, 2, 00012, 00199, 101.00, ' Oficina Departamental de Cuscatlán - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(62, 2, 9, 00005, 00075, 174.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de la Libertad', '', '', 'destino_oficina', '', '', 1),
+(63, 9, 2, 00012, 00199, 174.00, ' Oficina Departamental de la Libertad - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(64, 2, 10, 00010, 00163, 84.80, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(65, 10, 2, 00012, 00199, 84.80, ' Oficina Departamental de San Vicente - Oficina Regional de Oriente (San Miguel) ', '', '', 'destino_oficina', '', '', 1),
+(66, 11, 2, 00012, 00199, 147.00, 'Oficina Departamental de Chalatenango - Oficina Regional de Oriente (San Miguel)', '', '', 'destino_oficina', '', '', 1),
+(67, 2, 1, 00006, 00097, 135.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Central (San Salvador)', '', '', 'destino_oficina', '', '', 1),
+(68, 3, 4, 00008, 00132, 125.00, 'Oficina Regional de Occidente (Santa Ana) - Oficina Paracentral (La Paz)', '', '', 'destino_oficina', '', '', 1),
+(69, 4, 3, 00002, 00013, 125.00, ' Oficina Paracentral (La Paz) - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(70, 6, 3, 00002, 00013, 42.50, ' Oficina Departamental de la Unión - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(71, 3, 6, 00014, 00245, 42.50, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de la Unión', '', '', 'destino_oficina', '', '', 1),
+(72, 3, 7, 00001, 00001, 36.30, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(73, 7, 3, 00002, 00013, 36.30, ' Oficina Departamental de Ahuachapán - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(74, 3, 8, 00007, 00116, 104.00, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(75, 8, 3, 00002, 00013, 104.00, ' Oficina Departamental de Cuscatlán - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(76, 3, 9, 00005, 00075, 55.20, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de la Libertad', '', '', 'destino_oficina', '', '', 1),
+(77, 9, 3, 00002, 00013, 55.20, ' Oficina Departamental de la Libertad - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(78, 3, 10, 00010, 00163, 125.00, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(79, 10, 3, 00002, 00013, 125.00, ' Oficina Departamental de San Vicente - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(80, 2, 11, 00004, 00042, 147.00, 'Oficina Regional de Oriente (San Miguel) - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(81, 11, 3, 00002, 00013, 98.30, 'Oficina Departamental de Chalatenango - Oficina Regional de Occidente (Santa Ana)', '', '', 'destino_oficina', '', '', 1),
+(82, 12, 3, 00002, 00013, 231.00, ' Oficina Departamental de Morazán - Oficina Regional de Occidente (Santa Ana) ', '', '', 'destino_oficina', '', '', 1),
+(83, 3, 12, 00013, 00219, 231.00, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(84, 4, 5, 00003, 00041, 120.00, 'Oficina Paracentral (La Paz) - Oficina Departamental de Sonsonate', '', '', 'destino_oficina', '', '', 1),
+(85, 5, 4, 00008, 00132, 120.00, ' Oficina Departamental de Sonsonate - Oficina Paracentral (La Paz) ', '', '', 'destino_oficina', '', '', 1),
+(86, 4, 6, 00014, 00245, 145.00, 'Oficina Paracentral (La Paz) - Oficina Departamental de la Unión', '', '', 'destino_oficina', '', '', 1),
+(87, 6, 4, 00008, 00132, 145.00, ' Oficina Departamental de la Unión - Oficina Paracentral (La Paz) ', '', '', 'destino_oficina', '', '', 1),
+(88, 4, 7, 00001, 00001, 163.00, 'Oficina Paracentral (La Paz) - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(89, 7, 4, 00008, 00132, 163.00, ' Oficina Departamental de Ahuachapán - Oficina Paracentral (La Paz) ', '', '', 'destino_oficina', '', '', 1),
+(90, 4, 8, 00007, 00116, 48.40, 'Oficina Paracentral (La Paz) - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(91, 8, 4, 00008, 00132, 48.40, ' Oficina Departamental de Cuscatlán - Oficina Paracentral (La Paz) ', '', '', 'destino_oficina', '', '', 1),
+(92, 4, 9, 00005, 00075, 69.80, 'Oficina Paracentral (La Paz) - Oficina Departamental de la Libertad', '', '', 'destino_oficina', '', '', 1),
+(93, 9, 4, 00008, 00132, 69.80, ' Oficina Departamental de la Libertad - Oficina Paracentral (La Paz) ', '', '', 'destino_oficina', '', '', 1),
+(94, 4, 11, 00004, 00042, 141.00, 'Oficina Paracentral (La Paz) - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(95, 11, 4, 00008, 00132, 141.00, 'Oficina Departamental de Chalatenango - Oficina Paracentral (La Paz)', '', '', 'destino_oficina', '', '', 1),
+(96, 12, 4, 00008, 00132, 131.00, ' Oficina Departamental de Morazán - Oficina Paracentral (La Paz) ', '', '', 'destino_oficina', '', '', 1),
+(97, 4, 12, 00013, 00219, 131.00, 'Oficina Paracentral (La Paz) - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(98, 5, 6, 00014, 00245, 262.00, 'Oficina Departamental de Sonsonate - Oficina Departamental de la Unión', '', '', 'destino_oficina', '', '', 1),
+(99, 6, 5, 00003, 00041, 262.00, ' Oficina Departamental de la Unión - Oficina Departamental de Sonsonate ', '', '', 'destino_oficina', '', '', 1),
+(100, 5, 8, 00007, 00116, 98.80, 'Oficina Departamental de Sonsonate - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(101, 8, 5, 00003, 00041, 98.80, ' Oficina Departamental de Cuscatlán - Oficina Departamental de Sonsonate ', '', '', 'destino_oficina', '', '', 1),
+(102, 5, 9, 00005, 00075, 51.50, 'Oficina Departamental de Sonsonate - Oficina Departamental de la Libertad', '', '', 'destino_oficina', '', '', 1),
+(103, 9, 5, 00003, 00041, 51.50, ' Oficina Departamental de la Libertad - Oficina Departamental de Sonsonate ', '', '', 'destino_oficina', '', '', 1),
+(104, 5, 10, 00010, 00163, 120.00, 'Oficina Departamental de Sonsonate - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(105, 10, 5, 00003, 00041, 120.00, ' Oficina Departamental de San Vicente - Oficina Departamental de Sonsonate ', '', '', 'destino_oficina', '', '', 1),
+(106, 5, 11, 00004, 00042, 138.00, 'Oficina Departamental de Sonsonate - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(107, 11, 5, 00003, 00041, 138.00, 'Oficina Departamental de Chalatenango - Oficina Departamental de Sonsonate', '', '', 'destino_oficina', '', '', 1),
+(108, 5, 12, 00013, 00219, 225.00, 'Oficina Departamental de Sonsonate - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(109, 12, 5, 00003, 00041, 225.00, ' Oficina Departamental de Morazán - Oficina Departamental de Sonsonate ', '', '', 'destino_oficina', '', '', 1),
+(110, 6, 7, 00001, 00001, 274.00, 'Oficina Departamental de la Unión - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(111, 7, 6, 00014, 00245, 274.00, ' Oficina Departamental de Ahuachapán - Oficina Departamental de la Unión ', '', '', 'destino_oficina', '', '', 1),
+(112, 8, 7, 00001, 00001, 134.00, ' Oficina Departamental de Cuscatlán - Oficina Departamental de Ahuachapán ', '', '', 'destino_oficina', '', '', 1),
+(113, 7, 8, 00007, 00116, 134.00, 'Oficina Departamental de Ahuachapán - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(114, 9, 7, 00001, 00001, 85.20, ' Oficina Departamental de la Libertad - Oficina Departamental de Ahuachapán ', '', '', 'destino_oficina', '', '', 1),
+(115, 7, 9, 00005, 00075, 85.20, 'Oficina Departamental de Ahuachapán - Oficina Departamental de la Libertad', '', '', 'destino_oficina', '', '', 1),
+(116, 7, 10, 00010, 00163, 155.00, 'Oficina Departamental de Ahuachapán - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(117, 10, 7, 00001, 00001, 155.00, ' Oficina Departamental de San Vicente - Oficina Departamental de Ahuachapán ', '', '', 'destino_oficina', '', '', 1),
+(118, 7, 11, 00004, 00042, 136.00, 'Oficina Departamental de Ahuachapán - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(119, 11, 7, 00001, 00001, 136.00, 'Oficina Departamental de Chalatenango - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(120, 7, 12, 00013, 00219, 260.00, 'Oficina Departamental de Ahuachapán - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(121, 12, 7, 00001, 00001, 260.00, ' Oficina Departamental de Morazán - Oficina Departamental de Ahuachapán ', '', '', 'destino_oficina', '', '', 1),
+(122, 8, 9, 00005, 00075, 48.60, 'Oficina Departamental de Cuscatlán - Oficina Departamental de la Libertad', '', '', 'destino_oficina', '', '', 1),
+(123, 9, 8, 00007, 00116, 48.60, ' Oficina Departamental de la Libertad - Oficina Departamental de Cuscatlán ', '', '', 'destino_oficina', '', '', 1),
+(124, 8, 10, 00010, 00163, 24.20, 'Oficina Departamental de Cuscatlán - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(125, 10, 8, 00007, 00116, 24.20, ' Oficina Departamental de San Vicente - Oficina Departamental de Cuscatlán ', '', '', 'destino_oficina', '', '', 1),
+(126, 12, 8, 00007, 00116, 130.00, ' Oficina Departamental de Morazán - Oficina Departamental de Cuscatlán ', '', '', 'destino_oficina', '', '', 1),
+(127, 8, 12, 00013, 00219, 130.00, 'Oficina Departamental de Cuscatlán - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(128, 9, 10, 00010, 00163, 69.20, 'Oficina Departamental de la Libertad - Oficina Departamental de San Vicente', '', '', 'destino_oficina', '', '', 1),
+(129, 10, 9, 00005, 00075, 69.20, ' Oficina Departamental de San Vicente - Oficina Departamental de la Libertad ', '', '', 'destino_oficina', '', '', 1),
+(130, 9, 11, 00004, 00042, 91.50, 'Oficina Departamental de la Libertad - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(131, 11, 9, 00005, 00075, 91.50, ' Oficina Departamental de Chalatenango - Oficina Departamental de la Libertad ', '', '', 'destino_oficina', '', '', 1),
+(132, 9, 12, 00013, 00219, 175.00, 'Oficina Departamental de la Libertad - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(133, 12, 9, 00005, 00075, 175.00, ' Oficina Departamental de Morazán - Oficina Departamental de la Libertad ', '', '', 'destino_oficina', '', '', 1),
+(134, 11, 10, 00010, 00163, 129.00, ' Oficina Departamental de Chalatenango - Oficina Departamental de San Vicente ', '', '', 'destino_oficina', '', '', 1),
+(135, 10, 11, 00004, 00042, 129.00, 'Oficina Departamental de San Vicente - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(136, 10, 12, 00013, 00219, 114.00, 'Oficina Departamental de San Vicente - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(137, 12, 10, 00010, 00163, 114.00, ' Oficina Departamental de Morazán - Oficina Departamental de San Vicente ', '', '', 'destino_oficina', '', '', 1),
+(138, 11, 12, 00013, 00219, 161.00, 'Oficina Departamental de Chalatenango - Oficina Departamental de Morazán', '', '', 'destino_oficina', '', '', 1),
+(139, 12, 11, 00004, 00042, 161.00, ' Oficina Departamental de Morazán - Oficina Departamental de Chalatenango ', '', '', 'destino_oficina', '', '', 1),
+(140, 12, 6, 00014, 00245, 82.90, 'Oficina Departamental de Morazán - Oficina Departamental de la Unión', '', '', 'destino_oficina', '', '', 1),
+(141, 6, 12, 00013, 00219, 82.90, ' Oficina Departamental de la Unión - Oficina Departamental de Morazán ', '', '', 'destino_oficina', '', '', 1),
+(142, 5, 0, 00006, 00097, 63.21, 'Oficina Departamental de Sonsonate - SAN SALVADOR/SAN SALVADOR', '13.708492760665433', '-89.20216266948239', 'destino_mapa', 'Empresa en san salvador', 'Pje N1, San Salvador, El Salvador', 0),
+(143, 6, 8, 00007, 00116, 134.00, 'Oficina Departamental de Ahuachapán - Oficina Departamental de Cuscatlán', '', '', 'destino_oficina', '', '', 1),
+(144, 8, 7, 00001, 00001, 133.00, 'Oficina Departamental de Cuscatlán - Oficina Departamental de Ahuachapán', '', '', 'destino_oficina', '', '', 1),
+(145, 3, 0, 00001, 00001, 36.12, 'Oficina Regional de Occidente (Santa Ana) - AHUACHAPÁN/AHUACHAPAN', '13.926736264079324', '-89.8464918127197', 'destino_mapa', 'Centro Escolar en ahuachapán', '12A Calle Oriente, Ahuachapan, El Salvador', 0),
+(146, 10, 6, 00014, 00245, 128.00, 'Oficina Departamental de San Vicente - Oficina Departamental de la Unión', '', '', 'destino_oficina', '', '', 1),
+(147, 6, 10, 00010, 00163, 128.00, ' Oficina Departamental de la Unión - Oficina Departamental de San Vicente ', '', '', 'destino_oficina', '', '', 1),
+(148, 3, 11, 00004, 00042, 97.50, 'Oficina Regional de Occidente (Santa Ana) - Oficina Departamental de Chalatenango', '', '', 'destino_oficina', '', '', 1),
+(149, 12, 0, 00004, 00071, 162.26, 'Oficina Departamental de Morazán - CHALATENANGO/SAN MIGUEL DE MERCEDES', '14.01040876807658', '-88.93396943807602', 'destino_mapa', 'Empresa en chalatenango', 'Calle Principal, San Miguel de Mercedes, El Salvador', 0),
+(150, 8, 0, 00002, 00016, 93.45, 'Oficina Departamental de Cuscatlán - SANTA ANA/COATEPEQUE', '13.891054652633303', '-89.54846613266352', 'destino_mapa', 'Centro de Recreación ''Constitución 1950'', Santa Ana, El Salvador', 'SAN24E, El Salvador', 0);
 
 -- --------------------------------------------------------
 
@@ -11005,6 +11817,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `cdr_centro`
+--
+ALTER TABLE `cdr_centro`
+  ADD PRIMARY KEY (`id_centro`);
 
 --
 -- Indices de la tabla `glb_accion_bitacora`
@@ -11196,6 +12014,12 @@ ALTER TABLE `vyp_estado_solicitud`
   ADD PRIMARY KEY (`id_estado_solicitud`);
 
 --
+-- Indices de la tabla `vyp_generalidades`
+--
+ALTER TABLE `vyp_generalidades`
+  ADD PRIMARY KEY (`id_generalidad`);
+
+--
 -- Indices de la tabla `vyp_horario_viatico`
 --
 ALTER TABLE `vyp_horario_viatico`
@@ -11212,6 +12036,12 @@ ALTER TABLE `vyp_horario_viatico_solicitud`
 --
 ALTER TABLE `vyp_informacion_empleado`
   ADD PRIMARY KEY (`id_informacion_empleado`);
+
+--
+-- Indices de la tabla `vyp_justificaciones`
+--
+ALTER TABLE `vyp_justificaciones`
+  ADD PRIMARY KEY (`id_justificacion`);
 
 --
 -- Indices de la tabla `vyp_mision_oficial`
@@ -11244,6 +12074,12 @@ ALTER TABLE `vyp_pasajes`
   ADD PRIMARY KEY (`id_solicitud_pasaje`);
 
 --
+-- Indices de la tabla `vyp_poliza`
+--
+ALTER TABLE `vyp_poliza`
+  ADD PRIMARY KEY (`id_poliza`);
+
+--
 -- Indices de la tabla `vyp_rutas`
 --
 ALTER TABLE `vyp_rutas`
@@ -11254,6 +12090,11 @@ ALTER TABLE `vyp_rutas`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `cdr_centro`
+--
+ALTER TABLE `cdr_centro`
+  MODIFY `id_centro` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `glb_accion_bitacora`
 --
 ALTER TABLE `glb_accion_bitacora`
@@ -11262,7 +12103,7 @@ ALTER TABLE `glb_accion_bitacora`
 -- AUTO_INCREMENT de la tabla `glb_bitacora`
 --
 ALTER TABLE `glb_bitacora`
-  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla glb_bitacorá, para hacer referencia a la información', AUTO_INCREMENT=150;
+  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla glb_bitacorá, para hacer referencia a la información', AUTO_INCREMENT=183;
 --
 -- AUTO_INCREMENT de la tabla `org_departamento`
 --
@@ -11282,7 +12123,7 @@ ALTER TABLE `org_linea_trabajo`
 -- AUTO_INCREMENT de la tabla `org_modulo`
 --
 ALTER TABLE `org_modulo`
-  MODIFY `id_modulo` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=335;
+  MODIFY `id_modulo` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=353;
 --
 -- AUTO_INCREMENT de la tabla `org_municipio`
 --
@@ -11312,12 +12153,12 @@ ALTER TABLE `org_permiso`
 -- AUTO_INCREMENT de la tabla `org_rol`
 --
 ALTER TABLE `org_rol`
-  MODIFY `id_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT de la tabla `org_rol_modulo_permiso`
 --
 ALTER TABLE `org_rol_modulo_permiso`
-  MODIFY `id_rol_permiso` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4040;
+  MODIFY `id_rol_permiso` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6286;
 --
 -- AUTO_INCREMENT de la tabla `org_seccion`
 --
@@ -11327,17 +12168,17 @@ ALTER TABLE `org_seccion`
 -- AUTO_INCREMENT de la tabla `org_sistema`
 --
 ALTER TABLE `org_sistema`
-  MODIFY `id_sistema` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_sistema` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `org_usuario`
 --
 ALTER TABLE `org_usuario`
-  MODIFY `id_usuario` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=932;
+  MODIFY `id_usuario` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=934;
 --
 -- AUTO_INCREMENT de la tabla `org_usuario_rol`
 --
 ALTER TABLE `org_usuario_rol`
-  MODIFY `id_usuario_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3351;
+  MODIFY `id_usuario_rol` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3362;
 --
 -- AUTO_INCREMENT de la tabla `sir_cargo_funcional`
 --
@@ -11382,7 +12223,7 @@ ALTER TABLE `vyp_actividades`
 -- AUTO_INCREMENT de la tabla `vyp_alojamientos`
 --
 ALTER TABLE `vyp_alojamientos`
-  MODIFY `id_alojamiento` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_alojamiento` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 --
 -- AUTO_INCREMENT de la tabla `vyp_empleado_cuenta_banco`
 --
@@ -11392,7 +12233,7 @@ ALTER TABLE `vyp_empleado_cuenta_banco`
 -- AUTO_INCREMENT de la tabla `vyp_empresas_visitadas`
 --
 ALTER TABLE `vyp_empresas_visitadas`
-  MODIFY `id_empresas_visitadas` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_empresas_visitadas` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT de la tabla `vyp_estado_solicitud`
 --
@@ -11407,7 +12248,7 @@ ALTER TABLE `vyp_horario_viatico`
 -- AUTO_INCREMENT de la tabla `vyp_horario_viatico_solicitud`
 --
 ALTER TABLE `vyp_horario_viatico_solicitud`
-  MODIFY `id_horario_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_horario_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
 --
 -- AUTO_INCREMENT de la tabla `vyp_informacion_empleado`
 --
@@ -11417,12 +12258,12 @@ ALTER TABLE `vyp_informacion_empleado`
 -- AUTO_INCREMENT de la tabla `vyp_mision_oficial`
 --
 ALTER TABLE `vyp_mision_oficial`
-  MODIFY `id_mision_oficial` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_mision_oficial` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT de la tabla `vyp_observacion_solicitud`
 --
 ALTER TABLE `vyp_observacion_solicitud`
-  MODIFY `id_observacion_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_observacion_solicitud` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `vyp_oficinas`
 --
@@ -11434,10 +12275,15 @@ ALTER TABLE `vyp_oficinas`
 ALTER TABLE `vyp_oficinas_telefono`
   MODIFY `id_vyp_oficinas_telefono` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `vyp_poliza`
+--
+ALTER TABLE `vyp_poliza`
+  MODIFY `id_poliza` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `vyp_rutas`
 --
 ALTER TABLE `vyp_rutas`
-  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_vyp_rutas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 --
 -- Restricciones para tablas volcadas
 --

@@ -155,7 +155,7 @@
             <h5>Pasaje: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="pasaje" name="pasaje" onkeyup="validar_monto_pasaje(this, '<?php echo number_format($pasaje,2); ?>');" class="form-control" required="" placeholder="0.00" value="0.00">
+                <input type="number" id="pasaje" name="pasaje" onkeyup="validar_monto_pasaje(this, '<?php echo number_format($pasaje,2); ?>');" class="form-control" required="" placeholder="0.00" step="any" value="0.00">
             </div>
             <div class="help-block"></div>
         </div>
@@ -163,7 +163,7 @@
             <h5>Viático: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="viatico" name="viatico" class="form-control" required="" placeholder="0.00" value="0.00">
+                <input type="number" id="viatico" name="viatico" class="form-control" required="" step="any" placeholder="0.00" value="0.00">
                 <div class="input-group-addon btn btn-success" onclick="verificar_viaticos();" data-toggle="tooltip" title="Verificar viáticos"><i class="fa fa-check"></i></div>
             </div>
             <div class="help-block"></div>
@@ -211,7 +211,7 @@
             <h5>Monto por día: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" onkeyup="validar_monto_alojamiento(this, '<?php echo number_format($alojamiento,2); ?>');" placeholder="0.00" value="0.00" max="25">
+                <input type="number" id="alojamiento" name="alojamiento" class="form-control" required="" onkeyup="validar_monto_alojamiento(this, '<?php echo number_format($alojamiento,2); ?>');" placeholder="0.00" value="0.00" step="any">
             </div>
             <div class="help-block"></div>
         </div>
