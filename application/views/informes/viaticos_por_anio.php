@@ -29,10 +29,16 @@
 	        }
 	     }
 	     function iniciar() {
-	     	<?php
+	     	var slider = $("#range_04").data("ionRangeSlider");
+	     	slider.update({
+	     		from: 2017,
+	     		to: 2018
+	     	});
+	     	<?php  
 	          $data['id_modulo'] = $this->uri->segment(5);
 	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
 	          $data['id_permiso']="1";
+
 	          if(!buscar_permiso($data)){
 	         ?>
 	            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
