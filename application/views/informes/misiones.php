@@ -2,25 +2,20 @@
 <html>
 <head>
 	<title></title>
-	<script>
-		function mostrarReportePorGenero(tipo){
-	        var anios = $("#anio_actual").val();
-	        var seccion = $("#seccion").val();
-	        if(anios){
-	          var xhr = "<?php echo base_url()?>";
-	          if(document.getElementById('radio_pdf').checked==true && tipo==""){ 
-	          window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_genero/pdf/"+seccion+"/"+anios,"_blank");
+	<script type="text/javascript">
+		function mostrarreporte(tipo){
+			 var xhr = "<?php echo base_url()?>";
+			 var nr = $("#id_empleado").val();
+	          if(document.getElementById('radio_pdf').checked==true && tipo==""){
+	          	window.open(xhr+"index.php/informes/menu_reportes/reporte_misiones/pdf/"+nr,"_blank");
 	          }else if(document.getElementById('radio_excel').checked==true && tipo==""){
-	          	 window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_genero/excel/"+seccion+"/"+anios,"_blank");
+	          	window.open(xhr+"index.php/informes/menu_reportes/reporte_misiones/excel/"+nr,"_blank");
 	          }else{
-	          	var html="<embed src='"+xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_genero/vista/"+seccion+"/"+anios+"'  width='780' height='400'>";
+	          	var html="<embed src='"+xhr+"index.php/informes/menu_reportes/reporte_misiones/vista/"+nr+"'  width='780' height='400'>";
     				$("#informe_vista").html(html);
 	          }
-	        }else{
-	          swal({ title: "¡Ups! Error", text: "Completa los campos.", type: "error", showConfirmButton: true });
-	        } 
-	     }
-	     function iniciar() {
+		}
+		 function iniciar() {
 	     	<?php
 	          $data['id_modulo'] = $this->uri->segment(5);
 	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
@@ -42,7 +37,7 @@
 
 	        <div class="row page-titles">
 	            <div class="align-self-center" align="center">
-	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos por Genero</h3>
+	                <h3 class="text-themecolor m-b-0 m-t-0">Misiones de Empleados</h3>
 	            </div>
 	        </div>
 	         <div class="row " id="cnt_form">
@@ -53,14 +48,26 @@
 	                    </div>
 	                    <div class="card-body b-t">
 							<div class="form-group">
-                                <h5>Año: <span class="text-danger">*</span></h5>
-                                <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual" name="anio_actual" placeholder="yyyy">
+                            	<h5>Empleado:</h5>
+                            	<select id="id_empleado" name="id_empleado" class="select2"  style="width: 100%">
+                                <option value='todos'>[Todos]</option>
+                                <?php
+                                    $datasEmpleado = $this->db->query("SELECT * FROM sir_empleado");
+                                    
+                                    if($datasEmpleado->num_rows() > 0){
+                                        foreach ($datasEmpleado->result() as $fila2) {
+                                    ?>
+<option class="m-l-50" value="<?php echo $fila2->nr; ?>"><?php echo preg_replace('/[ ]+/', ' ',$fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido." - ".$fila2->nr); ?></option>
+                                                            <?php
+                                                              }
+                                                          }
+                                                          ?>
+                                </select>
                             </div>
-
-                            <div class="form-group" align="right">
-                                 <button type="button" onclick="mostrarReportePorGenero('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
+                             <div align="right">
+                            	<button type="button" onclick="mostrarreporte('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>
                             </div>
-                             <br>
+                            <br>
                             <div class="card-body b-t">
 	                            	<div class="demo-radio-button">
 	                                    <input name="group2" type="radio" id="radio_pdf" checked="">
@@ -71,7 +78,7 @@
 
 	                            </div>
 	                         <div align="right">
-	                            <button type="button" onclick="mostrarReportePorGenero('')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Exportar Reporte</button>
+	                            <button type="button" onclick="mostrarreporte('')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Exportar Reporte</button>
 	                            </div>
 	                    </div>
 	                </div>
@@ -94,13 +101,3 @@
 
 </body>
 </html>
-<script>
-	$(document).ready(function(){
-          $('.date-own').datepicker({
-            minViewMode: 2,
-            format: 'yyyy',
-            autoclose: true,
-            todayHighlight: true
-          });
-      });
-</script>

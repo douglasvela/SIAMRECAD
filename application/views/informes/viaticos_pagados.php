@@ -69,7 +69,7 @@
                                     if($datasEmpleado->num_rows() > 0){
                                         foreach ($datasEmpleado->result() as $fila2) {
                                     ?>
-<option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if(isset($fila4)){ if($fila2->nr==$fila4->nr){ echo "selected";} } ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
+<option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if(isset($fila4)){ if($fila2->nr==$fila4->nr){ echo "selected";} } ?>><?php echo preg_replace ('/[ ]+/', ' ',$fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido) ?></option>
                                                             <?php
                                                               }
                                                           }
@@ -85,7 +85,7 @@
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" data-date-end-date="0d"  onkeyup="FECHA('fecha_mision')" required="" value="<?php echo date('d-m-Y'); ?>" class="form-control" id="fecha_max" name="fecha_max" placeholder="dd/mm/yyyy">
                                 </div>
                                 <div align="right">
-                                	 <button type="button" onclick="mostrarReportePagados('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Previa</button>
+                                	 <button type="button" onclick="mostrarReportePagados('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>
                                 </div>
                                  <div class="card-body b-t">
 	                            	<div class="demo-radio-button">

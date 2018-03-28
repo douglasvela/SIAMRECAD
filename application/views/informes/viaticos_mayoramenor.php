@@ -74,7 +74,7 @@
                                     $datos = $this->db->query("SELECT * FROM org_seccion order by depende ");
                                     if($datos->num_rows() > 0){
                                     foreach ($datos->result() as $filadatos) {
-                                    echo "<option class='m-l-50' value='$filadatos->id_seccion'>$filadatos->nombre_seccion</option>";
+                                    echo "<option class='m-l-50' value='$filadatos->id_seccion'>".preg_replace ('/[ ]+/', ' ',$filadatos->nombre_seccion)."</option>";
                                         }
                                     }
                                 //$u_rec_id = $this->session->userdata('rec_id');
@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div align="right">
-                            	<button type="button" onclick="mostrarReporteViaticosMayoraMenor('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Preliminar</button>
+                            	<button type="button" onclick="mostrarReporteViaticosMayoraMenor('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
                             </div><br>
                             <div class="card-body b-t">
 	                            	<div class="demo-radio-button">

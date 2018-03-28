@@ -151,7 +151,7 @@
                                  	$datos = $this->db->query("SELECT * FROM vyp_actividades ");
                                     if($datos->num_rows() > 0){
                                     foreach ($datos->result() as $filadatos) {
-    						echo '<option value="'.$filadatos->id_vyp_actividades.'">'.$filadatos->nombre_vyp_actividades.'</option>';
+    						echo '<option value="'.$filadatos->id_vyp_actividades.'">'.preg_replace ('/[ ]+/', ' ',$filadatos->nombre_vyp_actividades).'</option>';
                                  ?>
 
 
@@ -213,7 +213,7 @@
                                 </select>
                             </div>
                             <div align="right">
-                            	<button type="button" onclick="mostrarReportePorActividad('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Previa</button>
+                            	<button type="button" onclick="mostrarReportePorActividad('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>
                             </div>
                             <br>
                             <div class="card-body b-t">

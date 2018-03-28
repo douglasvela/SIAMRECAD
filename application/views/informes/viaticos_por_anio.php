@@ -66,7 +66,7 @@
                             		<div id="range_04" data-min="2010" data-max="<?php echo date('Y');?>"></div>
                             </div>
                             <div align="right">
-                            	<button type="button" onclick="mostrarReportePorAnio('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Previa</button>
+                            	<button type="button" onclick="mostrarReportePorAnio('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>
                             </div>
                             <br>
                             <div class="card-body b-t">

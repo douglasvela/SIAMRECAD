@@ -174,7 +174,7 @@
                                 </select>
                             </div>
                             <div class="form-group" align="right">
-                            	<button type="button" onclick="mostrarReportePorPeriodo('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Preliminar</button>
+                            	<button type="button" onclick="mostrarReportePorPeriodo('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
                         	</div>
                         	<br>
                             <div class="card-body b-t">

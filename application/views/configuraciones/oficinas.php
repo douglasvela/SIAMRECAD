@@ -400,7 +400,7 @@
                                                     foreach ($seccion->result() as $fila) {
                                             ?>
                                                 <option  value="<?php echo $fila->id_departamento ?>" onclick="','null')" > 
-                                                    <?php echo $fila->departamento ?>
+                                                    <?php echo preg_replace ('/[ ]+/', ' ',$fila->departamento) ?>
                                                 </option>;
                                             <?php
                                                     }

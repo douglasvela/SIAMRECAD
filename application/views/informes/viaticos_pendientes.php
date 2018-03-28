@@ -68,7 +68,7 @@
                                         if($dataEmpleado->num_rows() > 0){
                                             foreach ($dataEmpleado->result() as $fila2) {
                                  ?>
-<option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if(isset($fila3)){ if($fila2->nr==$fila3->nr){ echo "selected"; }} ?>><?php echo $fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido; ?></option>
+<option class="m-l-50" value="<?php echo $fila2->nr; ?>" <?php if(isset($fila3)){ if($fila2->nr==$fila3->nr){ echo "selected"; }} ?>><?php echo preg_replace ('/[ ]+/', ' ',$fila2->primer_nombre." ".$fila2->segundo_nombre." ".$fila2->primer_apellido." ".$fila2->segundo_apellido) ?></option>
                                 <?php
                                         }
                                     }
@@ -77,7 +77,7 @@
                                 </select>
                             </div>
                             <div align="right">
-                            <button type="button" onclick="mostrarReporteEmpleado('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Vista Previa</button>
+                            <button type="button" onclick="mostrarReporteEmpleado('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>
                             </div><br>
                             <div class="card-body b-t">
                             	<div class="demo-radio-button">
