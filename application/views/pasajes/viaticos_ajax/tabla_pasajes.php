@@ -81,10 +81,10 @@
             </td>  
 </tr>
         <?php 
-       $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision");
+       $cuenta = $this->db->query("");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
-                  echo "<tr>";
+                  echo "<tr>";SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision
                      //echo "<td>".$fila->id_solicitud_pasaje."</td>";
                              $fila->fecha_mision=date("d-m-Y",strtotime($fila->fecha_mision));
                             echo "<td>".$fila->fecha_mision."</td>";
