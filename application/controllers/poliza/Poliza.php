@@ -18,6 +18,19 @@ class Poliza extends CI_Controller {
 		$this->load->view('poliza/tabla_generar_poliza');
 	}
 
+	public function tabla_poliza(){
+		$this->load->view('poliza/tabla_poliza');
+	}
+
+	function insertar_poliza(){
+		$sql = $this->input->post('sql');
+		echo $this->poliza_model->insertar_poliza($sql);
+	}
+
+	function eliminar_poliza(){
+		$this->poliza_model->eliminar_poliza($this->input->post('no_poliza'));
+	}
+
 	/*public function calcular_viaticos(){
 		$data = array(
 			'hora_inicio' => $this->input->post('hora_inicio'), 
