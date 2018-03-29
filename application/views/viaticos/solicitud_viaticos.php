@@ -833,10 +833,13 @@
 
                     var diferencia = newf2.diff(newf1, 'days');
 
-                    if(Math.abs(diferencia) > 30){
-                        //$("#fecha_mision_fin").val(fecha1)
-
+                    if(diferencia > 30){
                         $("#fecha_mision_fin").datepicker("setDate", fecha1 );
+                    }
+
+                    if(diferencia < 0){
+                        $("#fecha_mision_fin").datepicker("setDate", fecha1 );
+                        $.toast({ heading: 'Orden de fecha', text: "La fecha de inicio no puede ser mayor a la fecha de fin", position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                     }
 
                     if(typeof callback == "function"){
