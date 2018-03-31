@@ -199,6 +199,10 @@ if($generalidades->num_rows() > 0){
     }
   }
 
+  function imprimir_poliza(no_poliza){
+    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza, '_blank');
+  }
+
 </script>
 
   <div class="page-wrapper">

@@ -6,6 +6,7 @@ class Poliza extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('poliza_model');
+		$this->load->library('mpdf');
 	}
 
 	public function index(){
@@ -20,6 +21,10 @@ class Poliza extends CI_Controller {
 
 	public function tabla_poliza(){
 		$this->load->view('poliza/tabla_poliza');
+	}
+
+	public function imprimir_poliza(){
+		$this->load->view('poliza/imprimir_poliza');
 	}
 
 	function insertar_poliza(){
