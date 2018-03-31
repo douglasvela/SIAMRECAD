@@ -4276,7 +4276,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		   
@@ -4287,7 +4287,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
 		   
@@ -4308,6 +4308,8 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2" >ID MISION</th>
 						<th align="center" rowspan="2" >NR</th>
 						<th align="center" rowspan="2" >NOMBRE</th>
+						<th align="center" rowspan="2" >SECCION</th>
+						<th align="center" rowspan="2" >CARGO</th>
 						<th align="center" rowspan="2" >FECHA INICIO</th>
 						<th align="center" rowspan="2" >FECHA FIN</th>
 						<th align="center" rowspan="2" >FECHA SOLICITUD</th>
@@ -4346,6 +4348,8 @@ class Menu_reportes extends CI_Controller {
 							<td>'.($viaticos->id_mision_oficial).'</td>
 							<td>'.($viaticos->nr_empleado).'</td>
 							<td style="width:180px">'.($viaticos->nombre_completo).'</td>
+							<td>'.($viaticos->seccion).'</td>
+							<td>'.($viaticos->cargo).'</td>
 							<td>'.($viaticos->fecha_mision_inicio).'</td>
 							<td>'.($viaticos->fecha_mision_fin).'</td>
 							<td>'.($viaticos->fecha_solicitud).'</td>
@@ -4366,7 +4370,7 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center"  colspan="7">Total</th>
+							<th align="center"  colspan="9">Total</th>
 							<th align="center">$'.number_format($total_viatico,2,".",",").'</th>
 							<th align="center">$'.number_format($total_pasaje,2,".",",").'</th>
 							<th align="center" >$'.number_format($total_alojamiento,2,".",",").'</th>
@@ -4411,21 +4415,23 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('ID MISION','NR','NOMBRE','FECHA INICIO','FECHA FIN','FECHA SOLICITUD','ACIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('ID MISION','NR','NOMBRE','SECCION','CARGO','FECHA INICIO','FECHA FIN','FECHA SOLICITUD','ACIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
 			    ->setCellValue('C7',  $titulosColumnas[2])
 			    ->setCellValue('D7',  $titulosColumnas[3])
 			    ->setCellValue('E7',  $titulosColumnas[4])
-				->setCellValue('F7',  $titulosColumnas[5])
-				->setCellValue('G7',  $titulosColumnas[6])
+			    ->setCellValue('F7',  $titulosColumnas[5])
+			    ->setCellValue('G7',  $titulosColumnas[6])
 				->setCellValue('H7',  $titulosColumnas[7])
 				->setCellValue('I7',  $titulosColumnas[8])
 				->setCellValue('J7',  $titulosColumnas[9])
 				->setCellValue('K7',  $titulosColumnas[10])
 				->setCellValue('L7',  $titulosColumnas[11])
 				->setCellValue('M7',  $titulosColumnas[12])
+				->setCellValue('N7',  $titulosColumnas[13])
+				->setCellValue('O7',  $titulosColumnas[14])
 			    ;
 
 			 
@@ -4435,7 +4441,7 @@ class Menu_reportes extends CI_Controller {
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE MISIONES")
 			            ;
-			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:M7')->getFont()->setBold(true); 
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:O7')->getFont()->setBold(true); 
 			 
 			
 			 //////////////////////////////////////////////////
@@ -4456,7 +4462,7 @@ class Menu_reportes extends CI_Controller {
 					$total_total+=$viaticos->total;
 
 					
-						$this->objPHPExcel->getActiveSheet()->getStyle('D'.$f.':M'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$this->objPHPExcel->getActiveSheet()->getStyle('J'.$f.':M'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 						$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 						// Miscellaneous glyphs, UTF-8
 						
@@ -4464,33 +4470,35 @@ class Menu_reportes extends CI_Controller {
 							->setCellValue('A'.$f,$viaticos->id_mision_oficial)
 							->setCellValue('B'.$f,$viaticos->nr_empleado)
 							->setCellValue('C'.$f,$viaticos->nombre_completo)
-							->setCellValue('D'.$f,$viaticos->fecha_mision_inicio)
-							->setCellValue('E'.$f,$viaticos->fecha_mision_fin)
-							->setCellValue('F'.$f,$viaticos->fecha_solicitud)
-							->setCellValue('G'.$f,$viaticos->nombre_actividad)
-							->setCellValue('H'.$f,number_format($viaticos->viaticos,2,".",","))
-							->setCellValue('I'.$f, number_format($viaticos->pasajes,2,".",","))
-							->setCellValue('J'.$f,number_format($viaticos->alojamientos,2,".",","))
-							->setCellValue('K'.$f, number_format($viaticos->total,2,".",","))
-							->setCellValue('L'.$f,$viaticos->nombre_estado)
-							->setCellValue('M'.$f,$viaticos->fecha_pago);
+							->setCellValue('D'.$f,$viaticos->seccion)
+							->setCellValue('E'.$f,$viaticos->cargo)
+							->setCellValue('F'.$f,$viaticos->fecha_mision_inicio)
+							->setCellValue('G'.$f,$viaticos->fecha_mision_fin)
+							->setCellValue('H'.$f,$viaticos->fecha_solicitud)
+							->setCellValue('I'.$f,$viaticos->nombre_actividad)
+							->setCellValue('J'.$f,number_format($viaticos->viaticos,2,".",","))
+							->setCellValue('K'.$f, number_format($viaticos->pasajes,2,".",","))
+							->setCellValue('L'.$f,number_format($viaticos->alojamientos,2,".",","))
+							->setCellValue('M'.$f, number_format($viaticos->total,2,".",","))
+							->setCellValue('N'.$f,$viaticos->nombre_estado)
+							->setCellValue('O'.$f,$viaticos->fecha_pago);
 							$f++;
 					}
 				}else{
 					$this->objPHPExcel->setActiveSheetIndex(0)
 				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
-				            ->mergeCells('A'.$f.':M'.$f);
+				            ->mergeCells('A'.$f.':O'.$f);
 				}
 				 
-				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':M'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':O'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 					$this->objPHPExcel->setActiveSheetIndex(0)
 							->setCellValue('A'.$f,"TOTAL")
-							->mergeCells('A'.$f.':G'.$f)
-							->setCellValue('H'.$f,number_format($total_viatico,2,".",","))
-							->setCellValue('I'.$f, number_format($total_pasaje,2,".",","))
-							->setCellValue('J'.$f,number_format($total_alojamiento,2,".",","))
-							->setCellValue('K'.$f, number_format($total_total,2,".",","));
-			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':M'.$f)->getFont()->setBold(true); 
+							->mergeCells('A'.$f.':I'.$f)
+							->setCellValue('J'.$f,number_format($total_viatico,2,".",","))
+							->setCellValue('K'.$f, number_format($total_pasaje,2,".",","))
+							->setCellValue('L'.$f,number_format($total_alojamiento,2,".",","))
+							->setCellValue('M'.$f, number_format($total_total,2,".",","));
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':O'.$f)->getFont()->setBold(true); 
 			 //////////////////////////////////////////////////
 			 ///
 			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -4506,7 +4514,7 @@ class Menu_reportes extends CI_Controller {
     			->mergeCells('A3:C3')
     			->mergeCells('A4:C4');
 
-			for($i = 'B'; $i <= 'M'; $i++){
+			for($i = 'B'; $i <= 'O'; $i++){
 				for($ii = '7'; $ii <= '50'; $ii++){
 			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
 				}
