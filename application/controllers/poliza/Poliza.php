@@ -33,7 +33,7 @@ class Poliza extends CI_Controller {
 	}
 
 	function eliminar_poliza(){
-		$this->poliza_model->eliminar_poliza($this->input->post('no_poliza'));
+		echo $this->poliza_model->eliminar_poliza($this->input->post('no_poliza'));
 	}
 
 	/*public function calcular_viaticos(){

@@ -1,7 +1,5 @@
 <?php
 
-$monto = number_format(100.50, 2, '.', '');
-
 $decs = (($monto-intval($monto))*100);
 
 if($decs == 0){

@@ -29,8 +29,13 @@
                             echo "<td>".$fila->no_poliz."</td>";
                             echo "<td>".$fila->mes_poliza."</td>";
                             echo "<td>".$fila->anio."</td>";
-                            echo "<td>".$fila->total."</td>";
-                            echo "<td>".$fila->estado."</td>";
+                            echo "<td>$ ".$fila->total."</td>";
+
+                            if($fila->estado == 0){
+                                echo '<td><span class="label label-danger">Revisión presupuestaria</span></td>';
+                            }else if($fila->estado == 1){
+                                echo '<td><span class="label label-success">Pagada</span></td>';
+                            }
 
                             echo "<td>";
                             $array = array($fila->no_poliz, $fila->mes_poliza, $fila->anio, $fila->total, $fila->estado);

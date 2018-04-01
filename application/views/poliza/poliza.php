@@ -91,8 +91,8 @@ if($generalidades->num_rows() > 0){
         var csede = $(celdas[9]).text().trim();
         var cargo = $(celdas[10]).text().trim();
         var linea = $(celdas[11]).text().trim();
-        var viati = $($(celdas[12]).children("input")[0]).val();
-        var pasaj = $($(celdas[13]).children("input")[0]).val();
+        var pasaj = $($(celdas[12]).children("input")[0]).val();
+        var viati = $($(celdas[13]).children("input")[0]).val();
         var total = $($(celdas[14]).children("input")[0]).val();
 
         var idmis = $($(celdas[0]).children("input")[0]).val();
@@ -132,6 +132,8 @@ if($generalidades->num_rows() > 0){
       .done(function(data){
           if(data == "exito"){
               swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+              tabla_poliza();
+              cerrar_mantenimiento();
           }else{
               swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
           }
@@ -178,6 +180,7 @@ if($generalidades->num_rows() > 0){
   }
 
   function cambiar_nuevo(){
+    tabla_generar_poliza();
     $("#cnt_registros_polizas").hide(300);
     $("#cnt_poliza").show(300);
   }
@@ -333,7 +336,7 @@ if($generalidades->num_rows() > 0){
     
     <br>
 
-    <div class="form-group" style="display: block;">
+    <div class="form-group" style="display: none;">
         <textarea id="area" class="form-control" rows="10"></textarea>
     </div>
 
