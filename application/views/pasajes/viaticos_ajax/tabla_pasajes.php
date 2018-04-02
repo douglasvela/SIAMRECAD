@@ -29,7 +29,7 @@
 
     echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required>';
 
-    echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'">';
+    echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required>';
 
     }
 
@@ -81,11 +81,11 @@
             </td>  
 </tr>
         <?php 
-       $cuenta = $this->db->query("");
+       $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
-                  echo "<tr>";SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$fecha_mes."%' ORDER BY fecha_mision
-                     //echo "<td>".$fila->id_solicitud_pasaje."</td>";
+                  echo "<tr>";
+                 //echo "<td>".$fila->id_solicitud_pasaje."</td>";
                              $fila->fecha_mision=date("d-m-Y",strtotime($fila->fecha_mision));
                             echo "<td>".$fila->fecha_mision."</td>";
                             echo "<td>".$fila->no_expediente."</td>";

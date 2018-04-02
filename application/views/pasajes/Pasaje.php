@@ -172,7 +172,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         }
 
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr + "&fecha1="+fechas, true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr+"&fecha1="+fechas, true);
         xmlhttpB.send(); 
    
 }
