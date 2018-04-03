@@ -24,21 +24,20 @@ if($generalidades->num_rows() > 0){
 }
 
 ?>
-
 <script type="text/javascript">
   var orden_poliza = "automatico";
+  var contador_clic = 0;
+  var primer_index;
+  var segundo_index;
 
   function iniciar(){
     tabla_poliza();
   }
 
-  function tabla_generar_poliza(){
-    var mes = $("#nombre7").val();
-    var anio = $("#nombre8").val();
-    var num_poliza = $("#nombre1").val();
+  function tabla_generar_poliza(num_poliza, mes, anio){
     var newName = 'AjaxCall', xhr = new XMLHttpRequest();
 
-    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza/tabla_generar_poliza?mes="+mes+"&anio="+anio+"&num_poliza="+num_poliza+"&orden_poliza="+orden_poliza);
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_presupuesto/tabla_generar_poliza?mes="+mes+"&anio="+anio+"&num_poliza="+num_poliza);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
@@ -46,7 +45,6 @@ if($generalidades->num_rows() > 0){
 
             $("#nombre5").val($("#total").val());
             $("#nombre6").text($("#total_texto").val());
-            $("#nombre1").val($("#no_poliza").val());
             
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -58,7 +56,7 @@ if($generalidades->num_rows() > 0){
   function tabla_poliza(){
     var newName = 'AjaxCall', xhr = new XMLHttpRequest();
 
-    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza/tabla_poliza");
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_presupuesto/tabla_poliza");
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
@@ -76,7 +74,7 @@ if($generalidades->num_rows() > 0){
 
     if((filas.length-1) > 0){
 
-      var script = "INSERT INTO vyp_poliza (no_doc, no_poliza, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, linea_presup2, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision, nombre_banco) VALUES\n";
+      var script = "INSERT INTO vyp_poliza (no_doc, no_poliz, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision) VALUES\n";
 
       for(i=0; i< (filas.length-1); i++){
         var celdas = $(filas[i]).children("td");
@@ -90,8 +88,7 @@ if($generalidades->num_rows() > 0){
         var dmisi = $(celdas[8]).text().trim();
         var csede = $(celdas[9]).text().trim();
         var cargo = $(celdas[10]).text().trim();
-        var linea1 = $(celdas[11]).text().trim();
-        var linea2 = $(celdas[11]).text().trim();
+        var linea = $(celdas[11]).text().trim();
         var pasaj = $($(celdas[12]).children("input")[0]).val();
         var viati = $($(celdas[13]).children("input")[0]).val();
         var total = $($(celdas[14]).children("input")[0]).val();
@@ -103,13 +100,12 @@ if($generalidades->num_rows() > 0){
         var mtpsc = $("#nombre10").val();
         var cpres = $("#nombre3").val();
         var npoli = $("#nombre1").val();
-        var banco = $("#nombre9").val();
 
 
         if(i == (filas.length-2)){
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"');";
+          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"');";
         }else{
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"'),\n";
+          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"'),\n";
         }
       }
 
@@ -127,7 +123,7 @@ if($generalidades->num_rows() > 0){
       };
       $.ajax({
           type:  'POST',
-          url:   '<?php echo site_url(); ?>/poliza/poliza/insertar_poliza',
+          url:   '<?php echo site_url(); ?>/poliza/poliza_presupuesto/insertar_poliza',
           data: formData,
           cache: false
       })
@@ -148,7 +144,7 @@ if($generalidades->num_rows() > 0){
       };
       $.ajax({
           type:  'POST',
-          url:   '<?php echo site_url(); ?>/poliza/poliza/eliminar_poliza',
+          url:   '<?php echo site_url(); ?>/poliza/poliza_presupuesto/eliminar_poliza',
           data: formData,
           cache: false
       })
@@ -162,10 +158,16 @@ if($generalidades->num_rows() > 0){
       });
   }
 
-  function cambiar_editar(no_poliza, mes_poliza, anio_poliza, total, estado, band){
-
+  function cambiar_editar(no_poliza, mes_poliza, anio_poliza, total, estado, cpresupuestario, nombre_banco, cuenta_bancaria, band){
     if(band == "edit"){
-
+      $("#nombre1").val(no_poliza)
+      $("#nombre7").val(mes_poliza)
+      $("#nombre8").val(anio_poliza)
+      $("#nombre3").val(cpresupuestario)
+      $("#nombre9").val(nombre_banco)
+      $("#nombre10").val(cuenta_bancaria)
+      cambiar_nuevo();
+      tabla_generar_poliza(no_poliza, mes_poliza, anio_poliza)
     }else{
       swal({   
         title: "¿Está seguro?",   
@@ -182,7 +184,6 @@ if($generalidades->num_rows() > 0){
   }
 
   function cambiar_nuevo(){
-    tabla_generar_poliza();
     $("#cnt_registros_polizas").hide(300);
     $("#cnt_poliza").show(300);
   }
@@ -205,7 +206,38 @@ if($generalidades->num_rows() > 0){
   }
 
   function imprimir_poliza(no_poliza){
-    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza, '_blank');
+    window.open("<?php echo site_url(); ?>/poliza/poliza_presupuesto/imprimir_poliza?no_poliza="+no_poliza, '_blank');
+  }
+
+  function nuevo_clic(obj){
+    contador_clic++;
+    if(contador_clic == 1){
+      $(obj).addClass("table-warning");
+      primer_index = $(obj).index();
+      $.toast({ heading: 'Selección habilitada', text: 'Seleccione el ultimo registro al que desea modificar la linea presupuestaria', position: 'top-right', loaderBg:'#000', icon: 'info', hideAfter: 4000, stack: 6 });
+    }else{
+      var registros = $("#tabla_poliza>tbody").find("tr");
+      $("#tabla_poliza>tbody").find("tr").removeClass("table-warning");
+      segundo_index = $(obj).index();
+      if(segundo_index < primer_index){
+        var aux = segundo_index;
+        segundo_index = primer_index;
+        primer_index = aux;
+      }
+
+      for(i = primer_index; i<= segundo_index; i++){
+        $(registros[i]).addClass("table-warning");
+      }
+
+      $("#modal_linea").modal("show");
+    }
+  }
+
+  function cancelar(){
+    $("#tabla_poliza>tbody").find("tr").removeClass("table-warning");
+    contador_clic = 0;
+    primer_index = "";
+    segundo_index = "";
   }
 
 </script>
@@ -219,7 +251,7 @@ if($generalidades->num_rows() > 0){
             <div class="align-self-center" align="center">
                 <h3 class="text-themecolor m-b-0 m-t-0">
                   <?php 
-                    echo $titulo = ucfirst("Gestión de polizas"); 
+                    echo $titulo = ucfirst("Gestión de polizas (presupuesto)"); 
                   ?>
                   </h3>
             </div>
@@ -243,29 +275,17 @@ if($generalidades->num_rows() > 0){
               <tr>
                 <td width="326"><h5 align="justify">No. POLIZA: </h5></td>
                 <td width="257"><div align="justify"><span class="controls">
-                  <div class="input-group">
-                      <input type="text" id="nombre1" name="nombre1" class="form-control" required="" onchange="tabla_generar_poliza();">
-                      <div id="cnt_manual" class="input-group-addon btn btn-default" onclick="cambiar_orden('manual');" data-toggle="tooltip" title="" data-original-title="Clic para cambiar a manual"><i class="mdi mdi-account-convert"></i></div>
-                      <div style="display: none;" id="cnt_automatico" class="input-group-addon btn btn-default" onclick="cambiar_orden('automatico');" data-toggle="tooltip" title="" data-original-title="Clic para cambiar a automático"><i class="mdi mdi-book-open-page-variant"></i></div>
-                  </div>
+                  <input type="text" id="nombre1" name="nombre1" class="form-control" required="">
                 </span></div></td>
                 <td> <h5 align="justify"> MES:</h5></td>
                 <td><div align="justify"><span class="controls">
-                  <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;" onchange="tabla_generar_poliza();">
+                  <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;">
                     <?php
-                      $mes_actual;
                       for($i=1; $i<=12; $i++){
-
-                        if(date("n") == $i){
-                          $mes_actual = "selected";
-                        }else{
-                          $mes_actual = "";
-                        }
-
                         if($i>9){
-                          echo '<option value="'.$i.'" '.$mes_actual.'>'.mes($i).'</option>';
+                          echo '<option value="'.$i.'">'.mes($i).'</option>';
                         }else{
-                          echo '<option value="0'.$i.'" '.$mes_actual.'>'.mes($i).'</option>';
+                          echo '<option value="0'.$i.'">'.mes($i).'</option>';
                         }
                       }
                     ?>
@@ -279,17 +299,17 @@ if($generalidades->num_rows() > 0){
                 </span></div></td>
                 <td> <h5 align="justify"> EJERCICIO FINANCIERO FISCAL: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre8" name="nombre8" class="form-control" onchange="tabla_generar_poliza();" value="<?php echo date("Y"); ?>" />
+                  <input type="text" id="nombre8" name="nombre8" class="form-control"/>
                 </span></div></td>
               </tr>
               <tr>
                 <td height="25"><h5 align="justify">CÓDIGO PRESUPUESTARIO: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre3" name="nombre3" class="form-control" value="<?php echo $cod_presupuestario; ?>" />
+                  <input type="text" id="nombre3" name="nombre3" class="form-control" />
                 </span></div></td>
                 <td> <h5 align="justify"> NOMBRE DEL BANCO: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre9" name="nombre9" class="form-control" value="<?php echo $banco; ?>"/>
+                  <input type="text" id="nombre9" name="nombre9" class="form-control"/>
                 </span></div></td>
               </tr>
               <tr>
@@ -299,7 +319,7 @@ if($generalidades->num_rows() > 0){
                 </span></div></td>
                 <td> <h5 align="justify">No. CUENTA BANCARIA: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre10" name="nombre10" class="form-control" required="required" value="<?php echo $num_cuenta; ?>" />
+                  <input type="text" id="nombre10" name="nombre10" class="form-control" required="required"/>
                 </span></div></td>
               </tr>
               <tr>
@@ -344,6 +364,42 @@ if($generalidades->num_rows() > 0){
 
  </div>
 </div>
+
+
+<div id="modal_linea" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cambio de línea presupuestaria</h4>
+                <button type="button" class="close" onclick="cancelar();" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                 <div class="row container">
+                    <div class="col-lg-12">
+                        <select id="municipios_rutas" name="municipios_rutas" class="select2" style="width: 100%" required>
+                            <option value=''>[Elija la nueva línea presupuestaria]</option>
+                            <?php
+                                $linea_presupuestaria = $this->db->query("SELECT * FROM org_linea_trabajo");
+                                if($linea_presupuestaria->num_rows() > 0){
+                                    foreach ($linea_presupuestaria->result() as $fila2) {              
+                                       echo '<option class="m-l-50" value="'.$fila2->linea_trabajo.'">'.$fila2->linea_trabajo.'</option>';
+                                    }
+                                }
+                             ?>
+                        </select>
+                    </div>
+                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" onclick="cancelar();" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Confirmar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 
 </div>
 

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class poliza_model extends CI_Model {
+class poliza_presupuesto_model extends CI_Model {
 	
 	function __construct(){
 		parent::__construct();
@@ -16,7 +16,7 @@ class poliza_model extends CI_Model {
 	}
 
 	function eliminar_poliza($data){
-		if($this->db->delete("vyp_poliza",array('no_poliza' => $data))){
+		if($this->db->delete("vyp_poliza",array('no_poliz' => $data))){
 			return "exito";
 		}else{
 			return "fracaso";

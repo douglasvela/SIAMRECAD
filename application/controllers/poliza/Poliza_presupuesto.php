@@ -1,30 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Poliza extends CI_Controller {
+class Poliza_presupuesto extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('poliza_model');
+		$this->load->model('poliza_presupuesto_model');
 		$this->load->library('mpdf');
 	}
 
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('poliza/poliza');
+		$this->load->view('poliza/poliza_presupuesto');
 		$this->load->view('templates/footer');
 	}
 
 	public function tabla_generar_poliza(){
-		$this->load->view('poliza/ajax_poliza/tabla_generar_poliza');
+		$this->load->view('poliza/ajax_poliza_presupuesto/tabla_generar_poliza');
 	}
 
 	public function tabla_poliza(){
-		$this->load->view('poliza/ajax_poliza/tabla_poliza');
+		$this->load->view('poliza/ajax_poliza_presupuesto/tabla_poliza');
 	}
 
 	public function imprimir_poliza(){
-		$this->load->view('poliza/ajax_poliza/imprimir_poliza');
+		$this->load->view('poliza/ajax_poliza_presupuesto/imprimir_poliza');
 	}
 
 	function insertar_poliza(){

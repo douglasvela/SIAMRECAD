@@ -160,12 +160,12 @@ $mes_texto = mes($mes_poliza);
 $date_poliza = $anio_poliza."-".$mes_poliza;
 
 if($_GET["orden_poliza"] == "automatico"){
-    $poliza = $this->db->query("SELECT no_poliz FROM vyp_poliza WHERE anio = '$anio_poliza' ORDER BY no_poliz DESC LIMIT 1");
+    $poliza = $this->db->query("SELECT no_poliza FROM vyp_poliza WHERE anio = '$anio_poliza' ORDER BY no_poliza DESC LIMIT 1");
 
     $ult_poliza = 1;
     if($poliza->num_rows() > 0){
         foreach ($poliza->result() as $fila2) {
-            $ult_poliza = intval($fila2->no_poliz)+1;
+            $ult_poliza = intval($fila2->no_poliza)+1;
         }
     }
 }else{
@@ -205,7 +205,7 @@ $num_poliza = $ult_poliza;
         <tbody style="font-size: 11px;">
          	<?php
 
-                $misiones = $this->db->query("SELECT m.id_mision_oficial, m.nr_empleado, UPPER(CONCAT_WS(' ', emp.primer_nombre, emp.segundo_nombre, emp.tercer_nombre)) AS nombre, UPPER(CONCAT_WS(' ', emp.primer_apellido, emp.segundo_apellido, emp.apellido_casada)) AS apellido, m.fecha_mision_inicio, m.fecha_mision_fin, m.fecha_solicitud, e.nombre_origen, sum(e.pasaje) AS pasaje, sum(e.viatico) AS viatico, sum(e.alojamiento) AS alojamiento, cf.funcional, o.nombre_oficina, lt.linea_trabajo FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico AS e ON m.id_mision_oficial = e.id_mision AND MONTH(m.fecha_solicitud) <= '".$mes_poliza."' AND YEAR(m.fecha_solicitud) = '".$anio_poliza."' AND m.id_mision_oficial NOT IN (SELECT id_mision FROM vyp_poliza) JOIN sir_empleado AS emp ON emp.nr = m.nr_empleado JOIN (SELECT MAX(id_empleado_informacion_laboral) as id_empleado_informacion_laboral, id_empleado, id_linea_trabajo, id_cargo_funcional, id_seccion FROM sir_empleado_informacion_laboral GROUP BY id_empleado ORDER BY id_empleado_informacion_laboral) AS ei ON ei.id_empleado = emp.id_empleado JOIN vyp_informacion_empleado AS ie ON ie.nr = m.nr_empleado JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN vyp_oficinas AS o ON o.id_oficina = ie.id_oficina_departamental JOIN org_linea_trabajo AS lt ON lt.id_linea_trabajo = ei.id_linea_trabajo GROUP BY m.id_mision_oficial ORDER BY m.fecha_solicitud");
+                $misiones = $this->db->query("SELECT m.id_mision_oficial, m.nr_empleado, UPPER(CONCAT_WS(' ', emp.primer_nombre, emp.segundo_nombre, emp.tercer_nombre)) AS nombre, UPPER(CONCAT_WS(' ', emp.primer_apellido, emp.segundo_apellido, emp.apellido_casada)) AS apellido, m.fecha_mision_inicio, m.fecha_mision_fin, m.fecha_solicitud, e.nombre_origen, sum(e.pasaje) AS pasaje, sum(e.viatico) AS viatico, sum(e.alojamiento) AS alojamiento, cf.funcional, o.nombre_oficina, lt.linea_trabajo FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico AS e ON m.id_mision_oficial = e.id_mision AND MONTH(m.fecha_solicitud) <= '".$mes_poliza."' AND YEAR(m.fecha_solicitud) = '".$anio_poliza."' AND m.id_mision_oficial NOT IN (SELECT id_mision FROM vyp_poliza) JOIN sir_empleado AS emp ON emp.nr = m.nr_empleado JOIN (SELECT MAX(id_empleado_informacion_laboral) as id_empleado_informacion_laboral, id_empleado, id_linea_trabajo, id_cargo_funcional, id_seccion FROM sir_empleado_informacion_laboral GROUP BY id_empleado ORDER BY id_empleado_informacion_laboral) AS ei ON ei.id_empleado = emp.id_empleado JOIN vyp_informacion_empleado AS ie ON ie.nr = m.nr_empleado JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN vyp_oficinas AS o ON o.id_oficina = ie.id_oficina_departamental JOIN org_linea_trabajo AS lt ON lt.id_linea_trabajo = ei.id_linea_trabajo GROUP BY m.id_mision_oficial ORDER BY lt.linea_trabajo, m.fecha_solicitud");
 
                 $correlativo = 0;
                 $total_pasaje = 0;

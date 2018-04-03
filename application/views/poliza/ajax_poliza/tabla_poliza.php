@@ -22,11 +22,11 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $poliza = $this->db->query("SELECT no_poliz, mes_poliza, anio, SUM(total) AS total, estado FROM vyp_poliza GROUP BY no_poliz");
+                    $poliza = $this->db->query("SELECT no_poliza, mes_poliza, anio, SUM(total) AS total, estado FROM vyp_poliza GROUP BY no_poliza");
                     if($poliza->num_rows() > 0){
                         foreach ($poliza->result() as $fila) {
                             echo "<tr>";
-                            echo "<td>".$fila->no_poliz."</td>";
+                            echo "<td>".$fila->no_poliza."</td>";
                             echo "<td>".$fila->mes_poliza."</td>";
                             echo "<td>".$fila->anio."</td>";
                             echo "<td>$ ".$fila->total."</td>";
@@ -38,10 +38,10 @@
                             }
 
                             echo "<td>";
-                            $array = array($fila->no_poliz, $fila->mes_poliza, $fila->anio, $fila->total, $fila->estado);
+                            $array = array($fila->no_poliza, $fila->mes_poliza, $fila->anio, $fila->total, $fila->estado);
 
                             array_push($array, "edit");
-                            echo generar_boton(array($fila->no_poliz),"imprimir_poliza","btn-default","fa fa-print","Imprimir");
+                            echo generar_boton(array($fila->no_poliza),"imprimir_poliza","btn-default","fa fa-print","Imprimir");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
                             echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
