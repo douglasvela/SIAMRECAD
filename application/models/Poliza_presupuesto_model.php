@@ -15,8 +15,16 @@ class poliza_presupuesto_model extends CI_Model {
 		}
 	}
 
+	function editar_poliza($data){
+		if($this->db->query($data["sql"]) && $this->db->query("UPDATE vyp_poliza SET estado = '1' WHERE no_poliza = '".$data["no_poliza"]."' AND anio = '".$data["anio"]."'")){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function eliminar_poliza($data){
-		if($this->db->delete("vyp_poliza",array('no_poliz' => $data))){
+		if($this->db->delete("vyp_poliza",array('no_poliza' => $data))){
 			return "exito";
 		}else{
 			return "fracaso";

@@ -218,7 +218,9 @@ $num_poliza = $ult_poliza;
 
                       	echo "<tr style='cursor: pointer;' onclick='nuevo_clic(this);'>";
                         ?>
-            			<td style="padding: 7px;"><?php echo $fila->no_doc; ?></td>
+            			<td style="padding: 7px;"><?php echo $fila->no_doc; ?>
+                            <input type="hidden" width="20px" value="<?php echo $fila->id_poliza; ?>">
+                        </td>
 		            	<td style="padding: 7px;"><?php echo $fila->mes_poliza; ?></td>
                         <td style="padding: 7px;"><?php echo date("Y-m-d",strtotime($fila->fecha_elaboracion)); ?></td>
                         <td style="padding: 7px;"><?php echo $fila->no_cuenta_cheque; ?></td>

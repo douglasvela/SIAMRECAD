@@ -61,7 +61,6 @@ if($generalidades->num_rows() > 0){
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
             document.getElementById("cnt_tabla_poliza").innerHTML = xhr.responseText;
-            
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
@@ -69,67 +68,57 @@ if($generalidades->num_rows() > 0){
     xhr.send(encodeURI('name=' + newName));
   }
 
+
   function recorrer_poliza(){
     var filas = $("#tabla_poliza>tbody").find("tr");
+    var idspoliza = "";
 
     if((filas.length-1) > 0){
 
-      var script = "INSERT INTO vyp_poliza (no_doc, no_poliz, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision) VALUES\n";
+      var script = "UPDATE vyp_poliza SET linea_presup2 = CASE id_poliza\n";
 
       for(i=0; i< (filas.length-1); i++){
         var celdas = $(filas[i]).children("td");
-        var ndocu = $(celdas[0]).text().trim();
-        var mespo = $(celdas[2]).text().trim();
-        var felab = $(celdas[3]).text().trim();
-        var ncuen = $(celdas[4]).text().trim();
-        var nremp = $(celdas[5]).text().trim();
-        var fmisi = $(celdas[6]).text().trim();
-        var nomem = $(celdas[7]).text().trim();
-        var dmisi = $(celdas[8]).text().trim();
-        var csede = $(celdas[9]).text().trim();
-        var cargo = $(celdas[10]).text().trim();
-        var linea = $(celdas[11]).text().trim();
-        var pasaj = $($(celdas[12]).children("input")[0]).val();
-        var viati = $($(celdas[13]).children("input")[0]).val();
-        var total = $($(celdas[14]).children("input")[0]).val();
 
-        var idmis = $($(celdas[0]).children("input")[0]).val();
-
+        var idpol = $($(celdas[0]).children("input")[0]).val();
+        var linea = $(celdas[10]).text().trim();
         var mescb = $("#nombre7").val();
         var anioc = $("#nombre8").val();
-        var mtpsc = $("#nombre10").val();
-        var cpres = $("#nombre3").val();
         var npoli = $("#nombre1").val();
 
-
         if(i == (filas.length-2)){
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"');";
+          idspoliza += idpol;
+          script += "WHEN "+idpol+" THEN "+linea+"\n";
+          script += "END\n WHERE id_poliza IN ("+idspoliza+");";
         }else{
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"'),\n";
+          idspoliza += idpol+", ";
+          script += "WHEN "+idpol+" THEN "+linea+"\n";
         }
       }
 
-      insertar_poliza(script)
+      editar_poliza(script, npoli, anioc)
 
     }else{
-      swal({ title: "Póliza vacía", text: "No se puede generar una poliza sin viáticos.", type: "warning", showConfirmButton: true });
+      swal({ title: "Póliza vacía", text: "No se puede editar una poliza sin viáticos.", type: "warning", showConfirmButton: true });
     }
 
   }
 
-  function insertar_poliza(sql){
+  function editar_poliza(sql, no_poliza, anio){
       var formData = {
-          "sql" : sql
+          "sql" : sql,
+          "no_poliza" : no_poliza,
+          "anio" : anio
       };
       $.ajax({
           type:  'POST',
-          url:   '<?php echo site_url(); ?>/poliza/poliza_presupuesto/insertar_poliza',
+          url:   '<?php echo site_url(); ?>/poliza/poliza_presupuesto/editar_poliza',
           data: formData,
           cache: false
       })
       .done(function(data){
           if(data == "exito"){
-              swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+              swal({ title: "¡Edición exitosa!", type: "success", showConfirmButton: true });
               tabla_poliza();
               cerrar_mantenimiento();
           }else{
@@ -233,6 +222,18 @@ if($generalidades->num_rows() > 0){
     }
   }
 
+  function reemplazar_linea(){
+    var registros = $("#tabla_poliza>tbody").find("tr");
+
+      for(i = primer_index; i<= segundo_index; i++){
+        var celdas = $(registros[i]).children("td");
+
+        $(celdas[10]).text($("#id_linea").val());
+      }
+
+      cancelar();
+  }
+
   function cancelar(){
     $("#tabla_poliza>tbody").find("tr").removeClass("table-warning");
     contador_clic = 0;
@@ -275,11 +276,11 @@ if($generalidades->num_rows() > 0){
               <tr>
                 <td width="326"><h5 align="justify">No. POLIZA: </h5></td>
                 <td width="257"><div align="justify"><span class="controls">
-                  <input type="text" id="nombre1" name="nombre1" class="form-control" required="">
+                  <input type="text" id="nombre1" name="nombre1" class="form-control" style="background-color: #fff;" readonly="">
                 </span></div></td>
                 <td> <h5 align="justify"> MES:</h5></td>
                 <td><div align="justify"><span class="controls">
-                  <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;">
+                  <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;" disabled>
                     <?php
                       for($i=1; $i<=12; $i++){
                         if($i>9){
@@ -295,31 +296,31 @@ if($generalidades->num_rows() > 0){
               <tr>
                 <td><h5 align="justify">INSTITUCIÓN:</h5></td>
                 <td ><div align="justify"><span class="controls">
-                  <input type="text" id="nombre2" name="nombre2" class="form-control" value="MINISTERIO DE TRABAJO Y PREVISION SOCIAL" disabled=""/>
+                  <input type="text" id="nombre2" name="nombre2" class="form-control" value="MINISTERIO DE TRABAJO Y PREVISION SOCIAL" readonly="" style="background-color: #fff;"/>
                 </span></div></td>
                 <td> <h5 align="justify"> EJERCICIO FINANCIERO FISCAL: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre8" name="nombre8" class="form-control"/>
+                  <input type="text" id="nombre8" name="nombre8" class="form-control" readonly style="background-color: #fff;"/>
                 </span></div></td>
               </tr>
               <tr>
                 <td height="25"><h5 align="justify">CÓDIGO PRESUPUESTARIO: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre3" name="nombre3" class="form-control" />
+                  <input type="text" id="nombre3" name="nombre3" class="form-control" readonly style="background-color: #fff;"/>
                 </span></div></td>
                 <td> <h5 align="justify"> NOMBRE DEL BANCO: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre9" name="nombre9" class="form-control"/>
+                  <input type="text" id="nombre9" name="nombre9" class="form-control" readonly style="background-color: #fff;"/>
                 </span></div></td>
               </tr>
               <tr>
                 <td height="25"><h5 align="justify">DENOMINACIÓN DEL MONTO FIJO: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre4" name="nombre4" class="form-control" value="FONDO CIRCULANTE DEL MTPS" disabled="" />
+                  <input type="text" id="nombre4" name="nombre4" class="form-control" value="FONDO CIRCULANTE DEL MTPS" readonly style="background-color: #fff;"/>
                 </span></div></td>
                 <td> <h5 align="justify">No. CUENTA BANCARIA: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre10" name="nombre10" class="form-control" required="required"/>
+                  <input type="text" id="nombre10" name="nombre10" class="form-control" readonly style="background-color: #fff;" />
                 </span></div></td>
               </tr>
               <tr>
@@ -327,7 +328,7 @@ if($generalidades->num_rows() > 0){
                 <td><div align="justify"><span class="controls">
                   <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                      <input type="number" id="nombre5" name="nombre5" class="form-control" required="">
+                      <input type="number" id="nombre5" name="nombre5" class="form-control" readonly style="background-color: #fff;">
                   </div>
                 </span></div></td>
                 <td><h5 align="justify">No. COMPROMISO PRESUPUESTARIO:</h5></td>
@@ -352,8 +353,7 @@ if($generalidades->num_rows() > 0){
     </div>
 
     <div align="right">
-      <button type="button" onclick="" class="btn btn-info">Vista previa</button>
-      <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Generar póliza</button>
+      <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Guardar ediciones</button>
     </div>
     
     <br>
@@ -376,7 +376,8 @@ if($generalidades->num_rows() > 0){
             <div class="modal-body">
                  <div class="row container">
                     <div class="col-lg-12">
-                        <select id="municipios_rutas" name="municipios_rutas" class="select2" style="width: 100%" required>
+                        <h5>Línea presupuestaria</h5>
+                        <select id="id_linea" name="id_linea" class="select2" style="width: 100%" required>
                             <option value=''>[Elija la nueva línea presupuestaria]</option>
                             <?php
                                 $linea_presupuestaria = $this->db->query("SELECT * FROM org_linea_trabajo");
@@ -392,7 +393,7 @@ if($generalidades->num_rows() > 0){
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" onclick="cancelar();" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Confirmar</button>
+                <button type="button" class="btn btn-info waves-effect text-white" onclick="reemplazar_linea();" data-dismiss="modal">Confirmar</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -402,12 +403,3 @@ if($generalidades->num_rows() > 0){
 
 
 </div>
-
-
-<script>
-$(function(){
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-});
-</script>

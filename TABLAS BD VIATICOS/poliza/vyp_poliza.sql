@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `vyp_poliza`;
 CREATE TABLE `vyp_poliza` (
   `id_poliza` int(10) UNSIGNED NOT NULL,
   `no_doc` int(10) UNSIGNED NOT NULL,
-  `no_poliz` int(10) UNSIGNED NOT NULL,
+  `no_poliza` int(10) UNSIGNED NOT NULL,
   `mes_poliza` varchar(45) NOT NULL,
   `fecha_elaboracion` date NOT NULL,
   `no_cuenta_cheque` varchar(50) NOT NULL,
@@ -23,6 +23,7 @@ CREATE TABLE `vyp_poliza` (
   `total` float(10,2) NOT NULL,
   `mes` varchar(2) NOT NULL,
   `anio` varchar(4) NOT NULL,
+  `nombre_banco` varchar(100) NOT NULL,
   `cuenta_bancaria` varchar(50) NOT NULL,
   `fecha_cancelado` date NOT NULL,
   `cod_presupuestario` varchar(45) NOT NULL,

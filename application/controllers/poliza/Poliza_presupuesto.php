@@ -27,13 +27,18 @@ class Poliza_presupuesto extends CI_Controller {
 		$this->load->view('poliza/ajax_poliza_presupuesto/imprimir_poliza');
 	}
 
-	function insertar_poliza(){
-		$sql = $this->input->post('sql');
-		echo $this->poliza_model->insertar_poliza($sql);
+	function editar_poliza(){
+		$data = array(
+			'sql' => $this->input->post('sql'), 
+			'no_poliza' => $this->input->post('no_poliza'),
+			'anio' => $this->input->post('anio')
+		);
+
+		echo $this->poliza_presupuesto_model->editar_poliza($data);
 	}
 
 	function eliminar_poliza(){
-		echo $this->poliza_model->eliminar_poliza($this->input->post('no_poliza'));
+		echo $this->poliza_presupuesto_model->eliminar_poliza($this->input->post('no_poliza'));
 	}
 
 	/*public function calcular_viaticos(){
