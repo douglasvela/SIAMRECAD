@@ -117,7 +117,8 @@ class Solicitud_viatico extends CI_Controller {
 							'size' => $size,
 							'id_mision' => $resultado,
 							'extension' => $extension,
-							'nombre' => $nombre
+							'nombre' => $nombre,
+							'nombre_real' => $filename
 							);
 						
 						if($this->solicitud_model->insertar_justificacion($data2) == "exito"){
@@ -195,7 +196,8 @@ class Solicitud_viatico extends CI_Controller {
 							'size' => $size,
 							'id_mision' => $this->input->post('id_mision'),
 							'extension' => $extension,
-							'nombre' => $nombre
+							'nombre' => $nombre,
+							'nombre_real' => $filename
 							);
 						
 						if($this->solicitud_model->insertar_justificacion($data2) == "exito"){

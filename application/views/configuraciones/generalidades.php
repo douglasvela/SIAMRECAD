@@ -62,7 +62,7 @@
                         <?php
                         	$generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
 
-                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = ""; $cod_presupuestario = "";
+                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = ""; $cod_presupuestario = ""; $limite_poliza = "500.00";
 			                if($generalidades->num_rows() > 0){
 			                    foreach ($generalidades->result() as $filag) {
 			                    	$id_generalidad = $filag->id_generalidad;

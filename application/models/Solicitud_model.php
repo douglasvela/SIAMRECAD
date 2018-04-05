@@ -28,7 +28,7 @@ class Solicitud_model extends CI_Model {
 
 
 	function insertar_justificacion($data){
-		if($this->db->insert('vyp_justificaciones', array('id_justificacion' => $data["id_justificacion"], 'ruta' => $data['ruta'], 'size' => $data['size'], 'id_mision' => $data['id_mision'], 'extension' => $data['extension'], 'nombre' => $data['nombre']))){
+		if($this->db->insert('vyp_justificaciones', array('id_justificacion' => $data["id_justificacion"], 'ruta' => $data['ruta'], 'size' => $data['size'], 'id_mision' => $data['id_mision'], 'extension' => $data['extension'], 'nombre' => $data['nombre'], 'nombre_real' => $data['nombre_real']))){
 			return true;
 		}else{
 			return false;

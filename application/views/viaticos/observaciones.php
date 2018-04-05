@@ -68,6 +68,8 @@
 
                 if($("#numObservacion1").val() != "0"){
                     $("#notify1").html('<span class="label label-danger" style="padding: 3px 5px;">'+$("#numObservacion1").val()+'</span>');
+                }else{
+                    $("#notify1").html('');
                 }
             }
         }
@@ -89,6 +91,8 @@
                 $('[data-toggle="tooltip"]').tooltip();
                 if($("#numObservacion2").val() != "0"){
                     $("#notify2").html('<span class="label label-danger" style="padding: 3px 5px;">'+$("#numObservacion2").val()+'</span>');
+                }else{
+                    $("#notify2").html('');
                 }
             }
         }
@@ -97,6 +101,7 @@
     }
 
     function tabla_observaciones3(){
+        var linea = $("#linea").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -110,10 +115,12 @@
                 $('[data-toggle="tooltip"]').tooltip();
                 if($("#numObservacion3").val() != "0"){
                     $("#notify3").html('<span class="label label-danger" style="padding: 3px 5px;">'+$("#numObservacion3").val()+'</span>');
+                }else{
+                    $("#notify3").html('');
                 }
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones3",true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones3?linea="+linea,true);
         xmlhttpB.send(); 
     }
 
@@ -127,7 +134,7 @@
 
     function funcion(iframe){
         iframe.attr('height','500px;');
-        listado_observaciones();
+        justificacion();
     }
 
     function listado_observaciones(){    
@@ -247,6 +254,26 @@
         ajax.send("&id_mision="+gid_mision+"&estado="+estado)
     }
 
+
+    function justificacion(){
+        var newName = 'Otro nombre',
+        xhr = new XMLHttpRequest();
+
+        var id_mision = gid_mision;
+
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?id_mision="+id_mision);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_justificacion").innerHTML = xhr.responseText;
+                listado_observaciones();
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
+    }
+
 </script>
 
 <!-- ============================================================== -->
@@ -284,10 +311,12 @@
                     <div class="card-body b-t">
 
                         <div id="cnt_tabla_empresas"></div>
+
+                        <div id="cnt_justificacion" class="row"></div>
                         
                         <input type="hidden" name="estado" id="estado">
                         <input type="hidden" id="nr_observador" name="nr_observador" value="<?php echo $nr_usuario; ?>">
-                        <input type="text" id="id_tipo_observador" name="id_tipo_observador" value="1">
+                        <input type="hidden" id="id_tipo_observador" name="id_tipo_observador" value="1">
 
 
                         <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
@@ -378,7 +407,17 @@
 
                             </div>
                             <div class="tab-pane p-20 <?php if($active == 3){ echo "active"; } ?>" id="observacion3" role="tabpanel">
-                                
+                                <select class="custom-select pull-right" id="linea" name="linea" onchange="tabla_observaciones3();">
+                                    <option value="">Todas las líneas</option>
+                                    <?php 
+                                        $linea = $this->db->query("SELECT * FROM org_linea_trabajo ORDER BY linea_trabajo");
+                                        if($linea->num_rows() > 0){
+                                            foreach ($linea->result() as $fila2) {
+                                                echo "<option value='".$fila2->linea_trabajo."'>".$fila2->linea_trabajo."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
                                 <div id="cnt_tabla3"> Cargando <span class="fa fa-spinner fa-spin"></span></div>
 
                             </div>

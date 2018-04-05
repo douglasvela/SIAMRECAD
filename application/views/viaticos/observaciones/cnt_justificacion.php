@@ -23,7 +23,7 @@ $justificaciones = $this->db->query("SELECT * FROM vyp_justificaciones WHERE id_
                 <div class="card-body" >
 	                	<a class="pull-right" style="font-size: 16px; cursor: pointer;" onclick="alerta_eliminar_justificacion('<?php echo $fila->id_justificacion; ?>','<?php echo $fila->ruta; ?>');"><i class="mdi mdi-window-close"></i></a>
                     <div class="d-flex flex-row">
-                        <div class="round round-lg align-self-center round-info"  data-toggle="tooltip" title="<?php echo $fila->nombre_real; ?>" ><i class="<?php echo $icono; ?>"></i></div>
+                        <div class="round round-lg align-self-center round-info" data-toggle="tooltip" title="<?php echo $fila->nombre_real; ?>"><i class="<?php echo $icono; ?>"></i></div>
                         <div class="m-l-10 align-self-center">
                             <h4 class="m-b-0 font-light"><a href="<?php echo base_url().$fila->ruta; ?>" style="cursor: pointer;"><?php echo $fila->nombre; ?></a></h4>
                             <h6 class="text-muted m-b-0">Peso: <?php echo $fila->size; ?></h6>
