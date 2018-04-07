@@ -340,7 +340,7 @@
         <!-- ============================================================== -->
         <!-- Barra superior -->
         <!-- ============================================================== -->
-        <header class="topbar" style="background-color: #001434;">
+        <header class="topbar">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->

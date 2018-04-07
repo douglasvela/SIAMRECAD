@@ -37,7 +37,7 @@
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de generalidades</h3>
+                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de configuraciones</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -54,7 +54,7 @@
             <div class="col-lg-10" id="cnt_form">
                 <div class="card">
                     <div class="card-header bg-info" id="ttl_form">
-                        <h4 class="card-title m-b-0 text-white">Fomulario de generalidades</h4>
+                        <h4 class="card-title m-b-0 text-white">Fomulario de configuraciones</h4>
                     </div>
                     <div class="card-body b-t">
                         
@@ -62,7 +62,7 @@
                         <?php
                         	$generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
 
-                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = ""; $cod_presupuestario = ""; $limite_poliza = "500.00";
+                        	$id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = ""; $cod_presupuestario = ""; $limite_poliza = "500.00"; $id_responsable = "";
 			                if($generalidades->num_rows() > 0){
 			                    foreach ($generalidades->result() as $filag) {
 			                    	$id_generalidad = $filag->id_generalidad;
@@ -73,6 +73,7 @@
                                     $num_cuenta = $filag->num_cuenta;
                                     $limite_poliza = $filag->limite_poliza;
                                     $cod_presupuestario = $filag->codigo_presupuestario;
+                                    $id_responsable = $filag->id_responsable;
 			                    }
 			                }
                         ?>
@@ -147,12 +148,33 @@
                                     </div>
 
                                 </div>
+                                <div class="row">                       
+                                    <div class="form-group col-lg-6"> 
+                                        <h5>Responsable del Fondo Circulante: <span class="text-danger">*</span></h5>  
+                                        <select id="id_responsable" name="id_responsable" class="select2" style="width: 100%" required="">
+                                            <option value="">[Elija el responsable]</option>
+                                            <?php 
+                                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                                if($otro_empleado->num_rows() > 0){
+                                                    foreach ($otro_empleado->result() as $filae) {  
+                                                        if($filae->nr == $id_responsable){
+                                                            echo '<option class="m-l-50" value="'.$filae->nr.'" selected>'.preg_replace ('/[ ]+/', ' ', $filae->nombre_completo.' - '.$filae->nr).'</option>';
+                                                        }else{
+                                                            echo '<option class="m-l-50" value="'.$filae->nr.'">'.preg_replace ('/[ ]+/', ' ', $filae->nombre_completo.' - '.$filae->nr).'</option>';
+                                                        }            
+                                                       
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+
                             </blockquote>
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-
                                 <?php if($id_generalidad == ""){ ?>
                                 <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
                                 <?php }else{ ?>

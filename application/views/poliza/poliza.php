@@ -47,6 +47,13 @@ if($generalidades->num_rows() > 0){
             $("#nombre5").val($("#total").val());
             $("#nombre6").text($("#total_texto").val());
             $("#nombre1").val($("#no_poliza").val());
+            if($("#restantes").val() == "0"){
+              $("#btn_restantes").html($("#restantes").val())
+            }else{
+              $("#btn_restantes").html('<span class="label label-danger">'+$("#restantes").val()+'</span>')
+            }
+
+            $("#body_tabla").html(decodeURIComponent(escape(atob($("#filas_tabla").val()))));
             
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -63,7 +70,7 @@ if($generalidades->num_rows() > 0){
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
             document.getElementById("cnt_tabla_poliza").innerHTML = xhr.responseText;
-            
+            $('#myTable').DataTable();
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
@@ -204,8 +211,20 @@ if($generalidades->num_rows() > 0){
     }
   }
 
-  function imprimir_poliza(no_poliza){
-    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza, '_blank');
+  function imprimir_poliza(no_poliza, mes, anio){
+    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
+  }
+
+  function mostrar_pendientes(){
+    $("#cnt_pendientes").show(500);
+    $("#cnt_generar_poliza").hide(500);
+    $("#btn_volver").show(0);
+  }
+
+  function retornar_poliza_generada(){
+    $("#cnt_pendientes").hide(500);
+    $("#cnt_generar_poliza").show(500);
+    $("#btn_volver").hide(0);
   }
 
 </script>
@@ -327,13 +346,45 @@ if($generalidades->num_rows() > 0){
               </tr>
             </table>
       </div>
-     
-      <div id="cnt_generar_poliza"></div>
-    </div>
+      <br>
 
-    <div align="right">
-      <button type="button" onclick="" class="btn btn-info">Vista previa</button>
-      <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Generar póliza</button>
+      <button class="pull-right btn btn-rounded btn-default" data-toggle="tooltip" title="Clic para ver las Solicitudes restantes" onclick="mostrar_pendientes();">Solicitudes restantes: <output id="btn_restantes"></output></button>
+
+      <button class="pull-right btn btn-rounded btn-default" id="btn_volver" style="margin-right: 10px; display: none;" onclick="retornar_poliza_generada();"><span class="mdi mdi-undo"></span> Volver</button>
+      
+      <div id="cnt_generar_poliza"></div>
+
+      <div class="table-responsive" id="cnt_pendientes" style="display: none;">
+        <table class="table table-hover product-overview bg-white">
+            <thead class="bg-info text-white" style="font-size: 11px;">
+             
+                <tr>
+                  <th style="padding: 7px" width="25px" rowspan="2">#</th>
+                    <th style="padding: 7px" width="40px" rowspan="2">Fecha elaboración</th>
+                    <th style="padding: 7px" width="50px" rowspan="2">No. cheque/ cuenta</th>
+                    <th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>
+                    <th style="padding: 7px" width="70px" rowspan="2">Fecha misión</th>
+                    <th style="padding: 7px" width="100px" rowspan="2">Nombre empleado</th>
+                    <th style="padding: 7px" width="120px" rowspan="2">Detalle misión</th>
+                    <th style="padding: 7px" width="120px" rowspan="2">Sede</th>
+                    <th style="padding: 7px" width="30px" rowspan="2">Cargo funcional</th>
+                    <th style="padding: 7px" width="25px"  rowspan="2">UP/LT</th>
+                  <th style="padding: 7px" colspan="2" ><div align="center">Detalle de objetos especificos </div></th>
+                  <th style="padding: 7px" width="60px"  rowspan="2" >Total</th>
+                </tr>
+                <tr>
+                    <!-- <th width="48"  >54401</th> -->
+                    <th style="padding: 7px" width="30px" >54401</th>
+                    <!-- <th width="48" >54403</th> -->
+                    <th style="padding: 7px" width="30px" >54403</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 11px;" id="body_tabla">
+
+            </tbody>
+        </table>
+      </div>
+
     </div>
     
     <br>

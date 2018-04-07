@@ -41,7 +41,7 @@
                             $array = array($fila->no_poliza, $fila->mes_poliza, $fila->anio, $fila->total, $fila->estado);
 
                             array_push($array, "edit");
-                            echo generar_boton(array($fila->no_poliza),"imprimir_poliza","btn-default","fa fa-print","Imprimir");
+                            echo generar_boton(array($fila->no_poliza, $fila->mes_poliza, $fila->anio),"imprimir_poliza","btn-default","fa fa-print","Imprimir");
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
                             echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");

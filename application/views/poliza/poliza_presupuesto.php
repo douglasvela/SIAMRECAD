@@ -73,9 +73,13 @@ if($generalidades->num_rows() > 0){
     var filas = $("#tabla_poliza>tbody").find("tr");
     var idspoliza = "";
 
-    if((filas.length-1) > 0){
+    if((filas.length-1) > 0 && $("#nombre11").val() != ""){
 
-      var script = "UPDATE vyp_poliza SET linea_presup2 = CASE id_poliza\n";
+      var script = "UPDATE vyp_poliza SET\n";
+      var linea_presupuestaria2 = "linea_presup2 = CASE id_poliza\n";
+      var compromiso_presupuest = "compromiso_presupuestario = CASE id_poliza\n";
+
+      var compromiso = $("#nombre11").val();
 
       for(i=0; i< (filas.length-1); i++){
         var celdas = $(filas[i]).children("td");
@@ -88,18 +92,26 @@ if($generalidades->num_rows() > 0){
 
         if(i == (filas.length-2)){
           idspoliza += idpol;
-          script += "WHEN "+idpol+" THEN "+linea+"\n";
-          script += "END\n WHERE id_poliza IN ("+idspoliza+");";
+          linea_presupuestaria2 += "WHEN "+idpol+" THEN '"+linea+"'\n";
+          compromiso_presupuest += "WHEN "+idpol+" THEN '"+compromiso+"'\n";
         }else{
           idspoliza += idpol+", ";
-          script += "WHEN "+idpol+" THEN "+linea+"\n";
+          linea_presupuestaria2 += "WHEN "+idpol+" THEN '"+linea+"'\n";
+          compromiso_presupuest += "WHEN "+idpol+" THEN '"+compromiso+"'\n";
         }
       }
 
+      script += linea_presupuestaria2+"END,\n"+compromiso_presupuest+"END\nWHERE id_poliza IN ("+idspoliza+");";
+
+      //$("#area").val(script)
       editar_poliza(script, npoli, anioc)
 
     }else{
-      swal({ title: "Póliza vacía", text: "No se puede editar una poliza sin viáticos.", type: "warning", showConfirmButton: true });
+      if($("#nombre11").val() == ""){
+        swal({ title: "# de compromiso", text: "Falta el número de compromiso presupuestario.", type: "warning", showConfirmButton: true });
+      }else{
+        swal({ title: "Póliza vacía", text: "No se puede editar una poliza sin viáticos.", type: "warning", showConfirmButton: true });
+      }
     }
 
   }
@@ -343,7 +355,7 @@ if($generalidades->num_rows() > 0){
                 </span></div></td>
                 <td><h5 align="justify">FECHA DE CANCELADO: </h5></td>
                 <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre12" name="nombre12" class="form-control" />
+                  <input type="text" id="nombre12" name="nombre12" class="form-control" readonly style="background-color: #fff;"/>
                 </span></div></td>
               </tr>
             </table>
@@ -358,7 +370,7 @@ if($generalidades->num_rows() > 0){
     
     <br>
 
-    <div class="form-group" style="display: none;">
+    <div class="form-group" style="display: block;">
         <textarea id="area" class="form-control" rows="10"></textarea>
     </div>
 

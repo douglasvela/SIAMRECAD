@@ -141,20 +141,22 @@ $generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
 $id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = "";
 if($generalidades->num_rows() > 0){
     foreach ($generalidades->result() as $filag) {
-      $banco = mb_strtoupper($filag->banco);
-      $num_cuenta = $filag->num_cuenta;
+      $nr_responsable = $filag->id_responsable;
       $limite_poliza = floatval($filag->limite_poliza);
     }
 }
 
-$no_poliza="-"; $mes_poliza="-"; $anio="-"; $total=0;
-$poliza = $this->db->query("SELECT no_poliza, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario FROM vyp_poliza GROUP BY no_poliza");
+$no_poliza = $_GET["no_poliza"];
+$mes_poliza = $_GET["mes"];
+$anio = $_GET["anio"]; 
+$total=0;
+
+$poliza = $this->db->query("SELECT no_poliza, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario, nombre_banco, cuenta_bancaria FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' GROUP BY no_poliza");
 if($poliza->num_rows() > 0){
     foreach ($poliza->result() as $fila) {
-    	$no_poliza = $fila->no_poliza;
-    	$mes_poliza = $fila->mes_poliza;
-    	$anio = $fila->anio;
     	$total = $fila->total;
+        $banco = mb_strtoupper($fila->nombre_banco);
+        $num_cuenta = $fila->cuenta_bancaria;
     	$cod_presupuestario = $fila->cod_presupuestario;
     }
 }
@@ -303,12 +305,10 @@ $cuerpo = '
 			';
 		$data = str_split($anios,4);
 
-		$no_poliza = $_GET["no_poliza"];
-
 		$total_viatico = 0;
 		$total_pasaje = 0;
 
-		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."'");
+		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."'");
         if($poliza->num_rows() > 0){
             foreach ($poliza->result() as $fila) {            
 			$cuerpo .= '
@@ -339,7 +339,7 @@ $cuerpo = '
 					<th align="center" colspan="12">Total</th>
 					<th align="right">$'.number_format($total_pasaje,2,".","").'</th>
 					<th align="right">$'.number_format($total_viatico,2,".","").'</th>
-					<th align="right">$'.($total_pasaje+$total_viatico).'</th>
+					<th align="right">$'.number_format($total_pasaje+$total_viatico,2,".","").'</th>
 				</tr>';
 
 		}else{
@@ -350,8 +350,30 @@ $cuerpo = '
 
 		$cuerpo .= '
 		</tbody>
-	</table>'; 
+	</table><br><br>';
 
+
+    $responsable = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_responsable."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+
+    if($responsable->num_rows() > 0){
+        foreach ($responsable->result() as $filae) {              
+        }
+    }
+
+
+    $cuerpo .= '<br><br><table style="width:100%;">
+    <tbody>
+        <tr>
+            <td align="center"><img src="assets/firmas/'.$nr_responsable.'.png" style="max-width: 200px; max-height: 100px;"></td>
+        </tr>
+        <tr>
+            <td align="center">F._____________________________________________</td>
+        </tr>
+        <tr>
+            <td align="center">'.$filae->nombre_completo.'</td>
+        </tr>
+    </tbody>
+    </table>'; 
 
 $fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	$pie = 'Generada por: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';

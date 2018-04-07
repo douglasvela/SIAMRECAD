@@ -29,7 +29,8 @@ class Generalidades extends CI_Controller {
 			'banco' => $this->input->post('banco'),
 			'num_cuenta' => $this->input->post('cuenta'),
 			'limite_poliza' => $this->input->post('limite_poliza'),
-			'codigo_presupuestario' => $this->input->post('codigo_presupuestario')
+			'codigo_presupuestario' => $this->input->post('codigo_presupuestario'),
+			'id_responsable' => $this->input->post('id_responsable')
 			);
 			echo $this->generalidades_model->insertar_generalidad($data);
 			
@@ -42,7 +43,8 @@ class Generalidades extends CI_Controller {
 			'banco' => $this->input->post('banco'),
 			'num_cuenta' => $this->input->post('cuenta'),
 			'limite_poliza' => $this->input->post('limite_poliza'),
-			'codigo_presupuestario' => $this->input->post('codigo_presupuestario')
+			'codigo_presupuestario' => $this->input->post('codigo_presupuestario'),
+			'id_responsable' => $this->input->post('id_responsable')
 
 			);
 			echo $this->generalidades_model->editar_generalidad($data);

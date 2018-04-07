@@ -148,10 +148,10 @@ if($generalidades->num_rows() > 0){
 }
 
 $no_poliza="-"; $mes_poliza="-"; $anio="-"; $total=0;
-$poliza = $this->db->query("SELECT no_poliz, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario FROM vyp_poliza GROUP BY no_poliz");
+$poliza = $this->db->query("SELECT no_poliza, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario FROM vyp_poliza GROUP BY no_poliza");
 if($poliza->num_rows() > 0){
     foreach ($poliza->result() as $fila) {
-    	$no_poliza = $fila->no_poliz;
+    	$no_poliza = $fila->no_poliza;
     	$mes_poliza = $fila->mes_poliza;
     	$anio = $fila->anio;
     	$total = $fila->total;
@@ -308,13 +308,13 @@ $cuerpo = '
 		$total_viatico = 0;
 		$total_pasaje = 0;
 
-		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliz = '".$no_poliza."'");
+		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."'");
         if($poliza->num_rows() > 0){
             foreach ($poliza->result() as $fila) {            
 			$cuerpo .= '
 				<tr>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->no_doc.'</td>
-                	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->no_poliz.'</td>
+                	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->no_poliza.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->mes_poliza.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->fecha_elaboracion.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->no_cuenta_cheque.'</td>

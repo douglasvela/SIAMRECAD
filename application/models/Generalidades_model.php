@@ -9,7 +9,7 @@ class Generalidades_model extends CI_Model {
 
 	function insertar_generalidad($data){
 		$id_generalidad = $this->obtener_ultimo_id("vyp_generalidades","id_generalidad");
-		if($this->db->insert('vyp_generalidades', array('id_generalidad' => $id_generalidad, 'pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'id_banco' => $data['id_banco'], 'banco' => $data['banco'], 'num_cuenta' => $data['num_cuenta'], 'limite_poliza' => $data['limite_poliza'], 'codigo_presupuestario' => $data['codigo_presupuestario']))){
+		if($this->db->insert('vyp_generalidades', array('id_generalidad' => $id_generalidad, 'pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'id_banco' => $data['id_banco'], 'banco' => $data['banco'], 'num_cuenta' => $data['num_cuenta'], 'limite_poliza' => $data['limite_poliza'], 'codigo_presupuestario' => $data['codigo_presupuestario'], 'id_responsable' => $data['id_responsable']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -18,7 +18,7 @@ class Generalidades_model extends CI_Model {
 
 	function editar_generalidad($data){
 		$this->db->where("id_generalidad",$data["id_generalidad"]);
-		if($this->db->update('vyp_generalidades', array('pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'id_banco' => $data['id_banco'], 'banco' => $data['banco'], 'num_cuenta' => $data['num_cuenta'], 'limite_poliza' => $data['limite_poliza'], 'codigo_presupuestario' => $data['codigo_presupuestario']))){
+		if($this->db->update('vyp_generalidades', array('pasaje' => $data['pasaje'], 'alojamiento' => $data['alojamiento'], 'id_banco' => $data['id_banco'], 'banco' => $data['banco'], 'num_cuenta' => $data['num_cuenta'], 'limite_poliza' => $data['limite_poliza'], 'codigo_presupuestario' => $data['codigo_presupuestario'], 'id_responsable' => $data['id_responsable']))){
 			return "exito";
 		}else{
 			return "fracaso";
