@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2018 a las 06:03:42
+-- Tiempo de generación: 08-04-2018 a las 05:35:28
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.0.22
 
@@ -30,6 +30,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `vyp_pasajes` (
   `id_solicitud_pasaje` int(11) NOT NULL,
+  `id_municipio` int(5) UNSIGNED ZEROFILL NOT NULL,
+  `id_departamento` int(5) UNSIGNED ZEROFILL NOT NULL,
   `fecha_mision` date NOT NULL,
   `no_expediente` varchar(15) NOT NULL,
   `empresa_visitada` varchar(30) NOT NULL,
@@ -43,12 +45,9 @@ CREATE TABLE `vyp_pasajes` (
 -- Volcado de datos para la tabla `vyp_pasajes`
 --
 
-INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `fecha_mision`, `no_expediente`, `empresa_visitada`, `direccion_empresa`, `nr`, `monto_pasaje`, `estado`) VALUES
-(1, '2018-02-19', '1234-ee', 'vili', 'colonia las flores', '2588', 2.00, 1),
-(2, '2018-02-16', '4546-ee', 'Empresa AA', 'San Vicente barrio el centro', '2588', 3.40, 1),
-(3, '2018-01-17', '4566-t', 'Empresa2', 'Colonia RR', '2588', 6.00, 1),
-(4, '2018-02-16', '123-ww', 'Empresa 4', 'Cojutepeque', '335C', 3.00, 1),
-(5, '2018-02-22', '122323', 'SV12', 'San vicente colonia las brisas', '335C', 2.00, 1);
+INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `id_municipio`, `id_departamento`, `fecha_mision`, `no_expediente`, `empresa_visitada`, `direccion_empresa`, `nr`, `monto_pasaje`, `estado`) VALUES
+(1, 00015, 00002, '2018-02-06', '1524454', 'empresa ejemplo', 'direccion empresa', '2588', 0.90, 1),
+(2, 00015, 00002, '2018-04-02', '2111', 'empresa1', 'frente a gasolinera', '602C', 0.50, 1);
 
 --
 -- Índices para tablas volcadas
