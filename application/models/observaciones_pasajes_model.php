@@ -7,15 +7,6 @@ class Observaciones_pasajes_model extends CI_Model {
 		parent::__construct();
 	}
 
-
-function verificar_observaciones($data){
-		$query = $this->db->query("SELECT * FROM vyp_observaciones_pasajes WHERE id_mision_pasajes = '".$data."' AND corregido = 0");
-		if($query->num_rows() > 0){
-			return true;
-		}else{
-			return false;
-		}
-	}
 	
 
 	function otra_observacion($data){
@@ -55,7 +46,14 @@ function verificar_observaciones($data){
 			return "fracaso";
 		}
 	}
-
+function verificar_observaciones($data){
+		$query = $this->db->query("SELECT * FROM vyp_observaciones_pasajes WHERE id_mision_pasajes = '".$data."' AND corregido = 0");
+		if($query->num_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	function obtener_ultimo_id($tabla,$nombreid){
 		$this->db->order_by($nombreid, "asc");

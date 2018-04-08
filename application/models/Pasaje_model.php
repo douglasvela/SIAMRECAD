@@ -61,7 +61,6 @@ function editar_pasaje($data){
 	
 
 
-
 	/*function fecha_repetida($sql){
 		$query = $this->db->query($sql);
 		if($query->num_rows() > 0){

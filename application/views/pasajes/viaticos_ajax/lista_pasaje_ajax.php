@@ -11,14 +11,16 @@
             <tr>
                 <th>Fecha</th>
                 <th>Nombre del empleado</th>
+             
                 <th>Monto</th>
+                 <th>Estado</th>
                 <th width="100px">(*)</th>
             </tr>
         </thead>
         <tbody>
 
         <?php 
-       $cuenta = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, p.fecha_mision, SUM(p.monto_pasaje) AS monto_pasaje FROM sir_empleado AS e JOIN vyp_pasajes AS p ON p.nr = e.nr AND p.fecha_mision LIKE '%".$fecha_mes."%' AND e.id_estado = '00001' GROUP BY e.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+       $cuenta = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, p.fecha_mision, SUM(p.monto_pasaje) AS monto_pasaje, p.estado as estado FROM sir_empleado AS e JOIN vyp_pasajes AS p ON p.nr = e.nr AND p.fecha_mision LIKE '%".$fecha_mes."%' AND e.id_estado = '00001' GROUP BY e.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
@@ -26,7 +28,28 @@
                             $fila->fecha_mision=date("m-Y",strtotime($fila->fecha_mision));
                             echo "<td>".$fila->fecha_mision."</td>";
                             echo "<td>".$fila->nombre_completo."</td>";
+                        
                             echo "<td>".$fila->monto_pasaje."</td>";
+                             // echo "<td>".$fila->estado."</td>";
+                            if($fila->estado == 0){
+                                echo '<td><span class="label label-danger">Incompleta</span></td>';
+                            }else if($fila->estado == 1){
+                                echo '<td><span class="label label-success">Revisión 1</span></td>';
+                            }else if($fila->estado == 2){
+                                echo '<td><span class="label label-danger">Observaciones 1</span></td>';
+                            }else if($fila->estado == 3){
+                                echo '<td><span class="label label-success">Revisión 2</span></td>';
+                            }else if($fila->estado == 4){
+                                echo '<td><span class="label label-danger">Observaciones 2</span></td>';
+                            }else if($fila->estado == 5){
+                                echo '<td><span class="label label-success">Revisión 3</span></td>';
+                            }else if($fila->estado == 6){
+                                echo '<td><span class="label label-danger">Observaciones 3</span></td>';
+                            }else if($fila->estado == 7){
+                                echo '<td><span class="label label-success">Aprobada</span></td>';
+                            }else if($fila->estado == 8){
+                                echo '<td><span class="label label-success">Pagada</span></td>';
+                            }
                     echo "<td>";
                    $array = array(date("d-m-Y",strtotime($fila->fecha_mision)), $fila->nombre_completo,$fila->monto_pasaje);
                     array_push($array, "edit");

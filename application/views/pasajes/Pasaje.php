@@ -1,4 +1,4 @@
-<?php
+com<?php
     
     header("Cache-Control: no-store, no-cache, must-revalidate");
     header("Cache-Control: post-check=0, pre-check=0", false);
@@ -42,9 +42,6 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
     }
-
-
-
     function eliminar_pasaje(id_pasaje)
     {
         swal({   
@@ -59,7 +56,6 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
             eliminar(id_pasaje); 
         });        
     }
-
     function eliminar(id_pasaje){
         var formData = new FormData();
         formData.append("id_pasaje", id_pasaje);
@@ -170,23 +166,19 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
                 });
             }
         }
-
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
         xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr+"&fecha1="+fechas, true);
         xmlhttpB.send(); 
    
 }
-
 function info_pasajes(){
         //var nr_usuario = $("#nr").val();
         var fechap = $("#fecha").val();
-
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp_A=new XMLHttpRequest();
         }else{// code for IE6, IE5
             xmlhttp_A=new ActiveXObject("Microsoft.XMLHTTPB");
         }
-
         xmlhttp_A.onreadystatechange=function(){
             if (xmlhttp_A.readyState==4 && xmlhttp_A.status==200){
                   document.getElementById("cnt_info_pasajes").innerHTML=xmlhttp_A.responseText;
@@ -195,14 +187,12 @@ function info_pasajes(){
         xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr_empleado+"&fecha="+fechap,true);
         xmlhttp_A.send();
     }
-
 function guardar_pasaje()
 {
 var f = $(this);
 var formData = new FormData();
 var nombre_empleado = $("#nr option:selected").text().split("-");
 var fecha = $("#fecha1").val().split("-");
-
 //alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
 formData.append("nr", $("#nr").val());
 formData.append("nombre_emple", nombre_empleado[0].trim());
@@ -236,11 +226,7 @@ formData.append("anio", fecha[0].trim());
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
-
 }
-
-
-
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
             $('#myTable').DataTable();
@@ -446,13 +432,6 @@ $("#formcuentas2").on("submit", function(e){
     });
  
   
-
-
-
-
-
-
-
 </script> 
 
 

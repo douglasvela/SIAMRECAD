@@ -56,8 +56,11 @@
     }
    
     function iniciar(){
-        tabla_pasaje_lista();
-      // cambiar_nuevo();
+      
+    
+       tabla_pasaje_lista();
+        
+     form_folleto_viaticos();
         $('html,body').animate({
             scrollTop: $("body").offset().top
         }, 500);
@@ -101,6 +104,42 @@
     
         window.open("<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje, '_blank');
     }
+
+function cambiar_nuevo(){
+        $("#idb2").val("");
+       
+        $("#fecha").datepicker("");
+        $("#expediente").val("");
+        $("#empresa").val("");
+        $("#direccion").val("");
+        $("#nr1").val("").trigger('change.select2');
+        $("#id_departamento").val("").trigger("change.select2");
+         $("#id_municipio").val("").trigger("change.select2");
+        $("#pasaje").val("");
+        $("#band2").val("save");
+
+       /* $("#idb").val("");
+        $("#nombre").val("");
+        $("#caracteristicas").val("");
+        $("#band").val("save");*/
+        $("#ttl_form").addClass("bg-success");
+        $("#ttl_form").removeClass("bg-info");
+
+        $("#btnadd").show(0);
+        $("#btnedit").hide(0);
+
+       $("#cnt-tabla").hide(0);
+        $("#cnt_form1").hide(0);
+        $("#cnt_form").show(0);
+
+
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo Pasaje");
+    }
+function cerrar_mantenimiento(){
+       $("#cnt-tabla").show(0);
+       $("#cnt_form").hide(0);
+$("#cnt_form1").show(0);
+    }
    
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
@@ -108,6 +147,160 @@
             $('[data-toggle="tooltip"]').tooltip();
         });  
  }
+
+function combo_oficina_departamento(tipo){
+        var nr = $("#nr").val();
+        var newName = 'Otro nombre',
+        xhr = new XMLHttpRequest();
+
+        xhr.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_oficinas_departamentos?tipo="+tipo+"&nr="+nr);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("combo_departamento").innerHTML = xhr.responseText;
+                $(".select2").select2();
+                if(tipo == "mapa"){
+                    $('#departamento').val(id_departamento_mapa).trigger('change.select2');
+                }else{
+                    combo_municipio(tipo);
+                }
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
+    }
+
+    function combo_municipio(tipo){     
+        var id_departamento = $("#departamento").val();
+        var newName = 'John Smith',
+
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("combo_municipio").innerHTML = xhr.responseText;
+                $(".select2").select2();
+                if(tipo == "oficina"){
+                    if($("#departamento").val() != ""){
+                        $("#nombre_empresa").val($("#departamento option:selected").text());
+                        $("#direccion_empresa").val($("#departamento option:selected").text());
+                        $("#nombre_empresa").parent().parent().hide(0);
+                        $("#direccion_empresa").parent().hide(0);
+                        $("#municipio").parent().hide(0);
+                    }else{
+                       
+                        $("#municipio").parent().hide(0);
+                        
+                    }
+                   // input_distancia(tipo);
+                }else if(tipo == "departamento"){
+                  
+                    $("#municipio").parent().show(0);
+                   // input_distancia(tipo);
+                }
+            }
+            else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
+    }
+
+    
+
+
+function obtener_id_municipio(municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/Lista_pasaje/obtener_id_municipio",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                var municipio = municipio_mayus(direccion_departamento_mapa);
+                obtener_id_municipio2(municipio);
+            }else{
+                id_municipio_mapa = res;
+                obtener_id_departamento(res);
+            }
+             
+        });
+    }
+
+    function obtener_id_municipio2(municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/Lista_pasaje/obtener_id_municipio",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
+               // input_distancia("mapa");
+            }else{
+                id_municipio_mapa = res;
+                obtener_id_departamento(res);
+                swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no se el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
+            }
+             
+        });
+    }
+
+    function obtener_id_departamento(id_municipio){
+        var formData = new FormData();
+        formData.append("id_municipio", id_municipio);
+
+        $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/Lista_pasaje/obtener_id_departamento",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "fracaso"){
+                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
+            }else{
+                id_departamento_mapa = res;
+                combo_oficina_departamento("mapa");
+            }
+        });
+    }
+
+function form_folleto_viaticos(){
+      //  $("#bntadd").hide(0);
+      
+        combo_oficina_departamento("departamento");
+  
+        $("#municipio").parent().show(0);
+      
+    }
+
+     function validar_monto_pasaje(obj, max){
+        monto = parseFloat(obj.value);
+        if(monto > max){
+            obj.value = max;
+        }
+    }
+
  
 </script>
 
@@ -134,7 +327,7 @@
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt_form" >
+            <div class="col-lg-12" id="cnt_form" style="display: none;" >
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -144,6 +337,118 @@
                     </div>
 
                     <div class="card-body b-t">
+                   
+
+            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                            <input type="hidden" id="band2" name="band2" value="save">
+                            <input type="hidden" id="idb2" name="idb2" value="">
+                            <div class="row">
+                              <div class="form-group col-lg-6"> 
+                            <h5>Empleado: <span class="text-danger">*</span></h5>                           
+                            <select id="nr1" name="nr1" class="select2"  required="" style="width: 100%;" >
+                                <option value="">[Elija el empleado a editar sus datos]</option>
+                                <?php 
+                                    $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                    if($otro_empleado->num_rows() > 0){
+                                        foreach ($otro_empleado->result() as $fila) {  
+                                        $nombre=$fila->nombre_completo;          
+                                           echo '<option class="m-l-50" value="'.$fila->nr.'">'.$fila->nombre_completo.' - '.$fila->nr.'</option>';
+                                        }
+                                    }
+                                ?>
+                            </select>
+                            <div class="help-block"></div>
+                        </div>
+                                <div class="form-group col-lg-5">
+                                    <h5>Fecha: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                        <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" >
+                                        <div class="help-block" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+
+                             
+                            </div>
+                    <div class="row">
+                    <div class="form-group col-lg-6" id="combo_departamento">
+                                </div>
+                                <div class="form-group col-lg-6" id="combo_municipio">
+                                </div>
+
+                    </div>                           
+                         <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <h5>Empresa Visitada: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                         <input type="text" id="empresa" name="empresa" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido" style="width: 100%;"> 
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                            <div class="form-group col-lg-6">
+                                    <h5>Dirección empresa:<span class="text-danger">*</span> </h5>
+                                    <div class="controls">
+                                    <input type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido" style="width: 100%;">
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                 
+                                </div>
+                                <div class="row">
+
+                                 <div class="form-group col-lg-6">
+                                    <h5>Expediente N°: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                    <input type="text" id="expediente" name="expediente" class="form-control" style="width: 100%;" required="" placeholder="Escriba el expediente">
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                <?php
+            $generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
+
+            $id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00";
+            if($generalidades->num_rows() > 0){
+                foreach ($generalidades->result() as $filag) {
+                   
+                    $pasaje = $filag->pasaje;
+                   
+                }
+            }
+        ?>
+            <div class="form-group col-lg-3 validate">
+            <h5>Pasaje: <span class="text-danger">*</span></h5>
+             <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+                <input type="number" id="monto" name="monto" onkeyup="validar_monto_pasaje(this, '<?php echo number_format($pasaje,2); ?>');" class="form-control" required="" placeholder="0.00" step="0.01" value="0.00" >
+            </div>
+             <div class="help-block"></div>
+            </div>
+                                 </div>
+                            
+                        <button id="submit" type="submit" style="display: none;"></button>
+                            <div align="right" id="btnadd">
+                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                            </div>
+                            
+           
+                           
+                             <div class="col-lg-12" id="cnt-tabla">
+                 
+            </div>
+            </div>
+             </div>
+              </div>
+              <div class="col-lg-1"></div>
+
+            <div class="col-lg-12" id="cnt_form1">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title m-b-0">Pasajes</h4>
+                    </div>
+ <div class="card-body b-t">
+                     <div class="pull-right">
+                            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+                        </div>
                     <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <input type="hidden" id="band" name="band" value="save">
                            
@@ -165,6 +470,7 @@
                             </select>
                             <div class="help-block"></div>
                         </div>
+
                 <div class="form-group col-lg-6">  
 
                 <h5>Fecha: <span class="text-danger">*</span></h5>
@@ -183,7 +489,9 @@
                                 <div id="cnt_pasaje"></div> <!--para imprimir la tabla -->
                                  
                         </blockquote>
+                          <?php echo form_close(); ?>
                     <?php echo form_close(); ?>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -204,50 +512,6 @@
 </div>
 
 
-<div id="modal_pasaje" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <?php echo form_open('', array('id' => 'form_pasaje', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
-            <div class="modal-header">
-                <h4 class="modal-title">Editar pasajes</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="id_pasaje" name="id_pasaje">
-                <div class="form-group col-lg-12">
-                    <h5>Fecha: <span class="text-danger">*</span></h5>
-                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}"  required=""  class="form-control" id="fecha3" name="fecha3" placeholder="dd/mm/yyyy">
-                </div>
-                <div class="form-group col-lg-12">
-                    <h5>Expediente: <span class="text-danger">*</span></h5>
-                    <input type="text" id="expediente3" name="expediente3" class="form-control">
-                </div>
-                <div class="form-group col-lg-12">
-                    <h5>Empresa: <span class="text-danger">*</span></h5>
-                    <input type="text" id="empresa3" name="empresa3" class="form-control" required="" > 
-                </div>
-                <div class="form-group col-lg-12">
-                    <h5>Direccion: <span class="text-danger">*</span></h5>
-                   <input type="text"  id="direccion3" name="direccion3" class="form-control" required="" placeholder="Escriba la dirección" minlength="3">
-                </div>
-
-                <div class="form-group col-lg-12">
-                    <h5>Monto: <span class="text-danger">*</span></h5>
-                    <input type="text" id="monto3" name="monto3" class="form-control" required="">
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="editar_pasaje();" class="btn btn-info waves-effect" data-dismiss="modal">Editar</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 
 
 
@@ -258,38 +522,21 @@
 <script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
 <script>
 $(function(){
-    $('#fecha3').datepicker({
+    $('#fecha').datepicker({
                     format: 'dd-mm-yyyy',
                     autoclose: true,
                     todayHighlight: true
                 });
-$("#formcuentas2").on("submit", function(e){
+$("#formajax").on("submit", function(e){
    
         e.preventDefault();
         var f = $(this);
-        var formData = new FormData(document.getElementById("formcuentas2"));
+        var formData = new FormData(document.getElementById("formajax"));
         formData.append("dato", "valor");
        
-        /*$("#band").val('save')
-        $("#fecha_mision").val($("#fecha").val());
-         $("#expediente").val($("#expediente").val());
-          $("#empresa").val($("#empresa").val());
-           $("#direccion").val($("#direccion").val());
-           $("#nr").val($("#nr").val())
-            $("#monto").val($("#monto").val());
-        
-        //$("#modal_cuenta_bancaria").modal('show')
-        $("#submitbutton").click();*/
-        
-     
-       /* $("#formajax2").on("submit", function(e){
-        e.preventDefault();
-        var f = $(this);
-        var formData = new FormData(document.getElementById("formajax2"));
-        formData.append("dato", "valor");*/
         
         $.ajax({
-            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje",
+            url: "<?php echo site_url(); ?>/pasajes/Lista_pasaje/gestionar_pasaje2",
             type: "post",
             dataType: "html",
             data: formData,
@@ -298,17 +545,17 @@ $("#formcuentas2").on("submit", function(e){
             processData: false
         })
         .done(function(res){
-            alert(res)
+            //alert(res)
             if(res == "exito"){
-                if($("#band").val() == "save"){
+                if($("#band2").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                }else if($("#band").val() == "edit"){
+                }else if($("#band2").val() == "edit"){
                     swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                $("#band").val('save');
-                tabla_pasaje_unidad();
+                $("#band2").val('save');
+               tablapasajes();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -317,7 +564,8 @@ $("#formcuentas2").on("submit", function(e){
     });
  
   
-</script> 
+
+</script>  
 
 
 
