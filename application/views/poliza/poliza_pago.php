@@ -15,20 +15,17 @@ function mes($mes){
   var segundo_index;
 
   function iniciar(){
-    tabla_poliza();
+    tabla_poliza_pago();
   }
 
-  function tabla_generar_poliza(num_poliza, mes, anio){
+  function tabla_pendiente_pago(){
     var newName = 'AjaxCall', xhr = new XMLHttpRequest();
 
-    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_presupuesto/tabla_generar_poliza?mes="+mes+"&anio="+anio+"&num_poliza="+num_poliza);
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_pago/tabla_polizas_pendientes");
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
             document.getElementById("cnt_generar_poliza").innerHTML = xhr.responseText;
-
-            $("#nombre5").val($("#total").val());
-            $("#nombre6").text($("#total_texto").val());
             
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -37,14 +34,15 @@ function mes($mes){
     xhr.send(encodeURI('name=' + newName));
   }
 
-  function tabla_poliza(){
+  function tabla_poliza_pago(){
     var newName = 'AjaxCall', xhr = new XMLHttpRequest();
 
-    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_presupuesto/tabla_poliza");
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_pago/tabla_poliza_pago");
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
             document.getElementById("cnt_tabla_poliza").innerHTML = xhr.responseText;
+            $('#myTable').DataTable();
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
@@ -54,51 +52,57 @@ function mes($mes){
 
 
   function recorrer_poliza(){
-    var filas = $("#tabla_poliza>tbody").find("tr");
+    var filas = $("#tabla_pendiente_pago>tbody").find("tr");
     var idspoliza = "";
 
-    if((filas.length-1) > 0 && $("#nombre11").val() != ""){
+    if((filas.length) > 0){
+      var script = "";
 
-      var script = "UPDATE vyp_poliza SET\n";
-      var linea_presupuestaria2 = "linea_presup2 = CASE id_poliza\n";
-      var compromiso_presupuest = "compromiso_presupuestario = CASE id_poliza\n";
-
-      var compromiso = $("#nombre11").val();
-
-      for(i=0; i< (filas.length-1); i++){
+      for(i=0; i< filas.length; i++){
         var celdas = $(filas[i]).children("td");
+        var inputs = $(celdas[6]).children("input");
+        var no_poliza = $(inputs[1]).val();
+        var mes = $(inputs[2]).val();
+        var anio = $(inputs[3]).val();
 
-        var idpol = $($(celdas[0]).children("input")[0]).val();
-        var linea = $(celdas[10]).text().trim();
-        var mescb = $("#nombre7").val();
-        var anioc = $("#nombre8").val();
-        var npoli = $("#nombre1").val();
+        var idp = "p"+i;
 
-        if(i == (filas.length-2)){
-          idspoliza += idpol;
-          linea_presupuestaria2 += "WHEN "+idpol+" THEN '"+linea+"'\n";
-          compromiso_presupuest += "WHEN "+idpol+" THEN '"+compromiso+"'\n";
-        }else{
-          idspoliza += idpol+", ";
-          linea_presupuestaria2 += "WHEN "+idpol+" THEN '"+linea+"'\n";
-          compromiso_presupuest += "WHEN "+idpol+" THEN '"+compromiso+"'\n";
-        }
+        script += "SELECT "+idp+".* FROM vyp_poliza AS "+idp+" WHERE no_poliza = '"+no_poliza+"' AND mes_poliza = '"+mes+"' AND anio = '"+anio+"' UNION ";
+
       }
 
-      script += linea_presupuestaria2+"END,\n"+compromiso_presupuest+"END\nWHERE id_poliza IN ("+idspoliza+");";
+      script = script.substring(0,script.length-6);
 
-      //$("#area").val(script)
-      editar_poliza(script, npoli, anioc)
+      genera_planillas(script)
+
+      $("#area").val(script)
+      //editar_poliza(script, npoli, anioc)
 
     }else{
-      if($("#nombre11").val() == ""){
-        swal({ title: "# de compromiso", text: "Falta el número de compromiso presupuestario.", type: "warning", showConfirmButton: true });
-      }else{
-        swal({ title: "Póliza vacía", text: "No se puede editar una poliza sin viáticos.", type: "warning", showConfirmButton: true });
-      }
+        swal({ title: "No hay polizas", text: "Pólizas pendientes agotadas.", type: "warning", showConfirmButton: true });
     }
 
   }
+
+
+
+  function genera_planillas(sql){
+      var formData = {
+          "sql" : sql
+      };
+
+      $.ajax({
+          type:  'POST',
+          url:   '<?php echo site_url(); ?>/poliza/poliza_pago/tabla_planillas',
+          data: formData,
+          cache: false
+      })
+      .done(function(data){
+          $('#cnt_planillas').html(data);
+      });
+  }
+
+
 
   function editar_poliza(sql, no_poliza, anio){
       var formData = {
@@ -171,6 +175,7 @@ function mes($mes){
   function cambiar_nuevo(){
     $("#cnt_registros_polizas").hide(300);
     $("#cnt_poliza").show(300);
+    tabla_pendiente_pago();
   }
 
   function cerrar_mantenimiento(){
@@ -190,8 +195,8 @@ function mes($mes){
     }
   }
 
-  function imprimir_poliza(no_poliza){
-    window.open("<?php echo site_url(); ?>/poliza/poliza_presupuesto/imprimir_poliza?no_poliza="+no_poliza, '_blank');
+  function imprimir_poliza(no_poliza, mes, anio){
+    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
   }
 
   function nuevo_clic(obj){
@@ -248,7 +253,7 @@ function mes($mes){
             <div class="align-self-center" align="center">
                 <h3 class="text-themecolor m-b-0 m-t-0">
                   <?php 
-                    echo $titulo = ucfirst("Gestión de polizas (presupuesto)"); 
+                    echo $titulo = ucfirst("Gestión de pago de polizas"); 
                   ?>
                   </h3>
             </div>
@@ -260,105 +265,23 @@ function mes($mes){
       <div id="cnt_tabla_poliza"></div>
     </div>
 
-    <div id="cnt_poliza" style="display: none;">
-      <div class="pull-right">          
-        <button type="button" onclick="cerrar_mantenimiento();" class="btn waves-effect waves-light btn-default" data-toggle="tooltip" title="Clic para regresar"><span class="mdi mdi-undo"></span> Volver</button>
-    </div>
-      <div class="table-responsive">
-            <div class="align-self-center" align="center">
-                   <h4 align="center" class="card-title m-b-0">MINISTERIO DE TRABAJO Y PREVISION SOCIAL <p align="center">POLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p></h4>
-       
-            <table width="1206" height="166" border="0">
-              <tr>
-                <td width="326"><h5 align="justify">No. POLIZA: </h5></td>
-                <td width="257"><div align="justify"><span class="controls">
-                  <input type="text" id="nombre1" name="nombre1" class="form-control" style="background-color: #fff;" readonly="">
-                </span></div></td>
-                <td> <h5 align="justify"> MES:</h5></td>
-                <td><div align="justify"><span class="controls">
-                  <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;" disabled>
-                    <?php
-                      for($i=1; $i<=12; $i++){
-                        if($i>9){
-                          echo '<option value="'.$i.'">'.mes($i).'</option>';
-                        }else{
-                          echo '<option value="0'.$i.'">'.mes($i).'</option>';
-                        }
-                      }
-                    ?>
-                    </select>
-                </span></div></td>
-              </tr>
-              <tr>
-                <td><h5 align="justify">INSTITUCIÓN:</h5></td>
-                <td ><div align="justify"><span class="controls">
-                  <input type="text" id="nombre2" name="nombre2" class="form-control" value="MINISTERIO DE TRABAJO Y PREVISION SOCIAL" readonly="" style="background-color: #fff;"/>
-                </span></div></td>
-                <td> <h5 align="justify"> EJERCICIO FINANCIERO FISCAL: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre8" name="nombre8" class="form-control" readonly style="background-color: #fff;"/>
-                </span></div></td>
-              </tr>
-              <tr>
-                <td height="25"><h5 align="justify">CÓDIGO PRESUPUESTARIO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre3" name="nombre3" class="form-control" readonly style="background-color: #fff;"/>
-                </span></div></td>
-                <td> <h5 align="justify"> NOMBRE DEL BANCO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre9" name="nombre9" class="form-control" readonly style="background-color: #fff;"/>
-                </span></div></td>
-              </tr>
-              <tr>
-                <td height="25"><h5 align="justify">DENOMINACIÓN DEL MONTO FIJO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre4" name="nombre4" class="form-control" value="FONDO CIRCULANTE DEL MTPS" readonly style="background-color: #fff;"/>
-                </span></div></td>
-                <td> <h5 align="justify">No. CUENTA BANCARIA: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre10" name="nombre10" class="form-control" readonly style="background-color: #fff;" />
-                </span></div></td>
-              </tr>
-              <tr>
-                <td height="25"> <h5 align="justify"> MONTO TOTAL DEL REINTEGRO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <div class="input-group">
-                      <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                      <input type="number" id="nombre5" name="nombre5" class="form-control" readonly style="background-color: #fff;">
-                  </div>
-                </span></div></td>
-                <td><h5 align="justify">No. COMPROMISO PRESUPUESTARIO:</h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre11" name="nombre11" class="form-control" />
-                </span></div></td>
-              </tr>
-              <tr>
-                <td height="25"> <h5 align="justify">CANTIDAD EN LETRAS: </h5></td>
-                <td><div align="justify"><span class="controls">
-                <small id="nombre6"></small>
-                </span></div></td>
-                <td><h5 align="justify">FECHA DE CANCELADO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre12" name="nombre12" class="form-control" readonly style="background-color: #fff;"/>
-                </span></div></td>
-              </tr>
-            </table>
-      </div>
-     
-      <div id="cnt_generar_poliza"></div>
-    </div>
+    <div id="cnt_planillas"></div>
 
-    <div align="right">
-      <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Guardar ediciones</button>
-    </div>
-    
-    <br>
+    <div id="cnt_poliza" style="display: none;">	     
+	      <div id="cnt_generar_poliza"></div>
+	    </div>
 
-    <div class="form-group" style="display: block;">
-        <textarea id="area" class="form-control" rows="10"></textarea>
-    </div>
+	    <div align="right">
+	      <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Guardar ediciones</button>
+	    </div>
+	    
+	    <br>
 
- </div>
+	    <div class="form-group" style="display: block;">
+	        <textarea id="area" class="form-control" rows="10"></textarea>
+	    </div>
+
+	</div>
 </div>
 
 
