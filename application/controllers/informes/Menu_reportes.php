@@ -3431,6 +3431,100 @@ class Menu_reportes extends CI_Controller {
 		}
 		
 	}
+	public function crear_grafico_viaticos_x_genero($tipo,$seccion,$anio){
+		$this->load->library('j_pgraph');
+		$this->load->model('Reportes_viaticos_model');
+		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
+		
+		$data1y = array(0);
+		$data2y = array(0);
+		$data3y = array(0);
+		$data4y = array(0);
+		$labels = array(0);
+		$i=0;
+		$data  =array(
+			'anio' =>$anio
+		);
+		
+		$viatico = $this->Reportes_viaticos_model->viaticos_por_genero($data);
+		$total_viatico=0;
+		$total_pasaje=0;
+		$total_alojamiento=0;
+		$total_total=0;
+		foreach ($viatico->result() as $viatico_mes_detalle) {	
+
+			//$data1y[$i]=$viatico_mes_detalle->viaticos;
+			//$data2y[$i]=$viatico_mes_detalle->pasajes;
+			//$data3y[$i]=$viatico_mes_detalle->alojamientos;
+			$data4y[$i]=$viatico_mes_detalle->total;
+			$labels[$i]=$viatico_mes_detalle->genero;
+
+			$i++;
+		}
+		
+		// Create the graph. These two calls are always required
+		$graph = new Graph(850,800);
+		
+		$graph->SetScale("textlin");
+		//$graph->Set90AndMargin(0,0,0,0);
+		$graph->SetShadow();
+
+		//$graph->img->SetMargin(40,30,30,70);
+
+		// Create the bar plots
+		$b1plot = new BarPlot($data1y);
+		$b2plot = new BarPlot($data2y);
+		$b3plot = new BarPlot($data3y);
+		$b4plot = new BarPlot($data4y);
+		
+
+		
+		
+		// Create the grouped bar plot
+		$gbplot = new GroupBarPlot(array($b4plot));
+
+		// ...and add it to the graPH
+		$graph->Add($gbplot);
+
+		 
+		$b4plot->value->SetFormat('$%01.2f');
+		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
+
+		$b1plot->value->Show();
+		$b1plot->SetColor("#0000CD");
+		$b2plot->SetFillColor('#B0C4DE');
+		$b1plot->SetLegend("Viaticos");
+
+		$b2plot->value->Show();
+		$b2plot->SetLegend("Pasaje");
+		$b3plot->value->Show();
+		$b3plot->SetLegend("Alojamiento");
+		$b4plot->value->Show();
+		$b4plot->SetLegend("Total");
+
+		$graph->title->Set(utf8_decode("Viaticos por Genero"));
+		//$graph->yaxis->title->Set("Cantidad en dólares");
+		$graph->xaxis->title->Set(utf8_decode("Genero"));
+
+		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_BOLD);
+		$graph->yaxis->scale->SetGrace(10);
+
+		
+		
+		// Display the graph
+		$graph->Stroke(_IMG_HANDLER);
+		$x = $this->session->userdata('usuario_viatico');
+		$fileName = "assets/graficas/grafica_vg_".$x.".png";
+		$graph->img->Stream($fileName);
+
+		// mostrarlo en el navegador
+		//$graph->img->Headers();
+		//$graph->img->Stream();
+		
+	}
 	public function reporte_viaticos_por_genero($tipo,$seccion,$anio){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
@@ -3448,7 +3542,7 @@ class Menu_reportes extends CI_Controller {
 			Orientacion: P / L
 		*/
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
-
+		$this->crear_grafico_viaticos_x_genero($tipo,$seccion,$anio);
 		$cabecera = '<table><tr>
  		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
@@ -3481,7 +3575,7 @@ class Menu_reportes extends CI_Controller {
 		$data  =array(
 			'anio' =>$anio
 		);
-		//$this->crear_grafico_viaticos_x_mes($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
+		
 		$viatico = $this->Reportes_viaticos_model->viaticos_por_genero($data);
 		$total_viatico=0;
 		$total_pasaje=0;
@@ -3545,7 +3639,7 @@ class Menu_reportes extends CI_Controller {
 						</tr>
 				</tbody>
 			</table><br>
-			
+			<img  src="'.base_url().'assets/graficas/grafica_vg_'.$this->session->userdata('usuario_viatico').'.png" alt="">
         ';         // LOAD a stylesheet         
 	     if($tipo=="pdf"){
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
