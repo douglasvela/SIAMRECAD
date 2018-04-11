@@ -19,8 +19,8 @@
       $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
       $nr_jefe_regional = $filadir->nr;
      
-    echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required>';
-    echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required>';
+   echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required style="visibility:hidden">';
+    echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required style="visibility:hidden">';
     }
 ?>
 
@@ -51,25 +51,27 @@
             </td>
 
             <td style="padding: 7px 5px;">
-                 <input type="text" id="expediente" name="expediente" class="form-control" style="width: 130px;">
+                 <input type="text" id="expediente" name="expediente" class="form-control" style="width: 80px;">
             </td>
           <td style="padding: 7px 5px;">
-            <input type="text" id="departamento" name="departamento" class="form-control" required="" data-validation-required-message="Este campo es requerido"> 
+             <div class="form-group col-lg-6" id="combo_departamento" >
+                                </div>
+                                
                                 
                                 </td>
                               <td style="padding: 7px 5px;">
-                                 <input type="text" id="municipio" name="municipio" class="form-control" required="" data-validation-required-message="Este campo es requerido"> 
-                                </td>
+                                 <div class="form-group col-lg-6" id="combo_municipio" >
+                                </div>  </td>
 
             <td style="padding: 7px 5px;">
-                <input type="text" id="empresa" name="empresa" class="form-control" required="" data-validation-required-message="Este campo es requerido"> 
+                <input type="text" id="empresa" name="empresa" class="form-control" required="" data-validation-required-message="Este campo es requerido" style="width: 120px;"> 
             </td>
             <td style="padding: 7px 5px;">
-                <input type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido" style="width: 450px;">
+                <input type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido" style="width: 300px;">
 
             </td>
             <td colspan="2" style="padding: 7px 5px;">
-                <input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" style="width: 80px;">
+                <input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" style="width: 60px;">
             </td>
 
             <td style="padding: 7px 5px;" >
@@ -115,7 +117,7 @@
                                 echo '<td><span class="label label-success">Pagada</span></td>';
                             }
                     echo "<td>";
-                   $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa, $fila->nr,$fila->monto_pasaje);
+                   $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa, $fila->nr,$fila->monto_pasaje,$fila->departamento, $fila->municipio);
                     array_push($array, "edit");
                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array

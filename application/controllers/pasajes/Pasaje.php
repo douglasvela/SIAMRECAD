@@ -17,6 +17,8 @@ class Pasaje extends CI_Controller {
 	public function tabla_pasaje_unidad(){
 		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes');
 	}
+
+	
 	public function gestionar_pasaje(){		
 		if($this->input->post('band') == "save"){
 			$data = array(

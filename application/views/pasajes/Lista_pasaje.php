@@ -27,10 +27,10 @@
 
 <script type="text/javascript">
 
-
    function ver_pasajes(){
      var nr = $("#nr").val();   
-        var fechas = $("#fecha2").val();
+     var fechas = $("#fecha2").val();
+     alert(nr);
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -39,6 +39,7 @@
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
+
                  $('[data-toggle="tooltip"]').tooltip();
                  
                 $('#fecha').datepicker({
@@ -138,14 +139,12 @@ function cambiar_nuevo(){
 function cerrar_mantenimiento(){
        $("#cnt-tabla").show(0);
        $("#cnt_form").hide(0);
-$("#cnt_form1").show(0);
+       $("#cnt_form1").show(0);
     }
    
     function tablapasajes(){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
-            $('#myTable').DataTable();
-            $('[data-toggle="tooltip"]').tooltip();
-        });  
+       $("#cnt_form").hide(0);
+       $("#cnt_form1").show(0);  
  }
 
 function combo_oficina_departamento(tipo){
@@ -549,6 +548,7 @@ $("#formajax").on("submit", function(e){
             if(res == "exito"){
                 if($("#band2").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+
                 }else if($("#band2").val() == "edit"){
                     swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
@@ -556,7 +556,8 @@ $("#formajax").on("submit", function(e){
                 }
                 $("#band2").val('save');
                tablapasajes();
-            }else{
+                          }
+               else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
