@@ -69,7 +69,7 @@
 							 
                             <div class="form-group">
                             	<h5>Años</h5>
-                            		<div id="range_04" data-min="2010" data-max="<?php echo date('Y');?>"></div>
+                            		<div id="range_04" data-min="2016" data-max="<?php echo date('Y');?>"></div>
                             </div>
                             <div align="right">
                             	<button type="button" onclick="mostrarReportePorAnio('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Previa</button>

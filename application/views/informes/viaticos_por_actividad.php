@@ -110,6 +110,11 @@
 	        }
 	     }
 	     function iniciar() {
+	     	var slider = $("#range_04").data("ionRangeSlider");
+	     	slider.update({
+	     		from: 2017,
+	     		to: 2018
+	     	});
 	     	<?php
 	          $data['id_modulo'] = $this->uri->segment(5);
 	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
@@ -163,7 +168,7 @@
                             </div>
                             <div class="form-group">
                             	<h5>Años</h5>
-                            		<div id="range_04" data-min="2010" data-max="<?php echo date('Y');?>"></div>
+                            		<div id="range_04" data-min="2016" data-max="<?php echo date('Y');?>"></div>
                             </div>
                             <div class="demo-radio-button">
                             	<h5>Periodo: <span class="text-danger"></span></h5>
