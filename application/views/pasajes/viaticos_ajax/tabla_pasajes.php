@@ -21,6 +21,8 @@
      
    echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required style="visibility:hidden">';
     echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required style="visibility:hidden">';
+
+
     }
 ?>
 

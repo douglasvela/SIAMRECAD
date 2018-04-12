@@ -21,6 +21,26 @@
     }
     
     $cuenta_banco = $this->db->query("SELECT * FROM vyp_pasajes WHERE nr = '".$nr_usuario."' AND estado = 1");
+
+$pasajitos = $this->db->query("SELECT * FROM vyp_mision_pasajes");
+
+         
+            if($pasajitos->num_rows() > 0){
+
+                foreach ($pasajitos->result() as $filap) {
+                   
+                    $mestabla = $filap->mes_pasaje;
+                    $aniotabla = $filap->anio_pasaje;
+                    $nreste= $filap->nr;                   
+                   $id_este= $filap->id_mision_pasajes;  
+                }
+            } else {
+
+                $mestabla=NULL;
+                $aniotabla=NULL;
+                $nreste=NULL;
+                $id_este=NULL;
+            }
 ?>
 
 
@@ -213,23 +233,57 @@ function info_pasajes(){ //para la validacion
         xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr_empleado+"&fecha="+fechap,true);
         xmlhttp_A.send();
     }
+
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
+{
+ 
+var fecha = $("#fecha1").val().split("-");
+var mest = fecha[1].trim();
+var aniot = fecha[0].trim();
+var mesv = "<?php echo $mestabla ?>";
+var aniov = "<?php echo $aniotabla ?>";
+var otronr = "<?php echo $nreste ?>";
+var id_este1= "<?php echo $id_este ?>"; 
+alert(mesv);
+alert(mest);
+alert(aniov);
+
+var nr = $("#nr").val();
+if(mesv== mest && aniov == aniot && otronr == nr)
 {
 
 
+swal({ title: "¡Ups! Error", text: "Solicitud de mes ya enviada a revisión.", type: "error", showConfirmButton: true });
+
+} else {
+
+    guardar_pasaje1();
+      
+      }
+
+}
+
+
+
+function guardar_pasaje1()//guarda en la tabla vyp_mision_pasajes
+{
 var f = $(this);
 var formData = new FormData();
 var nombre_empleado = $("#nr option:selected").text().split("-");
+
 var fecha = $("#fecha1").val().split("-");
+
 //alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
 formData.append("nr", $("#nr").val());
 formData.append("nombre_emple", nombre_empleado[0].trim());
 formData.append("jefe_inmediato", $("#nr_jefe_inmediato").val());
 formData.append("jefe_regional", $("#nr_jefe_regional").val());
 formData.append("mes", fecha[1].trim()); 
-formData.append("anio", fecha[0].trim()); 
-        
-        $.ajax({
+formData.append("anio", fecha[0].trim());
+
+
+
+       $.ajax({
             url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje_fecha",
             type: "post",
             dataType: "html",
@@ -238,8 +292,10 @@ formData.append("anio", fecha[0].trim());
             contentType: false,
             processData: false
         })
-        .done(function(res){
-           alert(res)
+
+
+         .done(function(res){
+           //alert(res)
             if(res == "exito"){
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
