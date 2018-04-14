@@ -94,7 +94,7 @@ if($generalidades->num_rows() > 0){
         var nremp = $(celdas[5]).text().trim();
         var fmisi = $(celdas[6]).text().trim();
         var nomem = $(celdas[7]).text().trim();
-        var dmisi = $(celdas[8]).text().trim();
+        var dmisi = $(celdas[8]).html().trim();
         var csede = $(celdas[9]).text().trim();
         var cargo = $(celdas[10]).text().trim();
         var linea1 = $(celdas[11]).text().trim();

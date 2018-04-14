@@ -125,11 +125,11 @@ class Login extends CI_Controller {
            'id_accion' => "2"
         ));*/
 
-		$this->session->unset_userdata(
-		    'id_usuario_viatico',
-		    'usuario_viatico',
-		    'nombre_usuario_viatico',
-		    'sesion_viatico'
+		unset(
+		    $_SESSION['id_usuario_viatico'],
+		    $_SESSION['usuario_viatico'],
+		    $_SESSION['nombre_usuario_viatico'],
+		    $_SESSION['sesion_viatico']
 		);
 		$this->index();
 	}

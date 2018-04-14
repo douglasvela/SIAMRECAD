@@ -29,6 +29,8 @@ function mes($mes){
 
             $("#nombre5").val($("#total").val());
             $("#nombre6").text($("#total_texto").val());
+
+            calcular();
             
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -235,6 +237,33 @@ function mes($mes){
     contador_clic = 0;
     primer_index = "";
     segundo_index = "";
+  }
+
+  function calcular(){
+    var arreglo = [];
+    var fila = $("#tabla_poliza>tbody").find("tr");
+
+    for(j=0; j< fila.length-1; j++){
+      var celdas = $(fila[j]).find("td");
+
+      var linea1 = $(celdas[9]).text().trim();
+      var monto = $(celdas[13]).text().trim();
+      monto = monto.substring(2, monto.length);
+
+      if(typeof(arreglo[linea1]) == "undefined"){
+        arreglo[linea1] = [linea1, 0];
+        arreglo[linea1][1] = parseFloat(arreglo[linea1][1]) + parseFloat(monto);
+      }else{
+        arreglo[linea1][1] = parseFloat(arreglo[linea1][1]) + parseFloat(monto);
+      }
+    }
+
+    for (var propiedad in arreglo) {
+      if (arreglo.hasOwnProperty(propiedad)) {
+        console.log("En la propiedad '" + propiedad + "' hay este valor: " + arreglo[propiedad]);
+      }
+    }
+
   }
 
 </script>

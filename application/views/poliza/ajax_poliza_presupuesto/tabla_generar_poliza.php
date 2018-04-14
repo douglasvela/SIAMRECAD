@@ -186,7 +186,7 @@ $num_poliza = $ult_poliza;
               	<th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>
               	<th style="padding: 7px" width="70px" rowspan="2">Fecha misión</th>
               	<th style="padding: 7px" width="100px" rowspan="2">Nombre empleado</th>
-              	<th style="padding: 7px" width="120px" rowspan="2">Detalle misión</th>
+              	<th style="padding: 7px" width="200px" rowspan="2">Detalle misión</th>
               	<th style="padding: 7px" width="120px" rowspan="2">Sede</th>
               	<th style="padding: 7px" width="25px"  rowspan="2">UP/LT</th>
               	<th style="padding: 7px" width="25px"  rowspan="2">UP/LT (presup.)</th>
@@ -195,15 +195,15 @@ $num_poliza = $ult_poliza;
             </tr>
             <tr>
                 <!-- <th width="48"  >54401</th> -->
-                <th style="padding: 7px" width="30px" >54401</th>
+                <th style="padding: 7px" width="60px" >54401</th>
                 <!-- <th width="48" >54403</th> -->
-                <th style="padding: 7px" width="30px" >54403</th>
+                <th style="padding: 7px" width="60px" >54403</th>
             </tr>
         </thead>
         <tbody style="font-size: 11px;" align="center">
          	<?php
 
-                $poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$num_poliza."' AND anio = '".$anio_poliza."' ORDER BY no_doc");
+                $poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$num_poliza."' AND anio = '".$anio_poliza."' ORDER BY linea_presup1");
 
                 $correlativo = 0;
                 $total_pasaje = 0;
@@ -218,7 +218,7 @@ $num_poliza = $ult_poliza;
 
                       	echo "<tr style='cursor: pointer;' onclick='nuevo_clic(this);'>";
                         ?>
-            			<td style="padding: 7px;"><?php echo $fila->no_doc; ?>
+            			<td style="padding: 7px;"><?php echo $correlativo; ?>
                             <input type="hidden" width="20px" value="<?php echo $fila->id_poliza; ?>">
                         </td>
 		            	<td style="padding: 7px;"><?php echo $fila->mes_poliza; ?></td>

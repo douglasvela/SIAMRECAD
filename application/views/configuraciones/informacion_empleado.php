@@ -23,6 +23,13 @@
         }
     }
 
+    $carpeta = "assets/firmas/";
+                        
+    //Validamos si la ruta de destino existe, en caso de no existir la creamos
+    if(!file_exists($carpeta)){
+        mkdir($carpeta, 0777) or die("No se puede crear el directorio de extracci&oacute;n");   
+    }
+
     $empleado = $this->db->query("SELECT e.id_empleado, e.correo, e.telefono_casa, e.telefono_contacto, e.direccion, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.nr = '".$nr_usuario."' ORDER BY primer_nombre");
 
     if($empleado->num_rows() > 0){

@@ -307,13 +307,17 @@ $cuerpo = '
 
 		$total_viatico = 0;
 		$total_pasaje = 0;
+        $contador = 0;
 
-		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."'");
+		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup1");
         if($poliza->num_rows() > 0){
             foreach ($poliza->result() as $fila) {            
+
+            $contador++;
+
 			$cuerpo .= '
 				<tr>
-                	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->no_doc.'</td>
+                	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$contador.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->no_poliza.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->mes_poliza.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->fecha_elaboracion.'</td>

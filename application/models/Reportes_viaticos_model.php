@@ -20,6 +20,16 @@ SELECT m.*,
 (SELECT nombre_estado FROM vyp_estado_solicitud WHERE id_estado_solicitud=m.estado) as nombre_estado
 FROM vyp_mision_oficial as m WHERE m.nr_empleado IN (SELECT nr FROM sir_empleado)
 */
+
+
+
+/* ALGO ASI
+
+SELECT i.id_oficina_departamental as id_depto, o.id_departamento, depto.departamento, SUM(s.viatico) AS viatico, SUM(s.pasaje) AS pasaje, SUM(s.alojamiento) AS alojamiento, (SUM(s.viatico)+SUM(s.pasaje)+SUM(s.alojamiento)) as total FROM (SELECT ev.viatico, ev.pasaje, ev.alojamiento, m.nr_empleado, m.fecha_solicitud FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT 0, p.monto_pasaje, 0, p.nr, p.fecha_solicitud FROM vyp_pasajes AS p) AS s JOIN vyp_informacion_empleado AS i ON s.nr_empleado = i.nr JOIN vyp_oficinas AS o ON o.id_oficina = i.id_oficina_departamental JOIN org_departamento as depto ON depto.id_departamento=o.id_departamento WHERE year(s.fecha_solicitud)='2017' GROUP BY i.id_oficina_departamental ORDER BY SUM(s.viatico) DESC
+
+SELECT month(s.fecha_solicitud) as mes,ROUND(sum(s.pasaje),2) as pasajes,sum(s.viatico) as viaticos, sum(s.alojamiento) as alojamientos, ROUND(sum(s.viatico)+sum(s.pasaje)+sum(s.alojamiento),2) as total FROM (SELECT ev.viatico, ev.pasaje, ev.alojamiento, m.nr_empleado, m.fecha_solicitud FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT 0, p.monto_pasaje, 0, p.nr, p.fecha_solicitud FROM vyp_pasajes AS p) AS s WHERE year(s.fecha_solicitud)='2017' and month(s.fecha_solicitud) IN ('1','2','3','4','5','6','7','8','9','10','11','12') GROUP by month(s.fecha_solicitud)
+
+*/
     function obtenerViaticoAnualxDepto($data){
       
         $viaticos = $this->db->query("SELECT i.id_oficina_departamental as id_depto, o.id_departamento, depto.departamento ,m.id_mision_oficial,SUM(ev.viatico) AS viatico, SUM(ev.pasaje) AS pasaje, SUM(ev.alojamiento) AS alojamiento, (SUM(ev.viatico)+SUM(ev.pasaje)+SUM(ev.alojamiento)) as total FROM vyp_mision_oficial AS m JOIN vyp_informacion_empleado AS i ON m.nr_empleado = i.nr JOIN vyp_oficinas AS o ON o.id_oficina = i.id_oficina_departamental JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial JOIN org_departamento as depto ON depto.id_departamento=o.id_departamento WHERE year(m.fecha_solicitud)='$data' GROUP BY i.id_oficina_departamental ORDER BY SUM(ev.viatico) DESC");

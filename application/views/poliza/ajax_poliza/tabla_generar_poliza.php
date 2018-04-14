@@ -131,9 +131,9 @@ class NumeroALetras
 }
 
 function mes($mes){
- setlocale(LC_TIME, 'spanish');  
- $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
- return strtoupper($nombre);
+    setlocale(LC_TIME, 'spanish');  
+    $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
+    return strtoupper($nombre);
 }
 
 
@@ -197,9 +197,9 @@ $num_poliza = $ult_poliza;
             </tr>
             <tr>
                 <!-- <th width="48"  >54401</th> -->
-                <th style="padding: 7px" width="30px" >54401</th>
+                <th style="padding: 7px" width="60px" >54401</th>
                 <!-- <th width="48" >54403</th> -->
-                <th style="padding: 7px" width="30px" >54403</th>
+                <th style="padding: 7px" width="60px" >54403</th>
             </tr>
         </thead>
         <tbody style="font-size: 11px;">
@@ -212,6 +212,8 @@ $num_poliza = $ult_poliza;
                 $total_pasaje = 0;
                 $total_viatico = 0;
                 $otra_tabla = "";
+
+                $bandera = true;
 
                 $contador_restante = 0;
 
@@ -237,12 +239,20 @@ $num_poliza = $ult_poliza;
                             $visitados .= "PASAJE AL INTERIOR <br>";
                         }
 
-                        if($fila->fecha_mision_inicio != $fila->fecha_mision_fin){
+                        /*if($fila->fecha_mision_inicio != $fila->fecha_mision_fin){
                             $visitados .= "PERMANENCIA <br>";
+                        }*/
+
+                        if(floatval($fila->alojamiento) > 0){
+                            $visitados .= "ALOJAMIENTO <br>";
                         }
                         
 
-                        if($prelimite <= $limite_poliza){
+                        if($prelimite > $limite_poliza){
+                            $bandera = false;
+                        }
+
+                        if($bandera){
                         $correlativo++;
                     	$total_pasaje += floatval($fila->pasaje);
                     	$total_viatico += floatval($fila->viatico)+floatval($fila->alojamiento);

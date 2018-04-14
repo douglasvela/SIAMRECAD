@@ -330,6 +330,11 @@ class Solicitud_viatico extends CI_Controller {
 				    //$width = $dimensiones[0];
 				    //$height = $dimensiones[1];
 				    $carpeta = "assets/viaticos/facturas/";
+						
+					//Validamos si la ruta de destino existe, en caso de no existir la creamos
+					if(!file_exists($carpeta)){
+						mkdir($carpeta, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+					}
 
 				    $info = new SplFileInfo($nombre);
 

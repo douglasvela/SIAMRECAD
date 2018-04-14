@@ -15,6 +15,20 @@
         }
     }
 
+    $carpeta = "assets/viaticos/facturas/";
+                        
+    //Validamos si la ruta de destino existe, en caso de no existir la creamos
+    if(!file_exists($carpeta)){
+        mkdir($carpeta, 0777) or die("No se puede crear el directorio de extracci&oacute;n");   
+    }
+
+    $carpeta2 = "assets/viaticos/justificaciones/";
+                        
+    //Validamos si la ruta de destino existe, en caso de no existir la creamos
+    if(!file_exists($carpeta2)){
+        mkdir($carpeta2, 0777) or die("No se puede crear el directorio de extracci&oacute;n");   
+    }
+
 ?>
 
 <?php
