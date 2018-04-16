@@ -205,7 +205,7 @@
                                     <h5>Monto: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" value="0.00">
+                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="any" value="0.00">
                                     </div>
                                     <div class="help-block"></div>
                                 </div>

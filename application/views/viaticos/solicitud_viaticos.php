@@ -2390,12 +2390,12 @@
 			                    </div>
                                 <div class="form-group col-lg-3">   
                                     <h5>Fecha de misión (inicio): <span class="text-danger">*</span></h5>
-                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy" onchange="informacion_empleado();">
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy" onchange="informacion_empleado();" readonly="">
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group col-lg-3">   
                                     <h5>Fecha misión (fin): <span class="text-danger">*</span></h5>
-                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy" onchange="informacion_empleado()">
+                                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy" onchange="informacion_empleado()" readonly="">
                                     <div class="help-block"></div>
                                 </div>
                             </div>
