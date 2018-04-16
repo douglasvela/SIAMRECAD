@@ -230,6 +230,7 @@ function mes($mes){
       }
 
       cancelar();
+      calcular();
   }
 
   function cancelar(){
@@ -246,7 +247,7 @@ function mes($mes){
     for(j=0; j< fila.length-1; j++){
       var celdas = $(fila[j]).find("td");
 
-      var linea1 = $(celdas[9]).text().trim();
+      var linea1 = $(celdas[10]).text().trim();
       var monto = $(celdas[13]).text().trim();
       monto = monto.substring(2, monto.length);
 
@@ -258,12 +259,20 @@ function mes($mes){
       }
     }
 
+    var registros = "";
+    var registros2 = "";
+
     for (var propiedad in arreglo) {
       if (arreglo.hasOwnProperty(propiedad)) {
-        console.log("En la propiedad '" + propiedad + "' hay este valor: " + arreglo[propiedad]);
+        registros += "<td>"+propiedad+"</td>";
+        registros2 +="<td>$ "+(parseFloat(arreglo[propiedad][1])).toFixed(2);+"</td>";
       }
     }
 
+    registros = "<tr><th class='bg-inverse text-white'>Líneas</th>"+registros+"<tr>";
+    registros += "<tr><th class='bg-inverse text-white'>Total</th>"+registros2+"<tr>";
+
+    $("#subtotales").html(registros);
   }
 
 </script>
@@ -373,6 +382,14 @@ function mes($mes){
               </tr>
             </table>
       </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered bg-white" style="width: auto; font-size: 13px;">
+          <tbody id="subtotales">
+            
+          </tbody>
+        </table>
+      </div>
      
       <div id="cnt_generar_poliza"></div>
     </div>
@@ -405,7 +422,7 @@ function mes($mes){
                         <select id="id_linea" name="id_linea" class="select2" style="width: 100%" required>
                             <option value=''>[Elija la nueva línea presupuestaria]</option>
                             <?php
-                                $linea_presupuestaria = $this->db->query("SELECT * FROM org_linea_trabajo");
+                                $linea_presupuestaria = $this->db->query("SELECT * FROM org_linea_trabajo ORDER BY linea_trabajo");
                                 if($linea_presupuestaria->num_rows() > 0){
                                     foreach ($linea_presupuestaria->result() as $fila2) {              
                                        echo '<option class="m-l-50" value="'.$fila2->linea_trabajo.'">'.$fila2->linea_trabajo.'</option>';
