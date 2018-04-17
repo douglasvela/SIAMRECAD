@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-04-2018 a las 05:35:28
+-- Tiempo de generación: 17-04-2018 a las 17:12:48
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.0.22
 
@@ -46,8 +46,11 @@ CREATE TABLE `vyp_pasajes` (
 --
 
 INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `id_municipio`, `id_departamento`, `fecha_mision`, `no_expediente`, `empresa_visitada`, `direccion_empresa`, `nr`, `monto_pasaje`, `estado`) VALUES
-(1, 00015, 00002, '2018-02-06', '1524454', 'empresa ejemplo', 'direccion empresa', '2588', 0.90, 1),
-(2, 00015, 00002, '2018-04-02', '2111', 'empresa1', 'frente a gasolinera', '602C', 0.50, 1);
+(10, 00014, 00002, '2018-04-09', '122', 'SA DE CV', 'SDFG', '602C', 1.00, 1),
+(12, 00014, 00002, '2018-04-11', 'eee22', 'EMPRESA1', 'wer', '335C', 7.00, 1),
+(14, 00044, 00004, '2018-04-10', '122', 'EMPRESA1', 'wqwqw', '2588', 0.50, 1),
+(15, 00002, 00001, '2018-04-14', '212', 'EMPRESA2', 'asassa', '602C', 0.50, 1),
+(16, 00015, 00002, '2018-04-16', '55.04', 'EMPRESA3', 'sadasd', '335C', 1.00, 1);
 
 --
 -- Índices para tablas volcadas
