@@ -24,6 +24,8 @@
 
 
     }
+
+    //list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes);
 ?>
 
       
@@ -38,7 +40,7 @@
                 <th>Empresa visitada</th>
                 <th>Direccion</th>
                  <th>Monto</th>
-                 <th>Estado</th>
+               
                 <th width="100px">(*)</th>
             </tr>
         </thead>
@@ -82,9 +84,15 @@
               
             </td>  
 </tr>
-        <?php 
+        <?php
 
-          $cuenta = $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN org_departamento as d ON p.nr = '".$nr_empleado."' AND p.fecha_mision LIKE '%".$fecha_mes."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais ORDER BY p.fecha_mision");
+        list($otrafecha)= explode ("-",$fecha_mes); 
+list($anio, $mes)= explode ("-",$fecha_mes); 
+
+       /* $cuenta= $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento, mp.estado as estado_mision FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN vyp_mision_pasajes as mp JOIN org_departamento as d ON p.nr =  '".$nr_empleado."' AND p.fecha_mision LIKE '%".$otrafecha."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais AND mp.mes_pasaje='".$mes."' AND mp.anio_pasaje='".$anio."' AND p.nr=mp.nr ORDER BY p.fecha_mision");
+*/        
+
+      $cuenta = $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN org_departamento as d ON p.nr = '".$nr_empleado."' AND p.fecha_mision LIKE '%".$fecha_mes."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais ORDER BY p.fecha_mision");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
@@ -99,25 +107,25 @@
                              echo "<td>".$fila->direccion_empresa."</td>";
                              // echo "<td>".$fila->nr."</td>";
                               echo "<td>".$fila->monto_pasaje."</td>";
-                    if($fila->estado == 0){
+                    /*if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Incompleta</span></td>';
                             }else if($fila->estado == 1){
                                 echo '<td><span class="label label-success">Revisión 1</span></td>';
                             }else if($fila->estado == 2){
                                 echo '<td><span class="label label-danger">Observaciones 1</span></td>';
-                            }else if($fila->estado == 3){
+                            }else if($fila->estado_mision == 3){
                                 echo '<td><span class="label label-success">Revisión 2</span></td>';
-                            }else if($fila->estado == 4){
+                            }else if($fila->estado_mision == 4){
                                 echo '<td><span class="label label-danger">Observaciones 2</span></td>';
-                            }else if($fila->estado == 5){
+                            }else if($fila->estado_mision == 5){
                                 echo '<td><span class="label label-success">Revisión 3</span></td>';
-                            }else if($fila->estado == 6){
+                            }else if($fila->estado_mision == 6){
                                 echo '<td><span class="label label-danger">Observaciones 3</span></td>';
-                            }else if($fila->estado == 7){
+                            }else if($fila->estado_mision == 7){
                                 echo '<td><span class="label label-success">Aprobada</span></td>';
-                            }else if($fila->estado == 8){
+                            }else if($fila->estado_mision == 8){
                                 echo '<td><span class="label label-success">Pagada</span></td>';
-                            }
+                            }*/
                     echo "<td>";
                    $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa, $fila->nr,$fila->monto_pasaje,$fila->departamento, $fila->municipio);
                     array_push($array, "edit");

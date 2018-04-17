@@ -20,9 +20,11 @@ class Pasaje_model extends CI_Model {
 	}
 
 	function insertar_mision_pasaje($data){
+$fecha_actual = date("Y-m-d H:i:s");
 		$idb = $this->obtener_ultimo_id("vyp_mision_pasajes","id_mision_pasajes");
 		$estado = true;
-		if($this->db->insert('vyp_mision_pasajes', array('id_mision_pasajes'=> $idb, 'nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'estado' => $data['estado'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'] )))
+		
+	if($this->db->insert('vyp_mision_pasajes', array('id_mision_pasajes'=> $idb, 'nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'estado' => $data['estado'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'], 'fecha_solicitud_pasaje' => $fecha_actual, 'fechas_pasajes' => $data['fechas_pasaje'])))
 		{
 			return "exito";
 		}else{

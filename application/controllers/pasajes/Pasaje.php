@@ -92,8 +92,9 @@ public function gestionar_pasaje_fecha(){
 			'jefe_regional' => $this->input->post('jefe_regional'),
 			'estado' => '1',
 			'mes' =>$this->input->post('mes'),
-			'anio' => $this->input->post('anio')
-			);
+			'anio' => $this->input->post('anio'),
+		   'fechas_pasaje' => $this->input->post('fechas_p')
+				);
 		echo $this->Pasaje_model->insertar_mision_pasaje($data);
 			
 		 

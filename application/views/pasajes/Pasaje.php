@@ -162,7 +162,25 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
              
         });
     }
+function recorre_tabla(viaticos_visibles){
+       // var fecha = $("#fecha_mision option:selected").text();
+        var celdas;
+        var filas = $("#cnt_pasaje").find("tbody").find("tr");
+//        var horarios = $("#horarios").val();
+        //var id_horarios;
+        var band_visible = false;
 
+        for(l=0; l< (filas.length-1); l++){
+            celdas = $(filas[l]).children("td");
+           // horarios2 = $($(celdas[4]).children("input")[0]).val();
+            //fecha2 = $(celdas[0]).text();
+          
+        }
+
+    
+
+        return band_visible;
+    }
     function iniciar(){
 
         tabla_pasaje_unidad();
@@ -189,8 +207,12 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         return xmlhttp;
     }
     function tabla_pasaje_unidad(){ 
+
+
+
         var nr = $("#nr").val();   
         var fechas = $("#fecha1").val();
+
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -199,7 +221,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
- form_folleto_viaticos();
+               form_folleto_viaticos();
  
  
 
@@ -210,8 +232,13 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
                     autoclose: true,
                     todayHighlight: true
                 });
+             
+               
             }
+
+
         }
+        
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
         xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr+"&fecha1="+fechas, true);
         xmlhttpB.send(); 
@@ -236,7 +263,7 @@ function info_pasajes(){ //para la validacion
 
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
 {
- 
+
 var fecha = $("#fecha1").val().split("-");
 var mest = fecha[1].trim();
 var aniot = fecha[0].trim();
@@ -244,9 +271,9 @@ var mesv = "<?php echo $mestabla ?>";
 var aniov = "<?php echo $aniotabla ?>";
 var otronr = "<?php echo $nreste ?>";
 var id_este1= "<?php echo $id_este ?>"; 
-alert(mesv);
+/*alert(mesv);
 alert(mest);
-alert(aniov);
+alert(aniov);*/
 
 var nr = $("#nr").val();
 if(mesv== mest && aniov == aniot && otronr == nr)
@@ -267,12 +294,40 @@ swal({ title: "¡Ups! Error", text: "Solicitud de mes ya enviada a revisión.", 
 
 function guardar_pasaje1()//guarda en la tabla vyp_mision_pasajes
 {
+
+
+ var filas = $("#cnt_pasaje").find("tbody").find("tr");
+
+var fechass;
+var fechass1;
+var celdas;
+ 
+var res1=" ";
+var valor=filas.length;
+        for(l=0; l< (valor); l++){
+            
+           //res=fechass;
+  celdas = $(filas[l]).children("td");
+         
+     
+            for(otro=0; otro<l; otro++)
+            {
+              
+  fechass = $(celdas[0]).text(); 
+//var fechitas = $($(celdas[4]).children("input")[0]).val();
+   
+
+ res1+=fechass.concat(",");  
+}
+
+alert(res1);
+}
 var f = $(this);
 var formData = new FormData();
 var nombre_empleado = $("#nr option:selected").text().split("-");
 
 var fecha = $("#fecha1").val().split("-");
-
+ 
 //alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
 formData.append("nr", $("#nr").val());
 formData.append("nombre_emple", nombre_empleado[0].trim());
@@ -281,6 +336,7 @@ formData.append("jefe_regional", $("#nr_jefe_regional").val());
 formData.append("mes", fecha[1].trim()); 
 formData.append("anio", fecha[0].trim());
 
+formData.append("fechas_p", res1);
 
 
        $.ajax({
@@ -294,8 +350,8 @@ formData.append("anio", fecha[0].trim());
         })
 
 
-         .done(function(res){
-           //alert(res)
+       .done(function(res){
+           alert(res)
             if(res == "exito"){
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
@@ -310,6 +366,8 @@ formData.append("anio", fecha[0].trim());
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
+
+
 }
     function tablapasajes(){          
         $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/pasajes/Pasaje/tabla_pasajes", function() {
