@@ -2,6 +2,33 @@
 
 $id_mision = $_GET["id_mision"];
 
+
+
+$sql = "SELECT sv.* FROM vyp_mision_oficial AS sv JOIN vyp_pago_emergencia AS pe ON pe.nr = sv.nr_empleado AND pe.fecha_mision_inicio = sv.fecha_mision_inicio AND pe.fecha_mision_fin = sv.fecha_mision_fin";
+
+echo "<div id='fechas_repetidas' style='width: 100%;'>";
+
+$fechas = $this->db->query($sql);
+if($fechas->num_rows() > 0){
+    echo '<div class="alert alert-warning" style="width: 100%;">';
+    echo '<h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Se encontró pago en</h3>';
+    foreach ($fechas->result() as $filaf) {
+        echo $filaf->nombre_actividad."<br>";
+    }
+    echo '</div>';
+}
+
+echo "</div>";
+
+function convertir2($fecha){
+    return date("d/m/Y",strtotime($fecha))." - Horario no definido";
+}
+
+
+
+
+
+
 $justificaciones = $this->db->query("SELECT * FROM vyp_justificaciones WHERE id_mision = '".$id_mision."'");
 
     if($justificaciones->num_rows() > 0){ 

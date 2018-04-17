@@ -127,14 +127,14 @@
     function tabla_empresas_visitadas(id_mision){    
         var iframe = $('<embed onload="funcion(this)">');
             iframe.attr('width','100%');
+            iframe.attr('height','500px;');
             iframe.attr('src',"<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud?id_mision="+id_mision);
             //$('#cnt_tabla_empresas').append(iframe);
             $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
     }
 
     function funcion(iframe){
-        iframe.attr('height','500px;');
-        justificacion();
+        cnt_notificaciones();
     }
 
     function listado_observaciones(){    
@@ -274,6 +274,29 @@
         xhr.send(encodeURI('name=' + newName));
     }
 
+    function cnt_notificaciones(){
+        var newName = 'Otro nombre',
+        xhr = new XMLHttpRequest();
+
+        var id_mision = gid_mision;
+
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/observaciones/cnt_notificaciones?id_mision="+id_mision);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_notificaciones").innerHTML = xhr.responseText;
+                justificacion();
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
+    }
+
+    function actualizar_tooltip(){
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
 </script>
 
 <!-- ============================================================== -->
@@ -309,6 +332,8 @@
                         <h4 class="card-title m-b-0 text-white">Listado de solicitudes</h4>
                     </div>
                     <div class="card-body b-t">
+
+                        <div id="cnt_notificaciones"></div>
 
                         <div id="cnt_tabla_empresas"></div>
 

@@ -1,8 +1,20 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas,bandera){
-        $("#idb").val(id);
-        $("#nombre").val(nombre);
-        $("#caracteristicas").val(caracteristicas);
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,id_actividad,tipo_pago,monto,num_cheque,fecha_pago,bandera){
+        $("#id_pago_emergencia").val(id);
+        $("#id_actividad").val(id_actividad).trigger('change.select2');
+        $("#num_cheque").val(num_cheque);
+        $("#nr").val(nr).trigger('change.select2');
+        $("#monto").val(monto);
+
+        if(tipo_pago == "efectivo"){
+            document.getElementById("cbx_efectivo").checked = 1;
+        }else{
+            document.getElementById("cbx_cheque").checked = 1;
+        }
+
+        $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
+        $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
+        $("#fecha_pago").datepicker("setDate", fecha_pago );
 
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
@@ -13,16 +25,21 @@
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar pago de emergencia");
         }else{
-            eliminar_banco();
+            eliminar_pago_emergencia();
         }
     }
 
     function cambiar_nuevo(){
-        $("#idb").val("");
+        $("#id_pago_emergencia").val("");
+        $("#id_actividad").val("").trigger('change.select2');
+        $("#num_cheque").val("");
+        $("#nr").val("").trigger('change.select2');
+        $("#monto").val("0.00");
+        
         var nueva_fecha =  moment();
-
         if(nueva_fecha.format("e") == 6){
             nueva_fecha.add('days',2);
+            document.getElementById("cbx_efectivo").checked = 1;
         }else if(nueva_fecha.format("e") == 0){
             nueva_fecha.add('days',1);
         }
@@ -46,12 +63,12 @@
         $("#cnt_form").hide(0);
     }
 
-    function editar_banco(){
+    function editar_pago_emergencia(){
         $("#band").val("edit");
         $("#submit").click();
     }
 
-    function eliminar_banco(){
+    function eliminar_pago_emergencia(){
         $("#band").val("delete");
         swal({   
             title: "¿Está seguro?",   
@@ -126,7 +143,7 @@
                         
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
-                            <input type="hidden" id="idb" name="idb" value="">
+                            <input type="hidden" id="id_pago_emergencia" name="id_pago_emergencia" value="">
 
 
 
@@ -223,7 +240,7 @@
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_banco()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                <button type="button" onclick="editar_pago_emergencia()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -310,7 +327,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablabancos(<?php echo $this->uri->segment(4);?>);
+                tabla_emergencias();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }

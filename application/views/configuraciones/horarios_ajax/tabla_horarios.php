@@ -32,7 +32,7 @@
                     $horarios = $this->db->query("SELECT * FROM vyp_horario_viatico ORDER BY estado DESC, hora_inicio ASC");
                     $correlativo = 0;
 
-                    if(!empty($horarios)){
+                    if($horarios->num_rows() > 0){
                         foreach ($horarios->result() as $fila) {
                             $correlativo++;
                           echo "<tr>";

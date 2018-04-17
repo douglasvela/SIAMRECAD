@@ -10,24 +10,35 @@
             <table id="myTable" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th>#</th>
+                        <th>Fecha pago</th>
                         <th>Nombre</th>
-                        <th>Descripción</th> 
+                        <th>Descripción</th>
+                        <th>Monto</th> 
+                        <th>Estado</th>
                         <th>(*)</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
-                    $bancos = $this->db->get("vyp_bancos");
-                    if(!empty($bancos)){
-                        foreach ($bancos->result() as $fila) {
+                    $pagos = $this->db->query("SELECT p.*, u.nombre_completo, a.* FROM vyp_pago_emergencia AS p JOIN org_usuario AS u ON u.nr = p.nr JOIN vyp_actividades AS a ON a.id_vyp_actividades = p.id_actividad");
+                    $contador = 0;
+                    if($pagos->num_rows() > 0){
+                        foreach ($pagos->result() as $fila) {
+                            $contador++;
                             echo "<tr>";
-                            echo "<td>".$fila->id_banco."</td>";
-                            echo "<td>".$fila->nombre."</td>";
-                            echo "<td>".$fila->caracteristicas."</td>";
+                            echo "<td>".date("d-m-Y",strtotime($fila->fecha_pago))."</td>";
+                            echo "<td>".$fila->nombre_completo."</td>";
+                            echo "<td>".$fila->nombre_vyp_actividades."</td>";
+                            echo "<td>".$fila->monto."</td>";
+
+                            if($fila->estado == 0){
+                                echo '<td><span class="label label-danger">Solicitud pendiente</span></td>';
+                            }else if($fila->estado == 1){
+                                echo '<td><span class="label label-success">Completada</span></td>';
+                            }
 
                             echo "<td>";
-                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas);
+                            $array = array($fila->id_pago_emergencia, $fila->nr, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad, $fila->tipo_pago, $fila->monto, $fila->num_cheque,date("d-m-Y",strtotime($fila->fecha_pago)));
 
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
