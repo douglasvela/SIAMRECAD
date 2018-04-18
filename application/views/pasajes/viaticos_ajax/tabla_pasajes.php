@@ -40,7 +40,6 @@
                 <th>Empresa visitada</th>
                 <th>Direccion</th>
                  <th>Monto</th>
-               
                 <th width="100px">(*)</th>
             </tr>
         </thead>
@@ -74,13 +73,13 @@
                 <input type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido" style="width: 300px;">
 
             </td>
-            <td colspan="2" style="padding: 7px 5px;">
+            <td  style="padding: 7px 5px;">
                 <input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" style="width: 60px;">
             </td>
 
             <td style="padding: 7px 5px;" >
             
-           <button type="submit" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="Agregar"><span class="fa fa-plus"></span></button>
+           <button type="submit" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="Agregar" ><span class="fa fa-plus"></span></button>
               
             </td>  
 </tr>
