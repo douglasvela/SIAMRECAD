@@ -29,7 +29,7 @@
                             echo "<td>".date("d-m-Y",strtotime($fila->fecha_pago))."</td>";
                             echo "<td>".$fila->nombre_completo."</td>";
                             echo "<td>".$fila->nombre_vyp_actividades."</td>";
-                            echo "<td>".$fila->monto."</td>";
+                            echo "<td>$ ".$fila->monto."</td>";
 
                             if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Solicitud pendiente</span></td>';
@@ -44,8 +44,14 @@
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                            
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            
+                            if($fila->estado == 0){
+                                array_push($array, "delete");
+                                echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            }else{
+                                array_push($array, "down");
+                                echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Cambiar estado");
+                            }
                             
                             echo "</td>";
 

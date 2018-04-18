@@ -43,6 +43,18 @@ class Observaciones extends CI_Controller {
 		echo $this->observaciones_model->cambiar_estado_solicitud($data);
 	}
 
+	public function pagar_solicitud(){	
+		
+		$data = array(
+			'id_mision' => $this->input->post('id_mision'), 
+			'id_pago' => $this->input->post('id_pago'),
+			'fecha_pago' => $this->input->post('fecha_pago'),
+			'tipo_pago' => $this->input->post('tipo_pago'),
+			'num_cheque' => $this->input->post('num_cheque')
+		);
+		echo $this->observaciones_model->pagar_solicitud($data);
+	}
+
 	public function eliminar_observacion(){
 		$data = array(
 		'id_observacion' => $this->input->post('id_observacion')

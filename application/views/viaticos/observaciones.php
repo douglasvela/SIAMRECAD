@@ -127,14 +127,14 @@
     function tabla_empresas_visitadas(id_mision){    
         var iframe = $('<embed onload="funcion(this)">');
             iframe.attr('width','100%');
-            iframe.attr('height','500px;');
+            iframe.attr('height','1190px;');
             iframe.attr('src',"<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud?id_mision="+id_mision);
             //$('#cnt_tabla_empresas').append(iframe);
             $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
     }
 
     function funcion(iframe){
-        cnt_notificaciones();
+        justificacion();
     }
 
     function listado_observaciones(){    
@@ -146,6 +146,9 @@
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_lista_observaciones").innerHTML=xmlhttpB.responseText;
+                if($("#id_tipo_observador").val() == "3"){
+                    cnt_notificaciones();
+                }
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
@@ -285,7 +288,6 @@
         xhr.onload = function() {
             if (xhr.status === 200 && xhr.responseText !== newName) {
                 document.getElementById("cnt_notificaciones").innerHTML = xhr.responseText;
-                justificacion();
             }else if (xhr.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
             }
@@ -295,6 +297,52 @@
 
     function actualizar_tooltip(){
         $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    function consultar_pago_solicitud(id_mision, id_pago, fecha_pago, tipo_pago, num_cheque){
+        swal({   
+            title: "¿Está seguro(a)?",   
+            text: "La solicitud será aprobada y se aplicarán los cambios del pago",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo aprobar!",   
+            closeOnConfirm: true 
+        }, function(){
+            actualizar_pago_solicitud(id_mision, id_pago, fecha_pago, tipo_pago, num_cheque)
+        });
+    }
+
+    function actualizar_pago_solicitud(id_mision, id_pago, fecha_pago, tipo_pago, num_cheque){
+        var formData = {
+            "id_mision" : gid_mision,
+            "id_pago" : id_pago,
+            "fecha_pago" : fecha_pago,
+            "tipo_pago" : tipo_pago,
+            "num_cheque" : num_cheque
+        };
+        $.ajax({
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viaticos/observaciones/pagar_solicitud',
+            data: formData,
+            cache: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                swal({ title: "¡Cambios aplicados!", text: "Solicitud pagada y aprobada exitosamente", type: "success", showConfirmButton: true });
+                cerrar_mantenimiento();
+                if($("#id_tipo_observador").val() == "1"){
+                    tabla_observaciones1();
+                }else if($("#id_tipo_observador").val() == "2"){
+                    tabla_observaciones2();
+                }else if($("#id_tipo_observador").val() == "3"){
+                    tabla_observaciones3();
+                }
+                $('[data-toggle="tooltip"]').tooltip();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
     }
 
 </script>

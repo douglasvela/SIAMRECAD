@@ -35,6 +35,16 @@ class Pagos_model extends CI_Model {
 		}
 	}
 
+	function cambiar_estado_pago_emergencia($data){
+		$this->db->where("id_pago_emergencia",$data["id_pago_emergencia"]);
+
+		if($this->db->update('vyp_pago_emergencia',  array('estado' => 0))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function obtener_ultimo_id($tabla,$nombreid){
 		$this->db->order_by($nombreid, "asc");
 		$query = $this->db->get($tabla);

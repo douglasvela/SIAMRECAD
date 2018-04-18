@@ -57,6 +57,13 @@ class Emergencias extends CI_Controller {
 			);
 			echo $this->pagos_model->eliminar_pago_emergencia($data);
 
+		}else if($this->input->post('band') == "down"){
+
+			$data = array(
+			'id_pago_emergencia' => $this->input->post('id_pago_emergencia')
+			);
+			echo $this->pagos_model->cambiar_estado_pago_emergencia($data);
+
 		}
 	}
 }

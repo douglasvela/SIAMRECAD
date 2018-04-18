@@ -25,7 +25,7 @@
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar pago de emergencia");
         }else{
-            eliminar_pago_emergencia();
+            eliminar_pago_emergencia(bandera);
         }
     }
 
@@ -68,19 +68,34 @@
         $("#submit").click();
     }
 
-    function eliminar_pago_emergencia(){
-        $("#band").val("delete");
-        swal({   
-            title: "¿Está seguro?",   
-            text: "¡Desea eliminar el registro!",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#fc4b6c",   
-            confirmButtonText: "Sí, deseo eliminar!",   
-            closeOnConfirm: false 
-        }, function(){   
-            $("#submit").click(); 
-        });
+    function eliminar_pago_emergencia(bandera){
+        $("#band").val(bandera);
+        if(bandera == "delete"){
+            swal({   
+                title: "¿Está seguro?",   
+                text: "¡Desea eliminar el registro!",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#fc4b6c",   
+                confirmButtonText: "Sí, deseo eliminar!",   
+                closeOnConfirm: false 
+            }, function(){   
+                $("#submit").click(); 
+            });
+        }else{
+           swal({   
+                title: "¿Está seguro?",   
+                text: "¡Desea cambiar el estado del registro!",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#fc4b6c",   
+                confirmButtonText: "Sí, deseo cambiarlo!",   
+                closeOnConfirm: false 
+            }, function(){   
+                $("#submit").click(); 
+            }); 
+        }
+        
     }
 
     function iniciar(){
