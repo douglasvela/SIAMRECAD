@@ -4642,7 +4642,7 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/poliza_anual');
 		$this->load->view('templates/footer');
 	}
-	public function reporte_poliza_anual($tipo,$data){
+	public function reporte_poliza_anual($tipo,$anio){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
 		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
@@ -4681,25 +4681,16 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2" >ID MISION</th>
-						<th align="center" rowspan="2" >NR</th>
-						<th align="center" rowspan="2" >NOMBRE</th>
-						<th align="center" rowspan="2" >SECCION</th>
-						<th align="center" rowspan="2" >CARGO</th>
-						<th align="center" rowspan="2" >FECHA INICIO</th>
-						<th align="center" rowspan="2" >FECHA FIN</th>
-						<th align="center" rowspan="2" >FECHA SOLICITUD</th>
-						<th align="center" rowspan="2" >ACTIVIDAD</th>
-						<th align="center" colspan="3" >TIPO</th>
-						<th align="center" rowspan="2" >TOTAL</th>
-						<th align="center" rowspan="2" >ESTADO</th>
-						<th align="center" rowspan="2" >FECHA PAGO</th>
-					</tr>
-					<tr>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
-
+						<th align="center">N°</th>
+						<th align="center">MES</th>
+						<th align="center">POLIZA</th>
+						<th align="center">CONCEPTO</th>
+						<th align="center">PASAJE</th>
+						<th align="center">VIATICO</th>
+						<th align="center">TOTAL</th>
+						<th align="center">FECHA ELABORACION DE LA POLIZA</th>
+						<th align="center">N° COMPROMISO PRESUPUESTARIO</th>
+						<th align="center">FECHA CANCELADO</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -4708,9 +4699,9 @@ class Menu_reportes extends CI_Controller {
 					$total_pasaje=0;
 					$total_alojamiento=0;
 					$total_total=0;
-				$data  = array('nr' => $nr );
-
-				$viatico = $this->Reportes_viaticos_model->misiones_empleados($data);
+				$data  = array('anio' => $anio );
+				$correlativo=1;
+				$viatico = $this->Reportes_viaticos_model->poliza_anual($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
 					$total_viatico+=$viaticos->viaticos;
@@ -4721,36 +4712,29 @@ class Menu_reportes extends CI_Controller {
 					 
 					$cuerpo .= '
 						<tr>
-							<td>'.($viaticos->id_mision_oficial).'</td>
-							<td>'.($viaticos->nr_empleado).'</td>
-							<td style="width:180px">'.($viaticos->nombre_completo).'</td>
-							<td>'.($viaticos->seccion).'</td>
-							<td>'.($viaticos->cargo).'</td>
-							<td>'.($viaticos->fecha_mision_inicio).'</td>
-							<td>'.($viaticos->fecha_mision_fin).'</td>
-							<td>'.($viaticos->fecha_solicitud).'</td>
-							<td>'.($viaticos->nombre_actividad).'</td>
-							<td align="center" >$'.number_format($viaticos->viaticos,2,".",",").'</td>
-							<td align="center" >$'.number_format($viaticos->pasajes,2,".",",").'</td>
-							<td align="center"  >$'.number_format($viaticos->alojamientos,2,".",",").'</td>
-							<td align="center" >$'.number_format($viaticos->total,2,".",",").'</td>
-							<td>'.($viaticos->nombre_estado).'</td>
-							<td>'.($viaticos->fecha_pago).'</td>
+							<td align="center">'.($correlativo).'</td>
+							<td align="center">'.($viaticos->mes_poliza).'</td>
+							<td align="center">'.($viaticos->no_poliza).'</td>
+							<td align="center">VIATICOS Y PASAJES AL INTERIOR</td>
+							<td align="center">'.($viaticos->pasaje).'</td>
+							<td align="center">'.($viaticos->viatico).'</td>
+							<td align="center">'.($viaticos->total).'</td>
+							<td align="center">'.($viaticos->fecha_elaboracion_poliza).'</td>
+							<td align="center">'.($viaticos->cod_presupuestario).'</td>
+							<td align="center">'.($viaticos->fecha_cancelado).'</td>
 						</tr>
 						';
+						$correlativo++;
 					}
 				}else{
 				$cuerpo .= '
-						<tr><td colspan="7"><center>No hay registros</center></td></tr>
+						<tr><td colspan="10"><center>No hay registros</center></td></tr>
 					';
 				}
 				$cuerpo .= '
 						<tr>
 							<th align="center"  colspan="9">Total</th>
-							<th align="center">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" >$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center">$'.number_format($total_total,2,".",",").'</th>
+							 
 							<th align="center"  colspan="2"></th>
 						</tr>
 				</tbody>

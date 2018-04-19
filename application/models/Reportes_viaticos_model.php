@@ -231,6 +231,11 @@ SELECT p.id_mision_pasajes as id_mision_oficial,p.nr as nr_empleado,(SELECT conc
           }
         return $viaticos;
     }
+    function poliza_anual($data){
+      $anios = $data['anio'];
+       $viaticos= $this->db->query("SELECT `id_poliza`,`no_doc`,`no_poliza`,`mes_poliza`,`fecha_elaboracion`,`no_cuenta_cheque`,`nr`,`fecha_mision` ,`nombre_empleado`,`detalle_mision`,`sede`,`cargo_funcional`,`linea_presup1`,`linea_presup2`, sum(`viatico`) as viatico ,sum(`pasaje`) as pasaje,sum(`total`) as total,`mes`,`anio`,`nombre_banco`,`cuenta_bancaria`,`fecha_cancelado`,`cod_presupuestario`,`id_mision`,`fecha_elaboracion_poliza`,`nr_elaborador`,`estado` FROM vyp_poliza WHERE year(fecha_mision)='$anios' GROUP BY no_poliza");
+        return $viaticos;
+    }
 }
 /* 
 
