@@ -30,6 +30,24 @@ GROUP BY s.id_seccion
 
 
 /////////////////////////////////////////
-CREATE OR REPLACE VIEW VISTA_VIATICOS_UNION_PASAJES AS SELECT m.nr_empleado,m.nombre_completo, ev.viatico, ev.pasaje, ev.alojamiento, m.fecha_solicitud,m.id_mision_oficial,ev.id_empresa_viatico,m.estado FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT p.nr,0, 0, p.monto_pasaje, 0, p.fecha_solicitud,p.id_solicitud_pasaje,(rand()),p.estado FROM vyp_pasajes AS p ORDER BY `id_empresa_viatico` ASC
+CREATE OR REPLACE VIEW VISTA_VIATICOS_UNION_PASAJES AS 
+SELECT m.nr_empleado,m.nombre_completo, ev.viatico, ev.pasaje, ev.alojamiento, m.fecha_solicitud,
+m.id_mision_oficial,ev.id_empresa_viatico,m.estado FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev 
+ON ev.id_mision = m.id_mision_oficial 
+UNION 
+ SELECT  p.nr,0,('0') as viatico,
+ (SELECT sum(monto_pasaje) FROM vyp_pasajes WHERE month(fecha_mision)=p.mes_pasaje and year(fecha_mision)=p.anio_pasaje
+  AND nr=p.nr) as pasaje,('0') as alojamiento,p.fecha_solicitud_pasaje,p.id_mision_pasajes,(rand()),p.estado 
+ FROM vyp_mision_pasajes as p
+  ORDER BY `id_empresa_viatico` ASC
 
-CREATE OR REPLACE VIEW VISTA_VIATICOS AS SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,seccion.depende,seccion.nivel,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,s.id_mision_oficial, (s.viatico),s.pasaje,s.alojamiento,s.id_empresa_viatico,cargo.funcional,s.fecha_solicitud,empleado.id_genero,s.estado FROM sir_empleado_informacion_laboral as info INNER JOIN sir_empleado as empleado ON empleado.id_empleado=info.id_empleado JOIN VISTA_VIATICOS_UNION_PASAJES as s ON empleado.nr = s.nr_empleado INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion INNER JOIN sir_cargo_funcional as cargo ON cargo.id_cargo_funcional=info.id_cargo_funcional GROUP BY s.id_empresa_viatico
+/*SELECT p.nr,0, 0, p.monto_pasaje, 0, p.fecha_solicitud,p.id_solicitud_pasaje,(rand()),p.estado FROM vyp_pasajes AS p*/
+
+CREATE OR REPLACE VIEW VISTA_VIATICOS AS 
+SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,seccion.depende,
+seccion.nivel,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,
+s.id_mision_oficial, (s.viatico),s.pasaje,s.alojamiento,s.id_empresa_viatico,cargo.funcional,s.fecha_solicitud
+,empleado.id_genero,s.estado FROM sir_empleado_informacion_laboral as info INNER JOIN sir_empleado as empleado
+ ON empleado.id_empleado=info.id_empleado JOIN VISTA_VIATICOS_UNION_PASAJES as s ON empleado.nr = s.nr_empleado
+  INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion INNER JOIN sir_cargo_funcional as cargo 
+  ON cargo.id_cargo_funcional=info.id_cargo_funcional GROUP BY s.id_empresa_viatico
