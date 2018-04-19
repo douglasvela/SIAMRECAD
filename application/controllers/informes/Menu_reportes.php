@@ -4681,6 +4681,7 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
+						
 						<th align="center">N°</th>
 						<th align="center">MES</th>
 						<th align="center">POLIZA</th>
@@ -4695,36 +4696,54 @@ class Menu_reportes extends CI_Controller {
 				</thead>
 				<tbody>
 					';
-				$total_viatico=0;
+					$total_viatico=0;
 					$total_pasaje=0;
-					$total_alojamiento=0;
-					$total_total=0;
+					$total_total=0;$mes_anterior="";
 				$data  = array('anio' => $anio );
 				$correlativo=1;
 				$viatico = $this->Reportes_viaticos_model->poliza_anual($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-					$total_viatico+=$viaticos->viaticos;
-					$total_pasaje+=$viaticos->pasajes;
-					$total_alojamiento+=$viaticos->alojamientos;
-					$total_total+=$viaticos->total;
+					
 
-					 
+					$total_viatico+=$viaticos->viatico;
+					$total_pasaje+=$viaticos->pasaje;
+					$total_total+=$viaticos->total;
+					if($viaticos->no_poliza){
 					$cuerpo .= '
 						<tr>
+							
 							<td align="center">'.($correlativo).'</td>
 							<td align="center">'.($viaticos->mes_poliza).'</td>
 							<td align="center">'.($viaticos->no_poliza).'</td>
 							<td align="center">VIATICOS Y PASAJES AL INTERIOR</td>
-							<td align="center">'.($viaticos->pasaje).'</td>
-							<td align="center">'.($viaticos->viatico).'</td>
-							<td align="center">'.($viaticos->total).'</td>
+							<td align="center">$'.($viaticos->pasaje).'</td>
+							<td align="center">$'.($viaticos->viatico).'</td>
+							<td align="center">$'.($viaticos->total).'</td>
 							<td align="center">'.($viaticos->fecha_elaboracion_poliza).'</td>
-							<td align="center">'.($viaticos->cod_presupuestario).'</td>
+							<td align="center">'.($viaticos->compromiso_presupuestario).'</td>
 							<td align="center">'.($viaticos->fecha_cancelado).'</td>
 						</tr>
 						';
+						}else{
+							$cuerpo .= '
+							<tr>
+							
+								<th align="center"></th>
+								<th align="center">'.($viaticos->mes_poliza).'</th>
+								<th align="center"></th>
+								<th align="center">TOTAL</th>
+								<th align="center">$'.($viaticos->pasaje).'</th>
+								<th align="center">$'.($viaticos->viatico).'</th>
+								<th align="center">$'.($viaticos->total).'</th>
+								<th align="center"></th>
+								<th align="center"></th>
+								<th align="center"></th>
+							</tr>
+							';
+						} 
 						$correlativo++;
+						
 					}
 				}else{
 				$cuerpo .= '
@@ -4732,11 +4751,7 @@ class Menu_reportes extends CI_Controller {
 					';
 				}
 				$cuerpo .= '
-						<tr>
-							<th align="center"  colspan="9">Total</th>
-							 
-							<th align="center"  colspan="2"></th>
-						</tr>
+						 
 				</tbody>
 			</table><br>
 
@@ -4744,7 +4759,7 @@ class Menu_reportes extends CI_Controller {
         if($tipo=="pdf"){
         	$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			$this->mpdf->SetTitle('Misiones');
+			$this->mpdf->SetTitle('Poliza Anual');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
 			$this->mpdf->Output();
