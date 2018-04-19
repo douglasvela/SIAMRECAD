@@ -16,6 +16,14 @@ class Bancos_model extends CI_Model {
 		}
 	}
 
+	function insertar_columna($data){
+		if($this->db->insert('vyp_estructura_planilla', array('id_banco' => $data['id_banco'], 'nombre_campo' => $data['nombre_campo'], 'valor_campo' => $data['valor_campo']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function mostrar_banco(){
 		$query = $this->db->get("vyp_bancos");
 		if($query->num_rows() > 0) return $query;
@@ -33,6 +41,14 @@ class Bancos_model extends CI_Model {
 
 	function eliminar_banco($data){
 		if($this->db->delete("vyp_bancos",array('id_banco' => $data['idb']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function eliminar_columna($data){
+		if($this->db->delete("vyp_estructura_planilla" ,array('id_estructura' => $data['id_estructura']))){
 			return "exito";
 		}else{
 			return "fracaso";

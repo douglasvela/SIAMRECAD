@@ -10,7 +10,7 @@
             $("#ttl_form").addClass("bg-info");
             $("#btnadd").hide(0);
             $("#btnedit").show(0);
-            $("#cnt-tabla").hide(0);
+            $("#cnt_tabla").hide(0);
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Banco");
         }else{
@@ -30,14 +30,14 @@
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
 
-        $("#cnt-tabla").hide(0);
+        $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
 
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo banco");
     }
 
     function cerrar_mantenimiento(){
-        $("#cnt-tabla").show(0);
+        $("#cnt_tabla").show(0);
         $("#cnt_form").hide(0);
     }
 
@@ -72,7 +72,7 @@
         <?php
           }else{
         ?>
-            $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
+            $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
         <?php
           }
         ?>
@@ -90,10 +90,101 @@
     }
 
     function tablabancos(id_modulo){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/"+id_modulo, function() {
+        $( "#cnt_tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/"+id_modulo, function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
+            tabla_estructura_planilla(id_modulo);
         });  
+    }
+
+    function tabla_estructura_planilla(id_modulo){          
+        $( "#cnt_tabla_estructura" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla/"+id_modulo, function() {
+            //$('#myTable').DataTable();
+            $('[data-toggle="tooltip"]').tooltip();
+        });  
+    }
+
+    function agregar_columna(){
+        
+        var formData = {
+          "id_banco" : $("#idb").val(),
+          "valor_campo" : $("#columnas").val(),
+          "nombre_campo" : $("#columnas option:selected").text().trim()
+
+        };
+        $.ajax({
+            type:  'POST',
+            url: '<?php echo site_url(); ?>/configuraciones/bancos/agregar_columnas',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                tabla_estructura_planilla(<?php echo $this->uri->segment(4);?>);
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+    }
+
+    function agregar_columna2(){
+        
+        var formData = {
+          "id_banco" : $("#idb").val(),
+          "valor_campo" : "'"+$("#columnas2").val()+"' AS "+$("#columnas2").val(),
+          "nombre_campo" : $("#columnas2").val()
+
+        };
+        $.ajax({
+            type:  'POST',
+            url: '<?php echo site_url(); ?>/configuraciones/bancos/agregar_columnas',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                tabla_estructura_planilla(<?php echo $this->uri->segment(4);?>);
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+    }
+
+    function preguntar_eliminar_columna(id){
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: false 
+        }, function(){   
+            eliminar_columna(id);
+        });
+    }
+
+    function eliminar_columna(id){
+        
+        var formData = {
+          "id_estructura" : id
+        };
+        $.ajax({
+            type:  'POST',
+            url: '<?php echo site_url(); ?>/configuraciones/bancos/eliminar_columna',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                tabla_estructura_planilla(<?php echo $this->uri->segment(4);?>);
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
     }
 
 </script>
@@ -163,46 +254,37 @@
                                 <div class="form-group col-lg-6">
                                     <h5>Campos de la base: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
-                                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
+                                        <select id="columnas" name="columnas" class="select2" style="width: 100%" required="">
                                             <option value="">[Elija el empleado]</option>
                                             <optgroup label="Bancos">
-                                                <option value="b.codigo">Código</option>
-                                                <option value="b.nombre">Nombre</option>
+                                                <option value="b.codigo AS codigo">Código</option>
+                                                <option value="b.nombre AS nombre">Nombre</option>
                                             </optgroup>
                                             <optgroup label="Persona empleada">
-                                                <option value="e.DUI">DUI</option>
-                                                <option value="e.nombre_completo">Nombre</option>
-                                                <option value="e.cuenta_banco">Cuenta bancaria</option>
+                                                <option value="e.DUI AS DUI">DUI</option>
+                                                <option value="p.nombre_empleado AS nombre_empleado">Nombre</option>
+                                                <option value="ec.numero_cuenta AS numero_cuenta">Cuenta bancaria</option>
                                             </optgroup>
                                             <optgroup label="Poliza">
-                                                <option value="p.no_poliza">No Poliza</option>
+                                                <option value="p.no_poliza AS no_poliza">No Poliza</option>
                                                 <option value="SUM(p.total) AS total">Monto en viáticos</option>
                                             </optgroup>
                                         </select>
-                                        <div class="input-group-addon btn btn-default" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
+                                        <div class="input-group-addon btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-lg-6">
                                     <h5>Otro campo: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
-                                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
-                                            <option value="">[Elija el empleado]</option>
-                                            <optgroup label="Bancos">
-                                                <option value="b.codigo">Código</option>
-                                                <option value="b.nombre">Nombre</option>
-                                            </optgroup>
-                                            <optgroup label="Persona empleada">
-                                                <option value="e.DUI">DUI</option>
-                                                <option value="e.nombre_completo">Nombre</option>
-                                                <option value="e.DUI">DUI</option>
-                                            </optgroup>
-                                        </select>
-                                        <div class="input-group-addon btn btn-default" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
+                                        <input type="text" id="columnas2" name="columnas2" class="form-control" required="">
+                                        <div class="input-group-addon btn btn-success2" onclick="agregar_columna2();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
                                     </div>
                                 </div>
 
                             </div>
+
+                            <div id="cnt_tabla_estructura"></div>
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
@@ -225,7 +307,7 @@
             <!-- ============================================================== -->
             <!-- Inicio de la TABLA -->
             <!-- ============================================================== -->
-            <div class="col-lg-12" id="cnt-tabla">
+            <div class="col-lg-12" id="cnt_tabla">
                  
             </div>
             <!-- ============================================================== -->

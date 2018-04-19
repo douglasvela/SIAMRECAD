@@ -18,6 +18,10 @@ class bancos extends CI_Controller {
 		$this->load->view('configuraciones/tabla_bancos');
 	}
 
+	public function tabla_estructura_planilla(){
+		$this->load->view('configuraciones/bancos_ajax/tabla_estructura_planilla');
+	}
+
 	public function gestionar_bancos(){		
 
 		if($this->input->post('band') == "save"){
@@ -47,5 +51,24 @@ class bancos extends CI_Controller {
 
 		}
 	}
+
+
+	public function agregar_columnas(){		
+		$data = array(
+			'id_banco' => $this->input->post('id_banco'), 
+			'nombre_campo' => $this->input->post('nombre_campo'),
+			'valor_campo' => $this->input->post('valor_campo')
+		);
+		echo $this->bancos_model->insertar_columna($data);
+	}
+
+
+	public function eliminar_columna(){		
+		$data = array(
+			'id_estructura' => $this->input->post('id_estructura')
+		);
+		echo $this->bancos_model->eliminar_columna($data);
+	}
+
 }
 ?>
