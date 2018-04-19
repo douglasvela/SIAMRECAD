@@ -1,35 +1,23 @@
-VISTA
+/*VISTA*/
+
+CREATE OR REPLACE VIEW VISTA_VIATICOS_UNION_PASAJES AS 
+SELECT m.nr_empleado,m.nombre_completo, ev.viatico, ev.pasaje, ev.alojamiento, m.fecha_solicitud,
+m.id_mision_oficial,ev.id_empresa_viatico,m.estado FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev 
+ON ev.id_mision = m.id_mision_oficial 
+UNION 
+ SELECT  p.nr,0,('0') as viatico,
+ (SELECT sum(monto_pasaje) FROM vyp_pasajes WHERE month(fecha_mision)=p.mes_pasaje and year(fecha_mision)=p.anio_pasaje
+  AND nr=p.nr) as pasaje,('0') as alojamiento,p.fecha_solicitud_pasaje,p.id_mision_pasajes,(rand()),p.estado 
+ FROM vyp_mision_pasajes as p
+  ORDER BY `id_empresa_viatico` ASC
+
+/*SELECT p.nr,0, 0, p.monto_pasaje, 0, p.fecha_solicitud,p.id_solicitud_pasaje,(rand()),p.estado FROM vyp_pasajes AS p*/
+
 CREATE OR REPLACE VIEW VISTA_VIATICOS AS 
-SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,seccion.depende,seccion.nivel,empleado.nr,CONCAT(empleado.primer_nombre,' 
-',empleado.segundo_nombre) as nombre,mision.id_mision_oficial,
-(viatico.viatico),viatico.pasaje,viatico.alojamiento,viatico.id_empresa_viatico,cargo.funcional,mision.fecha_solicitud,empleado.id_genero
-FROM 
-sir_empleado_informacion_laboral as info INNER JOIN sir_empleado as empleado ON 
-empleado.id_empleado=info.id_empleado
-INNER JOIN vyp_mision_oficial as mision ON empleado.nr = mision.nr_empleado
-INNER JOIN vyp_empresa_viatico as viatico ON viatico.id_mision=mision.id_mision_oficial
-INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion
-INNER JOIN sir_cargo_funcional as cargo ON cargo.id_cargo_funcional=info.id_cargo_funcional
-GROUP BY viatico.id_empresa_viatico 
-
-
-
-
-
-
-SELECT id_seccion,nombre_seccion,sum(viatico) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento,(sum(viatico)+sum(pasaje)+sum(alojamiento)) as total FROM VISTA_VIATICOS  WHERE id_seccion IN (SELECT id_seccion FROM org_seccion)  GROUP BY id_seccion ORDER BY viatico desc
-
-
-SELECT s.id_seccion,s.nombre_seccion,s.depende,s.nivel,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total
-FROM org_seccion as s
-INNER JOIN VISTA_VIATICOS as v ON v.id_seccion=s.id_seccion 
-GROUP BY s.id_seccion
-
-
-
-
-
-/////////////////////////////////////////
-CREATE OR REPLACE VIEW VISTA_VIATICOS_UNION_PASAJES AS SELECT m.nr_empleado,m.nombre_completo, ev.viatico, ev.pasaje, ev.alojamiento, m.fecha_solicitud,m.id_mision_oficial,ev.id_empresa_viatico,m.estado FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT p.nr,0, 0, p.monto_pasaje, 0, p.fecha_solicitud,p.id_solicitud_pasaje,(rand()),p.estado FROM vyp_pasajes AS p ORDER BY `id_empresa_viatico` ASC
-
-CREATE OR REPLACE VIEW VISTA_VIATICOS AS SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,seccion.depende,seccion.nivel,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,s.id_mision_oficial, (s.viatico),s.pasaje,s.alojamiento,s.id_empresa_viatico,cargo.funcional,s.fecha_solicitud,empleado.id_genero,s.estado FROM sir_empleado_informacion_laboral as info INNER JOIN sir_empleado as empleado ON empleado.id_empleado=info.id_empleado JOIN VISTA_VIATICOS_UNION_PASAJES as s ON empleado.nr = s.nr_empleado INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion INNER JOIN sir_cargo_funcional as cargo ON cargo.id_cargo_funcional=info.id_cargo_funcional GROUP BY s.id_empresa_viatico
+SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,seccion.depende,
+seccion.nivel,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,
+s.id_mision_oficial, (s.viatico),s.pasaje,s.alojamiento,s.id_empresa_viatico,cargo.funcional,s.fecha_solicitud
+,empleado.id_genero,s.estado FROM sir_empleado_informacion_laboral as info INNER JOIN sir_empleado as empleado
+ ON empleado.id_empleado=info.id_empleado JOIN VISTA_VIATICOS_UNION_PASAJES as s ON empleado.nr = s.nr_empleado
+  INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion INNER JOIN sir_cargo_funcional as cargo 
+  ON cargo.id_cargo_funcional=info.id_cargo_funcional GROUP BY s.id_empresa_viatico

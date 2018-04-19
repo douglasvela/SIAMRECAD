@@ -9,7 +9,7 @@ class Lista_pasaje_model extends CI_Model {
 
 	function insertar_pasaje($data){
 		$idb = $this->obtener_ultimo_id("vyp_pasajes","id_solicitud_pasaje");
-		$estado = true;
+		$estado = false;
 		if($this->db->insert('vyp_pasajes', array('id_solicitud_pasaje'=> $idb, 'id_municipio' => $data['municipio'],'id_departamento' => $data['departamento'],  'fecha_mision' => $data['fecha_mision'], 'no_expediente' => $data['expediente'], 'empresa_visitada' => $data['empresa'], 'direccion_empresa' => $data['direccion'], 'nr' => $data['nr1'], 'monto_pasaje' => $data['monto'], 'estado' => $estado )))
 		{
 			return "exito";
