@@ -30,7 +30,8 @@ CREATE TABLE `vyp_poliza` (
   `id_mision` int(10) UNSIGNED NOT NULL,
   `fecha_elaboracion_poliza` date NOT NULL,
   `nr_elaborador` varchar(5) NOT NULL,
-  `estado` int(10) UNSIGNED NOT NULL
+  `estado` int(10) UNSIGNED NOT NULL,
+  `compromiso_presupuestario` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -52,3 +53,4 @@ ALTER TABLE `vyp_poliza`
 --
 ALTER TABLE `vyp_poliza`
   MODIFY `id_poliza` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+COMMIT;

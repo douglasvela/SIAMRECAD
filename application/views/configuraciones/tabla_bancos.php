@@ -19,22 +19,24 @@
                     <tr>
                         <th>#</th>
                         <th>Nombre</th>
-                        <th>Descripción</th> 
+                        <th>Descripción</th>
+                        <th>Código</th> 
                         <th>(*)</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
                     $bancos = $this->db->get("vyp_bancos");
-                    if(!empty($bancos)){
+                    if($bancos->num_rows() > 0){
                         foreach ($bancos->result() as $fila) {
                             echo "<tr>";
                             echo "<td>".$fila->id_banco."</td>";
                             echo "<td>".$fila->nombre."</td>";
                             echo "<td>".$fila->caracteristicas."</td>";
+                            echo "<td>".$fila->codigo."</td>";
 
                             echo "<td>";
-                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas);
+                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo);
 
                             $data['id_modulo'] = $this->uri->segment(4);
                             $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');

@@ -1,8 +1,9 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas,bandera){
+    function cambiar_editar(id,nombre,caracteristicas,codigo,bandera){
         $("#idb").val(id);
         $("#nombre").val(nombre);
         $("#caracteristicas").val(caracteristicas);
+        $("#codigo").val(codigo);
 
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
@@ -21,6 +22,7 @@
         $("#idb").val("");
         $("#nombre").val("");
         $("#caracteristicas").val("");
+        $("#codigo").val("");
         $("#band").val("save");
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
@@ -142,13 +144,64 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-6" style="display: none;">
                                     <h5>Características: </h5>
                                     <div class="controls">
                                         <input type="text" id="caracteristicas" name="caracteristicas" class="form-control">
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
+                                <div class="form-group col-lg-6">
+                                    <h5>Código del banco: </h5>
+                                    <div class="controls">
+                                        <input type="text" id="codigo" name="codigo" class="form-control" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="form-group col-lg-6">
+                                    <h5>Campos de la base: <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
+                                            <option value="">[Elija el empleado]</option>
+                                            <optgroup label="Bancos">
+                                                <option value="b.codigo">Código</option>
+                                                <option value="b.nombre">Nombre</option>
+                                            </optgroup>
+                                            <optgroup label="Persona empleada">
+                                                <option value="e.DUI">DUI</option>
+                                                <option value="e.nombre_completo">Nombre</option>
+                                                <option value="e.cuenta_banco">Cuenta bancaria</option>
+                                            </optgroup>
+                                            <optgroup label="Poliza">
+                                                <option value="p.no_poliza">No Poliza</option>
+                                                <option value="SUM(p.total) AS total">Monto en viáticos</option>
+                                            </optgroup>
+                                        </select>
+                                        <div class="input-group-addon btn btn-default" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    <h5>Otro campo: <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
+                                            <option value="">[Elija el empleado]</option>
+                                            <optgroup label="Bancos">
+                                                <option value="b.codigo">Código</option>
+                                                <option value="b.nombre">Nombre</option>
+                                            </optgroup>
+                                            <optgroup label="Persona empleada">
+                                                <option value="e.DUI">DUI</option>
+                                                <option value="e.nombre_completo">Nombre</option>
+                                                <option value="e.DUI">DUI</option>
+                                            </optgroup>
+                                        </select>
+                                        <div class="input-group-addon btn btn-default" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
+                                    </div>
+                                </div>
+
                             </div>
                             
                             <button id="submit" type="submit" style="display: none;"></button>
