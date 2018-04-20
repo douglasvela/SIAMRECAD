@@ -1071,7 +1071,7 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,bandera){
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,oficina_solicitante,bandera){
 
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
@@ -1079,6 +1079,13 @@
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
+        if(actividad_realizada == "7"){
+            $("#cnt_oficina_solicitante").show(500);
+            $('#oficina_solicitante').val(oficina_solicitante).trigger('change.select2');
+        }else{
+            $("#cnt_oficina_solicitante").hide(500);
+            $("#oficina_solicitante").val("").trigger("change.select2");
+        }
 
         var observacion_habilitada = true;
 
@@ -1815,7 +1822,7 @@
     }
 
     function imprimir_solicitud(id_mision){
-        window.open("<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud?id_mision="+id_mision, '_blank');
+        window.open("<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud_detallada?id_mision="+id_mision, '_blank');
     }
 
     function verificar_fechas(){
@@ -2209,6 +2216,17 @@
         }
     }
 
+    function cambiar_oficina_solicitante(){
+        var id_actividad = $("#id_actividad").val();
+
+        if(id_actividad == "7"){
+            $("#cnt_oficina_solicitante").show(500);
+        }else{
+            $("#cnt_oficina_solicitante").hide(500);
+            $("#oficina_solicitante").val("").trigger("change.select2");
+        }
+    }
+
 </script>
 
 <style>
@@ -2405,7 +2423,7 @@
                                 <div class="form-group col-lg-9"> 
                                     <h5>Actividad realizada: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
-                                        <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
+                                        <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required='' onchange="cambiar_oficina_solicitante();">
                                             <option value=''>[Elija una actividad]</option>
                                         <?php 
                                             $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
@@ -2441,10 +2459,27 @@
                                 </div>
                             </div>
 
+                            <div class="row" id="cnt_oficina_solicitante" style="display: block;">
+                                <div class="col-lg-12 form-group">
+                                    <h5>Oficina solicitante: <span class="text-danger">*</span></h5>                           
+                                    <select id="oficina_solicitante" name="oficina_solicitante" class="select2" style="width: 100%">
+                                        <option value="">[Elija la oficina]</option>
+                                        <?php 
+                                            $oficina_solicitante = $this->db->query("SELECT * FROM vyp_oficinas");
+                                            if($oficina_solicitante->num_rows() > 0){
+                                                foreach ($oficina_solicitante->result() as $fila) {              
+                                                   echo '<option class="m-l-50" value="'.$fila->id_oficina.'">'.$fila->nombre_oficina.'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Detalle de la actividad: <span class="text-danger">*</span></h5>
-                                    <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" required="" placeholder="Describa la actividad realizada en la misión" minlength="3" data-validation-required-message="Este campo es requerido"></textarea>
+                                    <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" placeholder="Describa la actividad realizada en la misión"></textarea>
                                     <div class="help-block"></div>
                                 </div>
                             </div>

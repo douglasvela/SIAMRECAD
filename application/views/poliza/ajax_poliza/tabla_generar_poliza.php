@@ -239,9 +239,9 @@ $num_poliza = $ult_poliza;
                             $visitados .= "PASAJE AL INTERIOR <br>";
                         }
 
-                        /*if($fila->fecha_mision_inicio != $fila->fecha_mision_fin){
+                        if($fila->fecha_mision_inicio != $fila->fecha_mision_fin && floatval($fila->alojamiento) == 0){
                             $visitados .= "PERMANENCIA <br>";
-                        }*/
+                        }
 
                         if(floatval($fila->alojamiento) > 0){
                             $visitados .= "ALOJAMIENTO <br>";
