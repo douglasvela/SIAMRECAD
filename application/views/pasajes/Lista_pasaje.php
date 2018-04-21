@@ -27,10 +27,65 @@
 
 <script type="text/javascript">
 
-   function ver_pasajes(){
+   function ver_pasajes(id,fecha,nombre, monto,fecha_solicitud, fecha_observacion, estado,bandera){
      var nr = $("#nr").val();   
      var fechas = $("#fecha2").val();
-     alert(nr);
+     var fechita = $("#fecha").val();
+      var nr1 = $("#nr1").val();
+    // alert(nr);
+
+    var observacion_habilitada = true;
+
+        if(estado == "2" || estado == "4" || estado == "6"){
+            var ufobservacion = moment(fecha_observacion).add('days',1);
+            var fhoy = moment();
+
+            var reducir = 0;
+
+            if(ufobservacion.format("e") == 6){
+                ufobservacion.add('days',2);
+                reducir = 2;
+            }else if(ufobservacion.format("e") == 0){
+                ufobservacion.add('days',1);
+                reducir = 1;
+            }
+
+            var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
+            var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
+
+            var diferencia = fecha2.diff(fecha1, 'days');     
+
+            var plazo = diferencia - reducir;
+
+            if(plazo == 0){
+                var texto = "Ultimo día para corregir observaciones: HOY";
+            }else{
+                var texto = "Ultimo día para corregir observaciones: "+ufobservacion.format("DD-MM-YYYY");
+            }
+
+            if(diferencia < 0){
+                observacion_habilitada = false;
+            }else{
+                $.toast({ heading: 'Plazo de observaciones', text: texto, position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+            }
+        }
+
+
+        if(bandera == "edit"){
+
+          //  $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
+
+            if(observacion_habilitada){
+
+                $("#band").val(bandera);
+                observaciones(id);
+
+    
+
+            }else{
+                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó el: "+ufobservacion.format("DD-MM-YYYY"), type: "error", showConfirmButton: true });
+            }
+}
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -50,12 +105,31 @@
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas;
+       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas+ "&nr1="+nr1+ "&fecha="+fechita;
         //xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
         xmlhttpB.send();      
     }
-   
+
+function observaciones(id_mision){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+               // form_mision();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/observaciones?id_mision="+id_mision,true);
+        xmlhttpB.send(); 
+    }
+
+
+
     function iniciar(){
       
     
@@ -116,6 +190,7 @@ function cambiar_nuevo(){
         $("#nr1").val("").trigger('change.select2');
         $("#id_departamento").val("").trigger("change.select2");
          $("#id_municipio").val("").trigger("change.select2");
+           $("#id_actividad").val("").trigger('change.select2');
         $("#pasaje").val("");
         $("#band2").val("save");
 
@@ -144,7 +219,8 @@ function cerrar_mantenimiento(){
    
     function tablapasajes(){          
        $("#cnt_form").hide(0);
-       $("#cnt_form1").show(0);  
+       ver_pasajes();
+       //$("#cnt_form1").show(0);  
  }
 
 function combo_oficina_departamento(tipo){
@@ -336,7 +412,7 @@ function form_folleto_viaticos(){
                     </div>
 
                     <div class="card-body b-t">
-                   
+                      <div id="cnt_observaciones"></div>
 
             <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
                             <input type="hidden" id="band2" name="band2" value="save">
@@ -413,6 +489,29 @@ function form_folleto_viaticos(){
                 }
             }
         ?>
+
+         <div class="form-group col-lg-6"> 
+                                    <h5>Actividad realizada: <span class="text-danger">*</span></h5>
+                                    <div class="input-group">
+                                        <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
+                                            <option value=''>[Elija una actividad]</option>
+                                        <?php 
+                                            $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+                                            if($actividad->num_rows() > 0){
+                                                foreach ($actividad->result() as $filaa) {              
+                                                   echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
+                                                   $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."'");
+                                                        if($activida_sub->num_rows() > 0){
+                                                            foreach ($activida_sub->result() as $filasub) {              
+                                                               echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';
+                                                            }
+                                                        }
+                                                }
+                                            }
+                                        ?>
+                                        </select>
+                                    </div> 
+                                </div>
             <div class="form-group col-lg-3 validate">
             <h5>Pasaje: <span class="text-danger">*</span></h5>
              <div class="input-group">
@@ -531,8 +630,13 @@ $("#formajax").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
         var formData = new FormData(document.getElementById("formajax"));
+/*        var nombre_empleado = $("#nr option:selected").text().split("-");
+
+var fecha = $("#fecha").val().split("-");
         formData.append("dato", "valor");
-       
+       formData.append("nombre_emple", nombre_empleado[0].trim());
+formData.append("mes", fecha[1].trim()); 
+formData.append("anio", fecha[0].trim());*/
         
         $.ajax({
             url: "<?php echo site_url(); ?>/pasajes/Lista_pasaje/gestionar_pasaje2",

@@ -48,12 +48,13 @@ $pasajitos = $this->db->query("SELECT * FROM vyp_mision_pasajes");
 <script type="text/javascript">
 var nr_empleado = "<?php echo $_GET["nr"]; ?>"
 var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
+var nr1 = "<?php echo $_GET["nr1"]; ?>"
+var fechitas = "<?php echo $_GET["fecha"]; ?>"
 
-
-    function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,departamento, municipio,bandera){
+    function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,departamento, municipio, actividad,bandera){
          tabla_pasaje_unidad();
     //form_folleto_viaticos1();
-
+alert(actividad);
         $("#id_pasaje").val(id);
         $("#fecha2").datepicker("setDate", fecha );
 
@@ -66,8 +67,9 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
 //alert(municipio);
         $("#empresa2").val(empresa);
         $("#direccion2").val(direccion);
-        $("#monto2").val(monto);
 
+        $("#monto2").val(monto);
+$("#id_actividad").val(actividad).trigger('change.select2');
        $("#modal_pasaje").modal("show");
       form_folleto_viaticos_otro();
        // form_folleto_viaticos();
@@ -140,6 +142,7 @@ var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
         formData.append("empresa", $("#empresa2").val());
         formData.append("direccion", $("#direccion2").val());
         formData.append("monto", $("#monto2").val());
+        formData.append("id_actividad1", $("#id_actividad1").val());
         formData.append("band", "edit");
 
         $.ajax({
@@ -186,8 +189,17 @@ function recorre_tabla(viaticos_visibles){
         tabla_pasaje_unidad();
 
       // cambiar_nuevo();
+   
+      if(nr_empleado!="")
+      {
       $("#nr").val(nr_empleado).trigger('change.select2');
      $("#fecha1").val(fecha_p).trigger('change.select2');
+        }
+else{
+    $("#nr").val(nr1).trigger('change.select2');
+    $("#fecha1").val(fechitas).trigger('change.select2');
+}
+
       form_folleto_viaticos();
      // form_folleto_viaticos_otro();
 
@@ -320,7 +332,7 @@ var valor=filas.length;
  res1+=fechass.concat(",");  
 }
 
-alert(res1);
+//alert(res1);
 }
 var f = $(this);
 var formData = new FormData();
@@ -416,10 +428,10 @@ function combo_oficina_departamento(tipo){
                 $(".select2").select2();
                 if(tipo == "oficina"){
                     if($("#departamento").val() != ""){
-                        $("#nombre_empresa").val($("#departamento option:selected").text());
-                        $("#direccion_empresa").val($("#departamento option:selected").text());
-                        $("#nombre_empresa").parent().parent().hide(0);
-                        $("#direccion_empresa").parent().hide(0);
+                       // $("#nombre_empresa").val($("#departamento option:selected").text());
+                        //$("#direccion_empresa").val($("#departamento option:selected").text());
+                        //$("#nombre_empresa").parent().parent().hide(0);
+                        //$("#direccion_empresa").parent().hide(0);
                         $("#municipio").parent().hide(0);
                     }else{
                        
@@ -662,6 +674,9 @@ formData.append("id_municipio", municipio);
     }
 
 
+
+ 
+
 function form_folleto_viaticos(){
       //  $("#bntadd").hide(0);
 //combo_oficina_departamento("departamento");
@@ -723,6 +738,7 @@ function form_folleto_viaticos(){
                         <h4 class="card-title m-b-0 text-white">Pasajes</h4>
                     </div>
                     <div class="card-body b-t">
+                  
                     <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <input type="hidden" id="band" name="band" value="save">
                            
@@ -829,6 +845,29 @@ function form_folleto_viaticos(){
                    <input type="text"  id="direccion2" name="direccion2" class="form-control" required="" placeholder="Escriba la dirección" minlength="3">
                 </div>
 
+ <div class="form-group col-lg-12"> 
+                             <h5>Actividad realizada: <span class="text-danger">*</span></h5>
+       
+                                    <div class="input-group">
+                                        <select id="id_actividad1" name="id_actividad1" class="select2" style="width: 100%" required=''>
+                                            <option value=''>[Elija una actividad]</option>
+                                        <?php 
+                                            $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+                                            if($actividad->num_rows() > 0){
+                                                foreach ($actividad->result() as $filaa) {              
+                                                   echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
+                                                   $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."'");
+                                                        if($activida_sub->num_rows() > 0){
+                                                            foreach ($activida_sub->result() as $filasub) {              
+                                                               echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';
+                                                            }
+                                                        }
+                                                }
+                                            }
+                                        ?>
+                                        </select>
+                                    </div> 
+                                </div>
                 <div class="form-group col-lg-12">
                     <h5>Monto: <span class="text-danger">*</span></h5>
                     <input type="text" id="monto2" name="monto2" class="form-control" required="">

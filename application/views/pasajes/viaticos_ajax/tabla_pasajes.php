@@ -39,6 +39,8 @@
                 <th>Municipio</th>
                 <th>Empresa visitada</th>
                 <th>Direccion</th>
+                <th>Actividad realizada</th>
+
                  <th>Monto</th>
                 <th width="100px">(*)</th>
             </tr>
@@ -73,6 +75,25 @@
                 <input type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido" style="width: 300px;">
 
             </td>
+   <td>
+             <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
+                                            <option value=''>[Elija una actividad]</option>
+                                        <?php 
+                                            $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+                                            if($actividad->num_rows() > 0){
+                                                foreach ($actividad->result() as $filaa) {              
+                                                   echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
+                                                   $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."'");
+                                                        if($activida_sub->num_rows() > 0){
+                                                            foreach ($activida_sub->result() as $filasub) {              
+                                                               echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';
+                                                            }
+                                                        }
+                                                }
+                                            }
+                                        ?>
+                                        </select>
+                                           </td>
             <td  style="padding: 7px 5px;">
                 <input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" style="width: 60px;">
             </td>
@@ -91,7 +112,7 @@ list($anio, $mes)= explode ("-",$fecha_mes);
        /* $cuenta= $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento, mp.estado as estado_mision FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN vyp_mision_pasajes as mp JOIN org_departamento as d ON p.nr =  '".$nr_empleado."' AND p.fecha_mision LIKE '%".$otrafecha."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais AND mp.mes_pasaje='".$mes."' AND mp.anio_pasaje='".$anio."' AND p.nr=mp.nr ORDER BY p.fecha_mision");
 */        
 
-      $cuenta = $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN org_departamento as d ON p.nr = '".$nr_empleado."' AND p.fecha_mision LIKE '%".$fecha_mes."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais ORDER BY p.fecha_mision");
+      $cuenta = $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento, a.nombre_vyp_actividades AS nombre_actividad FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN org_departamento as d JOIN vyp_actividades as a ON p.nr = '".$nr_empleado."' AND p.fecha_mision LIKE '%".$fecha_mes."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais AND p.id_actividad_realizada=a.id_vyp_actividades ORDER BY p.fecha_mision");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
@@ -105,6 +126,7 @@ list($anio, $mes)= explode ("-",$fecha_mes);
                              echo "<td>".$fila->empresa_visitada."</td>";
                              echo "<td>".$fila->direccion_empresa."</td>";
                              // echo "<td>".$fila->nr."</td>";
+                                echo "<td>".$fila->nombre_actividad."</td>";
                               echo "<td>".$fila->monto_pasaje."</td>";
                     /*if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Incompleta</span></td>';
@@ -126,7 +148,7 @@ list($anio, $mes)= explode ("-",$fecha_mes);
                                 echo '<td><span class="label label-success">Pagada</span></td>';
                             }*/
                     echo "<td>";
-                   $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa, $fila->nr,$fila->monto_pasaje,$fila->departamento, $fila->municipio);
+                   $array = array($fila->id_solicitud_pasaje, date("d-m-Y",strtotime($fila->fecha_mision)), $fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa, $fila->nr,$fila->monto_pasaje,$fila->departamento, $fila->municipio, $fila->nombre_actividad);
                     array_push($array, "edit");
                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
