@@ -36,9 +36,11 @@ if($generalidades->num_rows() > 0){
     var mes = $("#nombre7").val();
     var anio = $("#nombre8").val();
     var num_poliza = $("#nombre1").val();
+    var tipo_poliza = $("#tipo_poliza").val();
+
     var newName = 'AjaxCall', xhr = new XMLHttpRequest();
 
-    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza/tabla_generar_poliza?mes="+mes+"&anio="+anio+"&num_poliza="+num_poliza+"&orden_poliza="+orden_poliza);
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza/tabla_generar_poliza?mes="+mes+"&anio="+anio+"&num_poliza="+num_poliza+"&orden_poliza="+orden_poliza+"&tipo_poliza="+tipo_poliza);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
@@ -326,7 +328,7 @@ if($generalidades->num_rows() > 0){
                 <td><div align="justify"><span class="controls">
                   <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                      <input type="number" id="nombre5" name="nombre5" class="form-control" required="">
+                      <input type="number" id="nombre5" name="nombre5" class="form-control" step="any" required="">
                   </div>
                 </span></div></td>
                 <td><h5 align="justify">No. COMPROMISO PRESUPUESTARIO:</h5></td>
@@ -347,6 +349,11 @@ if($generalidades->num_rows() > 0){
             </table>
       </div>
       <br>
+
+      <select class="custom-select" id="tipo_poliza" style="background-color: #fff;" onchange="tabla_generar_poliza();">
+        <option value="banco">Banco y cheque</option>
+        <option value="efectivo">Efectivo</option>
+      </select>
 
       <button class="pull-right btn btn-rounded btn-default" data-toggle="tooltip" title="Clic para ver las Solicitudes restantes" onclick="mostrar_pendientes();">Solicitudes restantes: <output id="btn_restantes"></output></button>
 

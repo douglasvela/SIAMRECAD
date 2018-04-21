@@ -155,14 +155,22 @@ if($generalidades->num_rows() > 0){
 $mes_poliza = $_GET["mes"];
 $num_poliza = $_GET["num_poliza"];
 $anio_poliza = $_GET["anio"];
+$tipo_poliza = $_GET["tipo_poliza"];
 $mes_texto = mes($mes_poliza);
+
+$addsql = "";
+if($tipo_poliza == "banco"){
+    $addsql = "AND m.pagado_en <> 'efectivo'";
+}else{
+    $addsql = "AND m.pagado_en = 'efectivo'";
+}
 
 $date_poliza = $anio_poliza."-".$mes_poliza;
 
 if($_GET["orden_poliza"] == "automatico"){
     $poliza = $this->db->query("SELECT no_poliza FROM vyp_poliza WHERE anio = '$anio_poliza' ORDER BY no_poliza DESC LIMIT 1");
 
-    $ult_poliza = 1;
+    $ult_poliza = 0;
     if($poliza->num_rows() > 0){
         foreach ($poliza->result() as $fila2) {
             $ult_poliza = intval($fila2->no_poliza)+1;
@@ -179,7 +187,7 @@ $num_poliza = $ult_poliza;
   	<table id="tabla_poliza" class="table table-hover product-overview bg-white">
         <thead class="bg-info text-white" style="font-size: 11px;">
          
-            <tr>
+            <tr align="center">
             	<th style="padding: 7px" width="25px" rowspan="2">No. Doc.</th>
               	<th style="padding: 7px" width="30px" rowspan="2">No. poliza</th>
               	<th style="padding: 7px" width="40px" rowspan="2">Mes poliza</th>
@@ -187,25 +195,29 @@ $num_poliza = $ult_poliza;
               	<th style="padding: 7px" width="50px" rowspan="2">No. cheque/ cuenta</th>
               	<th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>
               	<th style="padding: 7px" width="70px" rowspan="2">Fecha misión</th>
-              	<th style="padding: 7px" width="100px" rowspan="2">Nombre empleado</th>
-              	<th style="padding: 7px" width="200px" rowspan="2">Detalle misión</th>
-              	<th style="padding: 7px" width="120px" rowspan="2">Sede</th>
-              	<th style="padding: 7px" width="30px" rowspan="2">Cargo funcional</th>
+              	<th style="padding: 7px" width="60px" rowspan="2">Nombre empleado</th>
+              	<th style="padding: 7px" width="150px" rowspan="2">Detalle misión</th>
+              	<th style="padding: 7px" width="30px" rowspan="2" align="center">Sede</th>
+              	<th style="padding: 7px" width="20px" rowspan="2">Cargo funcional</th>
               	<th style="padding: 7px" width="25px"  rowspan="2">UP/LT</th>
              	<th style="padding: 7px" colspan="2" ><div align="center">Detalle de objetos especificos </div></th>
-             	<th style="padding: 7px" width="60px"  rowspan="2" >Total</th>
+             	<th style="padding: 7px" width="65px"  rowspan="2" >Total</th>
             </tr>
             <tr>
                 <!-- <th width="48"  >54401</th> -->
-                <th style="padding: 7px" width="60px" >54401</th>
+                <th style="padding: 7px" width="65px" >54401</th>
                 <!-- <th width="48" >54403</th> -->
-                <th style="padding: 7px" width="60px" >54403</th>
+                <th style="padding: 7px" width="65px" >54403</th>
             </tr>
         </thead>
         <tbody style="font-size: 11px;">
          	<?php
 
-                $misiones = $this->db->query("SELECT m.id_mision_oficial, m.nr_empleado, UPPER(CONCAT_WS(' ', emp.primer_nombre, emp.segundo_nombre, emp.tercer_nombre)) AS nombre, UPPER(CONCAT_WS(' ', emp.primer_apellido, emp.segundo_apellido, emp.apellido_casada)) AS apellido, m.fecha_mision_inicio, m.fecha_mision_fin, m.fecha_solicitud, e.nombre_origen, sum(e.pasaje) AS pasaje, sum(e.viatico) AS viatico, sum(e.alojamiento) AS alojamiento, cf.funcional, o.nombre_oficina, lt.linea_trabajo FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico AS e ON m.id_mision_oficial = e.id_mision AND (MONTH(m.fecha_solicitud) <= '".$mes_poliza."' AND YEAR(m.fecha_solicitud) = '".$anio_poliza."') AND m.id_mision_oficial NOT IN (SELECT id_mision FROM vyp_poliza) JOIN sir_empleado AS emp ON emp.nr = m.nr_empleado JOIN (SELECT MAX(id_empleado_informacion_laboral) as id_empleado_informacion_laboral, id_empleado, id_linea_trabajo, id_cargo_funcional, id_seccion FROM sir_empleado_informacion_laboral GROUP BY id_empleado ORDER BY id_empleado_informacion_laboral) AS ei ON ei.id_empleado = emp.id_empleado JOIN vyp_informacion_empleado AS ie ON ie.nr = m.nr_empleado JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN vyp_oficinas AS o ON o.id_oficina = ie.id_oficina_departamental JOIN org_linea_trabajo AS lt ON lt.id_linea_trabajo = ei.id_linea_trabajo GROUP BY m.id_mision_oficial ORDER BY m.fecha_solicitud, lt.linea_trabajo");
+                if($num_poliza == "0"){
+                    $misiones = $this->db->query("SELECT m.id_mision_oficial, m.nr_empleado, UPPER(CONCAT_WS(' ', emp.primer_nombre, emp.segundo_nombre, emp.tercer_nombre)) AS nombre, UPPER(CONCAT_WS(' ', emp.primer_apellido, emp.segundo_apellido, emp.apellido_casada)) AS apellido, m.fecha_mision_inicio, m.fecha_mision_fin, m.fecha_solicitud, m.no_cheque, m.pagado_en, e.nombre_origen, sum(e.pasaje) AS pasaje, sum(e.viatico) AS viatico, sum(e.alojamiento) AS alojamiento, cf.funcional, o.id_oficina, o.nombre_oficina, lt.linea_trabajo, ei.id_seccion FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico AS e ON m.id_mision_oficial = e.id_mision AND (MONTH(m.fecha_solicitud) = '12' AND YEAR(m.fecha_solicitud) = '".($anio_poliza-1)."') AND m.id_mision_oficial NOT IN (SELECT id_mision FROM vyp_poliza) ".$addsql." JOIN sir_empleado AS emp ON emp.nr = m.nr_empleado JOIN (SELECT MAX(id_empleado_informacion_laboral) as id_empleado_informacion_laboral, id_empleado, id_linea_trabajo, id_cargo_funcional, id_seccion FROM sir_empleado_informacion_laboral GROUP BY id_empleado ORDER BY id_empleado_informacion_laboral) AS ei ON ei.id_empleado = emp.id_empleado JOIN vyp_informacion_empleado AS ie ON ie.nr = m.nr_empleado JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN vyp_oficinas AS o ON o.id_oficina = ie.id_oficina_departamental JOIN org_linea_trabajo AS lt ON lt.id_linea_trabajo = ei.id_linea_trabajo GROUP BY m.id_mision_oficial ORDER BY m.fecha_solicitud, lt.linea_trabajo");
+                }else{
+                    $misiones = $this->db->query("SELECT m.id_mision_oficial, m.nr_empleado, UPPER(CONCAT_WS(' ', emp.primer_nombre, emp.segundo_nombre, emp.tercer_nombre)) AS nombre, UPPER(CONCAT_WS(' ', emp.primer_apellido, emp.segundo_apellido, emp.apellido_casada)) AS apellido, m.fecha_mision_inicio, m.fecha_mision_fin, m.fecha_solicitud, m.no_cheque, m.pagado_en, e.nombre_origen, sum(e.pasaje) AS pasaje, sum(e.viatico) AS viatico, sum(e.alojamiento) AS alojamiento, cf.funcional, o.id_oficina, o.nombre_oficina, lt.linea_trabajo, ei.id_seccion FROM vyp_mision_oficial as m JOIN vyp_empresa_viatico AS e ON m.id_mision_oficial = e.id_mision AND (MONTH(m.fecha_solicitud) <= '".$mes_poliza."' AND YEAR(m.fecha_solicitud) = '".$anio_poliza."') AND m.id_mision_oficial NOT IN (SELECT id_mision FROM vyp_poliza) ".$addsql." JOIN sir_empleado AS emp ON emp.nr = m.nr_empleado JOIN (SELECT MAX(id_empleado_informacion_laboral) as id_empleado_informacion_laboral, id_empleado, id_linea_trabajo, id_cargo_funcional, id_seccion FROM sir_empleado_informacion_laboral GROUP BY id_empleado ORDER BY id_empleado_informacion_laboral) AS ei ON ei.id_empleado = emp.id_empleado JOIN vyp_informacion_empleado AS ie ON ie.nr = m.nr_empleado JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN vyp_oficinas AS o ON o.id_oficina = ie.id_oficina_departamental JOIN org_linea_trabajo AS lt ON lt.id_linea_trabajo = ei.id_linea_trabajo GROUP BY m.id_mision_oficial ORDER BY m.fecha_solicitud, lt.linea_trabajo");
+                }
 
                 $correlativo = 0;
                 $correlativo2 = 0;
@@ -219,6 +231,28 @@ $num_poliza = $ult_poliza;
 
                 if($misiones->num_rows() > 0){
                     foreach ($misiones->result() as $fila) {
+
+                        $seccion_empleado = $this->db->query("SELECT * FROM org_seccion WHERE id_seccion = '".$fila->id_seccion."'");
+
+                        $seccion = "";
+                        if($seccion_empleado->num_rows() > 0){
+                            foreach ($seccion_empleado->result() as $filas) {
+                                $seccion = $filas->nombre_seccion;
+                            }
+                        }
+
+                         $oficinac = $this->db->query("SELECT * FROM vyp_oficinas WHERE nombre_oficina LIKE '%san salvador%'");
+
+                        $oficina_central = "";
+                        if($oficinac->num_rows() > 0){
+                            foreach ($oficinac->result() as $filao) {
+                                $oficina_central = $filao->id_oficina;
+                            }
+                        }
+
+                        
+
+
                         $prelimite = floatval(($total_viatico+$total_pasaje)+floatval($fila->pasaje)+floatval($fila->viatico)+floatval($fila->alojamiento));
 
                         $visitados = $fila->nombre_origen." - ";
@@ -239,9 +273,9 @@ $num_poliza = $ult_poliza;
                             $visitados .= "PASAJE AL INTERIOR <br>";
                         }
 
-                        /*if($fila->fecha_mision_inicio != $fila->fecha_mision_fin){
+                        if($fila->fecha_mision_inicio != $fila->fecha_mision_fin && floatval($fila->alojamiento) == 0){
                             $visitados .= "PERMANENCIA <br>";
-                        }*/
+                        }
 
                         if(floatval($fila->alojamiento) > 0){
                             $visitados .= "ALOJAMIENTO <br>";
@@ -265,12 +299,24 @@ $num_poliza = $ult_poliza;
 		            	<td style="padding: 7px;"><?php echo $num_poliza; ?></td>
 		            	<td style="padding: 7px;"><?php echo $mes_texto; ?></td>
                         <td style="padding: 7px;"><?php echo date("Y-m-d",strtotime($fila->fecha_solicitud)); ?></td>
-                        <td style="padding: 7px;"><?php echo "0"; ?></td>
+
+                        <?php if($fila->pagado_en == "efectivo"){ ?>
+                        <td style="padding: 7px;">EFECTIVO</td>
+                        <?php }else if($fila->pagado_en == "banco"){ ?>
+                        <td style="padding: 7px;">N/C</td>
+                        <?php }else{ ?>
+                        <td style="padding: 7px;"><?php echo $fila->no_cheque; ?></td>
+                        <?php } ?>
+
                         <td style="padding: 7px;"><?php echo $fila->nr_empleado; ?></td>
                         <td style="padding: 7px;"><?php echo $fila->fecha_mision_fin; ?></td>
                         <td style="padding: 7px;"><?php echo trim($fila->apellido).", ".trim($fila->nombre); ?></td>
                         <td style="padding: 7px;"><?php echo $visitados; ?></td>
+                        <?php if($oficina_central == $fila->id_oficina){ ?>
+                        <td style="padding: 7px;"><?php echo $seccion; ?></td>
+                        <?php }else{ ?>
                         <td style="padding: 7px;"><?php echo $fila->nombre_oficina; ?></td>
+                        <?php } ?>
                         <td style="padding: 7px;"><?php echo $fila->funcional; ?></td>
                         <td style="padding: 7px;"><?php echo $fila->linea_trabajo; ?></td>
                         <!-- <td style="padding: 7px;"><?php echo "54401"; ?></td> -->
@@ -303,12 +349,22 @@ $num_poliza = $ult_poliza;
                             $otra_tabla .= "<tr>";
                             $otra_tabla .= '<td style="padding: 7px;">'.$correlativo2.'</td>';
                             $otra_tabla .= '<td style="padding: 7px;">'.date("Y-m-d",strtotime($fila->fecha_solicitud)).'</td>';
-                            $otra_tabla .= '<td style="padding: 7px;">0</td>'; //cheque o N/C
+                            if($fila->pagado_en == "efectivo"){
+                                $otra_tabla .= '<td style="padding: 7px;">EFECTIVO</td>'; //cheque o N/C
+                            }else if($fila->pagado_en == "banco"){
+                                $otra_tabla .= '<td style="padding: 7px;">N/C</td>'; //cheque o N/C
+                            }else{
+                                $otra_tabla .= '<td style="padding: 7px;">'.$fila->no_cheque.'</td>'; //cheque o N/C
+                            }
                             $otra_tabla .= '<td style="padding: 7px;">'.$fila->nr_empleado.'</td>';
                             $otra_tabla .= '<td style="padding: 7px;">'.$fila->fecha_mision_fin.'</td>';
                             $otra_tabla .= '<td style="padding: 7px;">'.trim($fila->apellido).", ".trim($fila->nombre).'</td>';
                             $otra_tabla .= '<td style="padding: 7px;">'.$visitados.'</td>';
-                            $otra_tabla .= '<td style="padding: 7px;">'.$fila->nombre_oficina.'</td>';
+                            if($oficina_central == $fila->id_oficina){ 
+                                $otra_tabla .= '<td style="padding: 7px;">'.$seccion.'</td>';
+                            }else{
+                                $otra_tabla .= '<td style="padding: 7px;">'.$fila->nombre_oficina.'</td>';
+                            }
                             $otra_tabla .= '<td style="padding: 7px;">'.$fila->funcional.'</td>';
                             $otra_tabla .= '<td style="padding: 7px;">'.$fila->linea_trabajo.'</td>';
                             $otra_tabla .= '<td align="right" style="padding: 7px;">'."$ ".number_format(floatval($fila->pasaje),2).'</td>';
@@ -349,7 +405,6 @@ $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
 ?>
 
 <div align="right">
-  <button type="button" onclick="" class="btn btn-info">Vista previa</button>
   <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Generar póliza</button>
 </div>
 

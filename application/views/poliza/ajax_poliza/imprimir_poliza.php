@@ -368,7 +368,9 @@ $cuerpo = '
     $cuerpo .= '<br><br><table style="width:100%;">
     <tbody>
         <tr>
-            <td align="center"><img src="assets/firmas/'.$nr_responsable.'.png" style="max-width: 200px; max-height: 100px;"></td>
+            <td align="center">
+                <img src="assets/firmas/'.$nr_responsable.'.png" style="max-width: 200px; max-height: 100px;">
+            </td>
         </tr>
         <tr>
             <td align="center">F._____________________________________________</td>
