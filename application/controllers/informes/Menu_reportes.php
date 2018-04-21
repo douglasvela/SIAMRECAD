@@ -2740,6 +2740,7 @@ class Menu_reportes extends CI_Controller {
 		$this->crear_grafico_viaticos_x_mes_totales($anio,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes);
 		$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
 		$cuerpo = '
+		Año: '.$anio.'
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
