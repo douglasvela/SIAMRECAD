@@ -4,7 +4,11 @@
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
-            <?php 
+            <?php
+
+            $host= $_SERVER["REQUEST_URI"];
+            echo $host;
+
             $data['id_modulo'] = $this->uri->segment(4);
             $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
             $data['id_permiso']="2";
@@ -36,7 +40,7 @@
                             echo "<td>".$fila->codigo."</td>";
 
                             echo "<td>";
-                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo);
+                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo, $fila->delimitador, $fila->archivo);
 
                             $data['id_modulo'] = $this->uri->segment(4);
                             $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');

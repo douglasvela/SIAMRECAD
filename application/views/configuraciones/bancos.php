@@ -1,9 +1,11 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas,codigo,bandera){
+    function cambiar_editar(id,nombre,caracteristicas,codigo,delimitador,archivo,bandera){
         $("#idb").val(id);
         $("#nombre").val(nombre);
         $("#caracteristicas").val(caracteristicas);
         $("#codigo").val(codigo);
+        $("#delimitador").val(delimitador);
+        $("#archivo").val(archivo);
 
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
@@ -13,6 +15,8 @@
             $("#cnt_tabla").hide(0);
             $("#cnt_form").show(0);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Banco");
+            $("#cnt_registros_estructura").show(500);
+            tabla_estructura_planilla();
         }else{
             eliminar_banco();
         }
@@ -23,16 +27,19 @@
         $("#nombre").val("");
         $("#caracteristicas").val("");
         $("#codigo").val("");
+        $("#delimitador").val("");
+        $("#archivo").val("");
         $("#band").val("save");
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
+
+        $("#cnt_registros_estructura").hide(0);
 
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
 
         $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
-
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo banco");
     }
 
@@ -93,12 +100,14 @@
         $( "#cnt_tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/"+id_modulo, function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="tooltip"]').tooltip({ trigger : 'hover' })  
             tabla_estructura_planilla(id_modulo);
         });  
     }
 
-    function tabla_estructura_planilla(id_modulo){          
-        $( "#cnt_tabla_estructura" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla/"+id_modulo, function() {
+    function tabla_estructura_planilla(id_modulo){ 
+        var id_banco = $("#idb").val();
+        $( "#cnt_tabla_estructura" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla/"+id_modulo+"?id_banco="+id_banco, function() {
             //$('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
@@ -110,30 +119,6 @@
           "id_banco" : $("#idb").val(),
           "valor_campo" : $("#columnas").val(),
           "nombre_campo" : $("#columnas option:selected").text().trim()
-
-        };
-        $.ajax({
-            type:  'POST',
-            url: '<?php echo site_url(); ?>/configuraciones/bancos/agregar_columnas',
-            data: formData,
-            cache: false
-        })
-        .done(function(data){
-            if(data == "exito"){
-                swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                tabla_estructura_planilla(<?php echo $this->uri->segment(4);?>);
-            }else{
-                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-            }
-        });
-    }
-
-    function agregar_columna2(){
-        
-        var formData = {
-          "id_banco" : $("#idb").val(),
-          "valor_campo" : "'"+$("#columnas2").val()+"' AS "+$("#columnas2").val(),
-          "nombre_campo" : $("#columnas2").val()
 
         };
         $.ajax({
@@ -223,15 +208,14 @@
                     </div>
                     <div class="card-body b-t">
                         
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idb" name="idb" value="">
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <h5>Nombre: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="text" id="nombre" name="nombre" class="form-control" required="" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div>
+                                        <input type="text" id="nombre" name="nombre" class="form-control" required="">
                                     </div>
                                 </div>
 
@@ -239,7 +223,6 @@
                                     <h5>Características: </h5>
                                     <div class="controls">
                                         <input type="text" id="caracteristicas" name="caracteristicas" class="form-control">
-                                        <div class="help-block"></div>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
@@ -249,42 +232,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
 
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <h5>Delimitador: <span class="text-danger">*</span></h5>
+                                    <div class="controls">
+                                        <input type="text" id="delimitador" name="delimitador" class="form-control" required="" placeholder="Ejemplo: ;">
+                                    </div>
+                                </div>
                                 <div class="form-group col-lg-6">
                                     <h5>Campos de la base: <span class="text-danger">*</span></h5>
-                                    <div class="input-group">
-                                        <select id="columnas" name="columnas" class="select2" style="width: 100%" required="">
-                                            <option value="">[Elija el empleado]</option>
-                                            <optgroup label="Bancos">
-                                                <option value="b.codigo AS codigo">Código</option>
-                                                <option value="b.nombre AS nombre">Nombre</option>
-                                            </optgroup>
-                                            <optgroup label="Persona empleada">
-                                                <option value="e.DUI AS DUI">DUI</option>
-                                                <option value="p.nombre_empleado AS nombre_empleado">Nombre</option>
-                                                <option value="ec.numero_cuenta AS numero_cuenta">Cuenta bancaria</option>
-                                            </optgroup>
-                                            <optgroup label="Poliza">
-                                                <option value="p.no_poliza AS no_poliza">No Poliza</option>
-                                                <option value="SUM(p.total) AS total">Monto en viáticos</option>
-                                            </optgroup>
+                                    <div class="controls">
+                                        <select id="archivo" name="archivo" class="custom-select" style="width: 100%" required="">
+                                            <option value="">[Elija el formato de planilla]</option>
+                                            <option value="txt">Excel</option>
+                                            <option value="xlsx">Texto</option>
                                         </select>
-                                        <div class="input-group-addon btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
                                     </div>
                                 </div>
-
-                                <div class="form-group col-lg-6">
-                                    <h5>Otro campo: <span class="text-danger">*</span></h5>
-                                    <div class="input-group">
-                                        <input type="text" id="columnas2" name="columnas2" class="form-control" required="">
-                                        <div class="input-group-addon btn btn-success2" onclick="agregar_columna2();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div id="cnt_tabla_estructura"></div>
+                            </div>                            
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
@@ -295,8 +261,56 @@
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
                                 <button type="button" onclick="editar_banco()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
                             </div>
-
+                            <br>
                         <?php echo form_close(); ?>
+
+                        <div class="card" style="display: none;" id="cnt_registros_estructura">
+                            <div class="card-header">
+                                <h4 class="card-title m-b-0">Columnas de la planilla</h4>
+                            </div>
+                            <div class="card-body b-t"  style="padding-top: 7px;">
+
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <h5>Campos de la base: <span class="text-danger">*</span></h5>
+                                        <div class="input-group">
+                                            <select id="columnas" name="columnas" class="select2" style="width: 100%" required="">
+                                                <option value="">[Elija un campo para agregar]</option>
+                                                <optgroup label="Bancos">
+                                                    <option value="b.codigo AS codigo">Código</option>
+                                                    <option value="b.nombre AS nombre">Nombre</option>
+                                                </optgroup>
+                                                <optgroup label="Persona empleada">
+                                                    <option value="e.DUI AS DUI">DUI</option>
+                                                    <option value="p.nombre_empleado AS nombre_empleado">Nombre</option>
+                                                    <option value="ec.numero_cuenta AS numero_cuenta">Cuenta bancaria</option>
+                                                </optgroup>
+                                                <optgroup label="Poliza">
+                                                    <option value="p.no_poliza AS no_poliza">No Poliza</option>
+                                                    <option value="SUM(p.total) AS total">Monto en viáticos</option>
+                                                </optgroup>
+                                                <optgroup label="Otros">
+                                                    <option value="'correlativo' AS correlativo">Correlativo</option>
+                                                </optgroup>
+                                            </select>
+                                            <div class="input-group-addon btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <h5>Formato: </h5>
+                                        <div class="controls">
+                                            <input type="text" id="formato" name="formato" class="form-control">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                                <div id="cnt_tabla_estructura"></div>
+
+                            </div>
+                        </div> 
+
                     </div>
                 </div>
             </div>
@@ -325,7 +339,15 @@
 
 <script>
 
-$(function(){     
+$(function(){
+
+    $(document).ready(function(){
+        $('[rel="tooltip"]').on('click', function () {
+            $(this).tooltip('hide')
+        })
+    });
+    
+
     $("#formajax").on("submit", function(e){
         e.preventDefault();
         var f = $(this);

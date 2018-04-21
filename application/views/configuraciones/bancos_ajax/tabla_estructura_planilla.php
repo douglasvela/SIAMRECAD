@@ -1,8 +1,5 @@
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title m-b-0">Columnas de la planilla</h4>
-    </div>
-    <div class="card-body b-t"  style="padding-top: 7px;">
+
+
         <div class="table-responsive">
             <table class="table table-hover product-overview">
                 <thead class="bg-info text-white">
@@ -15,7 +12,10 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $estructura = $this->db->get("vyp_estructura_planilla");
+
+                    $id_banco = $_GET["id_banco"];
+
+                    $estructura = $this->db->query("SELECT * FROM vyp_estructura_planilla WHERE id_banco = '".$id_banco."'");
                     if($estructura->num_rows() > 0){
                         foreach ($estructura->result() as $fila) {
                             echo "<tr>";
@@ -36,15 +36,13 @@
 
                            echo "</tr>";
                         }
+                    }else{
+                        echo "<tr>";
+                            echo "<td colspa='4'>No hay registros disponibles</td>";
+                        echo "</tr>";
                     }
                 ?>
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-</script>
+   

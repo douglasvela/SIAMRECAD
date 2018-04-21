@@ -15,7 +15,7 @@ class bancos extends CI_Controller {
 	}
 
 	public function tabla_bancos(){
-		$this->load->view('configuraciones/tabla_bancos');
+		$this->load->view('configuraciones/bancos_ajax/tabla_bancos');
 	}
 
 	public function tabla_estructura_planilla(){
@@ -29,7 +29,9 @@ class bancos extends CI_Controller {
 			$data = array(
 			'nombre' => $this->input->post('nombre'), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
-			'codigo' => $this->input->post('codigo')
+			'codigo' => $this->input->post('codigo'),
+			'delimitador' => $this->input->post('delimitador'),
+			'archivo' => $this->input->post('archivo')
 			);
 			echo $this->bancos_model->insertar_banco($data);
 			
@@ -38,7 +40,9 @@ class bancos extends CI_Controller {
 			'idb' => $this->input->post('idb'), 
 			'nombre' => $this->input->post('nombre'), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
-			'codigo' => $this->input->post('codigo')
+			'codigo' => $this->input->post('codigo'),
+			'delimitador' => $this->input->post('delimitador'),
+			'archivo' => $this->input->post('archivo')
 			);
 			echo $this->bancos_model->editar_banco($data);
 

@@ -328,7 +328,7 @@ if($generalidades->num_rows() > 0){
                 <td><div align="justify"><span class="controls">
                   <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                      <input type="number" id="nombre5" name="nombre5" class="form-control" required="">
+                      <input type="number" id="nombre5" name="nombre5" class="form-control" step="any" required="">
                   </div>
                 </span></div></td>
                 <td><h5 align="justify">No. COMPROMISO PRESUPUESTARIO:</h5></td>
