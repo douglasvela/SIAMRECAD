@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-04-2018 a las 17:12:48
+-- Tiempo de generación: 21-04-2018 a las 18:04:07
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.0.22
 
@@ -38,6 +38,7 @@ CREATE TABLE `vyp_pasajes` (
   `direccion_empresa` varchar(50) NOT NULL,
   `nr` varchar(10) NOT NULL,
   `monto_pasaje` float(10,2) NOT NULL,
+  `id_actividad_realizada` int(10) UNSIGNED NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -45,12 +46,13 @@ CREATE TABLE `vyp_pasajes` (
 -- Volcado de datos para la tabla `vyp_pasajes`
 --
 
-INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `id_municipio`, `id_departamento`, `fecha_mision`, `no_expediente`, `empresa_visitada`, `direccion_empresa`, `nr`, `monto_pasaje`, `estado`) VALUES
-(10, 00014, 00002, '2018-04-09', '122', 'SA DE CV', 'SDFG', '602C', 1.00, 1),
-(12, 00014, 00002, '2018-04-11', 'eee22', 'EMPRESA1', 'wer', '335C', 7.00, 1),
-(14, 00044, 00004, '2018-04-10', '122', 'EMPRESA1', 'wqwqw', '2588', 0.50, 1),
-(15, 00002, 00001, '2018-04-14', '212', 'EMPRESA2', 'asassa', '602C', 0.50, 1),
-(16, 00015, 00002, '2018-04-16', '55.04', 'EMPRESA3', 'sadasd', '335C', 1.00, 1);
+INSERT INTO `vyp_pasajes` (`id_solicitud_pasaje`, `id_municipio`, `id_departamento`, `fecha_mision`, `no_expediente`, `empresa_visitada`, `direccion_empresa`, `nr`, `monto_pasaje`, `id_actividad_realizada`, `estado`) VALUES
+(27, 00045, 00004, '2018-04-18', '22222', 'asdfg', 'ddddd', '561C', 1.50, 2, 0),
+(28, 00045, 00003, '2018-04-20', '222', 'eeeee', 'rrrrr', '2585', 0.50, 3, 0),
+(29, 00045, 00002, '2018-04-20', '23', 'asdfg', 'asdv', '335C', 0.50, 1, 0),
+(30, 00045, 00005, '2018-04-18', '123', '12qwww', 'cerca de casa', '335C', 1.50, 2, 1),
+(31, 00045, 00002, '2018-04-16', '23', 'AAS', 'AAA', '335C', 2.00, 3, 1),
+(32, 00027, 00003, '2018-04-19', '2', 'aaa', 'aaa', '335C', 1.00, 4, 1);
 
 --
 -- Índices para tablas volcadas
