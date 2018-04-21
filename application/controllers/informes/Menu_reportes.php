@@ -4678,6 +4678,7 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf->setFooter($pie);
 		
 		$cuerpo = '
+		Año: '.$anio.'
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
@@ -4706,10 +4707,13 @@ class Menu_reportes extends CI_Controller {
 				foreach ($viatico->result() as $viaticos) {
 					
 
-					$total_viatico+=$viaticos->viatico;
-					$total_pasaje+=$viaticos->pasaje;
-					$total_total+=$viaticos->total;
+					
 					if($viaticos->no_poliza){
+						$total_viatico+=$viaticos->viatico;
+						$total_pasaje+=$viaticos->pasaje;
+						$total_total+=$viaticos->total;
+						$fecha_elaboracion = date_create($viaticos->fecha_elaboracion_poliza);
+						$fecha_cancelado = date_create($viaticos->fecha_cancelado);
 					$cuerpo .= '
 						<tr>
 							
@@ -4720,11 +4724,11 @@ class Menu_reportes extends CI_Controller {
 							<td align="center">$'.($viaticos->pasaje).'</td>
 							<td align="center">$'.($viaticos->viatico).'</td>
 							<td align="center">$'.($viaticos->total).'</td>
-							<td align="center">'.($viaticos->fecha_elaboracion_poliza).'</td>
-							<td align="center">'.($viaticos->compromiso_presupuestario).'</td>
-							<td align="center">'.($viaticos->fecha_cancelado).'</td>
+							<td align="center">'.date_format($fecha_elaboracion, 'd/m/Y').'</td>
+							<td align="center">'.$viaticos->compromiso_presupuestario.'</td>
+							<td align="center">'.date_format($fecha_cancelado, 'd/m/Y').'</td>
 						</tr>
-						';
+						';$correlativo++;
 						}else{
 							$cuerpo .= '
 							<tr>
@@ -4742,7 +4746,7 @@ class Menu_reportes extends CI_Controller {
 							</tr>
 							';
 						} 
-						$correlativo++;
+						
 						
 					}
 				}else{
@@ -4751,7 +4755,18 @@ class Menu_reportes extends CI_Controller {
 					';
 				}
 				$cuerpo .= '
-						 
+						 <tr>
+								<th align="center"></th>
+								<th align="center"></th>
+								<th align="center"></th>
+								<th align="center">MONTO TOTAL DEL AÑO '.$anio.'</th>
+								<th align="center">$'.($total_pasaje).'</th>
+								<th align="center">$'.($total_pasaje).'</th>
+								<th align="center">$'.($total_total).'</th>
+								<th align="center"></th>
+								<th align="center"></th>
+								<th align="center"></th>
+							</tr>
 				</tbody>
 			</table><br>
 
