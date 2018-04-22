@@ -3,17 +3,16 @@
 <head>
 	<title></title>
 	<script>
-		function mostrarReportePorZonaCargo(tipo){
+		function mostrarReporteUnidadesSolicitantesMotorista(tipo){
 	        var anios = $("#anio_actual_cargo").val();
-	        var cargo = $("#cargo_funcional").val();
-	        if(anios && cargo!="0"){
+	        if(anios){
 	          var xhr = "<?php echo base_url()?>";
 	          if(document.getElementById('radio_pdf').checked==true && tipo==""){ 
-	          window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/pdf/"+cargo+"/"+anios,"_blank");
+	          window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/pdf/"+anios,"_blank");
 	          }else if(document.getElementById('radio_excel').checked==true && tipo==""){
-	          	 window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/excel/"+cargo+"/"+anios,"_blank");
+	          	 window.open(xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/excel/"+anios,"_blank");
 	          }else{
-	          	var html="<embed src='"+xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/vista/"+cargo+"/"+anios+"'  width='780' height='400'>";
+	          	var html="<embed src='"+xhr+"index.php/informes/menu_reportes/reporte_viaticos_por_cargo/vista/"+anios+"'  width='780' height='400'>";
     				$("#informe_vista").html(html);
 	          }
 	        }else{
@@ -42,7 +41,7 @@
 
 	        <div class="row page-titles">
 	            <div class="align-self-center" align="center">
-	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos por Cargo Funcional</h3>
+	                <h3 class="text-themecolor m-b-0 m-t-0">Viaticos por Unidades Solicitantes de Motorista</h3>
 	            </div>
 	        </div>
 	         <div class="row" id="cnt_form" >
@@ -56,27 +55,8 @@
                                 <h5>Año: <span class="text-danger">*</span></h5>
                                 <input type="text" value="<?php echo date('Y'); ?>" class="date-own form-control" id="anio_actual_cargo" name="anio_actual" placeholder="yyyy">
                             </div>
-                            <div class="form-group">
-                                <h5>Cargo Funcional: <span class="text-danger">*</span></h5>
-                                <select class="select2" name="cargo_funcional" id="cargo_funcional" style="width: 100%">
-                                	<option value="0">[Seleccione]</option>
-                                    <option value="todo">[Todos]</option>
-                                 <?php
-                                 	$datos = $this->db->query("SELECT * FROM sir_cargo_funcional ");
-                                    if($datos->num_rows() > 0){
-                                    foreach ($datos->result() as $filadatos) {
-    									echo '<option value="'.$filadatos->id_cargo_funcional.'" '.(($filadatos->id_cargo_funcional=='291')?'selected="selected"':"").'>'.preg_replace ('/[ ]+/', ' ',$filadatos->funcional).'</option>';
-                                 ?>
-
-
-                                 <?php
-                                       }
-                                    }
-                                 ?>
-                                 </select>
-                            </div>
                             <div class="form-group" align="right">
-                                 <button type="button" onclick="mostrarReportePorZonaCargo('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
+                                 <button type="button" onclick="mostrarReporteUnidadesSolicitantesMotorista('vista')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-view-dashboard"></i> Vista Preliminar</button>
                             </div>
                              <br>
                             <div class="card-body b-t">
@@ -89,7 +69,7 @@
 
 	                            </div>
 	                         <div align="right">
-	                            <button type="button" onclick="mostrarReportePorZonaCargo('')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Exportar Reporte</button>
+	                            <button type="button" onclick="mostrarReporteUnidadesSolicitantesMotorista('')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-file-pdf"></i> Exportar Reporte</button>
 	                            </div>
 	                    </div>
 	                </div>
