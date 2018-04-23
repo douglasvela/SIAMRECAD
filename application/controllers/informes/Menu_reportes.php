@@ -4166,7 +4166,7 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2" >ACTIVIDAD</th>
+						<th align="center" rowspan="2"  >ACTIVIDAD</th>
 						<th align="center" rowspan="2" >Año</th>
 						<th align="center" rowspan="2" >Mes</th>
 						<th align="center" colspan="3" >Tipo</th>
@@ -4223,13 +4223,13 @@ class Menu_reportes extends CI_Controller {
 
 					$cuerpo .= '
 						<tr>
-							<td align="left" style="width:180px">'.($viaticos->actividad).'</td>
-							<td align="center" style="width:180px">'.($viaticos->anio).'</td>
-							<td align="center" style="width:180px">'.($mimes).'</td>
-							<td align="center" style="width:180px">$'.number_format($viaticos->viatico,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($viaticos->pasaje,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
-							<td align="center" style="width:180px">$'.number_format($viaticos->total,2,".",",").'</td>
+							<td align="left" style="width:380px">'.($viaticos->actividad).'</td>
+							<td align="center" style="width:80px">'.($viaticos->anio).'</td>
+							<td align="center" style="width:80px">'.($mimes).'</td>
+							<td align="center" style="width:80px">$'.number_format($viaticos->viatico,2,".",",").'</td>
+							<td align="center" style="width:80px">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+							<td align="center" style="width:80px">$'.number_format($viaticos->alojamiento,2,".",",").'</td>
+							<td align="center" style="width:80px">$'.number_format($viaticos->total,2,".",",").'</td>
 						</tr>
 						';
 					}
