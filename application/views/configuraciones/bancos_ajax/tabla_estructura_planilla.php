@@ -25,13 +25,7 @@
 
                             echo "<td>";
                             $array = array($fila->id_estructura);
-
-                            $data['id_modulo'] = $this->uri->segment(4);
-                            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-                            $data['id_permiso']="3";
-                              if(buscar_permiso($data)){
                             echo generar_boton($array,"preguntar_eliminar_columna","btn-danger","fa fa-close","Eliminar");
-                            }
                             echo "</td>";
 
                            echo "</tr>";

@@ -23,6 +23,10 @@ class Poliza_pago extends CI_Controller {
 		$this->load->view('poliza/ajax_poliza_pago/tabla_planillas');
 	}
 
+	public function tabla_registros_planillas(){
+		$this->load->view('poliza/ajax_poliza_pago/tabla_registros_planillas');
+	}
+	
 	public function tabla_poliza_pago(){
 		$this->load->view('poliza/ajax_poliza_pago/tabla_poliza_pago');
 	}

@@ -1,11 +1,11 @@
 <div class="card">
     <div class="card-header">
+        <div class="card-actions">
+            <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
+        </div>
         <h4 class="card-title m-b-0">Listado de polizas pendientes de pago</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
-    	<div class="pull-right">
-            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
-        </div>
         <div class="table-responsive">
             <table id="tabla_pendiente_pago" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
@@ -61,8 +61,6 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-</script>
+<div align="right">
+    <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Guardar ediciones</button>
+</div>

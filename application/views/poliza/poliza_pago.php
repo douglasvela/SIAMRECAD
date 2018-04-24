@@ -50,10 +50,27 @@ function mes($mes){
     xhr.send(encodeURI('name=' + newName));
   }
 
+  function tabla_registros_planillas(sql,polis){
+    var newName = 'AjaxCall', xhr = new XMLHttpRequest();
+    var id_banco = $("#id_banco2").val();
+
+    xhr.open('GET', "<?php echo site_url(); ?>/poliza/poliza_pago/tabla_registros_planillas?id_banco="+id_banco+"&sql="+sql+"&polis="+polis);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200 && xhr.responseText !== newName) {
+            document.getElementById("cnt_registros_planillas").innerHTML = xhr.responseText;
+            $('#myTable').DataTable();
+        }else if (xhr.status !== 200) {
+            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de registros de planilla no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+        }
+    };
+    xhr.send(encodeURI('name=' + newName));
+  }
 
   function recorrer_poliza(){
     var filas = $("#tabla_pendiente_pago>tbody").find("tr");
     var idspoliza = "";
+    var polis = "";
 
     if((filas.length) > 0){
       var script = "";
@@ -64,19 +81,30 @@ function mes($mes){
         var no_poliza = $(inputs[1]).val();
         var mes = $(inputs[2]).val();
         var anio = $(inputs[3]).val();
-
+        var selected = inputs[0].checked;
         var idp = "p"+i;
 
-        script += "SELECT "+idp+".* FROM vyp_poliza AS "+idp+" WHERE no_poliza = '"+no_poliza+"' AND mes_poliza = '"+mes+"' AND anio = '"+anio+"' UNION ";
+        if(selected){
+
+          script += "SELECT "+idp+".* FROM vyp_poliza AS "+idp+" WHERE no_poliza = '"+no_poliza+"' AND mes_poliza = '"+mes+"' AND anio = '"+anio+"' UNION ";
+          polis += no_poliza+" ";
+
+        }
 
       }
 
-      script = script.substring(0,script.length-6);
+      if(script != ""){
+        script = script.substring(0,script.length-6);
+        polis = polis.substring(0,polis.length-1);
+        planillas();
+        genera_planillas(script, polis)
+        $("#area").val(script)
+        //editar_poliza(script, npoli, anioc)
+      }else{
+        swal({ title: "Poliza sin seleccionar", text: "Cero polizas seleccionadas. Seleccione al menos una poliza para realizar pago", type: "warning", showConfirmButton: true });
+      }
 
-      genera_planillas(script)
-
-      $("#area").val(script)
-      //editar_poliza(script, npoli, anioc)
+      
 
     }else{
         swal({ title: "No hay polizas", text: "Pólizas pendientes agotadas.", type: "warning", showConfirmButton: true });
@@ -86,9 +114,10 @@ function mes($mes){
 
 
 
-  function genera_planillas(sql){
+  function genera_planillas(sql,polis){
       var formData = {
-          "sql" : sql
+          "sql" : sql,
+          "polis" : polis
       };
 
       $.ajax({
@@ -242,6 +271,16 @@ function mes($mes){
     segundo_index = "";
   }
 
+  function planillas(){
+    $("#cnt_planillas").show(300);
+    $("#cnt_poliza").hide(300);
+  }
+
+  function cerrar_mantenimiento2(){
+    $("#cnt_poliza").show(300);
+    $("#cnt_planillas").hide(300);
+  }
+
 </script>
 
   <div class="page-wrapper">
@@ -269,12 +308,7 @@ function mes($mes){
 
     <div id="cnt_poliza" style="display: none;">	     
 	      <div id="cnt_generar_poliza"></div>
-	    </div>
-
-	    <div align="right">
-	      <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Guardar ediciones</button>
-	    </div>
-	    
+	    </div>	    
 	    <br>
 
 	    <div class="form-group" style="display: block;">

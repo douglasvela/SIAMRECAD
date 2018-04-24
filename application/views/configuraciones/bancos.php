@@ -291,6 +291,7 @@
                                                 </optgroup>
                                                 <optgroup label="Otros">
                                                     <option value="'correlativo' AS correlativo">Correlativo</option>
+                                                    <option value="'' AS blanco">Blanco</option>
                                                 </optgroup>
                                             </select>
                                             <div class="input-group-addon btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
