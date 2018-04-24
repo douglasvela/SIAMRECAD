@@ -187,7 +187,7 @@ $cabecera = '
 				POLIZA DE REINTEGRO DEL FONDO CIRCULANTE </center><h6>
 		</td>
 	   	<td width="100px;" align="right">
-		    <img src="application/controllers/informes/escudo.jpg" width="65px" height="50px">
+		    <img src="application/controllers/informes/escudo.jpg" width="60px" height="50px">
 		</td>
 	</tr></table>';
 
@@ -277,7 +277,73 @@ $cabecera .= '
 
 $this->mpdf->SetHTMLHeader($cabecera);
 
+$linea1 = $this->db->query("SELECT linea_presup1, SUM(total) AS total FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' GROUP BY linea_presup1");
+$array_linea1 = array();
+$array_total1 = array();
+if($linea1->num_rows() > 0){
+    foreach ($linea1->result() as $filal1) {
+        array_push($array_linea1, $filal1->linea_presup1);
+        array_push($array_total1, $filal1->total);
+    }
+}
+
 $cuerpo = '
+    <table  class="" border="1" style="width:100%; font-size: 10px;">
+        <thead >
+            <tr>
+                <th style="padding: 3px;" align="center" colspan="'.count($array_linea1).'" width="1px">Subtotales originales</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        $cuerpo .= '<tr>';
+        for($i=0;$i<count($array_linea1);$i++){
+            $cuerpo .= '<td width="200px" style="padding: 3px;" align="center">'.$array_linea1[$i].'</td>';
+        }
+        $cuerpo .= '</tr>';
+        $cuerpo .= '<tr>';
+        for($i=0;$i<count($array_total1);$i++){
+            $cuerpo .= '<td style="padding: 3px;" align="center">$ '.$array_total1[$i].'</td>';
+        }
+        $cuerpo .= '</tr>';
+
+$cuerpo .= '</tbody>
+    </table><br>';
+
+$linea2 = $this->db->query("SELECT linea_presup2, SUM(total) AS total FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' GROUP BY linea_presup2");
+$array_linea2 = array();
+$array_total2 = array();
+if($linea2->num_rows() > 0){
+    foreach ($linea2->result() as $filal2) {
+        array_push($array_linea2, $filal2->linea_presup2);
+        array_push($array_total2, $filal2->total);
+    }
+}
+
+$cuerpo .= '
+    <table  class="" border="1" style="width:100%; font-size: 10px;">
+        <thead >
+            <tr>
+                <th style="padding: 3px;" align="center" colspan="'.count($array_linea2).'" width="1px">Subtotales cambiados en presupuesto</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        $cuerpo .= '<tr>';
+        for($i=0;$i<count($array_linea2);$i++){
+            $cuerpo .= '<td width="200px" style="padding: 3px;" align="center">'.$array_linea2[$i].'</td>';
+        }
+        $cuerpo .= '</tr>';
+        $cuerpo .= '<tr>';
+        for($i=0;$i<count($array_total2);$i++){
+            $cuerpo .= '<td style="padding: 3px;" align="center">$ '.$array_total2[$i].'</td>';
+        }
+        $cuerpo .= '</tr>';
+
+$cuerpo .= '</tbody>
+    </table><br>';
+
+$cuerpo .= '
 	<table  class="" border="1" style="width:100%; font-size: 10px;">
 		<thead >
 			<tr>

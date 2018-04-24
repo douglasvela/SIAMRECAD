@@ -242,16 +242,20 @@ function mes($mes){
 
   function calcular(){
     var arreglo = [];
+    var arreglo2 = [];
     var fila = $("#tabla_poliza>tbody").find("tr");
+    var contar = 0;
+    var contar2 = 0;
 
     for(j=0; j< fila.length-1; j++){
       var celdas = $(fila[j]).find("td");
 
-      var linea1 = $(celdas[10]).text().trim();
+      var linea1 = $(celdas[9]).text().trim();
       var monto = $(celdas[13]).text().trim();
       monto = monto.substring(2, monto.length);
 
       if(typeof(arreglo[linea1]) == "undefined"){
+        contar++;
         arreglo[linea1] = [linea1, 0];
         arreglo[linea1][1] = parseFloat(arreglo[linea1][1]) + parseFloat(monto);
       }else{
@@ -259,21 +263,69 @@ function mes($mes){
       }
     }
 
+    arreglo = sortProperties(arreglo);
     var registros = "";
     var registros2 = "";
 
-    for (var propiedad in arreglo) {
-      if (arreglo.hasOwnProperty(propiedad)) {
-        registros += "<td>"+propiedad+"</td>";
-        registros2 +="<td>$ "+(parseFloat(arreglo[propiedad][1])).toFixed(2);+"</td>";
+    for(h=0; h<arreglo.length; h++){
+      registros += "<td>"+arreglo[h][0]+"</td>";
+      registros2 +="<td>$ "+(arreglo[h][1][1]).toFixed(2)+"</td>";
+    }
+
+    registros = "<thead><tr><th colspan='"+(contar+1)+"' class='bg-inverse text-white'>Subtotales originales</th></tr></thead><tbody><tr><th class='bg-inverse text-white'>Líneas</th>"+registros+"<tr>";
+    registros += "<tr><th class='bg-inverse text-white'>Total</th>"+registros2+"<tr></tbody>";
+
+
+    $("#subtotales1").html(registros);
+
+    for(l=0; l< fila.length-1; l++){
+      var celdas = $(fila[l]).find("td");
+
+      var linea1 = $(celdas[10]).text().trim();
+      var monto = $(celdas[13]).text().trim();
+      monto = monto.substring(2, monto.length);
+
+      if(typeof(arreglo2[linea1]) == "undefined"){
+        contar2++;
+        arreglo2[linea1] = [parseInt(linea1), 0];
+        arreglo2[linea1][1] = parseFloat(arreglo2[linea1][1]) + parseFloat(monto);
+      }else{
+        arreglo2[linea1][1] = parseFloat(arreglo2[linea1][1]) + parseFloat(monto);
       }
     }
 
-    registros = "<tr><th class='bg-inverse text-white'>Líneas</th>"+registros+"<tr>";
-    registros += "<tr><th class='bg-inverse text-white'>Total</th>"+registros2+"<tr>";
+    arreglo2 = sortProperties(arreglo2);
+    var registros = "";
+    var registros2 = "";
 
-    $("#subtotales").html(registros);
+    for(k=0; k<arreglo2.length; k++){
+      registros += "<td>"+arreglo2[k][0]+"</td>";
+      registros2 +="<td>$ "+(arreglo2[k][1][1]).toFixed(2)+"</td>";
+    }
+
+    registros = "<thead><tr><th colspan='"+(contar2+1)+"' class='bg-inverse text-white'>Subtotales del área de presupuesto</th></tr></thead><tbody><tr><th class='bg-inverse text-white'>Líneas</th>"+registros+"<tr>";
+    registros += "<tr><th class='bg-inverse text-white'>Total</th>"+registros2+"<tr></tbody>";
+
+    $("#subtotales2").html(registros);
   }
+
+  function sortProperties(obj)
+{
+  // convert object into array
+  var sortable=[];
+  for(var key in obj)
+    if(obj.hasOwnProperty(key))
+      sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+  
+  // sort items by value
+  sortable.sort(function(a, b)
+  {
+    var x=a[1].toString(),
+      y=b[1].toString();
+    return x<y ? -1 : x>y ? 1 : 0;
+  });
+  return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
+}
 
 </script>
 
@@ -384,10 +436,12 @@ function mes($mes){
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-bordered bg-white" style="width: auto; font-size: 13px;">
-          <tbody id="subtotales">
-            
-          </tbody>
+        <table class="table table-hover table-bordered bg-white" style="width: 100%; font-size: 13px;" id="subtotales1">
+        </table>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered bg-white" style="width: 100%; font-size: 13px;" id="subtotales2">
         </table>
       </div>
      

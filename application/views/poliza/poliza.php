@@ -85,7 +85,7 @@ if($generalidades->num_rows() > 0){
 
     if((filas.length-1) > 0){
 
-      var script = "INSERT INTO vyp_poliza (no_doc, no_poliza, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, linea_presup2, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision, nombre_banco) VALUES\n";
+      var script = "INSERT INTO vyp_poliza (no_doc, no_poliza, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, linea_presup2, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision, nombre_banco,fecha_elaboracion_poliza) VALUES\n";
 
       for(i=0; i< (filas.length-1); i++){
         var celdas = $(filas[i]).children("td");
@@ -114,11 +114,13 @@ if($generalidades->num_rows() > 0){
         var npoli = $("#nombre1").val();
         var banco = $("#nombre9").val();
 
+        var fecha_elaboracion_poliza = moment().format("YYYY-MM-DD");
+
 
         if(i == (filas.length-2)){
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"');";
+          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"', '"+fecha_elaboracion_poliza+"');";
         }else{
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"'),\n";
+          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"', '"+fecha_elaboracion_poliza+"'),\n";
         }
       }
 
@@ -144,6 +146,7 @@ if($generalidades->num_rows() > 0){
           if(data == "exito"){
               swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
               tabla_poliza();
+              orden_poliza = "automatico";
               cerrar_mantenimiento();
           }else{
               swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -203,7 +206,6 @@ if($generalidades->num_rows() > 0){
 
   function cambiar_orden(tipo){
     orden_poliza = tipo;
-    tabla_generar_poliza();
     if(tipo == "manual"){
       $("#cnt_manual").hide(0);
       $("#cnt_automatico").show(0);
@@ -211,6 +213,7 @@ if($generalidades->num_rows() > 0){
       $("#cnt_manual").show(0);
       $("#cnt_automatico").hide(0);
     }
+    tabla_generar_poliza();
   }
 
   function imprimir_poliza(no_poliza, mes, anio){
