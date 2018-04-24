@@ -4779,9 +4779,9 @@ class Menu_reportes extends CI_Controller {
 							<td align="center">'.($viaticos->mes_poliza).'</td>
 							<td align="center">'.($viaticos->no_poliza).'</td>
 							<td align="center">VIATICOS Y PASAJES AL INTERIOR</td>
-							<td align="center">$'.($viaticos->pasaje).'</td>
-							<td align="center">$'.($viaticos->viatico).'</td>
-							<td align="center">$'.($viaticos->total).'</td>
+							<td align="center">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+							<td align="center">$'.number_format($viaticos->viatico,2,".",",").'</td>
+							<td align="center">$'.number_format($viaticos->total,2,".",",").'</td>
 							<td align="center">'.date_format($fecha_elaboracion, 'd/m/Y').'</td>
 							<td align="center">'.$viaticos->compromiso_presupuestario.'</td>
 							<td align="center">'.date_format($fecha_cancelado, 'd/m/Y').'</td>
@@ -4795,9 +4795,9 @@ class Menu_reportes extends CI_Controller {
 								<th align="center">'.($viaticos->mes_poliza).'</th>
 								<th align="center"></th>
 								<th align="center">TOTAL</th>
-								<th align="center">$'.($viaticos->pasaje).'</th>
-								<th align="center">$'.($viaticos->viatico).'</th>
-								<th align="center">$'.($viaticos->total).'</th>
+								<th align="center">$'.number_format($viaticos->pasaje,2,".",",").'</th>
+								<th align="center">$'.number_format($viaticos->viatico,2,".",",").'</th>
+								<th align="center">$'.number_format($viaticos->total,2,".",",").'</th>
 								<th align="center"></th>
 								<th align="center"></th>
 								<th align="center"></th>
@@ -4818,9 +4818,9 @@ class Menu_reportes extends CI_Controller {
 								<th align="center"></th>
 								<th align="center"></th>
 								<th align="center">MONTO TOTAL DEL AÑO '.$anio.'</th>
-								<th align="center">$'.($total_pasaje).'</th>
-								<th align="center">$'.($total_pasaje).'</th>
-								<th align="center">$'.($total_total).'</th>
+								<th align="center">$'.number_format($total_pasaje,2,".",",").'</th>
+								<th align="center">$'.number_format($total_viatico,2,".",",").'</th>
+								<th align="center">$'.number_format($total_total,2,".",",").'</th>
 								<th align="center"></th>
 								<th align="center"></th>
 								<th align="center"></th>
@@ -4863,7 +4863,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('ID MISION','NR','NOMBRE','SECCION','CARGO','FECHA INICIO','FECHA FIN','FECHA SOLICITUD','ACIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('No','MES','POLIZA','CONCEPTO','PASAJE','VIATICO','TOTAL','FECHA ELABORACION DE LA POLIZA','No COMPROMISO PRESUPUESTARIO','FECHA CANCELADO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -4874,12 +4874,7 @@ class Menu_reportes extends CI_Controller {
 			    ->setCellValue('G7',  $titulosColumnas[6])
 				->setCellValue('H7',  $titulosColumnas[7])
 				->setCellValue('I7',  $titulosColumnas[8])
-				->setCellValue('J7',  $titulosColumnas[9])
-				->setCellValue('K7',  $titulosColumnas[10])
-				->setCellValue('L7',  $titulosColumnas[11])
-				->setCellValue('M7',  $titulosColumnas[12])
-				->setCellValue('N7',  $titulosColumnas[13])
-				->setCellValue('O7',  $titulosColumnas[14])
+				->setCellValue('J7',  $titulosColumnas[9]) 
 			    ;
 
 			 
@@ -4887,9 +4882,9 @@ class Menu_reportes extends CI_Controller {
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE MISIONES")
+			            ->setCellValue('A4', "REPORTE POLIZA ANUAL")
 			            ;
-			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:O7')->getFont()->setBold(true); 
+			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:J7')->getFont()->setBold(true); 
 			 
 			
 			 //////////////////////////////////////////////////
@@ -4899,54 +4894,68 @@ class Menu_reportes extends CI_Controller {
 					$total_total=0;
 	 
 				$f=8;
-				$data  = array('nr' => $nr );
-
-				$viatico = $this->Reportes_viaticos_model->misiones_empleados($data);
+				$data  = array('anio' => $anio );
+				$correlativo=1;
+				$viatico = $this->Reportes_viaticos_model->poliza_anual($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
-					$total_viatico+=$viaticos->viaticos;
-					$total_pasaje+=$viaticos->pasajes;
-					$total_alojamiento+=$viaticos->alojamientos;
-					$total_total+=$viaticos->total;
-
+					 
 					
 						$this->objPHPExcel->getActiveSheet()->getStyle('J'.$f.':M'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 						$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 						// Miscellaneous glyphs, UTF-8
-						
-						$this->objPHPExcel->setActiveSheetIndex(0)
-							->setCellValue('A'.$f,$viaticos->id_mision_oficial)
-							->setCellValue('B'.$f,$viaticos->nr_empleado)
-							->setCellValue('C'.$f,$viaticos->nombre_completo)
-							->setCellValue('D'.$f,$viaticos->seccion)
-							->setCellValue('E'.$f,$viaticos->cargo)
-							->setCellValue('F'.$f,$viaticos->fecha_mision_inicio)
-							->setCellValue('G'.$f,$viaticos->fecha_mision_fin)
-							->setCellValue('H'.$f,$viaticos->fecha_solicitud)
-							->setCellValue('I'.$f,$viaticos->nombre_actividad)
-							->setCellValue('J'.$f,number_format($viaticos->viaticos,2,".",","))
-							->setCellValue('K'.$f, number_format($viaticos->pasajes,2,".",","))
-							->setCellValue('L'.$f,number_format($viaticos->alojamientos,2,".",","))
-							->setCellValue('M'.$f, number_format($viaticos->total,2,".",","))
-							->setCellValue('N'.$f,$viaticos->nombre_estado)
-							->setCellValue('O'.$f,$viaticos->fecha_pago);
+						if($viaticos->no_poliza){
+							$total_viatico+=$viaticos->viatico;
+							$total_pasaje+=$viaticos->pasaje;
+							$total_total+=$viaticos->total;
+							$fecha_elaboracion = date_create($viaticos->fecha_elaboracion_poliza);
+							$fecha_cancelado = date_create($viaticos->fecha_cancelado);
+							$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,$correlativo)
+							->setCellValue('B'.$f,$viaticos->mes_poliza)
+							->setCellValue('C'.$f,$viaticos->no_poliza)
+							->setCellValue('D'.$f,"VIATICOS Y PASAJES AL INTERIOR")
+							->setCellValue('E'.$f,number_format($viaticos->pasaje,2,".",","))
+							->setCellValue('F'.$f,number_format($viaticos->viatico,2,".",","))
+							->setCellValue('G'.$f,number_format($viaticos->total,2,".",","))
+							->setCellValue('H'.$f,date_format($fecha_elaboracion, 'd/m/Y'))
+							->setCellValue('I'.$f,$viaticos->compromiso_presupuestario)
+							->setCellValue('J'.$f,date_format($fecha_cancelado, 'd/m/Y'));
+						 $correlativo++;
+							}else{
+								 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':J'.$f)->getFont()->setBold(true); 
+								$this->objPHPExcel->setActiveSheetIndex(0)
+								->setCellValue('A'.$f,$correlativo)
+								->setCellValue('B'.$f,$viaticos->mes_poliza)
+								->setCellValue('C'.$f,"")
+								->setCellValue('D'.$f,"TOTAL")
+								->setCellValue('E'.$f,number_format($viaticos->pasaje,2,".",","))
+								->setCellValue('F'.$f,number_format($viaticos->viatico,2,".",","))
+								->setCellValue('G'.$f,number_format($viaticos->total,2,".",","))
+								->setCellValue('H'.$f,"")
+								->setCellValue('I'.$f,"")
+								->setCellValue('J'.$f,"");
+							} 
+							
 							$f++;
-					}
+						}
+						
+							
+					
 				}else{
 					$this->objPHPExcel->setActiveSheetIndex(0)
 				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
-				            ->mergeCells('A'.$f.':O'.$f);
+				            ->mergeCells('A'.$f.':J'.$f);
 				}
 				 
 				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':O'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 					$this->objPHPExcel->setActiveSheetIndex(0)
 							->setCellValue('A'.$f,"TOTAL")
-							->mergeCells('A'.$f.':I'.$f)
-							->setCellValue('J'.$f,number_format($total_viatico,2,".",","))
-							->setCellValue('K'.$f, number_format($total_pasaje,2,".",","))
-							->setCellValue('L'.$f,number_format($total_alojamiento,2,".",","))
-							->setCellValue('M'.$f, number_format($total_total,2,".",","));
-			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':O'.$f)->getFont()->setBold(true); 
+							->mergeCells('A'.$f.':D'.$f)
+							->setCellValue('E'.$f,number_format($total_pasaje,2,".",","))
+							->setCellValue('F'.$f, number_format($total_viatico,2,".",","))
+							->setCellValue('G'.$f, number_format($total_total,2,".",","));
+			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':J'.$f)->getFont()->setBold(true); 
 			 //////////////////////////////////////////////////
 			 ///
 			$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -4962,7 +4971,7 @@ class Menu_reportes extends CI_Controller {
     			->mergeCells('A3:C3')
     			->mergeCells('A4:C4');
 
-			for($i = 'B'; $i <= 'O'; $i++){
+			for($i = 'B'; $i <= 'J'; $i++){
 				for($ii = '7'; $ii <= '50'; $ii++){
 			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
 				}
@@ -4970,10 +4979,10 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A7')->getFont()->setBold(true); 
 			
 			// Rename worksheet
-			$this->objPHPExcel->getActiveSheet()->setTitle('Misiones');
+			$this->objPHPExcel->getActiveSheet()->setTitle('Poliza');
 			// Redirect output to a client’s web browser (Excel5)
 			header('Content-Type: application/vnd.ms-excel');
-			header('Content-Disposition: attachment;filename="Misiones.xls"');
+			header('Content-Disposition: attachment;filename="Poliza_anual.xls"');
 			header('Cache-Control: max-age=0');
 			// If you're serving to IE 9, then the following may be needed
 			header('Cache-Control: max-age=1');
