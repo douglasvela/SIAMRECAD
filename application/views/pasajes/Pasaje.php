@@ -50,8 +50,13 @@ var nr_empleado = "<?php echo $_GET["nr"]; ?>"
 var fecha_p = "<?php echo $_GET["fecha2"]; ?>"
 var nr1 = "<?php echo $_GET["nr1"]; ?>"
 var fechitas = "<?php echo $_GET["fecha"]; ?>"
+var id="<?php echo $_GET["id"]; ?>"
+var estado="<?php echo $_GET["estado"]; ?>"
+var bandera="<?php echo $_GET["bandera"]; ?>"
+var fecha_observacion="<?php echo $_GET["fecha_observacion"]; ?>"
+//alert(bandera);
 
-    function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,departamento, municipio, actividad,bandera){
+function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,departamento, municipio, actividad,bandera){
          tabla_pasaje_unidad();
     //form_folleto_viaticos1();
 alert(actividad);
@@ -72,6 +77,7 @@ alert(actividad);
 $("#id_actividad").val(actividad).trigger('change.select2');
        $("#modal_pasaje").modal("show");
       form_folleto_viaticos_otro();
+
        // form_folleto_viaticos();
         
 //editar_pasaje(departamento, municipio);
@@ -82,7 +88,7 @@ $("#id_actividad").val(actividad).trigger('change.select2');
         $("#cnt-tabla").show(0);
         $("#cnt_form").hide(0);
     }
-    function eliminar_pasaje(id_pasaje)
+      function eliminar_pasaje(id_pasaje)
     {
         swal({   
             title: "¿Está seguro?",   
@@ -96,7 +102,8 @@ $("#id_actividad").val(actividad).trigger('change.select2');
             eliminar(id_pasaje); 
         });        
     }
-    function eliminar(id_pasaje){
+
+        function eliminar(id_pasaje){
         var formData = new FormData();
         formData.append("id_pasaje", id_pasaje);
         formData.append("band", "delete");
@@ -119,6 +126,8 @@ $("#id_actividad").val(actividad).trigger('change.select2');
              
         });
     }
+
+
     function editar_pasaje(){
         tabla_pasaje_unidad();
           //form_folleto_viaticos_otro();
@@ -184,30 +193,7 @@ function recorre_tabla(viaticos_visibles){
 
         return band_visible;
     }
-    function iniciar(){
-
-        tabla_pasaje_unidad();
-
-      // cambiar_nuevo();
-   
-      if(nr_empleado!="")
-      {
-      $("#nr").val(nr_empleado).trigger('change.select2');
-     $("#fecha1").val(fecha_p).trigger('change.select2');
-        }
-else{
-    $("#nr").val(nr1).trigger('change.select2');
-    $("#fecha1").val(fechitas).trigger('change.select2');
-}
-
-      form_folleto_viaticos();
-     // form_folleto_viaticos_otro();
-
-        $('html,body').animate({
-            scrollTop: $("body").offset().top
-        }, 500);
-        
-    }
+  
     function objetoAjax(){
         var xmlhttp = false;
         try {
@@ -218,8 +204,9 @@ else{
         if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
         return xmlhttp;
     }
-    function tabla_pasaje_unidad(){ 
 
+
+function tabla_pasaje_unidad(){ 
 
 
         var nr = $("#nr").val();   
@@ -234,6 +221,7 @@ else{
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
                form_folleto_viaticos();
+                 ver_con_observaciones();
  
  
 
@@ -256,7 +244,9 @@ else{
         xmlhttpB.send(); 
    
 }
-function info_pasajes(){ //para la validacion
+
+function info_pasajes()
+{ //para la validacion
         //var nr_usuario = $("#nr").val();
         var fechap = $("#fecha").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -271,7 +261,8 @@ function info_pasajes(){ //para la validacion
         }
         xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr_empleado+"&fecha="+fechap,true);
         xmlhttp_A.send();
-    }
+}
+
 
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
 {
@@ -286,9 +277,9 @@ var id_este1= "<?php echo $id_este ?>";
 /*alert(mesv);
 alert(mest);
 alert(aniov);*/
-
+alert(estado);
 var nr = $("#nr").val();
-if(mesv== mest && aniov == aniot && otronr == nr)
+if(mesv== mest && aniov == aniot && otronr == nr && estado==1)
 {
 
 
@@ -351,6 +342,7 @@ formData.append("anio", fecha[0].trim());
 formData.append("fechas_p", res1);
 
 
+
        $.ajax({
             url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje_fecha",
             type: "post",
@@ -365,8 +357,10 @@ formData.append("fechas_p", res1);
        .done(function(res){
            alert(res)
             if(res == "exito"){
+                 recorre_observaciones();
                 if($("#band").val() == "save"){
-                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+//swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+buscar_idmision();
                 }else if($("#band").val() == "edit"){
                     swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
@@ -387,6 +381,96 @@ formData.append("fechas_p", res1);
             $('[data-toggle="tooltip"]').tooltip();
         });  
  }
+
+
+    function buscar_idmision(){
+        var nr = $("#nr").val();
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/pasajes/pasaje/obtener_ultima_mision", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $("#id_mision").val(ajax.responseText);
+                tabla_pasaje_unidad();//(function(){ form_rutas() });
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&nr="+nr)
+    }
+
+
+ function gcheckbox(indice){      
+        return  '<div class="form-check">'+
+                    '<label class="custom-control custom-checkbox">'+
+                        '<input type="checkbox" onchange="" class="custom-control-input" checked value="'+indice+'">'+
+                        '<span class="custom-control-indicator"></span>'+
+                        '<span class="custom-control-description"></span>'+
+                    '</label>'+
+                '</div>';
+    }
+     function recorre_observaciones(){
+        var checkbox = $("#tasklist").find("input");
+        var tiene_observaciones = false;
+
+        for(i=0; i<checkbox.length; i++){
+            if(!checkbox[i].checked){
+                tiene_observaciones = true;
+            }
+        }
+
+        if(tiene_observaciones){
+            swal({ title: "Faltan observaciones", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
+        }else{
+            generar_solicitud();
+        }
+    }
+
+       function generar_solicitud(){
+       // var id_mision = $("#id").val();
+        alert(id);
+       // var total_viaticos = parseFloat($("#total_viaticos").val());
+         if(id > 0){
+            ajax = objetoAjax();
+            ajax.open("POST", "<?php echo site_url(); ?>/pasajes/pasaje/generar_solicitud", true);
+            ajax.onreadystatechange = function() {
+                if (ajax.readyState == 4){
+                    $("#area").val(ajax.responseText)
+                    if(ajax.responseText == "exito"){
+                       // tabla_pasaje_unidad();
+                        swal({ title: "!Solicitud exitosa!", type: "success", showConfirmButton: true });
+                        //cerrar_mantenimiento();
+                        //imprimir_solicitud(id_mision);
+                    }else{
+                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                    }           
+                }
+            } 
+            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+            ajax.send("&id_mision="+id)
+            }else{
+            swal({ title: "No hay algunos datos", text: "Hace falta algo que completar)", type: "warning", showConfirmButton: true });
+        }
+        
+    }
+
+
+ function recorre_observaciones(){
+        var checkbox = $("#tasklist").find("input");
+        var tiene_observaciones = false;
+
+        for(i=0; i<checkbox.length; i++){
+            if(!checkbox[i].checked){
+                tiene_observaciones = true;
+            }
+        }
+
+        if(tiene_observaciones){
+            swal({ title: "Faltan observaciones", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
+        }else{
+            generar_solicitud();
+        }
+    }
+
 
 
 
@@ -452,7 +536,9 @@ function combo_oficina_departamento(tipo){
         xhr.send(encodeURI('name=' + newName));
     }
 
-    
+
+
+
 
 
 function obtener_id_municipio(municipio){
@@ -673,10 +759,122 @@ formData.append("id_municipio", municipio);
         });
     }
 
+function ver_con_observaciones(){
 
+    var observacion_habilitada = true;
+
+        if(estado == "2" || estado == "4" || estado == "6"){
+            var ufobservacion = moment(fecha_observacion).add('days',1);
+            var fhoy = moment();
+
+            var reducir = 0;
+
+            if(ufobservacion.format("e") == 6){
+                ufobservacion.add('days',2);
+                reducir = 2;
+            }else if(ufobservacion.format("e") == 0){
+                ufobservacion.add('days',1);
+                reducir = 1;
+            }
+
+            var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
+            var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
+
+            var diferencia = fecha2.diff(fecha1, 'days');     
+
+            var plazo = diferencia - reducir;
+
+            if(plazo == 0){
+                var texto = "Ultimo día para corregir observaciones: HOY";
+            }else{
+                var texto = "Ultimo día para corregir observaciones: "+ufobservacion.format("DD-MM-YYYY");
+            }
+
+            if(diferencia < 0){
+                observacion_habilitada = false;
+            }else{
+                $.toast({ heading: 'Plazo de observaciones', text: texto, position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+            }
+        }
+
+
+        if(bandera == "edit"){
+
+          //  $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
+
+            if(observacion_habilitada){
+
+                $("#band").val(bandera);
+                observaciones(id);
+ /*if(estado == "0"){
+                    valor = validar_dia_limite(estado, "edit", newdate);
+                }else{
+                    valor = validar_dia_limite(estado, "edit", fecha_solicitud);
+                }
+    */
+
+            }else{
+                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó el: "+ufobservacion.format("DD-MM-YYYY"), type: "error", showConfirmButton: true });
+//$("#cnt_form").show(0);
+      // $("#cnt_form1").show(0);
+       $("#cnt-tabla").show(0);
+      
+     location.href = "<?php echo site_url(); ?>/pasajes/Lista_pasaje/";
+            
+            }
+}
+
+ $( "html, body" ).animate({scrollTop:0}, '500');
+        $('[data-toggle="tooltip"]').tooltip();
+}
+
+
+
+
+
+
+function observaciones(id_mision){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+               // form_mision();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/observaciones?id_mision="+id_mision,true);
+        xmlhttpB.send(); 
+    }
 
  
+ function iniciar(){
 
+        tabla_pasaje_unidad();
+    // cambiar_nuevo();
+   
+      if(nr_empleado!="")
+      {
+      $("#nr").val(nr_empleado).trigger('change.select2');
+     $("#fecha1").val(fecha_p).trigger('change.select2');
+        }
+else{
+    $("#nr").val(nr1).trigger('change.select2');
+    $("#fecha1").val(fechitas).trigger('change.select2');
+}
+
+      form_folleto_viaticos();
+   
+     // form_folleto_viaticos_otro();
+
+        $('html,body').animate({
+            scrollTop: $("body").offset().top
+        }, 500);
+        
+    }
 function form_folleto_viaticos(){
       //  $("#bntadd").hide(0);
 //combo_oficina_departamento("departamento");
@@ -698,6 +896,7 @@ function form_folleto_viaticos(){
 
       
     }
+
 
 
 
@@ -738,7 +937,7 @@ function form_folleto_viaticos(){
                         <h4 class="card-title m-b-0 text-white">Pasajes</h4>
                     </div>
                     <div class="card-body b-t">
-                  
+                        <div id="cnt_observaciones"></div>   
                     <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <input type="hidden" id="band" name="band" value="save">
                            

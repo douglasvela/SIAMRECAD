@@ -62,7 +62,63 @@ function editar_pasaje($data){
 	}
 	
 
+function obtener_ultima_mision($tabla,$nombreid,$nr){
+		$query = $this->db->query("SELECT ".$nombreid." FROM ".$tabla." WHERE nr_empleado = '".$nr."' ORDER BY ".$nombreid." ASC");
+		$ultimoid = 0;
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->$nombreid; 
+			}
+		}else{
+			$ultimoid = 1;
+		}
+		return $ultimoid;
+	}
 
+
+		function cambiar_estado_revision($data){
+		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes WHERE id_mision_pasajes = '".$data."'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$estado = $fila->estado; 
+			}
+		}
+
+		$newestado = 1;
+		if($estado == 0){ //si esta incompleta
+			$newestado = 1;	//cambiar a revision 1
+		}else if($estado == 1){ //si esta en revisión 1
+			$newestado = 1;	//permanecer en revisión 1
+		}else if($estado == 2){ //si está en observación 1
+			$newestado = 1;	//cambiar a revisión 1
+		}else if($estado == 3){	//si está en revisión 2
+			$newestado = 3; //permanecer en revisión 2
+		}else if($estado == 4){ //si está en observación 2
+			$newestado = 1;	//cambiar a revision 1
+		}else if($estado == 5){
+			$newestado = 5;
+		}else if($estado == 6){
+			$newestado = 1;
+		}
+
+		if($estado == 0){
+			$this->db->where("id_mision_pasajes",$data);
+			$fecha = date("Y-m-d H:i:s");
+			if($this->db->update('vyp_mision_pasajes', array('fecha_solicitud_pasajes' => $fecha, 'estado' => $newestado)) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+		}else{
+			$this->db->where("id_mision_pasajes",$data);
+			$fecha = date("Y-m-d H:i:s");
+			if($this->db->update('vyp_mision_pasajes', array('estado' => $newestado, 'ultima_observacion' => '0000-00-00 00:00:00')) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+		}
+	}
 	/*function fecha_repetida($sql){
 		$query = $this->db->query($sql);
 		if($query->num_rows() > 0){

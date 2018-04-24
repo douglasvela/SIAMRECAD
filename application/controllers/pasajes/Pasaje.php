@@ -18,7 +18,9 @@ class Pasaje extends CI_Controller {
 		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes');
 	}
 
-	
+	function generar_solicitud(){
+		echo $this->Pasaje_model->cambiar_estado_revision($_POST['id_mision']);
+	}
 	public function gestionar_pasaje(){		
 		if($this->input->post('band') == "save"){
 			$data = array(
@@ -122,6 +124,11 @@ public function gestionar_pasaje_fecha(){
 	public function observaciones(){
 		$this->load->view('pasajes/viaticos_ajax/observaciones');
 	}
+
+	public function obtener_ultima_mision(){
+		echo $this->pasaje_model->obtener_ultima_mision("vyp_mision_pasajes","id_mision_pasajes",$_POST['nr']);
+	}
+
 		
 }
 ?>

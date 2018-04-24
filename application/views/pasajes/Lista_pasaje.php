@@ -27,65 +27,19 @@
 
 <script type="text/javascript">
 
-   function ver_pasajes(id,fecha,nombre, monto,fecha_solicitud, fecha_observacion, estado,bandera){
+   function ver_pasajes(id,nombre,fecha_solicitud, fecha_observacion,estado1,bandera){
      var nr = $("#nr").val();   
      var fechas = $("#fecha2").val();
      var fechita = $("#fecha").val();
       var nr1 = $("#nr1").val();
+       var band="edit";
+        var id1 = $("#id").val();
+        var estado=$("#estado1").val();
+        alert(estado1);
+        alert(bandera);
+        alert(id);
     // alert(nr);
 
-    var observacion_habilitada = true;
-
-        if(estado == "2" || estado == "4" || estado == "6"){
-            var ufobservacion = moment(fecha_observacion).add('days',1);
-            var fhoy = moment();
-
-            var reducir = 0;
-
-            if(ufobservacion.format("e") == 6){
-                ufobservacion.add('days',2);
-                reducir = 2;
-            }else if(ufobservacion.format("e") == 0){
-                ufobservacion.add('days',1);
-                reducir = 1;
-            }
-
-            var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
-            var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
-
-            var diferencia = fecha2.diff(fecha1, 'days');     
-
-            var plazo = diferencia - reducir;
-
-            if(plazo == 0){
-                var texto = "Ultimo día para corregir observaciones: HOY";
-            }else{
-                var texto = "Ultimo día para corregir observaciones: "+ufobservacion.format("DD-MM-YYYY");
-            }
-
-            if(diferencia < 0){
-                observacion_habilitada = false;
-            }else{
-                $.toast({ heading: 'Plazo de observaciones', text: texto, position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
-            }
-        }
-
-
-        if(bandera == "edit"){
-
-          //  $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
-
-            if(observacion_habilitada){
-
-                $("#band").val(bandera);
-                observaciones(id);
-
-    
-
-            }else{
-                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó el: "+ufobservacion.format("DD-MM-YYYY"), type: "error", showConfirmButton: true });
-            }
-}
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttpB=new XMLHttpRequest();
         }else{// code for IE6, IE5
@@ -105,28 +59,13 @@
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas+ "&nr1="+nr1+ "&fecha="+fechita;
-        //xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
+       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas+ "&nr1="+nr1+ "&fecha="+fechita+ "&bandera="+band + "&id="+id + "&estado="+estado1+ "&fecha_observacion="+fecha_observacion;
+        //xmlhttpB.open("GET","<?php //echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
         xmlhttpB.send();      
     }
 
-function observaciones(id_mision){    
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttpB=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
-        xmlhttpB.onreadystatechange=function(){
-            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
-                $('[data-toggle="tooltip"]').tooltip();
-               // form_mision();
-            }
-        }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/observaciones?id_mision="+id_mision,true);
-        xmlhttpB.send(); 
-    }
+
 
 
 
@@ -175,9 +114,9 @@ function observaciones(id_mision){
          
         xmlhttpB.send(); 
     }
- function imprimir_solicitud(nr, fecha_de_pasaje){
-    
-        window.open("<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje, '_blank');
+ function imprimir_solicitud(nr, fecha_de_pasaje, id){
+    alert(id);
+        window.open("<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje + "&id="+id, '_blank');
     }
 
 function cambiar_nuevo(){

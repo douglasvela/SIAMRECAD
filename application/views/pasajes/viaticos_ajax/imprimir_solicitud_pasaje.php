@@ -13,6 +13,7 @@ $user = $this->session->userdata('usuario_viatico');
 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha2"];
+  $id_mision_pasajes = $_GET["id"];
   
  list($otrafecha)= explode ("-",$fecha_mes); 
 list($mes, $anio)= explode ("-",$fecha_mes); 
@@ -243,12 +244,13 @@ if($lugar->num_rows() > 0){
 $pdf->Ln(10);
  $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha de elaboracion: ".$oficina.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);*/
 
- $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where nr='".$nr_empleado."' AND mes_pasaje='".$mes."' AND anio_pasaje= '".$anio."'");
+ $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where nr='".$nr_empleado."' AND mes_pasaje='".$mes."' AND anio_pasaje= '".$anio."' AND id_mision_pasajes= '".$id_mision_pasajes."'");
         if($mision->num_rows() > 0){
-            foreach ($mision->result() as $fila2) { $nr_usuario = $fila2->nr; }
-        }
+            foreach ($mision->result() as $fila2) { $nr_usuario = $fila2->nr;
+             }
+        
 
-
+}
 
  $oficina_empleado = $this->db->query("SELECT m.municipio FROM vyp_oficinas AS o JOIN vyp_informacion_empleado AS i ON o.id_oficina = i.id_oficina_departamental JOIN org_municipio As m ON m.id_municipio = o.id_municipio AND i.nr = '".$nr_empleado."'");
         if($oficina_empleado->num_rows() > 0){
@@ -267,6 +269,7 @@ $pdf->Ln(10);
 $pdf->Ln(10);
 
  $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: ".$oficina_origen.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
+ 
  $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_empleado."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
     if($empleado->num_rows() > 0){
         foreach ($empleado->result() as $filae) {              
@@ -350,14 +353,14 @@ $pdf->Ln(10);
         $pdf->MultiCell(190,5,'DETALLE DE LA ACTIVIDAD: '.$fila2->detalle_actividad,0,'L',false);
         $pdf->Ln(5);*/
 
-        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_inmediato ");
+        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, m.id_mision_pasajes FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_inmediato AND m.id_mision_pasajes= '".$id_mision_pasajes."' ");
 
         if($jfinmediato->num_rows() > 0){
             foreach ($jfinmediato->result() as $filajf) {              
             }
         }
 
-        $jfregional = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_regional");
+        $jfregional = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, m.id_mision_pasajes FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_regional AND m.id_mision_pasajes= '".$id_mision_pasajes."' ");
 
         if($jfregional->num_rows() > 0){
             foreach ($jfregional->result() as $filajr) {              
@@ -372,7 +375,7 @@ $pdf->Ln(10);
             $pdf->Image(base_url()."assets/firmas/".$filajr->nr.".png" , 140,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajr->nr.".png");
         }
 
-        $pdf->Ln(7);
+       $pdf->Ln(7);
         $pdf->SetWidths(array(95,95));
         $pdf->SetAligns(array('C','C'));
 
@@ -384,7 +387,7 @@ $pdf->Ln(10);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Nombre: ".nombres($filajf->nombre_completo), "Nombre: ".nombres($filajr->nombre_completo)),
+       $pdf->Row(array("Nombre: ".nombres($filajf->nombre_completo), "Nombre: ".nombres($filajr->nombre_completo)),
             array('0','0','0'),
             array('Arial','B','09'),
             array(false),
@@ -399,9 +402,6 @@ $pdf->Ln(10);
             array('0','0','0'),
             array('255','255','255'),
             $altura = 5);
-
-
-
 
      
 $pdf->Output($nr_empleado.'_solicitudPasaje_'.$fecha_mes.".pdf",'I');

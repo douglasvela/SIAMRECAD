@@ -119,16 +119,16 @@ list($anio, $mes)= explode ("-",$fecha_mes);
                  //echo "<td>".$fila->id_solicitud_pasaje."</td>";
                              $fila->fecha_mision=date("d-m-Y",strtotime($fila->fecha_mision));
                             echo "<td>".$fila->fecha_mision."</td>";
-                             echo "<td>".$fila->no_expediente."</td>";
+                            echo "<td>".$fila->no_expediente."</td>";
                             echo "<td>".$fila->departamento."</td>";
                             echo "<td>".$fila->municipio."</td>";
                            
-                             echo "<td>".$fila->empresa_visitada."</td>";
-                             echo "<td>".$fila->direccion_empresa."</td>";
+                            echo "<td>".$fila->empresa_visitada."</td>";
+                            echo "<td>".$fila->direccion_empresa."</td>";
                              // echo "<td>".$fila->nr."</td>";
-                                echo "<td>".$fila->nombre_actividad."</td>";
-                              echo "<td>".$fila->monto_pasaje."</td>";
-                    /*if($fila->estado == 0){
+                            echo "<td>".$fila->nombre_actividad."</td>";
+                            echo "<td>".$fila->monto_pasaje."</td>";
+                           /*if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Incompleta</span></td>';
                             }else if($fila->estado == 1){
                                 echo '<td><span class="label label-success">Revisión 1</span></td>';

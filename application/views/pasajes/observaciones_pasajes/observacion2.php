@@ -11,29 +11,31 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $user = $this->session->userdata('usuario_viatico');
-                    if(empty($user)){
-                        header("Location: ".site_url()."/login");
-                        exit();
-                    }
+            $user = $this->session->userdata('usuario_viatico');
+            if(empty($user)){
+                header("Location: ".site_url()."/login");
+                exit();
+            }
 
-                    $pos = strpos($user, ".")+1;
-                    $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
+            $pos = strpos($user, ".")+1;
+            $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
 
-                    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
-                    $nr_usuario = ""; $nombre_usuario;
-                    if($nr->num_rows() > 0){
-                        foreach ($nr->result() as $fila) { 
-                            $nr_usuario = $fila->nr; 
-                            $nombre_usuario = $fila->nombre_completo;
-                        }
-                    }
+            $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+            $nr_usuario = ""; $nombre_usuario;
+            if($nr->num_rows() > 0){
+                foreach ($nr->result() as $fila) { 
+                    $nr_usuario = $fila->nr; 
+                    $nombre_usuario = $fila->nombre_completo;
+                }
+            }
 
-                    $mision = $this->db->query("SELECT id_mision_pasajes, nombre_empleado, mes_pasaje, anio_pasaje, estado FROM vyp_mision_pasajes where estado = 1 AND nr_jefe_regional = '".$nr_usuario."' ORDER BY mes_pasaje");
-                    if($mision->num_rows() > 0){
-                        foreach ($mision->result() as $fila) {
-                            echo "<tr>";
-                           echo "<td>".$fila->nombre_empleado."</td>";
+          $mision = $this->db->query("SELECT id_mision_pasajes, nr, nombre_empleado, mes_pasaje, anio_pasaje, estado FROM vyp_mision_pasajes where estado = 3 AND nr_jefe_regional = '".$nr_usuario."' ORDER BY mes_pasaje");
+                   if($mision->num_rows() > 0){ 
+               
+                foreach ($mision->result() as $fila) {
+                    echo "<tr>";
+                    echo "<td>".$fila->nombre_empleado."</td>";
+
                    switch ($fila->mes_pasaje) {
                         case 1:
                             $month="Enero";
@@ -74,21 +76,21 @@
                     }
 
 
-                    echo "<td>".$month."</td>";
-
+                   echo "<td>".$month."</td>";
                     echo "<td>".$fila->anio_pasaje."</td>";
-
+                   
+                    $fecha=$fila->mes_pasaje .'-'. $fila->anio_pasaje;
                     echo "<td>";
-                    $array = array($fila->id_mision_pasajes, $fila->estado);
-                            echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
-                            echo "</td>";
+                    $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fecha);
+                    echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                    echo "</td>";
 
-                           echo "</tr>";
+                   echo "</tr>";
                         }
                     }
                 ?>
                 </tbody>
             </table>
-        </div>
+        
         <input type="hidden" id="numObservacion2" name="numObservacion2" value="<?php echo $mision->num_rows(); ?>">
-    
+    </div>

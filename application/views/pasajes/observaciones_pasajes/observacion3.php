@@ -7,7 +7,7 @@
                 <th>Mes</th> 
                 <th>Año</th>
                 <th>(*)</th>
-                    </tr>
+                </tr>
                 </thead>
                 <tbody>
                 <?php 
@@ -30,7 +30,7 @@
                     }
                    
 
-                    $mision = $this->db->query("SELECT id_mision_pasajes, nombre_empleado, mes_pasaje, anio_pasaje, estado FROM vyp_mision_pasajes where estado = 5  ORDER BY mes_pasaje ");
+                    $mision = $this->db->query("SELECT id_mision_pasajes, nr, nombre_empleado, mes_pasaje, anio_pasaje, estado FROM vyp_mision_pasajes where estado = 5  ORDER BY mes_pasaje ");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";
@@ -75,16 +75,16 @@
                     }
 
 
-                    echo "<td>".$month."</td>";
-
+                      echo "<td>".$month."</td>";
                     echo "<td>".$fila->anio_pasaje."</td>";
+                   
+                    $fecha=$fila->mes_pasaje .'-'. $fila->anio_pasaje;
+                    echo "<td>";
+                    $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fecha);
+                    echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                    echo "</td>";
 
-                            echo "<td>";
-                            $array = array($fila->id_mision_oficial, $fila->estado);
-                            echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
-                            echo "</td>";
-
-                           echo "</tr>";
+                   echo "</tr>";
                         }
                     }
                 ?>
