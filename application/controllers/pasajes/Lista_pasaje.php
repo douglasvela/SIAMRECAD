@@ -29,13 +29,19 @@ class Lista_pasaje extends CI_Controller {
 			'expediente' => $this->input->post('expediente'),
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
-			
+			'id_actividad_realizada' => $this->input->post('id_actividad'),
 			'nr1' => $this->input->post('nr1'),
-			
+
+			/*'nombre_empleado' => $this->input->post('nombre_emple'),
+'estado' => '0',
+			'mes' =>$this->input->post('mes'),
+			'anio' => $this->input->post('anio'),*/
+			//'nombre' => $this->input->post('nombre_empleado'),
 			
 			'monto' => $this->input->post('monto')
 			);
 		echo $this->Lista_pasaje_model->insertar_pasaje($data);
+		
 			
 		} 
 	}
@@ -84,8 +90,9 @@ public function gestionar_pasaje3(){
 			
 			'nr' => $this->input->post('nr'),
 			
-			
-			'monto' => $this->input->post('monto')
+
+			'monto' => $this->input->post('monto'),
+			'id_actividad_realizada' => $this->input->post('id_actividad')
 			);
 		echo $this->Lista_pasaje_model->insertar_pasaje2($data);
 			
@@ -101,7 +108,8 @@ public function gestionar_pasaje3(){
 			
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
-			'monto' => $this->input->post('monto')
+			'monto' => $this->input->post('monto'),
+			'id_actividad_realizada' => $this->input->post('id_actividad1')
 			);
 			echo $this->Lista_pasaje_model->editar_pasaje($data);
 
