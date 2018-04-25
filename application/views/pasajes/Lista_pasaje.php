@@ -66,7 +66,23 @@
     }
 
 
-
+function info_pasajes()
+{ //para la validacion
+        var nr = $("#nr1").val();
+        var fechap = $("#fecha").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_A=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_A=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttp_A.onreadystatechange=function(){
+            if (xmlhttp_A.readyState==4 && xmlhttp_A.status==200){
+                  document.getElementById("cnt_info_pasajes").innerHTML=xmlhttp_A.responseText;
+            }
+        }
+        xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr+"&fecha="+fechap,true);
+        xmlhttp_A.send();
+}
 
 
     function iniciar(){
@@ -357,6 +373,11 @@ function form_folleto_viaticos(){
                             <input type="hidden" id="band2" name="band2" value="save">
                             <input type="hidden" id="idb2" name="idb2" value="">
                             <div class="row">
+              <div class="col-lg-12" id="cnt_info_pasajes">
+                
+              </div>
+      </div>
+                            <div class="row">
                               <div class="form-group col-lg-6"> 
                             <h5>Empleado: <span class="text-danger">*</span></h5>                           
                             <select id="nr1" name="nr1" class="select2"  required="" style="width: 100%;" >
@@ -376,7 +397,7 @@ function form_folleto_viaticos(){
                                 <div class="form-group col-lg-5">
                                     <h5>Fecha: <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" >
+                                        <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required=""  class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" onchange ="info_pasajes();">
                                         <div class="help-block" style="width: 100%;"></div>
                                     </div>
                                 </div>

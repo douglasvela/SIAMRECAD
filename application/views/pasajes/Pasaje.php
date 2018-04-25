@@ -263,6 +263,24 @@ function info_pasajes()
         xmlhttp_A.send();
 }
 
+function info_pasajes1()
+{ //para la validacion
+        var nr = $("#nr").val();
+        var fechap = $("#fecha2").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp_A=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp_A=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttp_A.onreadystatechange=function(){
+            if (xmlhttp_A.readyState==4 && xmlhttp_A.status==200){
+                  document.getElementById("cnt_info_pasajes1").innerHTML=xmlhttp_A.responseText;
+            }
+        }
+        xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr+"&fecha="+fechap,true);
+        xmlhttp_A.send();
+}
+
 
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
 {
@@ -1002,9 +1020,15 @@ function form_folleto_viaticos(){
             </div>
             <div class="modal-body">
                 <input type="hidden" id="id_pasaje" name="id_pasaje">
+                
+              <div class="row">
+              <div class="col-lg-12" id="cnt_info_pasajes1">
+                
+              </div>
+      </div>
                 <div class="form-group col-lg-12">
                     <h5>Fecha: <span class="text-danger">*</span></h5>
-                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}"  required=""  class="form-control" id="fecha2" name="fecha2" placeholder="dd/mm/yyyy">
+                    <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}"  required=""  class="form-control" id="fecha2" name="fecha2" placeholder="dd/mm/yyyy" onchange ="info_pasajes1();">
                 </div>
                 
                 <h5>Departamento: <span class="text-danger">*</span></h5>
