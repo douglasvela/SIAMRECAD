@@ -408,22 +408,7 @@ buscar_idmision();
                     '</label>'+
                 '</div>';
     }
-     function recorre_observaciones(){
-        var checkbox = $("#tasklist").find("input");
-        var tiene_observaciones = false;
-
-        for(i=0; i<checkbox.length; i++){
-            if(!checkbox[i].checked){
-                tiene_observaciones = true;
-            }
-        }
-
-        if(tiene_observaciones){
-            swal({ title: "Faltan observaciones", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
-        }else{
-            generar_solicitud();
-        }
-    }
+     
 
        function generar_solicitud(){
        // var id_mision = $("#id").val();
