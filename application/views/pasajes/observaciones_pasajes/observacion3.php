@@ -78,7 +78,7 @@
                       echo "<td>".$month."</td>";
                     echo "<td>".$fila->anio_pasaje."</td>";
                    
-                    $fecha=$fila->mes_pasaje .'-'. $fila->anio_pasaje;
+                      $fecha=$fila->anio_pasaje .'-'. $fila->mes_pasaje;
                     echo "<td>";
                     $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fecha);
                     echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");

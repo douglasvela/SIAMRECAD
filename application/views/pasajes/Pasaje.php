@@ -297,7 +297,7 @@ alert(mest);
 alert(aniov);*/
 alert(estado);
 var nr = $("#nr").val();
-if(mesv== mest && aniov == aniot && otronr == nr && estado==1)
+if(mesv== mest && aniov == aniot && otronr == nr && estado!=null)
 {
 
 

@@ -31,7 +31,7 @@
         gid_mision = id_mision;
    nr_emple = nr;
    estado = estado;
-   month = fecha2;
+   //fecha2;
    
 
         $("#btnadd").show(0);
@@ -40,7 +40,7 @@
         $("#cnt_form").show(0);
         $("#ttl_form").children("h4").html("<span class='mdi mdi-wrench'></span> Revisando solicitud");
         $("#estado").val(estado);
-       tabla_empresas_visitadas(gid_mision,nr_emple, estado, month);
+       tabla_empresas_visitadas(gid_mision,nr_emple, estado, fecha2);
     }
 
     function cerrar_mantenimiento(){
@@ -136,7 +136,7 @@
   
         var iframe = $('<embed onload="funcion(this)">');
             iframe.attr('width','100%');
-            iframe.attr('src',"<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr_emple + "&fecha2="+month, '_blank');
+            iframe.attr('src',"<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr_emple + "&fecha2="+month + "&id="+gid_mision, '_blank');
             //$('#cnt_tabla_empresas').append(iframe);
             $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
     }
@@ -305,7 +305,7 @@
                         
                         <input type="hidden" name="estado" id="estado">
                         <input type="hidden" id="nr_observador" name="nr_observador" value="<?php echo $nr_usuario; ?>">
-                        <input type="text" id="id_tipo_observador" name="id_tipo_observador" value="1">
+                        <input type="text" id="id_tipo_observador" name="id_tipo_observador" value="1" style="visibility:hidden">
 
 
                         <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
