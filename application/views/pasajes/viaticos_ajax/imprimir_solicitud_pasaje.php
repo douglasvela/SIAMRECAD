@@ -13,10 +13,10 @@ $user = $this->session->userdata('usuario_viatico');
 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha2"];
-  $id_mision_pasajes = $_GET["id"];
+$id_mision_pasajes = $_GET["id"];
   
  list($otrafecha)= explode ("-",$fecha_mes); 
-list($mes, $anio)= explode ("-",$fecha_mes); 
+list($anio, $mes)= explode ("-",$fecha_mes); 
 
 /*$fecha_imp = explode("-", $fecha_mes);
 echo $fecha_imp[1];
@@ -244,9 +244,9 @@ if($lugar->num_rows() > 0){
 $pdf->Ln(10);
  $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha de elaboracion: ".$oficina.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);*/
 
- $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where nr='".$nr_empleado."' AND mes_pasaje='".$mes."' AND anio_pasaje= '".$anio."' AND id_mision_pasajes= '".$id_mision_pasajes."'");
+ $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where nr='".$nr_empleado."' AND mes_pasaje='".$mes."' AND anio_pasaje= '".$anio."' and id_mision_pasajes='".$id_mision_pasajes."' ");
         if($mision->num_rows() > 0){
-            foreach ($mision->result() as $fila2) { $nr_usuario = $fila2->nr;
+            foreach ($mision->result() as $fila2) { //$nr_usuario = $fila2->nr;
              }
         
 
@@ -353,14 +353,14 @@ $pdf->Ln(10);
         $pdf->MultiCell(190,5,'DETALLE DE LA ACTIVIDAD: '.$fila2->detalle_actividad,0,'L',false);
         $pdf->Ln(5);*/
 
-        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, m.id_mision_pasajes FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_inmediato AND m.id_mision_pasajes= '".$id_mision_pasajes."' ");
+        $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, m.id_mision_pasajes FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_inmediato AND m.id_mision_pasajes = '".$id_mision_pasajes."' ");
 
         if($jfinmediato->num_rows() > 0){
             foreach ($jfinmediato->result() as $filajf) {              
             }
         }
 
-        $jfregional = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, m.id_mision_pasajes FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_regional AND m.id_mision_pasajes= '".$id_mision_pasajes."' ");
+        $jfregional = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, m.id_mision_pasajes FROM sir_empleado AS e JOIN vyp_mision_pasajes AS m ON e.nr = m.nr_jefe_regional AND m.id_mision_pasajes = '".$id_mision_pasajes."'");
 
         if($jfregional->num_rows() > 0){
             foreach ($jfregional->result() as $filajr) {              
