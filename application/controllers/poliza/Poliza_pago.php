@@ -7,6 +7,7 @@ class Poliza_pago extends CI_Controller {
 		parent::__construct();
 		$this->load->model('poliza_model');
 		$this->load->library('mpdf');
+		$this->load->library('fpdf');
 	}
 
 	public function index(){
@@ -33,6 +34,10 @@ class Poliza_pago extends CI_Controller {
 
 	public function imprimir_poliza(){
 		$this->load->view('poliza/ajax_poliza_pago/imprimir_poliza');
+	}
+
+	public function imprimir_resumen_solicitudes(){
+		$this->load->view('poliza/ajax_poliza_pago/imprimir_resumen_solicitudes');
 	}
 
 	function editar_poliza(){

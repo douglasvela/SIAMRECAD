@@ -228,6 +228,10 @@ function mes($mes){
     window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
   }
 
+  function imprimir_poliza(no_poliza, mes, anio){
+    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_resumen_solicitudes?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
+  }
+
   function nuevo_clic(obj){
     contador_clic++;
     if(contador_clic == 1){
