@@ -220,6 +220,10 @@ if($generalidades->num_rows() > 0){
     window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
   }
 
+  function imprimir_poliza_completa(no_poliza, mes, anio){
+    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza_completa?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
+  }
+
   function mostrar_pendientes(){
     $("#cnt_pendientes").show(500);
     $("#cnt_generar_poliza").hide(500);

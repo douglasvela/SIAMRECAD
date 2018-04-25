@@ -32,14 +32,19 @@
                             if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Revisión presupuestaria</span></td>';
                             }else if($fila->estado == 1){
-                                echo '<td><span class="label label-success">Pagada</span></td>';
+                                echo '<td><span class="label label-success">Revisada</span></td>';
+                            }else if($fila->estado == 2){
+                                echo '<td><span class="label label-info">Pagada</span></td>';
                             }
 
                             echo "<td>";
                             $array = array($fila->no_poliza, $fila->mes_poliza, $fila->anio, $fila->total, $fila->estado);
 
                             array_push($array, "edit");
-                            echo generar_boton(array($fila->no_poliza, $fila->mes_poliza, $fila->anio),"imprimir_poliza","btn-default","fa fa-print","Imprimir");
+                            echo generar_boton(array($fila->no_poliza, $fila->mes_poliza, $fila->anio),"imprimir_poliza","btn-default","fa fa-print","Imprimir poliza original");
+                            if(intval($fila->estado) > 0){
+                                echo generar_boton(array($fila->no_poliza, $fila->mes_poliza, $fila->anio),"imprimir_poliza_completa","btn-info","fa fa-print","Imprimir poliza completa");
+                            }
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
                             echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");

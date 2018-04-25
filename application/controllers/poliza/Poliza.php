@@ -27,6 +27,10 @@ class Poliza extends CI_Controller {
 		$this->load->view('poliza/ajax_poliza/imprimir_poliza');
 	}
 
+	public function imprimir_poliza_completa(){
+		$this->load->view('poliza/ajax_poliza/imprimir_poliza_completa');
+	}
+
 	function insertar_poliza(){
 		$sql = $this->input->post('sql');
 		echo $this->poliza_model->insertar_poliza($sql);
