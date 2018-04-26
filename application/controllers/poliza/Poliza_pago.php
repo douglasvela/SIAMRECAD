@@ -54,6 +54,7 @@ class Poliza_pago extends CI_Controller {
 		echo $this->poliza_pago_model->eliminar_poliza($this->input->post('no_poliza'));
 	}
 
+
 	/*public function calcular_viaticos(){
 		$data = array(
 			'hora_inicio' => $this->input->post('hora_inicio'), 

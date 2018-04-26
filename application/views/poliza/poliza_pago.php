@@ -59,7 +59,12 @@ function mes($mes){
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
             document.getElementById("cnt_registros_planillas").innerHTML = xhr.responseText;
-            $('#myTable').DataTable();
+            $('#myTable2').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                  'copy', 'csv', 'excel', 'pdf', 'print'
+              ]
+          });
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de registros de planilla no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
@@ -156,6 +161,22 @@ function mes($mes){
       });
   }
 
+  
+
+  function download(filename, text)
+  {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+ 
+    element.style.display = 'none';
+    document.body.appendChild(element);
+ 
+    element.click();
+ 
+    document.body.removeChild(element);
+  }
+
   function eliminar_poliza(no_poliza){
       var formData = {
           "no_poliza" : no_poliza
@@ -229,7 +250,7 @@ function mes($mes){
   }
 
   function imprimir_poliza(no_poliza, mes, anio){
-    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_resumen_solicitudes?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
+    window.open("<?php echo site_url(); ?>/poliza/poliza_pago/imprimir_resumen_solicitudes?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
   }
 
   function nuevo_clic(obj){
@@ -285,6 +306,71 @@ function mes($mes){
     $("#cnt_planillas").hide(300);
   }
 
+  function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var save = document.createElement('a');
+        save.href = event.target.result;
+        save.target = '_blank';
+        save.download = nombreArchivo || 'archivo.dat';
+        var clicEvent = new MouseEvent('click', {
+            'view': window,
+                'bubbles': true,
+                'cancelable': true
+        });
+        save.dispatchEvent(clicEvent);
+        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    };
+    reader.readAsDataURL(contenidoEnBlob);
+};
+
+
+function generar_txt(resumen, nombre){
+  descargarArchivo(generarTexto(resumen), nombre+'.txt');
+}
+
+function generar_excel(resumen, nombre){
+  descargarArchivo(generarExcel(resumen), nombre+'.xls');
+}
+
+//Genera un objeto Blob con los datos en un archivo TXT
+function generarTexto(datos) {
+    var texto = [];
+    texto.push(atob(datos));
+    return new Blob(texto, {
+        type: 'text/plain'
+    });
+};
+
+function generarExcel(datos) {
+    var texto = [];
+    texto.push(atob(datos));
+    return new Blob(texto, {
+        type: 'application/xls'
+    });
+};
+
+//Genera un objeto Blob con los datos en un archivo XML
+function generarXml(datos) {
+    var texto = [];
+    texto.push('<?xml version="1.0" encoding="UTF-8" ?>\n');
+    texto.push('<datos>\n');
+    texto.push('\t<nombre>');
+    texto.push(escaparXML(datos.nombre));
+    texto.push('</nombre>\n');
+    texto.push('\t<telefono>');
+    texto.push(escaparXML(datos.telefono));
+    texto.push('</telefono>\n');
+    texto.push('\t<fecha>');
+    texto.push(escaparXML(datos.fecha));
+    texto.push('</fecha>\n');
+    texto.push('</datos>');
+    //No olvidemos especificar el tipo MIME correcto :)
+    return new Blob(texto, {
+        type: 'application/xml'
+    });
+};
+
 </script>
 
   <div class="page-wrapper">
@@ -315,7 +401,7 @@ function mes($mes){
 	    </div>	    
 	    <br>
 
-	    <div class="form-group" style="display: block;">
+	    <div class="form-group" style="display: none;">
 	        <textarea id="area" class="form-control" rows="10"></textarea>
 	    </div>
 

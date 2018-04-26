@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $poliza = $this->db->query("SELECT no_poliza, mes_poliza, anio, SUM(total) AS total, estado FROM vyp_poliza GROUP BY no_poliza");
+                    $poliza = $this->db->query("SELECT no_poliza, mes_poliza, anio, SUM(total) AS total, estado FROM vyp_poliza GROUP BY no_poliza, anio ORDER BY no_poliza ASC, anio ASC");
                     if($poliza->num_rows() > 0){
                         foreach ($poliza->result() as $fila) {
                             echo "<tr>";

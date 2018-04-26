@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $poliza = $this->db->query("SELECT no_poliza, mes, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario, nombre_banco, cuenta_bancaria FROM vyp_poliza WHERE estado = '0' GROUP BY no_poliza");
+                    $poliza = $this->db->query("SELECT no_poliza, mes, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario, nombre_banco, cuenta_bancaria FROM vyp_poliza WHERE estado >= '0' GROUP BY no_poliza, anio ORDER BY anio ASC, no_poliza ASC");
                     $contadorcbx = 0;
                     if($poliza->num_rows() > 0){
                         foreach ($poliza->result() as $fila) {
@@ -35,7 +35,7 @@
                             if($fila->estado == 0){
                                 echo '<td><span class="label label-danger">Revisión presupuestaria</span></td>';
                             }else if($fila->estado == 1){
-                                echo '<td><span class="label label-success">Pagada</span></td>';
+                                echo '<td><span class="label label-success">Revisada</span></td>';
                             }
 
                             echo "<td>";
