@@ -223,7 +223,10 @@ GROUP BY s.id_actividad_realizada,year(s.fecha_solicitud) ORDER BY month(s.fecha
     }
     function poliza_anual($data){
       $anios = $data['anio'];
-       $viaticos= $this->db->query("SELECT * FROM(SELECT `id_poliza`,`no_doc`,`no_poliza`,`mes_poliza`,`fecha_elaboracion`,`no_cuenta_cheque`,`nr`,`fecha_mision` ,`nombre_empleado`,`detalle_mision`,`sede`,`cargo_funcional`,`linea_presup1`,`linea_presup2`, sum(`viatico`) as viatico,sum(`pasaje`) as pasaje,sum(`total`) as total,`mes`,`anio`,`nombre_banco`,`cuenta_bancaria`,`fecha_cancelado`,`cod_presupuestario`,`id_mision`,`fecha_elaboracion_poliza`,`nr_elaborador`,`estado`,compromiso_presupuestario FROM vyp_poliza WHERE (anio)='$anios' GROUP BY no_poliza UNION SELECT '','','',`mes_poliza`,'','','','' ,'','','','','','', sum(`viatico`),sum(`pasaje`),sum(`total`),concat(mes,'','A'),`anio`,'','','','','','','','','' FROM vyp_poliza WHERE (anio)='$anios' GROUP by mes) as poliza ORDER BY poliza.mes ASC, poliza.no_poliza ASC");
+       $viaticos= $this->db->query("SELECT * FROM(SELECT `id_poliza`,`no_doc`,`no_poliza`,`mes_poliza`,`fecha_elaboracion`,`no_cuenta_cheque`,`nr`,`fecha_mision` ,`nombre_empleado`,`detalle_mision`,`sede`,`cargo_funcional`,`linea_presup1`,`linea_presup2`, sum(`viatico`) as viatico,sum(`pasaje`) as pasaje,sum(`total`) as total,`mes`,`anio`,`nombre_banco`,`cuenta_bancaria`,`fecha_cancelado`,`cod_presupuestario`,`id_mision`,`fecha_elaboracion_poliza`,`nr_elaborador`,`estado`,compromiso_presupuestario FROM vyp_poliza WHERE (anio)='$anios'  AND `no_poliza`!=0 GROUP BY no_poliza 
+UNION SELECT '','','',`mes_poliza`,'','','','' ,'','','','','','', sum(`viatico`),sum(`pasaje`),sum(`total`),concat(mes,'','A'),`anio`,'','','','','','','','','' FROM vyp_poliza WHERE (anio)='$anios'  GROUP by mes
+UNION SELECT '','','0',`mes_poliza`,'','','','' ,'','','','','','', sum(`viatico`),sum(`pasaje`),sum(`total`) ,mes,`anio`,'','','','','','','','','' FROM vyp_poliza WHERE (anio)='$anios' AND `no_poliza`=0 GROUP by mes             
+) as poliza ORDER BY poliza.mes ASC, poliza.no_poliza ASC");
         return $viaticos;
     }
 }

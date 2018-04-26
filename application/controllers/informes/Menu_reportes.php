@@ -4710,7 +4710,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA ANUAL</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		   
@@ -4721,7 +4721,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA ANUAL</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
 		   
@@ -4787,6 +4787,27 @@ class Menu_reportes extends CI_Controller {
 							<td align="center">'.date_format($fecha_cancelado, 'd/m/Y').'</td>
 						</tr>
 						';$correlativo++;
+						}else if($viaticos->no_poliza=="0"){
+							$total_viatico+=$viaticos->viatico;
+						$total_pasaje+=$viaticos->pasaje;
+						$total_total+=$viaticos->total;
+						$fecha_elaboracion = date_create($viaticos->fecha_elaboracion_poliza);
+						$fecha_cancelado = date_create($viaticos->fecha_cancelado);
+							$cuerpo .= '
+							<tr>
+								
+								<td align="center">'.($correlativo).'</td>
+								<td align="center">'.($viaticos->mes_poliza).'</td>
+								<td align="center">'."DETALLE 1".'</td>
+								<td align="center">VIATICOS Y PASAJES AL INTERIOR</td>
+								<td align="center">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+								<td align="center">$'.number_format($viaticos->viatico,2,".",",").'</td>
+								<td align="center">$'.number_format($viaticos->total,2,".",",").'</td>
+								<td align="center">'.date_format($fecha_elaboracion, 'd/m/Y').'</td>
+								<td align="center">'.$viaticos->compromiso_presupuestario.'</td>
+								<td align="center">'.date_format($fecha_cancelado, 'd/m/Y').'</td>
+							</tr>
+							';	$correlativo++;
 						}else{
 							$cuerpo .= '
 							<tr>
@@ -4858,8 +4879,8 @@ class Menu_reportes extends CI_Controller {
 			// Set document properties
 			$this->objPHPExcel->getProperties()->setCreator("TravelExp")
 										 ->setLastModifiedBy("TravelExp")
-										 ->setTitle("REPORTE MISIONES")	
-										 ->setSubject("REPORTE MISIONES")
+										 ->setTitle("REPORTE POLIZA")	
+										 ->setSubject("REPORTE POLIZA")
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
@@ -4882,7 +4903,7 @@ class Menu_reportes extends CI_Controller {
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE POLIZA ANUAL")
+			            ->setCellValue('A4', "POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO ".$anio)
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:J7')->getFont()->setBold(true); 
 			 
@@ -4901,7 +4922,7 @@ class Menu_reportes extends CI_Controller {
 				foreach ($viatico->result() as $viaticos) {
 					 
 					
-						$this->objPHPExcel->getActiveSheet()->getStyle('J'.$f.':M'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$this->objPHPExcel->getActiveSheet()->getStyle('E'.$f.':G'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 						$this->objPHPExcel->getActiveSheet()->getStyle('A'.$f)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 						// Miscellaneous glyphs, UTF-8
 						if($viaticos->no_poliza){
@@ -4922,7 +4943,24 @@ class Menu_reportes extends CI_Controller {
 							->setCellValue('I'.$f,$viaticos->compromiso_presupuestario)
 							->setCellValue('J'.$f,date_format($fecha_cancelado, 'd/m/Y'));
 						 $correlativo++;
-							}else{
+							}else if($viaticos->no_poliza=="0"){
+								$total_viatico+=$viaticos->viatico;
+							$total_pasaje+=$viaticos->pasaje;
+							$total_total+=$viaticos->total;
+							$fecha_elaboracion = date_create($viaticos->fecha_elaboracion_poliza);
+							$fecha_cancelado = date_create($viaticos->fecha_cancelado);
+							$this->objPHPExcel->setActiveSheetIndex(0)
+							->setCellValue('A'.$f,$correlativo)
+							->setCellValue('B'.$f,$viaticos->mes_poliza)
+							->setCellValue('C'.$f,"DETALLE 1")
+							->setCellValue('D'.$f,"VIATICOS Y PASAJES AL INTERIOR")
+							->setCellValue('E'.$f,number_format($viaticos->pasaje,2,".",","))
+							->setCellValue('F'.$f,number_format($viaticos->viatico,2,".",","))
+							->setCellValue('G'.$f,number_format($viaticos->total,2,".",","))
+							->setCellValue('H'.$f,date_format($fecha_elaboracion, 'd/m/Y'))
+							->setCellValue('I'.$f,$viaticos->compromiso_presupuestario)
+							->setCellValue('J'.$f,date_format($fecha_cancelado, 'd/m/Y'));	$correlativo++;
+						}else{
 								 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A'.$f.':J'.$f)->getFont()->setBold(true); 
 								$this->objPHPExcel->setActiveSheetIndex(0)
 								->setCellValue('A'.$f,$correlativo)
@@ -4966,10 +5004,10 @@ class Menu_reportes extends CI_Controller {
 				//->setCellValue("B".$f,$this->session->userdata('usuario_viatico'))
 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-    			->mergeCells('A1:C1')
-    			->mergeCells('A2:C2')
-    			->mergeCells('A3:C3')
-    			->mergeCells('A4:C4');
+    			->mergeCells('A1:E1')
+    			->mergeCells('A2:E2')
+    			->mergeCells('A3:E3')
+    			->mergeCells('A4:E4');
 
 			for($i = 'B'; $i <= 'J'; $i++){
 				for($ii = '7'; $ii <= '50'; $ii++){
