@@ -182,8 +182,10 @@ $pdf=new FPDF();
 $pdf->cambiarTitulo('RECIBO DE PASAJES URBANO Y AL INTERIOR','POR $   '.$monto);
 $fecha_actual = date("d-m-Y H:i:s");
 $pdf->cambiarPie($name_user, $fecha_actual);
-//$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'C');
+
+
 $pdf->AddPage();
+
 $pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de ' .mes($mes_pasaje).', según detalle anexo:',0,'J',false);
 $pdf->Ln(5);
 $pdf->SetWidths(array(22,20,45,89,13));
@@ -402,7 +404,9 @@ $pdf->Ln(10);
             array('0','0','0'),
             array('255','255','255'),
             $altura = 5);
+//$pdf->setFooter($pie);
 
-     
+
+
 $pdf->Output($nr_empleado.'_solicitudPasaje_'.$fecha_mes.".pdf",'I');
 ?>

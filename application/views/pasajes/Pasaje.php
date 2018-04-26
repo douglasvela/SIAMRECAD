@@ -178,14 +178,11 @@ function recorre_tabla(viaticos_visibles){
        // var fecha = $("#fecha_mision option:selected").text();
         var celdas;
         var filas = $("#cnt_pasaje").find("tbody").find("tr");
-//        var horarios = $("#horarios").val();
-        //var id_horarios;
+//  
         var band_visible = false;
 
         for(l=0; l< (filas.length-1); l++){
             celdas = $(filas[l]).children("td");
-           // horarios2 = $($(celdas[4]).children("input")[0]).val();
-            //fecha2 = $(celdas[0]).text();
           
         }
 
@@ -281,33 +278,10 @@ function info_pasajes1()
         xmlhttp_A.send();
 }
 
-
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
 {
 
-var fecha = $("#fecha1").val().split("-");
-var mest = fecha[1].trim();
-var aniot = fecha[0].trim();
-var mesv = "<?php echo $mestabla ?>";
-var aniov = "<?php echo $aniotabla ?>";
-var otronr = "<?php echo $nreste ?>";
-var id_este1= "<?php echo $id_este ?>"; 
-/*alert(mesv);
-alert(mest);
-alert(aniov);*/
-alert(estado);
-var nr = $("#nr").val();
-if(mesv== mest && aniov == aniot && otronr == nr && estado!=null)
-{
-
-
-swal({ title: "¡Ups! Error", text: "Solicitud de mes ya enviada a revisión.", type: "error", showConfirmButton: true });
-
-} else {
-
-    guardar_pasaje1();
-      
-      }
+guardar_pasaje1();
 
 }
 
@@ -350,6 +324,7 @@ var nombre_empleado = $("#nr option:selected").text().split("-");
 var fecha = $("#fecha1").val().split("-");
  
 //alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
+formData.append("id", id);
 formData.append("nr", $("#nr").val());
 formData.append("nombre_emple", nombre_empleado[0].trim());
 formData.append("jefe_inmediato", $("#nr_jefe_inmediato").val());
@@ -385,7 +360,7 @@ buscar_idmision();
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
                 $("#band").val('save');
-                tabla_pasaje_unidad();
+                tabla_pasaje_lista1();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
@@ -400,7 +375,31 @@ buscar_idmision();
         });  
  }
 
-
+  function tabla_pasaje_lista1(){ 
+        var nr = $("#nr").val();   
+        var fechas = $("#fecha2").val();
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
+                 $('[data-toggle="tooltip"]').tooltip();
+                 
+                $('#fecha').datepicker({
+                    format: 'dd-mm-yyyy',
+                    autoclose: true,
+                    todayHighlight: true
+                });
+            }
+        }
+       // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
+         
+        xmlhttpB.send(); 
+    }
     function buscar_idmision(){
         var nr = $("#nr").val();
 

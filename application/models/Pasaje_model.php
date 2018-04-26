@@ -21,14 +21,34 @@ class Pasaje_model extends CI_Model {
 
 	function insertar_mision_pasaje($data){
 $fecha_actual = date("Y-m-d H:i:s");
+//$id_pasaje;
 		$idb = $this->obtener_ultimo_id("vyp_mision_pasajes","id_mision_pasajes");
-		$estado = true;
-		
+		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$id_pasaje = $fila->id_mision_pasajes; 
+			}
+		}
+
+		//$estado = true;
+		if($id_pasaje != $data['id'])
+			{
 	if($this->db->insert('vyp_mision_pasajes', array('id_mision_pasajes'=> $idb, 'nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'estado' => $data['estado'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'], 'fecha_solicitud_pasaje' => $fecha_actual, 'fechas_pasajes' => $data['fechas_pasaje'])))
 		{
 			return "exito";
 		}else{
 			return "fracaso";
+		}
+		}
+		else { 
+			$this->db->where("id_mision_pasajes",$data['id']);
+		if($this->db->update('vyp_mision_pasajes', array('nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'], 'fecha_solicitud_pasaje' => $fecha_actual, 'fechas_pasajes' => $data['fechas_pasaje'])))
+		{
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+
 		}
 	}
 function editar_pasaje($data){
@@ -104,7 +124,7 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 		if($estado == 0){
 			$this->db->where("id_mision_pasajes",$data);
 			$fecha = date("Y-m-d H:i:s");
-			if($this->db->update('vyp_mision_pasajes', array('fecha_solicitud_pasajes' => $fecha, 'estado' => $newestado)) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")){
+if($this->db->update('vyp_mision_pasajes', array('fecha_solicitud_pasajes' => $fecha, 'estado' => $newestado)) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")){
 				return "exito";
 			}else{
 				return "fracaso";
