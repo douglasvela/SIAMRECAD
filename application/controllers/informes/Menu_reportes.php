@@ -1560,78 +1560,7 @@ class Menu_reportes extends CI_Controller {
 		}
 	}
 
-	public function reporte_ejemplo1(){
-		$this->load->library('j_pgraph');
-		//$this->load->library('j_pgraph_bar');
-		//$this->load->library('j_pgraph_barPlot');
-
-		setlocale (LC_ALL, 'et_EE.ISO-8859-1');
-		$data1y=array(12,8,19,3,10,5);
-		$data2y=array(8,2,11,7,14,4);
-		// Create the graph. These two calls are always required
-		$this->graph = new Graph(310,200);
-		$this->graph->clearTheme();
-		$this->graph->SetScale("textlin");
-
-		$this->graph->SetShadow();
-		$this->graph->img->SetMargin(40,30,20,40);
-
-		// Create the bar plots
-		$this->b1plot = new BarPlot($data1y);
-		$this->b1plot->SetFillColor("orange");
-
-
-		// Create the grouped bar plot
-		$this->gbplot = new AccBarPlot(array($this->b1plot));
-
-		// ...and add it to the graPH
-		$this->graph->Add($this->gbplot);
-
-		$this->graph->title->Set("Accumulated bar plots");
-		$this->graph->xaxis->title->Set("X-title");
-		$this->graph->yaxis->title->Set("Y-title");
-
-		$this->graph->title->SetFont(FF_FONT1,FS_BOLD);
-		$this->graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-		$this->graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
-
-		
-		$this->load->library('mpdf');
-		
-		/*Constructor variables
-			Modo: c
-			Formato: A4 - default
-			Tamaño de Fuente: 12
-			Fuente: Arial
-			Magen Izq: 32
-			Margen Derecho: 25
-			Margen arriba: 47
-			Margen abajo: 47
-			Margen cabecera: 10
-			Margen Pie: 10
-			Orientacion: P / L
-		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
-
 	
-		 
-		
-		$cuerpo = '
-		
-					';
-				// Display the graph
-				$this->graph->Stroke();
-				$cuerpo .= '
-				
-        ';         // LOAD a stylesheet         
-      
-		$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
-		$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
-
-		$this->mpdf->WriteHTML($cuerpo);
-
-		$this->mpdf->Output();
-	}
 	public function reporte_viatico_pendiente_empleado($tipo,$id){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
@@ -1700,6 +1629,7 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2">Actividad</th>
 						<th align="center" rowspan="2">Detalle Actividad</th>
 						<th align="center" colspan="3">Tipo</th>
+						<th align="center" rowspan="2">Total</th>
 						<th align="center" rowspan="2">Estado</th>
 						 
 					</tr>
@@ -1713,15 +1643,23 @@ class Menu_reportes extends CI_Controller {
 					
 					';
 				if($viatico->num_rows()>0){
+					$suma_total=0;
+					$suma_viaticos=0;
+					$suma_pasajes=0;
+					$suma_alojamientos=0;
 				foreach ($viatico->result() as $viaticos) {
-				
+					
 					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
 					foreach ($estado->result() as $estado_detalle) {}
 					$actividad = $this->Reportes_viaticos_model->obtenerDetalleActividad($viaticos->id_actividad_realizada);
 					foreach ($actividad->result() as $actividad_detalle) {}
 					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
 					foreach ($totales->result() as $totales_detalle) {}
-						
+					 	
+						$suma_viaticos+=$totales_detalle->viatico;
+						$suma_pasajes+=$totales_detalle->pasaje;
+						$suma_alojamientos+=$totales_detalle->alojamiento;
+						$suma_total=$suma_viaticos+$suma_pasajes+$suma_alojamientos;
 					$cuerpo .= '
 						<tr>
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_solicitud)).'</td>
@@ -1732,6 +1670,7 @@ class Menu_reportes extends CI_Controller {
 							<td>$'.number_format($totales_detalle->viatico,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
+							<td>$'.number_format($totales_detalle->total,2,".",",").'</td>
 							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
 							
 						</tr>
@@ -1744,7 +1683,15 @@ class Menu_reportes extends CI_Controller {
 					';
 				}
 				$cuerpo .= '
-					
+					<tr>
+							<th colspan="5" align="right">Total</th>
+							<th>$'.number_format($suma_viaticos,2,".",",").'</th>
+							<th>$'.number_format($suma_pasajes,2,".",",").'</th>
+							<th>$'.number_format($suma_alojamientos,2,".",",").'</th>
+							<th>$'.number_format($suma_total,2,".",",").'</th>
+							<th></th>
+							
+						</tr>
 				</tbody>
 			</table>
 
@@ -1783,7 +1730,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A10',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B10',  $titulosColumnas[1])
@@ -1793,7 +1740,8 @@ class Menu_reportes extends CI_Controller {
 			    ->setCellValue('F10',  $titulosColumnas[5])
 			    ->setCellValue('G10',  $titulosColumnas[6])
 			    ->setCellValue('H10',  $titulosColumnas[7])
-			    ->setCellValue('I10',  $titulosColumnas[8]);							 
+			    ->setCellValue('I10',  $titulosColumnas[8])
+			    ->setCellValue('J10',  $titulosColumnas[9]);							 
 			$data = array('nr'=>$id);
 			$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
 			foreach ($empleado_NR_viatico->result() as $key) {	
@@ -1813,6 +1761,10 @@ class Menu_reportes extends CI_Controller {
 			            ->setCellValue('B8', $key->nombre_completo);
 			    $f=11;
 			if($viatico->num_rows()>0){
+					$suma_total=0;
+					$suma_viaticos=0;
+					$suma_pasajes=0;
+					$suma_alojamientos=0;
 				foreach ($viatico->result() as $viaticos) {
 					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
 					foreach ($estado->result() as $estado_detalle) {}
@@ -1821,7 +1773,12 @@ class Menu_reportes extends CI_Controller {
 					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
 					foreach ($totales->result() as $totales_detalle) {}
 
-				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':H'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$suma_viaticos+=$totales_detalle->viatico;
+						$suma_pasajes+=$totales_detalle->pasaje;
+						$suma_alojamientos+=$totales_detalle->alojamiento;
+						$suma_total=$suma_viaticos+$suma_pasajes+$suma_alojamientos;
+
+				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':J'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
 				// Miscellaneous glyphs, UTF-8
 				$this->objPHPExcel->setActiveSheetIndex(0)
@@ -1833,13 +1790,27 @@ class Menu_reportes extends CI_Controller {
 				            ->setCellValue('F'.$f,number_format($totales_detalle->viatico,2,".",","))
 				            ->setCellValue('G'.$f,number_format($totales_detalle->pasaje,2,".",","))
 				            ->setCellValue('H'.$f,number_format($totales_detalle->alojamiento,2,".",","))
-				            ->setCellValue('I'.$f,ucwords($estado_detalle->nombre_estado));
+				            ->setCellValue('I'.$f,number_format($totales_detalle->total,2,".",","))
+				            ->setCellValue('J'.$f,ucwords($estado_detalle->nombre_estado));
 				         $f++;
 				}
+				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':J'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+				$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('E'.$f.':J'.$f)->getFont()->setBold(true);
+				$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f,"")
+				            ->setCellValue('B'.$f,"")
+				            ->setCellValue('C'.$f,"")
+				            ->setCellValue('D'.$f,"")
+				            ->setCellValue('E'.$f,"Total")
+				            ->setCellValue('F'.$f,number_format($suma_viaticos,2,".",","))
+				            ->setCellValue('G'.$f,number_format($suma_pasajes,2,".",","))
+				            ->setCellValue('H'.$f,number_format($suma_alojamientos,2,".",","))
+				            ->setCellValue('I'.$f,number_format($suma_total,2,".",","))
+				            ->setCellValue('J'.$f,"");
 			}else{
 				$this->objPHPExcel->setActiveSheetIndex(0)
 				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
-				            ->mergeCells('A'.$f.':D'.$f);
+				            ->mergeCells('A'.$f.':J'.$f);
 
 			}
 			
@@ -1864,6 +1835,7 @@ class Menu_reportes extends CI_Controller {
 			}
 			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A1:A8')->getFont()->setBold(true); 
 			$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A10:K10')->getFont()->setBold(true); 
+
 
 
 			// Rename worksheet
@@ -1967,6 +1939,7 @@ class Menu_reportes extends CI_Controller {
 						<th align="center" rowspan="2">Actividad</th>
 						<th align="center" rowspan="2">Detalle Actividad</th>
 						<th align="center" colspan="3">Tipo</th>
+						<th align="center" rowspan="2">Total</th>
 						<th align="center" rowspan="2">Estado</th>
 						 <th align="center" rowspan="2">Fecha Pago</th>
 					</tr>
@@ -1980,6 +1953,10 @@ class Menu_reportes extends CI_Controller {
 					
 					';
 				if($viatico->num_rows()>0){
+					$suma_total=0;
+					$suma_viaticos=0;
+					$suma_pasajes=0;
+					$suma_alojamientos=0;
 				foreach ($viatico->result() as $viaticos) {
 				
 					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
@@ -1988,7 +1965,10 @@ class Menu_reportes extends CI_Controller {
 					foreach ($actividad->result() as $actividad_detalle) {}
 					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
 					foreach ($totales->result() as $totales_detalle) {}
-						
+						$suma_viaticos+=$totales_detalle->viatico;
+						$suma_pasajes+=$totales_detalle->pasaje;
+						$suma_alojamientos+=$totales_detalle->alojamiento;
+						$suma_total=$suma_viaticos+$suma_pasajes+$suma_alojamientos;	
 					$cuerpo .= '
 						<tr>
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_solicitud)).'</td>
@@ -1999,6 +1979,7 @@ class Menu_reportes extends CI_Controller {
 							<td>$'.number_format($totales_detalle->viatico,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->pasaje,2,".",",").'</td>
 							<td>$'.number_format($totales_detalle->alojamiento,2,".",",").'</td>
+							<td>$'.number_format($totales_detalle->total,2,".",",").'</td>
 							<td>'.ucwords($estado_detalle->nombre_estado).'</td>
 							<td>'.date('d-m-Y',strtotime($viaticos->fecha_pago)).'</td>
 						</tr>
@@ -2011,7 +1992,14 @@ class Menu_reportes extends CI_Controller {
 					';
 				}
 				$cuerpo .= '
-					
+					<tr>
+							<th colspan="5" align="right">Total</td>
+							<th>$'.number_format($suma_viaticos,2,".",",").'</th>
+							<th>$'.number_format($suma_pasajes,2,".",",").'</th>
+							<th>$'.number_format($suma_alojamientos,2,".",",").'</th>
+							<th>$'.number_format($suma_total,2,".",",").'</th>
+							<th colspan="2"></th>
+						</tr>
 				</tbody>
 			</table>
 
@@ -2051,7 +2039,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A10',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B10',  $titulosColumnas[1])
@@ -2062,7 +2050,8 @@ class Menu_reportes extends CI_Controller {
 			    ->setCellValue('G10',  $titulosColumnas[6])
 			    ->setCellValue('H10',  $titulosColumnas[7])
 			    ->setCellValue('I10',  $titulosColumnas[8])
-			    ->setCellValue('J10',  $titulosColumnas[9]);							 
+			    ->setCellValue('J10',  $titulosColumnas[9])
+			    ->setCellValue('K10',  $titulosColumnas[10]);							 
 			$data = array('nr'=>$id);
 			$empleado_NR_viatico = $this->Reportes_viaticos_model->obtenerNREmpleadoViatico($data);
 			foreach ($empleado_NR_viatico->result() as $key) {	
@@ -2086,6 +2075,10 @@ class Menu_reportes extends CI_Controller {
 			            ->setCellValue('B8', $key->nombre_completo);
 			    $f=11;
 			if($viatico->num_rows()>0){
+					$suma_total=0;
+					$suma_viaticos=0;
+					$suma_pasajes=0;
+					$suma_alojamientos=0;
 				foreach ($viatico->result() as $viaticos) {
 					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
 					foreach ($estado->result() as $estado_detalle) {}
@@ -2093,8 +2086,11 @@ class Menu_reportes extends CI_Controller {
 					foreach ($actividad->result() as $actividad_detalle) {}
 					$totales = $this->Reportes_viaticos_model->obtenerTotalMontos($viaticos->id_mision_oficial);
 					foreach ($totales->result() as $totales_detalle) {}
-
-				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':H'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+						$suma_viaticos+=$totales_detalle->viatico;
+						$suma_pasajes+=$totales_detalle->pasaje;
+						$suma_alojamientos+=$totales_detalle->alojamiento;
+						$suma_total=$suma_viaticos+$suma_pasajes+$suma_alojamientos;
+				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':I'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
 				// Miscellaneous glyphs, UTF-8
 				$this->objPHPExcel->setActiveSheetIndex(0)
@@ -2106,14 +2102,29 @@ class Menu_reportes extends CI_Controller {
 				            ->setCellValue('F'.$f,number_format($totales_detalle->viatico,2,".",","))
 				            ->setCellValue('G'.$f,number_format($totales_detalle->pasaje,2,".",","))
 				            ->setCellValue('H'.$f,number_format($totales_detalle->alojamiento,2,".",","))
-				            ->setCellValue('I'.$f,ucwords($estado_detalle->nombre_estado))
-				            ->setCellValue('J'.$f,date('d-m-Y',strtotime($viaticos->fecha_pago)));
+				            ->setCellValue('I'.$f,number_format($totales_detalle->total,2,".",","))
+				            ->setCellValue('J'.$f,ucwords($estado_detalle->nombre_estado))
+				            ->setCellValue('K'.$f,date('d-m-Y',strtotime($viaticos->fecha_pago)));
 				         $f++;
 				}
+				$this->objPHPExcel->getActiveSheet()->getStyle('F'.$f.':I'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+				$this->objPHPExcel->setActiveSheetIndex(0)->getStyle('E'.$f.':I'.$f)->getFont()->setBold(true); 
+				$this->objPHPExcel->setActiveSheetIndex(0)
+				            ->setCellValue('A'.$f, "")
+				            ->setCellValue('B'.$f, "")
+				            ->setCellValue('C'.$f, "")
+				            ->setCellValue('D'.$f, "")
+				            ->setCellValue('E'.$f,"")
+				            ->setCellValue('F'.$f,number_format($suma_viaticos,2,".",","))
+				            ->setCellValue('G'.$f,number_format($suma_pasajes,2,".",","))
+				            ->setCellValue('H'.$f,number_format($suma_alojamientos,2,".",","))
+				            ->setCellValue('I'.$f,number_format($suma_total,2,".",","))
+				            ->setCellValue('J'.$f,"")
+				            ->setCellValue('K'.$f,"");
 			}else{
 				$this->objPHPExcel->setActiveSheetIndex(0)
 				            ->setCellValue('A'.$f, "NO HAY REGISTROS")
-				            ->mergeCells('A'.$f.':D'.$f);
+				            ->mergeCells('A'.$f.':K'.$f);
 
 			}
 			
@@ -2131,7 +2142,7 @@ class Menu_reportes extends CI_Controller {
     			->mergeCells('A4:C4')
     			->mergeCells('B8:C8');
 
-			for($i = 'A'; $i <= 'J'; $i++){
+			for($i = 'A'; $i <= 'K'; $i++){
 				for($ii = '7'; $ii <= '50'; $ii++){
 			    $this->objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i,$ii)->setAutoSize(TRUE);
 				}
@@ -4988,8 +4999,7 @@ class Menu_reportes extends CI_Controller {
 				 
 				$this->objPHPExcel->getActiveSheet()->getStyle('B'.$f.':O'.$f)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 					$this->objPHPExcel->setActiveSheetIndex(0)
-							->setCellValue('A'.$f,"TOTAL")
-							->mergeCells('A'.$f.':D'.$f)
+							->setCellValue('D'.$f,"TOTAL")
 							->setCellValue('E'.$f,number_format($total_pasaje,2,".",","))
 							->setCellValue('F'.$f, number_format($total_viatico,2,".",","))
 							->setCellValue('G'.$f, number_format($total_total,2,".",","));

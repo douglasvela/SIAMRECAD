@@ -112,7 +112,7 @@ list($anio, $mes)= explode ("-",$fecha_mes);
        /* $cuenta= $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento, mp.estado as estado_mision FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN vyp_mision_pasajes as mp JOIN org_departamento as d ON p.nr =  '".$nr_empleado."' AND p.fecha_mision LIKE '%".$otrafecha."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais AND mp.mes_pasaje='".$mes."' AND mp.anio_pasaje='".$anio."' AND p.nr=mp.nr ORDER BY p.fecha_mision");
 */        
 
-      $cuenta = $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento, a.nombre_vyp_actividades AS nombre_actividad FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN org_departamento as d JOIN vyp_actividades as a ON p.nr = '".$nr_empleado."' AND p.fecha_mision LIKE '%".$fecha_mes."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND d.id_departamento = m.id_departamento_pais AND p.id_actividad_realizada=a.id_vyp_actividades ORDER BY p.fecha_mision");
+      $cuenta = $this->db->query("SELECT p.*, m.municipio as municipio, d.departamento as departamento, a.nombre_vyp_actividades AS nombre_actividad FROM org_municipio AS m JOIN vyp_pasajes AS p JOIN org_departamento as d JOIN vyp_actividades as a ON p.nr = '".$nr_empleado."' AND p.fecha_mision LIKE '%".$fecha_mes."%' AND m.id_municipio=p.id_municipio AND d.id_departamento=p.id_departamento AND p.id_actividad_realizada=a.id_vyp_actividades ORDER BY p.fecha_mision");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";

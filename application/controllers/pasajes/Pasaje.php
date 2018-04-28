@@ -88,6 +88,7 @@ class Pasaje extends CI_Controller {
 public function gestionar_pasaje_fecha(){		
 		
 			$data = array(
+				'id' => $this->input->post('id'),
 			'nr' => $this->input->post('nr'),
 			'nombre_empleado' => $this->input->post('nombre_emple'),
 			'jefe_inmediato' => $this->input->post('jefe_inmediato'),
