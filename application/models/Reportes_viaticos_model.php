@@ -72,7 +72,7 @@ SELECT month(mo.fecha_solicitud) as mes,sum(ev.pasaje) as pasajes,sum(ev.viatico
     function obtenerTotalMontos($data)
     {
         $id_mision_oficial = $data;
-        $detalle = $this->db->query("SELECT sum(`viatico`) as viatico,sum(`pasaje`) as pasaje,sum(`alojamiento`) as alojamiento FROM `vyp_empresa_viatico` WHERE `id_mision`='$id_mision_oficial'");
+        $detalle = $this->db->query("SELECT sum(`viatico`) as viatico,sum(`pasaje`) as pasaje,sum(`alojamiento`) as alojamiento, (sum(`viatico`) + sum(`pasaje`) + sum(`alojamiento`)) as total FROM `vyp_empresa_viatico` WHERE `id_mision`='$id_mision_oficial'");
         return $detalle;
     }
     function obtenerListaviaticoPagado($data){
