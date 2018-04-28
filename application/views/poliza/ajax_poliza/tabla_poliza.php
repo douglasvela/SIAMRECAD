@@ -4,7 +4,11 @@
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
+            <?php
+            if(tiene_permiso($segmentos = 2, $permiso = 2)){
+            ?>
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+            <?php } ?>
         </div>
         <div class="table-responsive">
             <table id="myTable" class="table table-hover product-overview">
@@ -46,8 +50,10 @@
                                 echo generar_boton(array($fila->no_poliza, $fila->mes_poliza, $fila->anio),"imprimir_poliza_completa","btn-info","fa fa-print","Imprimir poliza completa");
                             }
                             unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            if(tiene_permiso($segmentos = 2, $permiso = 3)){
+                                array_push($array, "delete");
+                                echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            }
                             echo "</td>";
 
                            echo "</tr>";

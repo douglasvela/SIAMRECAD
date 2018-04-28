@@ -21,7 +21,7 @@ if($estructura->num_rows() > 0){
 
 if($estruc != ""){
 
-$consulta2 = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_empleado_cuenta_banco AS ec ON ec.nr = p.nr AND ec.id_banco = '".$id_banco."' GROUP BY p.nr";
+$consulta2 = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_empleado_cuenta_banco AS ec ON ec.nr = p.nr AND ec.id_banco = '".$id_banco."' JOIN vyp_bancos AS b ON b.id_banco = ec.id_banco GROUP BY p.nr";
 
 $planilla2 = $this->db->query($consulta2);
 
@@ -100,7 +100,7 @@ echo "<br>";
 
 
 
-$consulta = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_empleado_cuenta_banco AS ec ON ec.nr = p.nr AND ec.id_banco = '".$id_banco."' GROUP BY p.nr";
+$consulta = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_empleado_cuenta_banco AS ec ON ec.nr = p.nr AND ec.id_banco = '".$id_banco."' JOIN vyp_bancos AS b ON b.id_banco = ec.id_banco GROUP BY p.nr";
 
 $planilla = $this->db->query($consulta);
 

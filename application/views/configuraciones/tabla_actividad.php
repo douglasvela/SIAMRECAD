@@ -35,7 +35,7 @@
                 <tbody>
                 <?php
                 	$actividad = $this->db->get("vyp_actividades");
-                    if(!empty($actividad)){
+                    if($actividad->num_rows() > 0){
                         foreach ($actividad->result() as $fila) {
                           echo "<tr>";
                           echo "<td>".$fila->id_vyp_actividades."</td>";

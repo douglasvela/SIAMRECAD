@@ -6,9 +6,6 @@
         <div class="pull-right">
             <?php
 
-            $host= $_SERVER["REQUEST_URI"];
-            echo $host;
-
             $data['id_modulo'] = $this->uri->segment(4);
             $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
             $data['id_permiso']="2";
