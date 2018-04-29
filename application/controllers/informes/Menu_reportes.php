@@ -77,6 +77,11 @@ class Menu_reportes extends CI_Controller {
 		$this->load->view('informes/viaticos_por_actividad');
 		$this->load->view('templates/footer');
 	}
+	public function viaticos_por_actividad_detalle(){
+		$this->load->view('templates/header');
+		$this->load->view('informes/detalle_viaticos_por_actividad');
+		$this->load->view('templates/footer');
+	}
 	public function misiones(){
 		$this->load->view('templates/header');
 		$this->load->view('informes/misiones');
