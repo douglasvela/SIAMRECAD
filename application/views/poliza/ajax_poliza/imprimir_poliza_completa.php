@@ -180,6 +180,7 @@ $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
 
 $this->mpdf=new mPDF('L','A4','10','Arial',10,10,45,17,3,9);
 
+
 $cabecera = '
 	<table width="100%"><tr>
 		<td width="100px;" align="left">
@@ -363,6 +364,7 @@ $cuerpo .= '
 				<th align="center" rowspan="2" width="60px">Sede</th>
 				<th align="center" rowspan="2" width="60px">Cargo funcional</th>
 				<th align="center" rowspan="2" width="20px">UP/LT</th>
+                <th align="center" rowspan="2" width="20px">UP/LT (Pres.)</th>
 				<th align="center" colspan="2" width="60px">Detalle de objetos físicos</th>
 				<th align="center" rowspan="2" width="20px">Total</th>
 			</tr>
@@ -379,7 +381,7 @@ $cuerpo .= '
 		$total_pasaje = 0;
         $contador = 0;
 
-		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup2");
+		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup1");
         if($poliza->num_rows() > 0){
             foreach ($poliza->result() as $fila) {            
 
@@ -398,6 +400,7 @@ $cuerpo .= '
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->detalle_mision.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->sede.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->cargo_funcional.'</td>
+                    <td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->linea_presup1.'</td>
                 	<td align="center" style="border-bottom: 0px; border-top: 0px; padding: 3px;">'.$fila->linea_presup2.'</td>
                 	<td align="right" style="border-bottom: 0px; border-top: 0px; padding: 3px;">$'.$fila->pasaje.'</td>
                 	<td align="right" style="border-bottom: 0px; border-top: 0px; padding: 3px;">$'.$fila->viatico.'</td>
@@ -410,7 +413,7 @@ $cuerpo .= '
 
 			$cuerpo .= '
 				<tr>
-					<th align="center" colspan="12">Total</th>
+					<th align="center" colspan="13">Total</th>
 					<th align="right">$'.number_format($total_pasaje,2,".","").'</th>
 					<th align="right">$'.number_format($total_viatico,2,".","").'</th>
 					<th align="right">$'.number_format($total_pasaje+$total_viatico,2,".","").'</th>
