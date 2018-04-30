@@ -41,6 +41,9 @@ $pasajitos = $this->db->query("SELECT * FROM vyp_mision_pasajes");
                 $nreste=NULL;
                 $id_este=NULL;
             }
+
+
+
 ?>
 
 
@@ -55,6 +58,7 @@ var estado="<?php echo $_GET["estado"]; ?>"
 var bandera="<?php echo $_GET["bandera"]; ?>"
 var fecha_observacion="<?php echo $_GET["fecha_observacion"]; ?>"
 //alert(bandera);
+var id_mision = <?php echo $id_este; ?>
 
 function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,departamento, municipio, actividad,bandera){
          tabla_pasaje_unidad();
@@ -280,10 +284,105 @@ function info_pasajes1()
 
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
 {
+if(id_mision==id)
+            {
 
-guardar_pasaje1();
+ editar_mision();
+            }   
+                else 
+
+            {
+            guardar_pasaje1();
+ 
+             }
 
 }
+
+
+function editar_mision()//guarda en la tabla vyp_mision_pasajes
+{
+
+
+ var filas = $("#cnt_pasaje").find("tbody").find("tr");
+
+var fechass;
+var fechass1;
+var celdas;
+ 
+var res1=" ";
+var valor=filas.length;
+        for(l=0; l< (valor); l++){
+            
+           //res=fechass;
+  celdas = $(filas[l]).children("td");
+         
+     
+            for(otro=0; otro<l; otro++)
+            {
+              
+  fechass = $(celdas[0]).text(); 
+//var fechitas = $($(celdas[4]).children("input")[0]).val();
+   
+
+ res1+=fechass.concat(",");  
+}
+
+//alert(res1);
+}
+var f = $(this);
+var formData = new FormData();
+var nombre_empleado = $("#nr option:selected").text().split("-");
+
+var fecha = $("#fecha1").val().split("-");
+ 
+//alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
+//
+formData.append("id_mision", id);
+formData.append("nr", $("#nr").val());
+formData.append("nombre_emple", nombre_empleado[0].trim());
+formData.append("jefe_inmediato", $("#nr_jefe_inmediato").val());
+formData.append("jefe_regional", $("#nr_jefe_regional").val());
+formData.append("mes", fecha[1].trim()); 
+formData.append("anio", fecha[0].trim());
+
+formData.append("fechas_p", res1);
+formData.append("band", "edit");
+
+
+
+       $.ajax({
+            url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje_fecha",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+
+
+       .done(function(res){
+           //alert(res)
+            if(res == "exito"){
+                 recorre_observaciones();
+                if($("#band").val() == "save"){
+//swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                buscar_idmision();
+                }else if($("#band").val() == "edit"){
+                   // swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                $("#band").val('edit');
+                tabla_pasaje_lista();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+
+
+}
+
 
 
 
@@ -324,7 +423,8 @@ var nombre_empleado = $("#nr option:selected").text().split("-");
 var fecha = $("#fecha1").val().split("-");
  
 //alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
-formData.append("id", id);
+//
+//formData.append("id_mision", id);
 formData.append("nr", $("#nr").val());
 formData.append("nombre_emple", nombre_empleado[0].trim());
 formData.append("jefe_inmediato", $("#nr_jefe_inmediato").val());
@@ -333,6 +433,7 @@ formData.append("mes", fecha[1].trim());
 formData.append("anio", fecha[0].trim());
 
 formData.append("fechas_p", res1);
+formData.append("band", "save");
 
 
 
@@ -348,7 +449,7 @@ formData.append("fechas_p", res1);
 
 
        .done(function(res){
-           alert(res)
+           //alert(res)
             if(res == "exito"){
                  recorre_observaciones();
                 if($("#band").val() == "save"){
@@ -374,6 +475,9 @@ buscar_idmision();
             $('[data-toggle="tooltip"]').tooltip();
         });  
  }
+
+
+
 
   function tabla_pasaje_lista1(){ 
         var nr = $("#nr").val();   
@@ -427,31 +531,26 @@ buscar_idmision();
     }
      
 
-       function generar_solicitud(){
-       // var id_mision = $("#id").val();
-        alert(id);
-       // var total_viaticos = parseFloat($("#total_viaticos").val());
-         if(id > 0){
+function generar_solicitud(){
+       
             ajax = objetoAjax();
             ajax.open("POST", "<?php echo site_url(); ?>/pasajes/pasaje/generar_solicitud", true);
             ajax.onreadystatechange = function() {
                 if (ajax.readyState == 4){
-                    $("#area").val(ajax.responseText)
-                    if(ajax.responseText == "exito"){
+                    tabla_pasaje_unidad();
+                       // alert("entra2");
                        // tabla_pasaje_unidad();
                         swal({ title: "!Solicitud exitosa!", type: "success", showConfirmButton: true });
                         //cerrar_mantenimiento();
                         //imprimir_solicitud(id_mision);
-                    }else{
-                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                  
                     }           
                 }
-            } 
+             
             ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
             ajax.send("&id_mision="+id)
-            }else{
-            swal({ title: "No hay algunos datos", text: "Hace falta algo que completar)", type: "warning", showConfirmButton: true });
-        }
+       
+        
         
     }
 
@@ -623,7 +722,6 @@ function combo_oficina_departamento1(tipo){
         var nr = $("#nr").val();
         var newName = 'Otro nombre',
         xhr1 = new XMLHttpRequest();
-//xhr1 = new XMLHttpRequest();
         xhr1.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_oficinas_departamentos2?tipo="+tipo+"&nr="+nr);
         xhr1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr1.onload = function() {
@@ -980,6 +1078,7 @@ function form_folleto_viaticos(){
 
                                  
                         </blockquote>
+                        
                         <div class="row" align="right">
                         <div class="col-lg-12">
                             <button type="button" onclick="guardar_pasaje()" class="pull-right btn btn-info">

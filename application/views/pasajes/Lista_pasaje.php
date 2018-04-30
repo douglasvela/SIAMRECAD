@@ -35,9 +35,9 @@
        var band="edit";
         var id1 = $("#id").val();
         var estado=$("#estado1").val();
-        alert(estado1);
-        alert(bandera);
-        alert(id);
+       // alert(estado1);
+        //alert(bandera);
+        //alert(id);
     // alert(nr);
 
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari

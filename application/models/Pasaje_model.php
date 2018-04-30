@@ -26,22 +26,24 @@ $fecha_actual = date("Y-m-d H:i:s");
 		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes");
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
+
 				$id_pasaje = $fila->id_mision_pasajes; 
+
 			}
 		}
 
 		//$estado = true;
-		if($id_pasaje != $data['id'])
-			{
+		//if($id_pasaje != $data["id"] OR $data["id"]==null)
+			//{
 	if($this->db->insert('vyp_mision_pasajes', array('id_mision_pasajes'=> $idb, 'nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'estado' => $data['estado'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'], 'fecha_solicitud_pasaje' => $fecha_actual, 'fechas_pasajes' => $data['fechas_pasaje'])))
 		{
 			return "exito";
 		}else{
 			return "fracaso";
 		}
-		}
-		else { 
-			$this->db->where("id_mision_pasajes",$data['id']);
+		//}
+		/*else { 
+		$this->db->where("id_mision_pasajes",$data["id"]);
 		if($this->db->update('vyp_mision_pasajes', array('nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'], 'fecha_solicitud_pasaje' => $fecha_actual, 'fechas_pasajes' => $data['fechas_pasaje'])))
 		{
 			return "exito";
@@ -49,6 +51,16 @@ $fecha_actual = date("Y-m-d H:i:s");
 			return "fracaso";
 		}
 
+		}*/
+	}
+
+	function editar_mision_pasajes($data){
+		$fecha_actual = date("Y-m-d H:i:s");
+		$this->db->where("id_mision_pasajes",$data['id']);
+		if($this->db->update('vyp_mision_pasajes', array('nr' => $data['nr'], 'nombre_empleado' => $data['nombre_empleado'], 'nr_jefe_inmediato' => $data['jefe_inmediato'], 'nr_jefe_regional' => $data['jefe_regional'], 'mes_pasaje' => $data['mes'], 'anio_pasaje' => $data['anio'], 'fecha_solicitud_pasaje' => $fecha_actual, 'fechas_pasajes' => $data['fechas_pasaje']))){
+			return "exito";
+		}else{
+			return "fracaso";
 		}
 	}
 function editar_pasaje($data){
@@ -114,11 +126,14 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 		}else if($estado == 3){	//si está en revisión 2
 			$newestado = 3; //permanecer en revisión 2
 		}else if($estado == 4){ //si está en observación 2
-			$newestado = 1;	//cambiar a revision 1
+			$newestado = 3;	//cambiar a revision 1
 		}else if($estado == 5){
 			$newestado = 5;
 		}else if($estado == 6){
-			$newestado = 1;
+			$newestado = 5;
+		}
+		else if($estado == 7){
+			$newestado = 7;
 		}
 
 		if($estado == 0){

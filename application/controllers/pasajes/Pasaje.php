@@ -86,9 +86,9 @@ class Pasaje extends CI_Controller {
 
 
 public function gestionar_pasaje_fecha(){		
-		
+		if($this->input->post('band') == "save"){
 			$data = array(
-				'id' => $this->input->post('id'),
+			//'id' => $this->input->post('id_mision'),
 			'nr' => $this->input->post('nr'),
 			'nombre_empleado' => $this->input->post('nombre_emple'),
 			'jefe_inmediato' => $this->input->post('jefe_inmediato'),
@@ -100,8 +100,23 @@ public function gestionar_pasaje_fecha(){
 				);
 		echo $this->Pasaje_model->insertar_mision_pasaje($data);
 			
-		 
+		}  else if($this->input->post('band') == "edit"){
+
+			$data = array(
+			'id' => $this->input->post('id_mision'),
+			'nr' => $this->input->post('nr'),
+			'nombre_empleado' => $this->input->post('nombre_emple'),
+			'jefe_inmediato' => $this->input->post('jefe_inmediato'),
+			'jefe_regional' => $this->input->post('jefe_regional'),
+			//'estado' => '1',
+			'mes' =>$this->input->post('mes'),
+			'anio' => $this->input->post('anio'),
+		   'fechas_pasaje' => $this->input->post('fechas_p')
+				);
+		echo $this->Pasaje_model->editar_mision_pasajes($data);
+
 	}
+}
 
 	public function info_pasajes(){
 		$this->load->view('pasajes/viaticos_ajax/info_pasajes');

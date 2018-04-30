@@ -190,7 +190,7 @@
     }
 
     function verificar_observaciones(){
-        var estado_solicitud = $("#estado").val();
+      var estado_solicitud = $("#estado").val();
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/pasajes/observaciones/verificar_observaciones", true);
         ajax.onreadystatechange = function() {
@@ -223,7 +223,7 @@
                         confirmButtonText: "Sí, deseo aprobar!",   
                         closeOnConfirm: true 
                     }, function(){
-                        if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
+                        if(estado_solicitud== "1"){    //si la solicitud es revisada por el jefe inmediato
                             cambiar_estado_solicitud(3);    //enviar a revision a director o jefe de regional
                         }else if(estado_solicitud == "3"){    //si la solicitud es revisada por el jefe inmediato
                             cambiar_estado_solicitud(5);    //cambiar estado solicitud a observada por jefe inmediato
