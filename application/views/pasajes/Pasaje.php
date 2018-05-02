@@ -281,7 +281,28 @@ function info_pasajes1()
         xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr+"&fecha="+fechap,true);
         xmlhttp_A.send();
 }
+//codigo para validar que la solicitud no se pase de los 5 dias finalizado el mes//
+var date = new Date();
+var month1 = date.getMonth()+1;
+var day1 = date.getDate();
+var year1 = date.getFullYear();
+var hoy=month1+"-"+day1+"-"+year1;
+//date.setHours(0,0,0,0);
 
+var ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+       // alert(ultimoDia);
+    var dias=5;
+
+    tiempo=ultimoDia.getTime();
+    milisegundos=parseInt(dias*24*60*60*1000);
+    total=ultimoDia.setTime(tiempo+milisegundos);
+    day=ultimoDia.getDate();
+    month=ultimoDia.getMonth()+1;
+    year=ultimoDia.getFullYear();
+var mes1;
+mes1=month-1;
+var fecha_nueva=mes1+"-"+day+"-"+year;
+///
 function guardar_pasaje()//guarda en la tabla vyp_mision_pasajes
 {
 if(id_mision==id)
@@ -299,7 +320,8 @@ if(id_mision==id)
 }
 
 
-function editar_mision()//guarda en la tabla vyp_mision_pasajes
+
+function editar_mision()//edit en la tabla vyp_mision_pasajes
 {
 
 
@@ -349,7 +371,6 @@ formData.append("fechas_p", res1);
 formData.append("band", "edit");
 
 
-
        $.ajax({
             url: "<?php echo site_url(); ?>/pasajes/pasaje/gestionar_pasaje_fecha",
             type: "post",
@@ -360,15 +381,50 @@ formData.append("band", "edit");
             processData: false
         })
 
+   /*var arreglo = fechap.split("-");
+      var dia = arreglo[0];
+      var mes = arreglo[1];
+      var anno = arreglo[2];
+var date = new Date();
+var ultimoDia = new Date(anno, mes, dia);
+       // alert(ultimoDia);
+    var dias=5;
+var mes1;
+    tiempo=ultimoDia.getTime();
+    milisegundos=parseInt(dias*24*60*60*1000);
+    total=ultimoDia.setTime(tiempo+milisegundos);
+    day=ultimoDia.getDate();
+    month=ultimoDia.getMonth()+1;
+    year=ultimoDia.getFullYear();
+    mes1=month-1
+    var fecha_nueva=day+"/"+mes1+"/"+year;
+    alert(fecha_nueva);
+*/
+/*var date = new Date();
+  
+var ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+       // alert(ultimoDia);
+    var dias=5;
 
+    tiempo=ultimoDia.getTime();
+    milisegundos=parseInt(dias*24*60*60*1000);
+    total=ultimoDia.setTime(tiempo+milisegundos);
+    day=ultimoDia.getDate();
+    month=ultimoDia.getMonth()+1;
+    year=ultimoDia.getFullYear();
+var mes1;
+mes1=month-1;
+var fecha_nueva=day+"/"+mes1+"/"+year;*/
        .done(function(res){
            //alert(res)
-            if(res == "exito"){
+            if(res == "exito" && (hoy <= fecha_nueva)){
                  recorre_observaciones();
                 if($("#band").val() == "save"){
 //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 buscar_idmision();
-                }else if($("#band").val() == "edit"){
+                }else if($("#band").val() == "edit"  ){
+                    alert(fecha_nueva);
+                    alert(hoy);
                    // swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
@@ -433,6 +489,7 @@ formData.append("mes", fecha[1].trim());
 formData.append("anio", fecha[0].trim());
 
 formData.append("fechas_p", res1);
+ //validar_dia_limite("0", "save");
 formData.append("band", "save");
 
 
@@ -929,9 +986,114 @@ function ver_con_observaciones(){
 }
 
 
+    var primer_fecha_inicio = "";
+    var primer_fecha_fin = "";
+    var fecha_de_hoy = moment().format("DD/MM/YYYY");
+    var ultima_fecha_inicio = "";
+    var ultima_fecha_fin = "";
 
+   /* function validar_dia_limite(estado_solicitud, bandera){
+        var lim_start = 13;
+        var days = 1;
 
+        if(bandera == "save"){
 
+            var limite_inicio =  moment().subtract('days',lim_start);
+            var limite_fin =  moment().subtract('days',1);
+
+            if(limite_fin.format("e") == 0){
+                limite_fin.subtract('days',2);
+            }else if(limite_fin.format("e") == 6){
+                limite_fin.subtract('days',1);
+            }
+
+            if(moment().format("e") == 0){
+                limite_inicio.add('days',1);
+            }else if(moment().format("e") == 6){
+                limite_inicio.add('days',2);
+            }
+
+            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
+          
+            primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
+            primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
+
+            var hoy = moment();
+            if(hoy.format("e") == 6){
+                hoy.add('days',2);
+            }else if(hoy.format("e") == 0){
+                hoy.add('days',1);
+            }
+
+            ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
+            ultima_fecha_fin = hoy.format("DD-MM-YYYY");
+
+            $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+           // $("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+
+        }else if(bandera == "edit"){
+            if(estado_solicitud == "0"){
+
+                var limite_inicio =  moment().subtract('days',lim_start);
+                var limite_fin =  moment().subtract('days',1);
+
+                var fecha_fin_mision = moment(fecha_rev_obs).add('days',1);
+                var diferencia = 0;
+
+                if(limite_fin.format("e") == 0){
+                    limite_fin.subtract('days',2);
+                }else if(limite_fin.format("e") == 6){
+                    limite_fin.subtract('days',1);
+                }
+
+                if(fecha_fin_mision.format("e") == 0){
+                    fecha_fin_mision.add('days',1);
+                }else if(limite_fin.format("e") == 6){
+                    fecha_fin_mision.add('days',2);
+                }
+
+                /*if(moment().format("e") == 0){
+                    limite_inicio.add('days',1);
+                }else if(moment().format("e") == 6){
+                    limite_inicio.add('days',2);
+                }*/
+
+               /* primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
+                primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
+
+               
+                    $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
+                   // $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
+                
+
+                var hoy = moment();
+                if(hoy.format("e") == 6){
+                    hoy.add('days',2);
+                }else if(hoy.format("e") == 0){
+                    hoy.add('days',1);
+                }
+
+                ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
+                ultima_fecha_fin = hoy.format("DD-MM-YYYY");
+
+                $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+                //$("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
+
+                diferencia = limite_fin.diff(fecha_fin_mision, 'days');
+
+                if(diferencia > 0){
+                    $.toast({ heading: 'Fecha vencida', text: "La ultima fecha para crear su solicitud fué el: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'error', hideAfter: 4000, stack: 6 });
+                }else{
+                        $.toast({ heading: 'Última fecha', text: "La ultima fecha para crear su solicitud es: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    }
+                }
+
+            }
+        }
+
+        return "fin";
+
+    }*/
 
 function observaciones(id_mision){    
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari

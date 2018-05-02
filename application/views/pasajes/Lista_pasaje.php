@@ -78,8 +78,37 @@ function info_pasajes()
         xmlhttp_A.onreadystatechange=function(){
             if (xmlhttp_A.readyState==4 && xmlhttp_A.status==200){
                   document.getElementById("cnt_info_pasajes").innerHTML=xmlhttp_A.responseText;
+
             }
         }
+       var date = new Date();
+       
+
+// Display the month, day, and year. getMonth() returns a 0-based number.
+var month1 = date.getMonth()+1;
+var day1 = date.getDate();
+var year1 = date.getFullYear();
+var hoy=month1+" "+day1+" "+year1;
+ // date.setHours(0,0,0,0);
+
+var ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+       // alert(ultimoDia);
+    var dias=5;
+
+    tiempo=ultimoDia.getTime();
+    milisegundos=parseInt(dias*24*60*60*1000);
+    total=ultimoDia.setTime(tiempo+milisegundos);
+    day=ultimoDia.getDate();
+    month=ultimoDia.getMonth()+1;
+    year=ultimoDia.getFullYear();
+var mes1;
+mes1=month-1;
+//alert(date);
+var fecha_nueva=mes1+" "+day+" "+year;
+alert(hoy);
+alert(fecha_nueva);
+   //alert("Fecha modificada: "+day+"/"+mes1+"/"+year);
+
         xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr+"&fecha="+fechap,true);
         xmlhttp_A.send();
 }
@@ -331,7 +360,44 @@ function form_folleto_viaticos(){
         }
     }
 
- 
+    function verificar_fechas(){
+        var id_mision = $("#id_mision").val();
+        var fecha1 = $("#fecha_mision_inicio").val();
+        var fecha2 = $("#fecha_mision_fin").val();
+        var nr = $("#nr").val();
+
+        var filas = $("#tabla_viaticos").find("tbody").find("tr");
+        var celdas, hora1, hora2;
+
+        for(l=0; l < (filas.length-1); l++){
+            celdas = $(filas[l]).children("td");
+
+            if(l==0){
+                hora1 = $(celdas[2]).text().trim();
+            }
+
+            if(l == (filas.length-2)){
+                hora2 = $(celdas[3]).text().trim();
+            }
+        }
+
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/fecha_repetida", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $("#area").val(ajax.responseText)
+                if(ajax.responseText == "exito"){
+                    recorre_observaciones();
+                }else if(ajax.responseText == "fecha_repetida"){
+                    swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }           
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
+    }
 </script>
 
 <!-- ============================================================== -->
