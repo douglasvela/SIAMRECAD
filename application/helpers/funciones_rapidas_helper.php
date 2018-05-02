@@ -106,31 +106,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function tiene_permiso($segmentos, $permiso){
     	$CI =& get_instance();//super variable de codeignater...acceso a todo
+        $id_modulo = busca_id_org_modulo($segmentos);
+        $id_usuario = $CI->session->userdata('id_usuario_viatico');
+        $parametros = array('id_permiso' => $permiso, 'id_modulo' => $id_modulo,'id_usuario' => $id_usuario);
+        return buscar_permiso2($parametros);
+    }
+
+    function busca_id_org_modulo($segmentos){
+    	$CI =& get_instance();//super variable de codeignater...acceso a todo
     	$host = $_SERVER["REQUEST_URI"];
         $host = str_replace ( "/viaticos/index.php/" , "" , $host );
-        $cadena = explode ( "/" , $host );
+    	$cadena = explode ( "/" , $host );
         $url_buscada = "";
-
         for($i = 0; $i < $segmentos; $i++){
         	$url_buscada .= $cadena[$i]."/";
         }
         $url_buscada = substr($url_buscada, 0, -1);
+        $url = $url_buscada;
 
-        $id_modulo = busca_id_org_modulo($url_buscada);
-
-        if($id_modulo == ""){
-        	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar.'.$url_buscada);
-        }
-
-        $id_usuario = $CI->session->userdata('id_usuario_viatico');
-
-        $parametros = array('id_permiso' => $permiso, 'id_modulo' => $id_modulo,'id_usuario' => $id_usuario);
-
-        return buscar_permiso2($parametros);
-    }
-
-    function busca_id_org_modulo($url){
-    	$CI =& get_instance();//super variable de codeignater...acceso a todo
     	$url2 = "/".$url;
     	$url3 = $url."/";
     	$id_modulo = "";
@@ -142,6 +135,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$id_modulo = $filam->id_modulo;
 			}
 		}
+
+		if($id_modulo == ""){
+        	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar: '.$url_buscada);
+        }
+
 		return $id_modulo;
     }
 

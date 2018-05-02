@@ -438,7 +438,7 @@
 
                     
                         <?php
-                        $id_modulo_observaciones = $this->uri->segment(4);
+                            $id_modulo_observaciones = busca_id_org_modulo($segmentos = 2);
                             $modulos = $this->db->query("SELECT * FROM org_modulo WHERE dependencia = '".$id_modulo_observaciones."' ORDER BY orden");
                             if($modulos->num_rows() > 0){
                                 $correlativo = 0;
