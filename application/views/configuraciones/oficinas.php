@@ -106,20 +106,11 @@
     }
 
     function iniciar(){
-        <?php
-          $data['id_modulo'] = $this->uri->segment(4);
-          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-          $data['id_permiso']="1";
-          if(buscar_permiso($data)){
-        ?>
-            tablaoficinas(<?php echo $this->uri->segment(4);?>);
-        <?php
-          }else{
-        ?>
+        <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
+            tablaoficinas();
+        <?php }else{ ?>
             $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
-        <?php
-          }
-        ?>
+        <?php } ?>
     }
     
 
@@ -134,8 +125,8 @@
         return xmlhttp;
     }
 
-    function tablaoficinas(id_modulo){          
-        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas/"+id_modulo, function() {
+    function tablaoficinas(){          
+        $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficinas/", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
            // buscarMunicipio(0,"null");

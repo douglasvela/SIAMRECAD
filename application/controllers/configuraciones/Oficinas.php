@@ -8,11 +8,10 @@ class Oficinas extends CI_Controller {
 		$this->load->model('oficina_model');
 	}
 
-	public function index($id_modulo)
+	public function index()
 	{
-		$data['id_modulo']=$id_modulo;
 		$this->load->view('templates/header');
-		$this->load->view('configuraciones/oficinas',$data);
+		$this->load->view('configuraciones/oficinas');
 		$this->load->view('templates/footer');
 	}
 	public function mostrarComboMunicipi($id)

@@ -14,13 +14,16 @@
         // guardamos la imagen en el server
 
         if (file_exists($path)) {
+             if(tiene_permiso($segmentos=2,$permiso=4)){
         ?>
             <h5>Editar firma digital: <span class="text-danger">*</span></h5>
             <button type="button" class="btn btn-block waves-effect waves-light btn-info" onclick="mostrar_firma();"><i class="mdi mdi-pencil"></i> Editar firma digital</button>
-        <?php }else{ ?>
+        <?php } }else{ 
+                 if(tiene_permiso($segmentos=2,$permiso=2)){ 
+            ?>
             <h5>Agregar firma digital: <span class="text-danger">*</span></h5>
             <button type="button" class="btn btn-block waves-effect waves-light btn-success2" onclick="mostrar_firma();"><i class="mdi mdi-plus"></i> Agregar firma digital</button>
-        <?php } ?>
+        <?php } }?>
     </div>
     <div class="form-group col-lg-6"> 
         <?php 
@@ -35,10 +38,11 @@
 
 </div>
 <hr>
+<?php if(tiene_permiso($segmentos=2,$permiso=4)){?>
 <div align="right" id="btnadd">
         <button type="submit" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Actualizar información</button>
     </div>
 
 <?php 
-	}
+	} }
 ?>

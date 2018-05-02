@@ -20,12 +20,7 @@
 	        }
 	     }
 	     function iniciar() {
-	     	<?php
-	          $data['id_modulo'] = $this->uri->segment(5);
-	          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-	          $data['id_permiso']="1";
-	          if(!buscar_permiso($data)){
-	         ?>
+	     	<?php if(!tiene_permiso($segmentos=3,$permiso=1)){ ?>
 	            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
 	        <?php
 	          }

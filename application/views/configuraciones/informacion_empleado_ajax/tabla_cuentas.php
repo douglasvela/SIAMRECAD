@@ -34,7 +34,9 @@
                     </div>
                 </td>
                 <td>
+                    <?php if(tiene_permiso($segmentos=2,$permiso=2)){ ?>
                     <button type="submit" class="btn waves-effect waves-light btn-rounded btn-sm btn-success2" data-toggle="tooltip" title="Agregar cuenta"><span class="fa fa-plus"></span></button>
+                    <?php }?>
                 </td>
             </tr>
         <?php 
@@ -51,14 +53,17 @@
                     }
                     echo "<td>";
                     $array = array($fila->id_empleado_banco, $fila->nr, $fila->id_banco, $fila->numero_cuenta, $fila->estado);
-                    array_push($array, "edit");
-                    echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                    unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                    array_push($array, "delete");
-                    if($fila->estado == 0){
-                        echo generar_boton($array,"cambiar_editar","btn-success","fa fa-chevron-up","Activar");
-                    }else{
-                        echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Desactivar");
+                    if(tiene_permiso($segmentos=2,$permiso=4)){
+                        array_push($array, "edit");
+                        echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                    
+                        unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                        array_push($array, "delete");
+                        if($fila->estado == 0){
+                            echo generar_boton($array,"cambiar_editar","btn-success","fa fa-chevron-up","Activar");
+                        }else{
+                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Desactivar");
+                        }
                     }
                     echo "</td>";
                   echo "</tr>";

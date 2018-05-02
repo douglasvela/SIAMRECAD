@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $id_modulo = busca_id_org_modulo($url_buscada);
 
         if($id_modulo == ""){
-        	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar.');
+        	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar.'.$url_buscada);
         }
 
         $id_usuario = $CI->session->userdata('id_usuario_viatico');

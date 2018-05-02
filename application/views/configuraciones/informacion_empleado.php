@@ -50,10 +50,14 @@
 <script type="text/javascript">
 	
 	function iniciar(){		
-		cambiar_informacion();
-        $('html,body').animate({
-            scrollTop: $("body").offset().top
-        }, 500);
+        <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
+    		cambiar_informacion();
+            $('html,body').animate({
+                scrollTop: $("body").offset().top
+            }, 500);
+        <?php }else{ ?>
+            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
+        <?php } ?>
 	}
 
 	function tabla_cuentas(){ 
