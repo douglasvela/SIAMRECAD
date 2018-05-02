@@ -14,7 +14,7 @@ class Horarios extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function tabla_horarios($id_modulo){
+	public function tabla_horarios(){
 		$this->load->view('configuraciones/horarios_ajax/tabla_horarios');
 	}
 

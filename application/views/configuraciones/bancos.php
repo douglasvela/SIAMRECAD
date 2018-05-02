@@ -69,20 +69,11 @@
     }
 
     function iniciar(){
-        <?php
-          $data['id_modulo'] = $this->uri->segment(4);
-          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-          $data['id_permiso']="1";
-          if(buscar_permiso($data)){
-        ?>
-        tablabancos(<?php echo $this->uri->segment(4);?>);
-        <?php
-          }else{
-        ?>
+        <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
+        tablabancos();
+        <?php }else{ ?>
             $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
-        <?php
-          }
-        ?>
+        <?php } ?>
     }
 
     function objetoAjax(){
@@ -96,8 +87,8 @@
         return xmlhttp;
     }
 
-    function tablabancos(id_modulo){          
-        $( "#cnt_tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/"+id_modulo, function() {
+    function tablabancos(){          
+        $( "#cnt_tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
             $('[data-toggle="tooltip"]').tooltip({ trigger : 'hover' })  
@@ -374,7 +365,7 @@ $(function(){
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablabancos(<?php echo $this->uri->segment(4);?>);
+                tablabancos();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }

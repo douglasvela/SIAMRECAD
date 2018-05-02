@@ -8,11 +8,11 @@ class Actividad extends CI_Controller {
 		$this->load->model('actividad_model');
 	}
 
-	public function index($id_modulo)
+	public function index()
 	{
-		$data['id_modulo']=$id_modulo;
+		//$data['id_modulo']=$id_modulo;
 		$this->load->view('templates/header');
-		$this->load->view('configuraciones/actividad',$data);
+		$this->load->view('configuraciones/actividad');
 		$this->load->view('templates/footer');
 	}
 	public function mostrarComboMunicipi($id)
@@ -30,9 +30,9 @@ class Actividad extends CI_Controller {
 		$this->load->view('configuraciones/combo_actividad',$nuevo);
 	}
 
-	public function tabla_actividad($id_modulo){
-		$data['id_modulo']=$id_modulo;
-		$this->load->view('configuraciones/tabla_actividad',$data);
+	public function tabla_actividad(){
+		//$data['id_modulo']=$id_modulo;
+		$this->load->view('configuraciones/tabla_actividad');
 	}
 
 	public function gestionar_actividad(){

@@ -21,7 +21,9 @@
     }
 
     function iniciar(){
-        
+        <?php if(!tiene_permiso($segmentos=2,$permiso=1)){ ?>
+            $("#cnt_form").html("Usted no tiene permiso para este formulario.");     
+        <?php }?>
     }
 
 
@@ -30,6 +32,7 @@
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
+
 <div class="page-wrapper">
     <div class="container-fluid">
         <!-- ============================================================== -->
@@ -175,11 +178,13 @@
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
-                                <?php if($id_generalidad == ""){ ?>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
-                                <?php }else{ ?>
-                                <button type="button" onclick="editar_generalidad()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
-                                <?php } ?>
+                                <?php if($id_generalidad == ""){ 
+                                    if(tiene_permiso($segmentos=2,$permiso=2)){?>
+                                        <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                <?php } }else{ 
+                                    if(tiene_permiso($segmentos=2,$permiso=4)){ ?>
+                                        <button type="button" onclick="editar_generalidad()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                <?php } } ?>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -196,6 +201,7 @@
         <!-- ============================================================== -->
     </div> 
 </div>
+ 
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->

@@ -5,10 +5,7 @@
     <div class="card-body b-t" style="padding-top: 7px;">
         <div class="pull-right">
             <?php 
-            $data['id_modulo'] = $this->uri->segment(4);
-            $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-            $data['id_permiso']="2";
-              if(buscar_permiso($data)){
+            if(tiene_permiso($segmentos=2,$permiso=2)){
             ?>
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
             <?php } ?>
@@ -47,17 +44,11 @@
                            
                             echo "<td>";
                             $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2), $fila->id_tipo, $fila->id_restriccion, $fila->id_viatico_restriccion, $fila->estado);
-                             $data['id_modulo'] = $this->uri->segment(4);
-                                $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-                                $data['id_permiso']="4";
-                                if(buscar_permiso($data)){
+                                if(tiene_permiso($segmentos=2,$permiso=4)){
                                     array_push($array, "edit");
                                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                                 }
-                                $data['id_modulo'] = $this->uri->segment(4);
-                                $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-                                $data['id_permiso']="3";
-                                if(buscar_permiso($data)){
+                                if(tiene_permiso($segmentos=2,$permiso=3)){
                                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                                     array_push($array, "delete");
                                     if($fila->estado == "1"){

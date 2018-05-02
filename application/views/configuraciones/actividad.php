@@ -86,20 +86,11 @@
    }
 
    function iniciar(){
-    <?php
-          $data['id_modulo'] = $this->uri->segment(4);
-          $data['id_usuario'] = $this->session->userdata('id_usuario_viatico');
-          $data['id_permiso']="1";
-          if(buscar_permiso($data)){
-    ?>
-       tablaActividades(<?php echo $id_modulo; ?>);
-      <?php
-          }else{
-        ?>
+      <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
+       tablaActividades();
+      <?php }else{ ?>
             $("#cnt-tabla").html("Usted no tiene permiso para este formulario.");     
-        <?php
-          }
-        ?>
+      <?php } ?>
    }
 
    function objetoAjax(){
@@ -113,14 +104,10 @@
        return xmlhttp;
    }
 
-   function tablaActividades($id_modulo){
-       $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/actividad/tabla_actividad/"+$id_modulo, function() {
+   function tablaActividades(){
+       $( "#cnt-tabla" ).load("<?php echo site_url(); ?>/configuraciones/actividad/tabla_actividad/", function() {
           // $('#myTable').DataTable();
            $('#myTable').DataTable({
-              dom: 'Bfrtip',
-              buttons: [
-                  'copy', 'csv', 'excel', 'pdf', 'print'
-              ]
           });
            $('[data-toggle="tooltip"]').tooltip();
        });
@@ -156,7 +143,7 @@
                  }else{
                      swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                  }
-                 tablaActividades(<?php echo $id_modulo; ?>);$("#band").val('save');
+                 tablaActividades();$("#band").val('save');
              }else if(res=="depende"){
                swal({ title: "¡Ups! Error", text: "Actividad tiene dependencias.", type: "error", showConfirmButton: true });
              }else if(res=="duplicado"){
