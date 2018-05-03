@@ -23,6 +23,22 @@ class poliza_model extends CI_Model {
 		}
 	}
 
+	function insertar_pago_poliza($data, $query){
+		if($this->db->insert('vyp_pago_poliza', array('sql' => $data['sql'], 'anio' => $data['anio'], 'fecha_pago' => $data['fecha_pago'], 'polizas' => $data['polizas'], 'monto' => $data['monto'])) && $this->db->query($query)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function generar_pago($data){
+		if($this->db->query($data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 	function obtener_ultimo_id($tabla,$nombreid){
 		$this->db->order_by($nombreid, "asc");
 		$query = $this->db->get($tabla);

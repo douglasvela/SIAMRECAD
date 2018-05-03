@@ -76,6 +76,9 @@ function mes($mes){
     var filas = $("#tabla_pendiente_pago>tbody").find("tr");
     var idspoliza = "";
     var polis = "";
+    var mes = "";
+    var anio = "";
+    var monto = 0;
 
     if((filas.length) > 0){
       var script = "";
@@ -84,37 +87,55 @@ function mes($mes){
         var celdas = $(filas[i]).children("td");
         var inputs = $(celdas[6]).children("input");
         var no_poliza = $(inputs[1]).val();
-        var mes = $(inputs[2]).val();
-        var anio = $(inputs[3]).val();
+        mes = $(inputs[2]).val();
+        anio = $(inputs[3]).val();
         var selected = inputs[0].checked;
         var idp = "p"+i;
 
         if(selected){
-
           script += "SELECT "+idp+".* FROM vyp_poliza AS "+idp+" WHERE no_poliza = '"+no_poliza+"' AND mes_poliza = '"+mes+"' AND anio = '"+anio+"' UNION ";
           polis += no_poliza+" ";
-
+          monto += parseFloat($(inputs[4]).val());
         }
-
       }
+
+      monto = monto.toFixed(2);
 
       if(script != ""){
         script = script.substring(0,script.length-6);
         polis = polis.substring(0,polis.length-1);
         planillas();
-        genera_planillas(script, polis)
+        generar_pago(script, polis, monto, anio)
         $("#area").val(script)
         //editar_poliza(script, npoli, anioc)
       }else{
         swal({ title: "Poliza sin seleccionar", text: "Cero polizas seleccionadas. Seleccione al menos una poliza para realizar pago", type: "warning", showConfirmButton: true });
       }
 
-      
-
     }else{
         swal({ title: "No hay polizas", text: "Pólizas pendientes agotadas.", type: "warning", showConfirmButton: true });
     }
 
+  }
+
+
+  function generar_pago(sql,polis,monto,anio){
+      var formData = {
+          "sql" : sql,
+          "polis" : polis,
+          "monto" : monto,
+          "anio" : anio
+      };
+
+      $.ajax({
+          type:  'POST',
+          url:   '<?php echo site_url(); ?>/poliza/poliza_pago/generar_pago',
+          data: formData,
+          cache: false
+      })
+      .done(function(data){
+          genera_planillas(sql,polis)
+      });
   }
 
 
@@ -136,7 +157,23 @@ function mes($mes){
       });
   }
 
+  function genera_planillas2(sql,polis){
+    planillas();
+      var formData = {
+          "sql" : atob(sql),
+          "polis" : polis
+      };
 
+      $.ajax({
+          type:  'POST',
+          url:   '<?php echo site_url(); ?>/poliza/poliza_pago/tabla_planillas',
+          data: formData,
+          cache: false
+      })
+      .done(function(data){
+          $('#cnt_planillas').html(data);
+      });
+  }
 
   function editar_poliza(sql, no_poliza, anio){
       var formData = {
@@ -245,12 +282,8 @@ function mes($mes){
     }
   }
 
-  function imprimir_poliza(no_poliza, mes, anio){
-    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
-  }
-
-  function imprimir_poliza(no_poliza, mes, anio){
-    window.open("<?php echo site_url(); ?>/poliza/poliza_pago/imprimir_resumen_solicitudes?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
+  function imprimir_poliza(no_poliza, anio){
+    window.open("<?php echo site_url(); ?>/poliza/poliza_pago/imprimir_resumen_solicitudes?no_poliza="+no_poliza+"&anio="+anio, '_blank');
   }
 
   function nuevo_clic(obj){
@@ -297,6 +330,7 @@ function mes($mes){
   }
 
   function planillas(){
+    $("#cnt_registros_polizas").hide(300);
     $("#cnt_planillas").show(300);
     $("#cnt_poliza").hide(300);
   }
@@ -304,6 +338,12 @@ function mes($mes){
   function cerrar_mantenimiento2(){
     $("#cnt_poliza").show(300);
     $("#cnt_planillas").hide(300);
+
+    if($("#cnt_generar_poliza").html().trim() ==""){
+      $("#cnt_registros_polizas").show(300);
+      $("#cnt_poliza").hide(300);
+    }
+
   }
 
   function descargarArchivo(contenidoEnBlob, nombreArchivo) {

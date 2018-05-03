@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $poliza = $this->db->query("SELECT no_poliza, mes, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario, nombre_banco, cuenta_bancaria FROM vyp_poliza WHERE estado >= '0' GROUP BY no_poliza, anio ORDER BY anio ASC, no_poliza ASC");
+                    $poliza = $this->db->query("SELECT no_poliza, mes, mes_poliza, anio, SUM(total) AS total, estado, cod_presupuestario, nombre_banco, cuenta_bancaria FROM vyp_poliza WHERE estado = '1' GROUP BY no_poliza, anio ORDER BY anio ASC, no_poliza ASC");
                     $contadorcbx = 0;
                     if($poliza->num_rows() > 0){
                         foreach ($poliza->result() as $fila) {
@@ -49,6 +49,7 @@
                             <input type="hidden" value="<?php echo $fila->no_poliza; ?>">
                             <input type="hidden" value="<?php echo $fila->mes_poliza; ?>">
                             <input type="hidden" value="<?php echo $fila->anio; ?>">
+                            <input type="hidden" value="<?php echo $fila->total; ?>">
                             <?php
                             echo "</td>";
 
@@ -59,8 +60,9 @@
                 </tbody>
             </table>
         </div>
+        <br>
+        <div align="right">
+            <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Pagar y generar planillas</button>
+        </div>
     </div>
-</div>
-<div align="right">
-    <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Guardar ediciones</button>
 </div>

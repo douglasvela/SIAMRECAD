@@ -147,7 +147,14 @@ class NumeroALetras
 
 $pdf=new FPDF();
 
-$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '1' ORDER BY linea_presup1");
+$polizas = explode(" ", $_GET["no_poliza"]);
+
+$polizas_copy = str_replace(" ", "_", $_GET["no_poliza"]);
+$anio = $_GET["anio"];
+
+for($x=0; $x < count($polizas); $x++){
+
+$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$polizas[$x]."' AND anio = '".$anio."' ORDER BY linea_presup1");
 if($poliza->num_rows() > 0){
     foreach ($poliza->result() as $filap) {
 
@@ -221,7 +228,7 @@ $altura = 5);
             $pdf->SetAligns(array('L','L','C','C','R','R','R'));
 
 
-            $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND m.id_mision_oficial = '".$id_mision."'");
+            $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND m.id_mision_oficial = '".$id_mision."' JOIN vyp_poliza AS p ON p.id_mision = m.id_mision_oficial");
 	        if($mision->num_rows() > 0){
 	            foreach ($mision->result() as $filam) { 
 	            	$nr_usuario = $filam->nr_empleado;
@@ -654,6 +661,8 @@ $altura = 5);
 	}
 }
 
+}
 
-$pdf->Output($id_mision.'_solicitudViatico_'.$nr_usuario.".pdf",'I');
+
+$pdf->Output($anio.'_POLIZAS_'.$polizas_copy.".pdf",'I');
 ?>

@@ -40,6 +40,24 @@ class Poliza_pago extends CI_Controller {
 		$this->load->view('poliza/ajax_poliza_pago/imprimir_resumen_solicitudes');
 	}
 
+	function generar_pago(){
+		$data = array(
+			'sql' => $this->input->post('sql'), 
+			'polizas' => $this->input->post('polis'), 
+			'anio' => $this->input->post('anio'),
+			'monto' => $this->input->post('monto'),
+			'fecha_pago' => date("Y-m-d")
+		); 
+
+		$query = "UPDATE vyp_poliza SET estado = '2', fecha_cancelado = '".$data["fecha_cancelado"]."' WHERE id_poliza IN (SELECT p.id_poliza FROM (".$data['sql'].") AS p)";
+
+		echo $data["sql"].$this->poliza_model->insertar_pago_poliza($data, $query);
+	}
+
+	function eliminar_poliza(){
+		echo $this->poliza_pago_model->eliminar_poliza($this->input->post('no_poliza'));
+	}
+
 	function editar_poliza(){
 		$data = array(
 			'sql' => $this->input->post('sql'), 
@@ -48,10 +66,6 @@ class Poliza_pago extends CI_Controller {
 		);
 
 		echo $this->poliza_pago_model->editar_poliza($data);
-	}
-
-	function eliminar_poliza(){
-		echo $this->poliza_pago_model->eliminar_poliza($this->input->post('no_poliza'));
 	}
 
 

@@ -346,7 +346,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="">
+                    <a class="navbar-brand" href="<?php echo site_url(); ?>">
                         <!-- Logo icono --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->

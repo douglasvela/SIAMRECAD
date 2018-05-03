@@ -173,6 +173,7 @@ function mes($mes){
   function cambiar_nuevo(){
     $("#cnt_registros_polizas").hide(300);
     $("#cnt_poliza").show(300);
+    $("#nombre11").val("")
   }
 
   function cerrar_mantenimiento(){
@@ -454,7 +455,7 @@ function mes($mes){
     
     <br>
 
-    <div class="form-group" style="display: block;">
+    <div class="form-group" style="display: none;">
         <textarea id="area" class="form-control" rows="10"></textarea>
     </div>
 
