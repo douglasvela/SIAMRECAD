@@ -776,8 +776,12 @@
     }
 
     function iniciar(){
-        tabla_solicitudes();
-        cargarViaticos();
+        <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
+            tabla_solicitudes();
+            cargarViaticos();
+        <?php }else{ ?>
+            $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
+        <?php } ?>
     }
 
     function objetoAjax(){
@@ -2654,7 +2658,9 @@
                         </div>
 
                         <div class="pull-right">
+                            <?php if(tiene_permiso($segmentos=2,$permiso=2)){ ?>
                             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+                            <?php } ?>
                         </div>
                     </div>
 

@@ -40,7 +40,8 @@
 
     function iniciar(){
         //tabla_observaciones();
-    }
+         
+        }
 
     function objetoAjax(){
         var xmlhttp = false;
@@ -59,9 +60,11 @@
         }else{// code for IE6, IE5
             xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
         }
-        xmlhttpB.onreadystatechange=function(){
+            xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                
                 document.getElementById("cnt_tabla1").innerHTML=xmlhttpB.responseText;
+               
                 $("#id_tipo_observador").val("1");
                 $('#myTable1').DataTable();
                 $('[data-toggle="tooltip"]').tooltip();
@@ -74,7 +77,8 @@
             }
         }
         xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/observaciones/tabla_observaciones1",true);
-        xmlhttpB.send(); 
+        xmlhttpB.send();  
+        
     }
 
     function tabla_observaciones2(){    
@@ -470,7 +474,7 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane p-20 <?php if($active == 1){ echo "active"; } ?>" id="observacion1" role="tabpanel">
-
+                                
                                 <div id="cnt_tabla1"> Cargando <span class="fa fa-spinner fa-spin"></span></div>
 
                             </div>

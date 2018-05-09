@@ -81,11 +81,15 @@
                             }
 
                             $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)), $fecha_observacion, $fila->oficina_solicitante_motorista);
-                            array_push($array, "edit");
-                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            array_push($array, "delete");
-                            echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            if(tiene_permiso($segmentos=2,$permiso=4)){
+                                array_push($array, "edit");
+                                echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            }
+                            if(tiene_permiso($segmentos=2,$permiso=3)){
+                                unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                array_push($array, "delete");
+                                echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                            }
                             echo generar_boton(array($fila->id_mision_oficial),"imprimir_solicitud","btn-default","fa fa-print","Imprimir");
                             echo "</td>";
                           echo "</tr>";
