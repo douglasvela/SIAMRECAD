@@ -21,52 +21,7 @@ class cssmgr
 		$this->cascadeCSS = array();
 		$this->tbCSSlvl = 0;
 	}
-	function ReadDefaultCSS($CSSstr) {
-	$CSS = array();
-	$CSSstr = preg_replace('|/\*.*?\*/|s',' ',$CSSstr);
-	$CSSstr = preg_replace('/[\s\n\r\t\f]/s',' ',$CSSstr);
-	$CSSstr = preg_replace('/(<\!\-\-|\-\->)/s',' ',$CSSstr);
-	if ($CSSstr ) {
-		preg_match_all('/(.*?)\{(.*?)\}/',$CSSstr,$styles);
-		for($i=0; $i < count($styles[1]) ; $i++)  {
-			$stylestr= trim($styles[2][$i]);
-			$stylearr = explode(';',$stylestr);
-			foreach($stylearr AS $sta) {
-				if (trim($sta)) {
-					// Changed to allow style="background: url('http://www.bpm1.com/bg.jpg')"
-					list($property,$value) = explode(':',$sta,2);
-					$property = trim($property);
-					$value = preg_replace('/\s*!important/i','',$value);
-					$value = trim($value);
-					if ($property && ($value || $value==='0')) {
-	  					$classproperties[strtoupper($property)] = $value;
-					}
-				}
-			}
-			$classproperties = $this->fixCSS($classproperties);
-			$tagstr = strtoupper(trim($styles[1][$i]));
-			$tagarr = explode(',',$tagstr);
-			foreach($tagarr AS $tg) {
-				$tags = preg_split('/\s+/',trim($tg));
-				$level = count($tags);
-				if ($level == 1) {		// e.g. p or .class or #id or p.class or p#id
-					$t = trim($tags[0]);
-					if ($t) {
-						$tag = '';
-						if (preg_match('/^('.$this->mpdf->allowedCSStags.')$/',$t)) { $tag= $t; }
-						if ($this->CSS[$tag] && $tag) { $CSS[$tag] = $this->array_merge_recursive_unique($CSS[$tag], $classproperties); }
-						else if ($tag) { $CSS[$tag] = $classproperties; }
-					}
-				}
-			}
-  			$properties = array();
-  			$values = array();
-  			$classproperties = array();
-		}
 
-	} // end of if
-	return $CSS;
-}
 	function ReadCSS($html)
 	{
 		preg_match_all('/<style[^>]*media=["\']([^"\'>]*)["\'].*?<\/style>/is', $html, $m);
@@ -1336,7 +1291,6 @@ class cssmgr
 
 	function MergeCSS($inherit, $tag, $attr)
 	{
-            
 		$p = array();
 		$zp = array();
 
@@ -1344,26 +1298,18 @@ class cssmgr
 		if (isset($attr['CLASS'])) {
 			$classes = preg_split('/\s+/', $attr['CLASS']);
 		}
-                
-                // @CM
-		//if (!isset($attr['ID'])) {
-                if (is_array($attr) && !isset($attr['ID'])) {
+		if (!isset($attr['ID'])) {
 			$attr['ID'] = '';
 		}
 		// mPDF 6
 		$shortlang = '';
-                // @CM
-		//if (!isset($attr['LANG'])) {
-		if (is_array($attr) &&!isset($attr['LANG'])) {
+		if (!isset($attr['LANG'])) {
 			$attr['LANG'] = '';
 		} else {
-			// @CM ( added is_array() )
-                        if(is_array($attr)){
-                            $attr['LANG'] = strtolower($attr['LANG']);
-                            if (strlen($attr['LANG']) == 5) {
-                                    $shortlang = substr($attr['LANG'], 0, 2);
-                            }
-                        }
+			$attr['LANG'] = strtolower($attr['LANG']);
+			if (strlen($attr['LANG']) == 5) {
+				$shortlang = substr($attr['LANG'], 0, 2);
+			}
 		}
 		//===============================================
 		/* -- TABLES -- */
@@ -1406,22 +1352,12 @@ class cssmgr
 
 			//===============================================
 			// Save Cascading CSS e.g. "div.topic p" at this block level
-                        
-                        // @CM 2016-12-11
-                        $cascadeCSS = isset($this->mpdf->blk[$this->mpdf->blklvl]['cascadeCSS']) ? $this->mpdf->blk[$this->mpdf->blklvl]['cascadeCSS'] : 0;
-                        $attrID     = isset($attr['ID']) ? $attr['ID'] : false;
-                        $attrLANG   = isset($attr['LANG']) ? $attr['LANG'] : false;
-                        
-                        // @CM ORIGINAL
-			//$this->_mergeFullCSS($this->cascadeCSS, $this->mpdf->blk[$this->mpdf->blklvl]['cascadeCSS'], $tag, $classes, $attr['ID'], $attr['LANG']);
-			$this->_mergeFullCSS($this->cascadeCSS, $cascadeCSS, $tag, $classes, $attrID, $attrLANG);
+			$this->_mergeFullCSS($this->cascadeCSS, $this->mpdf->blk[$this->mpdf->blklvl]['cascadeCSS'], $tag, $classes, $attr['ID'], $attr['LANG']);
 			//===============================================
 			// Cascading forward CSS
 			//===============================================
 			if (isset($this->mpdf->blk[$this->mpdf->blklvl - 1])) {
-                                // @CM ORIGINAL
-				//$this->_mergeFullCSS($this->mpdf->blk[$this->mpdf->blklvl - 1]['cascadeCSS'], $this->mpdf->blk[$this->mpdf->blklvl]['cascadeCSS'], $tag, $classes, $attr['ID'], $attr['LANG']);
-				$this->_mergeFullCSS($this->mpdf->blk[$this->mpdf->blklvl - 1]['cascadeCSS'], $cascadeCSS, $tag, $classes, $attrID, $attrLANG);
+				$this->_mergeFullCSS($this->mpdf->blk[$this->mpdf->blklvl - 1]['cascadeCSS'], $this->mpdf->blk[$this->mpdf->blklvl]['cascadeCSS'], $tag, $classes, $attr['ID'], $attr['LANG']);
 			}
 			//===============================================
 			// Block properties which are inherited

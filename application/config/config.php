@@ -24,10 +24,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-if("192.168.1.200" == $_SERVER['SERVER_NAME']){
-	$config['base_url'] = 'http://192.168.1.200/viaticos/';
-}else if("192.168.0.114" == $_SERVER['SERVER_NAME']){
-	$config['base_url'] = 'http://192.168.0.114/viaticos/';
+if("192.168.1.110" == $_SERVER['SERVER_NAME']){
+	$config['base_url'] = 'http://192.168.1.110/viaticos/';
+}else if("192.168.0.110" == $_SERVER['SERVER_NAME']){
+	$config['base_url'] = 'http://192.168.0.110/viaticos/';
 }else{
 	$config['base_url'] = 'http://localhost/viaticos/';
 }
