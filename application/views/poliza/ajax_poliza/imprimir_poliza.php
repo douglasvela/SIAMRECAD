@@ -174,7 +174,8 @@ $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
 ?>
 <?php
 
-$this->mpdf=new mPDF('L','A4','10','Arial',10,10,45,17,3,9);
+//$this->mpdf=new mPDF('L','A4','10','Arial',10,10,45,17,3,9);
+$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
 
 $cabecera = '
 	<table width="100%"><tr>

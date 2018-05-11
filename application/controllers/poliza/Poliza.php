@@ -6,7 +6,7 @@ class Poliza extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('poliza_model');
-		$this->load->library('mpdf/mpdf');
+		$this->load->library('mpdf');
 	}
 
 	public function index(){

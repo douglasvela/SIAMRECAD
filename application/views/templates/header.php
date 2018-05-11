@@ -483,14 +483,14 @@
                             if($modulos->num_rows() > 0){
                                 foreach ($modulos->result() as $fila) {
                         ?>
-                            <li> <a class="has-arrow waves-effect waves-dark" href="<?php echo $fila->url_modulo; ?>" aria-expanded="false"><i class="<?php echo $fila->img_modulo; ?>"></i><span class="hide-menu"> <?php echo $fila->nombre_modulo; ?> <?php echo $fila->id_modulo; ?></span></a>
+                            <li> <a class="has-arrow waves-effect waves-dark" href="<?php echo $fila->url_modulo; ?>" aria-expanded="false"><i class="<?php echo $fila->img_modulo; ?>"></i><span class="hide-menu"> <?php echo $fila->nombre_modulo; ?></span></a>
                                 <?php
                                     $modulos2 = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = $id_sistema AND m.dependencia = ".$fila->id_modulo." AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
                                     if($modulos2->num_rows() > 0){
                                         echo '<ul aria-expanded="false" class="collapse">';
                                         foreach ($modulos2->result() as $fila2) {
                                 ?>
-                                    <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?> <?php echo $fila2->id_modulo; ?></a></li>
+                                    <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
                                 <?php
                                         }
                                         echo "</ul>";
