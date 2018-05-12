@@ -8,7 +8,7 @@ $id_banco = $_GET["id_banco"];
 $estruc = "";
 $array = array();
 
-$estructura = $this->db->query("SELECT * FROM vyp_estructura_planilla WHERE id_banco = '".$id_banco."'");
+$estructura = $this->db->query("SELECT * FROM vyp_estructura_planilla WHERE id_banco = '".$id_banco."' ORDER BY orden");
 if($estructura->num_rows() > 0){
     foreach ($estructura->result() as $fila2) {              
    		$estruc .= $fila2->valor_campo.", ";

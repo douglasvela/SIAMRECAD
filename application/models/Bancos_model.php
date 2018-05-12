@@ -17,7 +17,10 @@ class Bancos_model extends CI_Model {
 	}
 
 	function insertar_columna($data){
-		if($this->db->insert('vyp_estructura_planilla', array('id_banco' => $data['id_banco'], 'nombre_campo' => $data['nombre_campo'], 'valor_campo' => $data['valor_campo']))){
+
+		$orden = $this->obtener_ultima_ruta('vyp_estructura_planilla','orden',$data['id_banco']);
+
+		if($this->db->insert('vyp_estructura_planilla', array('id_banco' => $data['id_banco'], 'nombre_campo' => $data['nombre_campo'], 'valor_campo' => $data['valor_campo'], 'orden' => $orden))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -33,6 +36,14 @@ class Bancos_model extends CI_Model {
 	function editar_banco($data){
 		$this->db->where("id_banco",$data["idb"]);
 		if($this->db->update('vyp_bancos', array('nombre' => $data['nombre'], 'caracteristicas' => $data['caracteristicas'], 'codigo' => $data['codigo'], 'delimitador' => $data['delimitador'], 'archivo' => $data['archivo']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function cambiar_orden($data){
+		if($this->db->query("UPDATE vyp_estructura_planilla SET orden = '".$data['orden']."' WHERE id_banco = '".$data['id_banco']."' AND orden = '".$data['orden_nuevo']."'") && $this->db->query("UPDATE vyp_estructura_planilla SET orden = '".$data['orden_nuevo']."' WHERE id_estructura = '".$data['id_columna']."'")){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -58,6 +69,20 @@ class Bancos_model extends CI_Model {
 	function obtener_ultimo_id($tabla,$nombreid){
 		$this->db->order_by($nombreid, "asc");
 		$query = $this->db->get($tabla);
+		$ultimoid = 0;
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$ultimoid = $fila->$nombreid; 
+			}
+			$ultimoid++;
+		}else{
+			$ultimoid = 1;
+		}
+		return $ultimoid;
+	}
+
+	function obtener_ultima_ruta($tabla,$nombreid,$id_banco){
+		$query = $this->db->query("SELECT ".$nombreid." FROM ".$tabla." WHERE id_banco = '".$id_banco."' ORDER BY ".$nombreid." ASC");
 		$ultimoid = 0;
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {

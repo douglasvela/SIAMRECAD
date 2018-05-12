@@ -92,20 +92,18 @@
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
             $('[data-toggle="tooltip"]').tooltip({ trigger : 'hover' })  
-            tabla_estructura_planilla(id_modulo);
         });  
     }
 
-    function tabla_estructura_planilla(id_modulo){ 
+    function tabla_estructura_planilla(){ 
         var id_banco = $("#idb").val();
-        $( "#cnt_tabla_estructura" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla/"+id_modulo+"?id_banco="+id_banco, function() {
+        $( "#cnt_tabla_estructura" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla?id_banco="+id_banco, function() {
             //$('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
         });  
     }
 
     function agregar_columna(){
-        
         var formData = {
           "id_banco" : $("#idb").val(),
           "valor_campo" : $("#columnas").val(),
@@ -127,6 +125,33 @@
             }
         });
     }
+
+
+    function cambiar_orden(id_banco, id_columna, orden, orden_nuevo){
+        $('[data-toggle="tooltip"]').tooltip();
+        var formData = {
+          "id_banco" : id_banco,
+          "id_columna" : id_columna,
+          "orden" : orden,
+          "orden_nuevo" : orden_nuevo,
+        };
+
+        $.ajax({
+            type:  'POST',
+            url: '<?php echo site_url(); ?>/configuraciones/bancos/cambiar_orden',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                $.toast({ heading: 'Edición exitosa', text: 'Se modificó el orden de las columnas', position: 'top-right', loaderBg:'#000', icon: 'info', hideAfter: 4000, stack: 6 });
+                tabla_estructura_planilla();
+            }else{
+                $.toast({ heading: 'Ocurrió un error', text: 'Ocurrió un error al tratar de modificar el orden de las columnas', position: 'top-right', loaderBg:'#000', icon: 'error', hideAfter: 4000, stack: 6 });
+            }
+        });
+    }
+
 
     function preguntar_eliminar_columna(id){
         swal({   
@@ -268,21 +293,21 @@
                                             <select id="columnas" name="columnas" class="select2" style="width: 100%" required="">
                                                 <option value="">[Elija un campo para agregar]</option>
                                                 <optgroup label="Bancos">
-                                                    <option value="b.codigo AS codigo">Código</option>
-                                                    <option value="b.nombre AS nombre">Nombre</option>
+                                                    <option value="b.codigo AS codigo">Código (Banco)</option>
+                                                    <option value="b.nombre AS nombre">Nombre (Banco)</option>
                                                 </optgroup>
                                                 <optgroup label="Persona empleada">
-                                                    <option value="e.DUI AS DUI">DUI</option>
-                                                    <option value="p.nombre_empleado AS nombre_empleado">Nombre</option>
-                                                    <option value="ec.numero_cuenta AS numero_cuenta">Cuenta bancaria</option>
+                                                    <option value="e.DUI AS DUI">DUI (Empleado)</option>
+                                                    <option value="p.nombre_empleado AS nombre_empleado">Nombre (Empleado)</option>
+                                                    <option value="ec.numero_cuenta AS numero_cuenta">Cuenta bancaria (Empleado)</option>
                                                 </optgroup>
                                                 <optgroup label="Poliza">
-                                                    <option value="p.no_poliza AS no_poliza">No Poliza</option>
-                                                    <option value="SUM(p.total) AS total">Monto en viáticos</option>
+                                                    <option value="p.no_poliza AS no_poliza">No Poliza (Poliza)</option>
+                                                    <option value="SUM(p.total) AS total">Monto en viáticos (Poliza)</option>
                                                 </optgroup>
                                                 <optgroup label="Otros">
-                                                    <option value="'correlativo' AS correlativo">Correlativo</option>
-                                                    <option value="'' AS blanco">Blanco</option>
+                                                    <option value="'correlativo' AS correlativo">Correlativo (Otros)</option>
+                                                    <option value="'' AS blanco">Espacio blanco (Otros)</option>
                                                 </optgroup>
                                             </select>
                                             <div class="input-group-addon btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>

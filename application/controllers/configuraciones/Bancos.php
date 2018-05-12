@@ -67,6 +67,17 @@ class bancos extends CI_Controller {
 	}
 
 
+	public function cambiar_orden(){		
+		$data = array(
+			'id_banco' => $this->input->post('id_banco'), 
+			'id_columna' => $this->input->post('id_columna'),
+			'orden' => $this->input->post('orden'),
+			'orden_nuevo' => $this->input->post('orden_nuevo')
+		);
+		echo $this->bancos_model->cambiar_orden($data);
+	}
+
+
 	public function eliminar_columna(){		
 		$data = array(
 			'id_estructura' => $this->input->post('id_estructura')

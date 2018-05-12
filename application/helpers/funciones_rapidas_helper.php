@@ -17,6 +17,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $boton;
 	}
 
+	function generar_boton_bloqueado($opciones,$funcion,$color,$icono,$title){
+		$var = ""; $boton = "";
+		$boton .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm ".$color."' data-toggle='tooltip' title='".$title."' disabled><span class='".$icono."'></span></button>&nbsp;";
+		return $boton;
+	}
+
 	function generar_boton_normal($opciones,$funcion,$color,$icono,$title, $title2){
 		$var = ""; $boton = "";
 		foreach ($opciones as $otro) {
