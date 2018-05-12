@@ -1,3 +1,4 @@
+<?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
 <div class="card">
     <div class="card-header">
         <h4 class="card-title m-b-0">Listado de solicitudes</h4>
@@ -55,6 +56,7 @@
         </div>
     </div>
 </div>
+<?php } ?>
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();

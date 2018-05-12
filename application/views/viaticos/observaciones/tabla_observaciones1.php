@@ -38,7 +38,7 @@
                     echo "<td>".$fila->nombre_completo."</td>";
 
                     echo "<td>";
-                    if(tiene_permiso($segmentos=2,$permiso=4)){
+                    if(tiene_permiso($segmentos=3,$permiso=4)){
                         $array = array($fila->id_mision_oficial, $fila->estado);
                         echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
                     }

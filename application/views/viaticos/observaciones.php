@@ -401,10 +401,13 @@
                             <div class="row">
                                 <div class="col-lg-12 form-group">
                                     <div class="input-group">
+                                        <?php echo $_SERVER['REQUEST_URI'];if(tiene_permiso($segmentos=2,$permiso=2)){ ?>
                                         <input type="text" id="observacion" name="observacion" class="form-control" placeholder="Detalle de la observación" required="" minlength="5">
+                                        
                                         <span class="input-group-btn">
                                           <button class="btn btn-success2" type="submit">Agregar</button>
                                         </span>
+                                        <?php } ?>
                                     </div>
                                     <div class="help-block"></div>
                                 </div>
