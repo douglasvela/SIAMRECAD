@@ -1,3 +1,4 @@
+<?php if(tiene_permiso($segmentos=3,$permiso=1)){ ?>
 <div class="table-responsive">
     <table id="myTable1" class="table table-hover product-overview">
         <thead class="bg-info text-white">
@@ -37,8 +38,10 @@
                     echo "<td>".$fila->nombre_completo."</td>";
 
                     echo "<td>";
-                    $array = array($fila->id_mision_oficial, $fila->estado);
-                    echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                    if(tiene_permiso($segmentos=2,$permiso=4)){
+                        $array = array($fila->id_mision_oficial, $fila->estado);
+                        echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                    }
                     echo "</td>";
 
                    echo "</tr>";
@@ -49,3 +52,4 @@
     </table>
     <input type="hidden" id="numObservacion1" name="numObservacion1" value="<?php echo $mision->num_rows(); ?>">
 </div>
+<?php }?>
