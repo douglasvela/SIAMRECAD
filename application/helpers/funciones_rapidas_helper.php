@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if($id_modulo == ""){
         	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar: '.$url_buscada);
         }else{
-			echo '<script> console.log('. json_encode( $url_buscada ) .') </script>';
+			//echo '<script> console.log('. json_encode( $url_buscada ) .') </script>';
         }
 
 		return $id_modulo;
