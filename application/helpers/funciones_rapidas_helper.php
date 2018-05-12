@@ -122,8 +122,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         	$url_buscada .= $cadena[$i]."/";
         }
         $url_buscada = substr($url_buscada, 0, -1);
-        $url = $url_buscada;
 
+        $pos = strpos($url_buscada,"?");
+	    if($pos===false) {
+	        ;
+	    } else {
+	        $url_buscada = substr($url_buscada, 0, $pos);
+	    }
+        $url = $url_buscada;
     	$url2 = "/".$url;
     	$url3 = $url."/";
     	$id_modulo = "";
@@ -138,6 +144,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		if($id_modulo == ""){
         	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar: '.$url_buscada);
+        }else{
+			echo '<script> console.log('. json_encode( $url_buscada ) .') </script>';
         }
 
 		return $id_modulo;
