@@ -1,4 +1,4 @@
-<?php if(tiene_permiso($segmentos=3,$permiso=1)){ ?>
+<?php if(tiene_permiso($segmentos=3,$permiso=1)){  ?>
         <div class="table-responsive">
             <table id="myTable2" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
@@ -38,8 +38,10 @@
                             echo "<td>".$fila->nombre_completo."</td>";
 
                             echo "<td>";
+                            if(tiene_permiso($segmentos=3,$permiso=4)){
                             $array = array($fila->id_mision_oficial, $fila->estado);
                             echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                            }
                             echo "</td>";
 
                            echo "</tr>";

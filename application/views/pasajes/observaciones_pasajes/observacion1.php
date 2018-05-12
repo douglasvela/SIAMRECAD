@@ -1,3 +1,4 @@
+<?php  if(tiene_permiso($segmentos=3,$permiso=1)){ ?>
 <div class="table-responsive">
     <table id="myTable1" class="table table-hover product-overview">
         <thead class="bg-info text-white">
@@ -92,3 +93,4 @@
     </table>
     <input type="hidden" id="numObservacion1" name="numObservacion1" value="<?php echo $mision->num_rows(); ?>">
 </div>
+<?php }?>
