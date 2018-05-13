@@ -56,6 +56,8 @@ if($generalidades->num_rows() > 0){
             }
 
             $("#body_tabla").html(decodeURIComponent(escape(atob($("#filas_tabla").val()))));
+
+            sortTable()
             
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -79,6 +81,58 @@ if($generalidades->num_rows() > 0){
     };
     xhr.send(encodeURI('name=' + newName));
   }
+
+
+
+
+  function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("body_poliza");
+  switching = true;
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByTagName("TR");
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+
+    for (i = 0; i < (rows.length - 2); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[11];
+      y = rows[i + 1].getElementsByTagName("TD")[11];
+      // Check if the two rows should switch place:
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        // I so, mark as a switch and break the loop:
+        shouldSwitch= true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+
+  var filas = $("#tabla_poliza>tbody").find("tr");
+  if((filas.length-1) > 0){
+    for(k=0; k< (filas.length-1); k++){
+      var celdas = $(filas[k]).children("td");
+      $(celdas[0]).text(k+1);
+    }
+  }
+
+
+}
+
+
+
 
   function recorrer_poliza(){
     var filas = $("#tabla_poliza>tbody").find("tr");
@@ -105,7 +159,7 @@ if($generalidades->num_rows() > 0){
         var viati = $($(celdas[13]).children("input")[0]).val();
         var total = $($(celdas[14]).children("input")[0]).val();
 
-        var idmis = $($(celdas[0]).children("input")[0]).val();
+        var idmis = $($(celdas[1]).children("input")[0]).val();
 
         var mescb = $("#nombre7").val();
         var anioc = $("#nombre8").val();

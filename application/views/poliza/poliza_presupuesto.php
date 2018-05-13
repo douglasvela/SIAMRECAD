@@ -193,8 +193,8 @@ function mes($mes){
     }
   }
 
-  function imprimir_poliza(no_poliza){
-    window.open("<?php echo site_url(); ?>/poliza/poliza_presupuesto/imprimir_poliza?no_poliza="+no_poliza, '_blank');
+  function imprimir_poliza(no_poliza, mes, anio){
+    window.open("<?php echo site_url(); ?>/poliza/poliza/imprimir_poliza?no_poliza="+no_poliza+"&mes="+mes+"&anio="+anio, '_blank');
   }
 
   function nuevo_clic(obj){

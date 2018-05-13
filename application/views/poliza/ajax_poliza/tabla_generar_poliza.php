@@ -210,7 +210,7 @@ $num_poliza = $ult_poliza;
                 <th style="padding: 7px" width="65px" >54403</th>
             </tr>
         </thead>
-        <tbody style="font-size: 11px;">
+        <tbody style="font-size: 11px;" id="body_poliza">
          	<?php
 
                 if($num_poliza == "0"){
@@ -294,9 +294,8 @@ $num_poliza = $ult_poliza;
                       	echo "<tr align='center'>";
                         ?>
             			<td style="padding: 7px;"><?php echo $correlativo; ?>
-                            <input type="hidden" value="<?php echo $fila->id_mision_oficial; ?>">
                         </td>
-		            	<td style="padding: 7px;"><?php echo $num_poliza; ?></td>
+		            	<td style="padding: 7px;"><?php echo $num_poliza; ?> <input type="hidden" value="<?php echo $fila->id_mision_oficial; ?>"></td>
 		            	<td style="padding: 7px;"><?php echo $mes_texto; ?></td>
                         <td style="padding: 7px;"><?php echo date("Y-m-d",strtotime($fila->fecha_solicitud)); ?></td>
 
@@ -405,7 +404,7 @@ $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
 ?>
 
 <div align="right">
-  <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Generar póliza</button>
+    <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Generar póliza</button>
 </div>
 
   	<input type="hidden" id="total" value="<?php echo number_format(($monto), 2, '.', ''); ?>">
@@ -413,5 +412,6 @@ $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
     <input type="hidden" id="no_poliza" value="<?php echo $ult_poliza; ?>"/>
     <input type="hidden" id="restantes" value="<?php echo $contador_restante; ?>"/>
     <input type="hidden" id="filas_tabla" class="form-control" value="<?php echo base64_encode($otra_tabla); ?>">
+
 </div>
 

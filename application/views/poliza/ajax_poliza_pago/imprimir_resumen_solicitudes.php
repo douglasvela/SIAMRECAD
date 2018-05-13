@@ -154,10 +154,11 @@ $anio = $_GET["anio"];
 
 for($x=0; $x < count($polizas); $x++){
 
-$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$polizas[$x]."' AND anio = '".$anio."' ORDER BY linea_presup1");
+$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$polizas[$x]."' AND anio = '".$anio."' ORDER BY linea_presup1, no_doc");
 if($poliza->num_rows() > 0){
+	$contar = 0;
     foreach ($poliza->result() as $filap) {
-
+    	$contar++;
     	$id_mision = $filap->id_mision;
 
     
@@ -297,7 +298,7 @@ $altura = 5);
 
 		                        $array = array(
 		                            $fecha_mision,
-		                            $ruta,
+		                            $ruta."      ",
 		                            $hsalida,
 		                            $hllegada,
 		                            $ver_viatico,
@@ -310,7 +311,15 @@ $altura = 5);
 		                        array(false),
 		                        array('0','0','0'),
 		                        array('255','255','255'),
-		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);
+		                        $altura = 3);
+
+		                    /*$pdf->Row($array,
+		                        array('0','0','0','0','0','0','0'),
+		                        array('Arial','B','08'),
+		                        array(false),
+		                        array('0','0','0'),
+		                        array('255','255','255'),
+		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);*/
 			            }
 			            $contador++;
 			        }else{
@@ -349,7 +358,7 @@ $altura = 5);
 
 		                        $array = array(
 		                            $fecha_mision,
-		                            $ruta,
+		                            $ruta."      ",
 		                            $hsalida,
 		                            $hllegada,
 		                            $ver_viatico,
@@ -362,7 +371,7 @@ $altura = 5);
 		                        array(false),
 		                        array('0','0','0'),
 		                        array('255','255','255'),
-		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);
+		                        $altura = 3);
 		                    $contador++;
 		            }
 
@@ -437,7 +446,7 @@ $altura = 5);
 
 	                        $array = array(
 	                            $fecha_mision,
-	                            $fila->nombre_origen." - ".$fila->nombre_destino,
+	                            $fila->nombre_origen." - ".$fila->nombre_destino."      ",
 	                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida)),
 	                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada)),
 	                            $ver_viatico,
@@ -450,7 +459,7 @@ $altura = 5);
 	                        array(false),
 	                        array('0','0','0'),
 	                        array('255','255','255'),
-	                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1); 
+	                        $altura = 3); 
 	                }
 	            }
 	        }
@@ -657,12 +666,15 @@ $altura = 5);
             array('0','0','0'),
             array('255','255','255'),
             $altura = 5);
-
+        
+        $pdf->SetY(271);
+        $pdf->SetFont('Arial','B',8);
+		$pdf->MultiCell(190,5,'No_DOC: '.$filap->no_doc.'     No_POLIZA: '.$filap->no_poliza,0,'R',false);
 	}
 }
 
 }
 
 
-$pdf->Output($anio.'_POLIZAS_'.$polizas_copy.".pdf",'I');
+$pdf->Output($anio.'_POLIZAS_'.$polizas_copy."_RESUMEN_SOLICITUDES.pdf",'I');
 ?>

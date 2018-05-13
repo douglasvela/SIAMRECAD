@@ -254,12 +254,12 @@
 
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
         for(f=0; f<diferencia; f++){                    
-            fecha_copy = fecha_copy.add('days',1);
+            fecha_copy = fecha_copy.add(1,'days');
             if(fecha_copy.format("e") == 6){
-                fecha_copy = fecha_copy.add('days',2);
+                fecha_copy = fecha_copy.add(2,'days');
                 diferencia = diferencia - 2;
             }else if(fecha_copy.format("e") == 0){
-                fecha_copy = fecha_copy.add('days',1);
+                fecha_copy = fecha_copy.add(1,'days');
                 diferencia = diferencia - 1;
             }
         }
@@ -346,16 +346,16 @@
                     for(a=0; a<diferencia; a++){
                         
                         if(fecha_aloj.format("e") == 6){
-                            fecha_aloj = fecha_aloj.add('days',2);
+                            fecha_aloj = fecha_aloj.add(2,'days');
                             //diferencia = diferencia - 2;
                         }else if(fecha_aloj.format("e") == 0){
-                            fecha_aloj = fecha_aloj.add('days',1);
+                            fecha_aloj = fecha_aloj.add(1,'days');
                             //diferencia = diferencia - 1;
                         }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
 
-                        fecha_aloj = fecha_aloj.add('days',1);
+                        fecha_aloj = fecha_aloj.add(1,'days');
 
                     }
                 }
@@ -389,11 +389,11 @@
                     //validacion para los dias nuevos
                     for(f=0; f<diferencia; f++){                   
                         if(f == (diferencia-1)){ //validacion fecha nueva dia 0
-                            fecha1 = fecha1.add('days',1);
+                            fecha1 = fecha1.add(1,'days');
                             if(fecha1.format("e") == 6){
-                                fecha1 = fecha1.add('days',2);
+                                fecha1 = fecha1.add(2,'days');
                             }else if(fecha1.format("e") == 0){
-                                fecha1 = fecha1.add('days',1);
+                                fecha1 = fecha1.add(1,'days');
                             }
                             fecha_ruta_new = fecha1.format("YYYY-MM-DD");
                             hs = primer_hora_salida;
@@ -417,11 +417,11 @@
                                 }
                             }
                         }else{ //validacion fecha nueva dia > 0   ---> 1,2,3,etc.
-                            fecha1 = fecha1.add('days',1);
+                            fecha1 = fecha1.add(1,'days');
                             if(fecha1.format("e") == 6){
-                                fecha1 = fecha1.add('days',2);
+                                fecha1 = fecha1.add(2,'days');
                             }else if(fecha1.format("e") == 0){
-                                fecha1 = fecha1.add('days',1);
+                                fecha1 = fecha1.add(1,'days');
                             }
                             fecha_ruta_new = fecha1.format("YYYY-MM-DD");
                             hs = primer_hora_salida;
@@ -520,12 +520,12 @@
 
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
         for(f=0; f<diferencia; f++){                    
-            fecha_copy = fecha_copy.add('days',1);
+            fecha_copy = fecha_copy.add(1,'days');
             if(fecha_copy.format("e") == 6){
-                fecha_copy = fecha_copy.add('days',2);
+                fecha_copy = fecha_copy.add(2,'days');
                 diferencia = diferencia - 2;
             }else if(fecha_copy.format("e") == 0){
-                fecha_copy = fecha_copy.add('days',1);
+                fecha_copy = fecha_copy.add(1,'days');
                 diferencia = diferencia - 1;
             }
         }
@@ -546,16 +546,16 @@
                     for(a=0; a<diferencia; a++){
                         
                         if(fecha_aloj.format("e") == 6){
-                            fecha_aloj = fecha_aloj.add('days',2);
+                            fecha_aloj = fecha_aloj.add(2,'days');
                             //diferencia = diferencia - 2;
                         }else if(fecha_aloj.format("e") == 0){
-                            fecha_aloj = fecha_aloj.add('days',1);
+                            fecha_aloj = fecha_aloj.add(1,'days');
                             //diferencia = diferencia - 1;
                         }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
 
-                        fecha_aloj = fecha_aloj.add('days',1);
+                        fecha_aloj = fecha_aloj.add(1,'days');
 
                     }
                 }
@@ -881,19 +881,19 @@
 
         if(bandera == "save"){
 
-            var limite_inicio =  moment().subtract('days',lim_start);
-            var limite_fin =  moment().subtract('days',1);
+            var limite_inicio =  moment().subtract(lim_start,'days');
+            var limite_fin =  moment().subtract(1,'days');
 
             if(limite_fin.format("e") == 0){
-                limite_fin.subtract('days',2);
+                limite_fin.subtract(2,'days');
             }else if(limite_fin.format("e") == 6){
-                limite_fin.subtract('days',1);
+                limite_fin.subtract(1,'days');
             }
 
             if(moment().format("e") == 0){
-                limite_inicio.add('days',1);
+                limite_inicio.add(1,'days');
             }else if(moment().format("e") == 6){
-                limite_inicio.add('days',2);
+                limite_inicio.add(2,'days');
             }
 
             $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
@@ -904,9 +904,9 @@
 
             var hoy = moment();
             if(hoy.format("e") == 6){
-                hoy.add('days',2);
+                hoy.add(2,'days');
             }else if(hoy.format("e") == 0){
-                hoy.add('days',1);
+                hoy.add(1,'days');
             }
 
             ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
@@ -918,22 +918,22 @@
         }else if(bandera == "edit"){
             if(estado_solicitud == "0"){
 
-                var limite_inicio =  moment().subtract('days',lim_start);
-                var limite_fin =  moment().subtract('days',1);
+                var limite_inicio =  moment().subtract(lim_start,'days');
+                var limite_fin =  moment().subtract(1,'days');
 
-                var fecha_fin_mision = moment(fecha_rev_obs).add('days',1);
+                var fecha_fin_mision = moment(fecha_rev_obs).add(1,'days');
                 var diferencia = 0;
 
                 if(limite_fin.format("e") == 0){
-                    limite_fin.subtract('days',2);
+                    limite_fin.subtract(2,'days');
                 }else if(limite_fin.format("e") == 6){
-                    limite_fin.subtract('days',1);
+                    limite_fin.subtract(1,'days');
                 }
 
                 if(fecha_fin_mision.format("e") == 0){
-                    fecha_fin_mision.add('days',1);
+                    fecha_fin_mision.add(1,'days');
                 }else if(limite_fin.format("e") == 6){
-                    fecha_fin_mision.add('days',2);
+                    fecha_fin_mision.add(2,'days');
                 }
 
                 /*if(moment().format("e") == 0){
@@ -955,9 +955,9 @@
 
                 var hoy = moment();
                 if(hoy.format("e") == 6){
-                    hoy.add('days',2);
+                    hoy.add(2,'days');
                 }else if(hoy.format("e") == 0){
-                    hoy.add('days',1);
+                    hoy.add(1,'days');
                 }
 
                 ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
@@ -980,16 +980,16 @@
 
             }else{
 
-                var limite_inicio =  moment(fecha_rev_obs).subtract('days',lim_start);
-                var limite_fin =  moment(fecha_rev_obs).subtract('days',1);
+                var limite_inicio =  moment(fecha_rev_obs).subtract(lim_start,'days');
+                var limite_fin =  moment(fecha_rev_obs).subtract(1,'days');
 
                 var diferencia = 0;
                 var newdate = fecha_rev_obs.split("-").reverse().join("-");
 
                 if(limite_fin.format("e") == 0){
-                    limite_fin.subtract('days',2);
+                    limite_fin.subtract(2,'days');
                 }else if(limite_fin.format("e") == 6){
-                    limite_fin.subtract('days',1);
+                    limite_fin.subtract(1,'days');
                 }
 
                 /*if(moment().format("e") == 0){
@@ -1048,9 +1048,9 @@
         var nueva_fecha =  moment();
 
         if(nueva_fecha.format("e") == 6){
-            nueva_fecha.add('days',2);
+            nueva_fecha.add(2,'days');
         }else if(nueva_fecha.format("e") == 0){
-            nueva_fecha.add('days',1);
+            nueva_fecha.add(1,'days');
         }
 
         document.getElementById("justificacion").checked = 0;
@@ -1094,16 +1094,16 @@
         var observacion_habilitada = true;
 
         if(estado == "2" || estado == "4" || estado == "6"){
-            var ufobservacion = moment(fecha_observacion).add('days',1);
+            var ufobservacion = moment(fecha_observacion).add(1,'days');
             var fhoy = moment();
 
             var reducir = 0;
 
             if(ufobservacion.format("e") == 6){
-                ufobservacion.add('days',2);
+                ufobservacion.add(2,'days');
                 reducir = 2;
             }else if(ufobservacion.format("e") == 0){
-                ufobservacion.add('days',1);
+                ufobservacion.add(1,'days');
                 reducir = 1;
             }
 
@@ -2008,9 +2008,9 @@
                 var nueva_fecha =  moment();
 
                 if(nueva_fecha.format("e") == 6){
-                    nueva_fecha.add('days',2);
+                    nueva_fecha.add(2,'days');
                 }else if(nueva_fecha.format("e") == 0){
-                    nueva_fecha.add('days',1);
+                    nueva_fecha.add(1,'days');
                 }
 
                 $("#fecha_mision_inicio").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );
@@ -2043,9 +2043,9 @@
                     var fecha_hoy =  moment();
 
                     if(fecha_hoy.format("e") == 6){
-                        fecha_hoy.add('days',2);
+                        fecha_hoy.add(2,'days');
                     }else if(fecha_hoy.format("e") == 0){
-                        fecha_hoy.add('days',1);
+                        fecha_hoy.add(1,'days');
                     }
 
                     $("#fecha_mision_inicio").datepicker("setEndDate", fecha_hoy.format("DD-MM-YYYY") );

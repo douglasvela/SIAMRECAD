@@ -343,7 +343,7 @@ $cuerpo .= '
 		$total_pasaje = 0;
         $contador = 0;
 
-		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup1");
+		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup1, no_doc");
         if($poliza->num_rows() > 0){
             foreach ($poliza->result() as $fila) {            
 
@@ -388,32 +388,50 @@ $cuerpo .= '
 
 		$cuerpo .= '
 		</tbody>
-	</table><br><br>';
+	</table>';
 
 
-    $responsable = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_responsable."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+    $responsable = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, e.nit FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_responsable."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
 
     if($responsable->num_rows() > 0){
         foreach ($responsable->result() as $filae) {              
         }
     }
 
-
-    $cuerpo .= '<br><br><table style="width:100%;">
+    $cuerpo .= '<table style="width:100%;">
     <tbody>
         <tr>
-            <td align="center">
-                <img src="assets/firmas/'.$nr_responsable.'.png" style="max-width: 200px; max-height: 100px;">
+            <td>Lugar y Fecha: SAN SALVADOR, '.date("d").' DE '.mes(date("m")).' DE '.date("Y").'</td>
+        </tr>
+        
+    </tbody>
+    </table>';
+
+
+    $cuerpo .= '<table style="width:100%;">
+    <tbody>
+        <tr>
+            <td width="375" rowspan="3" align="center"></td>
+            <td align="center" valign="bottom" width="5">
+                F.
             </td>
+            <td width="340" align="center" style="border-bottom: 1px solid black;">
+                <img src="assets/firmas/'.$nr_responsable.'.png" style="max-width: 200px; max-height: 70px;">
+            </td>
+            <td width="100" rowspan="3" align="center"></td>
+            <td align="center"></td>
+            <td width="50" rowspan="3" align="center"></td>
         </tr>
         <tr>
-            <td align="center">F._____________________________________________</td>
+            <td align="center" colspan="2">'.$filae->nombre_completo.'</td>
+            <td align="center" style="border-bottom: 1px solid black;">'.$filae->nit.'</td>
         </tr>
         <tr>
-            <td align="center">'.$filae->nombre_completo.'</td>
+            <td align="center" colspan="2">Encargado/a de fondo cirulante</td>
+            <td align="center">NIT</td>
         </tr>
     </tbody>
-    </table>'; 
+    </table>';
 
 $fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
 	$pie = 'Generada por: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';

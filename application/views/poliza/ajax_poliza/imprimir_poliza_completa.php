@@ -382,7 +382,7 @@ $cuerpo .= '
 		$total_pasaje = 0;
         $contador = 0;
 
-		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup1");
+		$poliza = $this->db->query("SELECT * FROM vyp_poliza WHERE no_poliza = '".$no_poliza."' AND mes_poliza = '".$mes_poliza."' AND anio = '".$anio."' ORDER BY linea_presup1, no_doc");
         if($poliza->num_rows() > 0){
             foreach ($poliza->result() as $fila) {            
 
@@ -428,9 +428,7 @@ $cuerpo .= '
 
 		$cuerpo .= '
 		</tbody>
-	</table><br><br>';
-
-    ;
+	</table>';
 
 
     $responsable = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, e.nit FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_responsable."' ORDER BY eil.fecha_inicio DESC LIMIT 1");

@@ -70,7 +70,7 @@
 
     function iniciar(){
         <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
-        tablabancos();
+            tablabancos();
         <?php }else{ ?>
             $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
         <?php } ?>
@@ -91,14 +91,12 @@
         $( "#cnt_tabla" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_bancos/", function() {
             $('#myTable').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
-            $('[data-toggle="tooltip"]').tooltip({ trigger : 'hover' })  
         });  
     }
 
     function tabla_estructura_planilla(){ 
         var id_banco = $("#idb").val();
-        $( "#cnt_tabla_estructura" ).load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla?id_banco="+id_banco, function() {
-            //$('#myTable').DataTable();
+        $("#cnt_tabla_estructura").load("<?php echo site_url(); ?>/configuraciones/bancos/tabla_estructura_planilla?id_banco="+id_banco, function(){
             $('[data-toggle="tooltip"]').tooltip();
         });  
     }
@@ -135,7 +133,6 @@
           "orden" : orden,
           "orden_nuevo" : orden_nuevo,
         };
-
         $.ajax({
             type:  'POST',
             url: '<?php echo site_url(); ?>/configuraciones/bancos/cambiar_orden',

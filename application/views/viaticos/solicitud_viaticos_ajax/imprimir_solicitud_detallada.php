@@ -281,7 +281,7 @@ $altura = 5);
 
 		                        $array = array(
 		                            $fecha_mision,
-		                            $ruta,
+		                            $ruta."      ",
 		                            $hsalida,
 		                            $hllegada,
 		                            $ver_viatico,
@@ -294,7 +294,15 @@ $altura = 5);
 		                        array(false),
 		                        array('0','0','0'),
 		                        array('255','255','255'),
-		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);
+		                        $altura = 3);
+
+		                    /*$pdf->Row($array,
+		                        array('0','0','0','0','0','0','0'),
+		                        array('Arial','B','08'),
+		                        array(false),
+		                        array('0','0','0'),
+		                        array('255','255','255'),
+		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);*/
 			            }
 			            $contador++;
 			        }else{
@@ -333,7 +341,7 @@ $altura = 5);
 
 		                        $array = array(
 		                            $fecha_mision,
-		                            $ruta,
+		                            $ruta."      ",
 		                            $hsalida,
 		                            $hllegada,
 		                            $ver_viatico,
@@ -346,7 +354,7 @@ $altura = 5);
 		                        array(false),
 		                        array('0','0','0'),
 		                        array('255','255','255'),
-		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);
+		                        $altura = 3);
 		                    $contador++;
 		            }
 
@@ -421,7 +429,7 @@ $altura = 5);
 
 	                        $array = array(
 	                            $fecha_mision,
-	                            $fila->nombre_origen." - ".$fila->nombre_destino,
+	                            $fila->nombre_origen." - ".$fila->nombre_destino."      ",
 	                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida)),
 	                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada)),
 	                            $ver_viatico,
@@ -434,7 +442,7 @@ $altura = 5);
 	                        array(false),
 	                        array('0','0','0'),
 	                        array('255','255','255'),
-	                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1); 
+	                        $altura = 3); 
 	                }
 	            }
 	        }
