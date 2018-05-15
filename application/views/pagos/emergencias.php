@@ -99,7 +99,11 @@
     }
 
     function iniciar(){
+        <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
         tabla_emergencias();
+        <?php }else{ ?>
+            $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
+      <?php } ?>
     }
 
     function objetoAjax(){

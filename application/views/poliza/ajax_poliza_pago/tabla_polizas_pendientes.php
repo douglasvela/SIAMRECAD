@@ -39,7 +39,9 @@
                             }
 
                             echo "<td>";
+                             if(tiene_permiso($segmentos=2,$permiso=2)){
                             echo generar_boton(array($fila->no_poliza, $fila->mes_poliza, $fila->anio),"imprimir_poliza","btn-default","fa fa-print","Imprimir");
+                            }
                             echo "</td>";
 
                             echo "<td>";
@@ -62,7 +64,9 @@
         </div>
         <br>
         <div align="right">
+            <?php if(tiene_permiso($segmentos=2,$permiso=2)){ ?>
             <button type="button" onclick="recorrer_poliza();" class="btn btn-info">Pagar y generar planillas</button>
+            <?php } ?>
         </div>
     </div>
 </div>

@@ -4,7 +4,9 @@
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
+            <?php if(tiene_permiso($segmentos=2,$permiso=2)){ ?>
             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+            <?php } ?>
         </div>
         <div class="table-responsive">
             <table id="myTable" class="table table-hover product-overview">
@@ -39,19 +41,21 @@
 
                             echo "<td>";
                             $array = array($fila->id_pago_emergencia, $fila->nr, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad, $fila->tipo_pago, $fila->monto, $fila->num_cheque,date("d-m-Y",strtotime($fila->fecha_pago)));
-
+                            if(tiene_permiso($segmentos=2,$permiso=4)){
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                           
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                            
-                            if($fila->estado == 0){
-                                array_push($array, "delete");
-                                echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
-                            }else{
-                                array_push($array, "down");
-                                echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Cambiar estado");
                             }
+                            if(tiene_permiso($segmentos=2,$permiso=3)){
+                                unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                
+                                if($fila->estado == 0){
+                                    array_push($array, "delete");
+                                    echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
+                                }else{
+                                    array_push($array, "down");
+                                    echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Cambiar estado");
+                                }
+                            }   
                             
                             echo "</td>";
 

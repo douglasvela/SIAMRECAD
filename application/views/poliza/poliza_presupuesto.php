@@ -15,7 +15,11 @@ function mes($mes){
   var segundo_index;
 
   function iniciar(){
+    <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
     tabla_poliza();
+    <?php }else{ ?>
+            $("#cnt_tabla_poliza").html("Usted no tiene permiso para este formulario.");     
+      <?php } ?>
   }
 
   function tabla_generar_poliza(num_poliza, mes, anio){

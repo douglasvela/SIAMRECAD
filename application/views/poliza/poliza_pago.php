@@ -15,7 +15,11 @@ function mes($mes){
   var segundo_index;
 
   function iniciar(){
-    tabla_poliza_pago();
+      <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
+      tabla_poliza_pago();
+      <?php }else{ ?>
+            $("#cnt_tabla_poliza").html("Usted no tiene permiso para este formulario.");     
+      <?php } ?>
   }
 
   function tabla_pendiente_pago(){
