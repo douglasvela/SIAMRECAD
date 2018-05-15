@@ -1135,7 +1135,7 @@ else{
         $('html,body').animate({
             scrollTop: $("body").offset().top
         }, 500);
-        
+         
     }
 function form_folleto_viaticos(){
       //  $("#bntadd").hide(0);

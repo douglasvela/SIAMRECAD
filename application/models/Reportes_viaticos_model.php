@@ -5,36 +5,7 @@ class Reportes_viaticos_model extends CI_Model {
     {
         parent::__construct();
     }
-/*
-empleados con total de viaticos y pasajes
-select sum(ev.viaticos),sum(ev.pasajes)
-from vyp_empresas_visitadas as ev
-where ev.id_mision_oficial IN (
-SELECT mo.id_mision_oficial FROM vyp_mision_oficial AS mo WHERE mo.nr_empleado=2499)
 
-SELECT m.*,
-(SELECT sum(viatico) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as viaticos,
-(SELECT sum(pasaje) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as pasajes,
-(SELECT sum(alojamiento) FROM vyp_empresa_viatico WHERE id_mision=m.id_mision_oficial) as alojamiento,
-(SELECT nombre_vyp_actividades FROM vyp_actividades WHERE id_vyp_actividades=m.id_actividad_realizada) as nombre_actividad,
-(SELECT nombre_estado FROM vyp_estado_solicitud WHERE id_estado_solicitud=m.estado) as nombre_estado
-FROM vyp_mision_oficial as m WHERE m.nr_empleado IN (SELECT nr FROM sir_empleado)
-*/
-
-
-
-/* ALGO ASI
-
-SELECT i.id_oficina_departamental as id_depto, o.id_departamento, depto.departamento, round(SUM(s.viatico),2) AS viatico, round(SUM(s.pasaje),2) AS pasaje, round(SUM(s.alojamiento),2) AS alojamiento, round((SUM(s.viatico)+SUM(s.pasaje)+SUM(s.alojamiento)),2) as total FROM (SELECT ev.viatico, ev.pasaje, ev.alojamiento, m.nr_empleado, m.fecha_solicitud FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT 0, p.monto_pasaje, 0, p.nr, p.fecha_solicitud FROM vyp_pasajes AS p) AS s JOIN vyp_informacion_empleado AS i ON s.nr_empleado = i.nr JOIN vyp_oficinas AS o ON o.id_oficina = i.id_oficina_departamental JOIN org_departamento as depto ON depto.id_departamento=o.id_departamento WHERE year(s.fecha_solicitud)='2017' GROUP BY i.id_oficina_departamental ORDER BY SUM(s.viatico) DESC
-
-SELECT month(s.fecha_solicitud) as mes,ROUND(sum(s.pasaje),2) as pasajes,sum(s.viatico) as viaticos, sum(s.alojamiento) as alojamientos, ROUND(sum(s.viatico)+sum(s.pasaje)+sum(s.alojamiento),2) as total FROM (SELECT ev.viatico, ev.pasaje, ev.alojamiento, m.nr_empleado, m.fecha_solicitud FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT 0, p.monto_pasaje, 0, p.nr, p.fecha_solicitud FROM vyp_pasajes AS p) AS s WHERE year(s.fecha_solicitud)='2017' and month(s.fecha_solicitud) IN ('1','2','3','4','5','6','7','8','9','10','11','12') GROUP by month(s.fecha_solicitud)
-
-////////////////////////////////////////////////////////
-old
-SELECT i.id_oficina_departamental as id_depto, o.id_departamento, depto.departamento ,m.id_mision_oficial,SUM(ev.viatico) AS viatico, SUM(ev.pasaje) AS pasaje, SUM(ev.alojamiento) AS alojamiento, (SUM(ev.viatico)+SUM(ev.pasaje)+SUM(ev.alojamiento)) as total FROM vyp_mision_oficial AS m JOIN vyp_informacion_empleado AS i ON m.nr_empleado = i.nr JOIN vyp_oficinas AS o ON o.id_oficina = i.id_oficina_departamental JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial JOIN org_departamento as depto ON depto.id_departamento=o.id_departamento WHERE year(m.fecha_solicitud)='$data' GROUP BY i.id_oficina_departamental ORDER BY SUM(ev.viatico) DESC
-
-SELECT month(mo.fecha_solicitud) as mes,sum(ev.pasaje) as pasajes,sum(ev.viatico) as viaticos, sum(ev.alojamiento) as alojamientos, sum(ev.viatico)+sum(ev.pasaje)+sum(ev.alojamiento) as total FROM vyp_mision_oficial as mo INNER JOIN vyp_empresa_viatico as ev ON ev.id_mision=mo.id_mision_oficial WHERE year(mo.fecha_solicitud)='$anio' and month(mo.fecha_solicitud) IN ('1','2','3','4','5','6','7','8','9','10','11','12') GROUP by month(mo.fecha_solicitud)
-*/
     function obtenerViaticoAnualxDepto($data){
       
         $viaticos = $this->db->query("SELECT i.id_oficina_departamental as id_depto, o.id_departamento, depto.departamento, round(SUM(s.viatico),2) AS viatico, round(SUM(s.pasaje),2) AS pasaje, round(SUM(s.alojamiento),2) AS alojamiento, round((SUM(s.viatico)+SUM(s.pasaje)+SUM(s.alojamiento)),2) as total FROM (SELECT ev.viatico, ev.pasaje, ev.alojamiento, m.nr_empleado, m.fecha_solicitud,m.estado FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION SELECT ('0') as viatico, (SELECT sum(monto_pasaje) FROM vyp_pasajes WHERE month(fecha_mision)=p.mes_pasaje and year(fecha_mision)=p.anio_pasaje AND nr=p.nr) as pasaje,('0') as alojamiento,p.nr,p.fecha_solicitud_pasaje,p.estado FROM vyp_mision_pasajes as p ) AS s JOIN vyp_informacion_empleado AS i ON s.nr_empleado = i.nr JOIN vyp_oficinas AS o ON o.id_oficina = i.id_oficina_departamental JOIN org_departamento as depto ON depto.id_departamento=o.id_departamento WHERE year(s.fecha_solicitud)='$data' /*AND s.estado='8'*/ GROUP BY i.id_oficina_departamental ORDER BY SUM(s.viatico) DESC");
@@ -185,17 +156,7 @@ SELECT p.nr as nr_empleado,(SELECT concat(primer_nombre,' ',segundo_nombre,' ',p
         return $viaticos;
     }
 
-    /*
-SELECT s.id_actividad_realizada,act.nombre_vyp_actividades as actividad,year(s.fecha_solicitud) as anio ,month(s.fecha_solicitud) as mes,round(sum(s.viatico),2) as viatico,round(sum(s.pasaje),2) as pasaje,round(sum(s.alojamiento),2) as alojamiento,round((sum(s.viatico)+sum(s.pasaje)+sum(s.alojamiento)),2) as total  
-FROM (
-SELECT m.nr_empleado,m.nombre_completo, ev.viatico, ev.pasaje, ev.alojamiento, m.fecha_solicitud,m.id_mision_oficial,ev.id_empresa_viatico,ev.fecha,m.id_actividad_realizada FROM vyp_mision_oficial AS m JOIN vyp_empresa_viatico AS ev ON ev.id_mision = m.id_mision_oficial UNION
-    
-SELECT p.nr as nr_empleado,(SELECT concat(primer_nombre,' ',segundo_nombre,' ',primer_apellido,' ',segundo_apellido) FROM sir_empleado WHERE nr=p.nr) as nombre_completo ,('0') as viaticos, (SELECT sum(monto_pasaje) FROM vyp_pasajes WHERE month(fecha_mision)=p.mes_pasaje and year(fecha_mision)=p.anio_pasaje AND nr=p.nr) as pasajes,('0') as alojamientos,p.fecha_solicitud_pasaje as fecha_solicitud,p.id_mision_pasajes as id_mision_oficial,(rand()),p.fecha_solicitud_pasaje,pas.id_actividad_realizada FROM vyp_mision_pasajes as p JOIN vyp_pasajes as pas ON month(pas.fecha_mision)=p.mes_pasaje AND year(pas.fecha_mision)=p.anio_pasaje
-) as s
-JOIN vyp_actividades as act ON s.id_actividad_realizada=act.id_vyp_actividades 
-WHERE year(s.fecha_solicitud) IN (2017,2018) AND month(s.fecha_solicitud) IN (01,02,03,01,02,03,04,05,06,07,08,09,10,11,12) AND s.id_actividad_realizada IN (SELECT id_actividad_realizada FROM vyp_actividades) 
-GROUP BY s.id_actividad_realizada,year(s.fecha_solicitud) ORDER BY month(s.fecha_solicitud) asc
-    */
+   
     function viaticos_por_actividad($data,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes,$id_vyp_actividades){
        $anios = implode(",", $data);
        if($primer_mes=='0' && $segundo_mes=='0' && $tercer_mes=='0' && $cuarto_mes=='0' && $quinto_mes=='0' && $sexto_mes=='0'){
@@ -236,56 +197,5 @@ UNION SELECT '','','0',`mes_poliza`,'','','','' ,'','','','','','', sum(`viatico
 
     }
 }
-/* 
-SELECT c.fecha_solicitud,sum(c.viatico),c.id_informacion_empleado,c.nr,c.nr_jefe_inmediato,c.id_oficina_departamental,c.nombre_oficina_motorista,c.oficina_solicitante_motorista,c.oficina_solicitante,c.id_cargo,c.nombre_cargo FROM(SELECT m.fecha_solicitud,(ev.viatico),i.id_informacion_empleado,i.nr,i.nr_jefe_inmediato,i.id_oficina_departamental,(SELECT nombre_oficina FROM vyp_oficinas WHERE id_oficina=i.id_oficina_departamental) as nombre_oficina_motorista,m.oficina_solicitante_motorista,(SELECT nombre_seccion FROM org_seccion WHERE id_seccion=m.oficina_solicitante_motorista) as oficina_solicitante,(SELECT c.id_cargo_funcional  FROM sir_empleado as i JOIN sir_empleado_informacion_laboral as il ON i.id_empleado=il.id_empleado JOIN sir_cargo_funcional as c ON c.id_cargo_funcional=il.id_cargo_funcional  WHERE i.nr=m.nr_empleado ORDER BY il.id_empleado_informacion_laboral ASC LIMIT 1) as id_cargo,(SELECT c.funcional  FROM sir_empleado as i JOIN sir_empleado_informacion_laboral as il ON i.id_empleado=il.id_empleado JOIN sir_cargo_funcional as c ON c.id_cargo_funcional=il.id_cargo_funcional  WHERE i.nr=m.nr_empleado ORDER BY il.id_empleado_informacion_laboral ASC LIMIT 1) as nombre_cargo FROM vyp_mision_oficial as m JOIN  vyp_informacion_empleado as i ON i.nr=m.nr_empleado JOIN vyp_empresa_viatico as ev ON ev.id_mision=m.id_mision_oficial WHERE year(m.fecha_solicitud)='2017' AND m.oficina_solicitante_motorista!=0) as c  GROUP BY c.oficina_solicitante_motorista
 
-
-////////////////////////////////////////
-SELECT m.id_actividad_realizada,m.detalle_actividad,year(m.fecha_solicitud) as anio ,month(m.fecha_solicitud) as mes,sum(v.viatico) as viatico,sum(v.pasaje) as pasaje,sum(v.alojamiento) as alojamiento,(sum(v.viatico)+sum(v.pasaje)+sum(v.alojamiento)) as total  FROM vyp_mision_oficial as m
-JOIN vyp_empresa_viatico as v ON v.id_mision=m.id_mision_oficial
-WHERE year(m.fecha_solicitud) IN (2016,2017) AND month(m.fecha_solicitud) IN (01,02,03) AND m.id_actividad_realizada IN (SELECT id_actividad_realizada FROM vyp_actividades)
-GROUP BY m.id_actividad_realizada,year(m.fecha_solicitud)
-ORDER BY  m.id_actividad_realizada DESC
-
-SELECT year(fecha) as anio,month(fecha) as mes,sum(`viatico`) as viatico,sum(pasaje) as pasaje,sum(alojamiento) as alojamiento, (sum(`viatico`) + sum(pasaje) + sum(alojamiento)) as total_anio FROM `vyp_empresa_viatico` WHERE month(fecha) IN (01,02,03,04,05,06,07,08,09,10,11,12) and YEAR(fecha) IN (2017,2016)  group by month(fecha),year(`fecha`) order by month(fecha) desc
-
-
-SELECT u.id_seccion,s.nombre_seccion,v.id_genero,g.genero, SUM(v.viatico) as viatico,SUM(v.pasaje) AS pasaje, SUM(v.alojamiento) AS alojamiento, (SUM(v.viatico)+SUM(v.pasaje)+SUM(v.alojamiento)) as total  
-from vista_viaticos as v
-JOIN org_genero as g ON g.id_genero=v.id_genero
-JOIN org_usuario as u ON u.nr=v.nr
-JOIN org_seccion as s ON s.id_seccion=v.id_seccion
-WHERE year(v.fecha_solicitud)='2017'  AND u.id_seccion IN (SELECT id_seccion FROM org_seccion)
-GROUP BY v.id_genero ,u.id_seccion
-ORDER by SUM(v.viatico) DESC
-
-
-
-CONSULTA MOTORISTAS
-SELECT  empleado.id_empleado,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,empleado.nr,info.id_cargo_funcional,info.id_seccion,seccion.nombre_seccion,mision.nr_empleado,mision.id_mision_oficial,(viatico.viatico),viatico.id_empresa_viatico
-FROM sir_empleado as empleado 
-INNER JOIN sir_empleado_informacion_laboral as info ON empleado.id_empleado=info.id_empleado
-INNER JOIN org_seccion as seccion ON seccion.id_seccion = info.id_seccion
-INNER JOIN vyp_mision_oficial as mision ON mision.nr_empleado=empleado.nr
-INNER JOIN vyp_empresa_viatico as viatico ON mision.id_mision_oficial=viatico.id_mision
-WHERE info.id_cargo_funcional = 291
-GROUP BY viatico.id_empresa_viatico 
-
-
-
-SELECT mision.nr_empleado,mision.id_mision_oficial,sum(viatico.viatico),empleado.nr,empleado.id_empleado,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre FROM vyp_mision_oficial as mision INNER JOIN vyp_empresa_viatico as viatico ON viatico.id_mision=mision.id_mision_oficial INNER JOIN sir_empleado as empleado ON empleado.nr=mision.nr_empleado
-
-jose.pleitez
-rolando.carrillo
-
-
-SELECT info.id_empleado,info.id_cargo_funcional,info.id_seccion,empleado.nr,CONCAT(empleado.primer_nombre,' ',empleado.segundo_nombre) as nombre,mision.id_mision_oficial,(viatico.viatico), seccion.nombre_seccion,viatico.id_empresa_viatico FROM sir_empleado_informacion_laboral as info
-INNER JOIN sir_empleado as empleado ON empleado.id_empleado=info.id_empleado
-INNER JOIN vyp_mision_oficial as mision ON empleado.nr = mision.nr_empleado
-INNER JOIN vyp_empresa_viatico as viatico ON viatico.id_mision=mision.id_mision_oficial
-INNER JOIN org_seccion as seccion ON seccion.id_seccion=info.id_seccion
-WHERE info.id_cargo_funcional = 291
-GROUP BY viatico.id_empresa_viatico 
-/*ORDER BY info.fecha_inicio DESC limit 1
-*/
 ?>

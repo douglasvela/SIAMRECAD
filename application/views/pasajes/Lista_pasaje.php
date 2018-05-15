@@ -116,13 +116,13 @@ alert(fecha_nueva);
 
     function iniciar(){
       
-    
-       tabla_pasaje_lista();
-        
-     form_folleto_viaticos();
+     
+        tabla_pasaje_lista();
+        form_folleto_viaticos();
         $('html,body').animate({
             scrollTop: $("body").offset().top
         }, 500);
+    
     }
     function objetoAjax(){
         var xmlhttp = false;
@@ -201,10 +201,12 @@ function cerrar_mantenimiento(){
        $("#cnt_form1").show(0);
     }
    
-    function tablapasajes(){          
+    function tablapasajes(){ 
+              
        $("#cnt_form").hide(0);
        ver_pasajes();
-       //$("#cnt_form1").show(0);  
+       //$("#cnt_form1").show(0);
+         
  }
 
 function combo_oficina_departamento(tipo){
