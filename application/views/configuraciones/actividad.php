@@ -33,10 +33,10 @@
            $("#btnedit").show(0);
            $("#cnt-tabla").hide(0);
            $("#cnt_form").show(0);
-           combo_actividades(depende_vyp_actividades);
+           combo_actividades(depende_vyp_actividades);$("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Actividad");
          }else{
 
-           $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
+           
            eliminar_actividad();
        }
    }
