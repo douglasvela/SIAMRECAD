@@ -32,7 +32,7 @@
      var fechas = $("#fecha2").val();
      var fechita = $("#fecha").val();
       var nr1 = $("#nr1").val();
-       var band="edit";
+       var bandera="edit";
         var id1 = $("#id").val();
         var estado=$("#estado1").val();
        // alert(estado1);
@@ -59,7 +59,7 @@
             }
         }
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
-       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas+ "&nr1="+nr1+ "&fecha="+fechita+ "&bandera="+band + "&id="+id + "&estado="+estado1+ "&fecha_observacion="+fecha_observacion;
+       location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas+ "&nr1="+nr1+ "&fecha="+fechita+ "&bandera="+"edit" + "&id="+id + "&estado="+estado1+ "&fecha_observacion="+fecha_observacion;
         //xmlhttpB.open("GET","<?php //echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
         xmlhttpB.send();      
@@ -105,8 +105,8 @@ var mes1;
 mes1=month-1;
 //alert(date);
 var fecha_nueva=mes1+" "+day+" "+year;
-alert(hoy);
-alert(fecha_nueva);
+//alert(hoy);
+//alert(fecha_nueva);
    //alert("Fecha modificada: "+day+"/"+mes1+"/"+year);
 
         xmlhttp_A.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/info_pasajes?nr="+nr+"&fecha="+fechap,true);
@@ -160,7 +160,7 @@ alert(fecha_nueva);
         xmlhttpB.send(); 
     }
  function imprimir_solicitud(nr, fecha_de_pasaje, id){
-    alert(id);
+   // alert(id);
         window.open("<?php echo site_url(); ?>/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr + "&fecha2="+fecha_de_pasaje + "&id="+id, '_blank');
     }
 

@@ -78,7 +78,7 @@ class Lista_pasaje extends CI_Controller {
 		}
 	}
 public function gestionar_pasaje3(){		
-		if($this->input->post('band') == "save"){
+		if($this->input->post('bandita') == "save"){
 			$data = array(
 			'municipio' => $this->input->post('municipio'),
 			'departamento' => $this->input->post('departamento'),

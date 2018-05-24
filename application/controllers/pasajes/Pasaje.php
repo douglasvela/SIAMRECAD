@@ -28,6 +28,7 @@ class Pasaje extends CI_Controller {
 			'expediente' => $this->input->post('expediente'),
 			'empresa' => $this->input->post('empresa'),
 			'direccion' => $this->input->post('direccion'),
+			'id_actividad_realizada' => $this->input->post('id_actividad'),
 			'nr' => $this->input->post('nr'),
 			
 			'monto' => $this->input->post('monto')

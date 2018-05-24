@@ -63,22 +63,24 @@ var id_mision = <?php echo $id_este; ?>
 function cambiar_editar(id,fecha,expediente,empresa,direccion,nr_usuario, monto,departamento, municipio, actividad,bandera){
          tabla_pasaje_unidad();
     //form_folleto_viaticos1();
-alert(actividad);
+//alert(actividad);
         $("#id_pasaje").val(id);
         $("#fecha2").datepicker("setDate", fecha );
 
         $("#expediente2").val(expediente);
 
-         $('#id_departamento').val(departamento).trigger('change.select2');
-
-        $('#id_municipio').val(municipio).trigger('change.select2');
+         $("#id_departamento1").val(departamento).trigger("change.select2");
+//$("#id_departamento").val(id_departamento).trigger("change.select2");
+        $("#municipio1").val(municipio).trigger("change.select2");
 //alert(departamento);
 //alert(municipio);
         $("#empresa2").val(empresa);
         $("#direccion2").val(direccion);
 
         $("#monto2").val(monto);
-$("#id_actividad").val(actividad).trigger('change.select2');
+       //  $("#depende_vyp_actividades").val(depende_vyp_actividades);
+
+$("#id_actividad1").val(actividad).trigger("change.select2");
        $("#modal_pasaje").modal("show");
       form_folleto_viaticos_otro();
 
@@ -168,7 +170,7 @@ $("#id_actividad").val(actividad).trigger('change.select2');
             processData: false
         })
         .done(function(res){
-            alert(res)
+           // alert(res)
             if(res == "exito"){
                 tabla_pasaje_unidad();
                 swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
@@ -423,8 +425,8 @@ var fecha_nueva=day+"/"+mes1+"/"+year;*/
 //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 buscar_idmision();
                 }else if($("#band").val() == "edit"  ){
-                    alert(fecha_nueva);
-                    alert(hoy);
+                   // alert(fecha_nueva);
+                   // alert(hoy);
                    // swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
@@ -992,108 +994,7 @@ function ver_con_observaciones(){
     var ultima_fecha_inicio = "";
     var ultima_fecha_fin = "";
 
-   /* function validar_dia_limite(estado_solicitud, bandera){
-        var lim_start = 13;
-        var days = 1;
-
-        if(bandera == "save"){
-
-            var limite_inicio =  moment().subtract('days',lim_start);
-            var limite_fin =  moment().subtract('days',1);
-
-            if(limite_fin.format("e") == 0){
-                limite_fin.subtract('days',2);
-            }else if(limite_fin.format("e") == 6){
-                limite_fin.subtract('days',1);
-            }
-
-            if(moment().format("e") == 0){
-                limite_inicio.add('days',1);
-            }else if(moment().format("e") == 6){
-                limite_inicio.add('days',2);
-            }
-
-            $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
-          
-            primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
-            primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
-
-            var hoy = moment();
-            if(hoy.format("e") == 6){
-                hoy.add('days',2);
-            }else if(hoy.format("e") == 0){
-                hoy.add('days',1);
-            }
-
-            ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
-            ultima_fecha_fin = hoy.format("DD-MM-YYYY");
-
-            $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
-           // $("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
-
-        }else if(bandera == "edit"){
-            if(estado_solicitud == "0"){
-
-                var limite_inicio =  moment().subtract('days',lim_start);
-                var limite_fin =  moment().subtract('days',1);
-
-                var fecha_fin_mision = moment(fecha_rev_obs).add('days',1);
-                var diferencia = 0;
-
-                if(limite_fin.format("e") == 0){
-                    limite_fin.subtract('days',2);
-                }else if(limite_fin.format("e") == 6){
-                    limite_fin.subtract('days',1);
-                }
-
-                if(fecha_fin_mision.format("e") == 0){
-                    fecha_fin_mision.add('days',1);
-                }else if(limite_fin.format("e") == 6){
-                    fecha_fin_mision.add('days',2);
-                }
-
-                /*if(moment().format("e") == 0){
-                    limite_inicio.add('days',1);
-                }else if(moment().format("e") == 6){
-                    limite_inicio.add('days',2);
-                }*/
-
-               /* primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
-                primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
-
-               
-                    $("#fecha_mision_inicio").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
-                   // $("#fecha_mision_fin").datepicker("setStartDate", limite_fin.format("DD-MM-YYYY") );
-                
-
-                var hoy = moment();
-                if(hoy.format("e") == 6){
-                    hoy.add('days',2);
-                }else if(hoy.format("e") == 0){
-                    hoy.add('days',1);
-                }
-
-                ultima_fecha_inicio = hoy.format("DD-MM-YYYY");
-                ultima_fecha_fin = hoy.format("DD-MM-YYYY");
-
-                $("#fecha_mision_inicio").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
-                //$("#fecha_mision_fin").datepicker("setEndDate", hoy.format("DD-MM-YYYY") );
-
-                diferencia = limite_fin.diff(fecha_fin_mision, 'days');
-
-                if(diferencia > 0){
-                    $.toast({ heading: 'Fecha vencida', text: "La ultima fecha para crear su solicitud fué el: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'error', hideAfter: 4000, stack: 6 });
-                }else{
-                        $.toast({ heading: 'Última fecha', text: "La ultima fecha para crear su solicitud es: "+fecha_fin_mision.format("DD-MM-YYYY"), position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
-                    }
-                }
-
-            }
-        }
-
-        return "fin";
-
-    }*/
+   
 
 function observaciones(id_mision){    
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -1201,7 +1102,7 @@ function form_folleto_viaticos(){
                     <div class="card-body b-t">
                         <div id="cnt_observaciones"></div>   
                     <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
-                        <input type="hidden" id="band" name="band" value="save">
+                        <input type="hidden" id="bandita" name="bandita" value="save">
                            
                             <input type="hidden" id="idb" name="idb" value="">
                              <div class="row">
@@ -1317,7 +1218,7 @@ function form_folleto_viaticos(){
                              <h5>Actividad realizada: <span class="text-danger">*</span></h5>
        
                                     <div class="input-group">
-                                        <select id="id_actividad1" name="id_actividad1" class="select2" style="width: 100%" required=''>
+                                        <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
                                             <option value=''>[Elija una actividad]</option>
                                         <?php 
                                             $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
@@ -1387,9 +1288,10 @@ $("#formcuentas2").on("submit", function(e){
             processData: false
         })
         .done(function(res){
-         alert(res)
+        // alert(res)
+        // alert(bandera)
             if(res == "exito"){
-                if($("#band").val() == "save"){
+                if($("#bandita").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
                 }else if($("#band").val() == "edit"){
                     swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
