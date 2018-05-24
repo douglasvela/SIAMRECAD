@@ -2465,14 +2465,14 @@
 
                             <div class="row" id="cnt_oficina_solicitante" style="display: block;">
                                 <div class="col-lg-12 form-group">
-                                    <h5>Oficina solicitante: <span class="text-danger">*</span></h5>                           
+                                    <h5>Unidad/Depto./Sección solicitante: <span class="text-danger">*</span></h5>                           
                                     <select id="oficina_solicitante" name="oficina_solicitante" class="select2" style="width: 100%">
                                         <option value="">[Elija la oficina]</option>
                                         <?php 
-                                            $oficina_solicitante = $this->db->query("SELECT * FROM vyp_oficinas");
+                                            $oficina_solicitante = $this->db->query("SELECT * FROM org_seccion ORDER BY nivel DESC, nombre_seccion");
                                             if($oficina_solicitante->num_rows() > 0){
                                                 foreach ($oficina_solicitante->result() as $fila) {              
-                                                   echo '<option class="m-l-50" value="'.$fila->id_oficina.'">'.$fila->nombre_oficina.'</option>';
+                                                   echo '<option class="m-l-50" value="'.$fila->id_seccion.'">'.$fila->nombre_seccion.'</option>';
                                                 }
                                             }
                                         ?>

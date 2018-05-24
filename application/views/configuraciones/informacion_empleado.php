@@ -103,7 +103,7 @@
         var nr = $("#nr").val();
 
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/cuenta/perfil/subir_firma", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/configuraciones/informacion_empleado/subir_firma", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 var response = ajax.responseText;
@@ -190,7 +190,7 @@
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">Configuraciones del perfil del empleado</h3>
+                <h3 class="text-themecolor m-b-0 m-t-0">Configuracion de datos del empleado</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -208,7 +208,7 @@
 
 
             	<div class="card-header bg-info">
-                    <h4 class="card-title m-b-0 text-white">Configurar perfil empleado</h4>
+                    <h4 class="card-title m-b-0 text-white">Configuraciones de datos del empleado</h4>
                 </div>
                 <div class="card-body b-t">
                 	<?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
