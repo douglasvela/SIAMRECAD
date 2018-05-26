@@ -269,9 +269,14 @@
         if(parseFloat(kilometraje_old) >= DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
             for(h=0; h<viaticos.length; h++){
                 if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
-                    if(!tiene_restriccion(hora_llegada_old, "llegada antigua", viaticos[h][2], viaticos[h][3])){
+                    if(id_ruta_old == id_oficina_origenes){
+                        if(!tiene_restriccion(hora_llegada_old, "llegada antigua", viaticos[h][2], viaticos[h][3])){
+                            ultimo_viatico = viaticos[h][0];
+                        }
+                    }else{
                         ultimo_viatico = viaticos[h][0];
                     }
+                    
                 }
             }
         }

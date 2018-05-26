@@ -143,7 +143,7 @@ if($generalidades->num_rows() > 0){
 
     if((filas.length-1) > 0){
 
-      var script = "INSERT INTO vyp_poliza (no_doc, no_poliza, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, linea_presup2, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision, nombre_banco,fecha_elaboracion_poliza) VALUES\n";
+      var script = "INSERT INTO vyp_poliza (no_doc, no_poliza, mes_poliza, fecha_elaboracion, no_cuenta_cheque, nr, fecha_mision, nombre_empleado, detalle_mision, sede, cargo_funcional, linea_presup1, linea_presup2, viatico, pasaje, total, mes, anio, cuenta_bancaria, cod_presupuestario, id_mision, nombre_banco,fecha_elaboracion_poliza, tipo_solicitud) VALUES\n";
 
       for(i=0; i< (filas.length-1); i++){
         var celdas = $(filas[i]).children("td");
@@ -164,6 +164,7 @@ if($generalidades->num_rows() > 0){
         var total = $($(celdas[14]).children("input")[0]).val();
 
         var idmis = $($(celdas[1]).children("input")[0]).val();
+        var tipo_solicitud = $($(celdas[1]).children("input")[1]).val();
 
         var mescb = $("#nombre7").val();
         var anioc = $("#nombre8").val();
@@ -176,9 +177,9 @@ if($generalidades->num_rows() > 0){
 
 
         if(i == (filas.length-2)){
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"', '"+fecha_elaboracion_poliza+"');";
+          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"', '"+fecha_elaboracion_poliza+"', '"+tipo_solicitud+"');";
         }else{
-          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"', '"+fecha_elaboracion_poliza+"'),\n";
+          script += "('"+ndocu+"', '"+npoli+"', '"+mespo+"', '"+felab+"', '"+ncuen+"', '"+nremp+"', '"+fmisi+"', '"+nomem+"', '"+dmisi+"', '"+csede+"', '"+cargo+"', '"+linea1+"', '"+linea2+"', '"+viati+"', '"+pasaj+"', '"+total+"', '"+mescb+"', '"+anioc+"', '"+mtpsc+"', '"+cpres+"', '"+idmis+"', '"+banco+"', '"+fecha_elaboracion_poliza+"', '"+tipo_solicitud+"'),\n";
         }
       }
 
