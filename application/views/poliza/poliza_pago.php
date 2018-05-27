@@ -16,9 +16,9 @@ function mes($mes){
 
   function iniciar(){
       <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
-      tabla_poliza_pago();
+        tabla_poliza_pago();
       <?php }else{ ?>
-            $("#cnt_tabla_poliza").html("Usted no tiene permiso para este formulario.");     
+        $("#cnt_tabla_poliza").html("Usted no tiene permiso para este formulario.");     
       <?php } ?>
   }
 
@@ -30,7 +30,6 @@ function mes($mes){
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
             document.getElementById("cnt_generar_poliza").innerHTML = xhr.responseText;
-            
         }else if (xhr.status !== 200) {
             swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
@@ -45,10 +44,10 @@ function mes($mes){
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.responseText !== newName) {
-            document.getElementById("cnt_tabla_poliza").innerHTML = xhr.responseText;
-            $('#myTable').DataTable();
+          document.getElementById("cnt_tabla_poliza").innerHTML = xhr.responseText;
+          $('#myTable').DataTable();
         }else if (xhr.status !== 200) {
-            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+          swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
     };
     xhr.send(encodeURI('name=' + newName));
@@ -66,7 +65,7 @@ function mes($mes){
             $('#myTable2').DataTable({
               dom: 'Bfrtip',
               buttons: [
-                  'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'csv', 'excel', 'pdf', 'print'
               ]
           });
         }else if (xhr.status !== 200) {
@@ -272,6 +271,7 @@ function mes($mes){
   function cerrar_mantenimiento(){
     $("#cnt_registros_polizas").show(300);
     $("#cnt_poliza").hide(300);
+    tabla_poliza_pago();
   }
 
   function cambiar_orden(tipo){

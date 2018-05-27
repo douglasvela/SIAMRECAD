@@ -49,9 +49,18 @@ class Poliza_pago extends CI_Controller {
 			'fecha_pago' => date("Y-m-d")
 		); 
 
-		$query = "UPDATE vyp_poliza SET estado = '2', fecha_cancelado = '".$data["fecha_cancelado"]."' WHERE id_poliza IN (SELECT p.id_poliza FROM (".$data['sql'].") AS p)";
+		$query = "UPDATE vyp_poliza SET estado = '2', fecha_cancelado = '".$data["fecha_pago"]."' WHERE id_poliza IN (SELECT p.id_poliza FROM (".$data['sql'].") AS p)";
 
-		echo $data["sql"].$this->poliza_model->insertar_pago_poliza($data, $query);
+		$query2 = "UPDATE vyp_mision_oficial SET estado = '8', fecha_pago = '".date("Y-m-d h:i:s")."' WHERE id_mision_oficial IN (SELECT p.id_poliza FROM (".$data['sql'].") AS p WHERE p.tipo_solicitud = 'viatico')";
+
+		$query3 = "UPDATE vyp_mision_pasajes SET estado = '8', fecha_pago = '".date("Y-m-d h:i:s")."' WHERE id_mision_pasajes IN (SELECT p.id_poliza FROM (".$data['sql'].") AS p WHERE p.tipo_solicitud = 'pasaje')";
+
+		if($this->poliza_model->pagar_solicitudes($query2, $query3)){
+			echo $this->poliza_model->insertar_pago_poliza($data, $query);	
+		}else{
+			echo "fracaso";
+		}
+		
 	}
 
 	function eliminar_poliza(){

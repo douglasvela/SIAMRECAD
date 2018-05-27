@@ -39,6 +39,14 @@ class poliza_model extends CI_Model {
 		}
 	}
 
+	function pagar_solicitudes($query2, $query3){
+		if($this->db->query($query2) && $this->db->query($query3)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	function obtener_ultimo_id($tabla,$nombreid){
 		$this->db->order_by($nombreid, "asc");
 		$query = $this->db->get($tabla);
