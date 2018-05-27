@@ -1,10 +1,9 @@
 
-
 <?php 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha1"];
   
-    if(!empty($nr_empleado) AND !empty($fecha_mes)){
+  if(!empty($nr_empleado) AND !empty($fecha_mes)){
     $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}

@@ -31,7 +31,7 @@
         <?php 
       /* $cuenta = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, p.fecha_mision, SUM(p.monto_pasaje) AS monto_pasaje, p.estado as estado FROM sir_empleado AS e JOIN vyp_pasajes AS p ON p.nr = e.nr AND p.fecha_mision LIKE '%".$fecha_mes."%' GROUP BY e.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");*/
 $cuenta2= $this->db->query("SELECT * FROM vyp_mision_pasajes");
-
+$cuenta_pasajes= $this->db->query("SELECT * FROM vyp_pasajes");
 
 $cuenta = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo,p.mes_pasaje,p.anio_pasaje, p.estado as estado,p.ultima_observacion, p.id_mision_pasajes,p.fecha_solicitud_pasaje FROM sir_empleado AS e JOIN vyp_mision_pasajes AS p ON p.nr = e.nr AND p.mes_pasaje='".$mes."' AND p.anio_pasaje= '".$anio."' AND p.nr='".$nr_empleado."' GROUP BY e.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");      
             if($cuenta->num_rows() > 0){
@@ -109,6 +109,13 @@ foreach ($cuenta2->result() as $fila2) {
                     echo "<td colspan='4'>No hay registros de pasajes</td>";
                 echo "</tr>";
             }
+
+if($cuenta->num_rows() < 0 AND $cuenta_pasajes->num_rows() > 0)
+{
+
+
+}
+
         ?>
         </tbody>
     </table>
