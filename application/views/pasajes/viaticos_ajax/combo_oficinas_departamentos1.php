@@ -21,8 +21,8 @@
                     }
                 }
             }else{
-                //echo '<h5>Departamento: <span class="text-danger">*</span></h5>';
-                echo '<select id="departamento" name="departamento" class="select2" onchange="combo_municipio('."'".$tipo."'".');" style="width: 150px" required>';
+                echo "<label class='font-weight-bold'>Departamento: <span class='text-danger'>*</span></label><br>";
+                echo '<select id="departamento" name="departamento" class="select2" onchange="combo_municipio('."'".$tipo."'".');" style="width: 285px" required>';
                 echo "<option value=''>[Elija el departamento]</option>";
                 $departamento = $this->db->query("SELECT * FROM org_departamento");
                 if($departamento->num_rows() > 0){
@@ -35,4 +35,3 @@
             
         ?>
 </select>
-<span class="help-block"></span>
