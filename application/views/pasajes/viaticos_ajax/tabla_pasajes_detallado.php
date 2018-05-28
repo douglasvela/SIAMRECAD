@@ -1,41 +1,10 @@
-
-<?php 
-    $nr_empleado = $_GET["nr"];
-   $fecha_mes = $_GET["fecha1"];
-  
-  if(!empty($nr_empleado) AND !empty($fecha_mes)){
-    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
-    if($info_empleado->num_rows() > 0){ 
-        foreach ($info_empleado->result() as $filas) {}
-        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
-      if($oficina_origen->num_rows() > 0){ 
-          foreach ($oficina_origen->result() as $filaofi) {}
-      }
-      $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
-      if($director_jefe_regional->num_rows() > 0){ 
-          foreach ($director_jefe_regional->result() as $filadir) {}
-      }
-      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
-      $nr_jefe_regional = $filadir->nr;
-     
-   echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required  >';
-    echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required  >';
-
-
-    }
-
-    //list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes);
-?>
 <style type="text/css" media="screen">
   table {
   font-size: 100%;
 }
-</style>
-  
-
-      
+</style>      
 <div class="table-responsive">
-    <table id="myTable" class="table table-hover product-overview" style="margin-bottom: 0px;">
+    <table id="myTable_detallado" class="table table-hover product-overview" style="margin-bottom: 0px;">
         <thead class="bg-inverse text-white">
             <tr>
                 <th >Id</th>
@@ -51,7 +20,8 @@
         </thead>
         <tbody>
         <?php
-
+        $fecha_mes="2017-04";
+        $nr_empleado=$_GET['nr_empleado'];
         list($otrafecha)= explode ("-",$fecha_mes); 
         $mes = $otrafecha[1];
         list($anio, $mes)= explode ("-",$fecha_mes);  
@@ -109,17 +79,11 @@
     </table>
 </div>
 
-<?php 
-} else{
-?>
-    <h5 class="text-muted m-b-0">Ingrese un solicitante y una fecha para ver solicitudes de pasajes</h5>
-<?php
- }
-?>
+
 <script>
 $(function(){
     $(document).ready(function() {
-        $('#myTable').DataTable();
+        $('#myTable_detallado').DataTable();
     });
 });
 </script>

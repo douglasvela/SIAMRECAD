@@ -1,5 +1,21 @@
 
+<?php
+    $mantenimiento = false;
+    if($mantenimiento){
+        header("Location: ".site_url()."/mantenimiento");
+        exit();
+    }
 
+    $user = $this->session->userdata('usuario_viatico');
+
+    $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
+    $nr_usuario = "";
+    if($nr->num_rows() > 0){
+        foreach ($nr->result() as $fila) { 
+            $nr_usuario = $fila->nr; 
+        }
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +34,8 @@
 
 	    }
 	    function tabla_pasaje_unidad(){ 
-	    	fechas = $("#fecha1").val();
-	    	nr = $("#nr").val();
+	    	var fechas = $("#fecha1").val();
+	    	var nr = $("#nr").val();
 	        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
 	            xmlhttpB=new XMLHttpRequest();
 	        }else{// code for IE6, IE5
@@ -29,12 +45,7 @@
 	            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
 	                document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
 	                 $('[data-toggle="tooltip"]').tooltip();
-	                $('#fecha').datepicker({
-	                    format: 'dd-mm-yyyy',
-	                    autoclose: true,
-	                    todayHighlight: true
-	                });
-	                
+	              
 	                $('#myTable').DataTable();
 	            }
 	        }
@@ -43,22 +54,22 @@
 	   
 		}
 	function combo_oficina_departamento(tipo){
-        var nr = $("#nr").val();
+        
         var newName = 'Otro nombre',
         xhr = new XMLHttpRequest();
 
-        xhr.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_oficinas_departamentos1?tipo="+tipo+"&nr="+nr);
+        xhr.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_oficinas_departamentos1?");
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
             if (xhr.status === 200 && xhr.responseText !== newName) {
                 document.getElementById("combo_departamento").innerHTML = xhr.responseText;
                 // document.getElementById("combo_departamento1").innerHTML = xhr.responseText;
-                $(".select2").select2();
-                if(tipo == "mapa"){
-                    $('#departamento').val(id_departamento_mapa).trigger('change.select2');
-                }else{
-                    combo_municipio(tipo);
-                }
+                //$(".select2").select2();
+                
+                    $('#departamento').val('').trigger('change.select2');
+                 
+                    combo_municipio();
+                
             }else if (xhr.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
             }
@@ -70,61 +81,126 @@
         var id_departamento = $("#departamento").val();
         var newName = 'John Smith',
 
-        xhr = new XMLHttpRequest();
-        xhr.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios1?id_departamento="+id_departamento+"&tipo="+tipo);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (xhr.status === 200 && xhr.responseText !== newName) {
-                document.getElementById("combo_municipio").innerHTML = xhr.responseText;
-                // document.getElementById("combo_municipio1").innerHTML = xhr.responseText;
+        xhr_m = new XMLHttpRequest();
+        xhr_m.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios1?id_departamento="+id_departamento);
+        xhr_m.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr_m.onload = function() {
+            if (xhr_m.status === 200 && xhr_m.responseText !== newName) {
+                document.getElementById("combo_municipio").innerHTML = xhr_m.responseText;
+                // document.getElementById("combo_municipio1").innerHTML = xhr_m.responseText;
                 $(".select2").select2();
-                if(tipo == "oficina"){
-                    if($("#departamento").val() != ""){
-                       // $("#nombre_empresa").val($("#departamento option:selected").text());
-                        //$("#direccion_empresa").val($("#departamento option:selected").text());
-                        //$("#nombre_empresa").parent().parent().hide(0);
-                        //$("#direccion_empresa").parent().hide(0);
-                        $("#municipio").parent().hide(0);
-                    }else{
-                       
-                        $("#municipio").parent().hide(0);
-                        
-                    }
-                   // input_distancia(tipo);
-                }else if(tipo == "departamento"){
-                  
+                
                     $("#municipio").parent().show(0);
-                   // input_distancia(tipo);
-                }
+                  
+                
             }
-            else if (xhr.status !== 200) {
+            else if (xhr_m.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
             }
         };
-        xhr.send(encodeURI('name=' + newName));
+        xhr_m.send(encodeURI('name=' + newName));
     }
     function cambiar_nuevo(){
 
         $("#band").val("save");
 
-        $("#ttl_form").addClass("bg-success");
-        $("#ttl_form").removeClass("bg-info");
+        $("#ttl_form1").addClass("bg-success");
+        $("#ttl_form1").removeClass("bg-info");
 
        // $("#btnadd").show(0);
        // $("#btnedit").hide(0);
 
         $("#cnt_tabla").hide(0);
-        $("#cnt_form").show(0);
-        //$("#cnt_form").removeClass("col-lg-10");
-        //$("#cnt_form").addClass("col-lg-10");
-        $("#panel_mapa").hide(10);
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
- 		combo_oficina_departamento("departamento");
+        $("#cnt_solicitud").show(0);
+        
+        $("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
+ 		
     }
-    function cerrar_mantenimiento(){
+    function cerrar_mantenimiento1(){
     	$("#cnt_tabla").show(0);
-        $("#cnt_form").hide(0);
+        $("#cnt_solicitud").hide(0);
     }
+    
+    function mostrarform_detallado(){
+
+    	combo_oficina_departamento();
+    	$("#cnt_form").show(0);
+        $("#cnt_solicitud").hide(0);
+        $("#ttl_form2").children("h4").html("<span class='mdi mdi-plus'></span> Detalle de la solicitud");
+        tabla_pasajes_detallado();
+    }
+    function cerrar_mantenimiento2(){
+    	$("#cnt_form").hide(0);
+        $("#cnt_solicitud").show(0);
+    }
+    	function tabla_pasajes_detallado(){ 
+	    	 var nr_empleado = $("#nr_empleado").val();
+	    	 var id_mision = 1;
+	        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+	            xmlhttpPD=new XMLHttpRequest();
+	        }else{// code for IE6, IE5
+	            xmlhttpPD=new ActiveXObject("Microsoft.XMLHTTPB");
+	        }
+	        xmlhttpPD.onreadystatechange=function(){
+	            if (xmlhttpPD.readyState==4 && xmlhttpPD.status==200){
+	                document.getElementById("cnt_pasaje_detalle").innerHTML=xmlhttpPD.responseText;
+	                 $('[data-toggle="tooltip"]').tooltip();
+	              
+	                $('#myTable_detallado').DataTable();
+	            }
+	        }
+	        xmlhttpPD.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasajes_detallado?nr_empleado="+nr_empleado+"&id_mision="+id_mision, true);
+	        xmlhttpPD.send(); 
+	   
+		}
+		function mantto_solicitud(){
+			var formData = new FormData();
+			if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val()){
+				swal({ title: "¡Ups! Error", text: "Campos requeridos", type: "error", showConfirmButton: true });
+       			return;
+			}
+	        formData.append("nr_empleado", $("#nr_empleado").val());
+
+	        var nombre=$('select[name="nr_empleado"] option:selected').text();
+	        var nombre_ = nombre.split("-");
+	        var nombre_completo = nombre_[0];
+	        formData.append("nombre_completo", nombre_completo);
+	        formData.append("fecha_solicitud", $("#fecha_solicitud").val());
+	        formData.append("band", $("#band_solicitud").val());
+
+	        var f_parts = $("#fecha_solicitud").val().split("-");
+	        formData.append("mes_pasaje", f_parts[1]);
+	        formData.append("anio_pasaje", f_parts[2]);
+
+
+	        $.ajax({
+	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_pasaje",
+	            type: "post",
+	            dataType: "html",
+	            data: formData,
+	            cache: false,
+	            contentType: false,
+	            processData: false
+	        })
+	        .done(function(res){
+
+	            if(res == "exito"){
+	                if($("#band").val() == "save"){
+	                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+	                    mostrarform_detallado();
+	                }else if($("#band").val() == "edit"){
+	                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+	                }else{
+	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+	                }
+	            }else if (res=="duplicado"){
+	                swal({ title: "¡Ups! Error", text: "Ruta ya esta registrada.", type: "error", showConfirmButton: true });
+	            }else{
+	                alert(res)
+	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+	            }
+	        });
+		}
 	</script>
 </head>
 <body>
@@ -142,35 +218,44 @@
 	            <div class="col-lg-12" id="cnt_tabla" style="display: block;">
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="">
-	                        <h4 class="card-title m-b-0 text-white">Datos</h4>
+	                        <h4 class="card-title m-b-0 text-white">Listado de Solicitudes de Pasajes</h4>
 	                    </div>
 	                    <div class="card-body b-t">
+	                    	 <div class="pull-right">
+	                            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+	                        </div>
 	                    	<div class="row ">
 								<div class="form-group col-lg-6">
-	                                <h5>Solicitante: <span class="text-danger">*</span></h5>
+	                                <h5 style="display:none">Solicitante: <span class="text-danger">*</span></h5>
 	                                <select id="nr" name="nr" class="select2" style="width: 100%" required onchange="tabla_pasaje_unidad()">
 	                                <option value=''>[Elija el empleado]</option>
 	                                <?php
-	                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+	                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr as nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 	                                        if($dataEmpleado2->num_rows() > 0){
 	                                            foreach ($dataEmpleado2->result() as $fila2) {
+	                                            	if($nr_usuario == $fila2->nr){
 	                                 ?>
+	<option class="m-l-50" selected value="<?php echo $fila2->nr; ?>" ><?php echo preg_replace ('/[ ]+/', ' ',$fila2->nombre_completo.' - '.$fila2->nr) ?></option>
+	                                <?php
+	                                				}else{
+	                                ?>
 	<option class="m-l-50" value="<?php echo $fila2->nr; ?>"><?php echo preg_replace ('/[ ]+/', ' ',$fila2->nombre_completo.' - '.$fila2->nr) ?></option>
 	                                <?php
-	                                        } 	
+
+	                               
+	                            }
+	                                		}		
+	                                         	
 	                                    }
 	                                    //$u_rec_id = $this->session->userdata('rec_id');
 	                                ?>
 	                                </select>
 	                            </div>
 	                            <div class="form-group col-lg-3">
-	                            	<h5>Fecha: <span class="text-danger">*</span></h5>
+	                            	<h5 style="display:none">Fecha: <span class="text-danger">*</span></h5>
 	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1"  onchange="tabla_pasaje_unidad();">
 	                            </div>
-	                             <div class="form-group col-lg-3">
-	                             	<br>
-	                            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
-	                        </div>
+	                            
 	                        </div>
 	                        
 	                        <div id="cnt_pasaje">Seleccione un solicitante y una fecha</div>
@@ -180,23 +265,79 @@
 	            </div>
 	        </div>
 
+
+	        <div class="row justify-content-center">
+
+	            <div class="col-lg-12" id="cnt_solicitud" style="display: none;">
+	                <div class="card">
+	                    <div class="card-header bg-success2" id="ttl_form1">
+	                         
+	                        <h4 class="card-title m-b-0 text-white"></h4>
+	                    </div>
+	                    <div class="card-body b-t">
+	                    	<div class="row ">
+	                    		<div class="form-group col-lg-6">
+	                    			<input type="text" id="band_solicitud" name="band_solicitud" value="save">
+		                               <label for="" class="font-weight-bold">Solicitante: <span class="text-danger">*</span></label>
+		                                <select id="nr_empleado" name="nr_empleado" class="select2" style="width: 100%" required >
+		                                <option value='0'>[Elija el empleado]</option>
+		                                <?php
+		                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr as nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+		                                        if($dataEmpleado2->num_rows() > 0){
+		                                            foreach ($dataEmpleado2->result() as $fila2) {
+		                                            	if($nr_usuario == $fila2->nr){
+		                                 ?>
+		<option class="m-l-50" selected value="<?php echo $fila2->nr; ?>" ><?php echo preg_replace ('/[ ]+/', ' ',$fila2->nombre_completo.' - '.$fila2->nr) ?></option>
+		                                <?php
+		                                				}else{
+		                                ?>
+		<option class="m-l-50" value="<?php echo $fila2->nr; ?>"><?php echo preg_replace ('/[ ]+/', ' ',$fila2->nombre_completo.' - '.$fila2->nr) ?></option>
+		                                <?php
+
+		                               
+		                            }
+		                                		}		
+		                                         	
+		                                    }
+		                                    //$u_rec_id = $this->session->userdata('rec_id');
+		                                ?>
+		                                </select>
+		                             
+	                    		</div>
+	                    		<div class="form-group col-lg-3">
+	                    			<label for="" class="font-weight-bold">Fecha Solicitud: <span class="text-danger">*</span></label>
+	                    			 
+	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="dd/mm/yyyy" onchange="">
+                                    <div class="help-block"></div>
+	                    		</div>
+	                    		
+	                    	</div>
+	                    	  <div class="pull-left">
+                               <button type="button" onclick="cerrar_mantenimiento1();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
+                            </div>
+	                    	<div class="pull-right">
+	                            <button type="button" onclick="mantto_solicitud();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Continuar</button>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+
 			
 			<div class="row justify-content-center">
 
 	            <div class="col-lg-12" id="cnt_form" style="display: none;">
 	                <div class="card">
-	                    <div class="card-header bg-success2" id="ttl_form">
-	                        <div class="card-actions text-white">
-	                            <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
-	                        </div>
+	                    <div class="card-header bg-success2" id="ttl_form2">
+	                         
 	                        <h4 class="card-title m-b-0 text-white"></h4>
 	                    </div>
 	                    <div class="card-body b-t">
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-3">
-	                    			<label for="fecha" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
+	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
 	                    			 
-	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha" name="fecha" placeholder="dd/mm/yyyy" onchange="">
+	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">
                                     <div class="help-block"></div>
 	                    		</div>
 	                    		
@@ -247,6 +388,13 @@
 	                    			<input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" placeholder="Digite el monto de pasaje" >
 	                    		</div>
 	                    	</div>
+	                    	<div id="cnt_pasaje_detalle"></div>
+	                    	<div class="pull-left">
+                               <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
+                            </div>
+                            <div class="pull-right">
+	                            <button type="button" onclick="" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
+	                        </div>
 	                    </div>
 	                </div>
 	            </div>
@@ -265,10 +413,10 @@
 
 </body>
 </html>
-<script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper-init.js"></script>
+ 
 <script>
 	$(function(){
-		$('#fecha').datepicker({
+		$('#fecha_solicitud').datepicker({
 	        format: 'dd-mm-yyyy',
 	        autoclose: true,
 	        todayHighlight: true,

@@ -17,21 +17,42 @@ class Pasaje extends CI_Controller {
 	public function tabla_pasaje_unidad(){
 		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes');
 	}
-
-	function generar_solicitud(){
-		echo $this->Pasaje_model->cambiar_estado_revision($_POST['id_mision']);
+	public function tabla_pasajes_detallado(){	
+		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes_detallado');
 	}
+	public function buscar_jefes_superiores(){
+
+	}
+
+	
 	public function gestionar_pasaje(){		
 		if($this->input->post('band') == "save"){
+			$nr_empleado = $this->input->post('nr_empleado');
+			///////////////////////////////////////////////
+			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
+		    if($info_empleado->num_rows() > 0){ 
+		        foreach ($info_empleado->result() as $filas) {}
+		        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+		      if($oficina_origen->num_rows() > 0){ 
+		          foreach ($oficina_origen->result() as $filaofi) {}
+		      }
+		      $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
+		      if($director_jefe_regional->num_rows() > 0){ 
+		          foreach ($director_jefe_regional->result() as $filadir) {}
+		      }
+		      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
+		      $nr_jefe_regional = $filadir->nr;
+		  }
+			///////////////////////////////////////////////
 			$data = array(
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			'expediente' => $this->input->post('expediente'),
-			'empresa' => $this->input->post('empresa'),
-			'direccion' => $this->input->post('direccion'),
-			'id_actividad_realizada' => $this->input->post('id_actividad'),
-			'nr' => $this->input->post('nr'),
-			
-			'monto' => $this->input->post('monto')
+			'fecha_solicitud_pasaje' => date("Y-m-d",strtotime($this->input->post('fecha_solicitud'))),
+			'nr' => $nr_empleado,
+			'nombre_empleado' => $this->input->post('nombre_completo'),
+			'nr_jefe_inmediato' => $nr_jefe_inmediato,
+			'nr_jefe_regional' => $nr_jefe_regional,
+			'estado' => '0',
+			'mes_pasaje' =>$this->input->post('mes_pasaje'),
+			'anio_pasaje'=>$this->input->post('anio_pasaje')
 			);
 		echo $this->Pasaje_model->insertar_pasaje($data);
 			
@@ -118,7 +139,9 @@ public function gestionar_pasaje_fecha(){
 
 	}
 }
-
+	function generar_solicitud(){
+		echo $this->Pasaje_model->cambiar_estado_revision($_POST['id_mision']);
+	}
 	public function info_pasajes(){
 		$this->load->view('pasajes/viaticos_ajax/info_pasajes');
 	}
