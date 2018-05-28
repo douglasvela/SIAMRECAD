@@ -366,55 +366,7 @@
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Comment -->
-                        <!-- ============================================================== -->
-                     <li class="nav-item"> <a id="initial_user" style="display: none;" class="nav-link waves-effect waves-dark" href="javascript:void(0)"><span id="contador"></span></a> </li>
-
-                        <?php
-                            /*$notificaciones = 0;
-
-                            $notificacion_rutas = $this->db->query("SELECT * FROM vyp_rutas WHERE estado_vyp_rutas = 0");
-                            $notificacion_rutas = $notificacion_rutas->num_rows();
-                            if($notificacion_rutas > 0){
-                                $notificaciones++;
-                            }*/
-
-
-                        ?>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i style="font-size: 25px;" class="mdi mdi-bell"></i>
-                                <?php //if($notificaciones > 0){ ?>
-                                <span class="label label-danger" style=" font-size: 10px; position: absolute; top: 9px; right: 5px; border-radius: 50%; padding: 3px 8px;"><?php //echo $notificaciones; ?></span>
-                                <?php //} ?>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right mailbox scale-up">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">Notifications</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            <!-- Message -->
-                                            <a href="<?php echo site_url(); ?>/configuraciones/rutas">
-                                                <div class="btn btn-danger btn-circle"><i style="font-size: 20px;" class="mdi mdi-map"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Revisión de rutas <span class="label label-danger"><?php //echo $notificacion_rutas; ?></span></h5>
-                                                    <span class="mail-desc">Clic para revisar rutas pendientes</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- End Comment -->
-                        <!-- ============================================================== -->
+                        
                         <!-- ============================================================== -->
                         <!-- Profile -->
                         <!-- ============================================================== -->
@@ -426,15 +378,13 @@
                                         <div class="dw-user-box">
                                             <div class="u-text">
                                                 <h4><?php echo $this->session->userdata('nombre_usuario_viatico'); ?></h4>
-                                                <p class="text-muted" align="right"><a href="<?php echo site_url().'/cuenta/perfil'; ?>" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></p>
+
+                                                <p align="right"><a href="#!" class="btn btn-rounded btn-info waves-effect waves-light">Activo</a></p>
                                             </div>
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="<?php echo site_url().'/cuenta/perfil'; ?>"><i class="ti-user"></i> Mi Perfil</a></li>
-                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                                    <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="<?php echo site_url(); ?>/cerrar_sesion"><i class="fa fa-power-off"></i> Salir</a></li>
                                 </ul>
