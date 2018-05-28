@@ -401,7 +401,7 @@ $cuerpo .= '
     $cuerpo .= '<table style="width:100%;">
     <tbody>
         <tr>
-            <td>Lugar y Fecha: SAN SALVADOR, '.date("d").' DE '.mes(date("m")).' DE '.date("Y").'</td>
+            <td>Lugar y Fecha: SAN SALVADOR, '.date("d", strtotime($fila->fecha_elaboracion_poliza)).' DE '.mes(date("m"), strtotime($fila->fecha_elaboracion_poliza)).' DE '.date("Y", strtotime($fila->fecha_elaboracion_poliza)).'</td>
         </tr>
         
     </tbody>

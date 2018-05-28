@@ -281,7 +281,7 @@ $altura = 5);
 
 		                        $array = array(
 		                            $fecha_mision,
-		                            $ruta."      ",
+		                            $ruta."        ",
 		                            $hsalida,
 		                            $hllegada,
 		                            $ver_viatico,
@@ -341,7 +341,7 @@ $altura = 5);
 
 		                        $array = array(
 		                            $fecha_mision,
-		                            $ruta."      ",
+		                            $ruta."        ",
 		                            $hsalida,
 		                            $hllegada,
 		                            $ver_viatico,
@@ -429,7 +429,7 @@ $altura = 5);
 
 	                        $array = array(
 	                            $fecha_mision,
-	                            $fila->nombre_origen." - ".$fila->nombre_destino."      ",
+	                            $fila->nombre_origen." - ".$fila->nombre_destino."        ",
 	                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida)),
 	                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada)),
 	                            $ver_viatico,
@@ -478,7 +478,7 @@ $altura = 5);
 
         $pdf->Ln(5);
         $pdf->SetFont('Arial','',8);
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: ".$oficina_origen.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);
+        $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: ".$oficina_origen.", ".date("d", strtotime($filam->fecha_solicitud))." de ".mes(date("m", strtotime($filam->fecha_solicitud)))." de ".date("Y", strtotime($filam->fecha_solicitud)),0,'C', 0);
 
 
     $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");

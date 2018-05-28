@@ -51,7 +51,7 @@ class Poliza_pago extends CI_Controller {
 
 		$query = "UPDATE vyp_poliza SET estado = '2', fecha_cancelado = '".$data["fecha_pago"]."' WHERE id_poliza IN (SELECT p.id_poliza FROM (".$data['sql'].") AS p)";
 
-		echo $query2 = "UPDATE vyp_mision_oficial SET estado = '8', fecha_pago = '".date("Y-m-d h:i:s")."' WHERE id_mision_oficial IN (SELECT p.id_mision FROM (".$data['sql'].") AS p WHERE p.tipo_solicitud = 'viatico')";
+		$query2 = "UPDATE vyp_mision_oficial SET estado = '8', fecha_pago = '".date("Y-m-d h:i:s")."' WHERE id_mision_oficial IN (SELECT p.id_mision FROM (".$data['sql'].") AS p WHERE p.tipo_solicitud = 'viatico')";
 
 		$query3 = "UPDATE vyp_mision_pasajes SET estado = '8', fecha_pago = '".date("Y-m-d h:i:s")."' WHERE id_mision_pasajes IN (SELECT p.id_mision FROM (".$data['sql'].") AS p WHERE p.tipo_solicitud = 'pasaje')";
 		

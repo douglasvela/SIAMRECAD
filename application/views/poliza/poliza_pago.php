@@ -137,7 +137,12 @@ function mes($mes){
           cache: false
       })
       .done(function(data){
-          genera_planillas(sql,polis)
+          if(data == "exito"){
+              swal({ title: "¡Pago exitoso!", text: "Ya puedes generar planillas para bancos", type: "success", showConfirmButton: true });
+              genera_planillas(sql,polis)
+          }else{
+              swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+          }
       });
   }
 
