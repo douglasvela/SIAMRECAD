@@ -90,10 +90,13 @@ $("#id_actividad1").val(actividad).trigger("change.select2");
 
 
     }
- function cerrar_mantenimiento(){
-        $("#cnt-tabla").show(0);
-        $("#cnt_form").hide(0);
-    }
+ /*function cerrar_mantenimiento(){
+       
+      //  $("#cnt_form").hide(0);
+         $("#cnt_form").hide(0);
+          $("#cnt-tabla").show(0);
+           $("#cnt_form").show(0);
+    }*/
       function eliminar_pasaje(id_pasaje)
     {
         swal({   
@@ -359,8 +362,7 @@ var nombre_empleado = $("#nr option:selected").text().split("-");
 
 var fecha = $("#fecha1").val().split("-");
  
-//alert($("#nr").val()+" --> "+nombre_empleado[0]+" --> "+fecha[0]+" --> "+fecha[1])
-//
+
 formData.append("id_mision", id);
 formData.append("nr", $("#nr").val());
 formData.append("nombre_emple", nombre_empleado[0].trim());
@@ -1016,18 +1018,24 @@ function observaciones(id_mision){
  
  function iniciar(){
 
-        tabla_pasaje_unidad();
     // cambiar_nuevo();
-   
+    tabla_pasaje_unidad();
       if(nr_empleado!="")
       {
       $("#nr").val(nr_empleado).trigger('change.select2');
      $("#fecha1").val(fecha_p).trigger('change.select2');
         }
 else{
+    
     $("#nr").val(nr1).trigger('change.select2');
     $("#fecha1").val(fechitas).trigger('change.select2');
+        
+    
+    
+
 }
+
+       
 
       form_folleto_viaticos();
    
@@ -1094,9 +1102,7 @@ function form_folleto_viaticos(){
             <div class="col-lg-12" id="cnt_form" >
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
-                        <div class="card-actions text-white">
-                            <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
-                        </div>
+                      
                         <h4 class="card-title m-b-0 text-white">Pasajes</h4>
                     </div>
                     <div class="card-body b-t">
@@ -1218,8 +1224,8 @@ function form_folleto_viaticos(){
                              <h5>Actividad realizada: <span class="text-danger">*</span></h5>
        
                                     <div class="input-group">
-                                        <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
-                                            <option value=''>[Elija una actividad]</option>
+                                        <select id="id_actividad1" name="id_actividad1" class="select2" style="width: 100%" required=''>
+                                            <option value="">[Elija una actividad]</option>
                                         <?php 
                                             $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
                                             if($actividad->num_rows() > 0){

@@ -58,11 +58,14 @@
                 });
             }
         }
+        
        // xmlhttp.open("GET","getuser.php?q=" + q + "&r=" + r, true);
        location.href = "<?php echo site_url(); ?>/pasajes/pasaje?nr="+nr + "&fecha2="+fechas+ "&nr1="+nr1+ "&fecha="+fechita+ "&bandera="+"edit" + "&id="+id + "&estado="+estado1+ "&fecha_observacion="+fecha_observacion;
         //xmlhttpB.open("GET","<?php //echo site_url(); ?>/pasajes/lista_pasaje/tabla_pasaje_lista?nr="+nr + "&fecha2="+fechas, true);
          
-        xmlhttpB.send();      
+        xmlhttpB.send();  
+       
+   
     }
 
 
@@ -575,6 +578,8 @@ function form_folleto_viaticos(){
                      <div class="pull-right">
                             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
                         </div>
+
+                          
                     <?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                         <input type="hidden" id="band" name="band" value="save">
                            
@@ -615,6 +620,13 @@ function form_folleto_viaticos(){
                                 <div id="cnt_pasaje"></div> <!--para imprimir la tabla -->
                                  
                         </blockquote>
+                        <div class="row" align="right">
+                        <div class="col-lg-12">
+                            <button type="button" onclick="tablapasajes()" class="pull-right btn btn-info">
+                           Ver registros individuales 
+                            </button>
+                        </div>
+                        </div>
                           <?php echo form_close(); ?>
                     <?php echo form_close(); ?>
                     </div>
