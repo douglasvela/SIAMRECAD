@@ -102,7 +102,7 @@
     }
     function cambiar_nuevo(){
 
-        $("#band").val("save");
+        $("#band_solicitud").val("save");
 
         $("#ttl_form1").addClass("bg-success");
         $("#ttl_form1").removeClass("bg-info");
@@ -135,7 +135,7 @@
     }
     	function tabla_pasajes_detallado(){ 
 	    	 var nr_empleado = $("#nr_empleado").val();
-	    	 var id_mision = 1;
+	    	 var id_mision = $("#id_mision_pasajes").val();
 	        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
 	            xmlhttpPD=new XMLHttpRequest();
 	        }else{// code for IE6, IE5
@@ -158,6 +158,9 @@
 			if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val()){
 				swal({ title: "¡Ups! Error", text: "Campos requeridos", type: "error", showConfirmButton: true });
        			return;
+			}
+			if($("#band_solicitud").val()=="edit"){
+				formData.append("id_mision_pasajes", $("#id_mision_pasajes").val());	
 			}
 	        formData.append("nr_empleado", $("#nr_empleado").val());
 
@@ -182,19 +185,68 @@
 	            contentType: false,
 	            processData: false
 	        })
-	        .done(function(res){
+	        .done(function(res1){
+				var res=res1.split(",");
+	            if(res[0] == "exito"){
 
-	            if(res == "exito"){
-	                if($("#band").val() == "save"){
+	                if($("#band_solicitud").val() == "save"){
 	                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+	                    mostrarform_detallado();$("#band_solicitud").val("edit");$("#id_mision_pasajes").val(res[1]);
+	                }else if($("#band_solicitud").val() == "edit"){
+	                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
 	                    mostrarform_detallado();
-	                }else if($("#band").val() == "edit"){
-	                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
 	                }else{
 	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
 	                }
-	            }else if (res=="duplicado"){
-	                swal({ title: "¡Ups! Error", text: "Ruta ya esta registrada.", type: "error", showConfirmButton: true });
+	            }else{
+	                alert(res[0])
+	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+	            }
+	        });
+		}
+		function cambiar_editar(id_mision_pasajes,fecha_solicitud_pasaje,nr){
+			$("#cnt_tabla").hide(0);
+        	$("#cnt_solicitud").show(0);
+        	$("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
+        	$("#id_mision_pasajes").val(id_mision_pasajes);
+        	$("#fecha_solicitud").val(fecha_solicitud_pasaje);
+        	$("#nr_empleado").val(nr).trigger("change.select2");
+        	$("#band_solicitud").val("edit");
+		}
+		function mantto_detalle_solicitud(){
+			var formData = new FormData();
+			formData.append("band_detalle_solicitud", $("#band_detalle_solicitud").val());
+			formData.append("fecha_detalle", $("#fecha_detalle").val());
+			formData.append("departamento", $("#departamento").val());
+			formData.append("municipio", $("#municipio").val());
+			formData.append("empresa", $("#empresa").val());
+			formData.append("direccion", $("#direccion").val());
+			formData.append("expediente", $("#expediente").val());
+			formData.append("id_actividad", $("#id_actividad").val());
+			formData.append("nr_empleado", $("#nr_empleado").val());
+			formData.append("monto", $("#monto").val());
+			formData.append("id_mision", $("#id_mision_pasajes").val());
+
+			$.ajax({
+	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_detalle_pasaje",
+	            type: "post",
+	            dataType: "html",
+	            data: formData,
+	            cache: false,
+	            contentType: false,
+	            processData: false
+	        })
+	        .done(function(res){
+	            if(res == "exito"){
+	                if($("#band_detalle_solicitud").val() == "save"){
+	                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+	                    tabla_pasajes_detallado();
+	                }else if($("#band_detalle_solicitud").val() == "edit"){
+	                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+	                    tabla_pasajes_detallado();
+	                }else{
+	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+	                }
 	            }else{
 	                alert(res)
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -278,6 +330,7 @@
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-6">
 	                    			<input type="text" id="band_solicitud" name="band_solicitud" value="save">
+		                            <input type="text" id="id_mision_pasajes" name="id_mision_pasajes">
 		                               <label for="" class="font-weight-bold">Solicitante: <span class="text-danger">*</span></label>
 		                                <select id="nr_empleado" name="nr_empleado" class="select2" style="width: 100%" required >
 		                                <option value='0'>[Elija el empleado]</option>
@@ -335,6 +388,7 @@
 	                    <div class="card-body b-t">
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-3">
+	                    			<input type="text" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
 	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
 	                    			 
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">
@@ -388,7 +442,11 @@
 	                    			<input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" placeholder="Digite el monto de pasaje" >
 	                    		</div>
 	                    	</div>
+	                    	<div class="pull-right">
+	                            <button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Agregar</button>
+	                        </div>
 	                    	<div id="cnt_pasaje_detalle"></div>
+	                    	<br><br>
 	                    	<div class="pull-left">
                                <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
                             </div>
@@ -417,6 +475,12 @@
 <script>
 	$(function(){
 		$('#fecha_solicitud').datepicker({
+	        format: 'dd-mm-yyyy',
+	        autoclose: true,
+	        todayHighlight: true,
+	        daysOfWeekDisabled: [0,6]
+        });
+        $('#fecha_detalle').datepicker({
 	        format: 'dd-mm-yyyy',
 	        autoclose: true,
 	        todayHighlight: true,
