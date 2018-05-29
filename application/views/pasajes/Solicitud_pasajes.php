@@ -53,7 +53,7 @@
 	        xmlhttpB.send(); 
 	   
 		}
-	function combo_oficina_departamento(tipo){
+	function combo_oficina_departamento(val){
         
         var newName = 'Otro nombre',
         xhr = new XMLHttpRequest();
@@ -64,11 +64,11 @@
             if (xhr.status === 200 && xhr.responseText !== newName) {
                 document.getElementById("combo_departamento").innerHTML = xhr.responseText;
                 // document.getElementById("combo_departamento1").innerHTML = xhr.responseText;
-                //$(".select2").select2();
+                $(".select2").select2();
                 
-                    $('#departamento').val('').trigger('change.select2');
+                    //$('#departamento').val('').trigger('change.select2');
                  
-                    combo_municipio();
+                    //combo_municipio('');
                 
             }else if (xhr.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -77,22 +77,18 @@
         xhr.send(encodeURI('name=' + newName));
     }
 
-    function combo_municipio(tipo){     
-        var id_departamento = $("#departamento").val();
+    function combo_municipio(depto,valor){     
+        var id_departamento = depto;
         var newName = 'John Smith',
-
         xhr_m = new XMLHttpRequest();
-        xhr_m.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios1?id_departamento="+id_departamento);
+        xhr_m.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios1?id_departamento="+id_departamento+"&val="+valor);
         xhr_m.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr_m.onload = function() {
             if (xhr_m.status === 200 && xhr_m.responseText !== newName) {
                 document.getElementById("combo_municipio").innerHTML = xhr_m.responseText;
                 // document.getElementById("combo_municipio1").innerHTML = xhr_m.responseText;
                 $(".select2").select2();
-                
-                    $("#municipio").parent().show(0);
-                  
-                
+                // $("#municipio").parent().show(0);
             }
             else if (xhr_m.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -124,6 +120,7 @@
     function mostrarform_detallado(){
 
     	combo_oficina_departamento();
+    	combo_municipio('','');
     	$("#cnt_form").show(0);
         $("#cnt_solicitud").hide(0);
         $("#ttl_form2").children("h4").html("<span class='mdi mdi-plus'></span> Detalle de la solicitud");
@@ -252,6 +249,21 @@
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
 	            }
 	        });
+		}
+		function cambiar_detallado_editar(id_solicitud_pasaje,fecha_mision,id_departamento,id_municipio,no_expediente,empresa_visitada,direccion_empresa,monto_pasaje,id_actividad_realizada){
+			combo_municipio(id_departamento,id_municipio);
+			$("#band_detalle_solicitud").val("edit");
+			$("#id_detalle_solicitud").val(id_solicitud_pasaje);
+			$("#fecha_detalle").val(fecha_mision);
+			$("#departamento").val(id_departamento).trigger("change.select2");
+			//$("#municipio").val(id_municipio).trigger("change.select2");
+			$("#empresa").val(empresa_visitada);
+			$("#direccion").val(direccion_empresa);
+			$("#expediente").val(no_expediente);
+			$("#id_actividad").val(id_actividad_realizada);
+			//$("#nr_empleado").val();
+			$("#monto").val(monto_pasaje);
+			//$("#id_mision_pasajes").val();
 		}
 	</script>
 </head>
@@ -389,6 +401,7 @@
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-3">
 	                    			<input type="text" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
+	                    			<input type="text" id="id_detalle_solicitud" name="id_detalle_solicitud" value="save">
 	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
 	                    			 
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">

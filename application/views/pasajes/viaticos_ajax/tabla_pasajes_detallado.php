@@ -41,11 +41,11 @@
                             echo "<td>".$fila->monto_pasaje."</td>";
                             echo "<td>".$fila->id_actividad_realizada."</td>";
                     echo "<td>";
-                   $array = array();
+                   $array = array($fila->id_solicitud_pasaje,$fila->fecha_mision,$fila->id_departamento,$fila->id_municipio,$fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa,$fila->monto_pasaje,$fila->id_actividad_realizada);
                     array_push($array, "edit");
-                    echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                    echo generar_boton($array,"cambiar_detallado_editar","btn-info","fa fa-wrench","Editar");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                    echo generar_boton(array(),"eliminar_pasaje","btn-danger","fa fa-close","Eliminar");
+                    echo generar_boton(array($fila->id_solicitud_pasaje),"eliminar_detallado_pasaje","btn-danger","fa fa-close","Eliminar");
                     echo "</td>";
                   echo "</tr>";
                 }
