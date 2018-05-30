@@ -123,10 +123,22 @@ class Pasaje extends CI_Controller {
 			'id_mision'=>$this->input->post('id_mision'),
 			);
 			echo $this->Pasaje_model->editar_detalle_solicitud($data);
+		}else if($this->input->post('band_detalle_solicitud') == "delete"){
+			$data = array(
+			'id_solicitud_pasaje' => $this->input->post('id_detalle_solicitud'),
+			'id_mision'=>$this->input->post('id_mision')
+			);
+			echo $this->Pasaje_model->eliminar_detalle_solicitud($data);
 		}
-
-		
 	}
+
+	function gestionar_revision1(){
+			$data = array(
+			'id_mision_pasajes' => $this->input->post('id_mision_pasajes')
+			);
+			echo $this->Pasaje_model->enviar_a_revision($data);
+	}
+
 	public function gestionar_pasaje2(){		
 		if($this->input->post('band2') == "save"){
 			$data = array(

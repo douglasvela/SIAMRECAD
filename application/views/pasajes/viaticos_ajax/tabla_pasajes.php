@@ -1,30 +1,7 @@
-
 <?php 
     $nr_empleado = $_GET["nr"];
    $fecha_mes = $_GET["fecha1"];
-  
   if(!empty($nr_empleado) AND !empty($fecha_mes)){
-    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
-    if($info_empleado->num_rows() > 0){ 
-        foreach ($info_empleado->result() as $filas) {}
-        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
-      if($oficina_origen->num_rows() > 0){ 
-          foreach ($oficina_origen->result() as $filaofi) {}
-      }
-      $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
-      if($director_jefe_regional->num_rows() > 0){ 
-          foreach ($director_jefe_regional->result() as $filadir) {}
-      }
-      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
-      $nr_jefe_regional = $filadir->nr;
-     
-   echo '<input type="text" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required  >';
-    echo '<input type="text" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required  >';
-
-
-    }
-
-    //list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes);
 ?>
 <style type="text/css" media="screen">
   table {
@@ -45,18 +22,18 @@
                 <th>Mes</th>
                 <th>Año</th>
                  <th>Estado</th>
-                 <th>Monto</th>
+                 <th>Monto Total</th>
                 <th>(*)</th>
             </tr>
         </thead>
         <tbody>
         <?php
 
-        list($otrafecha)= explode ("-",$fecha_mes); 
+        $otrafecha= explode ("-",$fecha_mes); 
         $mes = $otrafecha[1];
-        list($anio, $mes)= explode ("-",$fecha_mes);  
+        $anios = $otrafecha[0];
 
-      $cuenta = $this->db->query("SELECT * FROM vyp_mision_pasajes AS p WHERE p.nr = '".$nr_empleado."' AND p.mes_pasaje='".$mes."' ORDER BY p.mes_pasaje DESC");
+      $cuenta = $this->db->query("SELECT * FROM vyp_mision_pasajes AS p WHERE p.nr = '".$nr_empleado."' AND p.anio_pasaje='".$anios."' AND p.mes_pasaje='".$mes."' ORDER BY p.mes_pasaje asc");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
@@ -88,8 +65,15 @@
                             }else if($fila->estado == 8){
                                 echo '<td><span class="label label-success">Pagada</span></td>';
                             }
-                           
-                            echo "<td></td>";
+                            $m_ = $fila->id_mision_pasajes;
+                            $monto = $this->db->query("SELECT sum(monto_pasaje) as monto_total FROM vyp_pasajes WHERE id_mision='".$m_."'");
+                            if($monto->num_rows() > 0){
+                                foreach ($monto->result() as $montofila) {
+                                  echo "<td>".$montofila->monto_total."</td>";
+                                }
+                            }else{
+                              echo "<td></td>";
+                            }
                     echo "<td>";
                    $array = array($fila->id_mision_pasajes,$fila->fecha_solicitud_pasaje,$fila->nr);
                     array_push($array, "edit");

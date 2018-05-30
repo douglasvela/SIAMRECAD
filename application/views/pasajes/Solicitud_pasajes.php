@@ -31,7 +31,7 @@
 	        return xmlhttp;
 	    }
 	    function iniciar(){
-
+	    	tabla_pasaje_unidad();
 	    }
 	    function tabla_pasaje_unidad(){ 
 	    	var fechas = $("#fecha1").val();
@@ -187,6 +187,13 @@
         	$("#band_solicitud").val("edit");
 		}
 		function mantto_detalle_solicitud(){
+			if($("#band_detalle_solicitud").val()=="save" || $("#band_detalle_solicitud").val()=="edit"){
+				if($("#fecha_detalle").val()=="" || $("#departamento").val()=='0' || $("#municipio").val()=='0' || $("#empresa").val()==''
+					|| $("#direccion").val()=="" || $("#expediente").val()=="" || $("#id_actividad").val()=='0' || $("#monto").val()=="" || $("#monto").val()==0.00){
+					swal({ title: "¡Ups!", text: "Campos requeridos sin llenar.", type: "error", showConfirmButton: true });
+					return;
+				}
+			}
 			var formData = new FormData();
 			formData.append("band_detalle_solicitud", $("#band_detalle_solicitud").val());
 			formData.append("fecha_detalle", $("#fecha_detalle").val());
@@ -199,7 +206,8 @@
 			formData.append("nr_empleado", $("#nr_empleado").val());
 			formData.append("monto", $("#monto").val());
 			formData.append("id_mision", $("#id_mision_pasajes").val());
-			if($("#band_detalle_solicitud").val()=="edit") formData.append("id_detalle_solicitud", $("#id_detalle_solicitud").val());
+
+			if($("#band_detalle_solicitud").val()=="edit" || $("#band_detalle_solicitud").val()=="delete") formData.append("id_detalle_solicitud", $("#id_detalle_solicitud").val());
 			$.ajax({
 	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_detalle_pasaje",
 	            type: "post",
@@ -223,8 +231,11 @@
 						document.getElementById("boton_agregar_detallado").style.display="block";
 	                }else{
 	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+	                    tabla_pasajes_detallado();
 	                }
 	                limpiar_form_detallado();
+	            }else if(res=="monto_invalido"){
+	            	swal({ title: "¡Ups! Error", text: "Monto no es valido.", type: "error", showConfirmButton: true });
 	            }else{
 	                alert(res)
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -261,6 +272,46 @@
 			$("#expediente").val("");
 			$("#id_actividad").val("");
 			$("#monto").val("");
+		}
+		function eliminar_detallado_pasaje(id_solicitud_pasaje){
+			$("#id_detalle_solicitud").val(id_solicitud_pasaje);
+			enviar_eliminar_detallado_pasaje();
+		}
+		function enviar_eliminar_detallado_pasaje(){
+			$("#band_detalle_solicitud").val("delete");
+		       swal({
+		           title: "¿Está seguro?",
+		           text: "¡Desea eliminar el registro!",
+		           type: "warning",
+		           showCancelButton: true,
+		           confirmButtonColor: "#fc4b6c",
+		           confirmButtonText: "Sí, deseo eliminar!",
+		           closeOnConfirm: false
+		       }, function(){
+		           mantto_detalle_solicitud();
+		       });
+		}
+		function enviararevision(){
+			var formData = new FormData();
+			formData.append("id_mision_pasajes", $("#id_mision_pasajes").val());
+
+			$.ajax({
+	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_revision1",
+	            type: "post",
+	            dataType: "html",
+	            data: formData,
+	            cache: false,
+	            contentType: false,
+	            processData: false
+	        }).done(function(res){
+	            if(res == "exito"){
+	            	swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+	            	cerrar_mantenimiento2();
+	            	cerrar_mantenimiento1();
+	            	tabla_pasaje_unidad();
+	            }
+	        });
+	    
 		}
 	</script>
 </head>
@@ -314,7 +365,7 @@
 	                            </div>
 	                            <div class="form-group col-lg-3">
 	                            	<h5 style="display:none">Fecha: <span class="text-danger">*</span></h5>
-	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1"  onchange="tabla_pasaje_unidad();">
+	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>
 	                            
 	                        </div>
@@ -378,7 +429,7 @@
                                <button type="button" onclick="cerrar_mantenimiento1();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
                             </div>
 	                    	<div class="pull-right">
-	                            <button type="button" onclick="mantto_solicitud();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Continuar</button>
+	                            <button type="button" onclick="mantto_solicitud();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-arrow-right"></span> Siguiente</button>
 	                        </div>
 	                    </div>
 	                </div>
@@ -398,7 +449,7 @@
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-3">
 	                    			<input type="hidden" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
-	                    			<input type="hidden" id="id_detalle_solicitud" name="id_detalle_solicitud" value="">
+	                    			<input type="text" id="id_detalle_solicitud" name="id_detalle_solicitud" value="">
 	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
 	                    			 
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">
@@ -465,7 +516,7 @@
 	                    		</div>
 	                    		<div class="form-group col-lg-3">
 	                    			<label for="monto" class="font-weight-bold">Monto: <span class="text-danger">*</span></label>
-	                    			<input type="text" id="monto" name="monto" class="form-control" required="" data-validation-required-message="Este campo es requerido" placeholder="Digite el monto de pasaje" >
+	                    			<input type="number" id="monto" name="monto" class="form-control" min="0.01" placeholder="Digite el monto de pasaje" >
 	                    		</div>
 	                    	</div>
 	                    	<div class="pull-right">
@@ -482,7 +533,7 @@
                                <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
                             </div>
                             <div class="pull-right">
-	                            <button type="button" onclick="" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
+	                            <button type="button" onclick="enviararevision();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
 	                        </div>
 	                    </div>
 	                </div>

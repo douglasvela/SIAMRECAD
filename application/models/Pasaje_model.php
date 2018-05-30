@@ -51,22 +51,47 @@ class Pasaje_model extends CI_Model {
 	}
 
 	function ingresar_detalle_solicitud($data){
-		
-		if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+		$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
+		if($query->num_rows() > 0){
+			if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+				$this->agrupar_fechas_detalles($data['id_mision']);
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+		}else{
+			return "monto_invalido";
+		}
+	}
+	function editar_detalle_solicitud($data){
+		$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
+		if($query->num_rows() > 0){
+			$this->db->where("id_solicitud_pasaje",$data["id_solicitud_pasaje"]);
+			if($this->db->update('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+				$this->agrupar_fechas_detalles($data['id_mision']);
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+		}else{
+			return "monto_invalido";
+		}
+	}
+	function eliminar_detalle_solicitud($data){
+		if($this->db->delete("vyp_pasajes",array('id_solicitud_pasaje' => $data['id_solicitud_pasaje']))){
 			$this->agrupar_fechas_detalles($data['id_mision']);
 			return "exito";
 		}else{
 			return "fracaso";
 		}
 	}
-	function editar_detalle_solicitud($data){
-		$this->db->where("id_solicitud_pasaje",$data["id_solicitud_pasaje"]);
-		if($this->db->update('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
-			$this->agrupar_fechas_detalles($data['id_mision']);
-			return "exito";
-		}else{
-			return "fracaso";
-		}
+	function enviar_a_revision($data){
+		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
+			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1'))){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
 	}
 
 	function obtener_ultimo_id($tabla,$nombreid){
