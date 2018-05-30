@@ -7,7 +7,6 @@
     <table id="myTable_detallado" class="table table-hover product-overview" style="margin-bottom: 0px;">
         <thead class="bg-inverse text-white">
             <tr>
-                <th>Id</th>
                 <th>Fecha Misión</th>
                 <th>Departamento</th>
                 <th>Municipio</th>
@@ -31,7 +30,6 @@
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
-                            echo "<td>".$fila->id_solicitud_pasaje."</td>";
                             echo "<td>".$fila->fecha_mision."</td>";
                             echo "<td>".$fila->id_departamento."</td>";
                             echo "<td>".$fila->id_municipio."</td>";

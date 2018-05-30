@@ -88,7 +88,7 @@ class Pasaje extends CI_Controller {
 			echo $this->Pasaje_model->editar_pasaje($data);
 		}else if($this->input->post('band') == "delete"){
 			$data = array(
-			'id_pasaje' => $this->input->post('id_pasaje')
+			'id_mision_pasajes' => $this->input->post('id_mision_pasajes')
 			);
 			echo $this->Pasaje_model->eliminar_pasaje($data);
 		}
@@ -109,8 +109,23 @@ class Pasaje extends CI_Controller {
 			);
 			echo $this->Pasaje_model->ingresar_detalle_solicitud($data);
 		}else if($this->input->post('band_detalle_solicitud') == "edit"){
-
+			$data = array(
+			'id_solicitud_pasaje' => $this->input->post('id_detalle_solicitud'),
+			'fecha_detalle' => date("Y-m-d",strtotime($this->input->post('fecha_detalle'))),
+			'departamento' => $this->input->post('departamento'),
+			'municipio' => $this->input->post('municipio'),
+			'empresa' => $this->input->post('empresa'),
+			'direccion' => $this->input->post('direccion'),
+			'expediente' =>$this->input->post('expediente'),
+			'id_actividad'=>$this->input->post('id_actividad'),
+			'nr_empleado'=>$this->input->post('nr_empleado'),
+			'monto'=>$this->input->post('monto'),
+			'id_mision'=>$this->input->post('id_mision'),
+			);
+			echo $this->Pasaje_model->editar_detalle_solicitud($data);
 		}
+
+		
 	}
 	public function gestionar_pasaje2(){		
 		if($this->input->post('band2') == "save"){

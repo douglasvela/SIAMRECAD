@@ -53,29 +53,7 @@
 	        xmlhttpB.send(); 
 	   
 		}
-	function combo_oficina_departamento(val){
-        
-        var newName = 'Otro nombre',
-        xhr = new XMLHttpRequest();
-
-        xhr.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_oficinas_departamentos1?");
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (xhr.status === 200 && xhr.responseText !== newName) {
-                document.getElementById("combo_departamento").innerHTML = xhr.responseText;
-                // document.getElementById("combo_departamento1").innerHTML = xhr.responseText;
-                $(".select2").select2();
-                
-                    //$('#departamento').val('').trigger('change.select2');
-                 
-                    //combo_municipio('');
-                
-            }else if (xhr.status !== 200) {
-                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
-            }
-        };
-        xhr.send(encodeURI('name=' + newName));
-    }
+	 
 
     function combo_municipio(depto,valor){     
         var id_departamento = depto;
@@ -118,13 +96,11 @@
     }
     
     function mostrarform_detallado(){
-
-    	combo_oficina_departamento();
-    	combo_municipio('','');
     	$("#cnt_form").show(0);
         $("#cnt_solicitud").hide(0);
         $("#ttl_form2").children("h4").html("<span class='mdi mdi-plus'></span> Detalle de la solicitud");
         tabla_pasajes_detallado();
+        //ombo_municipio();
     }
     function cerrar_mantenimiento2(){
     	$("#cnt_form").hide(0);
@@ -223,7 +199,7 @@
 			formData.append("nr_empleado", $("#nr_empleado").val());
 			formData.append("monto", $("#monto").val());
 			formData.append("id_mision", $("#id_mision_pasajes").val());
-
+			if($("#band_detalle_solicitud").val()=="edit") formData.append("id_detalle_solicitud", $("#id_detalle_solicitud").val());
 			$.ajax({
 	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_detalle_pasaje",
 	            type: "post",
@@ -238,25 +214,32 @@
 	                if($("#band_detalle_solicitud").val() == "save"){
 	                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
 	                    tabla_pasajes_detallado();
+	                    document.getElementById("boton_editar_detallado").style.display="none";
+						document.getElementById("boton_agregar_detallado").style.display="block";
 	                }else if($("#band_detalle_solicitud").val() == "edit"){
 	                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
 	                    tabla_pasajes_detallado();
+	                    document.getElementById("boton_editar_detallado").style.display="none";
+						document.getElementById("boton_agregar_detallado").style.display="block";
 	                }else{
 	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
 	                }
+	                limpiar_form_detallado();
 	            }else{
 	                alert(res)
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
 	            }
+
 	        });
 		}
 		function cambiar_detallado_editar(id_solicitud_pasaje,fecha_mision,id_departamento,id_municipio,no_expediente,empresa_visitada,direccion_empresa,monto_pasaje,id_actividad_realizada){
-			combo_municipio(id_departamento,id_municipio);
+			
 			$("#band_detalle_solicitud").val("edit");
 			$("#id_detalle_solicitud").val(id_solicitud_pasaje);
 			$("#fecha_detalle").val(fecha_mision);
-			$("#departamento").val(id_departamento).trigger("change.select2");
+			$("#departamento").val(id_departamento);
 			//$("#municipio").val(id_municipio).trigger("change.select2");
+			combo_municipio(id_departamento,id_municipio);
 			$("#empresa").val(empresa_visitada);
 			$("#direccion").val(direccion_empresa);
 			$("#expediente").val(no_expediente);
@@ -264,6 +247,20 @@
 			//$("#nr_empleado").val();
 			$("#monto").val(monto_pasaje);
 			//$("#id_mision_pasajes").val();
+			document.getElementById("boton_editar_detallado").style.display="block";
+			document.getElementById("boton_agregar_detallado").style.display="none";
+		}
+		function limpiar_form_detallado(){
+			$("#band_detalle_solicitud").val("save");
+			$("#id_detalle_solicitud").val("");
+			$("#fecha_detalle").val("");
+			$("#departamento").val("0").trigger("change.select2");
+			$("#municipio").val("0").trigger("change.select2");
+			$("#empresa").val("");
+			$("#direccion").val("");
+			$("#expediente").val("");
+			$("#id_actividad").val("");
+			$("#monto").val("");
 		}
 	</script>
 </head>
@@ -400,8 +397,8 @@
 	                    <div class="card-body b-t">
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-3">
-	                    			<input type="text" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
-	                    			<input type="text" id="id_detalle_solicitud" name="id_detalle_solicitud" value="save">
+	                    			<input type="hidden" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
+	                    			<input type="hidden" id="id_detalle_solicitud" name="id_detalle_solicitud" value="">
 	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
 	                    			 
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">
@@ -409,10 +406,26 @@
 	                    		</div>
 	                    		
 	                    		<div class="form-group col-lg-3">
-	                    			<div class="" id="combo_departamento" ></div> 
+	                    			<label class='font-weight-bold'>Departamento: <span class='text-danger'>*</span></label>
+	                    			<select id="departamento" name="departamento" class="select2" onchange="combo_municipio(this.value,null)" style="width: 285px" required>
+	                    				<option value='0'>[Elija el departamento]</option>
+	                    				<?php 
+	                    				 $departamento = $this->db->query("SELECT * FROM org_departamento");
+							                if($departamento->num_rows() > 0){
+							                    foreach ($departamento->result() as $fila2) {              
+							                       echo '<option class="m-l-50" value="'.$fila2->id_departamento.'" onclick="combo_municipio('.$fila2->id_departamento.',null)">'.$fila2->departamento.'</option>';
+							                    }
+							                }
+	                    				?>
+	                    			</select>
 	                    		</div>
 	                    		<div class="form-group col-lg-3">
-	                    			<div class="" id="combo_municipio" ></div>
+	                    			<div class="" id="combo_municipio" >
+	                    				<label class='font-weight-bold'>Municipio: <span class='text-danger'>*</span></label><br>
+	                    				<select class="select2" name="" style="width: 285px" >
+	                    					<option value="">[Seleccione]</option>
+	                    				</select>
+	                    			</div>
 	                    		</div>
 	                    	</div>
 	                    	<div class="row">
@@ -456,7 +469,12 @@
 	                    		</div>
 	                    	</div>
 	                    	<div class="pull-right">
-	                            <button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Agregar</button>
+	                    		<div id="boton_agregar_detallado">
+	                    			<button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Agregar</button>
+	                    		</div>
+	                            <div id="boton_editar_detallado" style="display: none">
+		                            <button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Editar</button>
+		                        </div>
 	                        </div>
 	                    	<div id="cnt_pasaje_detalle"></div>
 	                    	<br><br>

@@ -35,9 +35,34 @@ class Pasaje_model extends CI_Model {
 		}
 	}
 
+	function agrupar_fechas_detalles($id){
+		$fechas="";
+		$i=1;
+		$query = $this->db->query("select fecha_mision from vyp_pasajes where id_mision='".$id."'");
+			$total=$query->num_rows();
+			if($query->num_rows() > 0){
+				foreach ($query->result() as $fila) {
+						$fechas=$fechas.$fila->fecha_mision.","; 
+				}
+			
+			$this->db->where("id_mision_pasajes",$id);
+			$this->db->update('vyp_mision_pasajes',array('fechas_pasajes' => $fechas));
+			}
+	}
+
 	function ingresar_detalle_solicitud($data){
-		if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision'])))
-		{
+		
+		if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+			$this->agrupar_fechas_detalles($data['id_mision']);
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+	function editar_detalle_solicitud($data){
+		$this->db->where("id_solicitud_pasaje",$data["id_solicitud_pasaje"]);
+		if($this->db->update('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+			$this->agrupar_fechas_detalles($data['id_mision']);
 			return "exito";
 		}else{
 			return "fracaso";
