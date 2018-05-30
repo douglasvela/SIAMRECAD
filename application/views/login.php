@@ -48,7 +48,7 @@
             <!-- Content -->
             <!-- ============================================================== -->
             <div class="navbar-header" align="center">
-                <li style="margin-left: 10px;" class="navbar-brand text-white" href="index.html"><b><i class="icon-login"></i> &emsp;Inicio de Sesión</b></li>
+                <li style="margin-left: 10px;" class="navbar-brand text-white" href="index.html"><b><i class="mdi mdi-login"></i> &emsp;Inicio de Sesión</b></li>
             </div>
             <!-- ============================================================== -->
             <!-- End Content -->
@@ -77,18 +77,9 @@
             <input class="form-control" type="password" name="password" required="" placeholder="Contraseña">
           </div>
         </div>
-        <div class="form-group">
-          <div class="col-md-12">
-            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> ¿Olvidaste tu contraseña?</a> </div>
-        </div>
         <div class="form-group text-center m-t-20">
           <div class="col-xs-12">
             <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Ingresar</button>
-          </div>
-        </div>
-        <div class="form-group m-b-0">
-          <div class="col-sm-12 text-center">
-            <p>¿No tienes una cuenta? <a href="register" class="text-primary m-l-5"><b>Regístrate</b></a></p>
           </div>
         </div>
       </form>
