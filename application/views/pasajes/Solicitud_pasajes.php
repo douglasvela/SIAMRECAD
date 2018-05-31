@@ -93,6 +93,7 @@
     function cerrar_mantenimiento1(){
     	$("#cnt_tabla").show(0);
         $("#cnt_solicitud").hide(0);
+        tabla_pasaje_unidad();
     }
     
     function mostrarform_detallado(){

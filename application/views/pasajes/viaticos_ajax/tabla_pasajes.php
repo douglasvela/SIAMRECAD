@@ -72,7 +72,7 @@
                                   echo "<td>".$montofila->monto_total."</td>";
                                 }
                             }else{
-                              echo "<td></td>";
+                              echo "<td>0.00</td>";
                             }
                     echo "<td>";
                    $array = array($fila->id_mision_pasajes,$fila->fecha_solicitud_pasaje,$fila->nr);
