@@ -186,6 +186,7 @@
         	$("#fecha_solicitud").val(fecha_solicitud_pasaje);
         	$("#nr_empleado").val(nr).trigger("change.select2");
         	$("#band_solicitud").val("edit");
+        	observaciones(id_mision_pasajes);
 		}
 		function mantto_detalle_solicitud(){
 			if($("#band_detalle_solicitud").val()=="save" || $("#band_detalle_solicitud").val()=="edit"){
@@ -295,7 +296,6 @@
 		function enviararevision(){
 			var formData = new FormData();
 			formData.append("id_mision_pasajes", $("#id_mision_pasajes").val());
-
 			$.ajax({
 	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_revision1",
 	            type: "post",
@@ -312,8 +312,46 @@
 	            	tabla_pasaje_unidad();
 	            }
 	        });
-	    
 		}
+
+		
+    function observaciones(id_mision){    
+        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttpB=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+        }
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/observaciones?id_mision="+id_mision,true);
+        xmlhttpB.send(); 
+    }
+
+    function recorre_observaciones(){
+        var checkbox = $("#tasklist").find("input");
+        var sin_observaciones = false;
+
+        for(i=0; i<checkbox.length; i++){
+            if(!checkbox[i].checked){
+                sin_observaciones = true;
+            
+            }
+		
+        }
+        $( "input[id$='id_ob']" ).each(function() {
+	             alert($(this).val());
+		});
+        if(sin_observaciones){
+            swal({ title: "Ups!", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
+        }else{
+            enviararevision();
+        }
+    }
+
 	</script>
 </head>
 <body>
@@ -388,6 +426,7 @@
 	                        <h4 class="card-title m-b-0 text-white"></h4>
 	                    </div>
 	                    <div class="card-body b-t">
+	                    	<div id="cnt_observaciones"></div>  
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-6">
 	                    			<input type="text" id="band_solicitud" name="band_solicitud" value="save">
@@ -534,7 +573,7 @@
                                <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
                             </div>
                             <div class="pull-right">
-	                            <button type="button" onclick="enviararevision();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
+	                            <button type="button" onclick="recorre_observaciones();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
 	                        </div>
 	                    </div>
 	                </div>
