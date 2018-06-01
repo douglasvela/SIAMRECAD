@@ -353,8 +353,7 @@ $cuerpo = '
 	</table>'; 
 
 
-$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	$pie = 'Generada por: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+$pie = piePagina($this->session->userdata('usuario_viatico'));
 //$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
 $this->mpdf->setFooter($pie);
 
