@@ -24,7 +24,7 @@ echo $fecha_imp[0];
 */
 
 
-$soli_pasaje = $this->db->query("SELECT sum(monto_pasaje) as monto_pasaje, fecha_mision  FROM vyp_pasajes WHERE nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$otrafecha."%'  GROUP BY nr ORDER BY fecha_mision");
+$soli_pasaje = $this->db->query("SELECT sum(monto_pasaje) as monto_pasaje, fecha_mision  FROM vyp_pasajes WHERE nr = '".$nr_empleado."' AND id_mision = '".$id_mision_pasajes."'  GROUP BY nr ORDER BY fecha_mision");
 $total_pa= 0.00;
 $registros = count($soli_pasaje->result());
 if($soli_pasaje->num_rows() > 0){
@@ -198,7 +198,7 @@ array('0','0','0'),
 array('255','255','255'),
 $altura = 3);  
 $pdf->SetAligns(array('C','C','C','C','C'));
- $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND fecha_mision LIKE '%".$otrafecha."%' ORDER by fecha_mision");
+ $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND id_mision= '".$id_mision_pasajes."' ORDER by fecha_mision");
  
     if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila1) {

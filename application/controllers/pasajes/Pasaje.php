@@ -7,7 +7,7 @@ class Pasaje extends CI_Controller {
 	}
 	public function index(){
 		$this->load->view('templates/header');
-		$this->load->view('pasajes/Pasaje');
+		$this->load->view('pasajes/Solicitud_pasajes');
 		$this->load->view('templates/footer');
 	}
 	public function tabla_pasajes(){
@@ -17,127 +17,140 @@ class Pasaje extends CI_Controller {
 	public function tabla_pasaje_unidad(){
 		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes');
 	}
+	public function tabla_pasajes_detallado(){	
+		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes_detallado');
+	}
+	public function buscar_jefes_superiores(){
+
+	}
+
+	
+	public function gestionar_pasaje(){		
+		if($this->input->post('band') == "save"){
+			$nr_empleado = $this->input->post('nr_empleado');
+			///////////////////////////////////////////////
+			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
+		    if($info_empleado->num_rows() > 0){ 
+		        foreach ($info_empleado->result() as $filas) {}
+		        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+		      if($oficina_origen->num_rows() > 0){ 
+		          foreach ($oficina_origen->result() as $filaofi) {}
+		      }
+		      $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
+		      if($director_jefe_regional->num_rows() > 0){ 
+		          foreach ($director_jefe_regional->result() as $filadir) {}
+		      }
+		      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
+		      $nr_jefe_regional = $filadir->nr;
+		  }
+			///////////////////////////////////////////////
+			$data = array(
+			'fecha_solicitud_pasaje' => date("Y-m-d",strtotime($this->input->post('fecha_solicitud'))),
+			'nr' => $nr_empleado,
+			'nombre_empleado' => $this->input->post('nombre_completo'),
+			'nr_jefe_inmediato' => $nr_jefe_inmediato,
+			'nr_jefe_regional' => $nr_jefe_regional,
+			'estado' => '0',
+			'mes_pasaje' =>$this->input->post('mes_pasaje'),
+			'anio_pasaje'=>$this->input->post('anio_pasaje')
+			);
+		echo $this->Pasaje_model->insertar_pasaje($data);;
+		
+		} else if($this->input->post('band') == "edit"){
+			$nr_empleado = $this->input->post('nr_empleado');
+			///////////////////////////////////////////////
+			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
+		    if($info_empleado->num_rows() > 0){ 
+		        foreach ($info_empleado->result() as $filas) {}
+		        $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+		      if($oficina_origen->num_rows() > 0){ 
+		          foreach ($oficina_origen->result() as $filaofi) {}
+		      }
+		      $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
+		      if($director_jefe_regional->num_rows() > 0){ 
+		          foreach ($director_jefe_regional->result() as $filadir) {}
+		      }
+		      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
+		      $nr_jefe_regional = $filadir->nr;
+		  }
+			///////////////////////////////////////////////
+			$data = array(
+			'id_mision_pasajes'  => $this->input->post('id_mision_pasajes'),
+			'fecha_solicitud_pasaje' => date("Y-m-d",strtotime($this->input->post('fecha_solicitud'))),
+			'nr' => $nr_empleado,
+			'nombre_empleado' => $this->input->post('nombre_completo'),
+			'nr_jefe_inmediato' => $nr_jefe_inmediato,
+			'nr_jefe_regional' => $nr_jefe_regional,
+			'mes_pasaje' =>$this->input->post('mes_pasaje'),
+			'anio_pasaje'=>$this->input->post('anio_pasaje')
+			);
+			echo $this->Pasaje_model->editar_pasaje($data);
+		}else if($this->input->post('band') == "delete"){
+			$data = array(
+			'id_mision_pasajes' => $this->input->post('id_mision_pasajes')
+			);
+			echo $this->Pasaje_model->eliminar_pasaje($data);
+		}
+	}
+	public function gestionar_detalle_pasaje(){
+		if($this->input->post('band_detalle_solicitud') == "save"){
+			$data = array(
+			'fecha_detalle' => date("Y-m-d",strtotime($this->input->post('fecha_detalle'))),
+			'departamento' => $this->input->post('departamento'),
+			'municipio' => $this->input->post('municipio'),
+			'empresa' => $this->input->post('empresa'),
+			'direccion' => $this->input->post('direccion'),
+			'expediente' =>$this->input->post('expediente'),
+			'id_actividad'=>$this->input->post('id_actividad'),
+			'nr_empleado'=>$this->input->post('nr_empleado'),
+			'monto'=>$this->input->post('monto'),
+			'id_mision'=>$this->input->post('id_mision'),
+			);
+			echo $this->Pasaje_model->ingresar_detalle_solicitud($data);
+		}else if($this->input->post('band_detalle_solicitud') == "edit"){
+			$data = array(
+			'id_solicitud_pasaje' => $this->input->post('id_detalle_solicitud'),
+			'fecha_detalle' => date("Y-m-d",strtotime($this->input->post('fecha_detalle'))),
+			'departamento' => $this->input->post('departamento'),
+			'municipio' => $this->input->post('municipio'),
+			'empresa' => $this->input->post('empresa'),
+			'direccion' => $this->input->post('direccion'),
+			'expediente' =>$this->input->post('expediente'),
+			'id_actividad'=>$this->input->post('id_actividad'),
+			'nr_empleado'=>$this->input->post('nr_empleado'),
+			'monto'=>$this->input->post('monto'),
+			'id_mision'=>$this->input->post('id_mision'),
+			);
+			echo $this->Pasaje_model->editar_detalle_solicitud($data);
+		}else if($this->input->post('band_detalle_solicitud') == "delete"){
+			$data = array(
+			'id_solicitud_pasaje' => $this->input->post('id_detalle_solicitud'),
+			'id_mision'=>$this->input->post('id_mision')
+			);
+			echo $this->Pasaje_model->eliminar_detalle_solicitud($data);
+		}
+	}
+
+	function gestionar_revision1(){
+			$data = array(
+			'id_mision_pasajes' => $this->input->post('id_mision_pasajes')
+			);
+			echo $this->Pasaje_model->enviar_a_revision($data);
+	}
+	function corregir_observaciones(){
+		$data = array(
+			'ides' => $this->input->post('ides')
+			);
+		echo $this->Pasaje_model->corregir_observaciones($data);
+	}
 
 	function generar_solicitud(){
 		echo $this->Pasaje_model->cambiar_estado_revision($_POST['id_mision']);
 	}
-	public function gestionar_pasaje(){		
-		if($this->input->post('band') == "save"){
-			$data = array(
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			'expediente' => $this->input->post('expediente'),
-			'empresa' => $this->input->post('empresa'),
-			'direccion' => $this->input->post('direccion'),
-			'id_actividad_realizada' => $this->input->post('id_actividad'),
-			'nr' => $this->input->post('nr'),
-			
-			'monto' => $this->input->post('monto')
-			);
-		echo $this->Pasaje_model->insertar_pasaje($data);
-			
-		} else if($this->input->post('band') == "edit"){
-			$data = array(
-			'id_pasaje' => $this->input->post('id_pasaje'), 
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			'expediente' => $this->input->post('expediente'),
-			'empresa' => $this->input->post('empresa'),
-			'direccion' => $this->input->post('direccion'),
-			'monto' => $this->input->post('monto')
-			);
-			echo $this->Pasaje_model->editar_pasaje($data);
-		}else if($this->input->post('band') == "delete"){
-			$data = array(
-			'id_pasaje' => $this->input->post('id_pasaje')
-			);
-			echo $this->Pasaje_model->eliminar_pasaje($data);
-		}
-	}
-
-	public function gestionar_pasaje2(){		
-		if($this->input->post('band2') == "save"){
-			$data = array(
-				
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			'expediente' => $this->input->post('expediente'),
-			'empresa' => $this->input->post('empresa'),
-			'direccion' => $this->input->post('direccion'),
-			
-			'nr' => $this->input->post('nr'),
-			'monto' => $this->input->post('monto')
-			);
-		echo $this->Pasaje_model->insertar_pasaje($data);
-			
-		} else if($this->input->post('band') == "edit"){
-			$data = array(
-			'id_pasaje' => $this->input->post('id_pasaje'), 
-			'fecha_mision' => date("Y-m-d",strtotime($this->input->post('fecha'))),
-			'expediente' => $this->input->post('expediente'),
-			'empresa' => $this->input->post('empresa'),
-			'direccion' => $this->input->post('direccion'),
-			'monto' => $this->input->post('monto')
-			);
-			echo $this->Pasaje_model->editar_pasaje($data);
-		}else if($this->input->post('band') == "delete"){
-			$data = array(
-			'id_pasaje' => $this->input->post('id_pasaje')
-			);
-			echo $this->Pasaje_model->eliminar_pasaje($data);
-		}
-	}
-
-
-public function gestionar_pasaje_fecha(){		
-		if($this->input->post('band') == "save"){
-			$data = array(
-			//'id' => $this->input->post('id_mision'),
-			'nr' => $this->input->post('nr'),
-			'nombre_empleado' => $this->input->post('nombre_emple'),
-			'jefe_inmediato' => $this->input->post('jefe_inmediato'),
-			'jefe_regional' => $this->input->post('jefe_regional'),
-			'estado' => '1',
-			'mes' =>$this->input->post('mes'),
-			'anio' => $this->input->post('anio'),
-		   'fechas_pasaje' => $this->input->post('fechas_p')
-				);
-		echo $this->Pasaje_model->insertar_mision_pasaje($data);
-			
-		}  else if($this->input->post('band') == "edit"){
-
-			$data = array(
-			'id' => $this->input->post('id_mision'),
-			'nr' => $this->input->post('nr'),
-			'nombre_empleado' => $this->input->post('nombre_emple'),
-			'jefe_inmediato' => $this->input->post('jefe_inmediato'),
-			'jefe_regional' => $this->input->post('jefe_regional'),
-			//'estado' => '1',
-			'mes' =>$this->input->post('mes'),
-			'anio' => $this->input->post('anio'),
-		   'fechas_pasaje' => $this->input->post('fechas_p')
-				);
-		echo $this->Pasaje_model->editar_mision_pasajes($data);
-
-	}
-}
-
 	public function info_pasajes(){
 		$this->load->view('pasajes/viaticos_ajax/info_pasajes');
 	}
-	/*public function gestionar_mision_pasajes(){
-		if($this->input->post('band') == "save"){
-			$data = array(
-			'nr' => $this->input->post('nr'),
-			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
-			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
-			'nombre_empleado' => $this->input->post('nombre_completo'),
-			'mes_pasaje' => date("Y-m-d",strtotime($this->input->post('mes_pasaje'))),
-			'anio_pasaje' => date("Y-m-d",strtotime($this->input->post('anio_pasaje'))),
-			
-			);
-			
-			$resultado = $this->pasaje_model->insertar_mision_pasajes($data);
-		
-	}*/
-
+ 
 	public function observaciones(){
 		$this->load->view('pasajes/viaticos_ajax/observaciones');
 	}
