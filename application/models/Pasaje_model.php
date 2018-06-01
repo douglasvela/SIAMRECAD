@@ -28,7 +28,8 @@ class Pasaje_model extends CI_Model {
 	}
 	
 	function eliminar_pasaje($data){
-		if($this->db->delete("vyp_pasajes",array('id_solicitud_pasaje' => $data['id_pasaje']))){
+		if($this->db->delete("vyp_mision_pasajes",array('id_mision_pasajes' => $data['id_mision_pasajes']))){
+			$this->db->delete("vyp_pasajes",array('id_mision' => $data['id_mision_pasajes']));
 			return "exito";
 		}else{
 			return "fracaso";
@@ -88,6 +89,14 @@ class Pasaje_model extends CI_Model {
 	function enviar_a_revision($data){
 		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
 			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1'))){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+	}
+	function corregir_observaciones($data){
+		$this->db->where("id_observacion_pasaje",$data["ides"]);
+			if($this->db->update('vyp_observaciones_pasajes', array('corregido'=>'1'))){
 				return "exito";
 			}else{
 				return "fracaso";

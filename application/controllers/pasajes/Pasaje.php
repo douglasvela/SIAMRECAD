@@ -137,6 +137,12 @@ class Pasaje extends CI_Controller {
 			);
 			echo $this->Pasaje_model->enviar_a_revision($data);
 	}
+	function corregir_observaciones(){
+		$data = array(
+			'ides' => $this->input->post('ides')
+			);
+		echo $this->Pasaje_model->corregir_observaciones($data);
+	}
 
 	function generar_solicitud(){
 		echo $this->Pasaje_model->cambiar_estado_revision($_POST['id_mision']);

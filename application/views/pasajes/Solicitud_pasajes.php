@@ -33,23 +33,27 @@
 	    function iniciar(){
 	    	tabla_pasaje_unidad();
 	    }
-	    function tabla_pasaje_unidad(){ 
-	    	var fechas = $("#fecha1").val();
-	    	var nr = $("#nr").val();
-	        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-	            xmlhttpB=new XMLHttpRequest();
-	        }else{// code for IE6, IE5
-	            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
-	        }
-	        xmlhttpB.onreadystatechange=function(){
-	            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-	                document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
-	                 $('[data-toggle="tooltip"]').tooltip();
-	              
+	 var estado_pestana = "";
+	function cambiar_pestana(tipo){
+		estado_pestana = tipo;
+		tabla_pasaje_unidad();
+	}
+	function tabla_pasaje_unidad(){ 
+	  	var fechas = $("#fecha1").val();
+	   	var nr = $("#nr").val();
+	    if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+	        xmlhttpB=new XMLHttpRequest();
+	    }else{// code for IE6, IE5
+	        xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+	    }
+	    xmlhttpB.onreadystatechange=function(){
+	        if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+	            document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
 	                $('#myTable').DataTable();
+	                $('[data-toggle="tooltip"]').tooltip();              
 	            }
 	        }
-	        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr+"&fecha1="+fechas, true);
+	        xmlhttpB.open("GET","<?php echo site_url(); ?>/pasajes/pasaje/tabla_pasaje_unidad?nr="+nr+"&fecha1="+fechas+"&estado="+estado_pestana, true);
 	        xmlhttpB.send(); 
 	   
 		}
@@ -129,11 +133,13 @@
 		}
 		function mantto_solicitud(){
 			var formData = new FormData();
-			if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val()){
-				swal({ title: "¡Ups! Error", text: "Campos requeridos", type: "error", showConfirmButton: true });
-       			return;
+			if($("#band_solicitud").val()=="save" || $("#band_solicitud").val()=="edit"){
+				if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val()){
+					swal({ title: "¡Ups! Error", text: "Campos requeridos", type: "error", showConfirmButton: true });
+	       			return;
+				}
 			}
-			if($("#band_solicitud").val()=="edit"){
+			if($("#band_solicitud").val()=="edit" || $("#band_solicitud").val()=="delete"){
 				formData.append("id_mision_pasajes", $("#id_mision_pasajes").val());	
 			}
 	        formData.append("nr_empleado", $("#nr_empleado").val());
@@ -171,12 +177,30 @@
 	                    mostrarform_detallado();
 	                }else{
 	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+	                    tabla_pasaje_unidad();
 	                }
 	            }else{
-	                alert(res[0])
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
 	            }
 	        });
+		}
+		function eliminar_solicitud(id_mision_pasajes){
+			$("#id_mision_pasajes").val(id_mision_pasajes);
+			enviar_eliminar_solicitud();
+		}
+		function enviar_eliminar_solicitud(){
+			$("#band_solicitud").val("delete");
+		       swal({
+		           title: "¿Está seguro?",
+		           text: "¡Desea eliminar el registro!",
+		           type: "warning",
+		           showCancelButton: true,
+		           confirmButtonColor: "#fc4b6c",
+		           confirmButtonText: "Sí, deseo eliminar!",
+		           closeOnConfirm: false
+		       }, function(){
+		           mantto_solicitud();
+		       });
 		}
 		function cambiar_editar(id_mision_pasajes,fecha_solicitud_pasaje,nr){
 			$("#cnt_tabla").hide(0);
@@ -334,22 +358,44 @@
     function recorre_observaciones(){
         var checkbox = $("#tasklist").find("input");
         var sin_observaciones = false;
-
+        var ides="";
         for(i=0; i<checkbox.length; i++){
             if(!checkbox[i].checked){
                 sin_observaciones = true;
-            
             }
-		
         }
-        $( "input[id$='id_ob']" ).each(function() {
-	             alert($(this).val());
+        $( "input[id$='id_ob']:checked" ).each(function() {
+	        enviar_observaciones_revisadas($(this).val());
 		});
+		
         if(sin_observaciones){
             swal({ title: "Ups!", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
+            cerrar_mantenimiento2();
+            cerrar_mantenimiento1();
+            tabla_pasaje_unidad();
         }else{
             enviararevision();
         }
+    }
+    function enviar_observaciones_revisadas(ides){
+    	var formData = new FormData();
+			formData.append("ides", ides);
+			$.ajax({
+	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/corregir_observaciones",
+	            type: "post",
+	            dataType: "html",
+	            data: formData,
+	            cache: false,
+	            contentType: false,
+	            processData: false
+	        }).done(function(res){
+	            if(res == "exito"){
+	            	swal({ title: "Correcciones exitosas!", type: "success", showConfirmButton: true });
+	            	cerrar_mantenimiento2();
+	            	cerrar_mantenimiento1();
+	            	tabla_pasaje_unidad();
+	            }
+	        });
     }
 
 	</script>
@@ -408,7 +454,40 @@
 	                            </div>
 	                            
 	                        </div>
-	                        
+	                        <div>
+		                        <ul class="nav nav-tabs customtab2" role="tablist">
+		                            <li class="nav-item"> 
+		                                <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
+		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+		                                    <span class="hidden-xs-down">Todas</span></a> 
+		                            </li>
+		                            <li class="nav-item"> 
+		                                <a class="nav-link" onclick="cambiar_pestana('1');" data-toggle="tab" href="#">
+		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+		                                    <span class="hidden-xs-down">Incompletas</span></a> 
+		                            </li>
+		                            <li class="nav-item"> 
+		                                <a class="nav-link" onclick="cambiar_pestana('2');" data-toggle="tab" href="#">
+		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+		                                    <span class="hidden-xs-down">En revisión</span></a> 
+		                            </li>
+		                            <li class="nav-item"> 
+		                                <a class="nav-link" onclick="cambiar_pestana('3');" data-toggle="tab" href="#">
+		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+		                                    <span class="hidden-xs-down">Observadas</span></a> 
+		                            </li>
+		                            <li class="nav-item"> 
+		                                <a class="nav-link" onclick="cambiar_pestana('4');" data-toggle="tab" href="#">
+		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+		                                    <span class="hidden-xs-down">Aprobadas</span></a> 
+		                            </li>
+		                            <li class="nav-item"> 
+		                                <a class="nav-link" onclick="cambiar_pestana('5');" data-toggle="tab" href="#">
+		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
+		                                    <span class="hidden-xs-down">Pagadas</span></a> 
+		                            </li>
+		                        </ul>
+		                    </div>
 	                        <div id="cnt_pasaje">Seleccione un solicitante y una fecha</div>
 	                    </div>
 	                    
