@@ -97,7 +97,7 @@
     function cerrar_mantenimiento1(){
     	$("#cnt_tabla").show(0);
         $("#cnt_solicitud").hide(0);
-        tabla_pasaje_unidad();
+        tabla_pasaje_unidad();$("#cnt_observaciones").hide(0);
     }
     
     function mostrarform_detallado(){
@@ -110,6 +110,7 @@
     function cerrar_mantenimiento2(){
     	$("#cnt_form").hide(0);
         $("#cnt_solicitud").show(0);
+        $("#cnt_observaciones").hide(0);
     }
     	function tabla_pasajes_detallado(){ 
 	    	 var nr_empleado = $("#nr_empleado").val();
@@ -131,7 +132,10 @@
 	        xmlhttpPD.send(); 
 	   
 		}
+			
+
 		function mantto_solicitud(){
+			
 			var formData = new FormData();
 			if($("#band_solicitud").val()=="save" || $("#band_solicitud").val()=="edit"){
 				if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val()){
@@ -150,8 +154,9 @@
 	        formData.append("nombre_completo", nombre_completo);
 	        formData.append("fecha_solicitud", $("#fecha_solicitud").val());
 	        formData.append("band", $("#band_solicitud").val());
+	        
+	        var f_parts = $("#mes_anio_pasaje").val().split("-");
 
-	        var f_parts = $("#fecha_solicitud").val().split("-");
 	        formData.append("mes_pasaje", f_parts[1]);
 	        formData.append("anio_pasaje", f_parts[2]);
 
@@ -211,6 +216,7 @@
         	$("#nr_empleado").val(nr).trigger("change.select2");
         	$("#band_solicitud").val("edit");
         	observaciones(id_mision_pasajes);
+        	$("#cnt_observaciones").show(0);
 		}
 		function mantto_detalle_solicitud(){
 			if($("#band_detalle_solicitud").val()=="save" || $("#band_detalle_solicitud").val()=="edit"){
@@ -423,7 +429,7 @@
 	                        </div>
 	                    	<div class="row ">
 								<div class="form-group col-lg-6">
-	                                <h5 style="display:none">Solicitante: <span class="text-danger">*</span></h5>
+	                                <h5 style="display:block">Solicitante: <span class="text-danger"></span></h5>
 	                                <select id="nr" name="nr" class="select2" style="width: 100%" required onchange="tabla_pasaje_unidad()">
 	                                <option value=''>[Elija el empleado]</option>
 	                                <?php
@@ -449,7 +455,7 @@
 	                                </select>
 	                            </div>
 	                            <div class="form-group col-lg-3">
-	                            	<h5 style="display:none">Fecha: <span class="text-danger">*</span></h5>
+	                            	<h5 style="display:block;">Fecha de solicitud: <span class="text-danger"></span></h5>
 	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>
 	                            
@@ -497,17 +503,19 @@
 
 
 	        <div class="row justify-content-center">
-
+				<div class="col-lg-12" id="cnt_observaciones"></div>
 	            <div class="col-lg-12" id="cnt_solicitud" style="display: none;">
+	                
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="ttl_form1">
 	                         
 	                        <h4 class="card-title m-b-0 text-white"></h4>
 	                    </div>
+
 	                    <div class="card-body b-t">
-	                    	<div id="cnt_observaciones"></div>  
+	                    	  
 	                    	<div class="row ">
-	                    		<div class="form-group col-lg-6">
+	                    		<div class="form-group col-lg-4">
 	                    			<input type="text" id="band_solicitud" name="band_solicitud" value="save">
 		                            <input type="text" id="id_mision_pasajes" name="id_mision_pasajes">
 		                               <label for="" class="font-weight-bold">Solicitante: <span class="text-danger">*</span></label>
@@ -539,8 +547,12 @@
 	                    		<div class="form-group col-lg-3">
 	                    			<label for="" class="font-weight-bold">Fecha Solicitud: <span class="text-danger">*</span></label>
 	                    			 
-	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="dd/mm/yyyy" onchange="">
+	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="dd/mm/yyyy" onchange="" readonly="">
                                     <div class="help-block"></div>
+	                    		</div>
+	                    		<div class="form-group col-lg-3">
+	                    			<label for="" class="font-weight-bold">Mes de Pasaje: <span class="text-danger">*</span></label>
+	                    			<input type="month" class="form-control" id="mes_anio_pasaje" name="mes_anio_pasaje">
 	                    		</div>
 	                    		
 	                    	</div>
@@ -680,6 +692,7 @@
 	        autoclose: true,
 	        todayHighlight: true,
 	        daysOfWeekDisabled: [0,6]
+	        
         });
         $('#fecha_detalle').datepicker({
 	        format: 'dd-mm-yyyy',
@@ -687,5 +700,26 @@
 	        todayHighlight: true,
 	        daysOfWeekDisabled: [0,6]
         });
+
+	        var date = new Date();
+			var limite_inicio =  moment([date.getFullYear(), date.getMonth()-1, 1]);
+             
+            if(moment().format("e") == 0){
+                limite_inicio.add(1,'days');
+            }else if(moment().format("e") == 6){
+                limite_inicio.add(2,'days');
+            }
+
+            $("#fecha_solicitud").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
+
+            var limite_fin = moment([date.getFullYear(), date.getMonth(), 1]);
+            limite_fin.add(6,'days');
+            if(limite_fin.format("e") == 6){
+                limite_fin.add(2,'days');
+            }else if(limite_fin.format("e") == 0){
+                limite_fin.add(1,'days');
+            }
+
+            $("#fecha_solicitud").datepicker("setEndDate", limite_fin.format("DD-MM-YYYY") );
 	});
 </script>

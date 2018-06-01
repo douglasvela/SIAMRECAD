@@ -52,7 +52,7 @@ class Pasaje extends CI_Controller {
 			'nr_jefe_regional' => $nr_jefe_regional,
 			'estado' => '0',
 			'mes_pasaje' =>$this->input->post('mes_pasaje'),
-			'anio_pasaje'=>$this->input->post('anio_pasaje')
+			'anio_pasaje'=>$this->input->post('anio_pasaje'),
 			);
 		echo $this->Pasaje_model->insertar_pasaje($data);;
 		
@@ -82,7 +82,7 @@ class Pasaje extends CI_Controller {
 			'nr_jefe_inmediato' => $nr_jefe_inmediato,
 			'nr_jefe_regional' => $nr_jefe_regional,
 			'mes_pasaje' =>$this->input->post('mes_pasaje'),
-			'anio_pasaje'=>$this->input->post('anio_pasaje')
+			'anio_pasaje'=>$this->input->post('anio_pasaje'),
 			);
 			echo $this->Pasaje_model->editar_pasaje($data);
 		}else if($this->input->post('band') == "delete"){

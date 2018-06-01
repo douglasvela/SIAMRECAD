@@ -3,6 +3,7 @@
             <table id="myTable3" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
+                        <th>Id</th>
                 <th>Solicitante</th>
                 <th>Mes</th> 
                 <th>Año</th>
@@ -34,6 +35,7 @@
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";
+                            echo "<td>".$fila->id_mision_pasajes."</td>";
                             echo "<td>".$fila->nombre_empleado."</td>";
                     switch ($fila->mes_pasaje) {
                         case 1:
