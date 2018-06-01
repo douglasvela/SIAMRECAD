@@ -172,4 +172,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
     }
 
+    function piePagina($usuario){
+	    //$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
+		$pie = '<table width="100%" style="font-size: 10px; font-weight: bold;">
+		    <tr>
+		        <td width="40%">Generada por: '.$usuario.'</td>
+		        <td width="40%">Fecha y hora creación: {DATE j/m/Y - h:i A}</td>
+		        <td width="20%" align="right">{PAGENO} de {nbpg} páginas</td>
+		    </tr>
+			</table>';
+
+		return $pie;
+    }
+
 ?>
