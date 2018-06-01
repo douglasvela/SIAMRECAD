@@ -20,8 +20,8 @@
                         ?>
                             <li class="list-group-item" data-role="task" style="border: 0; padding: 0px;">
                                 <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputCall<?php echo $correlativo; ?>" name="inputCall<?php echo $correlativo; ?>">
-                                    <label for="inputCall<?php echo $correlativo; ?>" class="" onclick="poner_linea(this)"> <span><?php echo $fila->observacion; ?></span></label>
+                                    <input type="checkbox" value="<?php echo  $fila->id_observacion_pasaje; ?>" id="<?php echo  $fila->id_observacion_pasaje; ?>id_ob" name="id,<?php echo $fila->id_observacion_pasaje; ?>">
+                                    <label for="<?php echo $fila->id_observacion_pasaje; ?>id_ob" class="" onclick=""> <span><?php echo $fila->observacion; ?></span></label>
                                 </div>
                             </li>
                         <?php 
