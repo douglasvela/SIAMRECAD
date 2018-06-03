@@ -407,6 +407,8 @@
             cerrar_mantenimiento1();
             tabla_pasaje_unidad();
         }
+        limpiar_form_detallado();
+        limpiar_solicitud();
     }
     function enviar_observaciones_revisadas(ides){
     	var formData = new FormData();
@@ -489,7 +491,7 @@
 	                                </select>
 	                            </div>
 	                            <div class="form-group col-lg-3">
-	                            	<h5 style="display:block;">Fecha de solicitud: <span class="text-danger"></span></h5>
+	                            	<h5 style="display:block;">Fecha de Pasaje: <span class="text-danger"></span></h5>
 	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>
 	                            

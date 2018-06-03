@@ -6,7 +6,7 @@ m.id_mision_oficial,ev.id_empresa_viatico,m.estado FROM vyp_mision_oficial AS m 
 ON ev.id_mision = m.id_mision_oficial 
 UNION 
  SELECT  p.nr,0,('0') as viatico,
- (SELECT sum(monto_pasaje) FROM vyp_pasajes WHERE month(fecha_mision)=p.mes_pasaje and year(fecha_mision)=p.anio_pasaje
+ (SELECT sum(monto_pasaje) FROM vyp_pasajes WHERE id_mision=p.id_mision_pasajes /*month(fecha_mision)=p.mes_pasaje and year(fecha_mision)=p.anio_pasaje*/
   AND nr=p.nr) as pasaje,('0') as alojamiento,p.fecha_solicitud_pasaje,p.id_mision_pasajes,(rand()),p.estado 
  FROM vyp_mision_pasajes as p
   ORDER BY `id_empresa_viatico` ASC

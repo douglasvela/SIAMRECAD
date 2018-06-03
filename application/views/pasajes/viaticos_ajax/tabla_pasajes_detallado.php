@@ -30,7 +30,8 @@
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
-                            echo "<td>".$fila->fecha_mision."</td>";
+                    $date = date_create($fila->fecha_mision);
+                    echo "<td>".date_format($date, 'd-m-Y')."</td>";
 
     $depto = $this->db->query("SELECT * FROM org_departamento where id_departamento=".$fila->id_departamento);
     foreach ($depto->result() as $valuedepto) {

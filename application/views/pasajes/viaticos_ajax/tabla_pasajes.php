@@ -46,7 +46,21 @@
                             
                             echo "<td>".$fila->nr."</td>";
                             echo "<td>".$fila->nombre_empleado."</td>";
-                            echo "<td>".$fila->mes_pasaje."</td>";
+                          switch ($fila->mes_pasaje) { 
+                            case 1: $month_text = "Enero"; break; 
+                            case 2: $month_text = "Febrero"; break; 
+                            case 3: $month_text = "Marzo"; break; 
+                            case 4: $month_text = "Abril"; break; 
+                            case 5: $month_text = "Mayo"; break; 
+                            case 6: $month_text = "Junio"; break; 
+                            case 7: $month_text = "Julio"; break; 
+                            case 8: $month_text = "Agosto"; break; 
+                            case 9: $month_text = "Septiembre"; break; 
+                            case 10: $month_text = "Octubre"; break; 
+                            case 11: $month_text = "Noviembre"; break; 
+                            case 12: $month_text = "Diciembre"; break; 
+                           }
+                            echo "<td>".$month_text."</td>";
                             echo "<td>".$fila->anio_pasaje."</td>";
 
                             if($fila->estado == 0){
