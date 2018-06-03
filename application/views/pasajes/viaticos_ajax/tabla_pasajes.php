@@ -83,6 +83,8 @@
                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                     echo generar_boton(array($fila->id_mision_pasajes),"eliminar_solicitud","btn-danger","fa fa-close","Eliminar");
+                   
+                     echo generar_boton(array($fila->nr,$fila->mes_pasaje,$fila->id_mision_pasajes),"mostrar_reporte","btn-default","fa fa-print","Reporte");
                     echo "</td>";
                   echo "</tr>";
                 }

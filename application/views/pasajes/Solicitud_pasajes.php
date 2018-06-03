@@ -185,6 +185,8 @@
 	                    tabla_pasaje_unidad();
 	                }
 	                
+	            }else if(res[0] == "mision_duplicado"){
+	            	swal({ title: "¡Ups! Error", text: "Ya registró una solicitud en esta fecha.", type: "error", showConfirmButton: true });
 	            }else{
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
 	            }
@@ -270,6 +272,8 @@
 	                limpiar_form_detallado();
 	            }else if(res=="monto_invalido"){
 	            	swal({ title: "¡Ups! Error", text: "Monto no es valido.", type: "error", showConfirmButton: true });
+	            }else if(res=="pasaje_duplicado"){
+	            	swal({ title: "¡Ups! Error", text: "Ya ingreso pasajes es esta fecha.", type: "error", showConfirmButton: true });
 	            }else{
 	                alert(res)
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
@@ -378,24 +382,30 @@
 
     function recorre_observaciones(){
         var checkbox = $("#tasklist").find("input");
-        var sin_observaciones = false;
+        var sin_observaciones = 0;
         var ides="";
         for(i=0; i<checkbox.length; i++){
             if(!checkbox[i].checked){
-                sin_observaciones = true;
+                sin_observaciones++;
             }
         }
         $( "input[id$='id_ob']:checked" ).each(function() {
 	        enviar_observaciones_revisadas($(this).val());
 		});
 		
-        if(sin_observaciones){
+        if(sin_observaciones > 0){
             swal({ title: "Ups!", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
             cerrar_mantenimiento2();
             cerrar_mantenimiento1();
             tabla_pasaje_unidad();
-        }else{
+        }
+
+        if(checkbox.length>0 && (checkbox.length - sin_observaciones)!=0){
             enviararevision();
+        }else{
+        	cerrar_mantenimiento2();
+            cerrar_mantenimiento1();
+            tabla_pasaje_unidad();
         }
     }
     function enviar_observaciones_revisadas(ides){
@@ -415,10 +425,19 @@
 	            	cerrar_mantenimiento2();
 	            	cerrar_mantenimiento1();
 	            	tabla_pasaje_unidad();
+
 	            }
 	        });
     }
 
+    function mostrar_reporte(nr_emple,month,id_mision){
+    	var xhr = "<?php echo site_url()?>";
+    	window.open(xhr+"/pasajes/Lista_pasaje/imprimir_solicitud?nr="+nr_emple + "&fecha2="+month + "&id="+id_mision,"_blank");
+    }
+    function poner_mes(fecha){
+    	partes = fecha.split("-");
+    	$("#mes_anio_pasaje").val(partes[2]+"-"+partes[1]);
+    }
 	</script>
 </head>
 <body>
@@ -531,8 +550,8 @@
 	                    	  
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-4">
-	                    			<input type="text" id="band_solicitud" name="band_solicitud" value="save">
-		                            <input type="text" id="id_mision_pasajes" name="id_mision_pasajes">
+	                    			<input type="hidden" id="band_solicitud" name="band_solicitud" value="save">
+		                            <input type="hidden" id="id_mision_pasajes" name="id_mision_pasajes">
 		                               <label for="" class="font-weight-bold">Solicitante: <span class="text-danger">*</span></label>
 		                                <select id="nr_empleado" name="nr_empleado" class="select2" style="width: 100%" required >
 		                                <option value='0'>[Elija el empleado]</option>
@@ -562,7 +581,7 @@
 	                    		<div class="form-group col-lg-3">
 	                    			<label for="" class="font-weight-bold">Fecha Solicitud: <span class="text-danger">*</span></label>
 	                    			 
-	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="dd/mm/yyyy" onchange="" readonly="">
+	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="dd/mm/yyyy" onchange="poner_mes(this.value)" readonly="">
                                     <div class="help-block"></div>
 	                    		</div>
 	                    		<div class="form-group col-lg-3">
@@ -595,7 +614,7 @@
 	                    	<div class="row ">
 	                    		<div class="form-group col-lg-3">
 	                    			<input type="hidden" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
-	                    			<input type="text" id="id_detalle_solicitud" name="id_detalle_solicitud" value="">
+	                    			<input type="hidden" id="id_detalle_solicitud" name="id_detalle_solicitud" value="">
 	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
 	                    			 
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">

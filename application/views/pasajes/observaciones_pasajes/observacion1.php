@@ -83,7 +83,7 @@
                    
                     $fecha=$fila->anio_pasaje .'-'. $fila->mes_pasaje;
                     echo "<td>";
-                    $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fecha);
+                    $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fila->mes_pasaje);
                     if(tiene_permiso($segmentos=3,$permiso=4)){
                         echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
                     }

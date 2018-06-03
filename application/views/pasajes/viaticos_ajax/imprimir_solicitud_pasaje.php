@@ -16,7 +16,7 @@ $user = $this->session->userdata('usuario_viatico');
 $id_mision_pasajes = $_GET["id"];
   
  list($otrafecha)= explode ("-",$fecha_mes); 
-list($anio, $mes)= explode ("-",$fecha_mes); 
+//list($anio, $mes)= explode ("-",$fecha_mes); 
 
 /*$fecha_imp = explode("-", $fecha_mes);
 echo $fecha_imp[1];
@@ -44,10 +44,23 @@ if($decs == 0){
     $decs = "00";
 }
 $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
+
 function mes($mes){
- setlocale(LC_TIME, 'spanish');  
- $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
- return $nombre;
+ switch ($mes) { 
+  case 1: $month_text = "Enero"; break; 
+  case 2: $month_text = "Febrero"; break; 
+  case 3: $month_text = "Marzo"; break; 
+  case 4: $month_text = "Abril"; break; 
+  case 5: $month_text = "Mayo"; break; 
+  case 6: $month_text = "Junio"; break; 
+  case 7: $month_text = "Julio"; break; 
+  case 8: $month_text = "Agosto"; break; 
+  case 9: $month_text = "Septiembre"; break; 
+  case 10: $month_text = "Octubre"; break; 
+  case 11: $month_text = "Noviembre"; break; 
+  case 12: $month_text = "Diciembre"; break; 
+ } 
+ return $month_text;
 }
   
 class NumeroALetras
@@ -177,7 +190,7 @@ class NumeroALetras
 //$date=strtotime($fecha_mes);
 //$arrayfecha=explode ("-",$fecha_mes);
 //$mes_pasaje=$arrayfecha[0];
-list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes,2);
+//list($mes_pasaje, $anio_pasaje)= explode ("-",$fecha_mes,2);
 $pdf=new FPDF();
 $pdf->cambiarTitulo('RECIBO DE PASAJES URBANO Y AL INTERIOR','POR $   '.$monto);
 $fecha_actual = date("d-m-Y H:i:s");
@@ -186,7 +199,7 @@ $pdf->cambiarPie($name_user, $fecha_actual);
 
 $pdf->AddPage();
 
-$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de ' .mes($mes_pasaje).', según detalle anexo:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de ' .mes($fecha_mes).', según detalle anexo:',0,'J',false);
 $pdf->Ln(5);
 $pdf->SetWidths(array(22,20,45,89,13));
 $pdf->SetAligns(array('C','C','C','C','C'));
@@ -246,7 +259,7 @@ if($lugar->num_rows() > 0){
 $pdf->Ln(10);
  $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha de elaboracion: ".$oficina.", ".date("d")." de ".mes(date("m"))." de ".date("Y"),0,'C', 0);*/
 
- $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where nr='".$nr_empleado."' AND mes_pasaje='".$mes."' AND anio_pasaje= '".$anio."' and id_mision_pasajes='".$id_mision_pasajes."' ");
+ $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where nr='".$nr_empleado."' and id_mision_pasajes='".$id_mision_pasajes."' ");
         if($mision->num_rows() > 0){
             foreach ($mision->result() as $fila2) { //$nr_usuario = $fila2->nr;
              }

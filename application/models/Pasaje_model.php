@@ -7,21 +7,31 @@ class Pasaje_model extends CI_Model {
 	}
 
 	function insertar_pasaje($data){
-		if($this->db->insert('vyp_mision_pasajes', array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'estado'=>$data['estado'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje'])))
-		{
-			$id = $this->db->insert_id();
-			return "exito,".$id;
+		$query01 = $this->db->query("select * from vyp_mision_pasajes where nr = '".$data['nr']."' and  fecha_solicitud_pasaje='".$data['fecha_solicitud_pasaje']."'");
+		if($query01->num_rows() == 0){
+			if($this->db->insert('vyp_mision_pasajes', array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'estado'=>$data['estado'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje'])))
+			{
+				$id = $this->db->insert_id();
+				return "exito,".$id;
+			}else{
+				$id = $this->db->insert_id();
+				return "fracaso,".$id;
+			}
 		}else{
-			$id = $this->db->insert_id();
-			return "fracaso,".$id;
+			return "mision_duplicado";
 		}
 	}
 	function editar_pasaje($data){
-		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
-		if($this->db->update('vyp_mision_pasajes',array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje']))){
-			return "exito";
+		$query01 = $this->db->query("select * from vyp_mision_pasajes where nr = '".$data['nr']."' and  fecha_solicitud_pasaje='".$data['fecha_solicitud_pasaje']."' and id_mision_pasajes!='".$data["id_mision_pasajes"]."'");
+		if($query01->num_rows() == 0){
+			$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
+			if($this->db->update('vyp_mision_pasajes',array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje']))){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
 		}else{
-			return "fracaso";
+			return "mision_duplicado";
 		}
 	}
 	
@@ -51,30 +61,40 @@ class Pasaje_model extends CI_Model {
 	}
 
 	function ingresar_detalle_solicitud($data){
-		$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
-		if($query->num_rows() > 0){
-			if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
-				$this->agrupar_fechas_detalles($data['id_mision']);
-				return "exito";
+		$query01 = $this->db->query("select * from vyp_pasajes where id_mision = '".$data['id_mision']."' and nr = '".$data['nr_empleado']."' and  fecha_mision='".$data['fecha_detalle']."'");
+		if($query01->num_rows() == 0){
+			$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
+			if($query->num_rows() > 0){
+				if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+					$this->agrupar_fechas_detalles($data['id_mision']);
+					return "exito";
+				}else{
+					return "fracaso";
+				}
 			}else{
-				return "fracaso";
+				return "monto_invalido";
 			}
 		}else{
-			return "monto_invalido";
+			return "pasaje_duplicado";
 		}
 	}
 	function editar_detalle_solicitud($data){
-		$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
-		if($query->num_rows() > 0){
-			$this->db->where("id_solicitud_pasaje",$data["id_solicitud_pasaje"]);
-			if($this->db->update('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
-				$this->agrupar_fechas_detalles($data['id_mision']);
-				return "exito";
+		$query01 = $this->db->query("select * from vyp_pasajes where id_mision = '".$data['id_mision']."' and nr = '".$data['nr_empleado']."' and fecha_mision='".$data['fecha_detalle']."' and id_solicitud_pasaje!='".$data["id_solicitud_pasaje"]."'");
+		if($query01->num_rows() == 0){
+			$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
+			if($query->num_rows() > 0){
+				$this->db->where("id_solicitud_pasaje",$data["id_solicitud_pasaje"]);
+				if($this->db->update('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
+					$this->agrupar_fechas_detalles($data['id_mision']);
+					return "exito";
+				}else{
+					return "fracaso";
+				}
 			}else{
-				return "fracaso";
+				return "monto_invalido";
 			}
 		}else{
-			return "monto_invalido";
+			return "pasaje_duplicado";
 		}
 	}
 	function eliminar_detalle_solicitud($data){
