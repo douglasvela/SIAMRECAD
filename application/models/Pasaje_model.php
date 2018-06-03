@@ -5,9 +5,7 @@ class Pasaje_model extends CI_Model {
 	function __construct(){
 		parent::__construct();
 	}
-	/*
-	
-	}*/
+
 	function insertar_pasaje($data){
 		if($this->db->insert('vyp_mision_pasajes', array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'estado'=>$data['estado'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje'])))
 		{
@@ -30,6 +28,7 @@ class Pasaje_model extends CI_Model {
 	function eliminar_pasaje($data){
 		if($this->db->delete("vyp_mision_pasajes",array('id_mision_pasajes' => $data['id_mision_pasajes']))){
 			$this->db->delete("vyp_pasajes",array('id_mision' => $data['id_mision_pasajes']));
+			$this->db->delete("vyp_observaciones_pasajes",array('id_mision_pasajes' => $data['id_mision_pasajes']));
 			return "exito";
 		}else{
 			return "fracaso";
@@ -93,6 +92,14 @@ class Pasaje_model extends CI_Model {
 			}else{
 				return "fracaso";
 			}
+	}
+	function consultar_detalle_solicitud($data){
+		$query = $this->db->query("select * from vyp_pasajes where id_mision='".$data['id_mision_pasajes']."'");
+		if($query->num_rows() > 0){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
 	}
 	function corregir_observaciones($data){
 		$this->db->where("id_observacion_pasaje",$data["ides"]);

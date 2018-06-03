@@ -90,7 +90,7 @@
 
         $("#cnt_tabla").hide(0);
         $("#cnt_solicitud").show(0);
-        
+        limpiar_solicitud();
         $("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
  		
     }
@@ -98,6 +98,7 @@
     	$("#cnt_tabla").show(0);
         $("#cnt_solicitud").hide(0);
         tabla_pasaje_unidad();$("#cnt_observaciones").hide(0);
+        limpiar_solicitud();
     }
     
     function mostrarform_detallado(){
@@ -138,7 +139,7 @@
 			
 			var formData = new FormData();
 			if($("#band_solicitud").val()=="save" || $("#band_solicitud").val()=="edit"){
-				if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val()){
+				if($("#nr_empleado").val()=="0" || !$("#fecha_solicitud").val() || !$("#mes_anio_pasaje").val()){
 					swal({ title: "¡Ups! Error", text: "Campos requeridos", type: "error", showConfirmButton: true });
 	       			return;
 				}
@@ -156,9 +157,8 @@
 	        formData.append("band", $("#band_solicitud").val());
 	        
 	        var f_parts = $("#mes_anio_pasaje").val().split("-");
-
 	        formData.append("mes_pasaje", f_parts[1]);
-	        formData.append("anio_pasaje", f_parts[2]);
+	        formData.append("anio_pasaje", f_parts[0]);
 
 
 	        $.ajax({
@@ -176,14 +176,15 @@
 
 	                if($("#band_solicitud").val() == "save"){
 	                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-	                    mostrarform_detallado();$("#band_solicitud").val("edit");$("#id_mision_pasajes").val(res[1]);
+	                    mostrarform_detallado();$("#band_solicitud").val("edit");$("#id_mision_pasajes").val(res[1]);tabla_pasajes_detallado();
 	                }else if($("#band_solicitud").val() == "edit"){
 	                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-	                    mostrarform_detallado();
+	                    mostrarform_detallado();tabla_pasajes_detallado();
 	                }else{
 	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
 	                    tabla_pasaje_unidad();
 	                }
+	                
 	            }else{
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
 	            }
@@ -207,13 +208,14 @@
 		           mantto_solicitud();
 		       });
 		}
-		function cambiar_editar(id_mision_pasajes,fecha_solicitud_pasaje,nr){
+		function cambiar_editar(id_mision_pasajes,fecha_solicitud_pasaje,nr,mes_anio_pasaje){
 			$("#cnt_tabla").hide(0);
         	$("#cnt_solicitud").show(0);
         	$("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
         	$("#id_mision_pasajes").val(id_mision_pasajes);
         	$("#fecha_solicitud").val(fecha_solicitud_pasaje);
         	$("#nr_empleado").val(nr).trigger("change.select2");
+        	$("#mes_anio_pasaje").val(mes_anio_pasaje);
         	$("#band_solicitud").val("edit");
         	observaciones(id_mision_pasajes);
         	$("#cnt_observaciones").show(0);
@@ -326,6 +328,7 @@
 		function enviararevision(){
 			var formData = new FormData();
 			formData.append("id_mision_pasajes", $("#id_mision_pasajes").val());
+			
 			$.ajax({
 	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/gestionar_revision1",
 	            type: "post",
@@ -340,10 +343,22 @@
 	            	cerrar_mantenimiento2();
 	            	cerrar_mantenimiento1();
 	            	tabla_pasaje_unidad();
+	            }else{
+	            	swal({ title: "¡Solicitud Incompleta!", type: "error", showConfirmButton: true });
+	            	cerrar_mantenimiento2();
+	            	cerrar_mantenimiento1();
+	            	tabla_pasaje_unidad();
 	            }
+	            
 	        });
 		}
 
+	function limpiar_solicitud(){
+		$("#band_solicitud").val("save");
+		$("#fecha_solicitud").val("");
+		$("#mes_anio_pasaje").val("");
+		$("#id_mision_pasajes").val("");
+	}
 		
     function observaciones(id_mision){    
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -698,11 +713,12 @@
 	        format: 'dd-mm-yyyy',
 	        autoclose: true,
 	        todayHighlight: true,
+	        endDate: moment().format("DD-MM-YYYY"),
 	        daysOfWeekDisabled: [0,6]
         });
 
 	        var date = new Date();
-			var limite_inicio =  moment([date.getFullYear(), date.getMonth()-1, 1]);
+			var limite_inicio =  moment([date.getFullYear(), date.getMonth(), 1]);
              
             if(moment().format("e") == 0){
                 limite_inicio.add(1,'days');

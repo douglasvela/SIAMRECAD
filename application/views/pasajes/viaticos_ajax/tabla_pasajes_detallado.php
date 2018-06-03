@@ -26,18 +26,29 @@
         $mes = $otrafecha[1];
         list($anio, $mes)= explode ("-",$fecha_mes);  
 */
-      $cuenta = $this->db->query("SELECT * FROM vyp_pasajes AS p WHERE p.nr = '".$nr_empleado."' AND p.id_mision='".$id_mision."' ORDER BY p.id_solicitud_pasaje desc");
+    $cuenta = $this->db->query("SELECT * FROM vyp_pasajes AS p WHERE p.nr = '".$nr_empleado."' AND p.id_mision='".$id_mision."' ORDER BY p.id_solicitud_pasaje desc");
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
                             echo "<td>".$fila->fecha_mision."</td>";
-                            echo "<td>".$fila->id_departamento."</td>";
-                            echo "<td>".$fila->id_municipio."</td>";
+
+    $depto = $this->db->query("SELECT * FROM org_departamento where id_departamento=".$fila->id_departamento);
+    foreach ($depto->result() as $valuedepto) {
+        echo "<td>".$valuedepto->departamento."</td>";
+    }
+    
+    $mun = $this->db->query("SELECT * FROM org_municipio where id_municipio=".$fila->id_municipio);
+    foreach ($mun->result() as $valuemun) {
+        echo "<td>".$valuemun->municipio."</td>";
+    }                            
                             echo "<td>".$fila->no_expediente."</td>";
                             echo "<td>".$fila->empresa_visitada."</td>";
                             echo "<td>".$fila->direccion_empresa."</td>";
                             echo "<td>".$fila->monto_pasaje."</td>";
-                            echo "<td>".$fila->id_actividad_realizada."</td>";
+    $act = $this->db->query("SELECT * FROM vyp_actividades where id_vyp_actividades=".$fila->id_actividad_realizada);
+    foreach ($act->result() as $valueac) {
+        echo "<td>".$valueac->nombre_vyp_actividades."</td>";
+    }
                     echo "<td>";
                    $array = array($fila->id_solicitud_pasaje,$fila->fecha_mision,$fila->id_departamento,$fila->id_municipio,$fila->no_expediente,$fila->empresa_visitada,$fila->direccion_empresa,$fila->monto_pasaje,$fila->id_actividad_realizada);
                     array_push($array, "edit");

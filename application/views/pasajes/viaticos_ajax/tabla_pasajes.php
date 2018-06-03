@@ -78,7 +78,7 @@
                               echo "<td>0.00</td>";
                             }
                     echo "<td>";
-                   $array = array($fila->id_mision_pasajes,$fila->fecha_solicitud_pasaje,$fila->nr);
+                   $array = array($fila->id_mision_pasajes,$fila->fecha_solicitud_pasaje,$fila->nr,$fila->anio_pasaje."-".$fila->mes_pasaje);
                     array_push($array, "edit");
                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
