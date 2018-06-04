@@ -482,7 +482,7 @@ $this->mpdf->AddPage('L','','','','',10,10,45,17,3,9);
 $this->mpdf->SetTitle('Poliza de reintegro');
 $this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 $this->mpdf->WriteHTML($cuerpo);
-$this->mpdf->Output();
+$this->mpdf->Output("POLIZA-COMPLETA_".$no_poliza."_".$mes_poliza."_".$anio.".pdf", "I");
 
 
 ?>

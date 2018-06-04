@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `vyp_mision_pasajes`
 --
-
+DROP TABLE IF EXISTS `vyp_mision_pasajes`;
 CREATE TABLE `vyp_mision_pasajes` (
   `id_mision_pasajes` int(11) NOT NULL,
   `nr` varchar(5) NOT NULL,
