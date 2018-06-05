@@ -4,6 +4,7 @@
                 <thead class="bg-info text-white">
                     <tr>
                         <th>Id</th>
+                <th>Fecha Solicitud</th>
                 <th>Solicitante</th>
                 <th>Mes</th> 
                 <th>Año</th>
@@ -31,11 +32,13 @@
                     }
                    
 
-                    $mision = $this->db->query("SELECT id_mision_pasajes, nr, nombre_empleado, mes_pasaje, anio_pasaje, estado FROM vyp_mision_pasajes where estado = 5  ORDER BY mes_pasaje ");
+                    $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where estado = 5  ORDER BY mes_pasaje ");
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
                             echo "<tr>";
                             echo "<td>".$fila->id_mision_pasajes."</td>";
+                            $date = date_create($fila->fecha_solicitud_pasaje);
+                            echo "<td>".date_format($date, 'd-m-Y')."</td>";
                             echo "<td>".$fila->nombre_empleado."</td>";
                     switch ($fila->mes_pasaje) {
                         case 1:

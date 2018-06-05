@@ -222,6 +222,7 @@
         	observaciones(id_mision_pasajes);
         	$("#cnt_observaciones").show(0);
 		}
+		var contador_detalle_solicitud=0;
 		function mantto_detalle_solicitud(){
 			if($("#band_detalle_solicitud").val()=="save" || $("#band_detalle_solicitud").val()=="edit"){
 				if($("#fecha_detalle").val()=="" || $("#departamento").val()=='0' || $("#municipio").val()=='0' || $("#empresa").val()==''
@@ -260,14 +261,17 @@
 	                    tabla_pasajes_detallado();
 	                    document.getElementById("boton_editar_detallado").style.display="none";
 						document.getElementById("boton_agregar_detallado").style.display="block";
+						contador_detalle_solicitud++;
 	                }else if($("#band_detalle_solicitud").val() == "edit"){
 	                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
 	                    tabla_pasajes_detallado();
 	                    document.getElementById("boton_editar_detallado").style.display="none";
 						document.getElementById("boton_agregar_detallado").style.display="block";
+						contador_detalle_solicitud++;
 	                }else{
 	                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
 	                    tabla_pasajes_detallado();
+	                    contador_detalle_solicitud++;
 	                }
 	                limpiar_form_detallado();
 	            }else if(res=="monto_invalido"){
@@ -399,9 +403,8 @@
             cerrar_mantenimiento1();
             tabla_pasaje_unidad();
         }
-
-        if(checkbox.length>0 && (checkbox.length - sin_observaciones)!=0){
-            enviararevision();
+        if((checkbox.length>0 && sin_observaciones==0) || contador_detalle_solicitud>0){
+            enviararevision();contador_detalle_solicitud=0;
         }else{
         	cerrar_mantenimiento2();
             cerrar_mantenimiento1();
@@ -409,6 +412,7 @@
         }
         limpiar_form_detallado();
         limpiar_solicitud();
+        
     }
     function enviar_observaciones_revisadas(ides){
     	var formData = new FormData();
