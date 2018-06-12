@@ -989,7 +989,7 @@
                 var limite_fin =  moment(fecha_rev_obs).subtract(1,'days');
 
                 var diferencia = 0;
-                var newdate = fecha_rev_obs.split("-").reverse().join("-");
+                var newdate = moment(fecha_rev_obs);
 
                 if(limite_fin.format("e") == 0){
                     limite_fin.subtract(2,'days');
