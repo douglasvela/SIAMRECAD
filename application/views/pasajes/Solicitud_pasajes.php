@@ -31,7 +31,11 @@
 	        return xmlhttp;
 	    }
 	    function iniciar(){
+	    	<?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
 	    	tabla_pasaje_unidad();
+	    	<?php }else{ ?>
+            $("#cnt_pasaje").html("Usted no tiene permiso para este formulario.");     
+      		<?php } ?>
 	    }
 	 var estado_pestana = "";
 	function cambiar_pestana(tipo){
@@ -465,7 +469,13 @@
 	                    </div>
 	                    <div class="card-body b-t">
 	                    	 <div class="pull-right">
+	                    	 	<?php 
+	                    	 	if(tiene_permiso($segmentos=2,$permiso=2)){
+	                    	 	?>
 	                            <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Nuevo registro</button>
+	                            <?php
+	                        	}
+	                            ?>
 	                        </div>
 	                    	<div class="row ">
 								<div class="form-group col-lg-6">
