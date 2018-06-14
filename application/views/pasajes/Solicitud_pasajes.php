@@ -34,7 +34,7 @@
 	    	<?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
 	    	tabla_pasaje_unidad();
 	    	<?php }else{ ?>
-            $("#cnt_pasaje").html("Usted no tiene permiso para este formulario.");     
+            $("#cnt_tabla").html("Usted no tiene permiso para este formulario.");     
       		<?php } ?>
 	    }
 	 var estado_pestana = "";
