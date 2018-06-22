@@ -1,11 +1,9 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas,codigo,delimitador,archivo,bandera){
+    function cambiar_editar(id,nombre,caracteristicas,codigo,bandera){
         $("#idb").val(id);
         $("#nombre").val(nombre);
         $("#caracteristicas").val(caracteristicas);
         $("#codigo").val(codigo);
-        $("#delimitador").val(delimitador);
-        $("#archivo").val(archivo);
 
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
@@ -27,8 +25,6 @@
         $("#nombre").val("");
         $("#caracteristicas").val("");
         $("#codigo").val("");
-        $("#delimitador").val("");
-        $("#archivo").val("");
         $("#band").val("save");
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
@@ -245,25 +241,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <h5>Delimitador: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="text" id="delimitador" name="delimitador" class="form-control" required="" placeholder="Ejemplo: ;">
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <h5>Campos de la base: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <select id="archivo" name="archivo" class="custom-select" style="width: 100%" required="">
-                                            <option value="">[Elija el formato de planilla]</option>
-                                            <option value="txt">Excel</option>
-                                            <option value="xlsx">Texto</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>                            
                             
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">

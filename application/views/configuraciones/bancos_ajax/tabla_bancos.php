@@ -31,7 +31,7 @@
                             echo "<td>".$fila->codigo."</td>";
 
                             echo "<td>";
-                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo, $fila->delimitador, $fila->archivo);
+                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo);
 
                             if(tiene_permiso($segmentos=2,$permiso=4)){
                                 array_push($array, "edit");

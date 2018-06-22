@@ -29,9 +29,7 @@ class bancos extends CI_Controller {
 			$data = array(
 			'nombre' => $this->input->post('nombre'), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
-			'codigo' => $this->input->post('codigo'),
-			'delimitador' => $this->input->post('delimitador'),
-			'archivo' => $this->input->post('archivo')
+			'codigo' => $this->input->post('codigo')
 			);
 			echo $this->bancos_model->insertar_banco($data);
 			
@@ -40,9 +38,7 @@ class bancos extends CI_Controller {
 			'idb' => $this->input->post('idb'), 
 			'nombre' => $this->input->post('nombre'), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
-			'codigo' => $this->input->post('codigo'),
-			'delimitador' => $this->input->post('delimitador'),
-			'archivo' => $this->input->post('archivo')
+			'codigo' => $this->input->post('codigo')
 			);
 			echo $this->bancos_model->editar_banco($data);
 

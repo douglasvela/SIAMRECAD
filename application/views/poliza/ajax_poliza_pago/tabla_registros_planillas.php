@@ -179,7 +179,7 @@ $banco_cual = "";
 
 <div class="pull-right" align="right">
 <button type="button" onclick="generar_txt('<?php echo base64_encode($resumen); ?>', '<?php echo $nombre_archivo; ?>');" class="btn waves-effect waves-light btn-info"><span class="mdi mdi-file-document"></span>Exportar como .txt</button>
-<button type="button" onclick="generar_excel('<?php echo base64_encode($resumen); ?>', '<?php echo $nombre_archivo2; ?>');" class="btn waves-effect waves-light btn-info"><span class="mdi mdi-file-excel"></span>Exportar como .xlsx</button>
+<button type="button" onclick="generar_excel('<?php echo base64_encode($resumen2); ?>', '<?php echo $nombre_archivo2; ?>');" class="btn waves-effect waves-light btn-info"><span class="mdi mdi-file-excel"></span>Exportar como .xlsx</button>
 </div>
 
   </div>
