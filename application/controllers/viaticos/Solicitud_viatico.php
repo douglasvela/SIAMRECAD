@@ -80,7 +80,7 @@ class Solicitud_viatico extends CI_Controller {
 			'id_actividad_realizada' => $this->input->post('id_actividad'),
 			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad')),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
-			'ruta_justificacion' => base64_encode(trim($this->input->post('ruta_justificacion')))
+			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
 			);
 			
 			$resultado = $this->solicitud_model->insertar_mision($data);
@@ -161,7 +161,7 @@ class Solicitud_viatico extends CI_Controller {
 			'id_actividad_realizada' => saltos_sql($this->input->post('id_actividad')),
 			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad')),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
-			'ruta_justificacion' => base64_encode(trim($this->input->post('ruta_justificacion')))
+			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
 			);
 			
 			$resultado = $this->solicitud_model->editar_mision($data);

@@ -1139,7 +1139,7 @@
 
         if(bandera == "edit"){
 
-            $('#summernote').summernote('code', decodeURIComponent(escape(atob(ruta_justificacion))));
+            $('#summernote').val(ruta_justificacion);
 
             if(observacion_habilitada){
 
@@ -2000,14 +2000,14 @@
             $("#notificacion_justificacion").show(750);
             $("#cnt_justificacion").show(750);
             $("#cnt_file3").show(750);
-            $('#summernote').summernote('code', 'justificacion');
+            $('#summernote').val('justificacion');
             if($("#band").val()=="save"){
                 imagen_justificacion();
             }else{
                 imagen_justificacion();
             }
         }else{
-            $('#summernote').summernote('code', "");
+            $('#summernote').val("");
             if($("#band").val()=="save"){
                 validar_dia_limite("0");
                 var nueva_fecha =  moment();
@@ -2811,11 +2811,6 @@
 $(function(){  
 
     $(document).ready(function(){  
-
-
-        $('#summernote').summernote('fontName', 'Arial');
-
-
     	var date = new Date();
             var currentMonth = date.getMonth();
             var currentDate = date.getDate();
@@ -2852,7 +2847,7 @@ $(function(){
         var nombre = $("#nr option:selected").text().split("-");
         nombre = nombre[0].trim();
         formData.append('nombre_completo', nombre);
-        var justificacion_value = $('#summernote').summernote('code');
+        var justificacion_value = $('#summernote').val();
         formData.append('ruta_justificacion', justificacion_value);
 
             $.ajax({

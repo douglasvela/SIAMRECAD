@@ -226,12 +226,9 @@ $altura = 5);
 			$datetime2 = date_create($fec_fin);
 			$interval = date_diff($datetime1, $datetime2);
 			$diferencia = $interval->format('%a');
-
 			$nuevafecha = strtotime($fec_inicio);
-
 			$tviaticos = 0;
-
-			$contador = 0;
+			$contador = 0; $nombre_anterior = "";
 
 			if($diferencia > 0){
 
@@ -257,9 +254,10 @@ $altura = 5);
 				                	$hsalida = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida));
 		                            $hllegada = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada));
 		                            $tpasaje = intval($fila->pasaje);
+		                            $nombre_anterior = $fila->nombre_destino;
 				                }
 				            }else{
-				            	$ruta = "PERMANENCIA: ".$fila->nombre_destino;
+				            	$ruta = "PERMANENCIA: ".$nombre_anterior;
 				                $hsalida = " - ";
 		                        $hllegada = " - ";
 		                        $tpasaje = 0;
@@ -317,9 +315,10 @@ $altura = 5);
 				                	$hsalida = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida));
 		                            $hllegada = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada));
 		                            $tpasaje = intval($fila->pasaje);
+		                            $nombre_anterior = $fila->nombre_destino;
 				                }
 				            }else{
-				            	$ruta = "PERMANENCIA: ".$fila->nombre_destino;
+				            	$ruta = "PERMANENCIA: ".$nombre_anterior;
 				                $hsalida = " - ";
 		                        $hllegada = " - ";
 		                        $tpasaje = 0;

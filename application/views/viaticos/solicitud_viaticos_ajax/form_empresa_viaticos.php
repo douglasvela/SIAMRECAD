@@ -18,14 +18,16 @@
         foreach ($info_empleado->result() as $filas) {}
     }
 
-    $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
 
+    $id_oficina_origen = "";
+    $nombre_oficina_origen = "";
+
+    $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
     if($oficina_origen->num_rows() > 0){ 
         foreach ($oficina_origen->result() as $filaofi) {}
+        $id_oficina_origen = $filaofi->id_oficina;
+        $nombre_oficina_origen = $filaofi->nombre_oficina;
     }
-
-    $id_oficina_origen = $filaofi->id_oficina;
-    $nombre_oficina_origen = $filaofi->nombre_oficina;
 
     function duracion($fechaA, $fechaB){
     	$fechaA = explode("-",$fechaA);
