@@ -14,14 +14,11 @@ class Login extends CI_Controller {
 		$this->load->model('bitacora_model');
 	}
 
-	public function index()
-	{
+	public function index(){
 		$this->load->view('login');
-		$this->load->view('templates/footer');
 	}
 
-	public function vista_inicio()
-	{
+	public function vista_inicio(){
 		$this->load->view('templates/header');
 		$this->load->view('inicio');
 		$this->load->view('templates/footer');

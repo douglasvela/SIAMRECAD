@@ -1,38 +1,20 @@
 <?php
     $user = $this->session->userdata('usuario_viatico');
-    if(empty($user)){
-        header("Location: ".site_url()."/login");
-        exit();
-    }
-
+    if(empty($user)){ header("Location: ".site_url()."/login"); exit(); }
     $id_usuario = $this->session->userdata('id_usuario_viatico');
     $pos = strpos($user, ".")+1;
     $inicialUser = strtoupper(substr($user,0,1).substr($user, $pos,1));
-
     setlocale(LC_ALL,"es_ES");
     date_default_timezone_set('America/El_Salvador');
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
+    <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content=""><meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/Logo-min.png">
-    
-
+    <title>TravelExp</title>
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
-
-
-    <title>TravelExp</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/dropify/dist/css/dropify.min.css" rel="stylesheet">
@@ -53,118 +35,65 @@
     <!-- Daterange picker plugins css -->
     <link href="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-    <!--This page css - Morris CSS -->
-    <link href="<?php echo base_url(); ?>assets/plugins/summernote/dist/summernote.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="<?php echo base_url(); ?>assets/css/colors/blue.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
     <!--Range slider CSS -->
     <link href="<?php echo base_url(); ?>assets/plugins/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/ion-rangeslider/css/ion.rangeSlider.skinModern.css" rel="stylesheet">
 </head>
 <script>
-   //var barra = setTimeout(function(){ $("#clic").click(); }, 500);
-    var minutos = 10;
-    var warning = 9.90;
-    var danger = 3;
+    var minutos = 10; var warning = 9.90; var danger = 3;
 
     $(document).ready(function() {
-        $("#password_val").val("");
-        localStorage["ventanasvyp"]++;
-        //alert(localStorage["ventanasvyp"])
-        if(hora() >= 60*minutos || localStorage["expirasesionvyp"] == "expirada"){
-            cerrar_sesion(0);
-        }
+        $("#password_val").val(""); localStorage["ventanasvyp"]++;
+        if(hora() >= 60*minutos || localStorage["expirasesionvyp"] == "expirada"){ cerrar_sesion(0); }
     });
 
     function cambiar_hora_expira(s){
         if(localStorage["expirasesionvyp"] == "expirada"){
             $("#contador").text("Expira: expirada");
         }else{
-            s = (60*minutos) - s;
-            var secs = s % 60;
-            s = (s - secs) / 60;
-            var mins = s % 60;
-            var hrs = (s - mins) / 60;
-            horas = addZ(mins) + ':' + addZ(secs);
-
+            s = (60*minutos) - s; var secs = s % 60; s = (s - secs) / 60; var mins = s % 60; var hrs = (s - mins) / 60; horas = addZ(mins) + ':' + addZ(secs);
             $("#contador").text("Expira: "+horas);
         }
     }
 
     window.onbeforeunload = function() {
-        //localStorage["expirasesionvyp"] = 0;
         localStorage["ventanasvyp"]--;
     }
 
     function hora(){
-        var c = new Date();
-        var a = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
-        var b = new Date(localStorage["expirasesionvyp"]);
-        //La diferencia se da en milisegundos así que debes dividir entre 1000
-        var result = ((a-b)/1000);
-        cambiar_hora_expira(result);
-        return result; // resultado 5;;
+        var c = new Date(); var a = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds()); var b = new Date(localStorage["expirasesionvyp"]); var result = ((a-b)/1000); cambiar_hora_expira(result);
+        return result;
     }
 
-    function addZ(n) {
-        return (n<10? '0':'') + n;
-    }
+    function addZ(n) { return (n<10? '0':'') + n; }
 
     var iniciar_conteo = (function(){
-        var condicion;
-        var moviendo= false;
-        document.onmousemove = function(){
-            moviendo= true;
-        };
+        var condicion; var moviendo= false;
+        document.onmousemove = function(){ moviendo= true; };
         setInterval (function() {
             if (!moviendo || localStorage["expirasesionvyp"] == "expirada") {
                 // No ha habido movimiento desde hace un segundo, aquí tu codigo
                 condicion = ((60*minutos)-hora())
-                if(hora() >= 60*minutos){
-                    cerrar_sesion(1000);
-                }
-                if(localStorage["expirasesionvyp"] == "expirada"){
-                    cerrar_sesion(0);
-                }
-                if(condicion < (warning*60) && condicion > (danger*60)){
-                    $("#initial_user").removeClass("text-danger animacion_nueva");
-                    $("#initial_user").addClass("text-warning");
-                    $("#initial_user").show(0);
-                }
-                if(condicion <= (danger*60)){
-                    $("#initial_user").removeClass("text-warning");
-                    $("#initial_user").addClass("text-danger animacion_nueva");
-                    $("#initial_user").show(0);
-                }
-
+                if(hora() >= 60*minutos){ cerrar_sesion(1000); }
+                if(localStorage["expirasesionvyp"] == "expirada"){ cerrar_sesion(0); }
+                if(condicion < (warning*60) && condicion > (danger*60)){ $("#initial_user").removeClass("text-danger animacion_nueva"); $("#initial_user").addClass("text-warning"); $("#initial_user").show(0); }
+                if(condicion <= (danger*60)){ $("#initial_user").removeClass("text-warning"); $("#initial_user").addClass("text-danger animacion_nueva"); $("#initial_user").show(0); }
             } else {
-                moviendo=false;
-                var c = new Date();
-                localStorage["expirasesionvyp"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
-                hora();
-                $("#initial_user").hide(0);
+                moviendo=false; var c = new Date(); localStorage["expirasesionvyp"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds()); hora(); $("#initial_user").hide(0);
             }
        }, 1000); // Cada segundo, pon el valor que quieras.
     })()
 
-    function cerrar_sesion(t){
-        $("#congelar").fadeIn(t);
-        $("#main-wrapper").fadeOut(t);
-        localStorage["expirasesionvyp"] = "expirada";
-    }
+    function cerrar_sesion(t){ $("#congelar").fadeIn(t); $("#main-wrapper").fadeOut(t); localStorage["expirasesionvyp"] = "expirada"; }
 
     function objetoAjax(){
         var xmlhttp = false;
-        try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
         } catch (e) {
             try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
         }
@@ -173,11 +102,7 @@
     }
 
     function verificar_usuario2(){
-        var usuario = $("#ususario_val").val();
-        var password = $("#password_val").val();
-
-        jugador = document.getElementById('jugador');
-
+        var usuario = $("#ususario_val").val(); var password = $("#password_val").val(); jugador = document.getElementById('jugador');
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/login/verificar_usuario2", true);
         ajax.onreadystatechange = function() {
@@ -191,94 +116,39 @@
                 }
             }
         }
-
         ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         ajax.send("&usuario="+usuario+"&password="+password)
     }
 
     function continuar_sesion(){
-        $("#congelar").fadeOut(1000);
-        $("#main-wrapper").fadeIn(1000);
-        var c = new Date();
+        $("#congelar").fadeOut(1000); $("#main-wrapper").fadeIn(1000); var c = new Date();
         localStorage["expirasesionvyp"] = new Date(c.getFullYear(),c.getMonth(),c.getDate(),c.getHours(),c.getMinutes(),c.getSeconds());
     }
 
-    function esEnter(e) {
-        if (e.keyCode == 13) {
-            $("#btnClickUser").click();
-        }
-    }
+    function esEnter(e) { if (e.keyCode == 13) { $("#btnClickUser").click(); } }
 
 </script>
 <style>
-.animacion_nueva {
-    animation : scales 4.0s ease infinite;
-  -webkit-animation: scales 1.9s ease-in infinite alternate;
-  -moz-animation: scales 1.9s ease-in infinite alternate;
-  animation: scales 1.9s ease-in infinite alternate;
-}
-@-moz-keyframes scales {
-  from {
-    -webkit-transform: scale(0.8);
-    -moz-transform: scale(0.8);
-    transform: scale(0.8);
-  }
-  to {
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    transform: scale(1.1);
-  }
-}
-@-webkit-keyframes scales {
-  from {
-    -webkit-transform: scale(1.0);
-    -moz-transform: scale(1.0);
-    transform: scale(1.0);
-  }
-  to {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-@-o-keyframes scales {
-  from {
-    -webkit-transform: scale(1.0);
-    -moz-transform: scale(1.0);
-    transform: scale(1.0);
-  }
-  to {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-@keyframes scales {
-  from {
-    -webkit-transform: scale(1.0);
-    -moz-transform: scale(1.0);
-    transform: scale(1.0);
-  }
-  to {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-
-.modal-body {
-  max-height:450px;
-  overflow-y:scroll;
-}
-
-    </style>
-
-
-
-
-
+    .animacion_nueva { animation : scales 4.0s ease infinite; -webkit-animation: scales 1.9s ease-in infinite alternate; -moz-animation: scales 1.9s ease-in infinite alternate; animation: scales 1.9s ease-in infinite alternate; }
+    @-moz-keyframes scales {
+      from { -webkit-transform: scale(0.8); -moz-transform: scale(0.8); transform: scale(0.8); 
+      } to { -webkit-transform: scale(1.1); -moz-transform: scale(1.1); transform: scale(1.1); }
+    }
+    @-webkit-keyframes scales {
+        from { -webkit-transform: scale(1.0); -moz-transform: scale(1.0); transform: scale(1.0); 
+        } to { -webkit-transform: scale(1.2); -moz-transform: scale(1.2); transform: scale(1.2); }
+    }
+    @-o-keyframes scales {
+        from { -webkit-transform: scale(1.0); -moz-transform: scale(1.0); transform: scale(1.0);
+        } to { -webkit-transform: scale(1.2); -moz-transform: scale(1.2); transform: scale(1.2); }
+    }
+    @keyframes scales {
+        from { -webkit-transform: scale(1.0); -moz-transform: scale(1.0); transform: scale(1.0);
+        } to { -webkit-transform: scale(1.2); -moz-transform: scale(1.2); transform: scale(1.2); }
+    }
+    .modal-body { max-height:450px; overflow-y:scroll; }
+</style>
 <body class="fix-header fix-sidebar card-no-border mini-sidebar" onload="iniciar();">
-
     <!-- ============================================================== -->
     <!-- Icono de cargando página... -->
     <!-- ============================================================== -->
@@ -318,139 +188,136 @@
             </div>
           </div>
     </div>
-
 </section>
-
-
 <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Barra superior -->
-        <!-- ============================================================== -->
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="<?php echo site_url(); ?>">
-                        <!-- Logo icono --><b>
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                            <!-- Dark Logo icon -->
-                            <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="dark-logo" />
-                            <!-- Light Logo icon -->
-                            <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="light-logo" />
-                        </b>
-                        <!--Fin Logo icon -->
-                        <!-- Logo text --><span>
-                         <!-- dark Logo text -->
-                         <img src="<?php echo base_url(); ?>assets/images/texto.png" height='30px;' alt="homepage" class="dark-logo" />
-                         <!-- Light Logo text -->
-                         <img src="<?php echo base_url(); ?>assets/images/texto.png" style="margin-left: 10px; margin-top: 10px;"  height='30px;' class="light-logo" alt="homepage" /></span> </a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- Fin Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav mr-auto mt-md-0">
-                        <!-- This is  -->
-                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
-                        <li class="nav-item"> <a id="clic" class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                        <!-- ============================================================== -->
-                        <!-- End Messages -->
-                        <!-- ============================================================== -->
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                        
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="round round-success"><?php echo $inicialUser; ?></span></a>
-                            <div class="dropdown-menu dropdown-menu-right scale-up">
-                                <ul class="dropdown-user">
-                                    <li>
-                                        <div class="dw-user-box">
-                                            <div class="u-text">
-                                                <h4><?php echo $this->session->userdata('nombre_usuario_viatico'); ?></h4>
-
-                                                <p align="right"><a href="#!" class="btn btn-rounded btn-info waves-effect waves-light">Activo</a></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="<?php echo site_url(); ?>/cerrar_sesion"><i class="fa fa-power-off"></i> Salir</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- End Profile -->
-                        <!-- ============================================================== -->
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap text-center">MENÚ</li>
-
-
-                        <li class="nav-devider" style="margin:5px;"></li>
-                        <?php
-                        $id_sistema=15;
-                            $modulos = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = ".$id_sistema." AND (m.dependencia = '' OR m.dependencia = 0 OR m.dependencia IS NULL) AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." OR m2.id_modulo IN (SELECT m3.dependencia FROM org_modulo AS m3 JOIN org_rol_modulo_permiso AS P2 ON P2.id_modulo = m3.id_modulo AND m3.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U2 ON P2.id_rol=U2.id_rol WHERE U2.id_usuario='$id_usuario' GROUP BY m3.dependencia) JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
-                            if($modulos->num_rows() > 0){
-                                foreach ($modulos->result() as $fila) {
-                        ?>
-                            <li> <a class="has-arrow waves-effect waves-dark" href="<?php echo $fila->url_modulo; ?>" aria-expanded="false"><i class="<?php echo $fila->img_modulo; ?>"></i><span class="hide-menu"> <?php echo $fila->nombre_modulo; ?></span></a>
-                                <?php
-                                    $modulos2 = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = $id_sistema AND m.dependencia = ".$fila->id_modulo." AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
-                                    if($modulos2->num_rows() > 0){
-                                        echo '<ul aria-expanded="false" class="collapse">';
-                                        foreach ($modulos2->result() as $fila2) {
-                                ?>
-                                    <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
-                                <?php
-                                        }
-                                        echo "</ul>";
-                                    }
-                                ?>
-                            </li>
-                        <?php
-                                }
-                            }
-                        ?>
-
-
-                    </ul>
-                </nav>
-                <!-- End Sidebar navigation -->
+    <!-- ============================================================== -->
+    <!-- Barra superior -->
+    <!-- ============================================================== -->
+    <header class="topbar">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
+            <!-- ============================================================== -->
+            <!-- Logo -->
+            <!-- ============================================================== -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="<?php echo site_url(); ?>">
+                    <!-- Logo icono --><b>
+                        <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                        <!-- Dark Logo icon -->
+                        <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="dark-logo" />
+                        <!-- Light Logo icon -->
+                        <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="light-logo" />
+                    </b>
+                    <!--Fin Logo icon -->
+                    <!-- Logo text --><span>
+                     <!-- dark Logo text -->
+                     <img src="<?php echo base_url(); ?>assets/images/texto.png" height='30px;' alt="homepage" class="dark-logo" />
+                     <!-- Light Logo text -->
+                     <img src="<?php echo base_url(); ?>assets/images/texto.png" style="margin-left: 10px; margin-top: 10px;"  height='30px;' class="light-logo" alt="homepage" /></span> </a>
             </div>
-            <!-- End Sidebar scroll-->
-            <!-- Bottom points-->
-            <div class="sidebar-footer">
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
-                <!-- item--><a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> </div>
-            <!-- End Bottom points-->
-        </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Fin Logo -->
+            <!-- ============================================================== -->
+            <div class="navbar-collapse">
+                <!-- ============================================================== -->
+                <!-- toggle and nav items -->
+                <!-- ============================================================== -->
+                <ul class="navbar-nav mr-auto mt-md-0">
+                    <!-- This is  -->
+                    <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
+                    <li class="nav-item"> <a id="clic" class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                    <!-- ============================================================== -->
+                    <!-- End Messages -->
+                    <!-- ============================================================== -->
+                </ul>
+                <!-- ============================================================== -->
+                <!-- User profile and search -->
+                <!-- ============================================================== -->
+                <ul class="navbar-nav my-lg-0">
+                    
+                    <!-- ============================================================== -->
+                    <!-- Profile -->
+                    <!-- ============================================================== -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="round round-success"><?php echo $inicialUser; ?></span></a>
+                        <div class="dropdown-menu dropdown-menu-right scale-up">
+                            <ul class="dropdown-user">
+                                <li>
+                                    <div class="dw-user-box">
+                                        <div class="u-text">
+                                            <h4><?php echo $this->session->userdata('nombre_usuario_viatico'); ?></h4>
+
+                                            <p align="right"><a href="#!" class="btn btn-rounded btn-info waves-effect waves-light">Activo</a></p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="<?php echo site_url(); ?>/cerrar_sesion"><i class="fa fa-power-off"></i> Salir</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- ============================================================== -->
+                    <!-- End Profile -->
+                    <!-- ============================================================== -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <aside class="left-sidebar">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+            <!-- Sidebar navigation-->
+            <nav class="sidebar-nav">
+                <ul id="sidebarnav">
+                    <li class="nav-small-cap text-center">MENÚ</li>
+
+
+                    <li class="nav-devider" style="margin:5px;"></li>
+                    <?php
+                    $id_sistema=15;
+                        $modulos = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = ".$id_sistema." AND (m.dependencia = '' OR m.dependencia = 0 OR m.dependencia IS NULL) AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." OR m2.id_modulo IN (SELECT m3.dependencia FROM org_modulo AS m3 JOIN org_rol_modulo_permiso AS P2 ON P2.id_modulo = m3.id_modulo AND m3.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U2 ON P2.id_rol=U2.id_rol WHERE U2.id_usuario='$id_usuario' GROUP BY m3.dependencia) JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
+                        if($modulos->num_rows() > 0){
+                            foreach ($modulos->result() as $fila) {
+                    ?>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="<?php echo $fila->url_modulo; ?>" aria-expanded="false"><i class="<?php echo $fila->img_modulo; ?>"></i><span class="hide-menu"> <?php echo $fila->nombre_modulo; ?></span></a>
+                            <?php
+                                $modulos2 = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = $id_sistema AND m.dependencia = ".$fila->id_modulo." AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
+                                if($modulos2->num_rows() > 0){
+                                    echo '<ul aria-expanded="false" class="collapse">';
+                                    foreach ($modulos2->result() as $fila2) {
+                            ?>
+                                <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
+                            <?php
+                                    }
+                                    echo "</ul>";
+                                }
+                            ?>
+                        </li>
+                    <?php
+                            }
+                        }
+                    ?>
+
+
+                </ul>
+            </nav>
+            <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+        <!-- Bottom points-->
+        <div class="sidebar-footer">
+            <!-- item--><a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
+            <!-- item--><a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
+            <!-- item--><a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> </div>
+        <!-- End Bottom points-->
+    </aside>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
