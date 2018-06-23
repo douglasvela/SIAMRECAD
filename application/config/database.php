@@ -93,7 +93,7 @@ if("192.168.1.200" == $_SERVER['SERVER_NAME']){
 		'compress' => FALSE,
 		'stricton' => FALSE,
 		'failover' => array(),
-		'save_queries' => TRUE
+		'save_queries' => FALSE
 	);
 }else{
 	$db['default'] = array(
@@ -115,6 +115,6 @@ if("192.168.1.200" == $_SERVER['SERVER_NAME']){
 		'compress' => FALSE,
 		'stricton' => FALSE,
 		'failover' => array(),
-		'save_queries' => TRUE
+		'save_queries' => FALSE
 	);
 }
