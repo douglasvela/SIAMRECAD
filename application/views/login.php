@@ -64,7 +64,7 @@
     
   <div class="login-box card">
     <div class="card-body">
-     <?php echo form_open(site_url().'/login/verificar_usuario', array('id' => 'loginform', 'style' => 'margin-top: 0px;', 'class' => 'form-horizontal form-material', 'method' => 'POST' )); ?>
+     <?php echo form_open('', array('id' => 'loginform', 'style' => 'margin-top: 0px;', 'class' => 'form-horizontal form-material')); ?>
         <a href="javascript:void(0)" class="text-center db"><img height="200px;" src="<?php echo base_url(); ?>assets/images/Logo.png" alt="Home" /></a>  
         
        <div class="form-group m-t-40">
@@ -112,7 +112,7 @@
 
 <script>
 
-/*$(function(){     
+$(function(){     
     $("#loginform").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
@@ -151,6 +151,6 @@
         });
             
     });
-});*/
+});
 
 </script>

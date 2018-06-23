@@ -85,8 +85,7 @@ class Login extends CI_Controller {
 			}
 		}
 
-		$this->vista_inicio();
-		//echo $response;
+		echo $response;
 		
 	}
 
