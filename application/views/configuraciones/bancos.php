@@ -1,10 +1,11 @@
 <script type="text/javascript">
-    function cambiar_editar(id,nombre,caracteristicas,codigo,bandera){
+    function cambiar_editar(id,nombre, caracteristicas, codigo_a, codigo_b, delimitador, bandera){
         $("#idb").val(id);
         $("#nombre").val(nombre);
         $("#caracteristicas").val(caracteristicas);
-        $("#codigo").val(codigo);
-
+        $("#codigo_a").val(codigo_a);
+        $("#codigo_b").val(codigo_b);
+        $("#delimitador").val(delimitador);
         if(bandera == "edit"){
             $("#ttl_form").removeClass("bg-success");
             $("#ttl_form").addClass("bg-info");
@@ -24,7 +25,9 @@
         $("#idb").val("");
         $("#nombre").val("");
         $("#caracteristicas").val("");
-        $("#codigo").val("");
+        $("#codigo_a").val("");
+        $("#codigo_b").val("");
+        $("#delimitador").val("");
         $("#band").val("save");
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
@@ -102,7 +105,6 @@
           "id_banco" : $("#idb").val(),
           "valor_campo" : $("#columnas").val(),
           "nombre_campo" : $("#columnas option:selected").text().trim()
-
         };
         $.ajax({
             type:  'POST',
@@ -161,7 +163,6 @@
     }
 
     function eliminar_columna(id){
-        
         var formData = {
           "id_estructura" : id
         };
@@ -234,10 +235,22 @@
                                         <input type="text" id="caracteristicas" name="caracteristicas" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
-                                    <h5>Código del banco: </h5>
+                                <div class="form-group col-lg-2">
+                                    <h5>Código A: </h5>
                                     <div class="controls">
-                                        <input type="text" id="codigo" name="codigo" class="form-control" required="">
+                                        <input type="text" id="codigo_a" name="codigo_a" class="form-control" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <h5>Código B: </h5>
+                                    <div class="controls">
+                                        <input type="text" id="codigo_b" name="codigo_b" class="form-control" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <h5>Delimitador: </h5>
+                                    <div class="controls">
+                                        <input type="text" id="delimitador" name="delimitador" class="form-control" required="">
                                     </div>
                                 </div>
                             </div>
@@ -267,8 +280,9 @@
                                             <select id="columnas" name="columnas" class="select2" style="width: 100%" required="">
                                                 <option value="">[Elija un campo para agregar]</option>
                                                 <optgroup label="Bancos">
-                                                    <option value="b.codigo AS codigo">Código (Banco)</option>
                                                     <option value="b.nombre AS nombre">Nombre (Banco)</option>
+                                                    <option value="b.codigo_a AS codigo_a">Código A (Banco)</option>
+                                                    <option value="b.codigo_b AS codigo_b">Código B (Banco)</option>
                                                 </optgroup>
                                                 <optgroup label="Persona empleada">
                                                     <option value="e.DUI AS DUI">DUI (Empleado)</option>
@@ -327,18 +341,8 @@
 <!-- ============================================================== -->
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
-
 <script>
-
 $(function(){
-
-    $(document).ready(function(){
-        $('[rel="tooltip"]').on('click', function () {
-            $(this).tooltip('hide')
-        })
-    });
-    
-
     $("#formajax").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
@@ -372,5 +376,4 @@ $(function(){
             
     });
 });
-
 </script>

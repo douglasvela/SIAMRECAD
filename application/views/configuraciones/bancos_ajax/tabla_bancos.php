@@ -14,8 +14,8 @@
                     <tr>
                         <th>#</th>
                         <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Código</th> 
+                        <th>Código A</th>
+                        <th>Código B</th>
                         <th>(*)</th>
                     </tr>
                 </thead>
@@ -27,11 +27,11 @@
                             echo "<tr>";
                             echo "<td>".$fila->id_banco."</td>";
                             echo "<td>".$fila->nombre."</td>";
-                            echo "<td>".$fila->caracteristicas."</td>";
-                            echo "<td>".$fila->codigo."</td>";
+                            echo "<td>".$fila->codigo_a."</td>";
+                            echo "<td>".$fila->codigo_b."</td>";
 
                             echo "<td>";
-                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo);
+                            $array = array($fila->id_banco, $fila->nombre, $fila->caracteristicas, $fila->codigo_a, $fila->codigo_b, $fila->delimitador);
 
                             if(tiene_permiso($segmentos=2,$permiso=4)){
                                 array_push($array, "edit");

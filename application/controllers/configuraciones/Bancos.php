@@ -23,35 +23,32 @@ class bancos extends CI_Controller {
 	}
 
 	public function gestionar_bancos(){		
-
 		if($this->input->post('band') == "save"){
-
 			$data = array(
 			'nombre' => $this->input->post('nombre'), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
-			'codigo' => $this->input->post('codigo')
+			'codigo_a' => $this->input->post('codigo_a'),
+			'codigo_b' => $this->input->post('codigo_b'),
+			'delimitador' => $this->input->post('delimitador')
 			);
 			echo $this->bancos_model->insertar_banco($data);
-			
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
 			'idb' => $this->input->post('idb'), 
 			'nombre' => $this->input->post('nombre'), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
-			'codigo' => $this->input->post('codigo')
+			'codigo_a' => $this->input->post('codigo_a'),
+			'codigo_b' => $this->input->post('codigo_b'),
+			'delimitador' => $this->input->post('delimitador')
 			);
 			echo $this->bancos_model->editar_banco($data);
-
 		}else if($this->input->post('band') == "delete"){
-
 			$data = array(
 			'idb' => $this->input->post('idb')
 			);
 			echo $this->bancos_model->eliminar_banco($data);
-
 		}
 	}
-
 
 	public function agregar_columnas(){		
 		$data = array(
@@ -62,7 +59,6 @@ class bancos extends CI_Controller {
 		echo $this->bancos_model->insertar_columna($data);
 	}
 
-
 	public function cambiar_orden(){		
 		$data = array(
 			'id_banco' => $this->input->post('id_banco'), 
@@ -72,7 +68,6 @@ class bancos extends CI_Controller {
 		);
 		echo $this->bancos_model->cambiar_orden($data);
 	}
-
 
 	public function eliminar_columna(){		
 		$data = array(
