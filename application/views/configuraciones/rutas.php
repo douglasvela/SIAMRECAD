@@ -24,9 +24,6 @@
         limpiar();
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
-
-
-
        document.getElementById('destino_oficina').checked = true;
         $("#id_vyp_rutas").val(id_vyp_rutas);
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);

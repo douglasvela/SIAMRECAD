@@ -20,7 +20,7 @@ class Oficinas extends CI_Controller {
 		$nuevo['id_departamento']=$objeto[0];
 		$nuevo['id_municipio']=$objeto[1];
 
-		$this->load->view('configuraciones/comboMunicipio',$nuevo);
+		$this->load->view('configuraciones/oficinas_ajax/comboMunicipio',$nuevo);
 	}
 	public function mostrarComboMunicipi2($id)
 	{
@@ -28,7 +28,7 @@ class Oficinas extends CI_Controller {
 		$nuevo['id_departamento']=$objeto[0];
 		$nuevo['id_municipio']=$objeto[1];
 
-		$this->load->view('configuraciones/comboMunicipio2',$nuevo);
+		$this->load->view('configuraciones/oficinas_ajax/comboMunicipio2',$nuevo);
 	}
 
 	public function mostrarDepartamento(){
@@ -46,14 +46,14 @@ class Oficinas extends CI_Controller {
 	}
 
 	public function tabla_oficinas(){
-		$this->load->view('configuraciones/tabla_oficinas');
+		$this->load->view('configuraciones/oficinas_ajax/tabla_oficinas');
 	}
 	
 
 	public function tabla_telefonos($id){
 		$objeto =  new stdClass();
 		$objeto->id = $id;
-		$this->load->view('configuraciones/tabla_oficinas_phone',$objeto);
+		$this->load->view('configuraciones/oficinas_ajax/tabla_oficinas_phone',$objeto);
 	}
 
 	public function gestionar_oficinas(){

@@ -3,10 +3,6 @@
 ?>
 <div class="card">
     <div class="card-header">
-        <div class="card-actions">
-
-
-        </div>
         <h4 class="card-title m-b-0">Listado de Rutas</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
@@ -38,42 +34,40 @@
                     <?php if($tipo_destino=="destino_oficina") {?>
                         <th>#</th>
                         <th>Origen</th>
-                        <th>Descripcion Destino</th>
                         <th>Destino</th>
-                        <th>Distancia(km)</th>
+                        <th>Distancia (Km)</th>
                         <th style="min-width: 85px;">*</th>
                     <?php }else if($tipo_destino=="destino_municipio"){?>
                         <th>#</th>
                         <th>Origen</th>
-                        <th>Descripcion Destino</th>
-                        <th>Departamento</th>
-                        <th>Municipio</th>
-                        <th>Distancia(km)</th>
+                        <th>Departamento destino</th>
+                        <th>Municipio destino</th>
+                        <th>Distancia (Km)</th>
                         <th style="min-width: 85px;">*</th>
                     <?php }else if($tipo_destino=="destino_mapa"){?>
                         <th>#</th>
                         <th>Origen</th>
                         <th>Empresa Destino</th>
                         <th>Dirección Destino</th>
-                        <th>Descripcion Destino</th>
                         <th>Departamento</th>
                         <th>Municipio</th>
-                        <th>Distancia(km)</th>
-                        <th style="display:none">Distancia(Lat,Lng)</th>
+                        <th>Distancia (Km)</th>
                         <th style="min-width: 85px;">*</th>
                     <?php }?>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
+                $contador = 0;
                 if($tipo_destino=="destino_oficina") {
-                    if(!empty($rutas)){
+                    if($rutas->num_rows() > 0){
                         foreach ($rutas->result() as $fila) {
+                            $contador++;
 
                             $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
 
                            echo "<tr>";
-                            echo "<td>".$fila->id_vyp_rutas."</td>";
+                            echo "<td>".$contador."</td>";
                            $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
                             $query = $this->db->get("vyp_oficinas");
                             foreach ($query->result() as $f) {
@@ -81,7 +75,7 @@
                             }
 
 
-                           echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";
+                           //echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";
 
                            $this->db->where("id_oficina",$fila->id_oficina_destino_vyp_rutas);
                             $query2 = $this->db->get("vyp_oficinas");
@@ -110,20 +104,20 @@
                         }
                     }
                 }else if($tipo_destino=="destino_municipio"){
-                    if(!empty($rutas)){
+                    if($rutas->num_rows() > 0){
                         foreach ($rutas->result() as $fila) {
-
+                            $contador++;
                             $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
 
                            echo "<tr>";
-                          echo "<td>".$fila->id_vyp_rutas."</td>";
+                          echo "<td>".$contador."</td>";
                           $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
                             $query3 = $this->db->get("vyp_oficinas");
                             foreach ($query3->result() as $f3) {
                                 echo "<td>".$f3->nombre_oficina."</td>";
                             }
 
-                           echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";
+                           //echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";
                            $this->db->where("id_departamento",$fila->id_departamento_vyp_rutas);
                             $depto = $this->db->get("org_departamento");
                             foreach ($depto->result() as $deptof) {
@@ -156,13 +150,13 @@
                         }
                     }
                 }else if($tipo_destino=="destino_mapa"){
-                     if(!empty($rutas)){
+                     if($rutas->num_rows() > 0){
                         foreach ($rutas->result() as $fila) {
-
+                            $contador++;
                             $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
                                 
                            echo "<tr>";
-                          echo "<td>".$fila->id_vyp_rutas."</td>";
+                          echo "<td>".$contador."</td>";
                            $this->db->where("id_oficina",$fila->id_oficina_origen_vyp_rutas);
                             $query = $this->db->get("vyp_oficinas");
                             foreach ($query->result() as $f) {
@@ -170,7 +164,7 @@
                             }
                             echo "<td>".$fila->nombre_empresa_vyp_rutas."</td>";
                             echo "<td>".$fila->direccion_empresa_vyp_rutas."</td>";
-                           echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";
+                           //echo "<td>".$fila->descripcion_destino_vyp_rutas."</td>";
 
                            $this->db->where("id_departamento",$fila->id_departamento_vyp_rutas);
                             $depto = $this->db->get("org_departamento");
@@ -209,10 +203,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 <script>
 $(function(){
     $(document).ready(function() {

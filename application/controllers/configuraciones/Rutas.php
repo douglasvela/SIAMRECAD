@@ -17,7 +17,7 @@ class Rutas extends CI_Controller {
 	public function tabla_rutas($destino){
 		$ruta['rutas']=$this->rutas_model->mostrar_ruta($destino);
 		$ruta['tipo_destino']=$destino;
-		$this->load->view('configuraciones/tabla_rutas',$ruta);
+		$this->load->view('configuraciones/rutas_ajax/tabla_rutas',$ruta);
 	}
 	public function obtener_origen(){
 		$data = array(

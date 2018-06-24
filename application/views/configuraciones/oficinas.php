@@ -442,7 +442,7 @@
                             <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group">
-                                      <label for="jefe_oficina" class="font-weight-bold">Jefe de la Oficina: <span class="text-danger">*</span></label>
+                                      <label for="jefe_oficina" class="font-weight-bold">Encargado de firma departamental/regional: <span class="text-danger">*</span></label>
                                       <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
                                       <select id="jefe_oficina" name="jefe_oficina" class="select2"  style="width: 100%" onchange="buscarCorreo(this.value);">
                                         <option value="">[Elija el Jefe]</option>
