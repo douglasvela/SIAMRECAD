@@ -1,5 +1,5 @@
 <label for="depende_vyp_actividades" class="font-weight-bold">Depende de la Actividad: <span class="text-danger"></span></label>
-<select id="depende_vyp_actividades" name="depende_vyp_actividades" class="form-control" onchange="">
+<select id="depende_vyp_actividades" name="depende_vyp_actividades" class="select2" onchange=""  style="width: 100%">
     <option value="">[Seleccione]</option>
         <?php
             //$this->db->where("id_departamento_pais",$id_departamento);
