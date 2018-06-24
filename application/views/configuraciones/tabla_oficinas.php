@@ -19,26 +19,23 @@
                     <tr>
                         <th>Id</th>
                         <th>Nombre de la Oficina</th>
-                        <th>Dirección de la Oficina</th>
+                        <!-- <th>Dirección de la Oficina</th> -->
                         <th>Jefe de la Oficina</th>
-                        <th>Email</th>
-                
-                       
                         <th>Depto</th>
                         <th>Municipio</th>
-                                <th>Tel.</th>
+                        <th>Tel.</th>
                         <th style="min-width: 85px;">(*)</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
                 	$oficinas = $this->db->get("vyp_oficinas");
-                    if(!empty($oficinas)){
+                    if($oficinas->num_rows() > 0){
                         foreach ($oficinas->result() as $fila) {
                             echo "<tr>";
                             echo "<td>".$fila->id_oficina."</td>";
                             echo "<td>".$fila->nombre_oficina."</td>";
-                            echo "<td>".$fila->direccion_oficina."</td>";
+                            //echo "<td>".$fila->direccion_oficina."</td>";
                             $this->db->where("id_empleado",$fila->jefe_oficina);
                             $emple = $this->db->get("sir_empleado");
                             if($emple->num_rows()>0){
@@ -50,7 +47,6 @@
                             }
 
                             //echo "<td>".$fila->jefe_oficina."</td>";
-                            echo "<td>".$fila->email_oficina."</td>";
                             $this->db->where("id_departamento",$fila->id_departamento);
                             $depto = $this->db->get("org_departamento");
                             if($depto->num_rows()>0){

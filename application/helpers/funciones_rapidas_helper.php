@@ -140,7 +140,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$url3 = $url."/";
     	$id_modulo = "";
 
-		$modulo = $CI->db->query("SELECT id_modulo FROM org_modulo WHERE url_modulo = '".$url."' || url_modulo = '".$url2."' || url_modulo = '".$url3."'");
+    	$id_sistema = $CI->config->item("sistema");
+
+		$modulo = $CI->db->query("SELECT id_modulo FROM org_modulo WHERE (url_modulo = '".$url."' || url_modulo = '".$url2."' || url_modulo = '".$url3."') AND id_sistema = '".$id_sistema."'");
 
 		if($modulo->num_rows() > 0){
 			foreach ($modulo->result() as $filam){
@@ -165,11 +167,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$id_usuario = $data['id_usuario'];
 
 		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario,(SELECT nombre_completo from org_usuario WHERE id_usuario=U.id_usuario) FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
+
 		if($query->num_rows() > 0){
 			return true;
 		}else{
 			return false;
 		}
+    }
+
+    function obtener_segmentos($segmentos){
+    	$CI =& get_instance();//super variable de codeignater...acceso a todo
+    	$host = $_SERVER["REQUEST_URI"];
+        $host = str_replace ( "/viaticos/index.php/" , "" , $host );
+    	$cadena = explode ( "/" , $host );
+        $url_buscada = "";
+        for($i = 0; $i < $segmentos; $i++){
+        	$url_buscada .= $cadena[$i]."/";
+        }
+        $url_buscada = substr($url_buscada, 0, -1);
+
+        $pos = strpos($url_buscada,"?");
+	    if($pos===false) {
+	        ;
+	    } else {
+	        $url_buscada = substr($url_buscada, 0, $pos);
+	    }
+
+		return $url_buscada;
     }
 
     function piePagina($usuario){
