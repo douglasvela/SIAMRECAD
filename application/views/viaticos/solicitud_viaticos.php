@@ -1048,6 +1048,8 @@
         $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
 
+        document.getElementById("file3[]").value = "";
+
         validar_dia_limite("0", "save");
 
         var nueva_fecha =  moment();
@@ -1095,6 +1097,8 @@
             $("#cnt_oficina_solicitante").hide(500);
             $("#oficina_solicitante").val("").trigger("change.select2");
         }
+
+        document.getElementById("file3[]").value = "";
 
         var observacion_habilitada = true;
 
@@ -2394,7 +2398,6 @@
 <div id='notificacion_justificacion' style='width: 100%; display: none;'>
     <div class="alert alert-info" style="width: 100%;">
         <h5> <span class="mdi mdi-file-document"></span> Justificación de viáticos activa.
-            <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-info pull-right" onclick="mostrar_detalle_justifiacion();" data-toggle="tooltip" title="" data-original-title="Cambiar solicitud"><span class="fa fa-wrench"></span></button>
         </h5>
     </div>
 </div>

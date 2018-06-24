@@ -38,10 +38,10 @@
         
         var nueva_fecha =  moment();
         if(nueva_fecha.format("e") == 6){
-            nueva_fecha.add('days',2);
+            nueva_fecha.add(2,'days');
             document.getElementById("cbx_efectivo").checked = 1;
         }else if(nueva_fecha.format("e") == 0){
-            nueva_fecha.add('days',1);
+            nueva_fecha.add(1,'days');
         }
 
         $("#fecha_mision_inicio").datepicker("setDate", nueva_fecha.format("DD-MM-YYYY") );

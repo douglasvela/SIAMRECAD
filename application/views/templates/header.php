@@ -31,6 +31,11 @@
     <link href="<?php echo base_url(); ?>assets/plugins/cropper/cropper.min.css" rel="stylesheet">
 <?php } ?>
 
+<?php if($ruta_segmento == "pagos/emergencias" || $ruta_segmento == "pasajes/pasaje"){ ?>
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+<?php } ?>
+
 <?php if($ruta_segmento == "viaticos/solicitud_viatico"){ ?>
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
