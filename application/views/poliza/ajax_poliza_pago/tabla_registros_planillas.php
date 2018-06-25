@@ -19,6 +19,16 @@ if($estructura->num_rows() > 0){
 }
 
 
+$banco_cual = ""; $delimitador = "";
+    $cual_banco = $this->db->query("SELECT * FROM vyp_bancos WHERE id_banco = '".$id_banco."'");
+    if($cual_banco->num_rows() > 0){
+        foreach ($cual_banco->result() as $filab) {              
+          $banco_cual = $filab->nombre;
+          $delimitador = $filab->delimitador;
+
+        }
+    }
+
 if($estruc != ""){
 
 $consulta2 = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_empleado_cuenta_banco AS ec ON ec.nr = p.nr AND ec.id_banco = '".$id_banco."' JOIN vyp_bancos AS b ON b.id_banco = ec.id_banco GROUP BY p.nr";
@@ -125,12 +135,12 @@ if($planilla->num_rows() > 0){
    				}
    			}else{
    				if($otra == "correlativo"){
-   					$resumen .= $correlativo.",";
+   					$resumen .= $correlativo.$delimitador;
    				}else{
    					if($otra == "no_poliza"){
    						$resumen .= "PAGO DE VIATICOS Y PASAJES POLIZAS ".$polis.",";
    					}else{
-   						$resumen .= str_replace( "," , "" , $fila3->$otra).",";
+   						$resumen .= str_replace( "," , "" , $fila3->$otra).$delimitador;
    					}
    				}
    			}
@@ -146,14 +156,6 @@ if($planilla->num_rows() > 0){
 }
 
 //echo nl2br($resumen);
-
-$banco_cual = "";
-    $cual_banco = $this->db->query("SELECT * FROM vyp_bancos WHERE id_banco = '".$id_banco."'");
-    if($cual_banco->num_rows() > 0){
-        foreach ($cual_banco->result() as $filab) {              
-          $banco_cual = $filab->nombre;
-        }
-    }
 
 
     $nombre_archivo = "POLIZA ".$polis." ".$banco_cual;

@@ -32,7 +32,7 @@ if("192.168.1.200" == $_SERVER['SERVER_NAME']){
 	$config['base_url'] = 'http://localhost/viaticos/';
 }
 
-$config['sistema'] = "15";
+$config['id_sistema'] = "15";
 
 /*
 |--------------------------------------------------------------------------

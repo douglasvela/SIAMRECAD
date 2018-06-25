@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$url3 = $url."/";
     	$id_modulo = "";
 
-    	$id_sistema = $CI->config->item("sistema");
+    	$id_sistema = $CI->config->item("id_sistema");
 
 		$modulo = $CI->db->query("SELECT id_modulo FROM org_modulo WHERE (url_modulo = '".$url."' || url_modulo = '".$url2."' || url_modulo = '".$url3."') AND id_sistema = '".$id_sistema."'");
 

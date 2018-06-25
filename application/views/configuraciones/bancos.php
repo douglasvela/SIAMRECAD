@@ -244,13 +244,13 @@
                                 <div class="form-group col-lg-2">
                                     <h5>Código B: </h5>
                                     <div class="controls">
-                                        <input type="text" id="codigo_b" name="codigo_b" class="form-control" required="">
+                                        <input type="text" id="codigo_b" name="codigo_b" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-2">
                                     <h5>Delimitador: </h5>
                                     <div class="controls">
-                                        <input type="text" id="delimitador" name="delimitador" class="form-control" required="">
+                                        <input type="text" id="delimitador" name="delimitador" class="form-control">
                                     </div>
                                 </div>
                             </div>
