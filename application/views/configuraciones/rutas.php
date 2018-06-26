@@ -979,8 +979,9 @@ $(function(){
         document.getElementById('submit_ubi').addEventListener('click', function() {
          origen = new google.maps.LatLng($("#direccion_origen1").val(),$("#direccion_origen2").val());
           geocodeAddress(geocoder, map);
-
         });
+
+
         function geocodeAddress(geocoder, resultsMap) {
 
           var address = document.getElementById('address').value;

@@ -6,7 +6,6 @@
     }
 
     $user = $this->session->userdata('usuario_viatico');
-
     $nr = $this->db->query("SELECT * FROM org_usuario WHERE usuario = '".$user."' LIMIT 1");
     $nr_usuario = "";
     if($nr->num_rows() > 0){
@@ -14,24 +13,16 @@
             $nr_usuario = $fila->nr; 
         }
     }
-
     $carpeta = "assets/viaticos/facturas/";
-                        
     //Validamos si la ruta de destino existe, en caso de no existir la creamos
     if(!file_exists($carpeta)){
         mkdir($carpeta, 0777) or die("No se puede crear el directorio de extracci&oacute;n");   
     }
-
     $carpeta2 = "assets/viaticos/justificaciones/";
-                        
     //Validamos si la ruta de destino existe, en caso de no existir la creamos
     if(!file_exists($carpeta2)){
         mkdir($carpeta2, 0777) or die("No se puede crear el directorio de extracci&oacute;n");   
     }
-
-?>
-
-<?php
     $horario_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '1' AND estado = '1'");
     $restric_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '2' AND estado = '1'");
 ?>
@@ -39,11 +30,9 @@
 <script type="text/javascript">
     /*****************************************************************************************************
     ******************************* Recuperando los horarios de viaticos ********************************/
-
     var DistanciaMinima = 15;
     var ultima_hora_llegada = "23:59";
     var primer_hora_salida = "01:00";
-
     var viaticos = [];
     var restricciones = [];
     var reg_viaticos = [];
@@ -1142,25 +1131,18 @@
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
         if(bandera == "edit"){
-
             $('#summernote').val(ruta_justificacion);
-
             if(observacion_habilitada){
-
                 $("#band").val(bandera);
                 observaciones(id);
-
                 aplicar(ruta_justificacion);
-                
                 if(estado == "0"){
                     valor = validar_dia_limite(estado, "edit", newdate);
                 }else{
                     valor = validar_dia_limite(estado, "edit", fecha_solicitud);
                 }
-
                 $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
                 $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
-
                 form_mision();
                 $("#ttl_form").removeClass("bg-success");
                 $("#ttl_form").addClass("bg-info");
@@ -1169,11 +1151,9 @@
                 $("#cnt_tabla").hide(0);
                 $("#cnt_form").show(0);
                 $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");     
-
             }else{
                 swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó el: "+ufobservacion.format("DD-MM-YYYY"), type: "error", showConfirmButton: true });
             }       
-
         }else{
             document.getElementById("justificacion").checked = 0;
             cambiarJustificacion();
@@ -1404,6 +1384,13 @@
                   document.getElementById("input_distancia").innerHTML=xmlhttp_municipio.responseText;
                   $(".select2").select2();
                   distancia_total_mapa = 0;
+                  var destino_mun = document.getElementById('destino_municipio').checked;
+                  var dist = parseFloat($("#distancia").val())
+                  alert(dist);
+                  if(dist == 0 && destino_mun == 1){
+                    $("#address").val($("#municipio option:selected").text().trim()+", "+$("#departamento option:selected").text().trim())
+                    $("#submit_ubi").click();
+                  }
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&id_oficina_origen="+id_oficina_origen+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
@@ -1424,6 +1411,20 @@
         name_company = "";
         address_company = "";
         id_ruta_visitada = "";
+
+        var container = document.getElementById("input-div");
+        container.innerHTML= '<input type="text" class="controlers" id="search_input" placeholder="Escribe una ubicación a buscar"/>';
+        LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
+            lat: parseFloat($("#latitud_oficina").val()), 
+            lng: parseFloat($("#longitud_oficina").val())
+        };
+        initMap()
+        //$("#bntmap1").show(0);
+        //$("#bntmap2").show(0);
+
+        //$("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
+        //$.when(initMap()).then($("#dirigir").click());
+
     }
 
     function form_mapa(){
@@ -2295,7 +2296,7 @@
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
-
+<input type="hidden" id="address" name="">
 <div class="page-wrapper">
     <div class="container-fluid">
         <!-- ============================================================== -->
@@ -2724,6 +2725,10 @@
 <!-- Fin de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
 
+<div style="display:none;">
+    <button  id="submit_ubi" name="submit_ubi" type="button"  >clicks</button>
+</div>
+
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -3029,7 +3034,6 @@ $(function(){
         var searchBox = new google.maps.places.SearchBox(input);    //Convirtiendo a objeto google search
         var markers = [];   //Contendrá la marca de punto del lugar buscado
 
-
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); //agregá el buscador de lugares
 
         map.addListener('bounds_changed', function() {  //Detecta cambios en el zoom del mapa
@@ -3081,6 +3085,29 @@ $(function(){
             });
             map.fitBounds(bounds);
         });
+
+        document.getElementById('submit_ubi').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+
+        function geocodeAddress(geocoder, resultsMap) {
+          var address = $("#address").val();
+          geocoder.geocode({'address': address}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              resultsMap.setCenter(results[0].geometry.location);
+                deleteMarkers_D();
+                LatDestino = results[0].geometry.location;
+                addMarker_destino(results[0].geometry.location, resultsMap);
+                name_company = "";
+                address_company = "";
+                id_ruta_visitada = "";
+                calcula_distancia(0);
+            } else {
+              //$.toast({ heading: 'Ocurrió un error', text: 'No logramos calcular la distancia, intentalo nuevamente', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
+            }
+          });
+        }
+
 
         var directionsDisplay = new google.maps.DirectionsRenderer({
             map: map,
@@ -3197,6 +3224,11 @@ $(function(){
                             direccion_mapa = direccion;
                             distancia_total_mapa = distancia_total;
                             distancia_carretera_mapa = distancia_carretera;
+
+                            if(document.getElementById('destino_municipio').checked == 1){
+                                $("#distancia").val(distancia_total_mapa);
+                            }
+
                         }
                     }
                 }
