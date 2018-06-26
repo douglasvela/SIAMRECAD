@@ -1,10 +1,6 @@
 <?php
 
-function mes($mes){
- setlocale(LC_TIME, 'spanish');  
- $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
- return strtoupper($nombre);
-}
+function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'); return $mesesarray[($mes-1)]; }
 
 
 $generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
