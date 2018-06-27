@@ -60,7 +60,7 @@
                 <?php
                 $contador = 0;
                 if($tipo_destino=="destino_oficina") {
-                    if($rutas->num_rows() > 0){
+                    if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
                             $contador++;
 
@@ -104,7 +104,7 @@
                         }
                     }
                 }else if($tipo_destino=="destino_municipio"){
-                    if($rutas->num_rows() > 0){
+                    if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
                             $contador++;
                             $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 
@@ -150,7 +150,7 @@
                         }
                     }
                 }else if($tipo_destino=="destino_mapa"){
-                     if($rutas->num_rows() > 0){
+                     if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
                             $contador++;
                             $fila->id_oficina_origen_vyp_rutas = str_pad($fila->id_oficina_origen_vyp_rutas, 5, "0", STR_PAD_LEFT); 

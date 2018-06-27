@@ -19,8 +19,7 @@
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/moment-with-locales.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/moment/moment.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/moment/min/moment.min.js"></script>
+    
     <script src="<?php echo base_url(); ?>assets/plugins/toast-master/js/jquery.toast.js"></script>
 
     <!-- <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>
@@ -33,13 +32,10 @@
 <?php } ?>
 
 <?php if($ruta_segmento == "pagos/emergencias" || $ruta_segmento == "pasajes/pasaje"){ ?>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <?php } ?>
 
 <?php if($ruta_segmento == "viaticos/solicitud_viatico"){ ?>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
@@ -49,8 +45,6 @@
  
 <?php if($ruta_segmento == "informes/menu_reportes"){ ?>
     <!-- JS para reportes  -->
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/dataTables.buttons.min.js"></script>

@@ -13,22 +13,35 @@ if(!empty($nr_usuario)){
         foreach ($info_empleado->result() as $filas) {}
 
         $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
+    	$filaofi = "";
 	    if($oficina_origen->num_rows() > 0){ 
 	        foreach ($oficina_origen->result() as $filaofi) {}
+	        $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
+	    	if($director_jefe_regional->num_rows() > 0){ foreach ($director_jefe_regional->result() as $filadir) {} }
+	    }else{
+	    	$director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi."'");
+	    	if($director_jefe_regional->num_rows() > 0){ foreach ($director_jefe_regional->result() as $filadir) {} }
 	    }
 
-	    $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
-
-	    if($director_jefe_regional->num_rows() > 0){ 
-	        foreach ($director_jefe_regional->result() as $filadir) {}
+	    if($oficina_origen->num_rows() > 0 || $director_jefe_regional->num_rows() > 0){
+	    	$nr_jefe_inmediato = $filas->nr_jefe_inmediato;
+		    $nr_jefe_regional = $filadir->nr;
+		    $latitud_oficina = $filaofi->latitud_oficina;
+		    $longitud_oficina = $filaofi->longitud_oficina;
+		    $nombre_oficina = $filaofi->nombre_oficina;
+		    $id_oficina_origen = $filaofi->id_oficina;
+	    }else{
+	    	$nr_jefe_inmediato = "";
+		    $nr_jefe_regional = "";
+		    $latitud_oficina = "";
+		    $longitud_oficina = "";
+		    $nombre_oficina = "";
+		    $id_oficina_origen = "";
+		    echo '<div class="alert alert-danger">';
+	    	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
+	    	echo "Parece que tus datos estan incompletos, solicita a recursos humanos que registren a que oficina pertenes y quien es tu superior inmediato, asi como tu firma digital si no estuviese registrada";
+	    	echo '</div>';
 	    }
-
-	    $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
-	    $nr_jefe_regional = $filadir->nr;
-	    $latitud_oficina = $filaofi->latitud_oficina;
-	    $longitud_oficina = $filaofi->longitud_oficina;
-	    $nombre_oficina = $filaofi->nombre_oficina;
-	    $id_oficina_origen = $filaofi->id_oficina;
 
 	    echo '<input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="'.$nr_jefe_inmediato.'" required>';
 		echo '<input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="'.$nr_jefe_regional.'" required>';
@@ -46,11 +59,8 @@ if(!empty($nr_usuario)){
 		echo '<input type="text" style="display: none;" id="nr_jefe_regional" name="nr_jefe_regional" value="" required>';
     }
 }
-
 $sql = "SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND m.nr_empleado = '".$nr_usuario."' AND m.id_mision_oficial <> '".$id_mision."' AND ((m.fecha_mision_inicio >= '".$fecha1."' AND m.fecha_mision_inicio <= '".$fecha2."') OR (m.fecha_mision_inicio <= '".$fecha1."' AND m.fecha_mision_fin >= '".$fecha1."'))";
-
 echo "<div id='fechas_repetidas' style='width: 100%;'>";
-
 $fechas = $this->db->query($sql);
 if($fechas->num_rows() > 0){
 	echo '<div class="alert alert-warning" style="width: 100%;">';
@@ -74,15 +84,7 @@ if($fechas->num_rows() > 0){
     }
 	echo '</div>';
 }
-
 echo "</div>";
-
-function convertir2($fecha){
-	return date("d/m/Y",strtotime($fecha))." - Horario no definido";
-}
-
-function convertir($fecha){
-	return date("d/m/Y H:i",strtotime($fecha));
-}
-
+function convertir2($fecha){ return date("d/m/Y",strtotime($fecha))." - Horario no definido"; }
+function convertir($fecha){ return date("d/m/Y H:i",strtotime($fecha)); }
 ?>

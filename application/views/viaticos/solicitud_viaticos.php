@@ -1386,7 +1386,6 @@
                   distancia_total_mapa = 0;
                   var destino_mun = document.getElementById('destino_municipio').checked;
                   var dist = parseFloat($("#distancia").val())
-                  alert(dist);
                   if(dist == 0 && destino_mun == 1){
                     $("#address").val($("#municipio option:selected").text().trim()+", "+$("#departamento option:selected").text().trim())
                     $("#submit_ubi").click();
@@ -2389,8 +2388,6 @@
                             <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_mision" name="id_mision" value="">
-                            <input type="hidden" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="">
-                            <input type="hidden" id="nr_jefe_regional" name="nr_jefe_regional" value="">
 
                             <div class="row">
                                 <div class="col-lg-12" id="cnt_informacion_empleado"></div>
@@ -2849,7 +2846,6 @@ $(function(){
 
     $("#formajax").on("submit", function(e){
         e.preventDefault();
-
         $("#subiendo_mision").show(0);
         var formData = new FormData(document.getElementById("formajax"));
         var nombre = $("#nr option:selected").text().split("-");
@@ -2857,33 +2853,32 @@ $(function(){
         formData.append('nombre_completo', nombre);
         var justificacion_value = $('#summernote').val();
         formData.append('ruta_justificacion', justificacion_value);
-
-            $.ajax({
-                    type:  'POST',
-                    url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-            })
-            .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-                $("#subiendo_mision").hide(0);
-                if(data == "exito"){
-                    if($("#band").val() == "save"){
-                        //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                        buscar_idmision();
-                    }else if($("#band").val() == "edit"){
-                        //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                        form_rutas();
-                    }else{
-                        swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
-                    }
-                    tabla_solicitudes();
+        $.ajax({
+                type:  'POST',
+                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+        })
+        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+            $("#subiendo_mision").hide(0);
+            if(data == "exito"){
+                if($("#band").val() == "save"){
+                    //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                    buscar_idmision();
+                }else if($("#band").val() == "edit"){
+                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                    form_rutas();
                 }else{
-                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-            });
+                tabla_solicitudes();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
     });
 
     $("#form_empresas_viaticos").on("submit", function(e){
@@ -2936,12 +2931,7 @@ $(function(){
     $("#form_empresas_visitadas").on("submit", function(e){
         e.preventDefault();
         var tipo = $('input[name=r_destino]:checked').val();
-
-        if($('#distancia').prop("readonly")){
-            var existe = "true";
-        }else{
-            var existe = "false";   
-        }
+        var existe = $("#existe").val();
 
         if(tipo == "destino_mapa"){
             var latitud = LatDestino.lat();
