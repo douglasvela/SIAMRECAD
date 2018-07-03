@@ -20,10 +20,6 @@ class Pasaje extends CI_Controller {
 	public function tabla_pasajes_detallado(){	
 		$this->load->view('pasajes/viaticos_ajax/tabla_pasajes_detallado');
 	}
-	public function buscar_jefes_superiores(){
-
-	}
-
 	
 	public function gestionar_pasaje(){		
 		if($this->input->post('band') == "save"){

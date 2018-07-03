@@ -565,7 +565,7 @@
 	                    <div class="card-body b-t">
 	                    	  
 	                    	<div class="row ">
-	                    		<div class="form-group col-lg-4">
+	                    		<div class="form-group col-lg-5">
 	                    			<input type="hidden" id="band_solicitud" name="band_solicitud" value="save">
 		                            <input type="hidden" id="id_mision_pasajes" name="id_mision_pasajes">
 		                               <label for="" class="font-weight-bold">Solicitante: <span class="text-danger">*</span></label>
@@ -583,16 +583,11 @@
 		                                ?>
 		<option class="m-l-50" value="<?php echo $fila2->nr; ?>"><?php echo preg_replace ('/[ ]+/', ' ',$fila2->nombre_completo.' - '.$fila2->nr) ?></option>
 		                                <?php
-
-		                               
 		                            }
-		                                		}		
-		                                         	
+		                                		}		    	
 		                                    }
-		                                    //$u_rec_id = $this->session->userdata('rec_id');
 		                                ?>
 		                                </select>
-		                             
 	                    		</div>
 	                    		<div class="form-group col-lg-3">
 	                    			<label for="" class="font-weight-bold">Fecha Solicitud: <span class="text-danger">*</span></label>
@@ -602,7 +597,7 @@
 	                    		</div>
 	                    		<div class="form-group col-lg-3">
 	                    			<label for="" class="font-weight-bold">Mes de Pasaje: <span class="text-danger">*</span></label>
-	                    			<input type="month" class="form-control" id="mes_anio_pasaje" name="mes_anio_pasaje">
+	                    			<input type="month" class="form-control" id="mes_anio_pasaje" name="mes_anio_pasaje" readonly="">
 	                    		</div>
 	                    		
 	                    	</div>
@@ -753,8 +748,7 @@
         });
 
 	        var date = new Date();
-			var limite_inicio =  moment([date.getFullYear(), date.getMonth(), 1]);
-             
+			var limite_inicio =  moment([date.getFullYear(), date.getMonth()-1, 1]);
             if(moment().format("e") == 0){
                 limite_inicio.add(1,'days');
             }else if(moment().format("e") == 6){
@@ -764,7 +758,7 @@
             $("#fecha_solicitud").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
 
             var limite_fin = moment([date.getFullYear(), date.getMonth(), 1]);
-            limite_fin.add(6,'days');
+            //limite_fin.add(6,'days');
             if(limite_fin.format("e") == 6){
                 limite_fin.add(2,'days');
             }else if(limite_fin.format("e") == 0){
