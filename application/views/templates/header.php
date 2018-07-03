@@ -166,7 +166,7 @@
 
 <input type="hidden" name="jugador" id="jugador">
 <section id="congelar" style="display: none;">
-    <div class="login-register" style="background-image: url(<?php echo base_url()."assets/images/portadas/seguridad7.jpg"; ?>); background-color: rgb(238, 245, 249);" >
+    <div class="login-register" style="background-color: rgb(238, 245, 249);" >
         <div class="login-box card">
             <div class="card-body" style="z-index: 999;">
                 <div align="right">
@@ -284,34 +284,30 @@
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
                     <li class="nav-small-cap text-center">MENÚ</li>
-
-
                     <li class="nav-devider" style="margin:5px;"></li>
-                    <?php
-                    $id_sistema=15;
-                        $modulos = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = ".$id_sistema." AND (m.dependencia = '' OR m.dependencia = 0 OR m.dependencia IS NULL) AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." OR m2.id_modulo IN (SELECT m3.dependencia FROM org_modulo AS m3 JOIN org_rol_modulo_permiso AS P2 ON P2.id_modulo = m3.id_modulo AND m3.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U2 ON P2.id_rol=U2.id_rol WHERE U2.id_usuario='$id_usuario' GROUP BY m3.dependencia) JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
-                        if($modulos->num_rows() > 0){
-                            foreach ($modulos->result() as $fila) {
-                    ?>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="<?php echo $fila->url_modulo; ?>" aria-expanded="false"><i class="<?php echo $fila->img_modulo; ?>"></i><span class="hide-menu"> <?php echo $fila->nombre_modulo; ?></span></a>
-                            <?php
-                                $modulos2 = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = $id_sistema AND m.dependencia = ".$fila->id_modulo." AND (m.id_modulo IN (SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario') OR m.id_modulo IN (SELECT m2.dependencia FROM org_modulo AS m2 JOIN org_rol_modulo_permiso as P ON P.id_modulo = m2.id_modulo AND m2.id_sistema = ".$id_sistema." JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE U.id_usuario='$id_usuario' GROUP BY m2.dependencia)) ORDER BY orden");
-                                if($modulos2->num_rows() > 0){
-                                    echo '<ul aria-expanded="false" class="collapse">';
-                                    foreach ($modulos2->result() as $fila2) {
-                            ?>
-                                <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
-                            <?php
-                                    }
-                                    echo "</ul>";
-                                }
-                            ?>
-                        </li>
-                    <?php
-                            }
-                        }
-                    ?>
 
+ <?php
+    $id_sistema=$this->config->item("id_sistema");
+    $modulos = $this->db->query("SELECT * FROM org_modulo WHERE id_sistema = ".$id_sistema." AND (dependencia = '' OR dependencia = 0 OR dependencia IS NULL) ORDER BY orden");
+    if($modulos->num_rows() > 0){
+        foreach ($modulos->result() as $fila) {
+        $modulos2 = $this->db->query("SELECT * FROM org_modulo WHERE id_sistema = '".$id_sistema."' AND dependencia = ".$fila->id_modulo." ORDER BY orden");
+            if($modulos2->num_rows() > 0){
+                echo '<li><a class="has-arrow waves-effect waves-dark" href="'.$fila->url_modulo.'" aria-expanded="false"><i class="'.$fila->img_modulo.'"></i><span class="hide-menu">'.$fila->nombre_modulo.'</span></a>';
+                echo '<ul aria-expanded="false" class="collapse">';
+                foreach ($modulos2->result() as $fila2) {
+    ?>
+                    <li><a href="<?php echo site_url()."/"; ?><?php echo $fila2->url_modulo; ?>"><span class="<?php echo $fila2->img_modulo; ?>"></span> <?php echo $fila2->nombre_modulo; ?></a></li>
+    <?php
+                }
+                $modulos2->free_result();
+                echo "</ul>";
+                echo "</li>";
+            }
+        }
+        $modulos->free_result();
+    }
+?>
 
                 </ul>
             </nav>

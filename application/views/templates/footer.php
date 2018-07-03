@@ -22,11 +22,6 @@
     
     <script src="<?php echo base_url(); ?>assets/plugins/toast-master/js/jquery.toast.js"></script>
 
-    <!-- <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/switchery/dist/switchery.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-switch/bootstrap-switch.min.js"></script>
-     -->
-
 <?php if($ruta_segmento == "configuraciones/informacion_empleado"){ ?>
     <script src="<?php echo base_url(); ?>assets/plugins/cropper/cropper.js"></script>
 <?php } ?>

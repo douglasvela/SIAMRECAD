@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$id_modulo = $data['id_modulo'];
     	$id_usuario = $data['id_usuario'];
 
-		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario,(SELECT nombre_completo from org_usuario WHERE id_usuario=U.id_usuario) FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
+		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
 		if($query->num_rows() > 0){
 			return true;
 		}else{
@@ -142,13 +142,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     	$id_sistema = $CI->config->item("id_sistema");
 
-		$modulo = $CI->db->query("SELECT id_modulo FROM org_modulo WHERE (url_modulo = '".$url."' || url_modulo = '".$url2."' || url_modulo = '".$url3."') AND id_sistema = '".$id_sistema."'");
+		$modulo = $CI->db->query("SELECT id_modulo FROM org_modulo WHERE url_modulo = '".$url."' AND id_sistema = '".$id_sistema."'");
 
 		if($modulo->num_rows() > 0){
 			foreach ($modulo->result() as $filam){
 				$id_modulo = $filam->id_modulo;
 			}
 		}
+
+		$modulo->free_result();
 
 		if($id_modulo == ""){
         	throw new Exception('Es posible que la url de este módulo no se haya registrado correctamente en el módulo de seguridad, por favor verifique que esta url respete el estándar: '.$url_buscada);
@@ -166,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$id_modulo = $data['id_modulo'];
     	$id_usuario = $data['id_usuario'];
 
-		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario,(SELECT nombre_completo from org_usuario WHERE id_usuario=U.id_usuario) FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
+		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
 
 		if($query->num_rows() > 0){
 			return true;

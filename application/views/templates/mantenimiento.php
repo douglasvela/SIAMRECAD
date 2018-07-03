@@ -1,172 +1,290 @@
-
-<style type="text/css">
-    
-title {
-  fill: black;
-}
-
-circle:hover
-  {
-    stroke-width: 4px;
-    fill: red;
-  }
-
-circle:hover
-  {
-    height: 120%;
-    width: 120%;
-  }
-
-</style>
 <div class="page-wrapper">
-    <div class="container-fluid">
-    	<div class="row page-titles">
-            <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">
-                	<?php 
-                		echo $titulo = ucfirst("Lo sentimos, la página está en mantenimiento"); 
-                	?>
-                	</h3>
-            </div>
-        </div>
-        <div class="row">
-        	<div class="col-lg-1">
-        	</div>
-        	<div class="col-lg-2">
-        		<span class="mdi mdi-worker" style="font-size: 150px;"></span>
-        	</div>
-        	<div class="col-lg-8">
-        		<br><br>
-        		<h2> Estamos trabajando para reparar esta página lo más pronto posible. Por favor espere hasta que terminemos todas las reparaciones. Juegue con el mapita si quiere dele clic</h2>
-
-                <div class="row">
-                    <div class="col-lg-12" style="display: block;">
-                        <svg id="svg_chuco" xmlns="http://www.w3.org/2000/svg" width="800" height="400" style="background-image: url('<?php echo base_url(); ?>/assets/images/croquis/Imagen1.png'); background-size: cover; background-repeat: no-repeat;"/>
-                        <script type="text/javascript">
-                            function makeSVG(tag, attrs) {
-                                var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
-                                for (var k in attrs)
-                                    el.setAttribute(k, attrs[k]);
-                                return el;
-                            }
-
-                        </script>
-                    </div>
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
                     
                 </div>
-
-        	</div>
-        	<div class="col-lg-1">
-        	</div>
-        </div>
-        <div class="card">
-            <div class="table-responsive">
-                <table  id="myTable" class="table table-hover table-bordered" width="100%">
-                    <thead class="bg-inverse text-white">
-                        <tr>
-                            <th>NR</th>
-                            <th>Nombre completo</th>
-                            <th>id_cargo</th>
-                            <th>descripcion funcional</th>
-                            <th>nivel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-
-                            $viaticos_ruta = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, f.* FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS i ON e.id_empleado = i.id_empleado JOIN sir_cargo_funcional AS f ON f.id_cargo_funcional = i.id_cargo_funcional AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre");
-                            if($viaticos_ruta->num_rows() > 0){ 
-                                foreach ($viaticos_ruta->result() as $fila) {
-                        ?>
-                            <tr>
-                                <td><?php echo $fila->nr; ?></td>
-                                <td><?php echo $fila->nombre_completo; ?></td>
-                                <td><?php echo $fila->id_cargo_funcional; ?></td>
-                                <td><?php echo $fila->funcional; ?></td>
-                                <td><?php echo $fila->id_nivel; ?></td>
-                            </tr>
-                        <?php
-                                }
-                            }else{
-                        ?>
-                            <tr>
-                                <td colspan="3">Ningún registro de viático asociado...</td>
-                            </tr>
-                        <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-4 col-xlg-3 col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <form class="form-horizontal form-material" method="post" id="loginform" >
+                                    <h3 class="box-title m-b-20">Inicio de Sesi&oacute;n</h3>
+                                    <div class="form-group ">
+                                        <div class="col-xs-12">
+                                            <input class="form-control" type="text" name="user" required="" placeholder="Usuario"> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <input class="form-control" name="password" type="password" required="" placeholder="Contraseña"> </div>
+                                    </div>
+                                    
+                                    <div class="form-group text-center m-t-20">
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" onclick="enviar();" type="button">Ingresar</button>
+                                        </div>
+                                    </div>
+                                   
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-8 col-xlg-9 col-md-7">
+                        <div class="card">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs profile-tab" role="tablist">
+                                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Timeline</a> </li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">Profile</a> </li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a> </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home" role="tabpanel">
+                                    <div class="card-body">
+                                        <div class="profiletimeline">
+                                            <div class="sl-item">
+                                                <div class="sl-left"> <img src="../assets/images/users/1.jpg" alt="user" class="img-circle" /> </div>
+                                                <div class="sl-right">
+                                                    <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
+                                                        <p>assign a new task <a href="#"> Design weblayout</a></p>
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img1.jpg" class="img-responsive radius" /></div>
+                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img2.jpg" class="img-responsive radius" /></div>
+                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img3.jpg" class="img-responsive radius" /></div>
+                                                            <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img4.jpg" class="img-responsive radius" /></div>
+                                                        </div>
+                                                        <div class="like-comm"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="sl-item">
+                                                <div class="sl-left"> <img src="../assets/images/users/2.jpg" alt="user" class="img-circle" /> </div>
+                                                <div class="sl-right">
+                                                    <div> <a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
+                                                        <div class="m-t-20 row">
+                                                            <div class="col-md-3 col-xs-12"><img src="../assets/images/big/img1.jpg" alt="user" class="img-responsive radius" /></div>
+                                                            <div class="col-md-9 col-xs-12">
+                                                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. </p> <a href="#" class="btn btn-success"> Design weblayout</a></div>
+                                                        </div>
+                                                        <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="sl-item">
+                                                <div class="sl-left"> <img src="../assets/images/users/3.jpg" alt="user" class="img-circle" /> </div>
+                                                <div class="sl-right">
+                                                    <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
+                                                        <p class="m-t-10"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper </p>
+                                                    </div>
+                                                    <div class="like-comm m-t-20"> <a href="javascript:void(0)" class="link m-r-10">2 comment</a> <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a> </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="sl-item">
+                                                <div class="sl-left"> <img src="../assets/images/users/4.jpg" alt="user" class="img-circle" /> </div>
+                                                <div class="sl-right">
+                                                    <div><a href="#" class="link">John Doe</a> <span class="sl-date">5 minutes ago</span>
+                                                        <blockquote class="m-t-10">
+                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                                                        </blockquote>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--second tab-->
+                                <div class="tab-pane" id="profile" role="tabpanel">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong>
+                                                <br>
+                                                <p class="text-muted">Johnathan Deo</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Mobile</strong>
+                                                <br>
+                                                <p class="text-muted">(123) 456 7890</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Email</strong>
+                                                <br>
+                                                <p class="text-muted">johnathan@admin.com</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6"> <strong>Location</strong>
+                                                <br>
+                                                <p class="text-muted">London</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p class="m-t-30">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries </p>
+                                        <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                        <h4 class="font-medium m-t-30">Skill Set</h4>
+                                        <hr>
+                                        <h5 class="m-t-30">Wordpress <span class="pull-right">80%</span></h5>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                                        </div>
+                                        <h5 class="m-t-30">HTML 5 <span class="pull-right">90%</span></h5>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:90%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                                        </div>
+                                        <h5 class="m-t-30">jQuery <span class="pull-right">50%</span></h5>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                                        </div>
+                                        <h5 class="m-t-30">Photoshop <span class="pull-right">70%</span></h5>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="settings" role="tabpanel">
+                                    <div class="card-body">
+                                        <form class="form-horizontal form-material">
+                                            <div class="form-group">
+                                                <label class="col-md-12">Full Name</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-email" class="col-md-12">Email</label>
+                                                <div class="col-md-12">
+                                                    <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-12">Password</label>
+                                                <div class="col-md-12">
+                                                    <input type="password" value="password" class="form-control form-control-line">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-12">Phone No</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-12">Message</label>
+                                                <div class="col-md-12">
+                                                    <textarea rows="5" class="form-control form-control-line"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-12">Select Country</label>
+                                                <div class="col-sm-12">
+                                                    <select class="form-control form-control-line">
+                                                        <option>London</option>
+                                                        <option>India</option>
+                                                        <option>Usa</option>
+                                                        <option>Canada</option>
+                                                        <option>Thailand</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <button class="btn btn-success">Update Profile</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul id="themecolors" class="m-t-20">
+                                <li><b>With Light sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
+                                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme working">4</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
+                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
+                                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
+                            </ul>
+                            <ul class="m-t-20 chatonline">
+                                <li><b>Chat option</b></li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
             </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer">
+                © 2017 Material Pro Admin by wrappixel.com
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
         </div>
-        <script type="text/javascript">
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-</script>
-
-    </div> 
-</div>
-
-<script type="text/javascript">
-    
-    $(function(){
-        $(document).ready(function(){
-            $("#svg_chuco").click(function(e){
-                 getPosition(e); 
-            });
-
-            var pointSize = 10;
-            var contador = 0;
-
-            function getPosition(event){
-                 var rect = svg_chuco.getBoundingClientRect();
-                 var x = event.clientX - rect.left;
-                 var y = event.clientY - rect.top;
-                    
-                 drawCoordinates(x,y);
-            }
-
-            function drawCoordinates(x,y){  
-                //var ctx = document.getElementById("canvas").getContext("2d");
-
-                //$("#svg_chuco").append('<rect x="1" y="1" height="50" width="50" rx="20" ry="20"/>')
-
-
-                /*ctx.fillStyle = "#26c6da"; // Red color
-                ctx.strokeStyle = "#595c5feb"; // Red color
-
-                ctx.beginPath();
-                ctx.arc(x, y, pointSize, 0, Math.PI * 2, true);
-
-                //void arc(in float x, in float y, in float radius, in float startAngle, in float endAngle, in boolean anticlockwise Optional );
-
-                ctx.fill();
-                ctx.lineWidth=2;
-                ctx.stroke();*/
-
-                contador++;
-
-                var circle = makeSVG('circle', {cx: x, cy: y, r:10, stroke: '#595c5feb', 'stroke-width': 2, fill: '#26c6da', class: "algo", id: "hola"+contador, oncontextmenu: "alert('hola"+contador+"')", style: "cursor: pointer;"});
-
-                document.getElementById('svg_chuco').appendChild(circle);
-
-                /*var title = makeSVG('rect', {id: "rect_title"+contador});
-
-                document.getElementById("hola"+contador).appendChild(title);*/
-
-                var titulo = makeSVG('title', {id: "titulo"+contador});
-
-                titulo.textContent = "Hola";
-
-                document.getElementById("hola"+contador).appendChild(titulo)
-
-                //$("#titulo"+contador).text("Hola");
-
-                    //$("#hola"+contador).append('<text x="15" y="16">Hello</text>');
-            }
-
-        });
-    });
-
-</script>
