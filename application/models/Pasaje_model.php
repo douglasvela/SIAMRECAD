@@ -61,8 +61,8 @@ class Pasaje_model extends CI_Model {
 	}
 
 	function ingresar_detalle_solicitud($data){
-		$query01 = $this->db->query("select * from vyp_pasajes where id_mision = '".$data['id_mision']."' and nr = '".$data['nr_empleado']."' and  fecha_mision='".$data['fecha_detalle']."'");
-		if($query01->num_rows() == 0){
+		/*$query01 = $this->db->query("select * from vyp_pasajes where id_mision = '".$data['id_mision']."' and nr = '".$data['nr_empleado']."' and  fecha_mision='".$data['fecha_detalle']."'");
+		if($query01->num_rows() == 0){*/
 			$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
 			if($query->num_rows() > 0){
 				if($this->db->insert('vyp_pasajes', array('fecha_mision'=>$data['fecha_detalle'],'id_departamento'=>$data['departamento'],'id_municipio'=>$data['municipio'],'empresa_visitada'=>$data['empresa'],'direccion_empresa'=>$data['direccion'],'no_expediente'=>$data['expediente'],'id_actividad_realizada'=>$data['id_actividad'],'nr'=>$data['nr_empleado'],'monto_pasaje'=>$data['monto'],'id_mision'=>$data['id_mision']))){
@@ -74,13 +74,13 @@ class Pasaje_model extends CI_Model {
 			}else{
 				return "monto_invalido";
 			}
-		}else{
+		/*}else{
 			return "pasaje_duplicado";
-		}
+		}*/
 	}
 	function editar_detalle_solicitud($data){
-		$query01 = $this->db->query("select * from vyp_pasajes where id_mision = '".$data['id_mision']."' and nr = '".$data['nr_empleado']."' and fecha_mision='".$data['fecha_detalle']."' and id_solicitud_pasaje!='".$data["id_solicitud_pasaje"]."'");
-		if($query01->num_rows() == 0){
+		/*$query01 = $this->db->query("select * from vyp_pasajes where id_mision = '".$data['id_mision']."' and nr = '".$data['nr_empleado']."' and fecha_mision='".$data['fecha_detalle']."' and id_solicitud_pasaje!='".$data["id_solicitud_pasaje"]."'");
+		if($query01->num_rows() == 0){*/
 			$query = $this->db->query("select * from vyp_generalidades where pasaje>='".$data['monto']."'");
 			if($query->num_rows() > 0){
 				$this->db->where("id_solicitud_pasaje",$data["id_solicitud_pasaje"]);
@@ -93,9 +93,9 @@ class Pasaje_model extends CI_Model {
 			}else{
 				return "monto_invalido";
 			}
-		}else{
+		/*}else{
 			return "pasaje_duplicado";
-		}
+		}*/
 	}
 	function eliminar_detalle_solicitud($data){
 		if($this->db->delete("vyp_pasajes",array('id_solicitud_pasaje' => $data['id_solicitud_pasaje']))){
