@@ -757,7 +757,7 @@
 
             $("#fecha_solicitud").datepicker("setStartDate", limite_inicio.format("DD-MM-YYYY") );
 
-            var limite_fin = moment([date.getFullYear(), date.getMonth(), 1]);
+            var limite_fin = moment([date]);
             //limite_fin.add(6,'days');
             if(limite_fin.format("e") == 6){
                 limite_fin.add(2,'days');
