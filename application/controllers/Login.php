@@ -98,13 +98,15 @@ class Login extends CI_Controller {
 	}
 
 	public function cerrar_sesion(){
-		if(!empty($this->session->userdata('id_usuario_viatico'))){
+		if(isset($_SESSION['id_usuario_viatico'])){
 			$this->bitacora_model->bitacora(array('descripcion' => "El usuario ".$this->session->userdata('usuario_viatico')." cerró sesión", 'id_accion' => "2"));
 		}
-        $this->session->set_userdata('id_usuario_viatico','');
-        $this->session->set_userdata('usuario_viatico','');
-        $this->session->set_userdata('nombre_usuario_viatico','');
-        $this->session->set_userdata('sesion_viatico','');
+		unset(
+		    $_SESSION['id_usuario_viatico'],
+		    $_SESSION['usuario_viatico'],
+		    $_SESSION['nombre_usuario_viatico'],
+		    $_SESSION['sesion_viatico']
+		);
 		$this->index();
 	}
 

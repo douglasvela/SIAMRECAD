@@ -1,3 +1,11 @@
+<?php
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
+?>
 <script type="text/javascript">
     function cambiar_editar(id,nombre, caracteristicas, codigo_a, codigo_b, delimitador, bandera){
         $("#idb").val(id);
@@ -203,7 +211,7 @@
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
-        <div class="row">
+        <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -222,39 +230,38 @@
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="idb" name="idb" value="">
                             <div class="row">
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Nombre: <span class="text-danger">*</span></h5>
                                     <div class="controls">
                                         <input type="text" id="nombre" name="nombre" class="form-control" required="">
                                     </div>
                                 </div>
 
-                                <div class="form-group col-lg-6" style="display: none;">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" style="display: none;">
                                     <h5>Características: </h5>
                                     <div class="controls">
                                         <input type="text" id="caracteristicas" name="caracteristicas" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-2">
+                                <div class="form-group col-lg-2 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Código A: </h5>
                                     <div class="controls">
                                         <input type="text" id="codigo_a" name="codigo_a" class="form-control" required="">
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-2">
+                                <div class="form-group col-lg-2 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Código B: </h5>
                                     <div class="controls">
                                         <input type="text" id="codigo_b" name="codigo_b" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-2">
+                                <div class="form-group col-lg-2 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Delimitador: </h5>
                                     <div class="controls">
                                         <input type="text" id="delimitador" name="delimitador" class="form-control">
                                     </div>
                                 </div>
                             </div>
-                            
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
@@ -274,10 +281,10 @@
                             <div class="card-body b-t"  style="padding-top: 7px;">
 
                                 <div class="row">
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Campos de la base: <span class="text-danger">*</span></h5>
                                         <div class="input-group">
-                                            <select id="columnas" name="columnas" class="select2" style="width: 100%" required="">
+                                            <select id="columnas" name="columnas" class="select2 pull-left" style="width: 90%" required="">
                                                 <option value="">[Elija un campo para agregar]</option>
                                                 <optgroup label="Bancos">
                                                     <option value="b.nombre AS nombre">Nombre (Banco)</option>
@@ -298,11 +305,11 @@
                                                     <option value="'' AS blanco">Espacio blanco (Otros)</option>
                                                 </optgroup>
                                             </select>
-                                            <div class="input-group-addon btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></div>
+                                            <span class="input-group-addon-right btn btn-success2" onclick="agregar_columna();" data-toggle="tooltip" title="" data-original-title="Agregar"><i class="mdi mdi-plus"></i></span>
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Formato: </h5>
                                         <div class="controls">
                                             <input type="text" id="formato" name="formato" class="form-control">
@@ -310,9 +317,9 @@
                                     </div>
 
                                 </div>
-                                
-                                <div id="cnt_tabla_estructura"></div>
-
+                                <div class="row" style="width: 100%;">
+                                <div id="cnt_tabla_estructura" style="width: 100%;"></div>
+                            </div>
                             </div>
                         </div> 
 

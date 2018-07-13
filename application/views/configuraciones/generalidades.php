@@ -1,3 +1,11 @@
+<?php
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
+?>
 <script type="text/javascript">
 
     function editar_generalidad(){
@@ -49,7 +57,7 @@
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
-        <div class="row">
+        <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -86,7 +94,7 @@
                             <span>Sección de viáticos</span>
                             <blockquote>
                                 <div class="row">
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Máximo pasaje: <span class="text-danger">*</span></h5>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
@@ -94,7 +102,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Máximo alojamiento: <span class="text-danger">*</span></h5>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
@@ -107,7 +115,7 @@
                             <span>Sección de poliza</span>
                             <blockquote>
                                 <div class="row">
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Banco: <span class="text-danger">*</span></h5>
                                         <select id="id_banco" name="id_banco" class="select2" style="width: 100%" required="">
                                             <option value="">[Elija el banco]</option>
@@ -127,7 +135,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Cuenta bancaria: <span class="text-danger">*</span></h5>
                                         <div class="controls">
                                             <input type="text" id="cuenta" name="cuenta" value="<?php echo $num_cuenta; ?>" class="form-control" required="">
@@ -136,14 +144,14 @@
                                 </div>
                                 <div class="row">
 
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Monto límite de poliza: <span class="text-danger">*</span></h5>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
                                             <input type="number" id="limite_poliza" name="limite_poliza" class="form-control" required="" placeholder="0.00" value="<?php echo number_format($limite_poliza,2); ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                         <h5>Código presupuestario: <span class="text-danger">*</span></h5>
                                         <div class="controls">
                                             <input type="text" id="codigo_presupuestario" name="codigo_presupuestario" value="<?php echo $cod_presupuestario; ?>" class="form-control" required="">
@@ -152,7 +160,7 @@
 
                                 </div>
                                 <div class="row">                       
-                                    <div class="form-group col-lg-6"> 
+                                    <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                         <h5>Responsable del Fondo Circulante: <span class="text-danger">*</span></h5>  
                                         <select id="id_responsable" name="id_responsable" class="select2" style="width: 100%" required="">
                                             <option value="">[Elija el responsable]</option>

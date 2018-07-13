@@ -7,7 +7,15 @@
     setlocale(LC_ALL,"es_ES");
     date_default_timezone_set('America/El_Salvador');
     $ruta_segmento = trim(obtener_segmentos(2));
+
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +119,7 @@
     function verificar_usuario2(){
         var usuario = $("#ususario_val").val(); var password = $("#password_val").val(); jugador = document.getElementById('jugador');
         ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/login/verificar_usuario2", true);
+        ajax.open("POST", "<?php echo site_url(); ?>/login/verificar_usuario", true);
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4){
                 jugador.value = (ajax.responseText);
@@ -134,6 +142,10 @@
 
     function esEnter(e) { if (e.keyCode == 13) { $("#btnClickUser").click(); } }
 
+    function toggle(){
+        $("#form_toggle").fadeToggle(300);
+    }
+
 </script>
 <style>
     .animacion_nueva { animation : scales 4.0s ease infinite; -webkit-animation: scales 1.9s ease-in infinite alternate; -moz-animation: scales 1.9s ease-in infinite alternate; animation: scales 1.9s ease-in infinite alternate; }
@@ -154,6 +166,40 @@
         } to { -webkit-transform: scale(1.2); -moz-transform: scale(1.2); transform: scale(1.2); }
     }
     .modal-body { max-height:450px; overflow-y:scroll; }
+
+    <?php if($navegatorless){ ?>
+        .form-control{padding: 0rem 0.75rem;}
+        .input-group .form-control{ width: 85%; }
+        .input-group .input-group-addon{ width: 4%; float: left;}
+        .input-group .input-group-addon-right{ width: 4%; float: right;}
+        .dataTables_filter input{
+            padding: .0rem .75rem;
+            font-size: 1rem;
+            line-height: 1.25;
+            color: #495057;
+            background-color: #fff;
+            background-image: none;
+            background-clip: padding-box;
+            border: 1px solid rgba(0,0,0,.15);
+            border-radius: .25rem;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        }
+        .row::after{
+            display: block;
+            clear: both;
+            content: "";
+        }
+        .col-lg-1{ width: 7%;}
+        .col-lg-2{ width: 14%;}
+        .col-lg-3{ width: 21%;}
+        .col-lg-4{ width: 30%;}
+        .col-lg-5{ width: 38%;}
+        .col-lg-6{ width: 45%;}
+        .col-lg-7{ width: 54%;}
+        .col-lg-8{ width: 63%;}
+        .col-lg-9{ width: 70%;}
+        .col-lg-12{ width: 93%;}
+    <?php } ?>
 </style>
 <body class="fix-header fix-sidebar card-no-border mini-sidebar" onload="iniciar();">
     <!-- ============================================================== -->
@@ -201,74 +247,67 @@
     <!-- Barra superior -->
     <!-- ============================================================== -->
     <header class="topbar">
-        <nav class="navbar top-navbar navbar-expand-md navbar-light">
-            <!-- ============================================================== -->
-            <!-- Logo -->
-            <!-- ============================================================== -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="<?php echo site_url(); ?>">
-                    <!-- Logo icono --><b>
-                        <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                        <!-- Dark Logo icon -->
-                        <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="dark-logo" />
-                        <!-- Light Logo icon -->
-                        <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="light-logo" />
-                    </b>
-                    <!--Fin Logo icon -->
-                    <!-- Logo text --><span>
-                     <!-- dark Logo text -->
-                     <img src="<?php echo base_url(); ?>assets/images/texto.png" height='30px;' alt="homepage" class="dark-logo" />
-                     <!-- Light Logo text -->
-                     <img src="<?php echo base_url(); ?>assets/images/texto.png" style="margin-left: 10px; margin-top: 10px;"  height='30px;' class="light-logo" alt="homepage" /></span> </a>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Fin Logo -->
-            <!-- ============================================================== -->
-            <div class="navbar-collapse">
-                <!-- ============================================================== -->
-                <!-- toggle and nav items -->
-                <!-- ============================================================== -->
-                <ul class="navbar-nav mr-auto mt-md-0">
-                    <!-- This is  -->
-                    <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
-                    <li class="nav-item"> <a id="clic" class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                    <!-- ============================================================== -->
-                    <!-- End Messages -->
-                    <!-- ============================================================== -->
-                </ul>
-                <!-- ============================================================== -->
-                <!-- User profile and search -->
-                <!-- ============================================================== -->
-                <ul class="navbar-nav my-lg-0">
-                    
-                    <!-- ============================================================== -->
-                    <!-- Profile -->
-                    <!-- ============================================================== -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="round round-success"><?php echo $inicialUser; ?></span></a>
-                        <div class="dropdown-menu dropdown-menu-right scale-up">
-                            <ul class="dropdown-user">
-                                <li>
-                                    <div class="dw-user-box">
-                                        <div class="u-text">
-                                            <h4><?php echo $this->session->userdata('nombre_usuario_viatico'); ?></h4>
+        <nav class="navbar top-navbar navbar-expand-md navbar-light" style="justify-content: space-between;">
 
-                                            <p align="right"><a href="#!" class="btn btn-rounded btn-info waves-effect waves-light">Activo</a></p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="<?php echo site_url(); ?>/cerrar_sesion"><i class="fa fa-power-off"></i> Salir</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <!-- ============================================================== -->
-                    <!-- End Profile -->
-                    <!-- ============================================================== -->
-                </ul>
+            <div class="pull-left">
+                <span class="navbar-header" style="background: none;">
+                    <a class="navbar-brand" href="<?php echo site_url(); ?>">
+                        <!-- Logo icono --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="<?php echo base_url(); ?>assets/images/Logo-min.png" height='45px' alt="homepage" class="light-logo" />
+                        </b>
+                        <!--Fin Logo icon -->
+                        <!-- Logo text --><span>
+                         <!-- dark Logo text -->
+                         <img src="<?php echo base_url(); ?>assets/images/texto.png" height='30px;' alt="homepage" class="dark-logo" />
+                         <!-- Light Logo text -->
+                         <img src="<?php echo base_url(); ?>assets/images/texto.png" style="margin-left: 10px; margin-top: 10px;"  height='30px;' class="light-logo" alt="homepage" /></span> </a>
+                </span>
+                <span class="nav-item" style="position: inline-block;"> <a id="clic" class="nav-link sidebartoggler hidden-sm-down text-white waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </span>
+                <span class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-white waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </span>
             </div>
+            <div class="pull-right">
+                <div class="navbar-collapse">
+                    <ul class="navbar-nav my-lg-0">
+                        <?php if(!$navegatorless){ ?>
+                            <li class="nav-item pull-right"> <a id="initial_user" style="display: none;" class="nav-link waves-effect waves-dark" href="javascript:void(0)"><span id="contador"></span></a> </li>
+                        <?php } ?>
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown pull-right">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="round round-success" <?php if($navegatorless){ ?>onclick="toggle();" <?php } ?>><?php echo $inicialUser; ?></span></a>
+                            <div class="dropdown-menu dropdown-menu-right scale-up" <?php if($navegatorless){ ?> style="display: none;" <?php } ?> id="form_toggle">
+                                <ul class="dropdown-user">
+                                    <li>
+                                        <div class="dw-user-box">
+                                            <div class="u-text">
+                                                <h4><?php echo $this->session->userdata('nombre_usuario_viatico'); ?></h4>
+
+                                                <p align="right"><a href="#!" class="btn btn-rounded btn-info waves-effect waves-light">Activo</a></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="<?php echo site_url(); ?>/cerrar_sesion"><i class="fa fa-power-off"></i> Salir</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <?php if($navegatorless){ ?>
+                            <li class="nav-item pull-right"> <a id="initial_user" style="display: none;" class="nav-link waves-effect waves-dark" href="javascript:void(0)"><span id="contador"></span></a> </li>
+                        <?php } ?>
+                        <!-- ============================================================== -->
+                        <!-- End Profile -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </div>
+            
         </nav>
     </header>
     <!-- ============================================================== -->

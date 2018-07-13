@@ -42,6 +42,13 @@
 
     $duracion = duracion($fecha_inicio, $fecha_fin);
 
+
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
 ?>
 <br>
 	<h5>Registro de lugares visitados</h5>
@@ -50,7 +57,7 @@
     <input type="hidden" id="horarios" name="horarios">
     <input type="hidden" id="band_viatico" name="band_viatico" value="save">
 	<div class="row">
-		<div class="form-group col-lg-2">
+		<div class="form-group col-lg-2 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
             <select id="fecha_mision" name="fecha_mision" class="form-control custom-select"  style="width: 100%" required="" onchange="verificar_fecha_diferente();">
                 <?php
@@ -72,7 +79,7 @@
             </select>
             <div class="help-block"></div>
         </div>
-		<div class="form-group col-lg-5">   
+		<div class="form-group col-lg-5 <?php if($navegatorless){ echo "pull-left"; } ?>">   
             <h5>Lugar de salida: <span class="text-danger">*</span></h5>
             <select id="id_origen" name="id_origen" class="form-control custom-select"  style="width: 100%" required="">
                 <?php
@@ -97,7 +104,7 @@
             </select>
             <div class="help-block"></div>
         </div>
-        <div class="form-group col-lg-5">   
+        <div class="form-group col-lg-5 <?php if($navegatorless){ echo "pull-left"; } ?>">   
             <h5>Lugar de llegada: <span class="text-danger">*</span></h5>
             <select id="id_destino" name="id_destino" class="form-control custom-select"  style="width: 100%" required="" onchange="cambiarkilometraje(this.value);">
                 <?php
@@ -123,14 +130,14 @@
         </div>
 	</div>
 	<div class="row">
-		<div class="form-group col-lg-3">
+		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Hora salida: <span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="time" id="hora_salida" name="hora_salida" class="form-control" required="">
                 <div class="help-block"></div>
             </div>
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Hora llegada: <span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="">
@@ -153,7 +160,7 @@
 
 
 
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Pasaje: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
@@ -161,22 +168,22 @@
             </div>
             <div class="help-block"></div>
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Viático: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                <input type="number" id="viatico" name="viatico" class="form-control" required="" step="any" placeholder="0.00" value="0.00">
+                <input type="number" id="viatico" name="viatico" class="form-control <?php if($navegatorless){ echo "pull-left"; } ?>" required="" step="any" readonly="" placeholder="0.00" value="0.00" <?php if($navegatorless){ echo "style='width: 35%;'"; } ?>>
                 <div class="input-group-addon btn btn-success" onclick="verificar_viaticos();" data-toggle="tooltip" title="Verificar viáticos"><i class="fa fa-check"></i></div>
             </div>
             <div class="help-block"></div>
         </div>
 	</div>
 	<div class="row">
-		<div class="form-group col-lg-4">   
+		<div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">   
             <h5>Distancia: <span class="text-danger">*</span></h5>
             <div class="input-group">
             	<div class="input-group-addon">Km</div>
-	            <select id="id_distancia" name="id_distancia" class="form-control custom-select"  style="width: 100%" required="">
+	            <select id="id_distancia" name="id_distancia" class="form-control custom-select"  style="width: 83%" required="">
 	                <?php
 	                	$kilometrajes = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 					    if($kilometrajes->num_rows() > 0){
@@ -189,13 +196,13 @@
 	        </div>
             <div class="help-block"></div>
         </div>
-        <div class="form-group col-lg-4" style="margin-bottom: 5px;" align="center">
+        <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>" style="margin-bottom: 5px;" align="center">
             <h5>¿utilizó alojamiento? <span class="text-danger">*</span></h5>
             <div class="switch">
 	            <label>No<input type="checkbox" id="band_factura" onchange="cambiarFactura()"><span class="lever"></span>Sí</label>
 	        </div>
         </div>
-        <div class="form-group col-lg-3" style="display: none;">
+        <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>" style="display: none;">
             <h5>Salida alojamiento: <span class="text-danger">*</span></h5>
             <select id="fecha_alojamiento" name="fecha_alojamiento" class="form-control custom-select"  style="width: 100%">
                 <?php
@@ -209,7 +216,7 @@
             </select>
             <div class="help-block"></div>
         </div>
-        <div class="form-group col-lg-4" style="margin-bottom: 5px; display: none;" id="cnt_alojamiento">
+        <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>" style="margin-bottom: 5px; display: none;" id="cnt_alojamiento">
             <h5>Monto por día: <span class="text-danger">*</span></h5>
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
@@ -219,9 +226,12 @@
         </div>
 	</div>
 
-	<div id="factura" style="display: none;">
+    <div class="row">
+	<div id="factura" style="display: none; width: 100%;">
 	    
 	</div>
+
+</div>
 
 	<hr style="margin: 10px;">
 	<button style="display: none;" type="submit" id="btn_submit3" class="btn waves-effect waves-light btn-success2">submit</button>

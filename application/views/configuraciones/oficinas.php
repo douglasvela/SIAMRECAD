@@ -1,3 +1,11 @@
+<?php
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
+?>
  <style>
 
       @media screen and (max-width: 770px) {
@@ -106,6 +114,10 @@
     }
 
     function iniciar(){
+      <?php if($navegatorless){ ?>
+        swal({ title: "Navegador antiguo", text: "La versión de su navegador está obsoleta. El mapa no podrá ser utilizado en este módulo.", type: "warning", showConfirmButton: true });
+      <?php } ?>  
+
         <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
             tablaoficinas();
         <?php }else{ ?>
@@ -340,7 +352,7 @@
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
-        <div class="row">
+        <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
@@ -362,7 +374,7 @@
 
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina: <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" required="" placeholder="Nombre de la Oficina" data-validation-required-message="Este campo es requerido">
@@ -370,7 +382,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" required="" placeholder="Dirección de la Oficina" data-validation-required-message="Este campo es requerido">
@@ -378,7 +390,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
                                         <select id="id_departamento" name="id_departamento" class="select2" onchange="seleccionar_zona()" style="width: 100%">
@@ -402,7 +414,7 @@
                                     </div>
 
                                 </div>
-                                 <div class="col-md-4">
+                                 <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                           <label for="id_municipio" class="font-weight-bold">Municipio de la Oficina: <span class="text-danger">*</span></label>
                                         <select id="id_municipio" name="id_municipio" class="select2" style="width: 100%" onchange="">
@@ -426,7 +438,7 @@
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
-                                 <div class="col-md-4">
+                                 <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                           <label for="id_zona" class="font-weight-bold">Zona de la Oficina: <span class="text-danger">*</span></label>
                                         <select id="id_zona" name="id_zona" class="select2" style="width: 100%" onchange="">
@@ -440,7 +452,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                              <div class="col-md-6">
+                              <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                   <div class="form-group">
                                       <label for="jefe_oficina" class="font-weight-bold">Encargado de firma departamental/regional: <span class="text-danger">*</span></label>
                                       <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
@@ -459,7 +471,7 @@
                                      <div class="help-block"></div>
                                   </div>
                               </div>
-                              <div class="col-md-6">
+                              <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="email_oficina" class="font-weight-bold">Email :<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email_oficina" name="email_oficina" required="" placeholder="Email" data-validation-required-message="Este campo es requerido">
@@ -467,7 +479,7 @@
                                 </div>
                             </div>
                            <div id="divider" class="row" >
-                                <div class="col-lg-8 col-md-7 otro" >
+                                <div class="col-lg-8 col-md-7 otro <?php if($navegatorless){ echo "pull-left"; } ?>" >
                                         <div id="map"></div>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -480,7 +492,7 @@
                                         <input type="hidden" id="longitud_oficina" name="longitud_oficina"  required="">
 
                                 </div>
-                                <div class="col-lg-4 col-md-5" >
+                                <div class="col-lg-4 col-md-5 <?php if($navegatorless){ echo "pull-left"; } ?>" >
                                     <div class="form-group">
                                         <label>Buscar ubicación</label>
                                         <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">

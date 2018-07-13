@@ -1,3 +1,11 @@
+<?php
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
+?>
  <style>
 
       @media screen and (max-width: 770px) {
@@ -47,7 +55,7 @@
         $("#id_oficina_origen_vyp_rutas").val(id_oficina_origen_vyp_rutas);
         $("#descripcion_destino_vyp_rutas").val(descripcion_destino_vyp_rutas);
         $("#id_departamento_vyp_rutas").val(id_departamento_vyp_rutas);
-obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
+    obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
        buscarMunicipio(id_departamento_vyp_rutas,id_municipio_vyp_rutas,'buscar');
 
 
@@ -534,6 +542,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
+        <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
         <div class="col-lg-12" style="display: none;" id="form_mapa">
                  <div class="card">
                      <div class="card-body b-t">
@@ -560,7 +569,8 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                       </div>
                  </div>
              </div>
-        <div class="row justify-content-center">
+         </div>
+        <div class="row justify-content-center" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
 
             <div class="col-lg-12" id="cnt_form" style="display: none;">
                 <div class="card">
@@ -581,7 +591,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                     <input type="hidden" class="form-control" id="direccion_origen2" name="">
     
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="id_oficina_origen_vyp_rutas" class="font-weight-bold">Origen de la Ruta: <span class="text-danger">*</span></label>
                                         <select id="id_oficina_origen_vyp_rutas" name="id_oficina_origen_vyp_rutas" class="form-control" onchange="obtenerOrigen(this.value,'2');">
@@ -603,7 +613,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                        <div class="help-block"></div>
                                     </div>
                                 </div>
-                                 <div class="col-md-6">
+                                 <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
                                     <input type="radio" id="destino_oficina"  name="t_destinos" value="destino_oficina" onclick="mostrarpanel_oficina()">
@@ -616,7 +626,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                 </div>
                             </div>
                              <div class="row" id="panel_municipio" style="display: none">
-                                <div class="col-md-6">
+                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Departamento destino: <span class="text-danger">*</span></label><br>
                                         <select class="form-control" id="id_departamento_vyp_rutas" onchange="buscarMunicipio(this.value,'null','')">
@@ -638,7 +648,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Municipio destino: <span class="text-danger">*</span></label><br>
                                         <div id="municipios">
@@ -650,13 +660,13 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                 </div>
                             </div>
                             <div class="row" id="panel_mapa" style="display:none">
-                                <div class="col-md-4">
+                                <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Nombre Empresa: <span class="text-danger">*</span></label><br>
                                         <input type="text" id="nombre_empresa_vyp_rutas" name="nombre_empresa_vyp_rutas" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-lg-8 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Dirección Empresa: <span class="text-danger">*</span></label><br>
                                         <input type="text" id="direccion_empresa_vyp_rutas" name="direccion_empresa_vyp_rutas" class="form-control">
@@ -664,13 +674,13 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-lg-8 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Descripción de destino: <span class="text-danger">*</span></label><br>
                                         <input type="text" id="descripcion_destino_vyp_rutas" name="descripcion_destino_vyp_rutas" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Kilometros: <span class="text-danger">*</span></label><br>
                                         <input type="text" id="km_vyp_rutas" name="km_vyp_rutas" class="form-control">
@@ -679,7 +689,7 @@ obtenerOrigen(id_oficina_origen_vyp_rutas,'2');
                             </div>
 
                             <div class="row" id="panel_oficina" style="display: none">
-                                <div class="col-md-12">
+                                <div class="col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
                                         <label for="" class="font-weight-bold">Oficina de destino: <span class="text-danger">*</span></label><br>
                                         <select id="id_oficina_destino_vyp_rutas" name="id_oficina_destino_vyp_rutas" class="form-control" onchange="obtenerDestino(this.value,'1');autocompletar_descripcion_destino_oficina()">

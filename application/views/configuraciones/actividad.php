@@ -1,3 +1,11 @@
+<?php
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
+?>
 <script type="text/javascript">
   function cambiar_editar(id_vyp_actividades,nombre_vyp_actividades,depende_vyp_actividades,bandera){
     $("#id_vyp_actividades").val(id_vyp_actividades);
@@ -129,7 +137,6 @@
 
 <div class="page-wrapper">
    <div class="container-fluid">
-       <button id="notificacion" style="display: none;" class="tst1 btn btn-success2">Info Message</button>
        <div class="row page-titles">
            <div class="align-self-center" align="center">
                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de Actividades del MTPS</h3>
@@ -150,14 +157,14 @@
                            <input type="hidden" id="band" name="band" value="save">
                            <input type="hidden" id="id_vyp_actividades" name="id_vyp_actividades" >
                            <div class="row">
-                               <div class="col-md-6">
+                               <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                    <div class="form-group">
                                        <label for="nombre_oficina" class="font-weight-bold">Nombre de la Actividad: <span class="text-danger">*</span></label>
                                        <input type="text" class="form-control" id="nombre_vyp_actividades" name="nombre_vyp_actividades" required="" placeholder="Nombre de la Actividad" data-validation-required-message="Este campo es requerido">
                                       <div class="help-block"></div>
                                    </div>
                                </div>
-                               <div class="col-md-6 form-group" id="div_combo_actividades">
+                               <div class="col-lg-6 form-group <?php if($navegatorless){ echo "pull-left"; } ?>" id="div_combo_actividades">
                                    <div >
                                        <label for="depende_vyp_actividades" class="font-weight-bold">Depende de la Actividad: <span class="text-danger"></span></label>
                                        <select id="depende_vyp_actividades" name="depende_vyp_actividades" class="form-control" onchange="">

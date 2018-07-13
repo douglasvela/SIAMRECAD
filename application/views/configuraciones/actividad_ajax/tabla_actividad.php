@@ -12,7 +12,6 @@
           <?php } ?>
         </div>
 
-
         <div class="table-responsive">
           
             <table id="myTable" class="table table-bordered product-overview">

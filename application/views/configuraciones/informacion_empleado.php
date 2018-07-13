@@ -46,10 +46,21 @@
 
     $cuenta_banco = $this->db->query("SELECT * FROM vyp_empleado_cuenta_banco WHERE nr = '".$nr_usuario."' AND estado = 1");
 
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
 ?>
 <script type="text/javascript">
 	
-	function iniciar(){		
+	function iniciar(){
+
+        <?php if($navegatorless){ ?>
+        swal({ title: "Navegador antiguo", text: "La versión de su navegador está obsoleta. Las firmas no pueden ser recortadas en ésta versión.", type: "warning", showConfirmButton: true });
+      <?php } ?>  
+
         <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
     		cambiar_informacion();
             $('html,body').animate({
@@ -206,7 +217,7 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <!-- Row -->
-    <div class="row">     
+    <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>     
         <!-- Column -->
         <div class="col-lg-1"></div>
         <div class="col-lg-10" id="cnt_form">
@@ -240,7 +251,7 @@
                     <blockquote class="m-t-10">
 
                     <div class="row" id="cnt_combos" style="display: none;">
-                        <div class="form-group col-lg-6"> 
+                        <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                             <h5>Jefe de firma inmediata (jefe inmediato): <span class="text-danger">*</span></h5>                           
                             <select id="id_empleado" name="id_empleado" class="select2" style="width: 100%" required="">
                                 <option value="">[Elija el jefe inmediato]</option>
@@ -255,7 +266,7 @@
                             </select>
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group col-lg-6"> 
+                        <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                             <h5>Oficina departamental: <span class="text-danger">*</span></h5>
                             <select id="id_oficina" name="id_oficina" class="select2" style="width: 100%" required="">
                                 <option value="">[Elija oficina en que labora]</option>

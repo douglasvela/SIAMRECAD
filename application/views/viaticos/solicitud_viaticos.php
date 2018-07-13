@@ -25,6 +25,14 @@
     }
     $horario_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '1' AND estado = '1'");
     $restric_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '2' AND estado = '1'");
+
+
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < 40){
+    $navegatorless = true;
+}
 ?>
 
 <script type="text/javascript">
@@ -121,7 +129,7 @@
         if(kilometraje_new >= DistanciaMinima){
             for(j=0; j<viaticos.length; j++){
                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                    if(!tiene_restriccion(hs, "salida", viaticos[j][2], viaticos[j][3])){
+                    if(!tiene_restriccion(hs, hl, "salida", viaticos[j][2], viaticos[j][3])){
                         band_viatico = true;
                         reg_viaticos.push([fecha_ruta, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                         monto += parseFloat(viaticos[j][4]);
@@ -218,6 +226,7 @@
         reg_alojamiento = [];
         total_aloj = 0.00;
         var monto = 0;
+        var hs_copy = hs;
 
         var fecha_ruta_new = $("#fecha_mision").val();
         var kilometraje_new = parseFloat($("#id_distancia option:selected").text().trim());
@@ -259,7 +268,7 @@
             for(h=0; h<viaticos.length; h++){
                 if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
                     if(id_ruta_old == id_oficina_origenes){
-                        if(!tiene_restriccion(hora_llegada_old, "llegada antigua", viaticos[h][2], viaticos[h][3])){
+                        if(!tiene_restriccion(hora_llegada_old, hs_copy, "llegada antigua", viaticos[h][2], viaticos[h][3])){
                             ultimo_viatico = viaticos[h][0];
                         }
                     }else{
@@ -278,7 +287,7 @@
         if(id_origen == id_oficina_origenes){
              for(f=0; f<viaticos.length; f++){
                 if( (hs >= viaticos[f][2] && hs <= viaticos[f][3]) ){
-                    if(tiene_restriccion(hs, "salida", viaticos[f][2], viaticos[f][3])){
+                    if(tiene_restriccion(hs, hl,"salida", viaticos[f][2], viaticos[f][3])){
                         restriccion_salida = viaticos[f][0];
                     }
                 }
@@ -288,7 +297,7 @@
         if(id_destino == id_oficina_origenes){
              for(f2=0; f2<viaticos.length; f2++){
                 if( (hl >= viaticos[f2][2] && hl <= viaticos[f2][3]) ){
-                    if(tiene_restriccion(hl, "llegada", viaticos[f2][2], viaticos[f2][3])){
+                    if(tiene_restriccion(hs, hl, "llegada", viaticos[f2][2], viaticos[f2][3])){
                         restriccion_llegada = viaticos[f2][0];
                     }
                 }
@@ -324,7 +333,32 @@
                         }
                     }
                 }else{
-                   $.toast({ heading: 'No cumple con viáticos', text: 'Distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 }); 
+                    $.toast({ heading: 'No cumple con viáticos', text: 'La ruta anterior tenia distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
+                    hs = hs_copy;
+                    if(kilometraje_new >= DistanciaMinima || document.getElementById("justificacion").checked == 1){
+                        for(j=0; j<viaticos.length; j++){
+                            if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                                if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
+                                    if(viaticos[j][0]!=ultimo_viatico){
+                                        band_viatico = true;
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
+                                        monto += parseFloat(viaticos[j][4]);
+                                        var index = reg_viaticos.length;
+                                        body.append("<tr>"+
+                                                    "<td>"+fecha_ruta_new+"</td>"+
+                                                    "<td>"+viaticos[j][1]+"</td>"+
+                                                    "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                    "<td>"+gcheckbox(index)+"</td>"+
+                                                    "</tr>");
+
+                                        ultimo_viatico = viaticos[j][0];
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        $.toast({ heading: 'No cumple con viáticos', text: 'La ruta actual posee distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
+                    }
                 }
 
                 $("#viatico").val(monto.toFixed(2));
@@ -422,7 +456,7 @@
                             hl = ultima_hora_llegada;
                             for(j=0; j<viaticos.length; j++){
                                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                                    if(!tiene_restriccion(hs, hl, viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
+                                    if(!tiene_restriccion(hs, hl, "texto", viaticos[j][2], viaticos[j][3]) || $("#hora_salida").val() >= viaticos[j][2]){
                                         band_viatico = true;
                                         reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                         monto += parseFloat(viaticos[j][4]);
@@ -682,20 +716,18 @@
         return band_visible;
     }
 
-    function tiene_restriccion(hora, text, viatico_inicio, viatico_fin){
+    function tiene_restriccion(horas, horal, text, viatico_inicio, viatico_fin){
         var band_rest = false;
 
-        if((hora >= viatico_inicio && hora <= viatico_fin)){
-
             for(i=0; i<restricciones.length; i++){
-                if(hora >= restricciones[i][2] && hora <= restricciones[i][3]){
-                    band_rest = true;
-                    $.toast({ heading: 'Restricción hora '+text, text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                if(horas < restricciones[i][3] && horal > restricciones[i][2]){
+                    if( !(horas < restricciones[i][2] && horal > restricciones[i][3])){
+                        band_rest = true;
+                        $.toast({ heading: 'Restricción de viáticos', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
+                    }
                 }
             }
-
-        }
-
+        
         return band_rest;
     }
 
@@ -1674,6 +1706,7 @@
     }
 
     function cambiarkilometraje(id_destino){
+        $("#viatico").val("0.00")
         if($("#id_oficina_origen").val() == id_destino){
             buscar_ultimo_destino($("#band_viatico").val());
         }else{
@@ -1839,42 +1872,53 @@
     }
 
     function verificar_fechas(){
-        var id_mision = $("#id_mision").val();
-        var fecha1 = $("#fecha_mision_inicio").val();
-        var fecha2 = $("#fecha_mision_fin").val();
-        var nr = $("#nr").val();
 
-        var filas = $("#tabla_viaticos").find("tbody").find("tr");
-        var celdas, hora1, hora2;
+        var registros = $("#tabla_viaticos").find("tbody").find("tr");
+        var x = (registros.length-2);
+        var celdas = $(registros[x]).children("td");
+        var id_ruta_old = $($(celdas[0]).children("input")[1]).val();
+        var id_oficina_origenes = $("#id_oficina_origen").val();
 
-        for(l=0; l < (filas.length-1); l++){
-            celdas = $(filas[l]).children("td");
+        if(id_ruta_old == id_oficina_origenes){
 
-            if(l==0){
-                hora1 = $(celdas[2]).text().trim();
+            var id_mision = $("#id_mision").val();
+            var fecha1 = $("#fecha_mision_inicio").val();
+            var fecha2 = $("#fecha_mision_fin").val();
+            var nr = $("#nr").val();
+            var filas = $("#tabla_viaticos").find("tbody").find("tr");
+            var celdas, hora1, hora2;
+
+            for(l=0; l < (filas.length-1); l++){
+                celdas = $(filas[l]).children("td");
+
+                if(l==0){
+                    hora1 = $(celdas[2]).text().trim();
+                }
+
+                if(l == (filas.length-2)){
+                    hora2 = $(celdas[3]).text().trim();
+                }
             }
 
-            if(l == (filas.length-2)){
-                hora2 = $(celdas[3]).text().trim();
-            }
+            ajax = objetoAjax();
+            ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/fecha_repetida", true);
+            ajax.onreadystatechange = function() {
+                if (ajax.readyState == 4){
+                    $("#area").val(ajax.responseText)
+                    if(ajax.responseText == "exito"){
+                        recorre_observaciones();
+                    }else if(ajax.responseText == "fecha_repetida"){
+                        swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
+                    }else{
+                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                    }           
+                }
+            } 
+            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+            ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
+        }else{
+            swal({ title: "Detalle incompleto", text: "No se encontró detallado el regreso a su oficina de origen", type: "warning", showConfirmButton: true });
         }
-
-        ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/fecha_repetida", true);
-        ajax.onreadystatechange = function() {
-            if (ajax.readyState == 4){
-                $("#area").val(ajax.responseText)
-                if(ajax.responseText == "exito"){
-                    recorre_observaciones();
-                }else if(ajax.responseText == "fecha_repetida"){
-                    swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
-                }else{
-                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-                }           
-            }
-        } 
-        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
     }
 
     function convertToTime(hour){
@@ -2240,6 +2284,26 @@
         }
     }
 
+    function validar_justificacion_mision(){
+        var bandera = true;
+        if(document.getElementById("justificacion").checked == 1){
+
+            if($("#band").val() == "save" && document.getElementById("file3[]").value == ""){
+                bandera = false;
+            }else if($("#band").val() == "edit" && document.getElementById("file3[]").value == ""){
+                if($("#cnt_justificacion").html().trim() == ""){
+                    bandera = false;
+                }else{
+                    bandera = true;
+                }
+            }else if($("#band").val() == "delete"){
+                bandera = true;
+            }
+        }
+
+        return bandera;
+    }
+
 </script>
 
 <style>
@@ -2312,7 +2376,7 @@
         </div>
         <a id="dirigir" name="dirigir" href="#cnt_mapa"></a>
         
-        <div  class="row" id="cnt_mapa" style="height: 0px; opacity: 0;">
+        <div  class="row" id="cnt_mapa" style="height: 0px; opacity: 0; <?php if($navegatorless){ echo "margin-right: 80px;"; } ?>" >
             <div class="col-lg-12 col-md-12" >
                     <div id="input-div"></div>
                     <div id="map" ></div>                       
@@ -2360,7 +2424,7 @@
 
 
 
-        <div class="row">
+        <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
 
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="cnt_form" style="display: none;">
@@ -2401,7 +2465,7 @@
 </div>
 
                             <div class="row">
-                                <div class="form-group col-lg-6"> 
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
 			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
 			                            <option value="">[Elija el empleado]</option>
@@ -2416,12 +2480,12 @@
 			                        </select>
 			                        <div class="help-block"></div>
 			                    </div>
-                                <div class="form-group col-lg-3">   
+                                <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">   
                                     <h5>Fecha de misión (inicio): <span class="text-danger">*</span></h5>
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy" onchange="informacion_empleado();" readonly="">
                                     <div class="help-block"></div>
                                 </div>
-                                <div class="form-group col-lg-3">   
+                                <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">   
                                     <h5>Fecha misión (fin): <span class="text-danger">*</span></h5>
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy" onchange="informacion_empleado()" readonly="">
                                     <div class="help-block"></div>
@@ -2429,8 +2493,7 @@
                             </div>
 
                             <div class="row">
-
-                                <div class="form-group col-lg-9"> 
+                                <div class="form-group col-lg-9 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                     <h5>Actividad realizada: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
                                         <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required='' onchange="cambiar_oficina_solicitante();">
@@ -2452,8 +2515,7 @@
                                         </select>
                                     </div> 
                                 </div>
-
-                                <div class="col-lg-3" align="center">
+                                <div class="col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>" align="center">
                                     <h5>Justificación de viático: <span class="text-danger">*</span></h5>
                                     <div class="switch">
                                         <label>No
@@ -2488,7 +2550,7 @@
 
                             <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
-                                    <h5>Detalle de la actividad: <span class="text-danger">*</span></h5>
+                                    <h5>Detalle de la actividad: </h5>
                                     <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" placeholder="Describa la actividad realizada en la misión"></textarea>
                                     <div class="help-block"></div>
                                 </div>
@@ -2552,7 +2614,7 @@
                                 <input type="hidden" id="band2" name="band2" value="save">
                                 <input type="hidden" id="id_ruta_visitada" name="id_ruta_visitada" value="">
 
-                                <div class="form-group col-lg-12">
+                                <div class="form-group col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Opciones de destino: <span class="text-danger">*</span></h5>
                                     <input type="radio" id="destino_oficina" checked="" name="r_destino" value="destino_oficina"> 
                                     <label for="destino_oficina" onclick="form_oficinas();">Oficina MTPS</label>&emsp;
@@ -2564,27 +2626,26 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-lg-6" id="combo_departamento">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_departamento">
                                 </div>
-                                <div class="form-group col-lg-6" id="combo_municipio">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_municipio">
                                 </div>
-                                <div class="form-group col-lg-6" id="input_distancia">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="input_distancia">
                                 </div>
-                            
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
                                         <input type="text" id="nombre_empresa" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa" required>
                                         <div id="bntmap1" class="input-group-addon btn btn-default" onclick="form_mapa();" data-toggle="tooltip" title="" data-original-title="Buscar en mapa"><i class="mdi mdi-google-maps"></i></div>
                                         <div id="bntmap2" class="input-group-addon btn btn-default" onclick="rutas_almacenadas();" data-toggle="tooltip" title="" data-original-title="Buscar en registros almacenados"><i class="mdi mdi-map-marker-radius"></i></div>
                                     </div>
-                                </div>
-                                <div class="form-group col-lg-12">
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Dirección: <span class="text-danger">*</span></h5>
                                     <textarea id="direccion_empresa" name="direccion_empresa" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2" required></textarea>
                                 </div>
-
-                                
                             </div>
 
                             <button style="display: none;" type="submit" id="btn_submit" class="btn waves-effect waves-light btn-success2">submit</button>
@@ -2671,42 +2732,43 @@
                     </div>
 
                     <div class="row" style="width: 100%"></div>
-                    <div>
-                        <ul class="nav nav-tabs customtab2" role="tablist">
-                            <li class="nav-item"> 
+                    <div class="row">
+                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" role="tablist" <?php if($navegatorless){ echo "style='width: 100%;'"; } ?>>
+                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
                                     <span class="hidden-xs-down">Todas</span></a> 
                             </li>
-                            <li class="nav-item"> 
+                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link" onclick="cambiar_pestana('1');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
                                     <span class="hidden-xs-down">Incompletas</span></a> 
                             </li>
-                            <li class="nav-item"> 
+                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link" onclick="cambiar_pestana('2');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
                                     <span class="hidden-xs-down">En revisión</span></a> 
                             </li>
-                            <li class="nav-item"> 
+                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link" onclick="cambiar_pestana('3');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
                                     <span class="hidden-xs-down">Observadas</span></a> 
                             </li>
-                            <li class="nav-item"> 
+                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link" onclick="cambiar_pestana('4');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
                                     <span class="hidden-xs-down">Aprobadas</span></a> 
                             </li>
-                            <li class="nav-item"> 
+                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link" onclick="cambiar_pestana('5');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
                                     <span class="hidden-xs-down">Pagadas</span></a> 
                             </li>
                         </ul>
                     </div>
-
+                    <div class="row">
                         <div id="cnt_tabla_solicitudes"></div>
+                    </div>
                         
                     </div>
                 </div>
@@ -2846,39 +2908,46 @@ $(function(){
 
     $("#formajax").on("submit", function(e){
         e.preventDefault();
-        $("#subiendo_mision").show(0);
-        var formData = new FormData(document.getElementById("formajax"));
-        var nombre = $("#nr option:selected").text().split("-");
-        nombre = nombre[0].trim();
-        formData.append('nombre_completo', nombre);
-        var justificacion_value = $('#summernote').val();
-        formData.append('ruta_justificacion', justificacion_value);
-        $.ajax({
-                type:  'POST',
-                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
-                dataType: "html",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false
-        })
-        .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-            $("#subiendo_mision").hide(0);
-            if(data == "exito"){
-                if($("#band").val() == "save"){
-                    //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                    buscar_idmision();
-                }else if($("#band").val() == "edit"){
-                    //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                    form_rutas();
+
+        if(validar_justificacion_mision()){
+
+            $("#subiendo_mision").show(0);
+            var formData = new FormData(document.getElementById("formajax"));
+            var nombre = $("#nr option:selected").text().split("-");
+            nombre = nombre[0].trim();
+            formData.append('nombre_completo', nombre);
+            var justificacion_value = $('#summernote').val();
+            formData.append('ruta_justificacion', justificacion_value);
+            $.ajax({
+                    type:  'POST',
+                    url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+            })
+            .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+                $("#subiendo_mision").hide(0);
+                if(data == "exito"){
+                    if($("#band").val() == "save"){
+                        //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                        buscar_idmision();
+                    }else if($("#band").val() == "edit"){
+                        //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                        form_rutas();
+                    }else{
+                        swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                    }
+                    tabla_solicitudes();
                 }else{
-                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
-                tabla_solicitudes();
-            }else{
-                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-            }
-        });
+            });
+
+        }else{
+            swal({ title: "Falta archivo", text: "Debes subir un archivo que valide tu justificación.", type: "warning", showConfirmButton: true });
+        }
     });
 
     $("#form_empresas_viaticos").on("submit", function(e){

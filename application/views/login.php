@@ -57,7 +57,7 @@ $(function(){
                 swal({ title: "¡Clave no válida!", text: "La clave ingresada no es válida.", type: "warning", showConfirmButton: true });
                 $("#Save_info").hide(0);
             }else if(res == "activeDirectory"){
-                swal({ title: "¡No encontrado en Active Directory!", text: "Usurio o contraseña no encontrado en Active Directory.", type: "warning", showConfirmButton: true });
+                swal({ title: "¡No encontrado en Active Directory!", text: "Usuario o contraseña no encontrado en Active Directory.", type: "warning", showConfirmButton: true });
                 $("#Save_info").hide(0);
             }else if(res == "sesion"){
                 swal({ title: "¡Ocurrió un error!", text: "Falló el inicio de sesión. Por favor intentelo nuevamente.", type: "error", showConfirmButton: true });
