@@ -45,8 +45,9 @@ $config['id_sistema'] = "15";
 |
 */
 $config['index_page'] = 'index.php';
-
 $config['navegator'] = getBrowser();
+$config['last_version'] = 28;
+
 /*
 |--------------------------------------------------------------------------
 | URI PROTOCOL

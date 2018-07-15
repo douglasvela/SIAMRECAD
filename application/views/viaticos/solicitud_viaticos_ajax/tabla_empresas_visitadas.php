@@ -1,4 +1,4 @@
-<div class="table-responsive container">
+<div class="table-responsive container pull-left">
 	<table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
 	  	<thead class="bg-inverse text-white">
 	        <tr>
@@ -76,13 +76,13 @@
 ?>
 
 
-<div align="right">
+<div class="row" align="right">
     <div class="pull-left">
     <?php
-            array_push($array, "edit");
-            echo generar_boton_normal($array,"cambiar_editar","btn-default","mdi mdi-undo","Volver al paso 1","Volver");
+        array_push($array, "edit");
+        echo generar_boton_normal($array,"cambiar_editar","btn-default","mdi mdi-undo","Volver al paso 1","Volver");
     ?>
-</div>
+    </div>
     <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-info">Continuar <i class="mdi mdi-chevron-right"></i></button>
 </div>
 </div>

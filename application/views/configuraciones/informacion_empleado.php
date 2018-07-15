@@ -49,7 +49,7 @@
 // Características del navegador
 $ua=$this->config->item("navegator");
 $navegatorless = false;
-if(floatval($ua['version']) < 40){
+if(floatval($ua['version']) < $this->config->item("last_version")){
     $navegatorless = true;
 }
 ?>
@@ -254,7 +254,7 @@ if(floatval($ua['version']) < 40){
                         <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                             <h5>Jefe de firma inmediata (jefe inmediato): <span class="text-danger">*</span></h5>                           
                             <select id="id_empleado" name="id_empleado" class="select2" style="width: 100%" required="">
-                                <option value="">[Elija el jefe inmediato]</option>
+                                <option value="">OFICINA CENTRAL SAN SALVADOR</option>
                                 <?php 
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.fecha_inicio = (SELECT MAX(i2.fecha_inicio) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                     if($otro_empleado->num_rows() > 0){

@@ -30,7 +30,7 @@
 // Características del navegador
 $ua=$this->config->item("navegator");
 $navegatorless = false;
-if(floatval($ua['version']) < 40){
+if(floatval($ua['version']) < $this->config->item("last_version")){
     $navegatorless = true;
 }
 ?>
@@ -121,11 +121,8 @@ if(floatval($ua['version']) < 40){
         reg_viaticos = [];
         reg_alojamiento = [];
         var monto = 0;
-
         var body = $("#body_viaticos_encontrados");
-
         body.html("");
-
         if(kilometraje_new >= DistanciaMinima){
             for(j=0; j<viaticos.length; j++){
                 if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
@@ -185,18 +182,13 @@ if(floatval($ua['version']) < 40){
 
     function verificar_fecha_diferente(){
         var fecha_nueva = $("#fecha_mision").val();
-
         var registros = $("#tabla_viaticos").find("tbody").find("tr");
         var x = (registros.length-2);
         var celdas = $(registros[x]).children("td");
         var fecha_vieja = $($(celdas[0]).children("input")[2]).val().trim();
         var kilometraje_old = $($(celdas[0]).children("input")[3]).val().trim();
-
         var fecha1 = moment(fecha_vieja);
         var fecha2 = moment(fecha_nueva);
-
-        //moment().format("DD-MM-YYYY")
-
         var diferencia = fecha2.diff(fecha1, 'days');
 
         if(diferencia > 0){
@@ -227,27 +219,19 @@ if(floatval($ua['version']) < 40){
         total_aloj = 0.00;
         var monto = 0;
         var hs_copy = hs;
-
         var fecha_ruta_new = $("#fecha_mision").val();
         var kilometraje_new = parseFloat($("#id_distancia option:selected").text().trim());
-
         var registros = $("#tabla_viaticos").find("tbody").find("tr");
         var x = (registros.length-2);
-
         var celdas = $(registros[x]).children("td");
         var fecha_ruta_old = $($(celdas[0]).children("input")[2]).val().trim();
         var hora_llegada_old = $(celdas[3]).text().trim();
         var hora_salida_old = $(celdas[2]).text().trim();
         var kilometraje_old = $($(celdas[0]).children("input")[3]).val().trim();
-
         var id_ruta_old = $($(celdas[0]).children("input")[1]).val().trim();
         var id_oficina_origenes = $("#id_oficina_origen").val().trim(); 
-
         var fecha1 = moment(fecha_ruta_old);
         var fecha2 = moment(fecha_ruta_new);
-
-        //moment().format("DD-MM-YYYY")
-
         var diferencia = fecha2.diff(fecha1, 'days');
 
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
@@ -263,7 +247,6 @@ if(floatval($ua['version']) < 40){
         }
 
         var ultimo_viatico = "";
-
         if(parseFloat(kilometraje_old) >= DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
             for(h=0; h<viaticos.length; h++){
                 if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
@@ -283,7 +266,6 @@ if(floatval($ua['version']) < 40){
         var id_destino = $("#id_destino").val();
         var restriccion_llegada = "";
         var restriccion_salida = "";
-
         if(id_origen == id_oficina_origenes){
              for(f=0; f<viaticos.length; f++){
                 if( (hs >= viaticos[f][2] && hs <= viaticos[f][3]) ){
@@ -390,9 +372,7 @@ if(floatval($ua['version']) < 40){
 
                 total_aloj = (parseFloat($("#alojamiento").val())*diferencia).toFixed(2);
                 hs = hora_llegada_old;
-
                 if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km                    
-
                     for(j=0; j<viaticos.length; j++){
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
 
@@ -507,7 +487,6 @@ if(floatval($ua['version']) < 40){
                 }else{
                    $.toast({ heading: 'No cumple con viáticos', text: 'Distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 }); 
                 }
-
                 $("#viatico").val(monto.toFixed(2));
         }
 
@@ -523,27 +502,19 @@ if(floatval($ua['version']) < 40){
         reg_alojamiento = [];
         total_aloj = 0.00;
         var monto = 0;
-
         var fecha_ruta_new = $("#fecha_mision").val();
         var kilometraje_new = parseFloat($("#id_distancia option:selected").text().trim());
-
         var registros = $("#tabla_viaticos").find("tbody").find("tr");
         var x = (registros.length-2);
-
         var celdas = $(registros[x]).children("td");
         var fecha_ruta_old = $($(celdas[0]).children("input")[2]).val().trim();
         var hora_llegada_old = $(celdas[3]).text().trim();
         var hora_salida_old = $(celdas[2]).text().trim();
         var kilometraje_old = $($(celdas[0]).children("input")[3]).val().trim();
-
         var id_ruta_old = $($(celdas[0]).children("input")[1]).val().trim();
         var id_oficina_origenes = $("#id_oficina_origen").val().trim(); 
-
         var fecha1 = moment(fecha_ruta_old);
         var fecha2 = moment(fecha_ruta_new);
-
-        //moment().format("DD-MM-YYYY")
-
         var diferencia = fecha2.diff(fecha1, 'days');
 
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
@@ -595,30 +566,22 @@ if(floatval($ua['version']) < 40){
 
     }
 
-
-
-
     function verificar_viaticos(){
         var hora_salida = $("#hora_salida").val();
         var hora_llegada = $("#hora_llegada").val();
         var distancia = parseFloat($("#id_distancia option:selected").text().trim());
         var visibles = [];
         var hay_viaticos = false;
-
-
         var id_origenes = $("#id_origen").val();
         var id_destinos = $("#id_destino").val();
         var id_oficina_origenes =  $("#id_oficina_origen").val();
 
         if((hora_salida != "" && hora_llegada != "") && (hora_salida < hora_llegada)){
-
-
             /******************** Validación de que al salir de la oficina cumpla con 15 km ***************************************/
             /*if(id_origenes == id_oficina_origenes){
                 hora_salida = convertir_salida(distancia);
                 $.toast({ heading: 'Saliendo de la oficina', text: 'Alcanzó los 15 Km aproximadamente a las '+hora_salida, position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 6000, stack: 6 });
             }
-
             if(id_destinos == id_oficina_origenes){
                 hora_llegada = convertir_llegada(distancia);
                 $.toast({ heading: 'Llegando de la oficina', text: 'Entró en el radio de 15 Km aproximadamente a las '+hora_llegada, position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 6000, stack: 6 });
@@ -636,7 +599,6 @@ if(floatval($ua['version']) < 40){
                 $.toast({ heading: 'No hay viáticos', text: 'Viáticos no disponibles', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
                             bandera = false;
             }
-
             /*hay_viaticos = recorre_tabla(visibles);
             if(hay_viaticos){
                 $("#myModal").modal("show");
@@ -644,18 +606,14 @@ if(floatval($ua['version']) < 40){
                 $.toast({ heading: 'No hay viáticos', text: 'Viáticos no disponibles', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
                             bandera = false;
             }*/
-
         }else{
             if(hora_salida == "" || hora_llegada == ""){
                 swal({ title: "Horario no válido", text: "Completa la hora de salida y llegada del lugar visitado", type: "warning", showConfirmButton: true });
             }else if(hora_salida > hora_llegada){
                 swal({ title: "Horario no válido", text: "La hora de salida debe ser menor a la hora de llegada", type: "warning", showConfirmButton: true });
             }
-            
         }
-
     }
-
 
     function recorre_tabla(viaticos_visibles){
         var fecha = $("#fecha_mision option:selected").text();
@@ -670,40 +628,38 @@ if(floatval($ua['version']) < 40){
             horarios2 = $($(celdas[4]).children("input")[0]).val();
             fecha2 = $(celdas[0]).text();
             if(fecha.trim() == fecha2.trim()){
-                
-                    if(horarios == horarios2){
-                        if(horarios2 != ""){
-                            id_horarios = horarios2.split(",");
-                        }else{
-                            id_horarios = "";
-                        }
-                        for(m=0; m<id_horarios.length; m++){
-                            $("#cnt"+id_horarios[m]).show(0);
-                            document.getElementById("checkbox"+id_horarios[m]).checked = 1;
-                            for(z=0; z<viaticos_visibles.length; z++){
-                                if(viaticos_visibles[z][0] == id_horarios[m]){
-                                    viaticos_visibles[z][1] = 'visible';
-                                }
-                            }
-                        }
+                if(horarios == horarios2){
+                    if(horarios2 != ""){
+                        id_horarios = horarios2.split(",");
                     }else{
-                        if(horarios2 != ""){
-                            id_horarios = horarios2.split(",");
-                        }else{
-                            id_horarios = "";
-                        }
-
-                        for(m=0; m<id_horarios.length; m++){
-                            $("#cnt"+id_horarios[m]).hide(0);
-                            document.getElementById("checkbox"+id_horarios[m]).checked = 0;
-                            for(z=0; z<viaticos_visibles.length; z++){
-                                if(viaticos_visibles[z][0] == id_horarios[m]){
-                                    viaticos_visibles[z][1] = 'oculto';
-                                }
+                        id_horarios = "";
+                    }
+                    for(m=0; m<id_horarios.length; m++){
+                        $("#cnt"+id_horarios[m]).show(0);
+                        document.getElementById("checkbox"+id_horarios[m]).checked = 1;
+                        for(z=0; z<viaticos_visibles.length; z++){
+                            if(viaticos_visibles[z][0] == id_horarios[m]){
+                                viaticos_visibles[z][1] = 'visible';
                             }
                         }
                     }
-                
+                }else{
+                    if(horarios2 != ""){
+                        id_horarios = horarios2.split(",");
+                    }else{
+                        id_horarios = "";
+                    }
+
+                    for(m=0; m<id_horarios.length; m++){
+                        $("#cnt"+id_horarios[m]).hide(0);
+                        document.getElementById("checkbox"+id_horarios[m]).checked = 0;
+                        for(z=0; z<viaticos_visibles.length; z++){
+                            if(viaticos_visibles[z][0] == id_horarios[m]){
+                                viaticos_visibles[z][1] = 'oculto';
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -718,16 +674,14 @@ if(floatval($ua['version']) < 40){
 
     function tiene_restriccion(horas, horal, text, viatico_inicio, viatico_fin){
         var band_rest = false;
-
-            for(i=0; i<restricciones.length; i++){
-                if(horas < restricciones[i][3] && horal > restricciones[i][2]){
-                    if( !(horas < restricciones[i][2] && horal > restricciones[i][3])){
-                        band_rest = true;
-                        $.toast({ heading: 'Restricción de viáticos', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
-                    }
+        for(i=0; i<restricciones.length; i++){
+            if(horas < restricciones[i][3] && horal > restricciones[i][2]){
+                if( !(horas < restricciones[i][2] && horal > restricciones[i][3])){
+                    band_rest = true;
+                    $.toast({ heading: 'Restricción de viáticos', text: restricciones[i][1]+': '+restricciones[i][2]+" - "+restricciones[i][3], position: 'top-right', loaderBg:'#000', icon: 'warning', hideAfter: 4000, stack: 6 });
                 }
             }
-        
+        }
         return band_rest;
     }
 
@@ -747,7 +701,6 @@ if(floatval($ua['version']) < 40){
                     }else{
                         swal({ title: "Monto alojamiento", text: "Debes ingresar el monto que se incurrió en alojamiento", type: "warning", showConfirmButton: true });
                     }
-                    
                 }
             }
         }else{
@@ -761,13 +714,9 @@ if(floatval($ua['version']) < 40){
         var fecha = $("#fecha_mision option:selected").text();
         var celdas, fecha2;
         var filas = $("#tabla_viaticos").find("tbody").find("tr");
-
         var hora_salida = $("#hora_salida").val();
         var hora_llegada = $("#hora_llegada").val();
-
-
         var id_empresa_viatico = $("#id_empresa_viatico").val();
-
         var bandera = true;
 
         if(hora_salida < hora_llegada){
@@ -775,7 +724,6 @@ if(floatval($ua['version']) < 40){
             for(l=0; l< (filas.length-1); l++){
                 celdas = $(filas[l]).children("td");
                 id_empresa_viatico2 = $($(celdas[0]).children("input")[0]).val();
-
                 hora_salida2 = $(celdas[2]).text().trim();
                 hora_salida2 = hora_salida2.substr(0,5);
                 hora_llegada2 = $(celdas[3]).text().trim();
@@ -796,12 +744,14 @@ if(floatval($ua['version']) < 40){
             $.toast({ heading: 'Horas incorrectas', text: 'La hora de salida debe ser menor a la de llegada.', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
             bandera = false;
         }
-
         return bandera;
-
     }
 
     function iniciar(){
+        if(!navigator.onLine){
+            swal({ title: "Sin conexión a internet", text: "Algunas rutas podrían no funcionar bien, por favor verifique su concexión a internet.", type: "warning", showConfirmButton: true });
+        }
+
         <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
             tabla_solicitudes();
             cargarViaticos();
@@ -812,11 +762,8 @@ if(floatval($ua['version']) < 40){
 
     function objetoAjax(){
         var xmlhttp = false;
-        try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e) {
-            try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; }
-        }
+        try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) { try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) { xmlhttp = false; } }
         if (!xmlhttp && typeof XMLHttpRequest!='undefined') { xmlhttp = new XMLHttpRequest(); }
         return xmlhttp;
     }
@@ -849,6 +796,9 @@ if(floatval($ua['version']) < 40){
     function cerrar_mantenimiento(){
         $("#cnt_tabla").show(0);
         $("#cnt_form").hide(0);
+        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+
+        $("#cnt_mapa").hide(0);
     }
 
     function informacion_empleado(callback){
@@ -865,7 +815,6 @@ if(floatval($ua['version']) < 40){
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttp_municipio.responseText;
-                    
                     var newf1 = fecha1.split('-');
                     newf1.reverse();
                     newf1 = newf1.join('-');
@@ -897,7 +846,6 @@ if(floatval($ua['version']) < 40){
 
     var primer_fecha_inicio = "";
     var primer_fecha_fin = "";
-
     var ultima_fecha_inicio = "";
     var ultima_fecha_fin = "";
 
@@ -908,7 +856,7 @@ if(floatval($ua['version']) < 40){
         if(bandera == "save"){
 
             var limite_inicio =  moment().subtract(lim_start,'days');
-            var limite_fin =  moment().subtract(1,'days');
+            var limite_fin =  moment().subtract(2,'days');
 
             if(limite_fin.format("e") == 0){
                 limite_fin.subtract(2,'days');
@@ -945,9 +893,8 @@ if(floatval($ua['version']) < 40){
             if(estado_solicitud == "0"){
 
                 var limite_inicio =  moment().subtract(lim_start,'days');
-                var limite_fin =  moment().subtract(1,'days');
-
-                var fecha_fin_mision = moment(fecha_rev_obs).add(1,'days');
+                var limite_fin =  moment().subtract(2,'days');
+                var fecha_fin_mision = moment(fecha_rev_obs).add(2,'days');
                 var diferencia = 0;
 
                 if(limite_fin.format("e") == 0){
@@ -1007,8 +954,7 @@ if(floatval($ua['version']) < 40){
             }else{
 
                 var limite_inicio =  moment(fecha_rev_obs).subtract(lim_start,'days');
-                var limite_fin =  moment(fecha_rev_obs).subtract(1,'days');
-
+                var limite_fin =  moment(fecha_rev_obs).subtract(2,'days');
                 var diferencia = 0;
                 var newdate = moment(fecha_rev_obs);
 
@@ -1063,18 +1009,15 @@ if(floatval($ua['version']) < 40){
 
     function cambiar_nuevo(){
         $("#id_mision").val("");
-        $("#nr").val("").trigger('change.select2');
+        $("#nr").val($("#nr_search").val()).trigger('change.select2');       
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#id_actividad").val("").trigger('change.select2');
         $("#detalle_actividad").val('');
-
         document.getElementById("file3[]").value = "";
-
         validar_dia_limite("0", "save");
 
         var nueva_fecha =  moment();
-
         if(nueva_fecha.format("e") == 6){
             nueva_fecha.add(2,'days');
         }else if(nueva_fecha.format("e") == 0){
@@ -1089,17 +1032,14 @@ if(floatval($ua['version']) < 40){
 
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
-
         $("#btnadd").show(0);
         $("#btnedit").hide(0);
-
         $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
 
         form_mision();
 
         $("#band").val("save");
-
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
@@ -1118,15 +1058,12 @@ if(floatval($ua['version']) < 40){
             $("#cnt_oficina_solicitante").hide(500);
             $("#oficina_solicitante").val("").trigger("change.select2");
         }
-
         document.getElementById("file3[]").value = "";
 
         var observacion_habilitada = true;
-
         if(estado == "2" || estado == "4" || estado == "6"){
             var ufobservacion = moment(fecha_observacion).add(1,'days');
             var fhoy = moment();
-
             var reducir = 0;
 
             if(ufobservacion.format("e") == 6){
@@ -1139,9 +1076,7 @@ if(floatval($ua['version']) < 40){
 
             var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
             var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
-
             var diferencia = fecha2.diff(fecha1, 'days');     
-
             var plazo = diferencia - reducir;
 
             if(plazo == 0){
@@ -1159,8 +1094,8 @@ if(floatval($ua['version']) < 40){
 
         var date = fecha_mision_fin;
         var newdate = date.split("-").reverse().join("-");
-
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+        $("#cnt_mapa").hide(0);
 
         if(bandera == "edit"){
             $('#summernote').val(ruta_justificacion);
@@ -1285,8 +1220,6 @@ if(floatval($ua['version']) < 40){
         $("#cnt_viaticos").hide(0);
         document.getElementById("destino_oficina").checked = true;
         $( "html, body" ).animate({scrollTop:0}, '500');
-
-        //setTimeout(function(){ $("body").find(".tooltip.fade.show").hide(0); }, 600);
         var myVar = setTimeout(alertFunc, 700);
     }
 
@@ -1316,6 +1249,7 @@ if(floatval($ua['version']) < 40){
 
     function form_oficinas(){
     	$("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+        $("#cnt_mapa").hide(0);
         $("#nombre_empresa").parent().parent().hide(0);
         $("#direccion_empresa").parent().hide(0);
         $("#municipio").parent().hide(0);
@@ -1333,8 +1267,7 @@ if(floatval($ua['version']) < 40){
 
     function combo_oficina_departamento(tipo){
         var nr = $("#nr").val();
-    	var newName = 'Otro nombre',
-    	xhr = new XMLHttpRequest();
+    	var newName = 'Otro nombre', xhr = new XMLHttpRequest();
 
 		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_oficinas_departamentos?tipo="+tipo+"&nr="+nr);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -1356,9 +1289,8 @@ if(floatval($ua['version']) < 40){
 
     function combo_municipio(tipo){   	
         var id_departamento = $("#departamento").val();
-        var newName = 'John Smith',
+        var newName = 'John Smith', xhr = new XMLHttpRequest();
 
-    	xhr = new XMLHttpRequest();
 		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.onload = function() {
@@ -1405,11 +1337,8 @@ if(floatval($ua['version']) < 40){
         var id_municipio = $("#municipio").val();
         var id_oficina_origen = $("#id_oficina_origen").val();
 
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
+        if(window.XMLHttpRequest){ xmlhttp_municipio=new XMLHttpRequest();
+        }else{ xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB"); }
 
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
@@ -1417,10 +1346,22 @@ if(floatval($ua['version']) < 40){
                   $(".select2").select2();
                   distancia_total_mapa = 0;
                   var destino_mun = document.getElementById('destino_municipio').checked;
+                  var destino_ofi = document.getElementById('destino_oficina').checked;
                   var dist = parseFloat($("#distancia").val())
                   if(dist == 0 && destino_mun == 1){
                     $("#address").val($("#municipio option:selected").text().trim()+", "+$("#departamento option:selected").text().trim())
                     $("#submit_ubi").click();
+                  }else if(dist == 0 && destino_ofi == 1 && $("#departamento").val() != ""){
+                    var lat_dest = $("#latitud_oficina_destino").val();
+                    var lng_dest = $("#longitud_oficina_destino").val();
+                    LatDestino = new google.maps.LatLng(lat_dest,lng_dest);
+                    var container = document.getElementById("input-div");
+                    container.innerHTML= '<input type="text" class="controlers" id="search_input" placeholder="Escribe una ubicación a buscar"/>';
+                    LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
+                        lat: parseFloat($("#latitud_oficina").val()), 
+                        lng: parseFloat($("#longitud_oficina").val())
+                    };
+                    initMap()
                   }
             }
         }
@@ -1432,6 +1373,7 @@ if(floatval($ua['version']) < 40){
         $("#bntmap1").hide(0);
         $("#bntmap2").hide(0);
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+        $("#cnt_mapa").hide(0);
         combo_oficina_departamento("departamento");
         $("#nombre_empresa").parent().parent().show(0);
         $("#direccion_empresa").parent().show(0);
@@ -1449,13 +1391,7 @@ if(floatval($ua['version']) < 40){
             lat: parseFloat($("#latitud_oficina").val()), 
             lng: parseFloat($("#longitud_oficina").val())
         };
-        initMap()
-        //$("#bntmap1").show(0);
-        //$("#bntmap2").show(0);
-
-        //$("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
-        //$.when(initMap()).then($("#dirigir").click());
-
+        initMap();
     }
 
     function form_mapa(){
@@ -1469,6 +1405,7 @@ if(floatval($ua['version']) < 40){
         $("#bntmap1").show(0);
         $("#bntmap2").show(0);
 
+        $("#cnt_mapa").show(0);
         $("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
         $.when(initMap()).then($("#dirigir").click());
 
@@ -1482,6 +1419,7 @@ if(floatval($ua['version']) < 40){
 
     function finalizarBusquedaMapa(){
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+        $("#cnt_mapa").hide(0);
 
         if(name_company == ""){
             $("#nombre_empresa").val("");
@@ -1503,7 +1441,6 @@ if(floatval($ua['version']) < 40){
         var direccion = municipio_minus;
         var ultimacoma = direccion.lastIndexOf(",");
         direccion = direccion.substring(0,ultimacoma);
-
         var pultimacoma = direccion.lastIndexOf(",");
 
         if(pultimacoma == -1){
@@ -1588,6 +1525,7 @@ if(floatval($ua['version']) < 40){
             contentType: false,
             processData: false
         })
+
         .done(function(res){
             if(res == "fracaso"){
                 swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
@@ -1613,23 +1551,23 @@ if(floatval($ua['version']) < 40){
         }
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
-                  document.getElementById("tabla_viaticos").innerHTML=xmlhttp_municipio.responseText;
-                  $('[data-toggle="tooltip"]').tooltip();
-                  imagen("");
-                  $('.image-popup-no-margins').magnificPopup({
-						type: 'image',
-						closeOnContentClick: true,
-						closeBtnInside: false,
-						fixedContentPos: true,
-						mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
-						image: {
-							verticalFit: true
-						},
-						zoom: {
-							enabled: true,
-							duration: 300 // don't foget to change the duration also in CSS
-						}
-					});
+                document.getElementById("tabla_viaticos").innerHTML=xmlhttp_municipio.responseText;
+                $('[data-toggle="tooltip"]').tooltip();
+                imagen("");
+                $('.image-popup-no-margins').magnificPopup({
+					type: 'image',
+					closeOnContentClick: true,
+					closeBtnInside: false,
+					fixedContentPos: true,
+					mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+					image: {
+						verticalFit: true
+					},
+					zoom: {
+						enabled: true,
+						duration: 300 // don't foget to change the duration also in CSS
+					}
+				});
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
@@ -1637,11 +1575,9 @@ if(floatval($ua['version']) < 40){
     }
 
     function imagen(ruta){
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
+        if(window.XMLHttpRequest){ xmlhttp_municipio=new XMLHttpRequest();
+        }else{ xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB"); }
+
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("factura").innerHTML=xmlhttp_municipio.responseText;
@@ -1655,21 +1591,19 @@ if(floatval($ua['version']) < 40){
     function form_empresas_viaticos(tipo){
         var id_mision = $("#id_mision").val();
         var nr = $("#nr").val();
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
+        if(window.XMLHttpRequest){ xmlhttp_municipio=new XMLHttpRequest();
+        }else{ xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB"); }
+
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
-                  document.getElementById("cnt_form_viaticos").innerHTML=xmlhttp_municipio.responseText;
-                  	$('[data-toggle="tooltip"]').tooltip();
-                    if (document.getElementById("justificacion").checked) {
-                        $("#band_factura").removeAttr("disabled");
-                    } else {
-                        $("#band_factura").attr("disabled", true);
-                    }
-                    tabla_empresas_viaticos(tipo);
+                document.getElementById("cnt_form_viaticos").innerHTML=xmlhttp_municipio.responseText;
+              	$('[data-toggle="tooltip"]').tooltip();
+                if (document.getElementById("justificacion").checked) {
+                    $("#band_factura").removeAttr("disabled");
+                } else {
+                    $("#band_factura").attr("disabled", true);
+                }
+                tabla_empresas_viaticos(tipo);
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/form_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
@@ -1678,11 +1612,9 @@ if(floatval($ua['version']) < 40){
 
     function tabla_viaticos_encontrados(id_ruta_visitada){
         var id_mision = $("#id_mision").val();
-        if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp_municipio=new XMLHttpRequest();
-        }else{// code for IE6, IE5
-            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
-        }
+        if(window.XMLHttpRequest){ xmlhttp_municipio=new XMLHttpRequest();
+        }else{ xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB"); }
+
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("cnt_viaticos_encontrados").innerHTML=xmlhttp_municipio.responseText;
@@ -1698,6 +1630,7 @@ if(floatval($ua['version']) < 40){
         $( "html, body" ).animate({scrollTop:0}, '500');
         $('[data-toggle="tooltip"]').tooltip();
         $("#cnt_mapa").animate({height: '0px', opacity: '0'}, 750);
+        $("#cnt_mapa").hide(0);
         $("#cnt_mision").hide(0);
         $("#cnt_rutas").hide(0);
         $("#cnt_viaticos").show(0);
@@ -1957,7 +1890,6 @@ if(floatval($ua['version']) < 40){
     function insertar_viaticos_ruta(id_ultima_ruta){ 
         if(reg_viaticos.length > 0){
             sql = "INSERT INTO vyp_horario_viatico_solicitud (fecha_ruta, id_horario_viatico, id_mision, estado, id_ruta_visitada) VALUES \n";
-
             var contador_viaticos_activos = 0;
             for(y=0; y<reg_viaticos.length; y++){
                 if(reg_viaticos[y][3] == "1"){
@@ -1965,15 +1897,10 @@ if(floatval($ua['version']) < 40){
                     contador_viaticos_activos++;
                 }
             }
-
             sql = sql.substr(0, sql.length-2)+";";
 
             if(contador_viaticos_activos > 0){
-
-                var formData = {
-                    "sql" : sql
-                    //"departamento" : $("#departamento").val(),
-                };
+                var formData = { "sql" : sql };
                 $.ajax({
                     type:  'POST',
                     url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/insertar_viaticos_ruta',
@@ -2021,10 +1948,7 @@ if(floatval($ua['version']) < 40){
             }
         }        
 
-        var formData = {
-            "sql" : sql
-            //"departamento" : $("#departamento").val(),
-        };
+        var formData = { "sql" : sql };
         $.ajax({
             type:  'POST',
             url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/insertar_alojamiento',
@@ -2079,9 +2003,7 @@ if(floatval($ua['version']) < 40){
     }
 
     function imagen_justificacion(ruta){
-        var newName = 'Otro nombre',
-        xhr = new XMLHttpRequest();
-
+        var newName = 'Otro nombre', xhr = new XMLHttpRequest();
         var id_mision = $("#id_mision").val();
 
         xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/cnt_justificacion?id_mision="+id_mision);
@@ -2148,9 +2070,7 @@ if(floatval($ua['version']) < 40){
     function tabla_rutas_almacenadas(){
         var id_oficina_origen = $("#id_oficina_origen").val()
         var id_municipio = $("#municipios_rutas").val();
-           
-        var newName = 'John Smith',
-        xhr = new XMLHttpRequest();
+        var newName = 'John Smith', xhr = new XMLHttpRequest();
         xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_rutas_almacenadas?id_municipio="+id_municipio+"&id_oficina_origen="+id_oficina_origen);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
@@ -2177,14 +2097,13 @@ if(floatval($ua['version']) < 40){
     function abrir_mapa(lat, lng, name, address, id){
         $("#modal_rutas_mapa").modal("hide");
         LatDestino = new google.maps.LatLng(lat,lng);
-
         var container = document.getElementById("input-div");
         container.innerHTML= '<input type="text" class="controlers" id="search_input" placeholder="Escribe una ubicación a buscar"/>';
         LatOrigen = {       //Contiene la ubicación de la oficina de origen del usuario
             lat: parseFloat($("#latitud_oficina").val()), 
             lng: parseFloat($("#longitud_oficina").val())
         };
-
+        $("#cnt_mapa").show(0);
         $("#cnt_mapa").animate({height: '500px', opacity: '1'}, 750);
         $.when(initMap()).then($("#dirigir").click());
         $("#nombre_empresa").parent().parent().show(0);
@@ -2237,11 +2156,7 @@ if(floatval($ua['version']) < 40){
     }
 
     function eliminar_archivo_justificacion(id,ruta){
-        var formData = {
-            "id_justificacion" : id,
-            "ruta" : ruta
-        };
-
+        var formData = { "id_justificacion" : id, "ruta" : ruta };
         $.ajax({
             type:  'POST',
             url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/eliminar_archivo_justificacion',
@@ -2249,7 +2164,6 @@ if(floatval($ua['version']) < 40){
             cache: false
         })
         .done(function(data){
-
             if(data == "exito"){
                 swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 imagen_justificacion();
@@ -2287,7 +2201,6 @@ if(floatval($ua['version']) < 40){
     function validar_justificacion_mision(){
         var bandera = true;
         if(document.getElementById("justificacion").checked == 1){
-
             if($("#band").val() == "save" && document.getElementById("file3[]").value == ""){
                 bandera = false;
             }else if($("#band").val() == "edit" && document.getElementById("file3[]").value == ""){
@@ -2300,61 +2213,19 @@ if(floatval($ua['version']) < 40){
                 bandera = true;
             }
         }
-
         return bandera;
     }
-
 </script>
 
 <style>
-
-    #map {
-        height: 450px;
-    }
-
-    #output {
-        font-size: 14px;
-    }
-  
-    .controlers {
-        margin-top: 10px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
-
-    #search_input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 500px;
-    }
-
-    #search_input:focus {
-        border-color: #4d90fe;
-    }
-
-    .list-task .task-done span {
-        text-decoration: line-through;
-    }
-
-    .nueva_clase{
-        background-color: #0000001a;
-        padding-left: 3px;
-        padding-right: 3px;
-        font-weight: 500;
-    }
-
-    .table-clase td, .table-clase th {
-  border-color: #a5a5a5; }
+    #map { height: 450px; }
+    #output { font-size: 14px; }
+    .controlers { margin-top: 10px; border: 1px solid transparent; border-radius: 2px 0 0 2px; box-sizing: border-box; -moz-box-sizing: border-box; height: 32px; outline: none; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); }
+    #search_input { background-color: #fff; font-family: Roboto; font-size: 15px; font-weight: 300; margin-left: 12px; padding: 0 11px 0 13px; text-overflow: ellipsis; width: 500px; }
+    #search_input:focus { border-color: #4d90fe; }
+    .list-task .task-done span { text-decoration: line-through; }
+    .nueva_clase{ background-color: #0000001a; padding-left: 3px; padding-right: 3px; font-weight: 500; }
+    .table-clase td, .table-clase th { border-color: #a5a5a5; }
 </style>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
@@ -2374,8 +2245,9 @@ if(floatval($ua['version']) < 40){
                 	</h3>
             </div>
         </div>
+
+        <!-- Inicio del contenedor del MAPA -->
         <a id="dirigir" name="dirigir" href="#cnt_mapa"></a>
-        
         <div  class="row" id="cnt_mapa" style="height: 0px; opacity: 0; <?php if($navegatorless){ echo "margin-right: 80px;"; } ?>" >
             <div class="col-lg-12 col-md-12" >
                     <div id="input-div"></div>
@@ -2387,16 +2259,14 @@ if(floatval($ua['version']) < 40){
                 </div>
             </div>
         </div>
-
-
+        <!-- Fin del contenedor del MAPA -->
         <!-- ============================================================== -->
         <!-- Fin TITULO de la página de sección -->
         <!-- ============================================================== -->
+
         <!-- ============================================================== -->
         <!-- Inicio del CUERPO DE LA SECCIÓN -->
         <!-- ============================================================== -->
-
-
         <div class="row" id="cnt_detalle_justificacion" style="display: none;">
             <div class="col-12">
                 <div class="card">
@@ -2421,14 +2291,9 @@ if(floatval($ua['version']) < 40){
                 </div>
             </div>
         </div>
-
-
-
-        <div class="row" <?php if($navegatorless){ echo "style='margin-right: 80px;'"; } ?>>
-
+        <div class="row">
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="cnt_form" style="display: none;">
-                
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -2437,13 +2302,11 @@ if(floatval($ua['version']) < 40){
                         <h4 class="card-title m-b-0 text-white"></h4>
                     </div>
                     <div class="card-body b-t">
-
                         <div id="cnt_observaciones"></div>
                         <!-- ============================================================== -->
                         <!-- Inicio del FORMULARIO DATOS DE MISIÓN -->
                         <!-- ============================================================== -->
                         <div id="cnt_mision">
-
                             <h3 class="box-title" style="margin: 0px;">
                                 <button type="button" class="btn waves-effect waves-light btn-lg btn-danger" style="padding: 1px 10px 1px 10px;">Paso 1</button>&emsp;
                                 Datos de la misión
@@ -2452,18 +2315,15 @@ if(floatval($ua['version']) < 40){
                             <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_mision" name="id_mision" value="">
-
                             <div class="row">
                                 <div class="col-lg-12" id="cnt_informacion_empleado"></div>
                             </div>
-
-<div id='notificacion_justificacion' style='width: 100%; display: none;'>
-    <div class="alert alert-info" style="width: 100%;">
-        <h5> <span class="mdi mdi-file-document"></span> Justificación de viáticos activa.
-        </h5>
-    </div>
-</div>
-
+                            <div id='notificacion_justificacion' style='width: 100%; display: none;'>
+                                <div class="alert alert-info" style="width: 100%;">
+                                    <h5> <span class="mdi mdi-file-document"></span> Justificación de viáticos activa.
+                                    </h5>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
@@ -2491,7 +2351,6 @@ if(floatval($ua['version']) < 40){
                                     <div class="help-block"></div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="form-group col-lg-9 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                     <h5>Actividad realizada: <span class="text-danger">*</span></h5>
@@ -2499,7 +2358,7 @@ if(floatval($ua['version']) < 40){
                                         <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required='' onchange="cambiar_oficina_solicitante();">
                                             <option value=''>[Elija una actividad]</option>
                                         <?php 
-                                            $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+                                            $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL ORDER BY nombre_vyp_actividades");
                                             if($actividad->num_rows() > 0){
                                                 foreach ($actividad->result() as $filaa) {              
                                                    echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
@@ -2522,15 +2381,12 @@ if(floatval($ua['version']) < 40){
                                             <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion()"><span class="lever"></span>Sí</label>
                                     </div>
                                 </div>
-                                                               
                             </div>
-
                             <div class="row" id="cnt_file3" style="display: none;">
                                 <div class="col-lg-12 form-group">
                                     <input type="file" class="form-control" id="file3[]" name="file3[]" multiple>
                                 </div>
                             </div>
-
                             <div class="row" id="cnt_oficina_solicitante" style="display: block;">
                                 <div class="col-lg-12 form-group">
                                     <h5>Unidad/Depto./Sección solicitante: <span class="text-danger">*</span></h5>                           
@@ -2547,7 +2403,6 @@ if(floatval($ua['version']) < 40){
                                     </select>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Detalle de la actividad: </h5>
@@ -2555,31 +2410,26 @@ if(floatval($ua['version']) < 40){
                                     <div class="help-block"></div>
                                 </div>
                             </div>
-
                             <button type="submit" id="submit_button" style="display: none;" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
-
-<!-- /.modal-justificacion -->
-<div id="modal_justificacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Justificación de viáticos</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                
-                
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Aceptar</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-                            
+                            <!-- /.modal-justificacion -->
+                            <div id="modal_justificacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Justificación de viáticos</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-info waves-effect text-white" data-dismiss="modal">Aceptar</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
                             <div class="pull-left" id="subiendo_mision" style="display: none;">
                                 <span class="fa fa-spin text-success fa-2x"><span class="mdi mdi-sync"></span></span>
                                 Guardando los cambios...
@@ -2590,14 +2440,13 @@ if(floatval($ua['version']) < 40){
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
                             </div>
-                        <?php echo form_close(); ?>
-                        <hr>
-                        <div id="cnt_justificacion" class="row"></div>
+                            <?php echo form_close(); ?>
+                            <hr>
+                            <div id="cnt_justificacion" class="row"></div>
                         </div>
                         <!-- ============================================================== -->
                         <!-- Fin del FORMULARIO DATOS DE MISIÓN -->
                         <!-- ============================================================== -->
-
 
                         <!-- ============================================================== -->
                         <!-- Inicio del FORMULARIO EMPRESAS VISITADAS -->
@@ -2610,10 +2459,9 @@ if(floatval($ua['version']) < 40){
                             <hr class="m-t-0 m-b-30">
                             <div id="fechas_repetidas2"></div>
                             <?php echo form_open('', array('id' => 'form_empresas_visitadas', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
-                            <div class="row">
                                 <input type="hidden" id="band2" name="band2" value="save">
                                 <input type="hidden" id="id_ruta_visitada" name="id_ruta_visitada" value="">
-
+                            <div class="row">
                                 <div class="form-group col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Opciones de destino: <span class="text-danger">*</span></h5>
                                     <input type="radio" id="destino_oficina" checked="" name="r_destino" value="destino_oficina"> 
@@ -2626,12 +2474,9 @@ if(floatval($ua['version']) < 40){
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_departamento">
-                                </div>
-                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_municipio">
-                                </div>
-                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="input_distancia">
-                                </div>
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_departamento"></div>
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_municipio"></div>
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="input_distancia"></div>
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
@@ -2648,55 +2493,49 @@ if(floatval($ua['version']) < 40){
                                 </div>
                             </div>
 
-                            <button style="display: none;" type="submit" id="btn_submit" class="btn waves-effect waves-light btn-success2">submit</button>
-
-                            <div align="right" id="btnadd2">
-                                <button type="button" onclick="limpiar_empresas_visitadas();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="gestionar_destino('save')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Agregar destino</button>
-                            </div>
-                            <div align="right" id="btnedit2" style="display: none;">
-                                <button type="button" onclick="limpiar_empresas_visitadas();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                            <div>
+                                <button style="display: none;" type="submit" id="btn_submit" class="btn waves-effect waves-light btn-success2">submit</button>
+                                <div align="right" id="btnadd2">
+                                    <button type="button" onclick="limpiar_empresas_visitadas();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                    <button type="button" onclick="gestionar_destino('save')" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Agregar destino</button>
+                                </div>
+                                <div align="right" id="btnedit2" style="display: none;">
+                                    <button type="button" onclick="limpiar_empresas_visitadas();" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                    <button type="button" onclick="editar_mision()" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
+                                </div>
                             </div>
                             <?php echo form_close(); ?>
-
                             <!-- Inicio de la TABLA EMPRESAS VISITADAS -->
-                            <div class="row" id="cnt_empresas"></div>
+                                <div id="cnt_empresas" class="row"></div>
+                            
                             <!-- Fin de la TABLA EMPRESAS VISITADAS -->
-
                         </div>
                         <!-- ============================================================== -->
                         <!-- Fin del FORMULARIO EMPRESAS VISITADAS -->
                         <!-- ============================================================== -->
 
-
                         <!-- ============================================================== -->
                         <!-- Inicio del FORMULARIO DE VIÁTICOS Y PASAJES -->
                         <!-- ============================================================== -->
                         <div id="cnt_viaticos" style="display: none;">
-                             <h3 class="box-title" style="margin: 0px;">
+                            <h3 class="box-title" style="margin: 0px;">
                                 <button type="button" class="btn waves-effect waves-light btn-lg btn-danger" style="padding: 1px 10px 1px 10px;">Paso 3</button>&emsp;
                                 Detalle de viáticos y pasajes
                             </h3>
                             <hr class="m-t-0 m-b-10">
                             <div id="fechas_repetidas3"></div>
                             <?php echo form_open('', array('id' => 'form_empresas_viaticos', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'enctype' => 'multipart/form-data')); ?>
-                            <div id="cnt_form_viaticos"></div>
+                            <div id="cnt_form_viaticos" class="row"></div>
                             <?php echo form_close(); ?>
-                            <div id="tabla_viaticos"></div>
+                            <div id="tabla_viaticos" class="row"></div>
                         </div>
                         <!-- ============================================================== -->
                         <!-- Fin del FORMULARIO DE VIÁTICOS Y PASAJES -->
                         <!-- ============================================================== -->
-
-
-
                     </div>
                 </div>
-
             </div>
             <div class="col-lg-1"></div>
-
             <div class="col-lg-12" id="cnt_tabla">
                 <div class="card">
                     <div class="card-header">
@@ -2723,14 +2562,12 @@ if(floatval($ua['version']) < 40){
                                 </select>
                             </div>
                         </div>
-
                         <div class="pull-right">
                             <?php if(tiene_permiso($segmentos=2,$permiso=2)){ ?>
                             <button type="button" onclick="cambiar_nuevo();" class="btn waves-effect waves-light btn-success2" data-toggle="tooltip" title="Clic para agregar un nuevo registro"><span class="mdi mdi-plus"></span> Nuevo registro</button>
                             <?php } ?>
                         </div>
                     </div>
-
                     <div class="row" style="width: 100%"></div>
                     <div class="row">
                         <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" role="tablist" <?php if($navegatorless){ echo "style='width: 100%;'"; } ?>>
@@ -2766,10 +2603,7 @@ if(floatval($ua['version']) < 40){
                             </li>
                         </ul>
                     </div>
-                    <div class="row">
-                        <div id="cnt_tabla_solicitudes"></div>
-                    </div>
-                        
+                    <div id="cnt_tabla_solicitudes"></div>
                     </div>
                 </div>
             </div>
@@ -2876,41 +2710,19 @@ if(floatval($ua['version']) < 40){
 
 <script>
 $(function(){  
-
     $(document).ready(function(){  
-    	var date = new Date();
-            var currentMonth = date.getMonth();
-            var currentDate = date.getDate();
-            var currentYear = date.getFullYear();
-
-        $('#fecha_mision_inicio').datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true,
-            todayHighlight: true,
-            endDate: moment().format("DD-MM-YYYY"),
-            daysOfWeekDisabled: [0,6]
-        }).datepicker("setDate", new Date());
-
-        $('#fecha_mision_fin').datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true,
-            todayHighlight: true,
-            endDate: moment().format("DD-MM-YYYY"),
-            daysOfWeekDisabled: [0,6]
-        }).datepicker("setDate", new Date());
-
+    	var date = new Date(); var currentMonth = date.getMonth(); var currentDate = date.getDate(); var currentYear = date.getFullYear();
+        $('#fecha_mision_inicio').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"),daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
+        $('#fecha_mision_fin').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"), daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
         $('#dirigir').click(function(){ //Id del elemento cliqueable
             $('html, body').animate({scrollTop:0}, 1000);
             return false;
         });
-
     });
 
     $("#formajax").on("submit", function(e){
         e.preventDefault();
-
         if(validar_justificacion_mision()){
-
             $("#subiendo_mision").show(0);
             var formData = new FormData(document.getElementById("formajax"));
             var nombre = $("#nr option:selected").text().split("-");
@@ -2944,7 +2756,6 @@ $(function(){
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
             });
-
         }else{
             swal({ title: "Falta archivo", text: "Debes subir un archivo que valide tu justificación.", type: "warning", showConfirmButton: true });
         }
@@ -2952,14 +2763,8 @@ $(function(){
 
     $("#form_empresas_viaticos").on("submit", function(e){
         e.preventDefault();
-
-        var hs = $("#hora_salida").val();
-        var hl = $("#hora_llegada").val();
-
-        if(contar_registros_tabla_viaticos() > 0){
-            calcular_alojamiento(hs, hl);
-        }
-
+        var hs = $("#hora_salida").val(); var hl = $("#hora_llegada").val();
+        if(contar_registros_tabla_viaticos() > 0){ calcular_alojamiento(hs, hl); }
         var total_alojamiento = total_aloj;
 
         if((validar_horarios_viaticos() && validar_factura()) || $("#band_viatico").val() == "delete"){
@@ -2996,43 +2801,20 @@ $(function(){
         }
     });
 
-
     $("#form_empresas_visitadas").on("submit", function(e){
         e.preventDefault();
         var tipo = $('input[name=r_destino]:checked').val();
         var existe = $("#existe").val();
-
-        if(tipo == "destino_mapa"){
-            var latitud = LatDestino.lat();
-            var longitud = LatDestino.lng();
-        }else{
-            var latitud = "";
-            var longitud = "";
-        }
-
+        if(tipo == "destino_mapa"){ var latitud = LatDestino.lat(); var longitud = LatDestino.lng();
+        }else{ var latitud = ""; var longitud = ""; }
         if(tipo == "destino_oficina"){
             var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text();
         }else{            
             var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
         }
 
-        var formData = {
-            "id_mision" : $("#id_mision").val(),
-            "departamento" : $("#departamento").val(),
-            "municipio" : $("#municipio").val(),
-            "nombre_empresa" : $("#nombre_empresa").val(),
-            "direccion_empresa" : $("#direccion_empresa").val(),
-            "id_ruta_visitada" : $("#id_ruta_visitada").val(),
-            "distancia" : $("#distancia").val(),
-            "tipo" : tipo,
-            "band" : $("#band2").val(),
-            "descripcion_destino" : descripcion,
-            "id_oficina_origen" : $("#id_oficina_origen").val(),
-            "latitud_destino" : latitud,
-            "longitud_destino" : longitud,
-            "id_destino" : $("#id_destino_vyp").val(),
-            "existe" : existe,
-        };
+        var formData = { "id_mision" : $("#id_mision").val(), "departamento" : $("#departamento").val(), "municipio" : $("#municipio").val(), "nombre_empresa" : $("#nombre_empresa").val(), "direccion_empresa" : $("#direccion_empresa").val(), "id_ruta_visitada" : $("#id_ruta_visitada").val(), "distancia" : $("#distancia").val(), "tipo" : tipo, "band" : $("#band2").val(), "descripcion_destino" : descripcion, "id_oficina_origen" : $("#id_oficina_origen").val(), "latitud_destino" : latitud, "longitud_destino" : longitud, "id_destino" : $("#id_destino_vyp").val(), "existe" : existe, };
+
         $.ajax({
             type:  'POST',
             url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_destinos',
@@ -3054,12 +2836,10 @@ $(function(){
 
 
 <script>
-
     var direccion_mapa;
     var distancia_total_mapa = 0;
     var distancia_carretera_mapa;
     var direccion_departamento_mapa;
-
     var LatDestino = "";    // Guardará el destino buscado por el usuario
     var LatOrigen = "";
 
@@ -3068,7 +2848,6 @@ $(function(){
         var flightPath = ""; //Agregado para dibujar linea recta (Para mostrar distancia lineal)
         var distancia_faltante = "";    //Servirá para agregar la distancia faltante al punto buscado, ya que google
                                         //solo recorre calles y no siempre logra llegar al punto buscado
-
         var map = new google.maps.Map(document.getElementById('map'), { //Inicia el mapa google en el lugar de origen
             zoom: 12,
             center: LatOrigen,            
@@ -3083,58 +2862,32 @@ $(function(){
         var geocoder2 = new google.maps.Geocoder;    //Localiza lugares a traves de la geocodificación
         var service = new google.maps.DistanceMatrixService;    //Permite calcular la distancia entre lugares
         var directionsService = new google.maps.DirectionsService();    //Encuentra lugares y detalla recorridos
-
         var centerControlDiv = document.createElement('div');
         var centerControl = new CenterControl(centerControlDiv, map);
         centerControlDiv.index = 1;
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
-
         var input = document.getElementById('search_input');    //Obteniendo buscador de lugares
         var searchBox = new google.maps.places.SearchBox(input);    //Convirtiendo a objeto google search
         var markers = [];   //Contendrá la marca de punto del lugar buscado
-
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); //agregá el buscador de lugares
-
         map.addListener('bounds_changed', function() {  //Detecta cambios en el zoom del mapa
             searchBox.setBounds(map.getBounds()); //Adapta bounds del input search
         });
-
         searchBox.addListener('places_changed', function() {    //Realiza la busqueda de un lugar con el input search
             var places = searchBox.getPlaces();
-
-            if (places.length == 0) {
-                return;
-            }
-
+            if (places.length == 0) { return; }
             // Borra las marcas de busquedas antiguas.
             markers.forEach(function(marker) {
                 marker.setMap(null);
             });
             markers = [];
-
             // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function(place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
+                if (!place.geometry) { console.log("Returned place contains no geometry"); return; }
+                var icon = { url: place.icon, size: new google.maps.Size(71, 71), origin: new google.maps.Point(0, 0), anchor: new google.maps.Point(17, 34), scaledSize: new google.maps.Size(25, 25) };
                 // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
+                markers.push(new google.maps.Marker({ map: map, icon: icon, title: place.name, position: place.geometry.location }));
                 if (place.geometry.viewport) {
                     // Only geocodes have viewport.
                     bounds.union(place.geometry.viewport);
@@ -3146,64 +2899,47 @@ $(function(){
         });
 
         document.getElementById('submit_ubi').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
+            geocodeAddress(geocoder, map);
         });
 
         function geocodeAddress(geocoder, resultsMap) {
-          var address = $("#address").val();
-          geocoder.geocode({'address': address}, function(results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-              resultsMap.setCenter(results[0].geometry.location);
-                deleteMarkers_D();
-                LatDestino = results[0].geometry.location;
-                addMarker_destino(results[0].geometry.location, resultsMap);
-                name_company = "";
-                address_company = "";
-                id_ruta_visitada = "";
-                calcula_distancia(0);
-            } else {
-              //$.toast({ heading: 'Ocurrió un error', text: 'No logramos calcular la distancia, intentalo nuevamente', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
-            }
-          });
+            var address = $("#address").val();
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    deleteMarkers_D();
+                    LatDestino = results[0].geometry.location;
+                    addMarker_destino(results[0].geometry.location, resultsMap);
+                    name_company = "";
+                    address_company = "";
+                    id_ruta_visitada = "";
+                    calcula_distancia(0);
+                } else {
+                    if($("#municipio").val() != ""){
+                      $.toast({ heading: 'Ocurrió un error', text: 'No logramos calcular la distancia, intentalo nuevamente', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
+                    }
+                }
+            });
         }
-
 
         var directionsDisplay = new google.maps.DirectionsRenderer({
             map: map,
             suppressMarkers:true
         });
 
-        var marker = new google.maps.Marker({
-            position: LatOrigen,
-            map: map,
-            title: $("#nombre_oficina").val(),
-            icon: '<?php echo base_url()."/assets/images/marker_origen.png"; ?>'
-        });
+        var marker = new google.maps.Marker({ position: LatOrigen, map: map, title: $("#nombre_oficina").val(), icon: '<?php echo base_url()."/assets/images/marker_origen.png"; ?>' });
 
-        map.addListener('click', function(e) {
-            LatDestino = e.latLng;
-            deleteMarkers_D();
-            addMarker_destino(e.latLng, map);
-            pinta_recorrido();
-            name_company = "";
-            address_company = "";
-            id_ruta_visitada = "";
-        });
+        map.addListener('click', function(e) { LatDestino = e.latLng; deleteMarkers_D(); addMarker_destino(e.latLng, map); pinta_recorrido(); name_company = ""; address_company = ""; id_ruta_visitada = ""; });
 
-        if(LatDestino != ""){            
-            deleteMarkers_D();
-            addMarker_destino(LatDestino, map);
-            pinta_recorrido()
-        }
+        if(LatDestino != ""){ deleteMarkers_D(); addMarker_destino(LatDestino, map); pinta_recorrido() }
 
         function addMarker_destino(location, map) {
             var address = "Dirección desconocida";
             geocoder2.geocode({'latLng': location}, function(results, status) {
-                direccion_departamento_mapa = results[1].formatted_address;
                 if (status == google.maps.GeocoderStatus.OK) {
+                    direccion_departamento_mapa = results[1].formatted_address;
                     address = results[0]['formatted_address'];
                     address = address.replace('Unnamed Road', "Carretera desconocida")
-
                     // Add the marker at the clicked location, and add the next-available label
                     var marker = new google.maps.Marker({
                         position: location,//labels[labelIndex++ % labels.length]
@@ -3224,20 +2960,12 @@ $(function(){
             });
         }
 
-        function deleteMarkers_D() {
-            clearMarkers_D();
-            markersD = [];
-        }
+        function deleteMarkers_D() { clearMarkers_D(); markersD = []; }
         function setMapOnAll_D(map) {
-            for (var i = 0; i < markersD.length; i++) {
-                markersD[i].setMap(map);
-            }
+            for (var i = 0; i < markersD.length; i++) { markersD[i].setMap(map); }
         }
-
         // Removes the markers from the map, but keeps them in the array.
-        function clearMarkers_D() {
-            setMapOnAll_D(null);
-        }
+        function clearMarkers_D() { setMapOnAll_D(null); }
 
         function calcula_distancia(distance){
             service.getDistanceMatrix({
@@ -3253,10 +2981,8 @@ $(function(){
                 } else {
                     var originList = response.originAddresses;
                     var destinationList = response.destinationAddresses;
-
                     var outputDiv = document.getElementById('output');
                     outputDiv.innerHTML = '';
-
                     var showGeocodedAddressOnMap = function(asDestination) { //si se quita da error
                         return function(results, status) {
                             if (status === 'OK') {
@@ -3272,7 +2998,6 @@ $(function(){
                         geocoder.geocode({'address': originList[i]}, showGeocodedAddressOnMap(false));
                         for (var j = 0; j < results.length; j++) {
                             geocoder.geocode({'address': destinationList[j]}, showGeocodedAddressOnMap(false));
-
                             var distancia_carretera = results[j].distance.text.replace(',', ".");
                             var distancia_total = (parseFloat(distancia_carretera) + parseFloat(distance)).toFixed(2);
                             var direccion = destinationList[j].replace('Unnamed Road', "Carretera desconocida");
@@ -3283,11 +3008,11 @@ $(function(){
                             direccion_mapa = direccion;
                             distancia_total_mapa = distancia_total;
                             distancia_carretera_mapa = distancia_carretera;
-
                             if(document.getElementById('destino_municipio').checked == 1){
                                 $("#distancia").val(distancia_total_mapa);
+                            }else if(document.getElementById('destino_oficina').checked == 1){
+                                $("#distancia").val(distancia_total_mapa);
                             }
-
                         }
                     }
                 }
@@ -3295,46 +3020,23 @@ $(function(){
         }
 
         function pinta_recorrido(){
-            var request = {
-                origin: LatOrigen,
-                destination: LatDestino,
-                travelMode: 'DRIVING'
-            };
-
+            var request = { origin: LatOrigen, destination: LatDestino, travelMode: 'DRIVING' };
             // Pass the directions request to the directions service.        
             directionsService.route(request, function(response, status) {
-
-
                 var summaryPanel = "";
                 var route = response.routes[0];
-                    for (var i = 0; i < route.legs.length; i++) {
-                        /**************************************************************************************/
-                        /***************** Inicio para dibujar y calcular distancia lineal ********************/
-                        if(flightPath != ""){
-                            flightPath.setMap(null);
-                        }
-
-                        flightPath = new google.maps.Polyline({
-                            path: [route.legs[i].end_location, LatDestino],
-                            strokeColor: '#73b9ff',
-                            strokeOpacity: 1.0,
-                            strokeWeight: 6,
-                            fillColor: '#7bb6ee',
-                            fillOpacity: 1.0
-                        });
-
-                        flightPath.setMap(map);
-
-                        var distancia_faltante = google.maps.geometry.spherical.computeDistanceBetween(route.legs[i].end_location, LatDestino);
-                        if(distancia_faltante != 0){
-                            distancia_faltante = parseFloat(distancia_faltante/1000).toFixed(2);
-                        }
-
-                        calcula_distancia(distancia_faltante);
-
-                        /***************** Fin de dibujo y cálculo de distancia lineal ********************/
-                        /**********************************************************************************/
-                    }
+                for (var i = 0; i < route.legs.length; i++) {
+                    /**************************************************************************************/
+                    /***************** Inicio para dibujar y calcular distancia lineal ********************/
+                    if(flightPath != ""){ flightPath.setMap(null); }
+                    flightPath = new google.maps.Polyline({ path: [route.legs[i].end_location, LatDestino], strokeColor: '#73b9ff', strokeOpacity: 1.0, strokeWeight: 6, fillColor: '#7bb6ee', fillOpacity: 1.0 });
+                    flightPath.setMap(map);
+                    var distancia_faltante = google.maps.geometry.spherical.computeDistanceBetween(route.legs[i].end_location, LatDestino);
+                    if(distancia_faltante != 0){ distancia_faltante = parseFloat(distancia_faltante/1000).toFixed(2); }
+                    calcula_distancia(distancia_faltante);
+                    /***************** Fin de dibujo y cálculo de distancia lineal ********************/
+                    /**********************************************************************************/
+                }
                 if (status == 'OK') {
                     // Muestra la ruta del punto de origen al punto destino.
                     directionsDisplay.setDirections(response);
@@ -3356,7 +3058,6 @@ $(function(){
             controlUI.style.textAlign = 'center';
             controlUI.title = 'Clic para finalizar la búsqueda y ocultar mapa';
             controlDiv.appendChild(controlUI);
-
             // Set CSS for the control interior.
             var controlText = document.createElement('div');
             controlText.style.color = '#fff';
@@ -3367,16 +3068,13 @@ $(function(){
             controlText.style.paddingRight = '5px';
             controlText.innerHTML = 'Finalizar búsqueda';
             controlUI.appendChild(controlText);
-
             // Setup the click event listeners: simply set the map to Chicago.
             controlUI.addEventListener('click', function() {
                 finalizarBusquedaMapa();
             });
-
         }
-
     }
-    </script>
+</script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4M5mZA-qqtRgioLuZ4Kyg6ojl71EJ3ek&libraries=places">
 </script>

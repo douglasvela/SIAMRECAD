@@ -46,7 +46,7 @@
 // Características del navegador
 $ua=$this->config->item("navegator");
 $navegatorless = false;
-if(floatval($ua['version']) < 40){
+if(floatval($ua['version']) < $this->config->item("last_version")){
     $navegatorless = true;
 }
 ?>
@@ -59,7 +59,7 @@ if(floatval($ua['version']) < 40){
 	<div class="row">
 		<div class="form-group col-lg-2 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Fecha visita: <span class="text-danger">*</span></h5>
-            <select id="fecha_mision" name="fecha_mision" class="form-control custom-select"  style="width: 100%" required="" onchange="verificar_fecha_diferente();">
+            <select id="fecha_mision" name="fecha_mision" class="form-control custom-select" required="" onchange="verificar_fecha_diferente();">
                 <?php
                 	$nuevafecha = $fecha_inicio;
                 	for($i=0; $i<=$duracion; $i++){
@@ -81,7 +81,7 @@ if(floatval($ua['version']) < 40){
         </div>
 		<div class="form-group col-lg-5 <?php if($navegatorless){ echo "pull-left"; } ?>">   
             <h5>Lugar de salida: <span class="text-danger">*</span></h5>
-            <select id="id_origen" name="id_origen" class="form-control custom-select"  style="width: 100%" required="">
+            <select id="id_origen" name="id_origen" class="form-control custom-select" required="">
                 <?php
                 	echo '<option value="'.$id_oficina_origen.'">'.$nombre_oficina_origen.'</option>';
                 	$origenes = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
@@ -106,7 +106,7 @@ if(floatval($ua['version']) < 40){
         </div>
         <div class="form-group col-lg-5 <?php if($navegatorless){ echo "pull-left"; } ?>">   
             <h5>Lugar de llegada: <span class="text-danger">*</span></h5>
-            <select id="id_destino" name="id_destino" class="form-control custom-select"  style="width: 100%" required="" onchange="cambiarkilometraje(this.value);">
+            <select id="id_destino" name="id_destino" class="form-control custom-select" required="" onchange="cambiarkilometraje(this.value);">
                 <?php
                 	$destinos = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 				    if($destinos->num_rows() > 0){
@@ -133,14 +133,22 @@ if(floatval($ua['version']) < 40){
 		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Hora salida: <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="time" id="hora_salida" name="hora_salida" class="form-control" required="">
+                <?php if($navegatorless || (floatval($ua['version']) < 57 && floatval($ua['name']) == 'Mozilla Firefox')){ ?>
+                    <input type="time" id="hora_salida" name="hora_salida" data-mask="99:99" class="form-control" required="">
+                <?php }else{ ?>
+                    <input type="time" id="hora_salida" name="hora_salida" class="form-control" required="">
+                <?php } ?>
                 <div class="help-block"></div>
             </div>
         </div>
         <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
             <h5>Hora llegada: <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="">
+                <?php if($navegatorless || (floatval($ua['version']) < 57 && floatval($ua['name']) == 'Mozilla Firefox')){ ?>
+                    <input type="time" id="hora_llegada" name="hora_llegada" data-mask="99:99" class="form-control" required="">
+                <?php }else{ ?>
+                    <input type="time" id="hora_llegada" name="hora_llegada" class="form-control" required="">
+                <?php } ?>
             </div>
         </div>
 

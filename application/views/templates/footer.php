@@ -36,6 +36,7 @@
     <script src="<?php echo base_url(); ?>assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/dropify/dist/js/dropify.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/mask.js"></script>
 <?php } ?>
  
 <?php if($ruta_segmento == "informes/menu_reportes"){ ?>
