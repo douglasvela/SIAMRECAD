@@ -105,6 +105,19 @@
         </tr>
 			  	</tbody>
 			</table>
+
+
+<div class="clearfix" align="right">
+    <div class="pull-left">
+    <?php echo generar_boton_normal(array(),"form_rutas","btn-default","mdi mdi-undo","Volver al paso 2","Volver"); ?>
+    </div>
+    <div class="pull-right">
+    <button type="button" onclick="verificar_fechas()" class="btn btn-info">
+    Actualizar solicitud
+    </button>
+    </div>
+</div>
+
 		</div>
 
 
@@ -113,15 +126,3 @@
             <span class="bar"></span>
             <label for="input7">Text area</label>
         </div>
-
-<div align="right">
-    <div class="pull-left">
-    <?php
-            echo generar_boton_normal(array(),"form_rutas","btn-default","mdi mdi-undo","Volver al paso 2","Volver");
-    ?>
-    </div>
-    <button type="button" onclick="verificar_fechas()" class="pull-right btn btn-info">
-    Actualizar solicitud
-    </button>
-</div>
-</div>

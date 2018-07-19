@@ -279,8 +279,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown pull-right">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="round round-success" <?php if($navegatorless){ ?>onclick="toggle();" <?php } ?>><?php echo $inicialUser; ?></span></a>
-                            <div class="dropdown-menu dropdown-menu-right scale-up" <?php if($navegatorless){ ?> style="display: none;" <?php } ?> id="form_toggle">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="round round-success" <?php if($navegatorless && $ua["name"] == "Mozilla Firefox"){ ?>onclick="toggle();" <?php } ?>><?php echo $inicialUser; ?></span></a>
+                            <div class="dropdown-menu dropdown-menu-right scale-up" <?php if($navegatorless && $ua["name"] == "Mozilla Firefox"){ ?> style="display: none;" <?php } ?> id="form_toggle">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">

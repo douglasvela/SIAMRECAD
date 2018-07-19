@@ -42,7 +42,11 @@ if(floatval($ua['version']) < 40){
             echo '<input type="hidden" id="id_destino_vyp" name="id_destino_vyp" readonly value="'.$fila2->id_vyp_rutas.'">';
             echo '<input type="hidden" id="existe" name="existe" readonly value="true">'; 
         }else{
-            $km = $distancia2;
+            if($tipo == "mapa"){
+                $km = $distancia2;
+            }else{
+                $km = 0.00;
+            }
             echo '<input type="number" id="distancia" name="distancia" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="0.01" readonly value="'.$km.'">';
             echo '<input type="hidden" id="id_destino_vyp" name="id_destino_vyp" readonly value="">';
             echo '<input type="hidden" id="existe" name="existe" readonly value="false">'; 

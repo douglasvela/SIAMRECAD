@@ -76,14 +76,16 @@
 ?>
 
 
-<div class="row" align="right">
+<div class="clearfix" align="right">
     <div class="pull-left">
     <?php
         array_push($array, "edit");
         echo generar_boton_normal($array,"cambiar_editar","btn-default","mdi mdi-undo","Volver al paso 1","Volver");
     ?>
     </div>
-    <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-info">Continuar <i class="mdi mdi-chevron-right"></i></button>
+    <div class="pull-right">
+        <button type="button" onclick="form_viaticos();" class="btn waves-effect waves-light btn-info">Continuar <i class="mdi mdi-chevron-right"></i></button>
+    </div>
 </div>
 </div>
 
