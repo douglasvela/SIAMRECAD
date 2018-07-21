@@ -117,4 +117,10 @@ class Oficina_model extends CI_Model {
 		return $id;
 	}
 
+	function verificar_informacion_empleado($data){
+		$query = $this->db->query("SELECT ie.*, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM vyp_informacion_empleado AS ie JOIN sir_empleado AS e ON ie.id_oficina_departamental = '".$data['id_oficina']."' AND e.nr = ie.nr ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada ASC");
+		if($query->num_rows() > 0) return $query;
+		else return false;
+	}
+
 }

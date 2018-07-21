@@ -8,7 +8,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 ?>
  <style>
 
-      @media screen and (max-width: 770px) {
+    @media screen and (max-width: 770px) {
         .otro {
             height: 500px;
         }
@@ -49,10 +49,31 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             $("#cnt-tabla").hide(0);
             $("#cnt_form").show(0);
             initMap(latitud_oficina,longitud_oficina);
+            $("#divider").show(300);
             $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
         }else{
-            eliminar_horario();
+            verificar_eliminacion();
         }
+    }
+
+    function verificar_eliminacion(){        
+        var parametros = {
+                "id_oficina" : $("#id_oficina").val(),
+                "nombre" : $("#nombre_oficina").val()
+        };
+        $.ajax({
+            data:  parametros, //datos que se envian a traves de ajax
+            url:   '<?php echo site_url(); ?>/configuraciones/oficinas/verificar_dependencias', //archivo que recibe la peticion
+            type:  'post', //método de envio
+            success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                if(response == "eliminar"){
+                    eliminar_horario();
+                }else{
+                    $('#myModal').modal('show'); // abrir
+                    $("#resultado").html("No se puede eliminar la oficina '"+parametros["nombre"]+"' por que ya está asignada a los empleados: <br><br>"+response);
+                }
+            }
+        });
     }
 
     function cambiar_nuevo(){
@@ -90,6 +111,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
          $("#id_municipio").val("").trigger("change.select2");
          $("#jefe_oficina").val("").trigger("change.select2");
          $("#id_zona").val("0").trigger("change.select2");
+         $("#divider").hide(300);
          //buscarMunicipio();
     }
 
@@ -114,10 +136,6 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     }
 
     function iniciar(){
-      <?php if($navegatorless){ ?>
-        swal({ title: "Navegador antiguo", text: "La versión de su navegador está obsoleta. El mapa no podrá ser utilizado en este módulo.", type: "warning", showConfirmButton: true });
-      <?php } ?>  
-
         <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
             tablaoficinas();
         <?php }else{ ?>
@@ -356,6 +374,28 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
+
+            <div id="divider" class="row" style="display: none; width: 100%;">
+                <div class="col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>" >
+                    <div class="input-group">
+                        <input id="address" class="form-control form-control-line pull-left" type="text" placeholder="municipio, departamento, pais" style="width: 82%">
+                        <button id="submit_ubi" class="btn input-group-addon-right waves-effect waves-light btn-success" type="button" style="width: 15%"><i class="mdi mdi-magnify"></i> Buscar</button>
+                    </div>
+                </div>
+                <div class="col-lg-12 otro <?php if($navegatorless){ echo "pull-left"; } ?>" >
+                    <div id="map" style="height: 430px;"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="hidden" id="latitud_oficina" name="latitud_oficina" required="" data-validation-required-message="Este campo es requerido">
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="longitud_oficina" name="longitud_oficina"  required="">
+                </div>
+            </div>
+
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="cnt_form" style="display: none;">
                 <div class="card">
@@ -367,11 +407,13 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     </div>
                     <div class="card-body b-t">
 
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
                             
-
+                            <div align="right">
+                                <button type="button" class="btn waves-effect waves-light btn-success" onclick="$('#divider').show(300);"><i class="mdi mdi-map"></i> Ubicar oficina en mapa</button>
+                            </div>
 
                             <div class="row">
                                 <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
@@ -478,43 +520,15 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                         <div class="help-block"></div> </div>
                                 </div>
                             </div>
-                           <div id="divider" class="row" >
-                                <div class="col-lg-8 col-md-7 otro <?php if($navegatorless){ echo "pull-left"; } ?>" >
-                                        <div id="map"></div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="hidden" id="latitud_oficina" name="latitud_oficina" required="" data-validation-required-message="Este campo es requerido">
-                                                    <div class="help-block"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" id="longitud_oficina" name="longitud_oficina"  required="">
-
-                                </div>
-                                <div class="col-lg-4 col-md-5 <?php if($navegatorless){ echo "pull-left"; } ?>" >
-                                    <div class="form-group">
-                                        <label>Buscar ubicación</label>
-                                        <input id="address" class="form-control form-control-line" type="text" placeholder="municipio, departamento, pais">
-                                    </div>
-                                    <div align="right">
-                                        <button id="submit_ubi" class="btn waves-effect waves-light btn-success" type="button"><i class="mdi mdi-magnify"></i> Buscar</button>
-                                    </div>
-                                    <br><br>
-
-
-                                    <br><br><br><br><br><br><br><br>
-                                </div>
-                            </div>
 
                             <button id="submit" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2"><i class="mdi mdi-plus"></i> Guardar</button>
+                                <button type="submit" class="btn waves-effect waves-light btn-success2">Siguiente <i class="mdi mdi-chevron-right"></i></button>
                             </div>
                             <div align="right" id="btnedit" style="display: none;">
                                 <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-pencil"></i> Editar</button>
+                                <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info">Siguiente <i class="mdi mdi-chevron-right"></i></button>
                             </div>
 
                         <?php echo form_close(); ?>
@@ -545,7 +559,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     </div>
                     <div class="card-body b-t">
 
-                        <?php echo form_open('', array('id' => 'form_phone', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                        <?php echo form_open('', array('id' => 'form_phone', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band_phone" name="band_phone" value="save">
                             <input type="hidden" id="id_vyp_oficinas_telefono" name="id_vyp_oficinas_telefono">
                             <input type="hidden" id="id_oficina_vyp_oficnas_telefono" name="id_oficina_vyp_oficnas_telefono">                       
@@ -591,6 +605,27 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     </div>
 </div>
 
+<!-- sample modal content -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">¡La oficina posee dependencias!</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="resultado"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script>
 
 $(function(){
@@ -598,7 +633,8 @@ $(function(){
         e.preventDefault();
         var f = $(this);
         var formData = new FormData(document.getElementById("formajax"));
-        formData.append("dato", "valor");
+        formData.append("longitud_oficina", $("#longitud_oficina").val());
+        formData.append("latitud_oficina", $("#latitud_oficina").val());
         
         $.ajax({
             url: "<?php echo site_url(); ?>/configuraciones/oficinas/gestionar_oficinas",
@@ -611,6 +647,7 @@ $(function(){
         })
         .done(function(res){
             if(res == "exito"){
+                $("#divider").hide(300);
                 cerrar_mantenimiento();
                 if($("#band").val() == "save"){
                     swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });

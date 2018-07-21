@@ -120,5 +120,24 @@ class Oficinas extends CI_Controller {
 			echo $this->oficina_model->eliminar_oficina_phone($data);
 		}
 	}
+
+	function verificar_dependencias(){
+		$data = array(
+			'id_oficina' => $this->input->post('id_oficina')
+		);
+
+		$valido_eliminar = $this->oficina_model->verificar_informacion_empleado($data); //verifica si la categoria tiene tarifa
+		if($valido_eliminar != false){
+			$informacion_empleado = '<ul>';
+			foreach ($valido_eliminar->result() as $fila) {
+				$informacion_empleado .= '<li>'.$fila->nombre_completo.'</li>';
+			}
+			$informacion_empleado .= '</ul>';
+		}else{
+			$informacion_empleado = "eliminar";
+		}
+		echo $informacion_empleado;
+	}
+
 }
 ?>
