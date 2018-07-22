@@ -22,6 +22,9 @@ class Informacion_empleado extends CI_Controller {
 		$this->load->view('configuraciones/informacion_empleado_ajax/firma_digital');
 	}
 
+	public function combo_autorizador(){
+		$this->load->view('configuraciones/informacion_empleado_ajax/combo_autorizador');
+	}
 
 	public function tabla_cuentas(){
 		$this->load->view('configuraciones/informacion_empleado_ajax/tabla_cuentas');
@@ -32,6 +35,7 @@ class Informacion_empleado extends CI_Controller {
 			'nr' => $this->input->post('nr'), 
 			'id_empleado' => $this->input->post('id_empleado'),
 			'id_oficina' => $this->input->post('id_oficina'),
+			'nr_jefe_departamento' => $this->input->post('nr_autorizador')
 		);
 		echo $this->informacion_empleado_model->insertar_info_personal($data);
 	}

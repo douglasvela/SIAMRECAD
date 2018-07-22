@@ -692,7 +692,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
                                     if($empleado->num_rows() > 0){
                                         foreach ($empleado->result() as $fila) {              
-                                           echo '<option class="m-l-50" value="'.$fila->id_empleado.' '.$fila->primer_apellido.'">'.$fila->nombre_completo.'</option>';
+                                           echo '<option class="m-l-50" value="'.$fila->nr.' '.$fila->primer_apellido.'">'.$fila->nombre_completo.'</option>';
                                         }
                                     }
                                 ?>

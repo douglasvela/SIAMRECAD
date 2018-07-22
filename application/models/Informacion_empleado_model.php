@@ -12,13 +12,13 @@ class Informacion_empleado_model extends CI_Model {
 
 		if($info_empleado->num_rows() > 0){
 			$this->db->where("nr",$data["nr"]);
-			if($this->db->update('vyp_informacion_empleado', array('nr_jefe_inmediato' => $data['id_empleado'], 'id_oficina_departamental' => $data['id_oficina']))){
+			if($this->db->update('vyp_informacion_empleado', array('nr_jefe_inmediato' => $data['id_empleado'], 'nr_jefe_departamento' => $data['nr_jefe_departamento'], 'id_oficina_departamental' => $data['id_oficina']))){
 				return "exito";
 			}else{
 				return "fracaso";
 			}
 		}else{
-			if($this->db->insert('vyp_informacion_empleado', array('nr' => $data['nr'], 'nr_jefe_inmediato' => $data['id_empleado'], 'id_oficina_departamental' => $data['id_oficina']))){
+			if($this->db->insert('vyp_informacion_empleado', array('nr' => $data['nr'], 'nr_jefe_inmediato' => $data['id_empleado'], 'nr_jefe_departamento' => $data['nr_jefe_departamento'], 'id_oficina_departamental' => $data['id_oficina']))){
 				return "exito";
 			}else{
 				return "fracaso";

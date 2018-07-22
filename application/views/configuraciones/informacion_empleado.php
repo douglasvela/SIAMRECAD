@@ -107,6 +107,25 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         xmlhttpB.send(); 
     }
 
+    function combo_autorizador(){ 
+        var nr = $("#nr").val();
+        var id_oficina = $("#id_oficina").val();
+
+        if(window.XMLHttpRequest){ xmlhttpB=new XMLHttpRequest();
+        }else{ xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB"); }
+
+        xmlhttpB.onreadystatechange=function(){
+            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
+                document.getElementById("cnt_combo_autorizador").innerHTML=xmlhttpB.responseText;
+                $("#nr_autorizador").val($("#nr_autorizador_copy").val()).trigger('change.select2');
+                tabla_cuentas();
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        }
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/informacion_empleado/combo_autorizador?id_oficina="+id_oficina,true);
+        xmlhttpB.send(); 
+    }
+
     function guardar(){
         var canvas = document.getElementById("canvas");
         var image = canvas.toDataURL();
@@ -166,9 +185,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttpB.responseText;
-                tabla_cuentas();
-                $("#id_empleado").val($("#nr_jefe_copy").val()).trigger('change.select2')
-                $("#id_oficina").val($("#id_oficina_copy").val()).trigger('change.select2')
+                $("#id_empleado").val($("#nr_jefe_copy").val()).trigger('change.select2');
+                $("#id_oficina").val($("#id_oficina_copy").val()).trigger('change.select2');
                 if($("#nr").val() == ""){
                     $("#cnt_combos").hide(0);
                 }else{
@@ -250,37 +268,41 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     <h5>Información laboral del empleado</h5>
                     <blockquote class="m-t-10">
 
-                    <div class="row" id="cnt_combos" style="display: none;">
-                        <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-                            <h5>Jefe de firma inmediata (jefe inmediato): <span class="text-danger">*</span></h5>                           
-                            <select id="id_empleado" name="id_empleado" class="select2" style="width: 100%" required="">
-                                <option value="">OFICINA CENTRAL SAN SALVADOR</option>
-                                <?php 
-                                    $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.fecha_inicio = (SELECT MAX(i2.fecha_inicio) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
-                                    if($otro_empleado->num_rows() > 0){
-                                        foreach ($otro_empleado->result() as $fila) {                    
-                                            echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';     
+                    <div id="cnt_combos" style="display: none;">
+                        <div class="row">
+                            <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
+                                <h5>Jefe de firma inmediata (jefe inmediato): <span class="text-danger">*</span></h5>                           
+                                <select id="id_empleado" name="id_empleado" class="select2" style="width: 100%" required="">
+                                    <option value="">[Elija el jefe inmediato]</option>
+                                    <?php 
+                                        $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.fecha_inicio = (SELECT MAX(i2.fecha_inicio) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                        if($otro_empleado->num_rows() > 0){
+                                            foreach ($otro_empleado->result() as $fila) {                    
+                                                echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';     
+                                            }
                                         }
-                                    }
-                                ?>
-                            </select>
-                            <div class="help-block"></div>
-                        </div>
-                        <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-                            <h5>Oficina departamental: <span class="text-danger">*</span></h5>
-                            <select id="id_oficina" name="id_oficina" class="select2" style="width: 100%" required="">
-                                <option value="">[Elija oficina en que labora]</option>
-                                <?php 
-                                    $oficina = $this->db->query("SELECT * FROM vyp_oficinas");
-                                    if($oficina->num_rows() > 0){
-                                        foreach ($oficina->result() as $fila2){
-                                                echo '<option class="m-l-50" value="'.$fila2->id_oficina.'">'.$fila2->nombre_oficina.'</option>';
+                                    ?>
+                                </select>
+                                <div class="help-block"></div>
+                            </div>
+                            <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" onchange="combo_autorizador();"> 
+                                <h5>Oficina departamental: <span class="text-danger">*</span></h5>
+                                <select id="id_oficina" name="id_oficina" class="select2" style="width: 100%" required="">
+                                    <option value="">[Elija oficina en que labora]</option>
+                                    <?php 
+                                        $oficina = $this->db->query("SELECT * FROM vyp_oficinas");
+                                        if($oficina->num_rows() > 0){
+                                            foreach ($oficina->result() as $fila2){
+                                                    echo '<option class="m-l-50" value="'.$fila2->id_oficina.'">'.$fila2->nombre_oficina.'</option>';
+                                            }
                                         }
-                                    }
-                                ?>
-                            </select>
-                            <div class="help-block"></div>
+                                    ?>
+                                </select>
+                                <div class="help-block"></div>
+                            </div>
                         </div>
+                        <div id="cnt_combo_autorizador"></div>
+
                     </div>
 
                     	<div id="cnt_informacion_empleado"></div>

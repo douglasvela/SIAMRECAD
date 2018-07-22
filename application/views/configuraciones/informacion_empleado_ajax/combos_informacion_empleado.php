@@ -13,10 +13,12 @@
     if($vyp_info_empleado->num_rows() > 0){
         foreach ($vyp_info_empleado->result() as $fila4) {
             $nr_jefe_inmediato = $fila4->nr_jefe_inmediato;
+            $nr_jefe_departamento = $fila4->nr_jefe_departamento;
             $id_oficina = $fila4->id_oficina_departamental;
         }
     }else{
         $nr_jefe_inmediato = '';
+        $nr_jefe_departamento = '';
         $id_oficina = '';
     }
 
@@ -26,12 +28,14 @@
 
 ?>
 <input type="hidden" id="nr_jefe_copy" value="<?php echo $nr_jefe_inmediato; ?>">
+<input type="hidden" id="nr_autorizador_copy" value="<?php echo $nr_jefe_departamento; ?>">
 <input type="hidden" id="id_oficina_copy" value="<?php echo $id_oficina; ?>">
 <div id="cnt_firma_digital"></div>
 <?php }else{
 
 ?>
     <input type="hidden" id="nr_jefe_copy" value="">
+    <input type="hidden" id="nr_autorizador_copy" value="">
     <input type="hidden" id="id_oficina_copy" value="">
     <h5 class="text-muted m-b-0">Seleccione un empleado para configurar sus datos</h5>
     <div id="cnt_firma_digital"></div>
