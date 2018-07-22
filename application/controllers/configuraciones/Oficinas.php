@@ -48,7 +48,10 @@ class Oficinas extends CI_Controller {
 	public function tabla_oficinas(){
 		$this->load->view('configuraciones/oficinas_ajax/tabla_oficinas');
 	}
-	
+
+	public function tabla_oficina_autorizador(){
+		$this->load->view('configuraciones/oficinas_ajax/tabla_oficina_autorizador');
+	}
 
 	public function tabla_telefonos($id){
 		$objeto =  new stdClass();
@@ -118,6 +121,30 @@ class Oficinas extends CI_Controller {
 			'id_vyp_oficinas_telefono' => $this->input->post('id_vyp_oficinas_telefono')
 			);
 			echo $this->oficina_model->eliminar_oficina_phone($data);
+		}
+	}
+
+	public function gestionar_autorizador(){
+		if($this->input->post('band') == "save"){
+			$data = array(
+				'id_oficina' => $this->input->post('id_oficina'),
+				'nr_autorizador' => $this->input->post('nr_autorizador'),
+				'id_sistema' => $this->input->post('id_sistema')
+			);
+            echo $this->oficina_model->insertar_oficina_autorizador($data);
+		}else if($this->input->post('band')=="edit"){
+			$data = array(
+				'id_oficina_autorizador' => $this->input->post('id_oficina_autorizador'),
+				'id_oficina' => $this->input->post('id_oficina'),
+				'nr_autorizador' => $this->input->post('nr_autorizador'),
+				'id_sistema' => $this->input->post('id_sistema')
+			);
+			echo $this->oficina_model->editar_oficina_autorizador($data);
+		}else if($this->input->post('band') == "delete"){
+			$data = array(
+				'id_oficina_autorizador' => $this->input->post('id_oficina_autorizador')
+			);
+			echo $this->oficina_model->eliminar_oficina_autorizador($data);
 		}
 	}
 

@@ -21,7 +21,7 @@ class Oficina_model extends CI_Model {
       	$query = $this->db->get('vyp_oficinas');
 		if($query->num_rows() <= 0){
 			if($this->db->insert('vyp_oficinas', array('nombre_oficina' => $data['nombre_oficina'], 'direccion_oficina' => $data['direccion_oficina'], 'jefe_oficina' => $data['jefe_oficina'], 'email_oficina' => $data['email_oficina'],'latitud_oficina' => $data['latitud_oficina'], 'longitud_oficina' => $data['longitud_oficina'],'id_departamento' => $data['id_departamento'],'id_municipio' => $data['id_municipio'],'id_zona' => $data['id_zona']))){
-				return "exito";
+				return "exito,".$this->db->insert_id();
 			}else{
 				return "fracaso";
 			}
@@ -46,7 +46,7 @@ class Oficina_model extends CI_Model {
 	}
 
 	function eliminar_oficina($data){
-		if($this->db->delete("vyp_oficinas",array('id_oficina' => $data['id_oficina']))){
+		if($this->db->delete("vyp_oficinas",array('id_oficina' => $data['id_oficina'])) &&  $this->db->delete("vyp_oficina_autorizador", array('id_oficina' => $data['id_oficina'])) && $this->db->delete("vyp_oficinas_telefono",array('id_oficina_vyp_oficnas_telefono' => $data['id_oficina']))){
 			return "exito";
 		}else{
 			return "fracaso";
@@ -54,7 +54,6 @@ class Oficina_model extends CI_Model {
 	}
 
 	function insertar_oficina_phone($data){
-		
 		if($this->db->insert('vyp_oficinas_telefono', array('telefono_vyp_oficnas_telefono' => $data['telefono_vyp_oficnas_telefono'], 'id_oficina_vyp_oficnas_telefono' => $data['id_oficina_vyp_oficnas_telefono']))){
 			return "exito";
 		}else{
@@ -79,6 +78,31 @@ class Oficina_model extends CI_Model {
 
 	function eliminar_oficina_phone($data){
 		if($this->db->delete("vyp_oficinas_telefono",array('id_vyp_oficinas_telefono' => $data['id_vyp_oficinas_telefono']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function insertar_oficina_autorizador($data){
+		if($this->db->insert('vyp_oficina_autorizador', array('id_oficina' => $data['id_oficina'], 'nr_autorizador' => $data['nr_autorizador'], 'id_sistema' => $data['id_sistema']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function editar_oficina_autorizador($data){
+		$this->db->where("id_oficina_autorizador",$data["id_oficina_autorizador"]);
+		if($this->db->update('vyp_oficina_autorizador', array('nr_autorizador' => $data['nr_autorizador'], 'id_sistema' => $data['id_sistema']))){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
+	function eliminar_oficina_autorizador($data){
+		if($this->db->delete("vyp_oficina_autorizador", array('id_oficina_autorizador' => $data['id_oficina_autorizador']))){
 			return "exito";
 		}else{
 			return "fracaso";

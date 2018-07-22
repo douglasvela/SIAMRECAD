@@ -39,6 +39,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
          $("#id_departamento").val(id_departamento).trigger("change.select2");
          $("#id_municipio").val(id_municipio).trigger("change.select2");
          $("#id_zona").val(id_zona).trigger("change.select2");
+         open_form('1');
 
          //buscarMunicipio(id_departamento,id_municipio);
         if(bandera == "edit"){
@@ -85,6 +86,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
          $("#jefe_oficina").val("");
          $("#email_oficina").val("");
         $("#band").val("save");
+        open_form('1');
 
         $("#ttl_form").addClass("bg-success");
         $("#ttl_form").removeClass("bg-info");
@@ -161,6 +163,25 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             $('[data-toggle="tooltip"]').tooltip();
            // buscarMunicipio(0,"null");
         });  
+    }
+
+    function tabla_oficina_autorizador(){
+        var newName = 'ajaxCall', xhr = new XMLHttpRequest();
+        var id_oficina = $("#id_oficina").val();
+
+        xhr.open('GET', "<?php echo site_url(); ?>/configuraciones/oficinas/tabla_oficina_autorizador?id_oficina="+id_oficina);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_autorizadores").innerHTML = xhr.responseText;
+                //$('#myTable').DataTable();
+                open_form('2');
+                $('[data-toggle="tooltip"]').tooltip();
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer un componente no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
     }
 
     function cambiar_phone(id_oficina,nombre_oficina){
@@ -348,6 +369,43 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             break;
         }
     }
+    function open_form(num){
+        $("#cnt_form"+num).show(0);
+        $("#cnt_form"+num).siblings("div").hide(0);
+        $("#divider").hide(300);
+    }
+    function nuevo_autorizador(){
+        var id_sistema = '<?php echo $this->config->item("id_sistema"); ?>';
+        $("#band_autorizador").val("save");
+        $("#nr_autorizador").val("").trigger('change.select2');
+        $("#id_sistema").val(id_sistema).trigger('change.select2');
+        $("#modal_autorizador").modal("show");
+    }
+    function cambiar_autorizador(id_oficina_autorizador, nr_autorizador, id_sistema, band){
+        $("#band_autorizador").val(band);
+        $("#id_oficina_autorizador").val(id_oficina_autorizador);
+        $("#nr_autorizador").val(nr_autorizador);
+        $("#id_sistema").val(id_sistema);
+
+        if(band == "edit"){
+            $("#modal_autorizador").modal("show");
+        }else{
+            eliminar_autorizador();
+        }
+    }
+    function eliminar_autorizador(){
+        swal({   
+            title: "¿Está seguro?",   
+            text: "¡Desea eliminar el registro!",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#fc4b6c",   
+            confirmButtonText: "Sí, deseo eliminar!",   
+            closeOnConfirm: true 
+        }, function(){   
+            $("#submit2").click(); 
+        });
+    }
 </script>
 
 <!-- ============================================================== -->
@@ -398,143 +456,154 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
             <div class="col-lg-1"></div>
             <div class="col-lg-10" id="cnt_form" style="display: none;">
-                <div class="card">
-                    <div class="card-header bg-success2" id="ttl_form">
-                        <div class="card-actions text-white">
-                            <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
+                
+                    <div class="card">
+                        <div class="card-header bg-success2" id="ttl_form">
+                            <div class="card-actions text-white">
+                                <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
+                            </div>
+                            <h4 class="card-title m-b-0 text-white">Listado de Oficinas</h4>
                         </div>
-                        <h4 class="card-title m-b-0 text-white">Listado de Oficinas</h4>
-                    </div>
-                    <div class="card-body b-t">
+                        <div class="card-body b-t">
+                            <div id="cnt_form1">
+                            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                                <input type="hidden" id="band" name="band" value="save">
+                                <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
+                                
+                                <div align="right">
+                                    <button type="button" class="btn waves-effect waves-light btn-success" onclick="$('#divider').show(300);"><i class="mdi mdi-map"></i> Ubicar oficina en mapa</button>
+                                </div>
 
-                        <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
-                            <input type="hidden" id="band" name="band" value="save">
-                            <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
-                            
-                            <div align="right">
-                                <button type="button" class="btn waves-effect waves-light btn-success" onclick="$('#divider').show(300);"><i class="mdi mdi-map"></i> Ubicar oficina en mapa</button>
-                            </div>
+                                <div class="row">
+                                    <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                        <div class="form-group">
+                                            <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina: <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" required="" placeholder="Nombre de la Oficina" data-validation-required-message="Este campo es requerido">
+                                           <div class="help-block"></div>
+                                        </div>
 
-                            <div class="row">
-                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <div class="form-group">
-                                        <label for="nombre_oficina" class="font-weight-bold">Nombre de la Oficina: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="nombre_oficina" name="nombre_oficina" required="" placeholder="Nombre de la Oficina" data-validation-required-message="Este campo es requerido">
-                                       <div class="help-block"></div>
                                     </div>
-
-                                </div>
-                                <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <div class="form-group">
-                                        <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" required="" placeholder="Dirección de la Oficina" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div> </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <div class="form-group">
-                                        <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
-                                        <select id="id_departamento" name="id_departamento" class="select2" onchange="seleccionar_zona()" style="width: 100%">
-                                            <option value="">[Seleccione]</option>
-                                            <?php
-                                                $this->db->where("id_departamento <","15");
-                                                $seccion = $this->db->get("org_departamento");
-
-                                                if(!empty($seccion)){
-                                                    foreach ($seccion->result() as $fila) {
-                                            ?>
-                                                <option  value="<?php echo $fila->id_departamento ?>" onclick="','null')" > 
-                                                    <?php echo preg_replace ('/[ ]+/', ' ',$fila->departamento) ?>
-                                                </option>;
-                                            <?php
-                                                    }
-                                                }
-                                            ?>
-                                        </select>
-                                       <div class="help-block"></div>
+                                    <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                        <div class="form-group">
+                                            <label for="direccion_oficina" class="font-weight-bold">Dirección de la Oficina :<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="direccion_oficina" name="direccion_oficina" required="" placeholder="Dirección de la Oficina" data-validation-required-message="Este campo es requerido">
+                                            <div class="help-block"></div> </div>
                                     </div>
-
                                 </div>
-                                 <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <div class="form-group">
-                                          <label for="id_municipio" class="font-weight-bold">Municipio de la Oficina: <span class="text-danger">*</span></label>
-                                        <select id="id_municipio" name="id_municipio" class="select2" style="width: 100%" onchange="">
-                                            <option value="">[Seleccione]</option>
+                                <div class="row">
+                                    <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                        <div class="form-group">
+                                            <label for="id_departamento" class="font-weight-bold">Departamento de la Oficina: <span class="text-danger">*</span></label>
+                                            <select id="id_departamento" name="id_departamento" class="select2" onchange="seleccionar_zona()" style="width: 100%">
+                                                <option value="">[Seleccione]</option>
                                                 <?php
-                                                    //$this->db->where("id_departamento_pais",$id_departamento);
-                                                    $seccion = $this->db->get("org_municipio");
+                                                    $this->db->where("id_departamento <","15");
+                                                    $seccion = $this->db->get("org_departamento");
+
                                                     if(!empty($seccion)){
-                                                    foreach ($seccion->result() as $fila) {
+                                                        foreach ($seccion->result() as $fila) {
                                                 ?>
-                                                    <option  value="<?php echo $fila->id_municipio ?>"> 
-                                                <?php 
-                                                    echo $fila->municipio;
-                                                ?>
+                                                    <option  value="<?php echo $fila->id_departamento ?>" onclick="','null')" > 
+                                                        <?php echo preg_replace ('/[ ]+/', ' ',$fila->departamento) ?>
                                                     </option>;
                                                 <?php
-                                                    }
+                                                        }
                                                     }
                                                 ?>
-                                        </select>
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                 <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <div class="form-group">
-                                          <label for="id_zona" class="font-weight-bold">Zona de la Oficina: <span class="text-danger">*</span></label>
-                                        <select id="id_zona" name="id_zona" class="select2" style="width: 100%" onchange="">
-                                            <option value="0">[Seleccione]</option>
-                                                    <option  value="1">Zona Occidente</option>
-                                                    <option  value="2">Zona Central</option>
-                                                    <option  value="3">Zona Oriental</option>
-                                        </select>
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                  <div class="form-group">
-                                      <label for="jefe_oficina" class="font-weight-bold">Encargado de firma departamental/regional: <span class="text-danger">*</span></label>
-                                      <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
-                                      <select id="jefe_oficina" name="jefe_oficina" class="select2"  style="width: 100%" onchange="buscarCorreo(this.value);">
-                                        <option value="">[Elija el Jefe]</option>
-                                        <?php 
-                                            $empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.fecha_inicio = (SELECT MAX(i2.fecha_inicio) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.id_estado = '00001' AND cf.id_nivel = '1' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                            </select>
+                                           <div class="help-block"></div>
+                                        </div>
 
-                                            if($empleado->num_rows() > 0){
-                                                foreach ($empleado->result() as $fila) {              
-                                                   echo '<option class="m-l-50" value="'.$fila->id_empleado.' '.$fila->primer_apellido.'">'.$fila->nombre_completo.'</option>';
+                                    </div>
+                                     <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                        <div class="form-group">
+                                              <label for="id_municipio" class="font-weight-bold">Municipio de la Oficina: <span class="text-danger">*</span></label>
+                                            <select id="id_municipio" name="id_municipio" class="select2" style="width: 100%" onchange="">
+                                                <option value="">[Seleccione]</option>
+                                                    <?php
+                                                        //$this->db->where("id_departamento_pais",$id_departamento);
+                                                        $seccion = $this->db->get("org_municipio");
+                                                        if(!empty($seccion)){
+                                                        foreach ($seccion->result() as $fila) {
+                                                    ?>
+                                                        <option  value="<?php echo $fila->id_municipio ?>"> 
+                                                    <?php 
+                                                        echo $fila->municipio;
+                                                    ?>
+                                                        </option>;
+                                                    <?php
+                                                        }
+                                                        }
+                                                    ?>
+                                            </select>
+                                            <div class="help-block"></div>
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                        <div class="form-group">
+                                              <label for="id_zona" class="font-weight-bold">Zona de la Oficina: <span class="text-danger">*</span></label>
+                                            <select id="id_zona" name="id_zona" class="select2" style="width: 100%" onchange="">
+                                                <option value="0">[Seleccione]</option>
+                                                        <option  value="1">Zona Occidente</option>
+                                                        <option  value="2">Zona Central</option>
+                                                        <option  value="3">Zona Oriental</option>
+                                            </select>
+                                            <div class="help-block"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                      <div class="form-group">
+                                          <label for="jefe_oficina" class="font-weight-bold">Encargado de firma departamental/regional: <span class="text-danger">*</span></label>
+                                          <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
+                                          <select id="jefe_oficina" name="jefe_oficina" class="select2"  style="width: 100%" onchange="buscarCorreo(this.value);">
+                                            <option value="">[Elija el Jefe]</option>
+                                            <?php 
+                                                $empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+
+                                                if($empleado->num_rows() > 0){
+                                                    foreach ($empleado->result() as $fila) {              
+                                                       echo '<option class="m-l-50" value="'.$fila->id_empleado.' '.$fila->primer_apellido.'">'.$fila->nombre_completo.'</option>';
+                                                    }
                                                 }
-                                            }
-                                        ?>
-                                    </select>
-                                     <div class="help-block"></div>
+                                            ?>
+                                        </select>
+                                         <div class="help-block"></div>
+                                      </div>
                                   </div>
-                              </div>
-                              <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <div class="form-group">
-                                        <label for="email_oficina" class="font-weight-bold">Email :<span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="email_oficina" name="email_oficina" required="" placeholder="Email" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div> </div>
+                                  <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                        <div class="form-group">
+                                            <label for="email_oficina" class="font-weight-bold">Email :<span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" id="email_oficina" name="email_oficina" required="" placeholder="Email" data-validation-required-message="Este campo es requerido">
+                                            <div class="help-block"></div> </div>
+                                    </div>
+                                </div>
+
+                                <button id="submit" type="submit" style="display: none;"></button>
+                                <div align="right" id="btnadd">
+                                    <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                    <button type="submit" class="btn waves-effect waves-light btn-success2">Siguiente <i class="mdi mdi-chevron-right"></i></button>
+                                </div>
+                                <div align="right" id="btnedit" style="display: none;">
+                                    <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
+                                    <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info">Siguiente <i class="mdi mdi-chevron-right"></i></button>
+                                </div>
+                            <?php echo form_close(); ?>
+                            </div>
+                            <div id="cnt_form2" style="display: none;">
+                                <div id="cnt_autorizadores"></div>
+                                <div class="clearfix" align="right">
+                                    <div class="pull-left">
+                                        <?php echo generar_boton_normal(array('1'),"open_form","btn-default","mdi mdi-undo","Volver al paso 2","Volver"); ?>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button type="button" onclick="cerrar_mantenimiento()" class="btn btn-info">Finalizar</button>
+                                    </div>
                                 </div>
                             </div>
-
-                            <button id="submit" type="submit" style="display: none;"></button>
-                            <div align="right" id="btnadd">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="submit" class="btn waves-effect waves-light btn-success2">Siguiente <i class="mdi mdi-chevron-right"></i></button>
-                            </div>
-                            <div align="right" id="btnedit" style="display: none;">
-                                <button type="reset" class="btn waves-effect waves-light btn-success"><i class="mdi mdi-recycle"></i> Limpiar</button>
-                                <button type="button" onclick="editar_horario()" class="btn waves-effect waves-light btn-info">Siguiente <i class="mdi mdi-chevron-right"></i></button>
-                            </div>
-
-                        <?php echo form_close(); ?>
+                        </div>
                     </div>
-
-                </div>
             </div>
             <div class="col-lg-1"></div>
                 <div class="col-lg-12" id="cnt-tabla">
@@ -562,8 +631,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         <?php echo form_open('', array('id' => 'form_phone', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                             <input type="hidden" id="band_phone" name="band_phone" value="save">
                             <input type="hidden" id="id_vyp_oficinas_telefono" name="id_vyp_oficinas_telefono">
-                            <input type="hidden" id="id_oficina_vyp_oficnas_telefono" name="id_oficina_vyp_oficnas_telefono">                       
-
+                            <input type="hidden" id="id_oficina_vyp_oficnas_telefono" name="id_oficina_vyp_oficnas_telefono">
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -572,11 +640,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                         <input type="tel" class="form-control" id="telefono_vyp_oficnas_telefono" name="telefono_vyp_oficnas_telefono"  pattern="^(7|6|2)[0-9]{3}[-][0-9]{4}" required="" placeholder="Teléfono de la Oficina" data-validation-required-message="Este campo es requerido">
                                        <div class="help-block"></div>
                                     </div>
-
                                 </div>
-                                
                             </div>
-                            
                            
                             <button id="submit_phone" name="submit_phone" type="submit" style="display: none;"></button>
                             <div align="right" id="btnadd_phone">
@@ -603,6 +668,67 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
 
     </div>
+</div>
+
+<div id="modal_autorizador" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Gestión de autorizadores</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+            <div class="modal-body">
+                <input type="hidden" name="id_oficina_autorizador" id="id_oficina_autorizador">
+                <input type="hidden" name="band_autorizador" id="band_autorizador" value="save">
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <h5>Autorizador:</h5>
+                        <div class="controls">
+                            <select id="nr_autorizador" name="nr_autorizador" class="select2"  style="width: 100%">
+                                <option value="">[Elija el autorizador]</option>
+                                <?php 
+                                    $empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+
+                                    if($empleado->num_rows() > 0){
+                                        foreach ($empleado->result() as $fila) {              
+                                           echo '<option class="m-l-50" value="'.$fila->id_empleado.' '.$fila->primer_apellido.'">'.$fila->nombre_completo.'</option>';
+                                        }
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <h5>Sistema:</h5>
+                        <div class="controls">
+                            <select id="id_sistema" name="id_sistema" class="select2"  style="width: 100%">
+                                <option value="">[Elija el sistema]</option>
+                                <?php 
+                                    $sistema = $this->db->query("SELECT * FROM org_sistema");
+
+                                    if($sistema->num_rows() > 0){
+                                        foreach ($sistema->result() as $filas) { 
+                                           echo '<option class="m-l-50" value="'.$filas->id_sistema.'">'.$filas->nombre_sistema.'</option>';
+                                        }
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancelar</button>
+                <button type="submit" id="submit2" class="btn btn-info waves-effect text-white">Aceptar</button>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 
 <!-- sample modal content -->
@@ -646,24 +772,60 @@ $(function(){
             processData: false
         })
         .done(function(res){
-            if(res == "exito"){
+            var res = res.split(",");
+            if(res[0] == "exito"){
                 $("#divider").hide(300);
-                cerrar_mantenimiento();
                 if($("#band").val() == "save"){
-                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                    cambiar_editar(res[1], $("#nombre_oficina").val(),$("#direccion_oficina").val(),$("#jefe_oficina").val(),$("#email_oficina").val(),$("#latitud_oficina").val(),$("#longitud_oficina").val(),$("#id_departamento").val(),$("#id_municipio").val(),$("#id_zona").val(),'edit');
+                    $.toast({ heading: '¡Registro exitoso!', text: 'Oficina registrada', position: 'top-right', loaderBg:'#000', icon: 'success', hideAfter: 4000, stack: 6 });
+                    tabla_oficina_autorizador();
                 }else if($("#band").val() == "edit"){
-                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                    $.toast({ heading: '¡Modificación exitosa!', text: 'Oficina modificada', position: 'top-right', loaderBg:'#000', icon: 'success', hideAfter: 4000, stack: 6 });
+                    tabla_oficina_autorizador();
                 }else{
                     swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
                 }
-                tablaoficinas(<?php echo $this->uri->segment(4);?>);$("#band").val('save');
+                tablaoficinas();$("#band").val('save');
             }else if(res=="duplicado"){
                 swal({ title: "¡Ups! Error", text: "Oficina ya existe.", type: "error", showConfirmButton: true });
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });
+    });
 
+    $("#formajax2").on("submit", function(e){
+        e.preventDefault();
+        var f = $(this);
+        var formData = new FormData(document.getElementById("formajax2"));
+        formData.append("band", $("#band_autorizador").val());
+        formData.append("id_oficina", $("#id_oficina").val());
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/configuraciones/oficinas/gestionar_autorizador",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            console.log(res)
+            if(res == "exito"){
+                if($("#band_autorizador").val() == "save"){
+                    $.toast({ heading: '¡Registro exitoso!', text: 'Autorizador registrado', position: 'top-right', loaderBg:'#000', icon: 'success', hideAfter: 4000, stack: 6 });
+                }else if($("#band_autorizador").val() == "edit"){
+                    $.toast({ heading: '¡Modificación exitosa!', text: 'Autorizador modificado', position: 'top-right', loaderBg:'#000', icon: 'success', hideAfter: 4000, stack: 6 });
+                }else{
+                    $.toast({ heading: 'Borrado exitoso!', text: 'Autorizador eliminado', position: 'top-right', loaderBg:'#000', icon: 'success', hideAfter: 4000, stack: 6 });
+                }
+                $("#modal_autorizador").modal("hide");
+                tabla_oficina_autorizador();
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
     });
 
 
