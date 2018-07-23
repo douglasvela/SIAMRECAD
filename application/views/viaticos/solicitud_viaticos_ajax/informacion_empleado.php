@@ -12,20 +12,21 @@ if(!empty($nr_usuario)){
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
+        $empleado_informacion = $this->db->query("SELECT e.id_empleado, e.nr, ei.id_seccion, cf.funcional, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, s.nombre_seccion, MAX(ei.id_empleado_informacion_laboral) FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND e.nr = '".$nr_usuario."' JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN org_seccion AS s ON s.id_seccion = ei.id_seccion");
+
+	    if($empleado_informacion->num_rows() > 0){ 
+	        foreach ($empleado_informacion->result() as $filainfoe) {}
+	    }
+
         $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
     	$filaofi = "";
 	    if($oficina_origen->num_rows() > 0){ 
 	        foreach ($oficina_origen->result() as $filaofi) {}
-	        $director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi->jefe_oficina."'");
-	    	if($director_jefe_regional->num_rows() > 0){ foreach ($director_jefe_regional->result() as $filadir) {} }
-	    }else{
-	    	$director_jefe_regional = $this->db->query("SELECT nr FROM sir_empleado WHERE id_empleado = '".$filaofi."'");
-	    	if($director_jefe_regional->num_rows() > 0){ foreach ($director_jefe_regional->result() as $filadir) {} }
 	    }
 
-	    if($oficina_origen->num_rows() > 0 || $director_jefe_regional->num_rows() > 0){
+	    if($oficina_origen->num_rows() > 0 && $filas->nr_jefe_departamento != ""){
 	    	$nr_jefe_inmediato = $filas->nr_jefe_inmediato;
-		    $nr_jefe_regional = $filadir->nr;
+		    $nr_jefe_regional = $filas->nr_jefe_departamento;
 		    $latitud_oficina = $filaofi->latitud_oficina;
 		    $longitud_oficina = $filaofi->longitud_oficina;
 		    $nombre_oficina = $filaofi->nombre_oficina;
@@ -39,7 +40,7 @@ if(!empty($nr_usuario)){
 		    $id_oficina_origen = "";
 		    echo '<div class="alert alert-danger">';
 	    	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
-	    	echo "Parece que tus datos estan incompletos, solicita a recursos humanos que registren a que oficina pertenes y quien es tu superior inmediato, asi como tu firma digital si no estuviese registrada";
+	    	echo "Parece que tus datos estan incompletos. Solicita a recursos humanos que registren a que oficina pertenes, quien es tu superior inmediato, autorizador de área o región y firma escaneada si no estuviese registrada";
 	    	echo '</div>';
 	    }
 
@@ -49,11 +50,12 @@ if(!empty($nr_usuario)){
 		echo '<input type="hidden" id="longitud_oficina" name="longitud_oficina" value="'.$longitud_oficina.'">';
 		echo '<input type="hidden" id="nombre_oficina" name="nombre_oficina" value="'.$nombre_oficina.'">';
 		echo '<input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="'.$id_oficina_origen.'">';
+		echo '<input type="hidden" id="id_seccion" name="id_seccion" value="'.$filainfoe->id_seccion.'">';
 
     }else{
     	echo '<div class="alert alert-danger">';
     	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
-    	echo "Parece que tus datos estan incompletos, solicita a recursos humanos que registren a que oficina pertenes y quien es tu superior inmediato, asi como tu firma digital si no estuviese registrada";
+    	echo "Parece que tus datos estan incompletos. Solicita a recursos humanos que registren a que oficina pertenes, quien es tu superior inmediato, autorizador de área o región y firma escaneada si no estuviese registrada";
     	echo '</div>';
     	echo '<input type="text" style="display: none;" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="" required>';
 		echo '<input type="text" style="display: none;" id="nr_jefe_regional" name="nr_jefe_regional" value="" required>';
