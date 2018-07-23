@@ -22,7 +22,7 @@
                 }
             }else{
                 echo '<h5>Departamento: <span class="text-danger">*</span></h5>';
-                echo '<select id="departamento" name="departamento" class="select2" onchange="combo_municipio('."'".$tipo."'".');" style="width: 100%" required>';
+                echo '<select id="departamento" name="departamento" class="select2" style="width: 100%" required>';
                 echo "<option value=''>[Elija el departamento]</option>";
                 $departamento = $this->db->query("SELECT * FROM org_departamento");
                 if($departamento->num_rows() > 0){

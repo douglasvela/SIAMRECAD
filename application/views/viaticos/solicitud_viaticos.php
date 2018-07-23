@@ -1275,11 +1275,6 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		    if (xhr.status === 200 && xhr.responseText !== newName) {
 		        document.getElementById("combo_departamento").innerHTML = xhr.responseText;
 		        $(".select2").select2();
-			   	if(tipo == "mapa"){
-			    	$('#departamento').val(id_departamento_mapa).trigger('change.select2');
-			    }else{
-			    	combo_municipio(tipo);
-			   	}
 		    }else if (xhr.status !== 200) {
 		        swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
 		    }
@@ -1287,8 +1282,21 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		xhr.send(encodeURI('name=' + newName));
     }
 
-    function combo_municipio(tipo){   	
-        var id_departamento = $("#departamento").val();
+    function combo_municipio(tipo){
+        tipo = $('input[name=r_destino]:checked').val();
+        if(tipo == "destino_oficina"){
+            tipo = "oficina";
+        }else if(tipo == "destino_municipio"){
+            tipo = "departamento";
+        }else if(tipo == "destino_mapa"){
+            tipo = "mapa";
+        }
+
+        if(tipo == 'oficina'){
+            var id_departamento = $("#departamento").val();
+        }else{
+            var id_departamento = $("#municipio").val();
+        }
         var newName = 'John Smith', xhr = new XMLHttpRequest();
 
 		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo);
@@ -1298,6 +1306,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		        document.getElementById("combo_municipio").innerHTML = xhr.responseText;
 		        $(".select2").select2();
               	if(tipo == "oficina"){
+                    var municipio_copia = $("#id_municipio_copia").val();
+                    $('#municipio').val(municipio_copia).trigger('change.select2');
                     if($("#departamento").val() != ""){
                         $("#nombre_empresa").val($("#departamento option:selected").text());
                         $("#direccion_empresa").val($("#departamento option:selected").text());
@@ -1313,15 +1323,21 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     }
                     input_distancia(tipo);
               	}else if(tipo == "departamento"){
+                    var municipio_copia = $("#id_municipio_copia").val();
+                    $('#departamento').val(municipio_copia).trigger('change.select2');
+
                     $("#nombre_empresa").parent().parent().show(0);
                     $("#direccion_empresa").parent().show(0);
                     $("#municipio").parent().show(0);
                     input_distancia(tipo);
               	}else if(tipo == "mapa"){
+                    var municipio_copia = $("#id_municipio_copia").val();
+                    $('#departamento').val(municipio_copia).trigger('change.select2');
+
                     $("#nombre_empresa").parent().parent().show(0);
                     $("#direccion_empresa").parent().show(0);
                     $("#municipio").parent().show(0);
-                    $('#municipio').val(id_municipio_mapa).trigger('change.select2');
+                    //$('#municipio').val(id_municipio_mapa).trigger('change.select2');
                     input_distancia(tipo);
               	}
 		    }
@@ -1480,7 +1496,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                 obtener_id_municipio2(municipio);
             }else{
                 id_municipio_mapa = res;
-                obtener_id_departamento(res);
+                $('#municipio').val(id_municipio_mapa).trigger('change.select2');
             }
              
         });
@@ -1505,34 +1521,10 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                 input_distancia("mapa");
             }else{
                 id_municipio_mapa = res;
-                obtener_id_departamento(res);
+                $('#municipio').val(id_municipio_mapa).trigger('change.select2');
                 swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no se el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
             }
              
-        });
-    }
-
-    function obtener_id_departamento(id_municipio){
-        var formData = new FormData();
-        formData.append("id_municipio", id_municipio);
-
-        $.ajax({
-            url: "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_id_departamento",
-            type: "post",
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        })
-
-        .done(function(res){
-            if(res == "fracaso"){
-                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
-            }else{
-                id_departamento_mapa = res;
-                combo_oficina_departamento("mapa");
-            }
         });
     }
 
@@ -2472,10 +2464,23 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                     <label for="destino_mapa" onclick="form_mapa();">Buscar en mapa</label>
                                 </div>
                             </div>
-
+                            <div id="combo_municipio"></div>
                             <div class="row">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                    <h5>Municipio: <span class="text-danger">*</span></h5>
+                                    <select id="municipio" name="municipio" class="select2" style="width: 100%" required onchange="combo_municipio()">
+                                        <option value=''>[Elija la municipio]</option>
+                                        <?php 
+                                            $municipio = $this->db->query("SELECT * FROM org_municipio ORDER BY municipio");
+                                            if($municipio->num_rows() > 0){
+                                                foreach ($municipio->result() as $fila2) {              
+                                                   echo '<option class="m-l-50" value="'.$fila2->id_municipio.'">'.$fila2->municipio.'</option>';
+                                                }
+                                            }
+                                        ?>
+                                </select>
+                                </div>
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_departamento"></div>
-                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_municipio"></div>
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="input_distancia"></div>
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
