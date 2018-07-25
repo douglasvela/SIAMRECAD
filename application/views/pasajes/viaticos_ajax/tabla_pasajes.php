@@ -86,7 +86,7 @@
                             $monto = $this->db->query("SELECT sum(monto_pasaje) as monto_total FROM vyp_pasajes WHERE id_mision='".$m_."'");
                             if($monto->num_rows() > 0){
                                 foreach ($monto->result() as $montofila) {
-                                  echo "<td>".$montofila->monto_total."</td>";
+                                  echo "<td>$ ".$montofila->monto_total."</td>";
                                 }
                             }else{
                               echo "<td>0.00</td>";

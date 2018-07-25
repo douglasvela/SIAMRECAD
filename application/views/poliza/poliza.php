@@ -19,6 +19,12 @@ if($generalidades->num_rows() > 0){
     }
 }
 
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < $this->config->item("last_version")){
+    $navegatorless = true;
+}
 ?>
 
 <script type="text/javascript">
@@ -293,178 +299,217 @@ if($generalidades->num_rows() > 0){
 
 </script>
 
-  <div class="page-wrapper">
-    <div class="container-fluid">
-      <!-- ============================================================== -->
-        <!-- TITULO de la página de sección -->
-        <!-- ============================================================== -->
-        <div class="row page-titles">
-            <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">
-                  <?php 
-                    echo $titulo = ucfirst("Gestión de polizas"); 
-                  ?>
-                  </h3>
-            </div>
+<div class="page-wrapper">
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- TITULO de la página de sección -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="align-self-center" align="center">
+            <h3 class="text-themecolor m-b-0 m-t-0">
+              <?php 
+                echo $titulo = ucfirst("Gestión de polizas"); 
+              ?>
+              </h3>
         </div>
-    
-
-    <div id="cnt_registros_polizas">
-      
-      <div id="cnt_tabla_poliza"></div>
     </div>
-
-    <div id="cnt_poliza" style="display: none;">
-      <div class="pull-right">          
-        <button type="button" onclick="cerrar_mantenimiento();" class="btn waves-effect waves-light btn-default" data-toggle="tooltip" title="Clic para regresar"><span class="mdi mdi-undo"></span> Volver</button>
+    <div class="row">
+      <div id="cnt_registros_polizas" class="col-lg-12">
+        <div id="cnt_tabla_poliza"></div>
+      </div>
     </div>
-      <div class="table-responsive">
-            <div class="align-self-center" align="center">
-                   <h4 align="center" class="card-title m-b-0">MINISTERIO DE TRABAJO Y PREVISION SOCIAL <p align="center">POLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p></h4>
-       
+    <div class="row">
+      <div id="cnt_poliza" class="col-lg-12" style="display: none;">
+        <div class="pull-right">          
+          <button type="button" onclick="cerrar_mantenimiento();" class="btn waves-effect waves-light btn-default" data-toggle="tooltip" title="Clic para regresar"><span class="mdi mdi-undo"></span> Volver</button>
+        </div>
+        <div class="table-responsive">
+          <div class="align-self-center" align="center">
+            <h4 align="center" class="card-title m-b-0">
+              MINISTERIO DE TRABAJO Y PREVISION SOCIAL 
+              <p align="center">POLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p>
+            </h4>
             <table width="1206" height="166" border="0">
               <tr>
                 <td width="326"><h5 align="justify">No. POLIZA: </h5></td>
-                <td width="257"><div align="justify"><span class="controls">
-                  <div class="input-group">
-                      <input type="text" id="nombre1" name="nombre1" class="form-control" required="" onchange="tabla_generar_poliza();">
-                      <div id="cnt_manual" class="input-group-addon btn btn-default" onclick="cambiar_orden('manual');" data-toggle="tooltip" title="" data-original-title="Clic para cambiar a manual"><i class="mdi mdi-account-convert"></i></div>
-                      <div style="display: none;" id="cnt_automatico" class="input-group-addon btn btn-default" onclick="cambiar_orden('automatico');" data-toggle="tooltip" title="" data-original-title="Clic para cambiar a automático"><i class="mdi mdi-book-open-page-variant"></i></div>
+                <td width="257">
+                  <div align="justify">
+                    <span class="controls">
+                      <div class="input-group">
+                        <input type="text" id="nombre1" name="nombre1" class="form-control" required="" onchange="tabla_generar_poliza();">
+                          <div id="cnt_manual" class="input-group-addon btn btn-default" onclick="cambiar_orden('manual');" data-toggle="tooltip" title="" data-original-title="Clic para cambiar a manual"><i class="mdi mdi-account-convert"></i></div>
+                          <div style="display: none;" id="cnt_automatico" class="input-group-addon btn btn-default" onclick="cambiar_orden('automatico');" data-toggle="tooltip" title="" data-original-title="Clic para cambiar a automático"><i class="mdi mdi-book-open-page-variant"></i></div>
+                      </div>
+                    </span>
                   </div>
-                </span></div></td>
-                <td> <h5 align="justify"> MES:</h5></td>
-                <td><div align="justify"><span class="controls">
-                  <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;" onchange="tabla_generar_poliza();">
-                    <?php
-                      $mes_actual;
-                      for($i=1; $i<=12; $i++){
+                </td>
+                <td><h5 align="justify"> MES:</h5></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <select class="custom-select" id="nombre7" style="width: 100%; background-color: #fff;" onchange="tabla_generar_poliza();">
+                        <?php
+                          $mes_actual;
+                          for($i=1; $i<=12; $i++){
+                              if(date("n") == $i){ $mes_actual = "selected";
+                              }else{ $mes_actual = ""; }
 
-                        if(date("n") == $i){
-                          $mes_actual = "selected";
-                        }else{
-                          $mes_actual = "";
-                        }
-
-                        if($i>9){
-                          echo '<option value="'.$i.'" '.$mes_actual.'>'.mes($i).'</option>';
-                        }else{
-                          echo '<option value="0'.$i.'" '.$mes_actual.'>'.mes($i).'</option>';
-                        }
-                      }
-                    ?>
-                    </select>
-                </span></div></td>
+                              if($i>9){ echo '<option value="'.$i.'" '.$mes_actual.'>'.mes($i).'</option>';
+                              }else{ echo '<option value="0'.$i.'" '.$mes_actual.'>'.mes($i).'</option>'; }
+                          }
+                        ?>
+                      </select>
+                    </span>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td><h5 align="justify">INSTITUCIÓN:</h5></td>
-                <td ><div align="justify"><span class="controls">
-                  <input type="text" id="nombre2" name="nombre2" class="form-control" value="MINISTERIO DE TRABAJO Y PREVISION SOCIAL" disabled=""/>
-                </span></div></td>
-                <td> <h5 align="justify"> EJERCICIO FINANCIERO FISCAL: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre8" name="nombre8" class="form-control" onchange="tabla_generar_poliza();" value="<?php echo date("Y"); ?>" />
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre2" name="nombre2" class="form-control" value="MINISTERIO DE TRABAJO Y PREVISION SOCIAL" disabled=""/>
+                    </span>
+                  </div>
+                </td>
+                <td><h5 align="justify">EJERCICIO FINANCIERO FISCAL: </h5></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre8" name="nombre8" class="form-control" onchange="tabla_generar_poliza();" value="<?php echo date("Y"); ?>" />
+                    </span>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td height="25"><h5 align="justify">CÓDIGO PRESUPUESTARIO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre3" name="nombre3" class="form-control" value="<?php echo $cod_presupuestario; ?>" />
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre3" name="nombre3" class="form-control" value="<?php echo $cod_presupuestario; ?>" />
+                    </span>
+                  </div>
+                </td>
                 <td> <h5 align="justify"> NOMBRE DEL BANCO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre9" name="nombre9" class="form-control" value="<?php echo $banco; ?>"/>
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre9" name="nombre9" class="form-control" value="<?php echo $banco; ?>"/>
+                    </span>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td height="25"><h5 align="justify">DENOMINACIÓN DEL MONTO FIJO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre4" name="nombre4" class="form-control" value="FONDO CIRCULANTE DEL MTPS" disabled="" />
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre4" name="nombre4" class="form-control" value="FONDO CIRCULANTE DEL MTPS" disabled="" />
+                    </span>
+                  </div>
+                </td>
                 <td> <h5 align="justify">No. CUENTA BANCARIA: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre10" name="nombre10" class="form-control" required="required" value="<?php echo $num_cuenta; ?>" />
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre10" name="nombre10" class="form-control" required="required" value="<?php echo $num_cuenta; ?>" />
+                    </span>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td height="25"> <h5 align="justify"> MONTO TOTAL DEL REINTEGRO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <div class="input-group">
-                      <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                      <input type="number" id="nombre5" name="nombre5" class="form-control" step="any" required="">
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
+                        <input type="number" id="nombre5" name="nombre5" class="form-control" step="any" required="">
+                      </div>
+                    </span>
                   </div>
-                </span></div></td>
+                </td>
                 <td><h5 align="justify">No. COMPROMISO PRESUPUESTARIO:</h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre11" name="nombre11" class="form-control" />
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre11" name="nombre11" class="form-control" />
+                    </span>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td height="25"> <h5 align="justify">CANTIDAD EN LETRAS: </h5></td>
-                <td><div align="justify"><span class="controls">
-                <small id="nombre6"></small>
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <small id="nombre6"></small>
+                    </span>
+                  </div>
+                </td>
                 <td><h5 align="justify">FECHA DE CANCELADO: </h5></td>
-                <td><div align="justify"><span class="controls">
-                  <input type="text" id="nombre12" name="nombre12" class="form-control" />
-                </span></div></td>
+                <td>
+                  <div align="justify">
+                    <span class="controls">
+                      <input type="text" id="nombre12" name="nombre12" class="form-control" />
+                    </span>
+                  </div>
+                </td>
               </tr>
             </table>
-      </div>
-      <br>
+          </div>
+          
+          <br>
 
-      <select class="custom-select" id="tipo_poliza" style="background-color: #fff;" onchange="tabla_generar_poliza();">
-        <option value="banco">Banco y cheque</option>
-        <option value="efectivo">Efectivo</option>
-      </select>
+          <select class="custom-select" id="tipo_poliza" style="background-color: #fff;" onchange="tabla_generar_poliza();">
+            <option value="banco">Banco y cheque</option>
+            <option value="efectivo">Efectivo</option>
+          </select>
 
-      <button class="pull-right btn btn-rounded btn-default" data-toggle="tooltip" title="Clic para ver las Solicitudes restantes" onclick="mostrar_pendientes();">Solicitudes restantes: <output id="btn_restantes"></output></button>
+          <button class="pull-right btn btn-rounded btn-default" data-toggle="tooltip" title="Clic para ver las Solicitudes restantes" onclick="mostrar_pendientes();">Solicitudes restantes: <output id="btn_restantes"></output></button>
 
-      <button class="pull-right btn btn-rounded btn-default" id="btn_volver" style="margin-right: 10px; display: none;" onclick="retornar_poliza_generada();"><span class="mdi mdi-undo"></span> Volver</button>
+          <button class="pull-right btn btn-rounded btn-default" id="btn_volver" style="margin-right: 10px; display: none;" onclick="retornar_poliza_generada();"><span class="mdi mdi-undo"></span> Volver</button>
+        
+          <div id="cnt_generar_poliza"></div>
+
+          <div class="table-responsive" id="cnt_pendientes" style="display: none;">
+            <table class="table table-hover product-overview bg-white">
+              <thead class="bg-info text-white" style="font-size: 11px;">
+                  <tr>
+                    <th style="padding: 7px" width="25px" rowspan="2">#</th>
+                      <th style="padding: 7px" width="40px" rowspan="2">Fecha elaboración</th>
+                      <th style="padding: 7px" width="50px" rowspan="2">No. cheque/ cuenta</th>
+                      <th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>
+                      <th style="padding: 7px" width="70px" rowspan="2">Fecha misión</th>
+                      <th style="padding: 7px" width="100px" rowspan="2">Nombre empleado</th>
+                      <th style="padding: 7px" width="120px" rowspan="2">Detalle misión</th>
+                      <th style="padding: 7px" width="120px" rowspan="2">Sede</th>
+                      <th style="padding: 7px" width="30px" rowspan="2">Cargo funcional</th>
+                      <th style="padding: 7px" width="25px"  rowspan="2">UP/LT</th>
+                    <th style="padding: 7px" colspan="2" ><div align="center">Detalle de objetos especificos </div></th>
+                    <th style="padding: 7px" width="60px"  rowspan="2" >Total</th>
+                  </tr>
+                  <tr>
+                      <!-- <th width="48"  >54401</th> -->
+                      <th style="padding: 7px" width="30px" >54401</th>
+                      <!-- <th width="48" >54403</th> -->
+                      <th style="padding: 7px" width="30px" >54403</th>
+                  </tr>
+              </thead>
+              <tbody style="font-size: 11px;" id="body_tabla"></tbody>
+            </table>
+          </div>
+        </div>
       
-      <div id="cnt_generar_poliza"></div>
+        <br>
 
-      <div class="table-responsive" id="cnt_pendientes" style="display: none;">
-        <table class="table table-hover product-overview bg-white">
-            <thead class="bg-info text-white" style="font-size: 11px;">
-             
-                <tr>
-                  <th style="padding: 7px" width="25px" rowspan="2">#</th>
-                    <th style="padding: 7px" width="40px" rowspan="2">Fecha elaboración</th>
-                    <th style="padding: 7px" width="50px" rowspan="2">No. cheque/ cuenta</th>
-                    <th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>
-                    <th style="padding: 7px" width="70px" rowspan="2">Fecha misión</th>
-                    <th style="padding: 7px" width="100px" rowspan="2">Nombre empleado</th>
-                    <th style="padding: 7px" width="120px" rowspan="2">Detalle misión</th>
-                    <th style="padding: 7px" width="120px" rowspan="2">Sede</th>
-                    <th style="padding: 7px" width="30px" rowspan="2">Cargo funcional</th>
-                    <th style="padding: 7px" width="25px"  rowspan="2">UP/LT</th>
-                  <th style="padding: 7px" colspan="2" ><div align="center">Detalle de objetos especificos </div></th>
-                  <th style="padding: 7px" width="60px"  rowspan="2" >Total</th>
-                </tr>
-                <tr>
-                    <!-- <th width="48"  >54401</th> -->
-                    <th style="padding: 7px" width="30px" >54401</th>
-                    <!-- <th width="48" >54403</th> -->
-                    <th style="padding: 7px" width="30px" >54403</th>
-                </tr>
-            </thead>
-            <tbody style="font-size: 11px;" id="body_tabla">
-
-            </tbody>
-        </table>
+        <div class="form-group" style="display: none;">
+            <textarea id="area" class="form-control" rows="10"></textarea>
+        </div>
       </div>
-
-    </div>
-    
-    <br>
-
-    <div class="form-group" style="display: none;">
-        <textarea id="area" class="form-control" rows="10"></textarea>
     </div>
 
- </div>
-</div>
-
+  </div>
 </div>
 
 

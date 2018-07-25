@@ -1,5 +1,11 @@
 <?php
 function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'); return $mesesarray[($mes-1)]; }
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < $this->config->item("last_version")){
+    $navegatorless = true;
+}
 ?>
 <script type="text/javascript">
   var orden_poliza = "automatico";
@@ -342,16 +348,17 @@ function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MA
             </div>
         </div>
     
-
-    <div id="cnt_registros_polizas">
-      
-      <div id="cnt_tabla_poliza"></div>
+    <div class="row">
+      <div id="cnt_registros_polizas" class="col-lg-12">
+        
+        <div id="cnt_tabla_poliza"></div>
+      </div>
     </div>
-
-    <div id="cnt_poliza" style="display: none;">
+    <div class="row">
+    <div id="cnt_poliza" style="display: none;" class="col-lg-12">
       <div class="pull-right">          
         <button type="button" onclick="cerrar_mantenimiento();" class="btn waves-effect waves-light btn-default" data-toggle="tooltip" title="Clic para regresar"><span class="mdi mdi-undo"></span> Volver</button>
-    </div>
+      </div>
       <div class="table-responsive">
             <div class="align-self-center" align="center">
                    <h4 align="center" class="card-title m-b-0">MINISTERIO DE TRABAJO Y PREVISION SOCIAL <p align="center">POLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p></h4>
@@ -457,6 +464,7 @@ function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MA
     </div>
 
  </div>
+</div>
 </div>
 
 

@@ -73,7 +73,7 @@ $pdf=new FPDF();
 $pdf->cambiarTitulo('San Salvador, El Salvador, C.A.','POR $   '.$monto);
 
 $fecha_actual = date("d-m-Y H:i:s");
-$pdf->cambiarPie($name_user, $fecha_actual);
+$pdf->cambiarPie($user, $fecha_actual);
 
 $pdf->SetFont('Arial','',9);
 

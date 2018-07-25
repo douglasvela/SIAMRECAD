@@ -1,3 +1,11 @@
+<?php 
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < $this->config->item("last_version")){
+    $navegatorless = true;
+}
+?>
 <script type="text/javascript">
     function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,id_actividad,tipo_pago,monto,num_cheque,fecha_pago,bandera){
         $("#id_pago_emergencia").val(id);
@@ -167,7 +175,7 @@
 
 
                             <div class="row">
-                                <div class="form-group col-lg-6"> 
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
 			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="">
 			                            <option value="">[Elija el empleado]</option>
@@ -182,12 +190,12 @@
 			                        </select>
 			                        <div class="help-block"></div>
 			                    </div>
-                                <div class="form-group col-lg-3">   
+                                <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">   
                                     <h5>Fecha de misión (inicio): <span class="text-danger">*</span></h5>
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy" readonly="">
                                     <div class="help-block"></div>
                                 </div>
-                                <div class="form-group col-lg-3">   
+                                <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">   
                                     <h5>Fecha misión (fin): <span class="text-danger">*</span></h5>
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_fin" name="fecha_mision_fin" placeholder="dd/mm/yyyy" readonly="">
                                     <div class="help-block"></div>
@@ -196,7 +204,7 @@
 
                             <div class="row">
 
-                                <div class="form-group col-lg-8"> 
+                                <div class="form-group col-lg-8 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                     <h5>Actividad realizada: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
                                         <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required=''>
@@ -219,7 +227,7 @@
                                     </div> 
                                 </div>
 
-                                <div class="col-lg-4" align="center">
+                                <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>" align="center">
                                     <h5>Tipo de pago: <span class="text-danger">*</span></h5>
                                     <div class="">
 	                                    <input name="tipo_pago" type="radio" class="with-gap" id="cbx_efectivo" checked value="efectivo">
@@ -233,20 +241,20 @@
                             </div>
 
                             <div class="row">
-                            	<div class="form-group col-lg-3">
+                            	<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Monto: <span class="text-danger">*</span></h5>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
                                         <input type="number" id="monto" name="monto" class="form-control" value="0.00">
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-5">
+                                <div class="form-group col-lg-5 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Número de cheque: <span class="text-danger">*</span></h5>
                                     <div class="controls">
                                         <input type="text" id="num_cheque" name="num_cheque" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-4">   
+                                <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">   
                                     <h5>Fecha de pago: <span class="text-danger">*</span></h5>
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_pago" name="fecha_pago" placeholder="dd/mm/yyyy" readonly="">
                                 </div>

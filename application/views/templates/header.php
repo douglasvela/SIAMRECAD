@@ -170,8 +170,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     <?php if($navegatorless){ ?>
         .form-control{padding: 0rem 0.75rem;}
         .input-group .form-control{ width: 85%; }
-        .input-group .input-group-addon{ width: 4%; float: left; height: 39px;}
-        .input-group .input-group-addon-right{ width: 4%; float: right; height: 39px;}
+        .input-group .input-group-addon{ width: 4%; float: left; height: 23px;}
+        .input-group .input-group-addon-right{ width: 4%; float: right; height: 24px;}
         .dataTables_filter input{
             padding: .0rem .75rem;
             font-size: 1rem;

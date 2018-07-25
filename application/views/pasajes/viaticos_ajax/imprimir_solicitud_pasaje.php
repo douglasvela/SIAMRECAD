@@ -118,7 +118,7 @@ class NumeroALetras{
 $pdf=new FPDF();
 $pdf->cambiarTitulo('RECIBO DE PASAJES URBANO Y AL INTERIOR','POR $   '.$monto);
 $fecha_actual = date("d-m-Y H:i:s");
-$pdf->cambiarPie($name_user, $fecha_actual);
+$pdf->cambiarPie($user, $fecha_actual);
 
 
 $pdf->AddPage();

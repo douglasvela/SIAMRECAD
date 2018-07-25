@@ -1,5 +1,11 @@
 <?php
 function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'); return $mesesarray[($mes-1)]; }
+// Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < $this->config->item("last_version")){
+    $navegatorless = true;
+}
 ?>
 <script type="text/javascript">
   var orden_poliza = "automatico";
@@ -430,17 +436,21 @@ function generarXml(datos) {
             </div>
         </div>
     
-
-    <div id="cnt_registros_polizas">
-      
-      <div id="cnt_tabla_poliza"></div>
+    <div class="row">
+      <div id="cnt_registros_polizas" class="col-lg-12">
+        
+        <div id="cnt_tabla_poliza"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="cnt_planillas" class="col-lg-12"></div>
     </div>
 
-    <div id="cnt_planillas"></div>
-
-    <div id="cnt_poliza" style="display: none;">	     
-	      <div id="cnt_generar_poliza"></div>
-	    </div>	    
+    <div class="row">
+      <div id="cnt_poliza" class="col-lg-12" style="display: none;">	     
+        <div id="cnt_generar_poliza"></div>
+      </div>
+    </div>    
 	    <br>
 
 	    <div class="form-group" style="display: none;">

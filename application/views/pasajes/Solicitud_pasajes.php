@@ -15,6 +15,13 @@
             $nr_usuario = $fila->nr; 
         }
     }
+
+    // Características del navegador
+$ua=$this->config->item("navegator");
+$navegatorless = false;
+if(floatval($ua['version']) < $this->config->item("last_version")){
+    $navegatorless = true;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -448,6 +455,7 @@
     	partes = fecha.split("-");
     	$("#mes_anio_pasaje").val(partes[2]+"-"+partes[1]);
     }
+
 	</script>
 </head>
 <body>
@@ -478,7 +486,7 @@
 	                            ?>
 	                        </div>
 	                    	<div class="row ">
-								<div class="form-group col-lg-6">
+								<div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                                <h5 style="display:block">Solicitante: <span class="text-danger"></span></h5>
 	                                <select id="nr" name="nr" class="select2" style="width: 100%" required onchange="tabla_pasaje_unidad()">
 	                                <option value=''>[Elija el empleado]</option>
@@ -504,40 +512,40 @@
 	                                ?>
 	                                </select>
 	                            </div>
-	                            <div class="form-group col-lg-3">
+	                            <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                            	<h5 style="display:block;">Fecha de Pasaje: <span class="text-danger"></span></h5>
 	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>
 	                            
 	                        </div>
-	                        <div>
-		                        <ul class="nav nav-tabs customtab2" role="tablist">
-		                            <li class="nav-item"> 
+	                        <div class="row col-lg-12">
+		                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" style='width: 100%;' role="tablist">
+		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
 		                                    <span class="hidden-xs-down">Todas</span></a> 
 		                            </li>
-		                            <li class="nav-item"> 
+		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link" onclick="cambiar_pestana('1');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
 		                                    <span class="hidden-xs-down">Incompletas</span></a> 
 		                            </li>
-		                            <li class="nav-item"> 
+		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link" onclick="cambiar_pestana('2');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
 		                                    <span class="hidden-xs-down">En revisión</span></a> 
 		                            </li>
-		                            <li class="nav-item"> 
+		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link" onclick="cambiar_pestana('3');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
 		                                    <span class="hidden-xs-down">Observadas</span></a> 
 		                            </li>
-		                            <li class="nav-item"> 
+		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link" onclick="cambiar_pestana('4');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
 		                                    <span class="hidden-xs-down">Aprobadas</span></a> 
 		                            </li>
-		                            <li class="nav-item"> 
+		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link" onclick="cambiar_pestana('5');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 
 		                                    <span class="hidden-xs-down">Pagadas</span></a> 
@@ -558,14 +566,16 @@
 	                
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="ttl_form1">
-	                         
+	                         <div class="card-actions text-white">
+	                            <a style="font-size: 16px;" onclick="cerrar_mantenimiento1();"><i class="mdi mdi-window-close"></i></a>
+	                        </div>
 	                        <h4 class="card-title m-b-0 text-white"></h4>
 	                    </div>
 
 	                    <div class="card-body b-t">
 	                    	  
 	                    	<div class="row ">
-	                    		<div class="form-group col-lg-5">
+	                    		<div class="form-group col-lg-5 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<input type="hidden" id="band_solicitud" name="band_solicitud" value="save">
 		                            <input type="hidden" id="id_mision_pasajes" name="id_mision_pasajes">
 		                               <label for="" class="font-weight-bold">Solicitante: <span class="text-danger">*</span></label>
@@ -589,24 +599,26 @@
 		                                ?>
 		                                </select>
 	                    		</div>
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="" class="font-weight-bold">Fecha Solicitud: <span class="text-danger">*</span></label>
 	                    			 
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="dd/mm/yyyy" onchange="poner_mes(this.value)" readonly="">
                                     <div class="help-block"></div>
 	                    		</div>
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="" class="font-weight-bold">Mes de Pasaje: <span class="text-danger">*</span></label>
 	                    			<input type="month" class="form-control" id="mes_anio_pasaje" name="mes_anio_pasaje" readonly="">
 	                    		</div>
 	                    		
 	                    	</div>
-	                    	  <div class="pull-left">
-                               <button type="button" onclick="cerrar_mantenimiento1();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
-                            </div>
-	                    	<div class="pull-right">
-	                            <button type="button" onclick="mantto_solicitud();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-arrow-right"></span> Siguiente</button>
-	                        </div>
+		                    	<div class="clearfix">
+		                    	  <div class="pull-left">
+	                               <button type="button" onclick="cerrar_mantenimiento1();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
+	                            </div>
+		                    	<div class="pull-right">
+		                            <button type="button" onclick="mantto_solicitud();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-arrow-right"></span> Siguiente</button>
+		                        </div>
+		                    </div>
 	                    </div>
 	                </div>
 	            </div>
@@ -618,12 +630,14 @@
 	            <div class="col-lg-12" id="cnt_form" style="display: none;">
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="ttl_form2">
-	                         
+	                         <div class="card-actions text-white">
+	                            <a style="font-size: 16px;" onclick="cerrar_mantenimiento2(); cerrar_mantenimiento1();"><i class="mdi mdi-window-close"></i></a>
+	                        </div>
 	                        <h4 class="card-title m-b-0 text-white"></h4>
 	                    </div>
 	                    <div class="card-body b-t">
 	                    	<div class="row ">
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<input type="hidden" id="band_detalle_solicitud" name="band_detalle_solicitud" value="save">
 	                    			<input type="hidden" id="id_detalle_solicitud" name="id_detalle_solicitud" value="">
 	                    			<label for="fecha_detalle" class="font-weight-bold">Fecha: <span class="text-danger">*</span></label>
@@ -632,7 +646,7 @@
                                     <div class="help-block"></div>
 	                    		</div>
 	                    		
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label class='font-weight-bold'>Departamento: <span class='text-danger'>*</span></label>
 	                    			<select id="departamento" name="departamento" class="select2" onchange="combo_municipio(this.value,null)" style="width: 285px" required>
 	                    				<option value='0'>[Elija el departamento]</option>
@@ -646,7 +660,7 @@
 	                    				?>
 	                    			</select>
 	                    		</div>
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<div class="" id="combo_municipio" >
 	                    				<label class='font-weight-bold'>Municipio: <span class='text-danger'>*</span></label><br>
 	                    				<select class="select2" name="" style="width: 285px" >
@@ -656,21 +670,21 @@
 	                    		</div>
 	                    	</div>
 	                    	<div class="row">
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="empresa" class="font-weight-bold">Nombre de la Empresa: <span class="text-danger">*</span></label>
 	                    			<input type="text" id="empresa" name="empresa" class="form-control" required="" data-validation-required-message="Este campo es requerido" placeholder="Escriba Nombre de la empresa"  > 
 	                    		</div>
-	                    		<div class="form-group col-lg-6">
+	                    		<div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="direccion" class="font-weight-bold">Dirección de la Empresa: <span class="text-danger">*</span></label>
 	                    			 <input type="text"  id="direccion" name="direccion" class="form-control" required="" placeholder="Escriba la dirección" minlength="3" data-validation-required-message="Este campo es requerido">
 	                    		</div>
-	                    		<div class="form-group col-lg-3">
-	                    			<label for="expediente" class="font-weight-bold">No de Expediente: <span class="text-danger">*</span></label>
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
+	                    			<label for="expediente" class="font-weight-bold">No de Expediente: </label>
 	                    			<input type="text" id="expediente" name="expediente" class="form-control" placeholder="Escriba No de expediente"  >
 	                    		</div>
 	                    	</div>
 	                    	<div class="row">
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-9 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="id_actividad" class="font-weight-bold">Nombre de la Actividad: <span class="text-danger">*</span></label>
 	                    			<select id="id_actividad" name="id_actividad" class="select2" required=''  style="width: 100%" >
 					                <option value=''>[Elija una actividad]</option>
@@ -690,27 +704,31 @@
 					                ?>
 					              </select>
 	                    		</div>
-	                    		<div class="form-group col-lg-3">
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="monto" class="font-weight-bold">Monto: <span class="text-danger">*</span></label>
-	                    			<input type="number" id="monto" name="monto" class="form-control" min="0.01" placeholder="Digite el monto de pasaje" >
+	                    			<input type="number" id="monto" name="monto" class="form-control" min="0.00" placeholder="Digite el monto de pasaje" >
 	                    		</div>
 	                    	</div>
-	                    	<div class="pull-right">
-	                    		<div id="boton_agregar_detallado">
-	                    			<button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Agregar</button>
-	                    		</div>
-	                            <div id="boton_editar_detallado" style="display: none">
-		                            <button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Editar</button>
+	                    	<div class="clearfix">
+		                    	<div class="pull-right">
+		                    		<div id="boton_agregar_detallado">
+		                    			<button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success2"><span class="mdi mdi-plus"></span> Agregar</button>
+		                    		</div>
+		                            <div id="boton_editar_detallado" style="display: none">
+			                            <button type="button" onclick="mantto_detalle_solicitud()" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Editar</button>
+			                        </div>
 		                        </div>
-	                        </div>
+		                    </div>
 	                    	<div id="cnt_pasaje_detalle"></div>
 	                    	<br><br>
-	                    	<div class="pull-left">
-                               <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
-                            </div>
-                            <div class="pull-right">
-	                            <button type="button" onclick="recorre_observaciones();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
-	                        </div>
+	                    	<div class="clearfix">
+		                    	<div class="pull-left">
+	                               <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
+	                            </div>
+	                            <div class="pull-right">
+		                            <button type="button" onclick="recorre_observaciones();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
+		                        </div>
+		                    </div>
 	                    </div>
 	                </div>
 	            </div>

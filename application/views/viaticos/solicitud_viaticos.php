@@ -2207,6 +2207,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         }
         return bandera;
     }
+
 </script>
 
 <style>
@@ -2367,7 +2368,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                     </div> 
                                 </div>
                                 <div class="col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>" align="center">
-                                    <h5>Justificación de viático: <span class="text-danger">*</span></h5>
+                                    <h5>Justificación de viático:</h5>
                                     <div class="switch">
                                         <label>No
                                             <input type="checkbox" id="justificacion" name="justificacion" onchange="cambiarJustificacion()"><span class="lever"></span>Sí</label>
@@ -2468,7 +2469,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                             <div class="row">
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Municipio: <span class="text-danger">*</span></h5>
-                                    <select id="municipio" name="municipio" class="select2" style="width: 100%" required onchange="combo_municipio()">
+                                    <select id="municipio" name="municipio" class="select2" style="width: 100%" required>
                                         <option value=''>[Elija la municipio]</option>
                                         <?php 
                                             $municipio = $this->db->query("SELECT * FROM org_municipio ORDER BY municipio");
@@ -2478,7 +2479,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                                 }
                                             }
                                         ?>
-                                </select>
+                                    </select>
                                 </div>
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="combo_departamento"></div>
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>" id="input_distancia"></div>
@@ -2574,8 +2575,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         </div>
                     </div>
                     <div class="row" style="width: 100%"></div>
-                    <div class="row">
-                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" role="tablist" <?php if($navegatorless){ echo "style='width: 100%;'"; } ?>>
+                    <div class="row col-lg-12">
+                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" role="tablist" style='width: 100%;'>
                             <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 
@@ -2715,7 +2716,12 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
 <script>
 $(function(){  
-    $(document).ready(function(){  
+    $(document).ready(function(){ 
+
+        $( "#municipio" ).change(function() {
+            combo_municipio();
+        });
+
     	var date = new Date(); var currentMonth = date.getMonth(); var currentDate = date.getDate(); var currentYear = date.getFullYear();
         $('#fecha_mision_inicio').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"),daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
         $('#fecha_mision_fin').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"), daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
@@ -2920,9 +2926,9 @@ $(function(){
                     id_ruta_visitada = "";
                     calcula_distancia(0);
                 } else {
-                    if($("#municipio").val() != ""){
+                    /*if($("#municipio").val() != ""){
                       $.toast({ heading: 'Ocurrió un error', text: 'No logramos calcular la distancia, intentalo nuevamente', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
-                    }
+                    }*/
                 }
             });
         }

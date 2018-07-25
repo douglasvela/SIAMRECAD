@@ -1,6 +1,6 @@
 <style type="text/css" media="screen">
   table {
-  font-size: 80%;
+  font-size: 85%;
 }
 </style>      
 <div class="table-responsive">
@@ -8,8 +8,7 @@
         <thead class="bg-inverse text-white">
             <tr>
                 <th>Fecha Misión</th>
-                <th>Departamento</th>
-                <th>Municipio</th>
+                <th>Departamento / Municipio</th>
                 <th>No Expediente</th>
                 <th>Empresa</th>
                 <th>Direccion</th>
@@ -35,17 +34,17 @@
 
     $depto = $this->db->query("SELECT * FROM org_departamento where id_departamento=".$fila->id_departamento);
     foreach ($depto->result() as $valuedepto) {
-        echo "<td>".$valuedepto->departamento."</td>";
+        echo "<td>".$valuedepto->departamento." / ";
     }
     
     $mun = $this->db->query("SELECT * FROM org_municipio where id_municipio=".$fila->id_municipio);
     foreach ($mun->result() as $valuemun) {
-        echo "<td>".$valuemun->municipio."</td>";
+        echo $valuemun->municipio."</td>";
     }                            
                             echo "<td>".$fila->no_expediente."</td>";
                             echo "<td>".$fila->empresa_visitada."</td>";
                             echo "<td>".$fila->direccion_empresa."</td>";
-                            echo "<td>".$fila->monto_pasaje."</td>";
+                            echo "<td>$ ".$fila->monto_pasaje."</td>";
     $act = $this->db->query("SELECT * FROM vyp_actividades where id_vyp_actividades=".$fila->id_actividad_realizada);
     foreach ($act->result() as $valueac) {
         echo "<td>".$valueac->nombre_vyp_actividades."</td>";
