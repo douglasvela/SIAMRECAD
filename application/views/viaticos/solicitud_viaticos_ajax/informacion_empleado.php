@@ -12,7 +12,7 @@ if(!empty($nr_usuario)){
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
-        $empleado_informacion = $this->db->query("SELECT e.id_empleado, e.nr, ei.id_seccion, cf.funcional, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, s.nombre_seccion, MAX(ei.id_empleado_informacion_laboral) FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND e.nr = '".$nr_usuario."' JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN org_seccion AS s ON s.id_seccion = ei.id_seccion");
+        $empleado_informacion = $this->db->query("SELECT ei.id_empleado_informacion_laboral, e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, s.nombre_seccion, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) AND e.nr = '".$nr_usuario."'");
 
 	    if($empleado_informacion->num_rows() > 0){ 
 	        foreach ($empleado_informacion->result() as $filainfoe) {}
@@ -50,7 +50,7 @@ if(!empty($nr_usuario)){
 		echo '<input type="hidden" id="longitud_oficina" name="longitud_oficina" value="'.$longitud_oficina.'">';
 		echo '<input type="hidden" id="nombre_oficina" name="nombre_oficina" value="'.$nombre_oficina.'">';
 		echo '<input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="'.$id_oficina_origen.'">';
-		echo '<input type="hidden" id="id_seccion" name="id_seccion" value="'.$filainfoe->id_seccion.'">';
+		echo '<input type="hidden" id="id_empleado_informacion_laboral" name="id_empleado_informacion_laboral" value="'.$filainfoe->id_empleado_informacion_laboral.'">';
 
     }else{
     	echo '<div class="alert alert-danger">';

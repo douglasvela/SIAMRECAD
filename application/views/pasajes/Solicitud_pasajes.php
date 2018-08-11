@@ -16,6 +16,15 @@
         }
     }
 
+    $empleado_informacion = $this->db->query("SELECT e.id_empleado, e.nr, ei.id_seccion, cf.funcional, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, s.nombre_seccion, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) AND e.nr = '".$nr_usuario."' JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN org_seccion AS s ON s.id_seccion = ei.id_seccion");
+
+        foreach ($empleado_informacion->result() as $filainfoe) {
+        	$id_seccion = $filainfoe->id_seccion;
+        }
+
+    $rango_consulta = obtener_rango($segmentos='2', $permiso='1');
+    $rango_registro = obtener_rango($segmentos='2', $permiso='2');
+
     // Características del navegador
 $ua=$this->config->item("navegator");
 $navegatorless = false;
@@ -70,18 +79,16 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		}
 	 
 
-    function combo_municipio(depto,valor){     
-        var id_departamento = depto;
+    function combo_municipio(municipio,valor){     
+        var id_municipio = municipio;
         var newName = 'John Smith',
         xhr_m = new XMLHttpRequest();
-        xhr_m.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios1?id_departamento="+id_departamento+"&val="+valor);
+        xhr_m.open('GET', "<?php echo site_url(); ?>/pasajes/Lista_pasaje/combo_municipios1?id_municipio="+id_municipio+"&val="+valor);
         xhr_m.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr_m.onload = function() {
             if (xhr_m.status === 200 && xhr_m.responseText !== newName) {
                 document.getElementById("combo_municipio").innerHTML = xhr_m.responseText;
-                // document.getElementById("combo_municipio1").innerHTML = xhr_m.responseText;
-                $(".select2").select2();
-                // $("#municipio").parent().show(0);
+                $("#departamento").val($("#id_departamento_copia").val()).trigger('change.select2');
             }
             else if (xhr_m.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
@@ -491,7 +498,22 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                                <select id="nr" name="nr" class="select2" style="width: 100%" required onchange="tabla_pasaje_unidad()">
 	                                <option value=''>[Elija el empleado]</option>
 	                                <?php
-	                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr as nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+	                                	if($rango_consulta == "2"){
+                                            $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                        }else if($rango_consulta == "3"){
+                                            $oficinas_departamentales = array(52,53,54,55,56,57,58,59,60,61,64,65,66);
+                                            if (in_array($id_seccion, $oficinas_departamentales)) {
+                                                $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                            }else{
+                                                $add = "AND ei.id_seccion NOT IN(52,53,54,55,56,57,58,59,60,61,64,65,66)";
+                                            }
+                                        }else if($rango_consulta == "4"){
+                                            $add = "";
+                                        }else{
+                                            $add = "AND e.nr = '".$nr_usuario."'";
+                                        }
+
+	                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 	                                        if($dataEmpleado2->num_rows() > 0){
 	                                            foreach ($dataEmpleado2->result() as $fila2) {
 	                                            	if($nr_usuario == $fila2->nr){
@@ -582,7 +604,22 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		                                <select id="nr_empleado" name="nr_empleado" class="select2" style="width: 100%" required >
 		                                <option value='0'>[Elija el empleado]</option>
 		                                <?php
-		                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr as nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+		                                	if($rango_consulta == "2"){
+	                                            $add = "AND ei.id_seccion = '".$id_seccion."'";
+	                                        }else if($rango_consulta == "3"){
+	                                            $oficinas_departamentales = array(52,53,54,55,56,57,58,59,60,61,64,65,66);
+	                                            if (in_array($id_seccion, $oficinas_departamentales)) {
+	                                                $add = "AND ei.id_seccion = '".$id_seccion."'";
+	                                            }else{
+	                                                $add = "AND ei.id_seccion NOT IN(52,53,54,55,56,57,58,59,60,61,64,65,66)";
+	                                            }
+	                                        }else if($rango_consulta == "4"){
+	                                            $add = "";
+	                                        }else{
+	                                            $add = "AND e.nr = '".$nr_usuario."'";
+	                                        }
+
+		                                    $dataEmpleado2 = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 		                                        if($dataEmpleado2->num_rows() > 0){
 		                                            foreach ($dataEmpleado2->result() as $fila2) {
 		                                            	if($nr_usuario == $fila2->nr){
@@ -645,28 +682,35 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                    			<input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_detalle" name="fecha_detalle" placeholder="dd/mm/yyyy" onchange="">
                                     <div class="help-block"></div>
 	                    		</div>
-	                    		
+	                    	
+	                    		<div class="" id="combo_municipio" ></div>
+	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                    				<label class="font-weight-bold">Municipio: <span class="text-danger">*</span></label>
+                    				<select id="municipio" name="municipio" class="select2" style="width: 100%" required onchange="combo_municipio(this.value,null)">
+								    <?php 
+								        $municipio = $this->db->query("SELECT * FROM org_municipio ORDER BY municipio");
+								        if($municipio->num_rows() > 0){
+								            foreach ($municipio->result() as $fila2) {              
+								               echo '<option class="m-l-50" value="'.$fila2->id_municipio.'">'.$fila2->municipio.'</option>';
+								            }
+								        }
+								    ?>
+									</select>
+	                    			
+	                    		</div>
 	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label class='font-weight-bold'>Departamento: <span class='text-danger'>*</span></label>
-	                    			<select id="departamento" name="departamento" class="select2" onchange="combo_municipio(this.value,null)" style="width: 285px" required>
+	                    			<select id="departamento" name="departamento" class="select2" style="width: 285px" required>
 	                    				<option value='0'>[Elija el departamento]</option>
 	                    				<?php 
-	                    				 $departamento = $this->db->query("SELECT * FROM org_departamento");
+	                    				 $departamento = $this->db->query("SELECT * FROM org_departamento ORDER BY departamento");
 							                if($departamento->num_rows() > 0){
 							                    foreach ($departamento->result() as $fila2) {              
-							                       echo '<option class="m-l-50" value="'.$fila2->id_departamento.'" onclick="combo_municipio('.$fila2->id_departamento.',null)">'.$fila2->departamento.'</option>';
+							                       echo '<option class="m-l-50" value="'.$fila2->id_departamento.'">'.$fila2->departamento.'</option>';
 							                    }
 							                }
 	                    				?>
 	                    			</select>
-	                    		</div>
-	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
-	                    			<div class="" id="combo_municipio" >
-	                    				<label class='font-weight-bold'>Municipio: <span class='text-danger'>*</span></label><br>
-	                    				<select class="select2" name="" style="width: 285px" >
-	                    					<option value="">[Seleccione]</option>
-	                    				</select>
-	                    			</div>
 	                    		</div>
 	                    	</div>
 	                    	<div class="row">
@@ -689,11 +733,11 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                    			<select id="id_actividad" name="id_actividad" class="select2" required=''  style="width: 100%" >
 					                <option value=''>[Elija una actividad]</option>
 					                <?php 
-					                  $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL");
+					                  $actividad = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = 0 OR depende_vyp_actividades = '' OR depende_vyp_actividades IS NULL ORDER BY nombre_vyp_actividades");
 					                  if($actividad->num_rows() > 0){
 					                    foreach ($actividad->result() as $filaa) {              
 					                      echo '<option class="m-l-50" value="'.$filaa->id_vyp_actividades.'">'.$filaa->nombre_vyp_actividades.'</option>';
-					                      $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."'");
+					                      $activida_sub = $this->db->query("SELECT * FROM vyp_actividades WHERE depende_vyp_actividades = '".$filaa->id_vyp_actividades."' ORDER BY nombre_vyp_actividades");
 					                      if($activida_sub->num_rows() > 0){
 					                        foreach ($activida_sub->result() as $filasub) {              
 					                          echo '<option class="m-l-50" value="'.$filasub->id_vyp_actividades.'"> &emsp;&#x25B6; '.$filasub->nombre_vyp_actividades.'</option>';

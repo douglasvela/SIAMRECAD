@@ -327,10 +327,10 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
  <?php
     $id_sistema=$this->config->item("id_sistema");
-    $modulos = $this->db->query("SELECT m.* FROM org_modulo AS m  WHERE m.id_sistema = '".$id_sistema."' AND (m.dependencia = '' OR m.dependencia = 0 OR m.dependencia IS NULL) AND m.id_modulo IN(SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = m.id_modulo AND U.id_usuario='".$id_usuario."') ORDER BY orden");
+    $modulos = $this->db->query("SELECT m.* FROM org_modulo AS m  WHERE m.id_sistema = '".$id_sistema."' AND (m.dependencia = '' OR m.dependencia = 0 OR m.dependencia IS NULL) AND m.id_modulo IN(SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = m.id_modulo AND U.id_usuario='".$id_usuario."' AND P.estado = '1') ORDER BY orden");
     if($modulos->num_rows() > 0){
         foreach ($modulos->result() as $fila) {
-        $modulos2 = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = '".$id_sistema."' AND m.dependencia = ".$fila->id_modulo." AND m.id_modulo IN(SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = m.id_modulo AND U.id_usuario='".$id_usuario."') ORDER BY orden");
+        $modulos2 = $this->db->query("SELECT m.* FROM org_modulo AS m WHERE m.id_sistema = '".$id_sistema."' AND m.dependencia = ".$fila->id_modulo." AND m.id_modulo IN(SELECT P.id_modulo FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = m.id_modulo AND U.id_usuario='".$id_usuario."' AND P.estado = '1') ORDER BY orden");
             if($modulos2->num_rows() > 0){
                 echo '<li><a class="has-arrow waves-effect waves-dark" href="'.$fila->url_modulo.'" aria-expanded="false"><i class="'.$fila->img_modulo.'"></i><span class="hide-menu">'.$fila->nombre_modulo.'</span></a>';
                 echo '<ul aria-expanded="false" class="collapse">';

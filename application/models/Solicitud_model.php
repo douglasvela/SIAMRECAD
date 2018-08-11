@@ -9,7 +9,7 @@ class Solicitud_model extends CI_Model {
 
 	function insertar_mision($data){
 		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_seccion' => $data['id_seccion'], 'ruta_justificacion' => $data['ruta_justificacion'], 'pagado_en' => 'banco', 'oficina_solicitante_motorista' => $data['oficina_solicitante']))){
+		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_empleado_informacion_laboral' => $data['id_empleado_informacion_laboral'], 'ruta_justificacion' => $data['ruta_justificacion'], 'pagado_en' => 'banco', 'oficina_solicitante_motorista' => $data['oficina_solicitante']))){
 			$insert_id = $this->db->insert_id();
 			return $insert_id;
 		}else{
@@ -180,7 +180,7 @@ class Solicitud_model extends CI_Model {
 
 	function editar_mision($data){
 		$this->db->where("id_mision_oficial",$data["id_mision"]);
-		if($this->db->update('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_seccion' => $data['id_seccion'], 'ruta_justificacion' => $data['ruta_justificacion'], 'oficina_solicitante_motorista' => $data['oficina_solicitante']))){
+		if($this->db->update('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_empleado_informacion_laboral' => $data['id_empleado_informacion_laboral'], 'ruta_justificacion' => $data['ruta_justificacion'], 'oficina_solicitante_motorista' => $data['oficina_solicitante']))){
 			return "exito";
 		}else{
 			return "fracaso";

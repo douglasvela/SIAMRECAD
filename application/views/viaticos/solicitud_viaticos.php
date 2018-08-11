@@ -26,6 +26,15 @@
     $horario_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '1' AND estado = '1'");
     $restric_viaticos = $this->db->query("SELECT * FROM vyp_horario_viatico WHERE id_tipo = '2' AND estado = '1'");
 
+    $empleado_informacion = $this->db->query("SELECT e.id_empleado, e.nr, ei.id_seccion, cf.funcional, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, s.nombre_seccion, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) AND e.nr = '".$nr_usuario."' JOIN sir_cargo_funcional AS cf ON cf.id_cargo_funcional = ei.id_cargo_funcional JOIN org_seccion AS s ON s.id_seccion = ei.id_seccion");
+
+        foreach ($empleado_informacion->result() as $filainfoe) {
+            $id_seccion = $filainfoe->id_seccion;
+        }
+
+    $rango_consulta = obtener_rango($segmentos='2', $permiso='1');
+    $rango_registro = obtener_rango($segmentos='2', $permiso='2');
+
 
 // Características del navegador
 $ua=$this->config->item("navegator");
@@ -266,6 +275,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         var id_destino = $("#id_destino").val();
         var restriccion_llegada = "";
         var restriccion_salida = "";
+
         if(id_origen == id_oficina_origenes){
              for(f=0; f<viaticos.length; f++){
                 if( (hs >= viaticos[f][2] && hs <= viaticos[f][3]) ){
@@ -718,31 +728,36 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         var hora_llegada = $("#hora_llegada").val();
         var id_empresa_viatico = $("#id_empresa_viatico").val();
         var bandera = true;
+        var id_distancia = $("#id_distancia").val();
+        if(id_distancia){
+            if(hora_salida < hora_llegada){
 
-        if(hora_salida < hora_llegada){
+                for(l=0; l< (filas.length-1); l++){
+                    celdas = $(filas[l]).children("td");
+                    id_empresa_viatico2 = $($(celdas[0]).children("input")[0]).val();
+                    hora_salida2 = $(celdas[2]).text().trim();
+                    hora_salida2 = hora_salida2.substr(0,5);
+                    hora_llegada2 = $(celdas[3]).text().trim();
+                    hora_llegada2 = hora_llegada2.substr(0,5);
+                    fecha2 = $(celdas[0]).text().trim();
 
-            for(l=0; l< (filas.length-1); l++){
-                celdas = $(filas[l]).children("td");
-                id_empresa_viatico2 = $($(celdas[0]).children("input")[0]).val();
-                hora_salida2 = $(celdas[2]).text().trim();
-                hora_salida2 = hora_salida2.substr(0,5);
-                hora_llegada2 = $(celdas[3]).text().trim();
-                hora_llegada2 = hora_llegada2.substr(0,5);
-                fecha2 = $(celdas[0]).text().trim();
-
-                if(fecha == fecha2){
-                    if(id_empresa_viatico2 != id_empresa_viatico){
-                        if(hora_salida <= hora_llegada2 || hora_llegada <= hora_llegada2){
-                            $.toast({ heading: 'Horario inválido', text: 'El nuevo registro debe respetar el orden ascendente de las fechas y horas', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
-                            bandera = false;
+                    if(fecha == fecha2){
+                        if(id_empresa_viatico2 != id_empresa_viatico){
+                            if(hora_salida <= hora_llegada2 || hora_llegada <= hora_llegada2){
+                                $.toast({ heading: 'Horario inválido', text: 'El nuevo registro debe respetar el orden ascendente de las fechas y horas', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+                                bandera = false;
+                            }
                         }
                     }
                 }
-            }
 
+            }else{
+                $.toast({ heading: 'Horas incorrectas', text: 'La hora de salida debe ser menor a la de llegada.', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
+                bandera = false;
+            }
         }else{
-            $.toast({ heading: 'Horas incorrectas', text: 'La hora de salida debe ser menor a la de llegada.', position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
             bandera = false;
+            swal({ title: "Ruta no válida", text: "Parece que intentas repetir una ruta, o está mal elaborada.", type: "warning", showConfirmButton: true });
         }
         return bandera;
     }
@@ -1497,6 +1512,11 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             }else{
                 id_municipio_mapa = res;
                 $('#municipio').val(id_municipio_mapa).trigger('change.select2');
+                var tipo = $('input[name=r_destino]:checked').val();
+                if(tipo == "destino_mapa"){
+                    combo_municipio();
+                }
+
             }
              
         });
@@ -1522,6 +1542,11 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             }else{
                 id_municipio_mapa = res;
                 $('#municipio').val(id_municipio_mapa).trigger('change.select2');
+                var tipo = $('input[name=r_destino]:checked').val();
+                if(tipo == "destino_mapa"){
+                    combo_municipio();
+                }
+
                 swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no se el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
             }
              
@@ -2322,8 +2347,22 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
 			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
 			                            <option value="">[Elija el empleado]</option>
-			                            <?php 
-			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+			                            <?php
+                                            if($rango_consulta == "2"){
+                                                $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                            }else if($rango_consulta == "3"){
+                                                $oficinas_departamentales = array(52,53,54,55,56,57,58,59,60,61,64,65,66);
+                                                if (in_array($id_seccion, $oficinas_departamentales)) {
+                                                    $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                                }else{
+                                                    $add = "AND ei.id_seccion NOT IN(52,53,54,55,56,57,58,59,60,61,64,65,66)";
+                                                }
+                                            }else if($rango_consulta == "4"){
+                                                $add = "";
+                                            }else{
+                                                $add = "AND e.nr = '".$nr_usuario."'";
+                                            }
+			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 			                                if($otro_empleado->num_rows() > 0){
 			                                    foreach ($otro_empleado->result() as $fila) {              
 			                                       echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
@@ -2552,12 +2591,25 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         <div class="pull-left">
                             <div class="form-group" style="width: 400px;"> 
                                 <select id="nr_search" name="nr_search" class="select2" style="width: 100%" required="" onchange="tabla_solicitudes();">
-                                    <option value="">[Todos los empleados]</option>
-                                <?php 
-                                    $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                <?php
+                                    if($rango_consulta == "2"){
+                                        $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                    }else if($rango_consulta == "3"){
+                                        $oficinas_departamentales = array(52,53,54,55,56,57,58,59,60,61,64,65,66);
+                                        if (in_array($id_seccion, $oficinas_departamentales)) {
+                                            $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                        }else{
+                                            $add = "AND ei.id_seccion NOT IN(52,53,54,55,56,57,58,59,60,61,64,65,66)";
+                                        }
+                                    }else if($rango_consulta == "4"){
+                                        $add = "";
+                                    }else{
+                                        $add = "AND e.nr = '".$nr_usuario."'";
+                                    }
+                                    $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                     if($otro_empleado->num_rows() > 0){
-                                        foreach ($otro_empleado->result() as $fila) {        
-                                            if($nr_usuario == $fila->nr){      
+                                        foreach ($otro_empleado->result() as $fila) {              
+                                           if($nr_usuario == $fila->nr){      
                                                echo '<option class="m-l-50" value="'.$fila->nr.'" selected>'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
                                             }else{
                                                 echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
@@ -3019,11 +3071,11 @@ $(function(){
                             direccion_mapa = direccion;
                             distancia_total_mapa = distancia_total;
                             distancia_carretera_mapa = distancia_carretera;
-                            if(document.getElementById('destino_municipio').checked == 1){
+                            //if(document.getElementById('destino_municipio').checked == 1){
                                 $("#distancia").val(distancia_total_mapa);
-                            }else if(document.getElementById('destino_oficina').checked == 1){
+                            /*}else if(document.getElementById('destino_oficina').checked == 1){
                                 $("#distancia").val(distancia_total_mapa);
-                            }
+                            }*/
                         }
                     }
                 }

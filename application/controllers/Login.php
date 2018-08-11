@@ -110,19 +110,6 @@ class Login extends CI_Controller {
 	}
 
 	function ldap_login($user,$pass){
-		error_reporting(0); $ldaprdn = $user.'@trabajo.local'; $ldappass = $pass; $ds = 'trabajo.local'; $dn = 'dc=trabajo,dc=local'; $puertoldap = 389; $ldapconn = @ldap_connect($ds,$puertoldap);
-		if ($ldapconn){ 
-			ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION,3); ldap_set_option($ldapconn, LDAP_OPT_REFERRALS,0); 
-			$ldapbind = @ldap_bind($ldapconn, $ldaprdn, $ldappass);
-			if ($ldapbind){  return "login";
-			}else{ return $this->ldap2_login($user,$pass); } 
-		}else{ 
-			return $this->ldap2_login($user,$pass);
-		}
-		ldap_close($ldapconn);
-	}
-
-	function ldap2_login($user,$pass){
 		error_reporting(0); $ldaprdn = $user.'@mtps.local'; $ldappass = $pass; $ds = 'mtps.local'; $dn = 'dc=mtps,dc=local'; $puertoldap = 389;  $ldapconn = @ldap_connect($ds,$puertoldap); 
 		if ($ldapconn){ 
 			ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION,3);  ldap_set_option($ldapconn, LDAP_OPT_REFERRALS,0); 
@@ -131,6 +118,19 @@ class Login extends CI_Controller {
 			}else{  return "error"; } 
 		}else{ 
 			return "error";
+		}
+		ldap_close($ldapconn);
+	}
+
+	function ldap2_login($user,$pass){
+		error_reporting(0); $ldaprdn = $user.'@trabajo.local'; $ldappass = $pass; $ds = 'trabajo.local'; $dn = 'dc=trabajo,dc=local'; $puertoldap = 389; $ldapconn = @ldap_connect($ds,$puertoldap);
+		if ($ldapconn){ 
+			ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION,3); ldap_set_option($ldapconn, LDAP_OPT_REFERRALS,0); 
+			$ldapbind = @ldap_bind($ldapconn, $ldaprdn, $ldappass);
+			if ($ldapbind){  return "login";
+			}else{ return $this->ldap2_login($user,$pass); } 
+		}else{ 
+			return $this->ldap2_login($user,$pass);
 		}
 		ldap_close($ldapconn);
 	}

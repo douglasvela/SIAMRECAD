@@ -42,7 +42,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return key($array);
 	}
 
-
 /***********************************
 	CREAR NOTIFICACIONES:
 	Genera el codigo para mostrar una notificación, solicitando solamente la descripción del mensaje.
@@ -57,8 +56,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		return $notificacion;
 	}
-
-
 	function crear_combo($titulo,$id, $lista,$datos,$funcion){
 		$combo = '<label for="'.$id.'">'.$titulo.':</label>';
 		$combo .= '<div class="input-group-btn">';
@@ -83,8 +80,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $combo;
 	}
 
-
-
 	function parrafo($cadena){
         $cadena = ucfirst(mb_strtolower($cadena));
         return ($cadena);
@@ -102,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$id_modulo = $data['id_modulo'];
     	$id_usuario = $data['id_usuario'];
 
-		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
+		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso' AND P.estado = '1'");
 		if($query->num_rows() > 0){
 			return true;
 		}else{
@@ -116,6 +111,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $id_usuario = $CI->session->userdata('id_usuario_viatico');
         $parametros = array('id_permiso' => $permiso, 'id_modulo' => $id_modulo,'id_usuario' => $id_usuario);
         return buscar_permiso2($parametros);
+    }
+
+    function obtener_rango($segmentos, $permiso){
+    	$CI =& get_instance();//super variable de codeignater...acceso a todo
+        $id_modulo = busca_id_org_modulo($segmentos);
+        $id_usuario = $CI->session->userdata('id_usuario_viatico');
+        $parametros = array('id_permiso' => $permiso, 'id_modulo' => $id_modulo, 'id_usuario' => $id_usuario);
+        return buscar_rango($parametros);
+    }
+
+    function buscar_rango($data){
+    	$CI =& get_instance();//super variable de codeignater...acceso a todo
+
+    	$id_permiso = $data['id_permiso'];
+    	$id_modulo = $data['id_modulo'];
+    	$id_usuario = $data['id_usuario'];
+
+		$query = $CI->db->query("SELECT P.id_rango, P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario,(SELECT nombre_completo from org_usuario WHERE id_usuario=U.id_usuario) FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso' AND P.estado = '1'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $filar){
+			}
+			return $filar->id_rango;
+		}else{
+			return false;
+		}
     }
 
     function busca_id_org_modulo($segmentos){
@@ -168,7 +188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	$id_modulo = $data['id_modulo'];
     	$id_usuario = $data['id_usuario'];
 
-		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso'");
+		$query = $CI->db->query("SELECT P.id_rol,P.id_modulo,P.id_permiso,U.id_usuario FROM org_rol_modulo_permiso as P INNER JOIN org_usuario_rol as U ON P.id_rol=U.id_rol WHERE P.id_modulo = '$id_modulo' AND U.id_usuario='$id_usuario' and P.id_permiso='$id_permiso' AND P.estado = '1'");
 
 		if($query->num_rows() > 0){
 			return true;

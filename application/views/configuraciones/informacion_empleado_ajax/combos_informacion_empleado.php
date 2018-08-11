@@ -3,7 +3,7 @@
 
     if(!empty($nr_empleado)){
 
-    $empleado_informacion = $this->db->query("SELECT e.id_empleado, e.nr, cf.id_nivel FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.fecha_inicio = (SELECT MAX(i2.fecha_inicio) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.nr = '".$nr_empleado."'");
+    $empleado_informacion = $this->db->query("SELECT e.id_empleado, e.nr, cf.id_nivel FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.nr = '".$nr_empleado."'");
     if($empleado_informacion->num_rows() > 0){
         foreach ($empleado_informacion->result() as $filainfoe) {              
         }
