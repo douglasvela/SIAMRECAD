@@ -53,20 +53,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     <div class="preloader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg></div>
     <header class="topbar">
         <nav class="navbar top-navbar navbar-light" style="justify-content: space-between;">
-
-            <div class="pull-left">
-                
-                <span class="nav-item" style="position: inline-block;"> <a class="nav-link sidebartoggler text-white waves-effect waves-dark" href="javascript:void(0)" style="font-size: 20px;"> <span class="mdi mdi-login-variant"></span> INICIO DE SESIÓN</a> </span>
-            </div>
-            <div class="pull-right">
-                <div class="navbar-collapse">
-
-                    <ul class="navbar-nav my-lg-0">
-                            <li class="nav-item pull-right"><a id="initial_user" data-toggle="tooltip" title="" data-original-title="Acerca de TravelExp" class="nav-link waves-effect waves-dark" onclick="swal({ title: 'TravelExp V1.0', text: 'Su nombre proviene del inglés << Travel Expensive >> y significa << Viáticos >>. Esto se debe al propósito por el que se llevó a cabo su desarrollado, de modo que, es correcto referirse a la herramienta como: (Sistema de viáticos)', showConfirmButton: true });" href="javascript:void(0)"><span class="round round-inverse bg-inverse"><span class="mdi mdi-help" style="font-size: 35px;"></span></span></a> </li>
-                    </ul>
-                </div>
-            </div>
-            
+            <span class="nav-item"> <a class="nav-link sidebartoggler text-white waves-effect waves-dark" href="javascript:void(0)" style="font-size: 20px;"> <span class="mdi mdi-login-variant"></span> INICIO DE SESIÓN</a> </span>
         </nav>
     </header>
     
