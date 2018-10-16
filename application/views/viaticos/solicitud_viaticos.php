@@ -1380,6 +1380,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                   var destino_ofi = document.getElementById('destino_oficina').checked;
                   var dist = parseFloat($("#distancia").val())
                   if(dist == 0 && destino_mun == 1){
+                    $("#cuenta_viatico").addClass('text-info');
+                    $("#cuenta_viatico").html('<span class="fa fa-spin fa-spinner"></span> Calculando distancia espere...');
                     $("#address").val($("#municipio option:selected").text().trim()+", "+$("#departamento option:selected").text().trim())
                     $("#submit_ubi").click();
                   }else if(dist == 0 && destino_ofi == 1 && $("#departamento").val() != ""){
@@ -2966,7 +2968,7 @@ $(function(){
         });
 
         function geocodeAddress(geocoder, resultsMap) {
-            var address = $("#address").val();
+            var address = $("#address").val()+", EL SALVADOR";
             geocoder.geocode({'address': address}, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     resultsMap.setCenter(results[0].geometry.location);
@@ -3072,7 +3074,13 @@ $(function(){
                             distancia_total_mapa = distancia_total;
                             distancia_carretera_mapa = distancia_carretera;
                             //if(document.getElementById('destino_municipio').checked == 1){
-                                $("#distancia").val(distancia_total_mapa);
+                            $("#distancia").val(distancia_total_mapa);
+                            if(distancia_total_mapa >= DistanciaMinima){
+                                $("#cuenta_viatico").text('Incluye viáticos');
+                            }else{
+                                $("#cuenta_viatico").text('No cuenta con viáticos');
+                            }
+                            $("#cuenta_viatico").removeClass('text-info');
                             /*}else if(document.getElementById('destino_oficina').checked == 1){
                                 $("#distancia").val(distancia_total_mapa);
                             }*/

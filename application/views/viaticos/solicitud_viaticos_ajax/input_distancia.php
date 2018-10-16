@@ -64,4 +64,4 @@ if(floatval($ua['version']) < 40){
     ?>
     
 </div>
-<div class="help-block"><?php if($km > 15){ echo "Incluye viáticos"; }else{ echo "No cuenta con viáticos"; } ?></div>
+<div id="cuenta_viatico" class="help-block"><?php if($km > 15){ echo "Incluye viáticos"; }else{ echo "No cuenta con viáticos"; } ?></div>

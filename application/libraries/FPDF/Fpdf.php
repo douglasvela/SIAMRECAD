@@ -95,7 +95,7 @@ function Header(){
 	 // the middle of the "PDF screen", fixed by now.	
 	$this->SetFont('Arial','',8);
     $this->Image(('application/libraries/logomtps.jpeg'),10,7,30,17);
-    $this->Image(('application/libraries/escudo.jpg'),180,7,20,16);
+    $this->Image(('application/libraries/escudo.jpg'),165,10,37,12);
     $this->SetFont('Arial','B',9);
 	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo1) / 2), 12, $this->titulo1,0,'C', 0);
 	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo2) / 2), 16, $this->titulo2,0,'C', 0);
