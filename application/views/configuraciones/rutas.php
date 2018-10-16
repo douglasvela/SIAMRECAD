@@ -224,7 +224,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         if($('#id_oficina_origen_vyp_rutas').val()!=""){
             var departamento = $("#id_departamento_vyp_rutas option:selected").html();
             var municipio = $("#id_municipio option:selected").html();
-            $("#address").val(municipio.trim()+","+departamento.trim());
+            $("#address").val(municipio.trim()+","+departamento.trim()+", EL SALVADOR");
             $("#submit_ubi").click();
         }
         $("#panel_mapa").hide(10);
@@ -506,7 +506,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
      function buscarmapa(){
         var departamento = $("#id_departamento_vyp_rutas option:selected").html();
         var municipio = $("#id_municipio option:selected").html();
-        $("#address").val(municipio.trim()+", "+departamento.trim());
+        $("#address").val(municipio.trim()+", "+departamento.trim()+", EL SALVADOR");
         $("#submit_ubi").click();
      }
      function autocompletar_descripcion_destino_oficina(){
