@@ -532,6 +532,18 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->eliminar_archivo_justificacion($data);
 	}
 
+	public function editar_destino(){
+		$data = array(
+			"id_empresas_visitadas" => $this->input->post('id_empresa_visitada'),
+			"nombre_empresa" => $this->input->post('nombre_empresa'),
+			"direccion_empresa" => $this->input->post('direccion_empresa'),
+			"id_mision_oficial" => $this->input->post('id_mision_oficial'),
+			"id_destino" => $this->input->post('id_destino')
+        );
+
+		echo $this->solicitud_model->editar_empresa_visitada($data);
+	}
+
 	public function imprimir_solicitud(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/imprimir_solicitud');
 	}

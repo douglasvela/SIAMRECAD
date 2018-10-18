@@ -26,6 +26,15 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function editar_empresa_visitada($data){
+		$this->db->where("id_empresas_visitadas",$data["id_empresas_visitadas"]);
+		if($this->db->update('vyp_empresas_visitadas', $data)){
+			return "exito";
+		}else{
+			return "fracaso";
+		}
+	}
+
 
 	function insertar_justificacion($data){
 		if($this->db->insert('vyp_justificaciones', array('id_justificacion' => $data["id_justificacion"], 'ruta' => $data['ruta'], 'size' => $data['size'], 'id_mision' => $data['id_mision'], 'extension' => $data['extension'], 'nombre' => $data['nombre'], 'nombre_real' => $data['nombre_real']))){

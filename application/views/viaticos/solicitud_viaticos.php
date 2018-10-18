@@ -36,12 +36,12 @@
     $rango_registro = obtener_rango($segmentos='2', $permiso='2');
 
 
-// Características del navegador
-$ua=$this->config->item("navegator");
-$navegatorless = false;
-if(floatval($ua['version']) < $this->config->item("last_version")){
-    $navegatorless = true;
-}
+    // Características del navegador
+    $ua=$this->config->item("navegator");
+    $navegatorless = false;
+    if(floatval($ua['version']) < $this->config->item("last_version")){
+        $navegatorless = true;
+    }
 ?>
 
 <script type="text/javascript">
@@ -2241,6 +2241,14 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         return bandera;
     }
 
+    function editar_empresa_visitada(id_empresa_visitada, id_departamento, id_municipio, nombre_empresa, direccion_empresa, tipo_destino, id_mision, id_destino){
+        $("#modal_empresa_edit").modal('show');
+        $("#id_empresa_visitada_edit").val(id_empresa_visitada);
+        $("#nombre_empresa_edit").val(nombre_empresa);
+        $("#direccion_empresa_edit").val(direccion_empresa);
+        $("#id_mision_edit").val(id_mision);
+        $("#id_destino_edit").val(id_destino);
+    }
 </script>
 
 <style>
@@ -2774,6 +2782,42 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     <!-- /.modal-dialog -->
 </div>
 
+<div id="modal_empresa_edit" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Editar empresa visitada</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <?php echo form_open('', array('id' => 'form_empresas_visitadas_edit', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+            <div class="modal-body">
+                <input type="hidden" id="id_empresa_visitada_edit" name="id_empresa_visitada_edit" value="">
+                <input type="hidden" id="id_mision_edit" name="id_mision_edit" value="">
+                <input type="hidden" id="id_destino_edit" name="id_destino_edit" value="">
+                <div class="row">
+                    <div class="form-group col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                        <h5>Nombre de la empresa: <span class="text-danger">*</span></h5>
+                        <input type="text" id="nombre_empresa_edit" name="nombre_empresa_edit" class="form-control" placeholder="Ingrese el nombre de la empresa" required>
+                    </div>                                
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                        <h5>Dirección: <span class="text-danger">*</span></h5>
+                        <textarea id="direccion_empresa_edit" name="direccion_empresa_edit" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info waves-effect text-white">Aceptar</button>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
 <script>
 $(function(){  
     $(document).ready(function(){ 
@@ -2916,6 +2960,35 @@ $(function(){
         }
 
     });
+
+
+    $("#form_empresas_visitadas_edit").on("submit", function(e){
+        e.preventDefault();
+        var formData = { 
+            "id_empresa_visitada" : $("#id_empresa_visitada_edit").val(), 
+            "nombre_empresa" : $("#nombre_empresa_edit").val(), 
+            "direccion_empresa" : $("#direccion_empresa_edit").val(), 
+            "id_mision_oficial" : $("#id_mision_edit").val(), 
+            "id_destino" : $("#id_destino_edit").val()
+        };
+
+        $.ajax({
+            type:  'POST',
+            url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/editar_destino',
+            data: formData,
+            cache: false
+        })
+        .done(function(data){
+            if(data == "exito"){
+                $("#modal_empresa_edit").modal('hide')
+                tabla_empresas_visitadas(function(){ limpiar_empresas_visitadas() });
+                $.toast({ heading: 'Modificación exitosa', text: 'Se modificó una empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6 });
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+    });
+
 });
 
 </script>

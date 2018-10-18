@@ -39,11 +39,11 @@
 		            	<td><?php echo $fila->direccion_empresa; ?></td>
                         <td><?php echo $fila->kilometraje." Km"; ?></td>
                         <?php
-                        echo "<td>";
+                        echo "<td align='right'>";
                         	$array = array($fila->id_empresas_visitadas, $fila->id_departamento, $fila->id_municipio, $fila->nombre_empresa, $fila->direccion_empresa, $fila->tipo_destino);
-                            array_push($array, "edit");
-                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            if($fila->tipo_destino != "destino_oficina"){
+                                echo generar_boton(array($fila->id_empresas_visitadas, $fila->id_departamento, $fila->id_municipio, $fila->nombre_empresa, $fila->direccion_empresa, $fila->tipo_destino, $fila->id_mision_oficial, $fila->id_destino),"editar_empresa_visitada","btn-info","fa fa-wrench","Editar");
+                            }
                             array_push($array, "delete");
                             echo generar_boton(array($fila->id_empresas_visitadas),"cambiar_eliminar_destino","btn-danger","fa fa-close","Eliminar");
                         echo "</td>";
