@@ -41,6 +41,9 @@
                         <?php
                         echo "<td>";
                         	$array = array($fila->id_empresas_visitadas, $fila->id_departamento, $fila->id_municipio, $fila->nombre_empresa, $fila->direccion_empresa, $fila->tipo_destino);
+                            array_push($array, "edit");
+                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                             array_push($array, "delete");
                             echo generar_boton(array($fila->id_empresas_visitadas),"cambiar_eliminar_destino","btn-danger","fa fa-close","Eliminar");
                         echo "</td>";

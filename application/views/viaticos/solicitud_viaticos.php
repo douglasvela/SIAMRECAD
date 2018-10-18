@@ -1290,6 +1290,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		    if (xhr.status === 200 && xhr.responseText !== newName) {
 		        document.getElementById("combo_departamento").innerHTML = xhr.responseText;
 		        $(".select2").select2();
+                combo_municipio(tipo)
 		    }else if (xhr.status !== 200) {
 		        swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
 		    }
@@ -1382,7 +1383,11 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                   if(dist == 0 && destino_mun == 1){
                     $("#cuenta_viatico").addClass('text-info');
                     $("#cuenta_viatico").html('<span class="fa fa-spin fa-spinner"></span> Calculando distancia espere...');
-                    $("#address").val($("#municipio option:selected").text().trim()+", "+$("#departamento option:selected").text().trim())
+                    if($("#municipio").val() != ""){
+                        $("#address").val($("#municipio option:selected").text().trim()+", "+$("#departamento option:selected").text().trim())
+                    }else{
+                        $("#address").val('');
+                    }
                     $("#submit_ubi").click();
                   }else if(dist == 0 && destino_ofi == 1 && $("#departamento").val() != ""){
                     var lat_dest = $("#latitud_oficina_destino").val();
@@ -1411,6 +1416,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         $("#nombre_empresa").parent().parent().show(0);
         $("#direccion_empresa").parent().show(0);
         $("#municipio").parent().show(0);
+        $("#municipio").val('').trigger("change.select2");
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#id_ruta_visitada").val("");
@@ -2787,42 +2793,50 @@ $(function(){
 
     $("#formajax").on("submit", function(e){
         e.preventDefault();
-        if(validar_justificacion_mision()){
-            $("#subiendo_mision").show(0);
-            var formData = new FormData(document.getElementById("formajax"));
-            var nombre = $("#nr option:selected").text().split("-");
-            nombre = nombre[0].trim();
-            formData.append('nombre_completo', nombre);
-            var justificacion_value = $('#summernote').val();
-            formData.append('ruta_justificacion', justificacion_value);
-            $.ajax({
-                    type:  'POST',
-                    url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-            })
-            .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-                $("#subiendo_mision").hide(0);
-                if(data == "exito"){
-                    if($("#band").val() == "save"){
-                        //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                        buscar_idmision();
-                    }else if($("#band").val() == "edit"){
-                        //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
-                        form_rutas();
-                    }else{
-                        swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
-                    }
-                    tabla_solicitudes();
-                }else{
-                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-                }
-            });
+        if(($("#fecha_mision_inicio").val() == "" || $("#fecha_mision_inicio").val() == "") && $("#band").val() != "delete"){
+            if($("#band").val() == "edit"){
+                swal({ title: "Solicitud vencida", text: "Complete la fecha de la misión oficial. Es posible que su solicitud esté vencida.", type: "warning", showConfirmButton: true });
+            }else{
+                swal({ title: "Fecha de la misión no definida", text: "Complete la fecha de la misión oficial.", type: "warning", showConfirmButton: true });
+            }
         }else{
-            swal({ title: "Falta archivo", text: "Debes subir un archivo que valide tu justificación.", type: "warning", showConfirmButton: true });
+            if(validar_justificacion_mision()){
+                $("#subiendo_mision").show(0);
+                var formData = new FormData(document.getElementById("formajax"));
+                var nombre = $("#nr option:selected").text().split("-");
+                nombre = nombre[0].trim();
+                formData.append('nombre_completo', nombre);
+                var justificacion_value = $('#summernote').val();
+                formData.append('ruta_justificacion', justificacion_value);
+                $.ajax({
+                        type:  'POST',
+                        url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_mision',
+                        dataType: "html",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                })
+                .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
+                    $("#subiendo_mision").hide(0);
+                    if(data == "exito"){
+                        if($("#band").val() == "save"){
+                            //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                            buscar_idmision();
+                        }else if($("#band").val() == "edit"){
+                            //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                            form_rutas();
+                        }else{
+                            swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                        }
+                        tabla_solicitudes();
+                    }else{
+                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                    }
+                });
+            }else{
+                swal({ title: "Falta archivo", text: "Debes subir un archivo que valide tu justificación.", type: "warning", showConfirmButton: true });
+            }
         }
     });
 
@@ -2868,32 +2882,39 @@ $(function(){
 
     $("#form_empresas_visitadas").on("submit", function(e){
         e.preventDefault();
-        var tipo = $('input[name=r_destino]:checked').val();
-        var existe = $("#existe").val();
-        if(tipo == "destino_mapa"){ var latitud = LatDestino.lat(); var longitud = LatDestino.lng();
-        }else{ var latitud = ""; var longitud = ""; }
-        if(tipo == "destino_oficina"){
-            var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text();
-        }else{            
-            var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
+
+        var verifica_distancia = parseFloat($("#distancia").val());
+        if(verifica_distancia > 0){
+            var tipo = $('input[name=r_destino]:checked').val();
+            var existe = $("#existe").val();
+            if(tipo == "destino_mapa"){ var latitud = LatDestino.lat(); var longitud = LatDestino.lng();
+            }else{ var latitud = ""; var longitud = ""; }
+            if(tipo == "destino_oficina"){
+                var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text();
+            }else{            
+                var descripcion = $("#nombre_oficina").val()+" - "+$("#departamento option:selected").text()+"/"+$("#municipio option:selected").text();
+            }
+
+            var formData = { "id_mision" : $("#id_mision").val(), "departamento" : $("#departamento").val(), "municipio" : $("#municipio").val(), "nombre_empresa" : $("#nombre_empresa").val(), "direccion_empresa" : $("#direccion_empresa").val(), "id_ruta_visitada" : $("#id_ruta_visitada").val(), "distancia" : $("#distancia").val(), "tipo" : tipo, "band" : $("#band2").val(), "descripcion_destino" : descripcion, "id_oficina_origen" : $("#id_oficina_origen").val(), "latitud_destino" : latitud, "longitud_destino" : longitud, "id_destino" : $("#id_destino_vyp").val(), "existe" : existe, };
+
+            $.ajax({
+                type:  'POST',
+                url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_destinos',
+                data: formData,
+                cache: false
+            })
+            .done(function(data){
+                if(data == "exito"){
+                    tabla_empresas_visitadas(function(){ limpiar_empresas_visitadas() });
+                    $.toast({ heading: 'Registro exitoso', text: 'Se agregó una nueva empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6 });
+                }else{
+                    swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                }
+            });
+        }else{
+            swal({ title: "Distancia cero", text: "La distancia no puede ser cero. Es posible que no disponga de conexión a internet.", type: "warning", showConfirmButton: true });
         }
 
-        var formData = { "id_mision" : $("#id_mision").val(), "departamento" : $("#departamento").val(), "municipio" : $("#municipio").val(), "nombre_empresa" : $("#nombre_empresa").val(), "direccion_empresa" : $("#direccion_empresa").val(), "id_ruta_visitada" : $("#id_ruta_visitada").val(), "distancia" : $("#distancia").val(), "tipo" : tipo, "band" : $("#band2").val(), "descripcion_destino" : descripcion, "id_oficina_origen" : $("#id_oficina_origen").val(), "latitud_destino" : latitud, "longitud_destino" : longitud, "id_destino" : $("#id_destino_vyp").val(), "existe" : existe, };
-
-        $.ajax({
-            type:  'POST',
-            url:   '<?php echo site_url(); ?>/viaticos/solicitud_viatico/gestionar_destinos',
-            data: formData,
-            cache: false
-        })
-        .done(function(data){
-            if(data == "exito"){
-                tabla_empresas_visitadas(function(){ limpiar_empresas_visitadas() });
-                $.toast({ heading: 'Registro exitoso', text: 'Se agregó una nueva empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6 });
-            }else{
-                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-            }
-        });
     });
 });
 
@@ -2968,7 +2989,10 @@ $(function(){
         });
 
         function geocodeAddress(geocoder, resultsMap) {
-            var address = $("#address").val()+", EL SALVADOR";
+            var address = $("#address").val();
+            if(address != ""){
+                address = address+", EL SALVADOR";
+            }
             geocoder.geocode({'address': address}, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     resultsMap.setCenter(results[0].geometry.location);
@@ -2980,6 +3004,8 @@ $(function(){
                     id_ruta_visitada = "";
                     calcula_distancia(0);
                 } else {
+                    $("#cuenta_viatico").text('No cuenta con viáticos');
+                    $("#cuenta_viatico").removeClass('text-info');
                     /*if($("#municipio").val() != ""){
                       $.toast({ heading: 'Ocurrió un error', text: 'No logramos calcular la distancia, intentalo nuevamente', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
                     }*/
