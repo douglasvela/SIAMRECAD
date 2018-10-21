@@ -811,6 +811,7 @@
     function cerrar_mantenimiento(){
         $("#cnt_tabla").show(0);
         $("#cnt_form").hide(0);
+        $("#cnt_preview").hide(0);
         $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
 
         $("#cnt_mapa").hide(0);
@@ -1829,6 +1830,27 @@
         window.open("<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud_detallada?id_mision="+id_mision, '_blank');
     }
 
+    function ver_solicitud_html(id_mision){
+        $("#cnt_tabla").hide(0);
+        $("#cnt_form").hide(0);
+        $("#cnt_preview").hide(0);
+        get_solicitud_html(id_mision);
+        $("#cnt_preview").show(0);
+    }
+
+    function get_solicitud_html(id_mision){
+        ajax = objetoAjax();
+        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/get_solicitud_html", true);
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4){
+                $("#cnt_solicitud_html").html(ajax.responseText)
+            }
+        } 
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        ajax.send("&id_mision="+id_mision)
+        
+    }
+
     function verificar_fechas(){
 
         var registros = $("#tabla_viaticos").find("tbody").find("tr");
@@ -2249,6 +2271,7 @@
         $("#id_mision_edit").val(id_mision);
         $("#id_destino_edit").val(id_destino);
     }
+
 </script>
 
 <style>
@@ -2680,6 +2703,27 @@
                     <div id="cnt_tabla_solicitudes"></div>
                     </div>
                 </div>
+            </div>
+            <div class="row" id="cnt_preview" style="display: none; width: 100%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-actions">
+                                        <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
+                                    </div>
+                                    <h4 class="card-title m-b-0">Solicitud de víáticos - Vista Previa</h4>
+                                </div>
+                                <div class="card-body  b-t">
+                                    <div id="cnt_solicitud_html"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
             </div>
 
         </div>
