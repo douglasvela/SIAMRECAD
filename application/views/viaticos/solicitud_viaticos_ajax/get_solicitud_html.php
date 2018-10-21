@@ -366,13 +366,16 @@ $html .= '<br>
 		 	</tr>
 		 	<tr><td style="padding: 40px;"></td><td style="padding: 40px;"></td></tr>
 		 	<tr>';
-
-	if(intval($filam->estado) == 0){	 	
-		$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajf->nombre_completo).'<br>Vo.Bo. Jefe Inmediato</center></b></div><img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajf->nr.".png".'"></div><br></td>';
+	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajf->nombre_completo).'<br>Vo.Bo. Jefe Inmediato</center></b></div>';
+	if(intval($filam->estado) > 2){	 	
+		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajf->nr.".png".'">';
 	}
-	if(intval($filam->estado) == 0){
-		$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajr->nombre_completo).' <br>Autorizado Director de Área o Jefe de Regional</center></b></div><img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajr->nr.".png".'"></div><br></td>';
-	}	 		
+	$html .= '</div><br></td>';
+	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajr->nombre_completo).'<br>Autorizado Director de Área o Jefe de Regional</center></b></div>';
+	if(intval($filam->estado) > 4){
+		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajr->nr.".png".'">';
+	}
+	$html .= '</div><br></td>';	
 	$html .= '</tr>
 	 	</table></div><br><br>';
 
