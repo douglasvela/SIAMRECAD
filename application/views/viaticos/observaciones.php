@@ -132,7 +132,7 @@
         var iframe = $('<embed onload="funcion(this)">');
             iframe.attr('width','100%');
             iframe.attr('height','1190px;');
-            iframe.attr('src',"<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud?id_mision="+id_mision);
+            iframe.attr('src',"<?php echo site_url(); ?>/viaticos/solicitud_viatico/imprimir_solicitud_detallada?id_mision="+id_mision);
             //$('#cnt_tabla_empresas').append(iframe);
             $('#cnt_tabla_empresas').append(iframe, funcion(iframe) );
     }
@@ -374,8 +374,7 @@
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="cnt_form" style="display: none;">
+            <div class="col-lg-12" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-info" id="ttl_form">
                         <div class="card-actions text-white">
@@ -426,7 +425,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->

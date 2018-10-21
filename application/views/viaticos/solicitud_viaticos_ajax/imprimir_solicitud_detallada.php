@@ -75,10 +75,10 @@ $pdf->cambiarTitulo('San Salvador, El Salvador, C.A.','POR $   '.$monto);
 $fecha_actual = date("d-m-Y H:i:s");
 $pdf->cambiarPie($user, $fecha_actual);
 
-$pdf->SetFont('Arial','',9);
+$pdf->SetFont('Arial','',10);
 
 $pdf->AddPage();
-$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje al interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circulante del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje al interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
 
 $pdf->Ln(3);
 
@@ -98,9 +98,9 @@ $pdf->Ln(3);
 
 $pdf->SetWidths(array(22,89,20,20,13,13,13));
 $pdf->SetAligns(array('C','C','C','C','C','C','C'));
-$pdf->Row(array("Fecha misión","Lugar de salida y llegada","Hora salida","Hora llegada","Viático","Pasaje","Alojam."),
+$pdf->Row(array("Fecha","Lugar de salida y llegada","Hora salida","Hora llegada","Viático","Pasaje","Alojam."),
 array('1','1','1','1','1','1','1','1'),
-array('Arial','','08'),
+array('Arial','','09'),
 array(false),
 array('0','0','0'),
 array('255','255','255'),
@@ -186,7 +186,7 @@ $altura = 5);
 		                        );
 		                    $pdf->Row($array,
 		                        array('0','0','0','0','0','0','0'),
-		                        array('Arial','B','08'),
+		                        array('Arial','B','09'),
 		                        array(false),
 		                        array('0','0','0'),
 		                        array('255','255','255'),
@@ -247,7 +247,7 @@ $altura = 5);
 		                        );
 		                    $pdf->Row($array,
 		                        array('0','0','0','0','0','0','0'),
-		                        array('Arial','B','08'),
+		                        array('Arial','B','09'),
 		                        array(false),
 		                        array('0','0','0'),
 		                        array('255','255','255'),
@@ -335,7 +335,7 @@ $altura = 5);
 	                        );
 	                    $pdf->Row($array,
 	                        array('0','0','0','0','0','0','0'),
-	                        array('Arial','B','08'),
+	                        array('Arial','B','09'),
 	                        array(false),
 	                        array('0','0','0'),
 	                        array('255','255','255'),
@@ -357,7 +357,7 @@ $altura = 5);
             "$ ".number_format($pasajes, 2, '.', ''),
             "$ ".number_format($alojamiento, 2, '.', '')),
             array('1','1','1','1'),
-            array('Arial','B','08'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -374,7 +374,7 @@ $altura = 5);
         }
 
         $pdf->Ln(5);
-        $pdf->SetFont('Arial','',8);
+        $pdf->SetFont('Arial','',9);
         $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: ".$oficina_origen.", ".date("d", strtotime($filam->fecha_solicitud))." de ".mes(date("m", strtotime($filam->fecha_solicitud)))." de ".date("Y", strtotime($filam->fecha_solicitud)),0,'C', 0);
 
 
@@ -416,7 +416,7 @@ $altura = 5);
 
         $pdf->Row(array("Nombre: ".nombres($filae->nombre_completo), "Firma: _____________________________________"),
             array('0','0','0'),
-            array('Arial','','08'),
+            array('Arial','','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -424,7 +424,7 @@ $altura = 5);
 
         $pdf->Row(array("Cargo nominal: ".parrafo($filacn->cargo_nominal), "                              Recibido conforme"),
             array('0','0','0'),
-            array('Arial','','08'),
+            array('Arial','','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -432,7 +432,7 @@ $altura = 5);
 
         $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_usuario."            Sueldo:   $".number_format($filae->salario, 2, '.', '')),
             array('0','0','0'),
-            array('Arial','','08'),
+            array('Arial','','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -440,7 +440,7 @@ $altura = 5);
 
         $pdf->Row(array("Nombre del banco: ".parrafo($filac->nombre), "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
             array('0','0','0'),
-            array('Arial','','08'),
+            array('Arial','','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -448,7 +448,7 @@ $altura = 5);
 
         $pdf->Row(array("Cuenta del banco No: ".$filac->numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
             array('0','0','0'),
-            array('Arial','','08'),
+            array('Arial','','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -456,7 +456,7 @@ $altura = 5);
 
         $pdf->Ln(5);
 
-        $pdf->SetFont('Arial','B',8);
+        $pdf->SetFont('Arial','B',9);
         $pdf->MultiCell(190,5,'USO DEL FONDO CIRCULANTE',0,'C',false);
 
 
@@ -464,18 +464,18 @@ $altura = 5);
         if($filam->pagado_en == "cheque"){
         	$no_cheque = $filam->no_cheque;
         }else{
-        	$no_cheque = "______________________________";
+        	$no_cheque = "_____________________________";
         }
 
         if($filam->fecha_pago != "0000-00-00 00:00:00"){
         	$fecha_pago = date("d/m/Y", strtotime($filam->fecha_pago));
         }else{
-        	$fecha_pago = "______________________________";
+        	$fecha_pago = "_____________________________";
         }
 
         $pdf->Row(array("CANCELADO C/CHEQUE N°: ".$no_cheque, "FECHA DE PAGO: ".$fecha_pago),
             array('0','0','0'),
-            array('Arial','','08'),
+            array('Arial','','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
@@ -488,9 +488,9 @@ $altura = 5);
 
         $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 52, 'D');
 
-        $pdf->SetFont('Arial','B',8);
+        $pdf->SetFont('Arial','B',9);
         $pdf->MultiCell(190,5,'USO EXCLUSIVO DE AUTORIZACIÓN DE PAGO',0,'C',false);
-        $pdf->SetFont('Arial','',8);
+        $pdf->SetFont('Arial','',9);
         $pdf->Ln(2);
         $pdf->MultiCell(190,5,'HAGO CONSTAR: '.nombres($filae->nombre_completo),0,'L',false);
         $pdf->MultiCell(190,5,'ACTIVIDAD REALIZADA: '.$filam->actividad,0,'L',false);
@@ -531,7 +531,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Nombre: ".nombres($filajf->nombre_completo), "Nombre: ".nombres($filajr->nombre_completo)),
+        $pdf->Row(array(nombres($filajf->nombre_completo), nombres($filajr->nombre_completo)),
             array('0','0','0'),
             array('Arial','','09'),
             array(false),
@@ -547,6 +547,6 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-
+$pdf->SetDisplayMode('fullwidth');
 $pdf->Output($id_mision.'_solicitudViatico_'.$nr_usuario.".pdf",'I');
 ?>

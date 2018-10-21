@@ -53,23 +53,23 @@
                             echo "<td>".$fila->nombre_completo."</td>";
 
                             if($fila->estado == 0){
-                                echo '<td><span class="label label-danger">Incompleta</span></td>';
+                                echo '<td><span class="label label-light-danger">Incompleta</span></td>';
                             }else if($fila->estado == 1){
-                                echo '<td><span class="label label-success">Revisión 1</span></td>';
+                                echo '<td><span class="label label-light-info">Revisión jefe inmediato</span></td>';
                             }else if($fila->estado == 2){
-                                echo '<td><span class="label label-danger">Observaciones 1</span></td>';
+                                echo '<td><span class="label label-warning">Observación jefe inmediato</span></td>';
                             }else if($fila->estado == 3){
-                                echo '<td><span class="label label-success">Revisión 2</span></td>';
+                                echo '<td><span class="label label-light-info">Revisión director de área o jefe regional</span></td>';
                             }else if($fila->estado == 4){
-                                echo '<td><span class="label label-danger">Observaciones 2</span></td>';
+                                echo '<td><span class="label label-warning">Observación director de área o jefe regional</span></td>';
                             }else if($fila->estado == 5){
-                                echo '<td><span class="label label-success">Revisión 3</span></td>';
+                                echo '<td><span class="label label-light-info">Revisión fondo circulante</span></td>';
                             }else if($fila->estado == 6){
-                                echo '<td><span class="label label-danger">Observaciones 3</span></td>';
+                                echo '<td><span class="label label-warning">Observación fondo circulante</span></td>';
                             }else if($fila->estado == 7){
                                 echo '<td><span class="label label-success">Aprobada</span></td>';
                             }else if($fila->estado == 8){
-                                echo '<td><span class="label label-success">Pagada</span></td>';
+                                echo '<td><span class="label label-danger">Pagada</span></td>';
                             }
                             
                             echo "<td>";

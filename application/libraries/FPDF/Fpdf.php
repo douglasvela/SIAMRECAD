@@ -93,13 +93,14 @@ function cambiarTitulo($e2,$e3){
 
 function Header(){
 	 // the middle of the "PDF screen", fixed by now.	
-	$this->SetFont('Arial','',8);
+	$this->SetFont('Arial','',10);
     $this->Image(('application/libraries/logomtps.jpeg'),10,7,30,17);
     $this->Image(('application/libraries/escudo.jpg'),165,10,37,12);
-    $this->SetFont('Arial','B',9);
+    $this->SetFont('Arial','B',11);
 	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo1) / 2), 12, $this->titulo1,0,'C', 0);
-	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo2) / 2), 16, $this->titulo2,0,'C', 0);
-	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo3) / 2), 20, $this->titulo3,0,'C', 0);
+	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo2) / 2), 17, $this->titulo2,0,'C', 0);
+	$this->SetFont('Arial','B',12);
+	$this->Text($this->mid_x - ($this->GetStringWidth($this->titulo3) / 2), 23, $this->titulo3,0,'C', 0);
     $this->Ln(20);
 }
 
