@@ -767,6 +767,10 @@
             swal({ title: "Sin conexión a internet", text: "Algunas rutas podrían no funcionar bien, por favor verifique su concexión a internet.", type: "warning", showConfirmButton: true });
         }
 
+        <?php if(isset($estado_solicitud)){ ?>
+            $($("#tabs_estados").find("a")[<?=$estado_solicitud?>]).click();
+        <?php } ?>
+
         <?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
             tabla_solicitudes();
             cargarViaticos();
@@ -2383,7 +2387,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-			                        <h5>Empleado: <span class="text-danger">*</span></h5>                           
+			                        <h5>Persona solicitante: <span class="text-danger">*</span></h5>                           
 			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
 			                            <option value="">[Elija el empleado]</option>
 			                            <?php
@@ -2667,7 +2671,7 @@
                     </div>
                     <div class="row" style="width: 100%"></div>
                     <div class="row col-lg-12">
-                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" role="tablist" style='width: 100%;'>
+                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" role="tablist" style='width: 100%;' id="tabs_estados">
                             <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
                                 <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
                                     <span class="hidden-sm-up"><i class="ti-home"></i></span> 

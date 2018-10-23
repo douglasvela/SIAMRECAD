@@ -10,8 +10,9 @@ class Solicitud_viatico extends CI_Controller {
 	}
 
 	public function index(){
+		$data['estado_solicitud'] = $this->input->post('estado');
 		$this->load->view('templates/header');
-		$this->load->view('viaticos/solicitud_viaticos');
+		$this->load->view('viaticos/solicitud_viaticos', $data);
 		$this->load->view('templates/footer');
 	}
 

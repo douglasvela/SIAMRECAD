@@ -5,7 +5,7 @@
                         <th style="display: none;">Fecha</th>
                         <th width="130px">Fecha</th>
                         <th>Actividad realizada</th>
-                        <th>Nombre del solicitante</th>
+                        <th>Persona solicitante</th>
                         <th>Estado</th>
                         <th width="150px">(*)</th>
                     </tr>

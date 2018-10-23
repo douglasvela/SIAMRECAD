@@ -47,6 +47,11 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	        return xmlhttp;
 	    }
 	    function iniciar(){
+
+	    	<?php if(isset($estado_solicitud)){ ?>
+		        $($("#tabs_estados").find("a")[<?=$estado_solicitud?>]).click();
+		    <?php } ?>
+
 	    	<?php if(tiene_permiso($segmentos=2,$permiso=1)){ ?>
 	    	tabla_pasaje_unidad();
 	    	<?php }else{ ?>
@@ -541,7 +546,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                            
 	                        </div>
 	                        <div class="row col-lg-12">
-		                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" style='width: 100%;' role="tablist">
+		                        <ul class="nav nav-tabs customtab2 <?php if($navegatorless){ echo "pull-left"; } ?>" style='width: 100%;' role="tablist" id="tabs_estados">
 		                            <li class="nav-item <?php if($navegatorless){ echo "pull-left"; } ?>"> 
 		                                <a class="nav-link active" onclick="cambiar_pestana('');" data-toggle="tab" href="#">
 		                                    <span class="hidden-sm-up"><i class="ti-home"></i></span> 

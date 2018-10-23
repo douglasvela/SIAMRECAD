@@ -6,8 +6,9 @@ class Pasaje extends CI_Controller {
 		$this->load->model('Pasaje_model');
 	}
 	public function index(){
+		$data['estado_solicitud'] = $this->input->post('estado');
 		$this->load->view('templates/header');
-		$this->load->view('pasajes/Solicitud_pasajes');
+		$this->load->view('pasajes/Solicitud_pasajes', $data);
 		$this->load->view('templates/footer');
 	}
 	public function tabla_pasajes(){

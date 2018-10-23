@@ -69,7 +69,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
      ?>
         <a href="javascript:void(0)" class="text-center db"><img height="160px;" src="<?php echo base_url(); ?>assets/images/Logo.png" alt="Home" /></a>
        <div class="form-group m-t-40">
-          <div class="col-lg-12"><input class="form-control" type="text" name="usuario" required="" placeholder="Usuario"></div>
+          <div class="col-lg-12"><input class="form-control" type="text" name="usuario" required="" placeholder="Persona usuaria"></div>
         </div>
         <div class="form-group" style="margin-bottom: 10px;">
           <div class="col-lg-12"><input class="form-control" type="password" id="password" name="password" required="" placeholder="Contraseña"></div>

@@ -58,6 +58,7 @@ class Login extends CI_Controller {
 	               'id_usuario_viatico' => $fila->id_usuario,
 	               'usuario_viatico' => $fila->usuario,
 	               'nombre_usuario_viatico' => $fila->nombre_completo,
+	               'nr_usuario_viatico' => $fila->nr,
 	               'sesion_viatico' => TRUE
 	            );
 				$this->session->set_userdata($usuario_data);
@@ -84,6 +85,7 @@ class Login extends CI_Controller {
 	               'id_usuario_viatico' => $fila->id_usuario,
 	               'usuario_viatico' => $fila->usuario,
 	               'nombre_usuario_viatico' => $fila->nombre_completo,
+	               'nr_usuario_viatico' => $fila->nr,
 	               'sesion_viatico' => TRUE
 	            );
 				$this->session->set_userdata($usuario_data);
