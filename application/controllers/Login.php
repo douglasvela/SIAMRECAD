@@ -1,10 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-if("192.168.1.200" == $_SERVER['SERVER_NAME']){
-	define("SERVER_MTPS","192.168.1.200");
-}else{
-	define("SERVER_MTPS","localhost");
-}
+define("SERVER_MTPS",$_SERVER['SERVER_NAME']);
 
 class Login extends CI_Controller {
 
