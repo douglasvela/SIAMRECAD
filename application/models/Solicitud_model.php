@@ -8,8 +8,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function insertar_mision($data){
-		$id = $this->obtener_ultimo_id("vyp_mision_oficial","id_mision_oficial");
-		if($this->db->insert('vyp_mision_oficial', array('id_mision_oficial' => $id, 'nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_empleado_informacion_laboral' => $data['id_empleado_informacion_laboral'], 'ruta_justificacion' => $data['ruta_justificacion'], 'pagado_en' => 'banco', 'oficina_solicitante_motorista' => $data['oficina_solicitante']))){
+		if($this->db->insert('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_empleado_informacion_laboral' => $data['id_empleado_informacion_laboral'], 'ruta_justificacion' => $data['ruta_justificacion'], 'pagado_en' => 'banco', 'oficina_solicitante_motorista' => $data['oficina_solicitante']))){
 			$insert_id = $this->db->insert_id();
 			return $insert_id;
 		}else{
@@ -210,30 +209,62 @@ class Solicitud_model extends CI_Model {
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
+				$fecha_mision_fin = $fila->fecha_mision_fin;
+				$fecha_ultima_observacion = $fila->ultima_observacion;
 			}
 		}
 
 		$newestado = 1;
+		$mensaje = "";
 		if($estado == 0){ //si esta incompleta
 			$newestado = 1;	//cambiar a revision 1
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_mision_fin.date(" H:m:i");
+			$mensaje = "CREÓ LA SOLICITUD Y LA ENVIÓ A JEFATURA INMEDIATA";
+			$persona_actualiza = 1; //Actualiza el solicitante
 		}else if($estado == 1){ //si esta en revisión 1
 			$newestado = 1;	//permanecer en revisión 1
 		}else if($estado == 2){ //si está en observación 1
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_ultima_observacion;
+			$persona_actualiza = 1; //Actualiza el solicitante
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE JEFATURA INMEDIATA";
 			$newestado = 1;	//cambiar a revisión 1
 		}else if($estado == 3){	//si está en revisión 2
 			$newestado = 3; //permanecer en revisión 2
 		}else if($estado == 4){ //si está en observación 2
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_ultima_observacion;
+			$persona_actualiza = 1; //Actualiza el solicitante
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE LA DIRECCIÓN DE ÁREA O JEFATURA REGIONAL";
 			$newestado = 1;	//cambiar a revision 1
-		}else if($estado == 5){
+		}else if($estado == 5){//si está en revisión 3
 			$newestado = 5;
-		}else if($estado == 6){
+		}else if($estado == 6){ //si está en observacion 3
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_ultima_observacion;
+			$persona_actualiza = 1; //Actualiza el solicitante
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE FONDO CIRCULANTE";
 			$newestado = 1;
 		}
+
+		$fecha1= new DateTime(substr($fecha_actualizacion, 0,10));
+		$fecha2= new DateTime(substr($fecha_antigua, 0,10));
+		$diff = $fecha1->diff($fecha2);
+		$tiempo_dias = $diff->days;
+		$data_insert = array(
+			'fecha_antigua' => $fecha_antigua,
+			'fecha_actualizacion' => $fecha_actualizacion,
+			'tiempo_dias' => $tiempo_dias,
+			'descripcion' => $mensaje, 
+			'persona_actualiza' => $persona_actualiza,
+			'id_mision' => $data
+		);
 
 		if($estado == 0){
 			$this->db->where("id_mision_oficial",$data);
 			$fecha = date("Y-m-d H:i:s");
-			if($this->db->update('vyp_mision_oficial', array('fecha_solicitud' => $fecha, 'estado' => $newestado)) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'")){
+			if($this->db->update('vyp_mision_oficial', array('fecha_solicitud' => $fecha, 'ultima_observacion' => $fecha, 'estado' => $newestado)) && $this->db->insert('vyp_bitacora_solicitud_viatico', $data_insert)){
 				return "exito";
 			}else{
 				return "fracaso";
@@ -241,7 +272,7 @@ class Solicitud_model extends CI_Model {
 		}else{
 			$this->db->where("id_mision_oficial",$data);
 			$fecha = date("Y-m-d H:i:s");
-			if($this->db->update('vyp_mision_oficial', array('estado' => $newestado, 'ultima_observacion' => '0000-00-00 00:00:00')) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'")){
+			if($this->db->update('vyp_mision_oficial', array('estado' => $newestado, 'ultima_observacion' => $fecha)) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'") && $this->db->insert('vyp_bitacora_solicitud_viatico', $data_insert)){
 				return "exito";
 			}else{
 				return "fracaso";

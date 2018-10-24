@@ -1817,7 +1817,7 @@
                         tabla_solicitudes();
                         swal({ title: "!Solicitud exitosa!", type: "success", showConfirmButton: true });
                         cerrar_mantenimiento();
-                        imprimir_solicitud(id_mision);
+                        //imprimir_solicitud(id_mision);
                     }else{
                         swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                     }           
@@ -2274,6 +2274,26 @@
         $("#direccion_empresa_edit").val(direccion_empresa);
         $("#id_mision_edit").val(id_mision);
         $("#id_destino_edit").val(id_destino);
+    }
+
+    function bitacora(id_mision, disponibilidad){
+        if(disponibilidad == 0){
+            swal({ title: "No disponible", text: "La bitácora está disponible para solicitudes elaboradas a partir del: 24/10/2018", type: "info", showConfirmButton: true });
+        }else{
+            var newName = 'AjaxCall', xhr = new XMLHttpRequest();
+            xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/bitacora?id_mision="+id_mision);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200 && xhr.responseText !== newName) {
+                    document.getElementById("cnt_bitacora").innerHTML = xhr.responseText;
+                    $("#modal_bitacora").modal('show');
+                    $('[data-toggle="tooltip"]').tooltip();
+                }else if (xhr.status !== 200) {
+                    swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de bitácora no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+                }
+            };
+            xhr.send(encodeURI('name=' + newName));
+        }
     }
 
 </script>
@@ -2767,6 +2787,25 @@
                         </tbody>
                     </table>
                 </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div id="modal_bitacora" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Bitácora de la solicitud</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body" id="cnt_bitacora">
 
             </div>
             <div class="modal-footer">

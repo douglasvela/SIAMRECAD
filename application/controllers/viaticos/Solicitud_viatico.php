@@ -248,6 +248,10 @@ class Solicitud_viatico extends CI_Controller {
 		}
 	}
 
+	public function bitacora(){
+		$this->load->view('viaticos/solicitud_viaticos_ajax/bitacora');
+	}
+
 	public function tabla_empresas_visitadas(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_empresas_visitadas');
 	}
