@@ -17,6 +17,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $boton;
 	}
 
+	function get_days_count($fecha1, $fecha2){
+		$datetime1 = new DateTime($fecha1);
+		$datetime2 = new DateTime($fecha2);
+		$interval = $datetime1->diff($datetime2);
+		$woweekends = 0;
+		for($i=0; $i<$interval->d; $i++){
+		    $modif = $datetime1->modify('+1 day');
+		    $weekday = $datetime1->format('w');
+
+		    if($weekday != 0 && $weekday != 6){ // 0 for Sunday and 6 for Saturday
+		        $woweekends++;  
+		    }
+
+		}
+
+		return $woweekends;
+	}
+
 	function generar_boton_bloqueado($opciones,$funcion,$color,$icono,$title){
 		$var = ""; $boton = "";
 		$boton .= "<button type='button' class='btn waves-effect waves-light btn-rounded btn-sm ".$color."' data-toggle='tooltip' title='".$title."' disabled><span class='".$icono."'></span></button>&nbsp;";

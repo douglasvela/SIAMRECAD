@@ -69,10 +69,7 @@ class Observaciones_model extends CI_Model {
 			$persona_actualiza = 4; //Actualiza fondo circulante
 		}
 
-		$fecha1= new DateTime(substr($fecha_actualizacion, 0,10));
-		$fecha2= new DateTime(substr($fecha_antigua, 0,10));
-		$diff = $fecha1->diff($fecha2);
-		$tiempo_dias = $diff->days;
+		$tiempo_dias = get_days_count(substr($fecha_actualizacion,0,10), substr($fecha_antigua,0,10));
 		$data_insert = array(
 			'fecha_antigua' => $fecha_antigua,
 			'fecha_actualizacion' => $fecha_actualizacion,

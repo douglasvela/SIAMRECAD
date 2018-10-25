@@ -5,9 +5,11 @@
                 <thead class="bg-info text-white">
                     <tr>
                         <th>Fecha</th>
-                        <th>Descripción</th> 
-                        <th>Solicitante</th>
-                        <th>(*)</th>
+                <th>Descripción</th> 
+                <th>Solicitante</th>
+                <th>Vigencia</th>
+                <th>Prioridad</th>
+                <th>(*)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,16 +51,38 @@
 
                     if($mision->num_rows() > 0){
                         foreach ($mision->result() as $fila) {
-                            echo "<tr>";
-                            echo "<td>".$fila->fecha_solicitud."</td>";
-                            echo "<td>".$fila->nombre_actividad."</td>";
-                            echo "<td>".$fila->nombre_completo."</td>";
+                        $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
+                        $priority = "<span class='label label-danger'>URGENTE</span>";
+                        if($restante == 2){
+                            $priority = "<span class='label label-primary'>MEDIA</span>";
+                        }elseif($restante == 1){
+                            $priority = "<span class='label label-warning'>ALTA</span>";
+                        }elseif($restante == 1){
+                            $priority = "<span class='label label-danger'>URGENTE</span>";
+                        }
+                        // FAlta php diff without weekend
+                        if($restante < 0){
+                            $restante = "VENCIDA";
+                        }else{
+                            $restante .= " día(s)";
+                        }
+                    echo "<tr>";
+                    echo "<td>".date("d/m/Y h:m:i A", strtotime($fila->ultima_observacion))."</td>";
+                    echo "<td>".$fila->nombre_actividad."</td>";
+                    echo "<td>".$fila->nombre_completo."</td>";
+                    echo "<td>".$restante."</td>";
+                    echo "<td>".$priority."</td>";
+                    echo "<td>";
+                    if(tiene_permiso($segmentos=3,$permiso=4)){
+                        $array = array($fila->id_mision_oficial, $fila->estado);
+                        echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
+                    }
 
-                            echo "<td>";
-                            if(tiene_permiso($segmentos=3,$permiso=4)){
-                            $array = array($fila->id_mision_oficial, $fila->estado);
-                            echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
-                            }
+                    if(date("Y-m-d", strtotime($fila->fecha_solicitud)) > "2018-10-23"){
+                        echo generar_boton(array($fila->id_mision_oficial, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
+                    }else{
+                        echo generar_boton(array($fila->id_mision_oficial, 0),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
+                    }
                             echo "</td>";
 
                            echo "</tr>";
