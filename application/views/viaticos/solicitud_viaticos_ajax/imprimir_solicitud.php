@@ -96,7 +96,7 @@ $pdf->cambiarTitulo('San Salvador, El Salvador, C.A.','POR $   '.$monto);
 $fecha_actual = date("d-m-Y H:i:s");
 $pdf->cambiarPie($user, $fecha_actual);
 $pdf->AddPage();
-$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la candidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje la interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circulante del Monto Fijo del Ministerio de Trabajo y Previsión Social, la candidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje la interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
 
 $pdf->Ln(3);
 

@@ -2278,7 +2278,7 @@
 
     function bitacora(id_mision, disponibilidad){
         if(disponibilidad == 0){
-            swal({ title: "No disponible", text: "La bitácora está disponible para solicitudes elaboradas a partir del: 24/10/2018", type: "info", showConfirmButton: true });
+            swal({ title: "No disponible", text: "La bitácora está disponible para solicitudes elaboradas a partir del: 25/10/2018", type: "info", showConfirmButton: true });
         }else{
             var newName = 'AjaxCall', xhr = new XMLHttpRequest();
             xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/bitacora?id_mision="+id_mision);
