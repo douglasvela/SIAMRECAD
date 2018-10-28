@@ -63,25 +63,26 @@
                             echo "<td>".$month_text."</td>";
                             echo "<td>".$fila->anio_pasaje."</td>";
 
+                            echo "<td align='center'>";
                             if($fila->estado == 0){
-                                echo '<td><span class="label label-danger">Incompleta</span></td>';
+                                echo '<span style="width: 100%;" class="label label-light-danger">Incompleta</span>';
                             }else if($fila->estado == 1){
-                                echo '<td><span class="label label-success">Revisión 1</span></td>';
+                                echo '<span class="label label-light-info">Revisión jefatura inmediata</span>';
                             }else if($fila->estado == 2){
-                                echo '<td><span class="label label-danger">Observaciones 1</span></td>';
+                                echo '<span class="label label-warning">Observación jefatura inmediata</span>';
                             }else if($fila->estado == 3){
-                                echo '<td><span class="label label-success">Revisión 2</span></td>';
+                                echo '<span class="label label-light-info">Revisión dirección / jefatura regional</span>';
                             }else if($fila->estado == 4){
-                                echo '<td><span class="label label-danger">Observaciones 2</span></td>';
+                                echo '<span class="label label-warning">Observación dirección / jefatura regional</span>';
                             }else if($fila->estado == 5){
-                                echo '<td><span class="label label-success">Revisión 3</span></td>';
+                                echo '<span class="label label-light-info">Revisión fondo circulante</span>';
                             }else if($fila->estado == 6){
-                                echo '<td><span class="label label-danger">Observaciones 3</span></td>';
+                                echo '<span class="label label-warning">Observación fondo circulante</span>';
                             }else if($fila->estado == 7){
-                                echo '<td><span class="label label-success">Aprobada</span></td>';
+                                echo '<span style="width: 100%;" class="label label-success">Aprobada</span>';
                             }else if($fila->estado == 8){
-                                echo '<td><span class="label label-success">Pagada</span></td>';
-                            }
+                                echo '<span style="width: 100%;" class="label label-danger">Pagada</span>';
+                            } echo "</td>";
                             $m_ = $fila->id_mision_pasajes;
                             $monto = $this->db->query("SELECT sum(monto_pasaje) as monto_total FROM vyp_pasajes WHERE id_mision='".$m_."'");
                             if($monto->num_rows() > 0){

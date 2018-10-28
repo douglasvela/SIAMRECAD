@@ -14,6 +14,21 @@
             $id_mision = $_GET["id_mision"];
 
             $bitacora = $this->db->query("SELECT b.*, u.nombre_completo FROM vyp_bitacora_solicitud_viatico AS b JOIN org_usuario AS u ON u.nr = b.nr_persona_actualiza AND id_mision = '".$id_mision."' ");
+
+            $fila0 = $bitacora->row();
+            if($fila0->persona_actualiza == 1){ $actor = "SOLICITANTE";
+            }else if($fila0->persona_actualiza == 2){ $actor = "JEFATURA INMEDIATA";
+            }else if($fila0->persona_actualiza == 3){ $actor = "DIRECCIÓN O JEFATURA REGIONAL";
+            }else if($fila0->persona_actualiza == 4){ $actor = "FONDO CIRCULANTE"; }
+
+          echo "<tr>";
+            echo "<td>".$actor."</td>";                    
+            echo "<td>".$fila0->nombre_completo."</td>";
+            echo "<td>FINALIZÓ SU MISIÓN OFICIAL</td>";
+            echo "<td>".date("d/m/Y",strtotime($fila0->fecha_antigua))."</td>";
+            echo "<td> - </td>";
+          echo "</tr>";
+
             if($bitacora->num_rows() > 0){
                 $contador = 0;
                 foreach ($bitacora->result() as $fila) {

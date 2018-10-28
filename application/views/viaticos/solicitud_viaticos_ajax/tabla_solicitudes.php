@@ -6,7 +6,7 @@
                         <th width="130px">Fecha</th>
                         <th>Actividad realizada</th>
                         <th>Persona solicitante</th>
-                        <th>Estado</th>
+                        <th style="min-width: 165px; max-width: 165px;">Estado</th>
                         <th width="150px">(*)</th>
                     </tr>
                 </thead>
@@ -51,26 +51,26 @@
                             
                             echo "<td>".$fila->nombre_actividad."</td>";
                             echo "<td>".$fila->nombre_completo."</td>";
-
+                            echo "<td align='center'>";
                             if($fila->estado == 0){
-                                echo '<td><span class="label label-light-danger">Incompleta</span></td>';
+                                echo '<span style="width: 100%;" class="label label-light-danger">Incompleta</span>';
                             }else if($fila->estado == 1){
-                                echo '<td><span class="label label-light-info">Revisión jefe inmediato</span></td>';
+                                echo '<span class="label label-light-info">Revisión jefatura inmediata</span>';
                             }else if($fila->estado == 2){
-                                echo '<td><span class="label label-warning">Observación jefe inmediato</span></td>';
+                                echo '<span class="label label-warning">Observación jefatura inmediata</span>';
                             }else if($fila->estado == 3){
-                                echo '<td><span class="label label-light-info">Revisión director de área o jefe regional</span></td>';
+                                echo '<span class="label label-light-info">Revisión dirección / jefatura regional</span>';
                             }else if($fila->estado == 4){
-                                echo '<td><span class="label label-warning">Observación director de área o jefe regional</span></td>';
+                                echo '<span class="label label-warning">Observación dirección / jefatura regional</span>';
                             }else if($fila->estado == 5){
-                                echo '<td><span class="label label-light-info">Revisión fondo circulante</span></td>';
+                                echo '<span class="label label-light-info">Revisión fondo circulante</span>';
                             }else if($fila->estado == 6){
-                                echo '<td><span class="label label-warning">Observación fondo circulante</span></td>';
+                                echo '<span class="label label-warning">Observación fondo circulante</span>';
                             }else if($fila->estado == 7){
-                                echo '<td><span class="label label-success">Aprobada</span></td>';
+                                echo '<span style="width: 100%;" class="label label-success">Aprobada</span>';
                             }else if($fila->estado == 8){
-                                echo '<td><span class="label label-danger">Pagada</span></td>';
-                            }
+                                echo '<span style="width: 100%;" class="label label-danger">Pagada</span>';
+                            } echo "</td>";
                             
                             echo "<td>";
 
@@ -81,16 +81,15 @@
                             }
 
                             $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)), $fecha_observacion, $fila->oficina_solicitante_motorista);
-                            if($fila->estado < 7){
-                                if(tiene_permiso($segmentos=2,$permiso=4)){
-                                    array_push($array, "edit");
-                                    echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+
+                            if(tiene_permiso($segmentos=2,$permiso=4)){
+                                if($fila->estado < 7){
+                                        array_push($array, "edit");
+                                        echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                                }else{
+                                        array_push($array, "edit");
+                                        echo generar_boton(array(),"disable","btn-default disabled","fa fa-wrench","");
                                 }
-                            }else{
-                               if(tiene_permiso($segmentos=2,$permiso=4)){
-                                    array_push($array, "edit");
-                                    echo generar_boton(array(),"disable","btn-default disabled","fa fa-wrench","Editar");
-                                } 
                             }
                             if($fila->estado == 0){
                                 if(tiene_permiso($segmentos=2,$permiso=3)){
@@ -105,7 +104,7 @@
                             if(date("Y-m-d", strtotime($fila->fecha_solicitud)) > "2018-10-24"){
                                 echo generar_boton(array($fila->id_mision_oficial, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
                             }else{
-                                echo generar_boton(array($fila->id_mision_oficial, 0),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
+                                echo generar_boton(array($fila->id_mision_oficial, 0),"bitacora","btn-default disabled","mdi mdi-information-variant","");
                             }
 
                             echo "</td>";
