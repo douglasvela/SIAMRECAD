@@ -1,0 +1,1 @@
+ALTER TABLE `vyp_bitacora_solicitud_viatico` ADD `nr_persona_actualiza` VARCHAR(5) NOT NULL AFTER `id_mision`;

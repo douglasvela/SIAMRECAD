@@ -255,7 +255,8 @@ class Solicitud_model extends CI_Model {
 			'tiempo_dias' => $tiempo_dias,
 			'descripcion' => $mensaje, 
 			'persona_actualiza' => $persona_actualiza,
-			'id_mision' => $data
+			'id_mision' => $data,
+			'nr_persona_actualiza' => $this->session->userdata('nr_usuario_viatico')
 		);
 
 		if($estado == 0){

@@ -2,7 +2,8 @@
     <table class="table table-hover product-overview" width="100%">
         <thead class="bg-info text-white">
             <tr>
-                <th>Actor</th>
+                <th>Rol</th>
+                <th>Persona</th>
                 <th>Descripción</th>
                 <th>Fecha</th>
                 <th>Tardó</th>
@@ -12,7 +13,7 @@
         <?php 
             $id_mision = $_GET["id_mision"];
 
-            $bitacora = $this->db->query("SELECT * FROM vyp_bitacora_solicitud_viatico WHERE id_mision = '".$id_mision."'");
+            $bitacora = $this->db->query("SELECT b.*, u.nombre_completo FROM vyp_bitacora_solicitud_viatico AS b JOIN org_usuario AS u ON u.nr = b.nr_persona_actualiza AND id_mision = '".$id_mision."' ");
             if($bitacora->num_rows() > 0){
                 $contador = 0;
                 foreach ($bitacora->result() as $fila) {
@@ -27,6 +28,7 @@
                     }
                   echo "<tr>";
                     echo "<td>".$actor."</td>";                    
+                    echo "<td>".$fila->nombre_completo."</td>";
                     echo "<td>".$fila->descripcion."</td>";
                     echo "<td>".date("d/m/Y",strtotime($fila->fecha_actualizacion))."</td>";
                     echo "<td>".$fila->tiempo_dias." días</td>";

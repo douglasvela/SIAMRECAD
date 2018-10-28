@@ -249,7 +249,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		function mantto_detalle_solicitud(){
 			if($("#band_detalle_solicitud").val()=="save" || $("#band_detalle_solicitud").val()=="edit"){
 				if($("#fecha_detalle").val()=="" || $("#departamento").val()=='0' || $("#municipio").val()=='0' || $("#empresa").val()==''
-					|| $("#direccion").val()=="" || $("#expediente").val()=="" || $("#id_actividad").val()=='0' || $("#monto").val()=="" || $("#monto").val()==0.00){
+					|| $("#direccion").val()=="" || $("#id_actividad").val()=='0' || $("#monto").val()=="" || $("#monto").val()==""){
 					swal({ title: "¡Ups!", text: "Campos requeridos sin llenar.", type: "error", showConfirmButton: true });
 					return;
 				}
@@ -313,13 +313,13 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 			$("#band_detalle_solicitud").val("edit");
 			$("#id_detalle_solicitud").val(id_solicitud_pasaje);
 			$("#fecha_detalle").val(fecha_mision);
-			$("#departamento").val(id_departamento);
-			//$("#municipio").val(id_municipio).trigger("change.select2");
+			$("#departamento").val(id_departamento).trigger('change.select2');
+			$("#municipio").val(id_municipio).trigger("change.select2");
 			combo_municipio(id_departamento,id_municipio);
 			$("#empresa").val(empresa_visitada);
 			$("#direccion").val(direccion_empresa);
 			$("#expediente").val(no_expediente);
-			$("#id_actividad").val(id_actividad_realizada);
+			$("#id_actividad").val(id_actividad_realizada).trigger('change.select2');;
 			//$("#nr_empleado").val();
 			$("#monto").val(monto_pasaje);
 			//$("#id_mision_pasajes").val();
@@ -335,7 +335,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 			$("#empresa").val("");
 			$("#direccion").val("");
 			$("#expediente").val("");
-			$("#id_actividad").val("");
+			$("#id_actividad").val("").trigger('change.select2');;
 			$("#monto").val("");
 		}
 		function eliminar_detallado_pasaje(id_solicitud_pasaje){
@@ -692,6 +692,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
                     				<label class="font-weight-bold">Municipio: <span class="text-danger">*</span></label>
                     				<select id="municipio" name="municipio" class="select2" style="width: 100%" required onchange="combo_municipio(this.value,null)">
+                    					<option value='0'>[Elija el departamento]</option>
 								    <?php 
 								        $municipio = $this->db->query("SELECT * FROM org_municipio ORDER BY municipio");
 								        if($municipio->num_rows() > 0){
