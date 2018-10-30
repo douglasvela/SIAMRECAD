@@ -1063,7 +1063,11 @@
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viáticos y pasajes");
     }
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,oficina_solicitante,bandera){
+    var plazo_vencido = false;
+    var fecha_mision_inicio_copia = "";
+    var fecha_mision_fin_copia = "";
+
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,oficina_solicitante, vencida,bandera){
 
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
@@ -1080,36 +1084,18 @@
         }
         document.getElementById("file3[]").value = "";
 
-        var observacion_habilitada = true;
-        if(estado == "2" || estado == "4" || estado == "6"){
-            var ufobservacion = moment(fecha_observacion).add(1,'days');
-            var fhoy = moment();
-            var reducir = 0;
+        fecha_mision_inicio_copia = fecha_mision_inicio;
+        fecha_mision_fin_copia = fecha_mision_fin;
 
-            if(ufobservacion.format("e") == 6){
-                ufobservacion.add(2,'days');
-                reducir = 2;
-            }else if(ufobservacion.format("e") == 0){
-                ufobservacion.add(1,'days');
-                reducir = 1;
-            }
-
-            var fecha2 = moment(ufobservacion.format("YYYY-MM-DD"));
-            var fecha1 = moment(fhoy.format("YYYY-MM-DD"));
-            var diferencia = fecha2.diff(fecha1, 'days');     
-            var plazo = diferencia - reducir;
-
-            if(plazo == 0){
-                var texto = "Ultimo día para corregir observaciones: HOY";
+        if(vencida){
+            if(estado == "0"){
+                swal({ title: "Plazo agotado", text: "El plazo para enviar su solicitud finalizó, para continuar, justifique", type: "error", showConfirmButton: true });
             }else{
-                var texto = "Ultimo día para corregir observaciones: "+ufobservacion.format("DD-MM-YYYY");
+                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó, si desea continuar, justifique", type: "error", showConfirmButton: true });
             }
-
-            if(diferencia < 0){
-                observacion_habilitada = false;
-            }else{
-                $.toast({ heading: 'Plazo de observaciones', text: texto, position: 'top-right', loaderBg:'#3c763d', icon: 'warning', hideAfter: 4000, stack: 6 });
-            }
+            plazo_vencido = true;
+        }else{
+            plazo_vencido = false;
         }
 
         var date = fecha_mision_fin;
@@ -1119,7 +1105,6 @@
 
         if(bandera == "edit"){
             $('#summernote').val(ruta_justificacion);
-            if(observacion_habilitada){
                 $("#band").val(bandera);
                 observaciones(id);
                 aplicar(ruta_justificacion);
@@ -1137,10 +1122,7 @@
                 $("#btnedit").show(0);
                 $("#cnt_tabla").hide(0);
                 $("#cnt_form").show(0);
-                $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");     
-            }else{
-                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó el: "+ufobservacion.format("DD-MM-YYYY"), type: "error", showConfirmButton: true });
-            }       
+                $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viáticos y pasajes");
         }else{
             document.getElementById("justificacion").checked = 0;
             cambiarJustificacion();
@@ -1153,12 +1135,17 @@
     }
 
     function aplicar(ruta_justificacion){
-        if(ruta_justificacion == ""){
-            document.getElementById("justificacion").checked = 0;
+        if(plazo_vencido){
+            document.getElementById("justificacion").checked = 1;
             cambiarJustificacion();
         }else{
-            document.getElementById("justificacion").checked = 1;
-            cambiarJustificacion("<?php echo base_url(); ?>"+ruta_justificacion);
+            if(ruta_justificacion == ""){
+                document.getElementById("justificacion").checked = 0;
+                cambiarJustificacion();
+            }else{
+                document.getElementById("justificacion").checked = 1;
+                cambiarJustificacion("<?php echo base_url(); ?>"+ruta_justificacion);
+            }
         }
     }
 
@@ -1777,7 +1764,7 @@
         $("#viatico").val("0.00");
         //$("#id_distancia").val(id_destino);
         $("#alojamiento").val("0.00");
-
+        cambiarkilometraje($("#id_destino").val());
         $("#band_viatico").val("save");
         $("#btnadd3").show(0);
         $("#btnedit3").hide(0);
@@ -2051,6 +2038,7 @@
             $("#notificacion_justificacion").hide(750);
             $("#cnt_file3").hide(750);
         }
+
     }
 
     function imagen_justificacion(ruta){
@@ -2082,11 +2070,17 @@
                     $("#fecha_mision_inicio").datepicker("setEndDate", ultima_fecha_inicio );
                     $("#fecha_mision_fin").datepicker("setEndDate", ultima_fecha_fin );
                 }
+
+                if(plazo_vencido){
+                    $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio_copia );
+                    $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin_copia );
+                }
                 
             }else if (xhr.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
             }
         };
+
         xhr.send(encodeURI('name=' + newName));
     }
 

@@ -39,6 +39,34 @@
                     if($mision->num_rows() > 0){
                         $contador = 0;
                         foreach ($mision->result() as $fila) {
+
+                            if(!in_array($fila->estado, array(1,3,5)) && $fila->estado < 7){
+                                $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
+                                $priority = "text-danger";
+                                if($restante == 2){
+                                    $priority = "text-primary";
+                                }elseif($restante == 1){
+                                    $priority = "text-warning";
+                                }elseif($restante == 1){
+                                    $priority = "text-danger";
+                                }
+                                // FAlta php diff without weekend
+                                if($restante < 0){
+                                    $vencida = true;
+                                    $restante = "<h6 class='".$priority."'>PLAZO VENCIDO</h6>";
+                                }else{
+                                    $restante = "<h6 class='".$priority."'>RESTA: ".$restante." día(s)</h6>";
+                                    $vencida = false;
+                                }
+                            }else{
+                                if($fila->estado >= 7){
+                                    $restante = "";
+                                }else{
+                                    $restante = "<h6 class='text-info'>EN ESPERA</h6>";
+                                }
+                                $vencida = false;
+                            }
+
                             $contador++;
                           echo "<tr>";
                             echo "<td style='display: none;'>".$contador."</td>";
@@ -70,7 +98,7 @@
                                 echo '<span style="width: 100%;" class="label label-success">Aprobada</span>';
                             }else if($fila->estado == 8){
                                 echo '<span style="width: 100%;" class="label label-danger">Pagada</span>';
-                            } echo "</td>";
+                            } echo "<br>".$restante."</td>";
                             
                             echo "<td>";
 
@@ -80,7 +108,7 @@
                                 $fecha_observacion = date("Y-m-d",strtotime($fila->ultima_observacion));
                             }
 
-                            $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)), $fecha_observacion, $fila->oficina_solicitante_motorista);
+                            $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)), $fecha_observacion, $fila->oficina_solicitante_motorista, $vencida);
 
                             if(tiene_permiso($segmentos=2,$permiso=4)){
                                 if($fila->estado < 7){

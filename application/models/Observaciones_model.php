@@ -40,17 +40,17 @@ class Observaciones_model extends CI_Model {
 		if($data['estado'] == "2"){ //observaciones jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "OBSERVADÓ LA SOLICITUD";
+			$mensaje = "OBSERVÓ LA SOLICITUD";
 			$persona_actualiza = 2; //Actualiza jefatura inmediata
 		}else if($data['estado'] == "4"){ //observaciones dirección de área o jefatura regional
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "OBSERVADÓ LA SOLICITUD";
+			$mensaje = "OBSERVÓ LA SOLICITUD";
 			$persona_actualiza = 3; //Actualiza dirección de área o jefatura regional
 		}else if($data['estado'] == "6"){ //observaciones fondo circulante
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "OBSERVADÓ LA SOLICITUD";
+			$mensaje = "OBSERVÓ LA SOLICITUD";
 			$persona_actualiza = 4; //Actualiza jefatura inmediata
 		}else if($data['estado'] == "3"){ //aprueba jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");

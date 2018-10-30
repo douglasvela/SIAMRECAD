@@ -115,6 +115,7 @@ if($mision->num_rows() > 0){
     	$nr_usuario = $filam->nr_empleado;
     	$fec_inicio = $filam->fecha_mision_inicio;
     	$fec_fin = $filam->fecha_mision_fin;
+        $id_info_laboral = $filam->id_empleado_informacion_laboral;
     }
 }
 
@@ -263,7 +264,7 @@ $oficina_empleado = $this->db->query("SELECT m.municipio FROM vyp_oficinas AS o 
         }
 $html .= "<p>Lugar y Fecha: ".$oficina_origen.", ".date("d", strtotime($filam->fecha_solicitud))." de ".mes(date("m", strtotime($filam->fecha_solicitud)))." de ".date("Y", strtotime($filam->fecha_solicitud)).'</p>';
 
- $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+ $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND eil.id_empleado_informacion_laboral = '".$id_info_laboral."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
 
     if($empleado->num_rows() > 0){
         foreach ($empleado->result() as $filae) {              
@@ -366,12 +367,12 @@ $html .= '<br>
 		 	</tr>
 		 	<tr><td style="padding: 40px;"></td><td style="padding: 40px;"></td></tr>
 		 	<tr>';
-	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajf->nombre_completo).'<br>Vo.Bo. Jefe Inmediato</center></b></div>';
+	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajf->nombre_completo).'<br>Vo.Bo. Jefatura Inmediato</center></b></div>';
 	if(intval($filam->estado) > 2){	 	
 		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajf->nr.".png".'">';
 	}
 	$html .= '</div><br></td>';
-	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajr->nombre_completo).'<br>Autorizado Director de Área o Jefe de Regional</center></b></div>';
+	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajr->nombre_completo).'<br>Autorizado Dirección o Jefatura Regional</center></b></div>';
 	if(intval($filam->estado) > 4){
 		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajr->nr.".png".'">';
 	}

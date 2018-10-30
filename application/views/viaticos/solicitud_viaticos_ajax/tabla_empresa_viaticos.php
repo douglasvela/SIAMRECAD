@@ -113,7 +113,7 @@
     </div>
     <div class="pull-right">
     <button type="button" onclick="verificar_fechas()" class="btn btn-info">
-    Actualizar solicitud
+    Enviar solicitud <span class="mdi mdi-send"></span>
     </button>
     </div>
 </div>

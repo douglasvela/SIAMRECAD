@@ -116,6 +116,7 @@ $altura = 5);
 	            	$nr_usuario = $filam->nr_empleado;
 	            	$fec_inicio = $filam->fecha_mision_inicio;
 	            	$fec_fin = $filam->fecha_mision_fin;
+	            	$id_info_laboral = $filam->id_empleado_informacion_laboral;
 	            }
 	        }
 
@@ -378,7 +379,7 @@ $altura = 5);
         $pdf->Text($pdf->GetX(),$pdf->GetY(),"Lugar y Fecha: ".$oficina_origen.", ".date("d", strtotime($filam->fecha_solicitud))." de ".mes(date("m", strtotime($filam->fecha_solicitud)))." de ".date("Y", strtotime($filam->fecha_solicitud)),0,'C', 0);
 
 
-    $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND e.nr = '".$nr_usuario."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
+    $empleado = $this->db->query("SELECT eil.*, e.id_empleado, e.telefono_contacto, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e INNER JOIN sir_empleado_informacion_laboral AS eil ON e.id_empleado = eil.id_empleado AND eil.id_empleado_informacion_laboral = '".$id_info_laboral."' ORDER BY eil.fecha_inicio DESC LIMIT 1");
 
     if($empleado->num_rows() > 0){
         foreach ($empleado->result() as $filae) {              
@@ -539,7 +540,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Vo.Bo. Jefe Inmediato", "Autorizado Director de Área o Jefe de Regional"),
+        $pdf->Row(array("Vo.Bo. Jefatura Inmediata", "Autorizado Dirección o Jefatura Regional"),
             array('0','0','0'),
             array('Arial','','09'),
             array(false),

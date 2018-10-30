@@ -46,7 +46,7 @@
                     echo "<td>".$fila->nombre_completo."</td>";
                     echo "<td>".$fila->descripcion."</td>";
                     echo "<td>".date("d/m/Y",strtotime($fila->fecha_actualizacion))."</td>";
-                    echo "<td>".$fila->tiempo_dias." días</td>";
+                    echo "<td>".$fila->tiempo_dias." día(s)</td>";
                   echo "</tr>";
                 }
             }

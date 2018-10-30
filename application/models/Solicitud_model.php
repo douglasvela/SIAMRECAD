@@ -236,7 +236,7 @@ class Solicitud_model extends CI_Model {
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$persona_actualiza = 1; //Actualiza el solicitante
-			$mensaje = "CORRIGIÓ OBSERVACIONES DE LA DIRECCIÓN DE ÁREA O JEFATURA REGIONAL";
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE DIRECCIÓN O JEFATURA REGIONAL";
 			$newestado = 1;	//cambiar a revision 1
 		}else if($estado == 5){//si está en revisión 3
 			$newestado = 5;
