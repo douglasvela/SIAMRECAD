@@ -1,3 +1,6 @@
 ALTER TABLE `vyp_bitacora_solicitud_viatico` ADD `nr_persona_actualiza` VARCHAR(5) NOT NULL AFTER `id_mision`;
 ALTER TABLE `vyp_pasajes` CHANGE `no_expediente` `no_expediente` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `vyp_mision_pasajes` CHANGE `ultima_observacion` `ultima_observacion` DATETIME NOT NULL;
+
+
+SIVIC.
