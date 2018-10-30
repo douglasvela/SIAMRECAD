@@ -240,7 +240,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         	$("#id_mision_pasajes").val(id_mision_pasajes);
         	$("#fecha_solicitud").val(fecha_solicitud_pasaje);
         	$("#nr_empleado").val(nr).trigger("change.select2");
-        	$("#mes_anio_pasaje").val(mes_anio_pasaje);
+        	//$("#mes_anio_pasaje").val(mes_anio_pasaje).trigger('change');
+        	$('#mes_anio_pasaje').datepicker('setDate', mes_anio_pasaje );
         	$("#band_solicitud").val("edit");
         	observaciones(id_mision_pasajes);
         	$("#cnt_observaciones").show(0);
@@ -387,7 +388,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	function limpiar_solicitud(){
 		$("#band_solicitud").val("save");
 		$("#fecha_solicitud").val("");
-		$("#mes_anio_pasaje").val("");
+		//$("#mes_anio_pasaje").val("");
+		$('#mes_anio_pasaje').datepicker('setDate', '<?php echo date("Y-m"); ?>' );
 		$("#id_mision_pasajes").val("");
 	}
 		
@@ -541,7 +543,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                            </div>
 	                            <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                            	<h5 style="display:block;">Fecha de Pasaje: <span class="text-danger"></span></h5>
-	                            	<input type="month"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
+	                            	<input type="text"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>
 	                            
 	                        </div>
@@ -649,7 +651,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                    		</div>
 	                    		<div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
 	                    			<label for="" class="font-weight-bold">Mes de Pasaje: <span class="text-danger">*</span></label>
-	                    			<input type="month" class="form-control" id="mes_anio_pasaje" name="mes_anio_pasaje" readonly="">
+	                    			<input type="text" class="form-control" id="mes_anio_pasaje" name="mes_anio_pasaje" readonly="">
 	                    		</div>
 	                    		
 	                    	</div>
@@ -813,6 +815,18 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	        todayHighlight: true,
 	        endDate: moment().format("DD-MM-YYYY"),
 	        daysOfWeekDisabled: [0,6]
+        });
+
+        $('#fecha1').datepicker({
+        	format: 'yyyy-mm',
+	        startView: 1,
+  			minViewMode: 1
+        });
+
+        $('#mes_anio_pasaje').datepicker({
+        	format: 'yyyy-mm',
+	        startView: 1,
+  			minViewMode: 1
         });
 
 	        var date = new Date();
