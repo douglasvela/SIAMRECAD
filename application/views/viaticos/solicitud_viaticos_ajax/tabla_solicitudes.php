@@ -41,7 +41,11 @@
                         foreach ($mision->result() as $fila) {
 
                             if(!in_array($fila->estado, array(1,3,5)) && $fila->estado < 7){
-                                $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
+                                if($fila->estado == 0){
+                                    $restante = 2 - get_days_count($fila->fecha_mision_fin, date("Y-m-d"));
+                                }else{
+                                    $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
+                                }
                                 $priority = "text-danger";
                                 if($restante == 2){
                                     $priority = "text-primary";
