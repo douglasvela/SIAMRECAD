@@ -17,6 +17,13 @@
         }
     }
 
+    // Características del navegador
+    $ua=$this->config->item("navegator");
+    $navegatorless = false;
+    if(floatval($ua['version']) < $this->config->item("last_version")){
+        $navegatorless = true;
+    }
+
 ?>
 <script type="text/javascript">   
 
@@ -369,6 +376,30 @@
         }
     }
 
+    function combo_opciones(paso){
+        var newName = 'Otro nombre',
+        xhr = new XMLHttpRequest();
+
+        if(paso == 2 || paso == 3){
+            $("#cnt_opciones").show(500);
+
+            var id_mision = gid_mision;
+            xhr.open('GET', "<?php echo site_url(); ?>/viaticos/observaciones/combo_opciones?id_mision="+id_mision+"&paso="+paso);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200 && xhr.responseText !== newName) {
+                    document.getElementById("cnt_opciones").innerHTML = xhr.responseText;
+                }else if (xhr.status !== 200) {
+                    swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+                }
+            };
+            xhr.send(encodeURI('name=' + newName));
+        }else{
+            $("#cnt_opciones").hide(500);
+            $("#opciones").val('');
+        }
+    }
+
 </script>
 
 <!-- ============================================================== -->
@@ -418,9 +449,22 @@
                         <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
                             <label class="control-label m-t-20" for="example-input1-group2">Nueva observación</label>
                             <div class="row">
+                                <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
+                                    <h5>Tipo: <span class="text-danger">*</span></h5>
+                                    <select id="paso" name="paso" class="form-control custom-select"  style="width: 100%" required="" onchange="combo_opciones(this.value);">
+                                        <option class="m-l-50" value="2">EMPRESAS VISITADAS</option>
+                                        <option class="m-l-50" value="3">DETALLE DEL RECORRIDO</option>
+                                        <option class="m-l-50" value="1">DETALLE DE LA ACTIVIDAD</option>
+                                        <option class="m-l-50" value="0">OTROS...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-8 <?php if($navegatorless){ echo "pull-left"; } ?>" id="cnt_opciones">
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-12 form-group">
                                     <div class="input-group">
-                                         
                                         <input type="text" id="observacion" name="observacion" class="form-control" placeholder="Detalle de la observación" required="" minlength="5">
                                         
                                         <span class="input-group-btn">
@@ -428,7 +472,6 @@
                                         </span>
                                          
                                     </div>
-                                    <div class="help-block"></div>
                                 </div>
                             </div>
 

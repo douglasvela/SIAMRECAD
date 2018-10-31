@@ -35,6 +35,10 @@ class Observaciones extends CI_Controller {
 		$this->load->view('viaticos/observaciones/cnt_notificaciones');
 	}
 
+	public function combo_opciones(){
+		$this->load->view('viaticos/observaciones/combo_opciones');
+	}
+
 	public function cambiar_estado_solicitud(){		
 		$data = array(
 		'id_mision' => $this->input->post('id_mision'), 
