@@ -72,7 +72,10 @@ class Observaciones extends CI_Controller {
 		'observacion' => $this->input->post('observacion'),
 		'nr_observador' => $this->input->post('nr_observador'),
 		'id_tipo_observador' => $this->input->post('id_tipo_observador'),
-		'tipo_observador' => $this->input->post('tipo_observador')
+		'tipo_observador' => $this->input->post('tipo_observador'),
+		'fecha_hora' => date("Y-m-d H:i:s"),
+		'paso' => $this->input->post('paso'),
+		'id_observado' => $this->input->post('id_observado')
 		);
 		echo $this->observaciones_model->otra_observacion($data);
 	}

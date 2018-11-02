@@ -1,6 +1,9 @@
+/***************************** SOLICITUDES **************************************************/
 ALTER TABLE `vyp_bitacora_solicitud_viatico` ADD `nr_persona_actualiza` VARCHAR(5) NOT NULL AFTER `id_mision`;
 ALTER TABLE `vyp_pasajes` CHANGE `no_expediente` `no_expediente` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `vyp_mision_pasajes` CHANGE `ultima_observacion` `ultima_observacion` DATETIME NOT NULL;
 
-
-SIVIC.
+/***************************** OBSERVACIONES ************************************************/
+ALTER TABLE `vyp_observacion_solicitud` ADD `paso` INT NOT NULL AFTER `tipo_observador`;
+ALTER TABLE `vyp_observacion_solicitud` ADD `id_observado` INT NOT NULL AFTER `paso`;
+ALTER TABLE `vyp_observaciones_pasajes` CHANGE `id_observacion_pasaje` `id_observacion_pasaje` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;

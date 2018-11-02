@@ -1,5 +1,5 @@
 <h5>Opciones: <span class="text-danger">*</span></h5>
-<select id="opciones" name="opciones" class="form-control custom-select"  style="width: 100%" onchange="combo_opciones(this.value);">
+<select id="id_observado" name="id_observado" class="form-control custom-select"  style="width: 100%">
     <option class="m-l-50" value="">[Sin asignar]</option>
     <?php $paso = $_GET["paso"]; $id_mision = $_GET["id_mision"];
     if($paso == 2){
@@ -15,7 +15,7 @@
 	    if($empresa_viatico->num_rows() > 0){
 	        foreach ($empresa_viatico->result() as $filam) {
 
-	        	echo '<option class="m-l-50" value="'.$fila->id_empresa_viatico.'">'.$filam->nombre_origen." - ".$filam->nombre_destino.'</option>';
+	        	echo '<option class="m-l-50" value="'.$filam->id_empresa_viatico.'">'.$filam->nombre_origen." - ".$filam->nombre_destino.'</option>';
 	        }
 	    }
     }

@@ -43,8 +43,15 @@
             $subviaticos += $filam->viatico;
             $subpasajes += $filam->pasaje;
             $subalojamientos += $filam->alojamiento;
+
+            $query = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."' AND corregido = 0 AND paso = '3' AND id_observado = '".$filam->id_empresa_viatico."'");
+            if($query->num_rows() > 0){
+                echo "<tr class='table-warning' title='".$query->row(0)->observacion."' data-toggle='tooltip'>";
+            }else{
+                echo "<tr>";
+            }
 ?>
-        <tr>
+        
             <td><?php echo fecha_es($filam->fecha); ?>
                 <input type="hidden" style="width: 25px;" value="<?php echo $filam->id_empresa_viatico; ?>">
                 <input type="hidden" style="width: 50px;" value="<?php echo $filam->id_destino; ?>">

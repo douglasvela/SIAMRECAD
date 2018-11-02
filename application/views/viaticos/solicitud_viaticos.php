@@ -1158,6 +1158,9 @@
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
+                if($("#hay_observaciones").val() == '1'){
+                    $("#cnt_observacion_actividad").html("<span class='text-warning' data-toggle='tooltip' title='"+$("#observaciones_actividad").val()+"'><i class='mdi mdi-alert-octagon'></i></span>");
+                }
                 $('[data-toggle="tooltip"]').tooltip();
                 form_mision();
             }
@@ -2442,7 +2445,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-lg-9 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-                                    <h5>Actividad realizada: <span class="text-danger">*</span></h5>
+                                    <h5>Actividad realizada: <span class="text-danger">*</span> <output id="cnt_observacion_actividad"></output></h5>
                                     <div class="input-group">
                                         <select id="id_actividad" name="id_actividad" class="select2" style="width: 100%" required='' onchange="cambiar_oficina_solicitante();">
                                             <option value=''>[Elija una actividad]</option>

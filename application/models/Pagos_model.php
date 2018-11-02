@@ -8,9 +8,8 @@ class Pagos_model extends CI_Model {
 	}
 
 	function insertar_pago_emergencia($data){
-		$id = $this->obtener_ultimo_id("vyp_pago_emergencia","id_pago_emergencia");
 
-		if($this->db->insert('vyp_pago_emergencia', array('id_pago_emergencia' => $id, 'nr' => $data['nr'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'], 'id_actividad' => $data['id_actividad'], 'monto' => $data['monto'], 'num_cheque' => $data['num_cheque'], 'fecha_pago' => $data['fecha_pago'], 'tipo_pago' => $data['tipo_pago'], 'estado' => $data['estado']))){
+		if($this->db->insert('vyp_pago_emergencia', array('nr' => $data['nr'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'], 'id_actividad' => $data['id_actividad'], 'monto' => $data['monto'], 'num_cheque' => $data['num_cheque'], 'fecha_pago' => $data['fecha_pago'], 'tipo_pago' => $data['tipo_pago'], 'estado' => $data['estado']))){
 			return "exito";
 		}else{
 			return "fracaso";

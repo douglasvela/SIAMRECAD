@@ -8,10 +8,7 @@ class Observaciones_model extends CI_Model {
 	}
 
 	function otra_observacion($data){
-		$idb = $this->obtener_ultimo_id("vyp_observacion_solicitud","id_observacion_solicitud");
-		$fecha = date("Y-m-d H:i:s");
-
-		if($this->db->insert('vyp_observacion_solicitud', array('id_observacion_solicitud' => $idb, 'id_mision' => $data['id_mision'], 'observacion' => $data['observacion'], 'fecha_hora' => $fecha, 'corregido' => false, 'nr_observador' => $data['nr_observador'], 'id_tipo_observador' => $data['id_tipo_observador'], 'tipo_observador' => $data['tipo_observador']))){
+		if($this->db->insert('vyp_observacion_solicitud', $data)){
 			return "exito";
 		}else{
 			return "fracaso";

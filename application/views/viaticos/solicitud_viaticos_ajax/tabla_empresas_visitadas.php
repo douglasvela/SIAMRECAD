@@ -33,7 +33,12 @@
 
                 if($empresas->num_rows() > 0){
                     foreach ($empresas->result() as $fila) {
-                      	echo "<tr>";
+                        $query = $this->db->query("SELECT * FROM vyp_observacion_solicitud WHERE id_mision = '".$id_mision."' AND corregido = 0 AND paso = '2' AND id_observado = '".$fila->id_empresas_visitadas."'");
+                        if($query->num_rows() > 0){
+                            echo "<tr class='table-warning' title='".$query->row(0)->observacion."' data-toggle='tooltip'>";
+                        }else{
+                            echo "<tr>";
+                        }
                         ?>
             			<td><?php echo $fila->nombre_empresa; ?><input type="hidden" value="<?php echo $fila->id_empresas_visitadas; ?>"></td>
 		            	<td><?php echo $fila->direccion_empresa; ?></td>

@@ -10,10 +10,9 @@ class Observaciones_pasajes_model extends CI_Model {
 	
 
 	function otra_observacion($data){
-		$idb = $this->obtener_ultimo_id("vyp_observaciones_pasajes","id_observacion_pasaje");
 		$fecha = date("Y-m-d H:i:s");
 
-		if($this->db->insert('vyp_observaciones_pasajes', array('id_observacion_pasaje' => $idb, 'id_mision_pasajes' => $data['id_mision'], 'observacion' => $data['observacion'], 'fecha_hora' => $fecha, 'corregido' => false, 'nr_observador' => $data['nr_observador'], 'id_tipo_observador' => $data['id_tipo_observador'], 'tipo_observador' => $data['tipo_observador']))){
+		if($this->db->insert('vyp_observaciones_pasajes', array('id_mision_pasajes' => $data['id_mision'], 'observacion' => $data['observacion'], 'fecha_hora' => $fecha, 'corregido' => false, 'nr_observador' => $data['nr_observador'], 'id_tipo_observador' => $data['id_tipo_observador'], 'tipo_observador' => $data['tipo_observador']))){
 			return "exito";
 		}else{
 			return "fracaso";

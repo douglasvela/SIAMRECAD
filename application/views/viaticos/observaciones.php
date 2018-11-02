@@ -446,12 +446,13 @@
                         <input type="hidden" id="id_tipo_observador" name="id_tipo_observador" value="1">
 
 
-                        <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form', 'novalidate' => '')); ?>
+                        <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'input-form')); ?>
                             <label class="control-label m-t-20" for="example-input1-group2">Nueva observación</label>
                             <div class="row">
                                 <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Tipo: <span class="text-danger">*</span></h5>
                                     <select id="paso" name="paso" class="form-control custom-select"  style="width: 100%" required="" onchange="combo_opciones(this.value);">
+                                        <option class="m-l-50" value="">[SELECCIONE]</option>
                                         <option class="m-l-50" value="2">EMPRESAS VISITADAS</option>
                                         <option class="m-l-50" value="3">DETALLE DEL RECORRIDO</option>
                                         <option class="m-l-50" value="1">DETALLE DE LA ACTIVIDAD</option>
@@ -628,6 +629,8 @@ $(function(){
             "observacion" : $("#observacion").val(),
             "nr_observador" : $("#nr_observador").val(),
             "id_tipo_observador" : $("#id_tipo_observador").val(),
+            "paso" : $("#paso").val(),
+            "id_observado" : $("#id_observado").val(),
             "tipo_observador" : tipo_jefe
         };
         $.ajax({

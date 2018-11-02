@@ -8,7 +8,6 @@ class Oficina_model extends CI_Model {
 	}
 
 	function insertar_oficina($data){
-		//$id = $this->obtener_ultimo_id("vyp_oficinas","id_oficina");
 		$this->db->where("nombre_oficina",$data['nombre_oficina']);
 		$this->db->where("direccion_oficina",$data['direccion_oficina']);
 		$this->db->where("jefe_oficina",$data['jefe_oficina']);
