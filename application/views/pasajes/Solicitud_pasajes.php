@@ -541,7 +541,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                                ?>
 	                                </select>
 	                            </div>
-	                            <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">
+	                            <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>" style="display: none;">
 	                            	<h5 style="display:block;">Fecha de Pasaje: <span class="text-danger"></span></h5>
 	                            	<input type="text"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>

@@ -74,6 +74,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		return $notificacion;
 	}
+
+	function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE');return $mesesarray[($mes-1)]; }
+
 	function crear_combo($titulo,$id, $lista,$datos,$funcion){
 		$combo = '<label for="'.$id.'">'.$titulo.':</label>';
 		$combo .= '<div class="input-group-btn">';

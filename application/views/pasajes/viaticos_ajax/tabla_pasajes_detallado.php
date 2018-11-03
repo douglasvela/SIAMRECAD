@@ -1,8 +1,3 @@
-<style type="text/css" media="screen">
-  table {
-  font-size: 85%;
-}
-</style>      
 <div class="table-responsive">
     <table id="myTable_detallado" class="table table-hover product-overview" style="margin-bottom: 0px;">
         <thead class="bg-inverse text-white">
