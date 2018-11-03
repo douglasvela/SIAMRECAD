@@ -244,7 +244,7 @@ class Solicitud_model extends CI_Model {
 			$newestado = 1;
 		}
 
-		$tiempo_dias = get_days_count(substr($fecha_actualizacion,0,10), substr($fecha_antigua,0,10));
+		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
 		$data_insert = array(
 			'fecha_antigua' => $fecha_antigua,
 			'fecha_actualizacion' => $fecha_actualizacion,

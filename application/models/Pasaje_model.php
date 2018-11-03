@@ -106,9 +106,39 @@ class Pasaje_model extends CI_Model {
 		}
 	}
 	function enviar_a_revision($data){
+		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes WHERE id_mision_pasajes = '".$data["id_mision_pasajes"]."'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$estado = $fila->estado; 
+				$fecha_mision_fin = date("Y-m-t", strtotime($fila->fecha_solicitud_pasaje));
+				$fecha_ultima_observacion = $fila->ultima_observacion;
+			}
+		}
+
+		$newestado = 1;
+		$mensaje = "";
+		if($estado == 0){ //si esta incompleta
+			$newestado = 1;	//cambiar a revision 1
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_mision_fin.date(" H:m:i");
+			$mensaje = "CREÓ LA SOLICITUD Y LA ENVIÓ A JEFATURA INMEDIATA";
+			$persona_actualiza = 1; //Actualiza el solicitante
+		}
+
+		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
+		$data_insert = array(
+			'fecha_antigua' => $fecha_antigua,
+			'fecha_actualizacion' => $fecha_actualizacion,
+			'tiempo_dias' => $tiempo_dias,
+			'descripcion' => $mensaje, 
+			'persona_actualiza' => $persona_actualiza,
+			'id_mision' => $data["id_mision_pasajes"],
+			'nr_persona_actualiza' => $this->session->userdata('nr_usuario_viatico')
+		);
+
 		$fecha = date("Y-m-d H:i:s");
 		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
-			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1', 'ultima_observacion' => $fecha))){
+			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1', 'ultima_observacion' => $fecha)) && $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert)){
 				return "exito";
 			}else{
 				return "fracaso";
@@ -205,7 +235,7 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 			$newestado = 1;
 		}
 
-		$tiempo_dias = get_days_count(substr($fecha_actualizacion,0,10), substr($fecha_antigua,0,10));
+		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
 		$data_insert = array(
 			'fecha_antigua' => $fecha_antigua,
 			'fecha_actualizacion' => $fecha_actualizacion,

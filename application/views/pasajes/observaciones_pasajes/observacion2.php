@@ -8,6 +8,8 @@
                         <th>Solicitante</th>
                         <th>Mes</th> 
                         <th>Año</th>
+                        <th>Vigencia</th>
+                        <th>Prioridad</th>
                         <th>(*)</th>
                     </tr>
                 </thead>
@@ -35,61 +37,38 @@
                    if($mision->num_rows() > 0){ 
                
                 foreach ($mision->result() as $fila) {
+                    $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
+                    $priority = "<span class='label label-danger'>URGENTE</span>";
+                    if($restante == 2){
+                        $priority = "<span class='label label-primary'>MEDIA</span>";
+                    }elseif($restante == 1){
+                        $priority = "<span class='label label-warning'>ALTA</span>";
+                    }elseif($restante == 1){
+                        $priority = "<span class='label label-danger'>URGENTE</span>";
+                    }
+                    // FAlta php diff without weekend
+                    if($restante < 0){
+                        $restante = "VENCIDA";
+                    }else{
+                        $restante .= " día(s)";
+                    }
                     echo "<tr>";
                     echo "<td>".$fila->id_mision_pasajes."</td>";
                     $date = date_create($fila->fecha_solicitud_pasaje);
                     echo "<td>".date_format($date, 'd-m-Y')."</td>";
                     echo "<td>".$fila->nombre_empleado."</td>";
-
-                   switch ($fila->mes_pasaje) {
-                        case 1:
-                            $month="Enero";
-                            break;
-                        case 2:
-                            $month="Febrero";
-                            break;
-                        case 3:
-                            $month="Marzo";
-                            break;
-                            case 4:
-                            $month="Abril";
-                            break;
-                            case 5:
-                            $month="Mayo";
-                            break;
-                            case 6:
-                            $month="Junio";
-                            break;
-                            case 7:
-                            $month="Julio";
-                            break;
-                            case 8:
-                            $month="Agosto";
-                            break;
-                            case 9:
-                            $month="Septiembre";
-                            break;
-                            case 10:
-                            $month="Octubre";
-                            break;
-                            case 11:
-                            $month="Noviembre";
-                            break;
-                            case 12:
-                            $month="Diciembre";
-                            break;
-                    }
-
-
-                   echo "<td>".$month."</td>";
+                    echo "<td>".mes($fila->mes_pasaje)."</td>";
                     echo "<td>".$fila->anio_pasaje."</td>";
+                    echo "<td>".$restante."</td>";
+                    echo "<td>".$priority."</td>";
                    
-  $fecha=$fila->anio_pasaje .'-'. $fila->mes_pasaje;
+                    $fecha=$fila->anio_pasaje .'-'. $fila->mes_pasaje;
                     echo "<td>";
                     $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fila->mes_pasaje);
                     if(tiene_permiso($segmentos=3,$permiso=4)){
                         echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
                     }
+                    echo generar_boton(array($fila->id_mision_pasajes, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
                     echo "</td>";
 
                    echo "</tr>";
