@@ -70,6 +70,7 @@ class Observaciones extends CI_Controller {
 		$data = array(
 		'id_mision' => $this->input->post('id_mision'), 
 		'observacion' => $this->input->post('observacion'),
+		'corregido' => false,
 		'nr_observador' => $this->input->post('nr_observador'),
 		'id_tipo_observador' => $this->input->post('id_tipo_observador'),
 		'tipo_observador' => $this->input->post('tipo_observador'),

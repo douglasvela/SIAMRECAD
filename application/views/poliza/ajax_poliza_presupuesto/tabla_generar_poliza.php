@@ -54,7 +54,6 @@ class NumeroALetras{
     }
 }
 
-function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'); return $mesesarray[($mes-1)]; }
 $generalidades = $this->db->query("SELECT * FROM vyp_generalidades");
 
 $id_generalidad = ""; $pasaje = "0.00"; $alojamiento = "0.00"; $num_cuenta = ""; $id_banco = ""; $banco = ""; $num_cuenta = "";

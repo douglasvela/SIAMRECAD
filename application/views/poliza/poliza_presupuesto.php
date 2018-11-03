@@ -1,5 +1,4 @@
 <?php
-function mes($mes){$mesesarray = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'); return $mesesarray[($mes-1)]; }
 // Características del navegador
 $ua=$this->config->item("navegator");
 $navegatorless = false;

@@ -44,24 +44,6 @@ if($decs == 0){
     $decs = "00";
 }
 $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
-
-function mes($mes){
- switch ($mes) { 
-  case 1: $month_text = "Enero"; break; 
-  case 2: $month_text = "Febrero"; break; 
-  case 3: $month_text = "Marzo"; break; 
-  case 4: $month_text = "Abril"; break; 
-  case 5: $month_text = "Mayo"; break; 
-  case 6: $month_text = "Junio"; break; 
-  case 7: $month_text = "Julio"; break; 
-  case 8: $month_text = "Agosto"; break; 
-  case 9: $month_text = "Septiembre"; break; 
-  case 10: $month_text = "Octubre"; break; 
-  case 11: $month_text = "Noviembre"; break; 
-  case 12: $month_text = "Diciembre"; break; 
- } 
- return $month_text;
-}
   
 class NumeroALetras{
     private static $UNIDADES = array('', 'UN ', 'DOS ', 'TRES ', 'CUATRO ', 'CINCO ', 'SEIS ', 'SIETE ', 'OCHO ', 'NUEVE ', 'DIEZ ', 'ONCE ', 'DOCE ', 'TRECE ', 'CATORCE ', 'QUINCE ', 'DIECISEIS ', 'DIECISIETE ', 'DIECIOCHO ', 'DIECINUEVE ', 'VEINTE ' );

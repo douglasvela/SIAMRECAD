@@ -106,8 +106,9 @@ class Pasaje_model extends CI_Model {
 		}
 	}
 	function enviar_a_revision($data){
+		$fecha = date("Y-m-d H:i:s");
 		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
-			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1'))){
+			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1', 'ultima_observacion' => $fecha))){
 				return "exito";
 			}else{
 				return "fracaso";
