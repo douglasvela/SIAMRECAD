@@ -165,33 +165,60 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
+				$fecha_mision_fin = date("Y-m-t", strtotime($fila->fecha_solicitud_pasaje));
+				$fecha_ultima_observacion = $fila->ultima_observacion;
 			}
 		}
 
 		$newestado = 1;
+		$mensaje = "";
 		if($estado == 0){ //si esta incompleta
 			$newestado = 1;	//cambiar a revision 1
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_mision_fin.date(" H:m:i");
+			$mensaje = "CREÓ LA SOLICITUD Y LA ENVIÓ A JEFATURA INMEDIATA";
+			$persona_actualiza = 1; //Actualiza el solicitante
 		}else if($estado == 1){ //si esta en revisión 1
 			$newestado = 1;	//permanecer en revisión 1
 		}else if($estado == 2){ //si está en observación 1
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_ultima_observacion;
+			$persona_actualiza = 1; //Actualiza el solicitante
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE JEFATURA INMEDIATA";
 			$newestado = 1;	//cambiar a revisión 1
 		}else if($estado == 3){	//si está en revisión 2
 			$newestado = 3; //permanecer en revisión 2
 		}else if($estado == 4){ //si está en observación 2
-			$newestado = 3;	//cambiar a revision 1
-		}else if($estado == 5){
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_ultima_observacion;
+			$persona_actualiza = 1; //Actualiza el solicitante
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE DIRECCIÓN O JEFATURA REGIONAL";
+			$newestado = 1;	//cambiar a revision 1
+		}else if($estado == 5){//si está en revisión 3
 			$newestado = 5;
-		}else if($estado == 6){
-			$newestado = 5;
+		}else if($estado == 6){ //si está en observacion 3
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_ultima_observacion;
+			$persona_actualiza = 1; //Actualiza el solicitante
+			$mensaje = "CORRIGIÓ OBSERVACIONES DE FONDO CIRCULANTE";
+			$newestado = 1;
 		}
-		else if($estado == 7){
-			$newestado = 7;
-		}
+
+		$tiempo_dias = get_days_count(substr($fecha_actualizacion,0,10), substr($fecha_antigua,0,10));
+		$data_insert = array(
+			'fecha_antigua' => $fecha_antigua,
+			'fecha_actualizacion' => $fecha_actualizacion,
+			'tiempo_dias' => $tiempo_dias,
+			'descripcion' => $mensaje, 
+			'persona_actualiza' => $persona_actualiza,
+			'id_mision' => $data,
+			'nr_persona_actualiza' => $this->session->userdata('nr_usuario_viatico')
+		);
 
 		if($estado == 0){
 			$this->db->where("id_mision_pasajes",$data);
 			$fecha = date("Y-m-d H:i:s");
-if($this->db->update('vyp_mision_pasajes', array('fecha_solicitud_pasajes' => $fecha, 'estado' => $newestado)) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")){
+			if($this->db->update('vyp_mision_pasajes', array('fecha_solicitud_pasajes' => $fecha, 'estado' => $newestado, 'ultima_observacion' => $fecha))  && $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert)){
 				return "exito";
 			}else{
 				return "fracaso";
@@ -199,7 +226,7 @@ if($this->db->update('vyp_mision_pasajes', array('fecha_solicitud_pasajes' => $f
 		}else{
 			$this->db->where("id_mision_pasajes",$data);
 			$fecha = date("Y-m-d H:i:s");
-			if($this->db->update('vyp_mision_pasajes', array('estado' => $newestado, 'ultima_observacion' => '0000-00-00 00:00:00')) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")){
+			if($this->db->update('vyp_mision_pasajes', array('estado' => $newestado, 'ultima_observacion' => $fecha)) && $this->db->query("UPDATE vyp_observaciones_pasajes SET corregido = 1 WHERE id_mision_pasajes = '".$data."'")  && $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert) ){
 				return "exito";
 			}else{
 				return "fracaso";

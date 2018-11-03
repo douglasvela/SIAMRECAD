@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$datetime2 = new DateTime($fecha2);
 		$interval = $datetime1->diff($datetime2);
 		$woweekends = 0;
-		for($i=0; $i<$interval->d; $i++){
+		for($i=0; $i<$interval->format( '%a' ); $i++){
 		    $modif = $datetime1->modify('+1 day');
 		    $weekday = $datetime1->format('w');
 
