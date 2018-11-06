@@ -12,7 +12,7 @@ if(!empty($nr_usuario)){
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
-        $empleado_informacion = $this->db->query("SELECT ei.id_empleado_informacion_laboral, e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) AND e.nr = '".$nr_usuario."'");
+        $empleado_informacion = $this->db->query("SELECT eil.id_empleado_informacion_laboral, e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, eil.id_empleado_informacion_laboral FROM sir_empleado e JOIN sir_empleado_informacion_laboral eil ON eil.id_empleado = e.id_empleado JOIN tcm_empleado_informacion_laboral veil ON veil.id_empleado = eil.id_empleado AND veil.fecha_inicio = eil.fecha_inicio AND e.nr = '".$nr_usuario."'");
 
 	    if($empleado_informacion->num_rows() > 0){ 
 	        foreach ($empleado_informacion->result() as $filainfoe) {}
