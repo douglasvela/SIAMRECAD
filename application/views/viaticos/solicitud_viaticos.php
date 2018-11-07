@@ -1158,8 +1158,10 @@
         xmlhttpB.onreadystatechange=function(){
             if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
                 document.getElementById("cnt_observaciones").innerHTML=xmlhttpB.responseText;
-                if($("#hay_observaciones").val() == '1'){
+                if($("#observaciones_actividad").val() != ''){
                     $("#cnt_observacion_actividad").html("<span class='text-warning' data-toggle='tooltip' title='"+$("#observaciones_actividad").val()+"'><i class='mdi mdi-alert-octagon'></i></span>");
+                }else{
+                    $("#cnt_observacion_actividad").html("");
                 }
                 $('[data-toggle="tooltip"]').tooltip();
                 form_mision();
@@ -1540,7 +1542,7 @@
         })
         .done(function(res){
             if(res == "fracaso"){
-                swal({ title: "Departamento y municipio no encontrado", text: "Debe seleccionar manualmente el departamento y municipio de destino.", type: "warning", showConfirmButton: true });
+                swal({ title: "Departamento y municipio no encontrado", text: "Intente ubicar un punto cercano para verificar el municipio.", type: "warning", showConfirmButton: true });
                 input_distancia("mapa");
             }else{
                 id_municipio_mapa = res;
@@ -1550,7 +1552,7 @@
                     combo_municipio();
                 }
 
-                swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no se el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
+                swal({ title: "Verificar municipio", text: "La direccion no se encontro completa, es posible que el municipio mostrado no sea el correcto. De ser así, seleccionelo manualmente", type: "warning", showConfirmButton: true });
             }
              
         });
@@ -2167,7 +2169,7 @@
         var checkbox = $("#tasklist").find("input");
         var tiene_observaciones = false;
 
-        for(i=0; i<checkbox.length; i++){
+        for(i=0; i<(checkbox.length-2); i++){
             if(!checkbox[i].checked){
                 tiene_observaciones = true;
             }
@@ -3186,7 +3188,8 @@ $(function(){
             geocoder2.geocode({'latLng': location}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     direccion_departamento_mapa = results[1].formatted_address;
-                    address = results[0]['formatted_address'];
+                    address = results[1]['formatted_address'];
+                    console.log(address)
                     address = address.replace('Unnamed Road', "Carretera desconocida")
                     // Add the marker at the clicked location, and add the next-available label
                     var marker = new google.maps.Marker({
@@ -3243,6 +3246,7 @@ $(function(){
 
                     for (var i = 0; i < originList.length; i++) {
                         var results = response.rows[i].elements;
+                        console.log(response)
                         geocoder.geocode({'address': originList[i]}, showGeocodedAddressOnMap(false));
                         for (var j = 0; j < results.length; j++) {
                             geocoder.geocode({'address': destinationList[j]}, showGeocodedAddressOnMap(false));

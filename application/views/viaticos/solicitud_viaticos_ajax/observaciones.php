@@ -22,7 +22,7 @@
                             <li class="list-group-item" data-role="task" style="border: 0; padding: 0px;">
                                 <div class="checkbox checkbox-info">
                                     <input type="checkbox" id="inputCall<?php echo $correlativo; ?>" name="inputCall<?php echo $correlativo; ?>">
-                                    <label for="inputCall<?php echo $correlativo; ?>" class="" onclick="poner_linea(this)"> <span><?php 
+                                    <label for="inputCall<?php echo $correlativo; ?>" class=""> <span><?php 
 
                                     if($fila->paso == 1){
                                         array_push($array, $fila->observacion);
@@ -43,6 +43,7 @@
                                 echo "<input type='hidden' id='observaciones_actividad' value='".implode(", ",$array)."'>";
                            }else{
                                 echo "<input type='hidden' id='hay_observaciones' value='0'>";
+                                echo "<input type='hidden' id='observaciones_actividad' value=''>";
                            }
                         ?>
                         

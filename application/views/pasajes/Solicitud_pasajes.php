@@ -467,7 +467,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     }
     function poner_mes(fecha){
     	partes = fecha.split("-");
-    	$("#mes_anio_pasaje").val(partes[2]+"-"+partes[1]);
+    	$('#mes_anio_pasaje').datepicker('setDate', partes[2]+"-"+partes[1] );
     }
 
     function bitacora(id_mision, disponibilidad){
@@ -798,7 +798,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                               <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
 	                            </div>
 	                            <div class="pull-right">
-		                            <button type="button" onclick="recorre_observaciones();" class="btn waves-effect waves-light btn-success"><span class="mdi mdi-plus"></span> Actualizar solicitud</button>
+		                            <button type="button" onclick="recorre_observaciones();" class="btn waves-effect waves-light btn-success">Enviar solicitud <span class="mdi mdi-send"></span></button>
 		                        </div>
 		                    </div>
 	                    </div>
