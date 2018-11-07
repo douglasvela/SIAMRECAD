@@ -50,4 +50,5 @@
                         </ul>
                     </div>
                 </div>
-                <?php } ?>
+                <?php }else{echo "<input type='hidden' id='hay_observaciones' value='0'>";
+                                echo "<input type='hidden' id='observaciones_actividad' value=''>";} ?>
