@@ -265,7 +265,7 @@ class Menu_reportes extends CI_Controller {
 		$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
 		<td>
@@ -276,11 +276,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -706,7 +706,7 @@ class Menu_reportes extends CI_Controller {
 		$this->crear_grafico_viaticos_x_depto_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
 		<td>
@@ -717,11 +717,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -1216,7 +1216,7 @@ class Menu_reportes extends CI_Controller {
 		$this->crear_grafico_viaticos_x_zona_depto_total($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
 		<td>
@@ -1227,11 +1227,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -1586,7 +1586,7 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
@@ -1596,11 +1596,11 @@ class Menu_reportes extends CI_Controller {
 	 	</tr></table>';
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -1893,7 +1893,7 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
 		<td>
@@ -1904,11 +1904,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -2206,7 +2206,7 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
 		<td>
@@ -2217,11 +2217,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -2716,7 +2716,7 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
 		<td>
@@ -2727,11 +2727,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -3005,7 +3005,7 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA </center><h6></td>
 		<td>
@@ -3016,11 +3016,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -3265,7 +3265,7 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
 		<td>
@@ -3276,11 +3276,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR SECCIÓN</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -3618,7 +3618,7 @@ class Menu_reportes extends CI_Controller {
 		$this->crear_grafico_viaticos_x_genero($tipo,$seccion,$anio);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
 		<td>
@@ -3629,11 +3629,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR GENERO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -3865,7 +3865,7 @@ class Menu_reportes extends CI_Controller {
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR MES</center><h6></td>
 		<td>
@@ -3876,11 +3876,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR MES</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -4151,7 +4151,7 @@ class Menu_reportes extends CI_Controller {
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
 		<td>
@@ -4162,11 +4162,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -4441,7 +4441,7 @@ class Menu_reportes extends CI_Controller {
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td>
@@ -4452,11 +4452,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -4724,7 +4724,7 @@ class Menu_reportes extends CI_Controller {
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td>
@@ -4735,11 +4735,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
@@ -5062,7 +5062,7 @@ class Menu_reportes extends CI_Controller {
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="80px">
+		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIATICOS POR ACTIVIDAD</center><h6></td>
 		<td>
@@ -5073,11 +5073,11 @@ class Menu_reportes extends CI_Controller {
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="80px">
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIATICOS POR ACTIVIDAD</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpeg"  width="125px" height="85px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		   
 		</td>
 	 	</tr></table>';
