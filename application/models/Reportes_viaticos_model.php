@@ -20,7 +20,7 @@ class Reportes_viaticos_model extends CI_Model {
     function obtenerListaviatico_pendiente($data)
     {
         $nr = $data['nr'];
-        $viaticos = $this->db->query("SELECT * FROM `vyp_mision_oficial` WHERE `nr_empleado`='$nr' and ( `estado` between '0' and '6')");
+        $viaticos = $this->db->query("SELECT * FROM `vyp_mision_oficial` WHERE `nr_empleado`='$nr' and ( `estado` between '0' and '7')");
         return $viaticos;
     }
     function obtenerDetalleActividad($data)
