@@ -1,6 +1,11 @@
 <?php $ruta_segmento = trim(obtener_segmentos(2)); ?>
 </div>
-   
+    <style type="text/css">.container-fluid{ padding-bottom: 60px;  }</style>
+   <script type="text/javascript">
+        $(document).ready(function() {
+            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer'> © 2018 UES-FMP </footer>" );
+        });
+    </script>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/viaticos_validation.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/popper.min.js"></script>
