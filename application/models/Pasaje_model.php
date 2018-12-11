@@ -4,6 +4,7 @@ class Pasaje_model extends CI_Model {
 	
 	function __construct(){
 		parent::__construct();
+		
 	}
 
 	function insertar_pasaje($data){
@@ -105,6 +106,8 @@ class Pasaje_model extends CI_Model {
 			return "fracaso";
 		}
 	}
+
+	
 	function enviar_a_revision($data){
 		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes WHERE id_mision_pasajes = '".$data["id_mision_pasajes"]."'");
 		if($query->num_rows() > 0){
@@ -114,7 +117,7 @@ class Pasaje_model extends CI_Model {
 				$fecha_ultima_observacion = $fila->ultima_observacion;
 			}
 		}
-
+		enviar_correo('USUARIO: '.$this->session->userdata('nr_usuario_viatico')." - ".$this->session->userdata('nombre_usuario_viatico').' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES',"Hola este es un correo de prueba",'jefeinmediato','0');
 		$newestado = 1;
 		$mensaje = "";
 		if($estado == 0){ //si esta incompleta
@@ -123,6 +126,7 @@ class Pasaje_model extends CI_Model {
 			$fecha_antigua = $fecha_mision_fin.date(" H:m:i");
 			$mensaje = "CREÓ LA SOLICITUD Y LA ENVIÓ A JEFATURA INMEDIATA";
 			$persona_actualiza = 1; //Actualiza el solicitante
+			
 		}
 
 		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
@@ -191,7 +195,9 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 	}
 
 
-		function cambiar_estado_revision($data){
+		function cambiar_estado_revision($data){ 
+			
+
 		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes WHERE id_mision_pasajes = '".$data."'");
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
@@ -209,6 +215,10 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 			$fecha_antigua = $fecha_mision_fin.date(" H:m:i");
 			$mensaje = "CREÓ LA SOLICITUD Y LA ENVIÓ A JEFATURA INMEDIATA";
 			$persona_actualiza = 1; //Actualiza el solicitante
+
+
+			 
+
 		}else if($estado == 1){ //si esta en revisión 1
 			$newestado = 1;	//permanecer en revisión 1
 		}else if($estado == 2){ //si está en observación 1
@@ -272,6 +282,5 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 			return false;
 		}
 	}*/
-
-	
+	 
 }

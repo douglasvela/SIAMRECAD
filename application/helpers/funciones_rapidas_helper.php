@@ -252,4 +252,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $pie;
     }
 
+//////////////////////////////////  FUNCIONES PARA CORREO
+
+    function obtener_correo_jefe_inmediato(){
+    	$CI =& get_instance();
+		$jefe = $CI->db->query("SELECT nr_jefe_inmediato,nr_jefe_departamento FROM vyp_informacion_empleado WHERE nr= '".$CI->session->userdata('nr_usuario_viatico')."'");
+			foreach ($jefe->result() as $key) {
+				$jefe_nr = $key->nr_jefe_inmediato;
+			}
+			$email_jefe = $CI->db->query("SELECT correo FROM sir_empleado WHERE nr= '".$jefe_nr."'");
+			foreach ($email_jefe->result() as $key1) {
+				$jefe_correo = $key1->correo;
+			}
+			return $jefe_correo;
+	}
+	function obtener_correo_jefe_depto(){
+		$CI =& get_instance();
+		$jefe = $CI->db->query("SELECT nr_jefe_departamento FROM vyp_informacion_empleado WHERE nr= '".$CI->session->userdata('nr_usuario_viatico')."'");
+			foreach ($jefe->result() as $key) {
+				$jefe_nr = $key->nr_jefe_inmediato;
+			}
+			$email_jefe = $CI->db->query("SELECT correo FROM sir_empleado WHERE nr= '".$jefe_nr."'");
+			foreach ($email_jefe->result() as $key1) {
+				$jefe_correo = $key1->correo;
+			}
+			return $jefe_correo;
+	}
+	function obtener_correo_usuario($id_mision){
+		$CI =& get_instance();
+			$usuario = $CI->db->query("SELECT nr FROM vyp_mision_pasajes WHERE id_mision_pasajes= '".$id_mision."'");
+			foreach ($usuario->result() as $usuario_key) {}
+			$email = $CI->db->query("SELECT correo FROM sir_empleado WHERE nr= '".$usuario_key->nr."'");
+			foreach ($email->result() as $key1) {
+				$correo = $key1->correo;
+			}
+			return $correo;
+	}
+	function enviar_correo($titulo,$mensaje,$paraquien,$id_mision){
+
+		$CI =& get_instance();
+		$CI->load->library('email');
+		$configGmail = array(
+			 'protocol' => $CI->config->item('protocol'),
+			 'smtp_host' => $CI->config->item('host'),
+			 'smtp_port' => $CI->config->item('port'),
+			 'smtp_user' => $CI->config->item('email_central'),
+			 'smtp_pass' => $CI->config->item('pass'),
+			 'mailtype' => 'html',
+			 'charset' => 'utf-8',
+			 'newline' => "\r\n"
+			 ); 
+		if($paraquien=="jefeinmediato"){
+			$para = obtener_correo_jefe_inmediato();
+		}else if($paraquien=="jefedepto"){
+			$para = obtener_correo_jefe_depto();
+		}else if($paraquien=="usuario"){
+			$para = obtener_correo_usuario($id_mision);
+		}
+		//cargamos la configuración para enviar con gmail
+		 	$CI->email->initialize($configGmail);
+		 	$CI->email->from($CI->config->item('email_central'));
+			 $CI->email->to($para);
+			 $CI->email->subject($titulo);
+			 $CI->email->message($mensaje);
+			 $CI->email->send();
+	}
+
 ?>

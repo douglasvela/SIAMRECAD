@@ -227,6 +227,7 @@
                     }, function(){   
                         if(estado_solicitud == "1"){    //si la solicitud es revisada por el jefe inmediato
                             cambiar_estado_solicitud(2);    //cambiar estado solicitud a observada por jefe inmediato
+                            enviar_correo('USUARIO: '.$this->session->userdata('nr_usuario_viatico')." - ".$this->session->userdata('nombre_usuario_viatico').' ENVIÓ OBSERVACIÓN SOLICITUD DE PASAJES',"Hola este es un correo de prueba",'usuario',gid_mision);
                         }else if(estado_solicitud == "3"){    //si la solicitud es revisada por el jefe inmediato
                             cambiar_estado_solicitud(4);    //cambiar estado solicitud a observada por jefe inmediato
                         }else if(estado_solicitud == "5"){    //si la solicitud es revisada por el jefe inmediato

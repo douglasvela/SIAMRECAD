@@ -526,6 +526,12 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+ //////////EMAIL CONFIG////////////
+    $config['email_central'] = "douglasvela94@gmail.com";
+    $config['pass'] = "MAYO_nesa94";
+    $config['protocol'] = "smtp";
+    $config['host'] = "ssl://smtp.gmail.com";
+    $config['port'] = 465;
 
 function getBrowser(){
     $u_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -610,4 +616,7 @@ function getBrowser(){
         'platform'  => $platform,
         'pattern'    => $pattern
     );
+
+
+   
 }
