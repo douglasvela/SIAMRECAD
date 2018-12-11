@@ -17,23 +17,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $boton;
 	}
 
-	function get_days_count($fecha1, $fecha2){
-		$datetime1 = new DateTime($fecha1);
-		$datetime2 = new DateTime($fecha2);
-		$interval = $datetime1->diff($datetime2);
+	function get_days_count($fecha_menor, $fecha_mayor){
+		$datetime1 = new DateTime($fecha_menor);
+		$datetime2 = new DateTime($fecha_mayor);
+		$interval = $datetime1->diff($datetime2); //calcula la diferencia en días
 		$woweekends = 0;
-		for($i=0; $i<$interval->format( '%a' ); $i++){
-		    $modif = $datetime1->modify('+1 day');
-		    $weekday = $datetime1->format('w');
+		if($interval->format( '%a' ) < 50){ //Se ha colocado un límite de 50 días de diferencia para no sobrecargar el bucle
+			
+			for($i=0; $i<$interval->format( '%a' ); $i++){ //Este bucle contabiliza solamente días hábiles
+			    $modif = $datetime1->modify('+1 day');
+			    $weekday = $datetime1->format('w');
 
-		    if($weekday != 0 && $weekday != 6){ // 0 for Sunday and 6 for Saturday
-		        $woweekends++;  
-		    }
-
+			    if($weekday != 0 && $weekday != 6){ // 0 para domingo y 6 para sábado
+			        $woweekends++;  
+			    }
+			}
+			
+		}else{
+		    $woweekends = $interval->format( '%a' ); //Si excede los 50 días máximos se coloca la diferencia en días con completa
 		}
 
 		return $woweekends;
 	}
+
 
 	function generar_boton_bloqueado($opciones,$funcion,$color,$icono,$title){
 		$var = ""; $boton = "";
