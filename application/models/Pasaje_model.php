@@ -113,11 +113,27 @@ class Pasaje_model extends CI_Model {
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
-				$fecha_mision_fin = date("Y-m-t", strtotime($fila->fecha_solicitud_pasaje));
+				$fecha_mision_fin = date("Y-m-d", strtotime($fila->fecha_solicitud_pasaje));
 				$fecha_ultima_observacion = $fila->ultima_observacion;
 			}
 		}
-		enviar_correo('USUARIO: '.$this->session->userdata('nr_usuario_viatico')." - ".$this->session->userdata('nombre_usuario_viatico').' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES',"Hola este es un correo de prueba",'jefeinmediato','0');
+		$titulo = 'USUARIO: '.$this->session->userdata('nr_usuario_viatico')." - ".$this->session->userdata('nombre_usuario_viatico');
+		if($estado=="0"){
+			$para='jefeinmediato';
+			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+		}else if($estado=="2"){
+			$para='jefeinmediato';
+			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+		}else if($estado=="4"){
+			$para='jefeinmediato';
+			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+		}else if($estado=="6"){
+			$para='jefeinmediato';
+			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+		}
+		//envia correo cuando usuario se envia a revision en estado 2,4,6 y 0
+		enviar_correo($titulo,"Hola este es un correo de prueba",$para,'0',$fila->nr);
+
 		$newestado = 1;
 		$mensaje = "";
 		if($estado == 0){ //si esta incompleta
@@ -142,7 +158,7 @@ class Pasaje_model extends CI_Model {
 
 		$fecha = date("Y-m-d H:i:s");
 		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
-			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1', 'ultima_observacion' => $fecha)) && $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert)){
+			if($this->db->update('vyp_mision_pasajes', array('estado'=>'1', 'ultima_observacion' => $fecha)) /*&& $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert)*/){
 				return "exito";
 			}else{
 				return "fracaso";
@@ -157,6 +173,12 @@ class Pasaje_model extends CI_Model {
 		}
 	}
 	function corregir_observaciones($data){
+
+		$query_estado = $this->db->query("select * from vyp_mision_pasajes where id_mision_pasajes='".$data['idsol']."'");
+		foreach ($query_estado->result() as  $value) {
+			$estado_solcitud =  $value->estado;
+		}
+		
 		$this->db->where("id_observacion_pasaje",$data["ides"]);
 			if($this->db->update('vyp_observaciones_pasajes', array('corregido'=>'1'))){
 				return "exito";
@@ -202,7 +224,7 @@ function obtener_ultima_mision($tabla,$nombreid,$nr){
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
-				$fecha_mision_fin = date("Y-m-t", strtotime($fila->fecha_solicitud_pasaje));
+				$fecha_mision_fin = date("Y-m-d", strtotime($fila->fecha_solicitud_pasaje));
 				$fecha_ultima_observacion = $fila->ultima_observacion;
 			}
 		}

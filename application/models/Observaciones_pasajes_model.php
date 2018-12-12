@@ -25,38 +25,45 @@ class Observaciones_pasajes_model extends CI_Model {
 			}
 		}
 
-		$mensaje = "";
+		$mensaje = "";$titulo ='USUARIO: '.$this->session->userdata('nr_usuario_viatico')." - ".$this->session->userdata('nombre_usuario_viatico');
 		if($data['estado'] == "2"){ //observaciones jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$mensaje = "OBSERVÓ LA SOLICITUD";
 			$persona_actualiza = 2; //Actualiza jefatura inmediata
+			$titulo .= ' ENVIÓ OBSERVACIÓN SOLICITUD DE PASAJES';
 		}else if($data['estado'] == "4"){ //observaciones dirección de área o jefatura regional
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$mensaje = "OBSERVÓ LA SOLICITUD";
 			$persona_actualiza = 3; //Actualiza dirección de área o jefatura regional
+			$titulo .= ' ENVIÓ OBSERVACIÓN SOLICITUD DE PASAJES';
 		}else if($data['estado'] == "6"){ //observaciones fondo circulante
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$mensaje = "OBSERVÓ LA SOLICITUD";
 			$persona_actualiza = 4; //Actualiza jefatura inmediata
+			$titulo .= ' ENVIÓ OBSERVACIÓN SOLICITUD DE PASAJES';
 		}else if($data['estado'] == "3"){ //aprueba jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$mensaje = "APROBÓ LA SOLICITUD";
 			$persona_actualiza = 2; //Actualiza jefatura inmediata
+			$titulo .= ' APROBÓ SOLICITUD DE PASAJES';
 		}else if($data['estado'] == "5"){ //aprueba dirección de área o jefatura regional
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$mensaje = "APROBÓ LA SOLICITUD";
 			$persona_actualiza = 3; //Actualiza dirección de área o jefatura regional
+			$titulo .= ' APROBÓ SOLICITUD DE PASAJES';
 		}else if($data['estado'] == "7"){ //aprueba fondo circulante
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
 			$mensaje = "APROBÓ LA SOLICITUD";
 			$persona_actualiza = 4; //Actualiza fondo circulante
+			$titulo .= ' APROBÓ SOLICITUD DE PASAJES';
 		}
+		
 
 		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
 		$data_insert = array(
@@ -74,12 +81,30 @@ class Observaciones_pasajes_model extends CI_Model {
 
 		if($data['estado'] == "2" || $data['estado'] == "4" || $data['estado'] == "6"){
 			if($this->db->update('vyp_mision_pasajes', array('estado' => $data['estado'], 'ultima_observacion' => $fecha)) && $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert)){
+				//envia correo al usuario cuando se observa la solicitud se observa en estados 2,4,6
+				enviar_correo($titulo,"Hola este es un correo de prueba",'usuario',$data['id_mision'],$fila->nr);
+				if( $data['estado'] == "4" ||  $data['estado']=="6"){
+					//enviar correo al jefe inmediato cuando la solicitud  se observa en estado 4,6
+					enviar_correo($titulo,"Hola este es un correo de prueba",'jefeinmediato',$data['id_mision'],$fila->nr);
+				}
 				return "exito";
 			}else{
 				return "fracaso";
 			}
 		}else{
 			if($this->db->update('vyp_mision_pasajes', array('estado' => $data['estado'])) && $this->db->insert('vyp_bitacora_solicitud_pasaje', $data_insert)){
+				//envia correo cuando se aprueba envia a revision al siguiente jefe
+				enviar_correo($titulo,"Hola este es un correo de prueba",'usuario',$data['id_mision'],$fila->nr);
+				if($data['estado']=="5"){
+					//envia correo cuando solicitud jefe depto aprueba y pasa a estado revision 5.
+					//enviar_correo($titulo,"Hola este es un correo de prueba",'fondocirculante',$data['id_mision'],$fila->nr);
+				}else if($data['estado'] == "1"){
+					//envia correo al jefe inmediato cuando usuario solventa errores y pasa a estado revision 1
+					enviar_correo($titulo,"Hola este es un correo de prueba",'jefeinmediato',$data['id_mision'],$fila->nr);
+				}else if($data['estado'] == "3"){
+					//envia correo al jefe depto cuando jefeinmediato aprueba solicitud y pasa a estado revision 3
+					enviar_correo($titulo,"Hola este es un correo de prueba",'jefedepto',$data['id_mision'],$fila->nr);
+				} 	
 				return "exito";
 			}else{
 				return "fracaso";

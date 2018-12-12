@@ -527,7 +527,7 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
  //////////EMAIL CONFIG////////////
-    $config['email_central'] = "douglasvela94@gmail.com";
+    $config['email_central'] = "drecinosve@gmail.com";
     $config['pass'] = "MAYO_nesa94";
     $config['protocol'] = "smtp";
     $config['host'] = "ssl://smtp.gmail.com";

@@ -145,7 +145,8 @@ class Pasaje extends CI_Controller {
 	}
 	function corregir_observaciones(){
 		$data = array(
-			'ides' => $this->input->post('ides')
+			'ides' => $this->input->post('ides'),
+			'idsol' => $this->input->post('idsol')
 			);
 		echo $this->Pasaje_model->corregir_observaciones($data);
 	}

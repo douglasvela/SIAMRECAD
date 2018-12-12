@@ -260,9 +260,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //////////////////////////////////  FUNCIONES PARA CORREO
 
-    function obtener_correo_jefe_inmediato(){
+    function obtener_correo_jefe_inmediato($nr_usuario){
     	$CI =& get_instance();
-		$jefe = $CI->db->query("SELECT nr_jefe_inmediato,nr_jefe_departamento FROM vyp_informacion_empleado WHERE nr= '".$CI->session->userdata('nr_usuario_viatico')."'");
+		$jefe = $CI->db->query("SELECT nr_jefe_inmediato,nr_jefe_departamento FROM vyp_informacion_empleado WHERE nr= '".$nr_usuario."'");
 			foreach ($jefe->result() as $key) {
 				$jefe_nr = $key->nr_jefe_inmediato;
 			}
@@ -272,11 +272,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			return $jefe_correo;
 	}
-	function obtener_correo_jefe_depto(){
+	function obtener_correo_jefe_depto($nr_usuario){
 		$CI =& get_instance();
-		$jefe = $CI->db->query("SELECT nr_jefe_departamento FROM vyp_informacion_empleado WHERE nr= '".$CI->session->userdata('nr_usuario_viatico')."'");
+		$jefe = $CI->db->query("SELECT nr_jefe_departamento FROM vyp_informacion_empleado WHERE nr= '".$nr_usuario."'");
 			foreach ($jefe->result() as $key) {
-				$jefe_nr = $key->nr_jefe_inmediato;
+				$jefe_nr = $key->nr_jefe_departamento;
 			}
 			$email_jefe = $CI->db->query("SELECT correo FROM sir_empleado WHERE nr= '".$jefe_nr."'");
 			foreach ($email_jefe->result() as $key1) {
@@ -294,7 +294,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			return $correo;
 	}
-	function enviar_correo($titulo,$mensaje,$paraquien,$id_mision){
+	function enviar_correo($titulo,$mensaje,$paraquien,$id_mision,$nr_usuario){
 
 		$CI =& get_instance();
 		$CI->load->library('email');
@@ -309,10 +309,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			 'newline' => "\r\n"
 			 ); 
 		if($paraquien=="jefeinmediato"){
-			$para = obtener_correo_jefe_inmediato();
+			$para = obtener_correo_jefe_inmediato($nr_usuario);
 		}else if($paraquien=="jefedepto"){
-			$para = obtener_correo_jefe_depto();
+			$para = obtener_correo_jefe_depto($nr_usuario);
 		}else if($paraquien=="usuario"){
+			$para = obtener_correo_usuario($id_mision);
+		}else if($paraquien=="fondocirculante"){
 			$para = obtener_correo_usuario($id_mision);
 		}
 		//cargamos la configuración para enviar con gmail

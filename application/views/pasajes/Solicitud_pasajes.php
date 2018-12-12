@@ -419,7 +419,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             }
         }
         $( "input[id$='id_ob']:checked" ).each(function() {
-	        enviar_observaciones_revisadas($(this).val());
+        	var id_sol = $("#id_mision_pasajes").val();
+	        enviar_observaciones_revisadas($(this).val(),id_sol);
 		});
 		
         if(sin_observaciones > 0){
@@ -439,9 +440,10 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         limpiar_solicitud();
         
     }
-    function enviar_observaciones_revisadas(ides){
+    function enviar_observaciones_revisadas(ides,id_sol){
     	var formData = new FormData();
 			formData.append("ides", ides);
+			formData.append("idsol", id_sol);
 			$.ajax({
 	            url: "<?php echo site_url(); ?>/pasajes/Pasaje/corregir_observaciones",
 	            type: "post",
