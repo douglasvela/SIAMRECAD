@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-04-2018 a las 17:58:33
--- Versión del servidor: 10.1.26-MariaDB
--- Versión de PHP: 7.0.22
+-- Tiempo de generación: 13-12-2018 a las 03:33:23
+-- Versión del servidor: 10.1.29-MariaDB
+-- Versión de PHP: 7.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -40,14 +40,6 @@ CREATE TABLE `vyp_observaciones_pasajes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `vyp_observaciones_pasajes`
---
-
-INSERT INTO `vyp_observaciones_pasajes` (`id_observacion_pasaje`, `id_mision_pasajes`, `observacion`, `fecha_hora`, `corregido`, `nr_observador`, `id_tipo_observador`, `tipo_observador`) VALUES
-(2, 3, 'otra observacion', '2018-03-27 12:54:05', 0, '988C', 1, 'Jefe inmediato'),
-(3, 3, 'nueva observacion', '2018-03-27 12:57:09', 0, '988C', 1, 'Jefe inmediato');
-
---
 -- Índices para tablas volcadas
 --
 
@@ -56,6 +48,16 @@ INSERT INTO `vyp_observaciones_pasajes` (`id_observacion_pasaje`, `id_mision_pas
 --
 ALTER TABLE `vyp_observaciones_pasajes`
   ADD PRIMARY KEY (`id_observacion_pasaje`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `vyp_observaciones_pasajes`
+--
+ALTER TABLE `vyp_observaciones_pasajes`
+  MODIFY `id_observacion_pasaje` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

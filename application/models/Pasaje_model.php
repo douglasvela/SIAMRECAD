@@ -109,6 +109,7 @@ class Pasaje_model extends CI_Model {
 
 	
 	function enviar_a_revision($data){
+		$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		$query = $this->db->query("SELECT * FROM vyp_mision_pasajes WHERE id_mision_pasajes = '".$data["id_mision_pasajes"]."'");
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
@@ -132,20 +133,21 @@ class Pasaje_model extends CI_Model {
 			$titulo .= ' envió  a revisión solicitud #'.$data["id_mision_pasajes"].' de pasajes';
 		} 
 		//envia correo cuando usuario se envia a revision en estado 2,4,6 y 0
+	 	$url = base_url()."index.php/pasajes/observaciones";
 		$cuerpo = "  
-		<div style='width: 640px'>
     		<div style='padding: 5px'>
-	  			<span style='font-size:12px'> 
-	  				<table border='1'>
-	  					<th>#</th>
-	  					<th>Fecha Solicitud</th>
-	  					<th>Solicitante</th>
-	  					<th>Estado</th>
-	  					<th>Monto</th>
-	  				</table>
-	  			</span>
+	  			<span style='font-size:16px;font-weight: bold;'> 
+	  				 Sistema de Viáticos y Pasajes
+	  			</span><br><br><br>
+	  			<span style='font-size:14px'> 
+	  				 Tiene una nueva solicitud de revisión de pasajes de ".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico'))).".
+	  			</span><br><br>
+	  			<span style='font-size:14px'> 
+	  				 Solicitud de Pasajes del mes de ".$meses[($fila->mes_pasaje)-1]."
+	  			</span><br><br><br>
+	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
     		</div>
- 		</div>";
+ 		";
 		enviar_correo($titulo,$cuerpo,$para,'0',$fila->nr);
 
 		$newestado = 1;
@@ -159,7 +161,7 @@ class Pasaje_model extends CI_Model {
 			
 		}
 
-		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
+		/*$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
 		$data_insert = array(
 			'fecha_antigua' => $fecha_antigua,
 			'fecha_actualizacion' => $fecha_actualizacion,
@@ -168,7 +170,7 @@ class Pasaje_model extends CI_Model {
 			'persona_actualiza' => $persona_actualiza,
 			'id_mision' => $data["id_mision_pasajes"],
 			'nr_persona_actualiza' => $this->session->userdata('nr_usuario_viatico')
-		);
+		);*/
 
 		$fecha = date("Y-m-d H:i:s");
 		$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
