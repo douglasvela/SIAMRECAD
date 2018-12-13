@@ -74,7 +74,9 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	    xmlhttpB.onreadystatechange=function(){
 	        if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
 	            document.getElementById("cnt_pasaje").innerHTML=xmlhttpB.responseText;
-	                $('#myTable').DataTable();
+	                $('#myTable').DataTable({
+	                	"order": [[ 0, "desc" ]]
+	                });
 	                $('[data-toggle="tooltip"]').tooltip();              
 	            }
 	        }
@@ -375,8 +377,13 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	            	cerrar_mantenimiento2();
 	            	cerrar_mantenimiento1();
 	            	tabla_pasaje_unidad();
-	            }else{
+	            }else if(res == "fracaso"){
 	            	swal({ title: "¡Solicitud Incompleta!", type: "error", showConfirmButton: true });
+	            	cerrar_mantenimiento2();
+	            	cerrar_mantenimiento1();
+	            	tabla_pasaje_unidad();
+	            }else{
+	            	swal({ title: "Error verifique dirección de correo o conexión", type: "error", showConfirmButton: true });
 	            	cerrar_mantenimiento2();
 	            	cerrar_mantenimiento1();
 	            	tabla_pasaje_unidad();

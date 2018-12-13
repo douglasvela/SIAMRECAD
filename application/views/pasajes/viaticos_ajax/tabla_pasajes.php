@@ -34,7 +34,7 @@
       $mes = $otrafecha[1];
       $anios = $otrafecha[0];
 
-      $cuenta = $this->db->query("SELECT * FROM vyp_mision_pasajes AS p WHERE p.nr = '".$nr_empleado."' ".$add." ORDER BY p.mes_pasaje DESC LIMIT 50");
+      $cuenta = $this->db->query("SELECT * FROM vyp_mision_pasajes AS p WHERE p.nr = '".$nr_empleado."' ".$add." ORDER BY p.id_mision_pasajes DESC LIMIT 50");
       $cont = 0;
             if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila) {
@@ -71,7 +71,7 @@
 
                   $cont++;
                   echo "<tr>";
-                            echo "<td>".$cont."</td>";
+                            echo "<td>".$fila->id_mision_pasajes."</td>";
                             echo "<td>".mes(date("m",strtotime($fila->fecha_solicitud_pasaje)))." ".$fila->anio_pasaje."</td>";
                             echo "<td>".$fila->nr."</td>";
                             echo "<td>".$fila->nombre_empleado."</td>";

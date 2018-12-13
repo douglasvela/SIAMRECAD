@@ -318,12 +318,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$para = obtener_correo_usuario($id_mision);
 		}
 		//cargamos la configuración para enviar con gmail
+		if (filter_var($para, FILTER_VALIDATE_EMAIL)) {
 		 	$CI->email->initialize($configGmail);
 		 	$CI->email->from($CI->config->item('email_central'));
 			 $CI->email->to($para);
 			 $CI->email->subject($titulo);
 			 $CI->email->message($mensaje);
 			 $CI->email->send();
+		}else{
+			echo "direccion no valida";
+		}
 	}
 
 ?>

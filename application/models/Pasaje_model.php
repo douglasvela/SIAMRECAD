@@ -148,8 +148,9 @@ class Pasaje_model extends CI_Model {
 	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
     		</div>
  		";
+ 		
 		enviar_correo($titulo,$cuerpo,$para,'0',$fila->nr);
-
+		
 		$newestado = 1;
 		$mensaje = "";
 		if($estado == 0){ //si esta incompleta
