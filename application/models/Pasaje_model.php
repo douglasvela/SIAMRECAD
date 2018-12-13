@@ -117,22 +117,36 @@ class Pasaje_model extends CI_Model {
 				$fecha_ultima_observacion = $fila->ultima_observacion;
 			}
 		}
-		$titulo = 'USUARIO: '.$this->session->userdata('nr_usuario_viatico')." - ".$this->session->userdata('nombre_usuario_viatico');
+		$titulo = $this->session->userdata('nombre_usuario_viatico');
 		if($estado=="0"){
 			$para='jefeinmediato';
-			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+			$titulo .= ' envió  a revisión solicitud #'.$data["id_mision_pasajes"].' de pasajes';
 		}else if($estado=="2"){
 			$para='jefeinmediato';
-			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+			$titulo .= ' envió  a revisión solicitud #'.$data["id_mision_pasajes"].' de pasajes';
 		}else if($estado=="4"){
 			$para='jefeinmediato';
-			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
+			$titulo .= ' envió  a revisión solicitud #'.$data["id_mision_pasajes"].' de pasajes';
 		}else if($estado=="6"){
 			$para='jefeinmediato';
-			$titulo .= ' ENVIÓ A REVISIÓN SOLICITUD DE PASAJES';
-		}
+			$titulo .= ' envió  a revisión solicitud #'.$data["id_mision_pasajes"].' de pasajes';
+		} 
 		//envia correo cuando usuario se envia a revision en estado 2,4,6 y 0
-		enviar_correo($titulo,"Hola este es un correo de prueba",$para,'0',$fila->nr);
+		$cuerpo = "  
+		<div style='width: 640px'>
+    		<div style='padding: 5px'>
+	  			<span style='font-size:12px'> 
+	  				<table border='1'>
+	  					<th>#</th>
+	  					<th>Fecha Solicitud</th>
+	  					<th>Solicitante</th>
+	  					<th>Estado</th>
+	  					<th>Monto</th>
+	  				</table>
+	  			</span>
+    		</div>
+ 		</div>";
+		enviar_correo($titulo,$cuerpo,$para,'0',$fila->nr);
 
 		$newestado = 1;
 		$mensaje = "";
