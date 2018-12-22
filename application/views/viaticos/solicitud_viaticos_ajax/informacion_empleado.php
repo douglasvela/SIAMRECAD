@@ -12,7 +12,9 @@ if(!empty($nr_usuario)){
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
-        $empleado_informacion = $this->db->query("SELECT eil.id_empleado_informacion_laboral, e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, eil.id_empleado_informacion_laboral FROM sir_empleado e JOIN sir_empleado_informacion_laboral eil ON eil.id_empleado = e.id_empleado JOIN tcm_empleado_informacion_laboral veil ON veil.id_empleado = eil.id_empleado AND veil.fecha_inicio = eil.fecha_inicio AND e.nr = '".$nr_usuario."'");
+        $empleado_informacion = $this->db->query("SELECT eil.id_empleado_informacion_laboral, e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, telefono_contacto, e.correo, eil.id_empleado_informacion_laboral, cf.funcional, cn.cargo_nominal, eil.salario FROM sir_empleado e JOIN sir_empleado_informacion_laboral eil ON eil.id_empleado = e.id_empleado JOIN tcm_empleado_informacion_laboral veil ON veil.id_empleado = eil.id_empleado JOIN sir_cargo_funcional cf ON cf.id_cargo_funcional = eil.id_cargo_funcional JOIN sir_cargo_nominal cn ON cn.id_cargo_nominal = eil.id_cargo_nominal AND veil.fecha_inicio = eil.fecha_inicio AND e.nr = '".$nr_usuario."'");
+
+    	$jefaturas = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado e WHERE e.nr = '".$filas->nr_jefe_inmediato."' OR e.nr = '".$filas->nr_jefe_departamento."'");
 
 	    if($empleado_informacion->num_rows() > 0){ 
 	        foreach ($empleado_informacion->result() as $filainfoe) {}
@@ -31,6 +33,47 @@ if(!empty($nr_usuario)){
 		    $longitud_oficina = $filaofi->longitud_oficina;
 		    $nombre_oficina = $filaofi->nombre_oficina;
 		    $id_oficina_origen = $filaofi->id_oficina;
+		    $jefe_inmediato = "";
+		    $jefe_regional = "";
+		    if($jefaturas->num_rows() > 0){ 
+		        foreach ($jefaturas->result() as $filajefes) {
+		        	if($nr_jefe_inmediato == $filajefes->nr){
+		        		$jefe_inmediato = $filajefes->nombre_completo;
+		        	}
+		        	if($nr_jefe_regional == $filajefes->nr){
+		        		$jefe_regional = $filajefes->nombre_completo;
+		        	}
+		        }
+		    }
+
+		    echo '<div class="alert alert-info">';
+	    	echo '<h3 class="text-info"><i class="fa fa-check"></i> Datos para la solicitud</h3>';
+	    	echo "<table width='100%'>
+	    			<tbody>
+	    				<tr>
+	    					<td width='70%'><b>Persona solicitante:</b> $filainfoe->nombre_completo</td>
+	    					<td width='30%'><b>NR:</b> $nr_usuario</td>
+	    				</tr>
+	    				<tr>
+	    					<td width='70%'><b>Oficina:</b> $nombre_oficina</td>
+	    					<td width='30%'><b>Salario:</b> $ ".number_format($filainfoe->salario,2)."</td>
+	    				</tr>
+	    				<tr>
+	    					<td colspan='2'><b>Cargo nominal:</b> $filainfoe->cargo_nominal</td>
+	    				</tr>
+	    				<tr>
+	    					<td colspan='2'><b>Cargo funcional:</b> $filainfoe->funcional</td>
+	    				</tr>
+	    				<tr>
+	    					<td colspan='2'><b>Jefatura inmediata:</b> $jefe_inmediato</td>
+	    				</tr>
+	    				<tr>
+	    					<td colspan='2'><b>Dirección o jefatura regional:</b> $jefe_regional</td>
+	    				</tr>
+	    			</tbody>
+	    		</table>";
+	    	echo '</div>';
+
 	    }else{
 	    	$nr_jefe_inmediato = "";
 		    $nr_jefe_regional = "";
@@ -40,7 +83,7 @@ if(!empty($nr_usuario)){
 		    $id_oficina_origen = "";
 		    echo '<div class="alert alert-danger">';
 	    	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
-	    	echo "Parece que tus datos estan incompletos. Solicita a recursos humanos que registren a que oficina pertenes, quien es tu superior inmediato, autorizador de área o región y firma escaneada si no estuviese registrada";
+	    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
 	    	echo '</div>';
 	    }
 
@@ -55,7 +98,7 @@ if(!empty($nr_usuario)){
     }else{
     	echo '<div class="alert alert-danger">';
     	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
-    	echo "Parece que tus datos estan incompletos. Solicita a recursos humanos que registren a que oficina pertenes, quien es tu superior inmediato, autorizador de área o región y firma escaneada si no estuviese registrada";
+    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
     	echo '</div>';
     	echo '<input type="text" style="display: none;" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="" required>';
 		echo '<input type="text" style="display: none;" id="nr_jefe_regional" name="nr_jefe_regional" value="" required>';

@@ -3244,9 +3244,12 @@ $(function(){
                         };
                     };
 
+                    var direccion_ant = "";
+
                     for (var i = 0; i < originList.length; i++) {
                         var results = response.rows[i].elements;
                         console.log(response)
+                        direccion_ant = response;
                         geocoder.geocode({'address': originList[i]}, showGeocodedAddressOnMap(false));
                         for (var j = 0; j < results.length; j++) {
                             geocoder.geocode({'address': destinationList[j]}, showGeocodedAddressOnMap(false));
@@ -3257,7 +3260,7 @@ $(function(){
                             outputDiv.innerHTML += "<span class='pull-left'><b>Destino: </b>"+direccion+"<br></span>";
                             outputDiv.innerHTML += "<span class='pull-right'><b>Distancia: </b>"+distancia_total+" Km</span>";
 
-                            direccion_mapa = direccion;
+                            direccion_mapa = direccion_ant.toString();
                             distancia_total_mapa = distancia_total;
                             distancia_carretera_mapa = distancia_carretera;
                             //if(document.getElementById('destino_municipio').checked == 1){
