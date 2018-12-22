@@ -161,7 +161,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                 </div>
                                 <div class="row">                       
                                     <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-                                        <h5>Responsable del Fondo Circulante: <span class="text-danger">*</span></h5>  
+                                        <h5>Persona responsable del Fondo Circulante: <span class="text-danger">*</span></h5>  
                                         <select id="id_responsable" name="id_responsable" class="select2" style="width: 100%" required="">
                                             <option value="">[Elija el responsable]</option>
                                             <?php 

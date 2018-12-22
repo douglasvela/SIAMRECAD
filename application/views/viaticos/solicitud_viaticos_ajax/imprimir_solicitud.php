@@ -321,7 +321,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Vo.Bo. Jefe Inmediato", "Autorizado Director de Área o Jefe de Regional"),
+        $pdf->Row(array("Vo.Bo. Jefatura Inmediata", "Dirección o Jefatura Regional"),
             array('0','0','0'),
             array('Arial','B','09'),
             array(false),

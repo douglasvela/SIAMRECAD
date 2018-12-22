@@ -243,15 +243,15 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
 
             	<div class="card-header bg-info">
-                    <h4 class="card-title m-b-0 text-white">Configuraciones de datos del empleado</h4>
+                    <h4 class="card-title m-b-0 text-white">Configuraciones de datos de la persona solicitante</h4>
                 </div>
                 <div class="card-body b-t">
                 	<?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
                     <div class="row">                    	
                         <div class="form-group col-lg-8"> 
-                            <h5>Empleado a modificar: <span class="text-danger">*</span></h5>                           
+                            <h5>Persona solicitante a configurar: <span class="text-danger">*</span></h5>                           
                             <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="cambiar_informacion();">
-                                <option value="">[Elija el empleado a editar sus datos]</option>
+                                <option value="">[Elija la persona solicitante]</option>
                                 <?php 
                                     $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                     if($otro_empleado->num_rows() > 0){
@@ -265,15 +265,15 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         </div>
                     </div>
 
-                    <h5>Información laboral del empleado</h5>
+                    <h5>Información laboral de la persona solicitante</h5>
                     <blockquote class="m-t-10">
 
                     <div id="cnt_combos" style="display: none;">
                         <div class="row">
                             <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-                                <h5>Jefe de firma inmediata (jefe inmediato): <span class="text-danger">*</span></h5>                           
+                                <h5>Jefatura inmediata: <span class="text-danger">*</span></h5>                           
                                 <select id="id_empleado" name="id_empleado" class="select2" style="width: 100%" required="">
-                                    <option value="">[Elija el jefe inmediato]</option>
+                                    <option value="">[Elija la jefatura inmediata]</option>
                                     <?php 
                                         $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e, sir_cargo_funcional AS cf WHERE cf.id_cargo_funcional IN (SELECT i.id_cargo_funcional FROM sir_empleado_informacion_laboral AS i WHERE e.id_empleado = i.id_empleado AND i.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado)) AND e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
                                         if($otro_empleado->num_rows() > 0){
@@ -310,7 +310,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
 	                <?php echo form_close(); ?>
 	                <br>
-	                <h5>Cuenta(s) bancaria(s) del empleado</h5>
+	                <h5>Cuenta(s) bancaria(s) de la persona solicitante</h5>
 	                <blockquote class="m-t-10">
 	                	<?php echo form_open('', array('id' => 'formcuentas2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
 	                    <div id="cnt_cuentas_bancarias"></div>

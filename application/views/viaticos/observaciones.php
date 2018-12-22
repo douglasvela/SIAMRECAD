@@ -615,11 +615,11 @@
 $(function(){     
     $("#formajax2").on("submit", function(e){
         e.preventDefault();
-        var tipo_jefe = "Jefe inmediato";
+        var tipo_jefe = "Jefatura inmediata";
         if($("#id_tipo_observador").val() == "1"){
-            tipo_jefe = "Jefe inmediato";
+            tipo_jefe = "Jefatura inmediato";
         }else if($("#id_tipo_observador").val() == "2"){
-            tipo_jefe = "Director de área o jefe de regional";
+            tipo_jefe = "Dirección o Jefatura regional";
         }else if($("#id_tipo_observador").val() == "3"){
             tipo_jefe = "Fondo Circulante";
         }

@@ -18,10 +18,10 @@
                 <thead class="bg-info text-white">
                     <tr>
                         <th>Id</th>
-                        <th>Nombre de la Oficina</th>
+                        <th>Nombre de la oficina</th>
                         <!-- <th>Dirección de la Oficina</th> -->
-                        <th>Jefe de la Oficina</th>
-                        <th>Depto</th>
+                        <th>Jefatura de la oficina</th>
+                        <th>Depto.</th>
                         <th>Municipio</th>
                         <th>Tel.</th>
                         <th style="min-width: 85px;">(*)</th>

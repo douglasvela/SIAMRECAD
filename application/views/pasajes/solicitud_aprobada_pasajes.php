@@ -145,7 +145,7 @@ $(function(){
             "observacion" : $("#observacion").val(),
             "nr_observador" : $("#nr_observador").val(),
             "id_tipo_observador" : "1",
-            "tipo_observador" : "Jefe inmediato"
+            "tipo_observador" : "Jefatura inmediata"
         };
         $.ajax({
             type:  'POST',

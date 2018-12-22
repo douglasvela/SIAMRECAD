@@ -555,10 +555,10 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                 <div class="row">
                                   <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                       <div class="form-group">
-                                          <label for="jefe_oficina" class="font-weight-bold">Encargado de firma departamental/regional: <span class="text-danger">*</span></label>
+                                          <label for="jefe_oficina" class="font-weight-bold">Jefatura de dirección o regional: <span class="text-danger">*</span></label>
                                           <!--<input type="text" class="form-control" id="jefe_oficina" name="jefe_oficina" required="" placeholder="Nombre del Jefe de la Oficina" data-validation-required-message="Este campo es requerido"> -->
                                           <select id="jefe_oficina" name="jefe_oficina" class="select2"  style="width: 100%" onchange="buscarCorreo(this.value);">
-                                            <option value="">[Elija el Jefe]</option>
+                                            <option value="">[Elija la jefatura]</option>
                                             <?php 
                                                 $empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 
@@ -674,7 +674,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Gestión de autorizadores</h4>
+                <h4 class="modal-title">Gestión de personas que autorizan viáticos y pasajes</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
@@ -686,7 +686,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         <h5>Autorizador:</h5>
                         <div class="controls">
                             <select id="nr_autorizador" name="nr_autorizador" class="select2"  style="width: 100%">
-                                <option value="">[Elija el autorizador]</option>
+                                <option value="">[Elija la persona que autoriza]</option>
                                 <?php 
                                     $empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 
