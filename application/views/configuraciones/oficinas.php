@@ -466,7 +466,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         </div>
                         <div class="card-body b-t">
                             <div id="cnt_form1">
-                            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                                 <input type="hidden" id="band" name="band" value="save">
                                 <input type="hidden" id="id_oficina" name="id_oficina" value="<?php echo set_value('id_oficina'); ?>">
                                 
@@ -628,7 +628,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     </div>
                     <div class="card-body b-t">
 
-                        <?php echo form_open('', array('id' => 'form_phone', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                        <?php echo form_open('', array('id' => 'form_phone', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                             <input type="hidden" id="band_phone" name="band_phone" value="save">
                             <input type="hidden" id="id_vyp_oficinas_telefono" name="id_vyp_oficinas_telefono">
                             <input type="hidden" id="id_oficina_vyp_oficnas_telefono" name="id_oficina_vyp_oficnas_telefono">

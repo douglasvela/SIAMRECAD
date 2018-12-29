@@ -153,7 +153,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                        <h4 class="card-title m-b-0 text-white">Listado de Actividades</h4>
                    </div>
                    <div class="card-body b-t">
-                       <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'novalidate' => '')); ?>
+                       <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                            <input type="hidden" id="band" name="band" value="save">
                            <input type="hidden" id="id_vyp_actividades" name="id_vyp_actividades" >
                            <div class="row">

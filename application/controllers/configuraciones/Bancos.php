@@ -25,7 +25,7 @@ class bancos extends CI_Controller {
 	public function gestionar_bancos(){		
 		if($this->input->post('band') == "save"){
 			$data = array(
-			'nombre' => $this->input->post('nombre'), 
+			'nombre' => mb_strtoupper($this->input->post('nombre')), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
 			'codigo_a' => $this->input->post('codigo_a'),
 			'codigo_b' => $this->input->post('codigo_b'),
@@ -35,7 +35,7 @@ class bancos extends CI_Controller {
 		}else if($this->input->post('band') == "edit"){
 			$data = array(
 			'idb' => $this->input->post('idb'), 
-			'nombre' => $this->input->post('nombre'), 
+			'nombre' => mb_strtoupper($this->input->post('nombre')), 
 			'caracteristicas' => $this->input->post('caracteristicas'),
 			'codigo_a' => $this->input->post('codigo_a'),
 			'codigo_b' => $this->input->post('codigo_b'),

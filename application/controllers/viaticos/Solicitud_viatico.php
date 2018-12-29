@@ -81,7 +81,7 @@ class Solicitud_viatico extends CI_Controller {
 			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
 			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),
 			'id_actividad_realizada' => $this->input->post('id_actividad'),
-			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad')),
+			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
 			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
 			);
@@ -143,7 +143,7 @@ class Solicitud_viatico extends CI_Controller {
 				}
 
 				if(!$errores){
-					echo "exito";
+					echo "exito,".$resultado;
 				}else{
 					echo "fracaso";
 				}
@@ -164,7 +164,7 @@ class Solicitud_viatico extends CI_Controller {
 			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
 			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),			
 			'id_actividad_realizada' => saltos_sql($this->input->post('id_actividad')),
-			'detalle_actividad' => saltos_sql($this->input->post('detalle_actividad')),
+			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
 			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
 			);
@@ -286,8 +286,8 @@ class Solicitud_viatico extends CI_Controller {
 			"id_mision" => $this->input->post('id_mision'),
             "departamento" => $this->input->post('departamento'),
             "municipio" => $this->input->post('municipio'),
-            "nombre_empresa" => $this->input->post('nombre_empresa'),
-            "direccion_empresa" => $this->input->post('direccion_empresa'),
+            "nombre_empresa" => mb_strtoupper($this->input->post('nombre_empresa')),
+            "direccion_empresa" => mb_strtoupper(saltos_sql($this->input->post('direccion_empresa'))),
             "distancia" => $this->input->post('distancia'),
             "tipo" =>  $this->input->post('tipo'),
             "band" => $this->input->post('band'),
@@ -322,12 +322,7 @@ class Solicitud_viatico extends CI_Controller {
 	public function gestionar_viaticos(){
 
 		if($this->input->post('band_viatico') == "save" || ($this->input->post('band_viatico') == "edit")){
-
-			if($this->input->post('band_viatico') == "save"){
-				$id_empresa_viatico = $this->solicitud_model->obtener_ultimo_id("vyp_empresa_viatico","id_empresa_viatico");
-			}else{
-				$id_empresa_viatico = $this->input->post('id_empresa_viatico');
-			}
+			$id_empresa_viatico = $this->input->post('id_empresa_viatico');
 			
 	        if(floatval($this->input->post('alojamiento')) > 0){
 	        	if(isset($_FILES["file"])){
@@ -541,7 +536,7 @@ class Solicitud_viatico extends CI_Controller {
 		$data = array(
 			"id_empresas_visitadas" => $this->input->post('id_empresa_visitada'),
 			"nombre_empresa" => $this->input->post('nombre_empresa'),
-			"direccion_empresa" => $this->input->post('direccion_empresa'),
+			"direccion_empresa" => mb_strtoupper(saltos_sql($this->input->post('direccion_empresa'))),
 			"id_mision_oficial" => $this->input->post('id_mision_oficial'),
 			"id_destino" => $this->input->post('id_destino')
         );

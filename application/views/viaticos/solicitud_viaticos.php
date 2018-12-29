@@ -1373,6 +1373,7 @@
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                   document.getElementById("input_distancia").innerHTML=xmlhttp_municipio.responseText;
                   $(".select2").select2();
+                if(document.getElementById('destino_mapa').checked == 0){
                   distancia_total_mapa = 0;
                   var destino_mun = document.getElementById('destino_municipio').checked;
                   var destino_ofi = document.getElementById('destino_oficina').checked;
@@ -1398,6 +1399,7 @@
                     };
                     initMap()
                   }
+              }
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/input_distancia?id_departamento="+id_departamento+"&id_municipio="+id_municipio+"&id_oficina_origen="+id_oficina_origen+"&tipo="+tipo+"&distancia="+distancia_total_mapa,true);
@@ -1704,21 +1706,6 @@
     	}
     }
 
-    function buscar_idmision(){
-        var nr = $("#nr").val();
-
-        ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_ultima_mision", true);
-        ajax.onreadystatechange = function() {
-            if (ajax.readyState == 4){
-                $("#id_mision").val(ajax.responseText);
-                informacion_empleado(function(){ form_rutas() });
-            }
-        } 
-        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&nr="+nr)
-    }
-
     function cambiar_editar_viatico(id_viatico, id_origen, id_destino, hora_salida, hora_llegada, pasaje, viatico, alojamiento, horarios, fecha, id_mision, factura, kilometraje,band){
         $("#id_empresa_viatico").val(id_viatico);
         $("#id_origen").val(id_origen);
@@ -1915,21 +1902,6 @@
         return hora;
     }
 
-    function obtener_ultima_ruta(){
-        var id_mision = $("#id_mision").val();
-
-        ajax = objetoAjax();
-        ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/obtener_ultima_ruta", true);
-        ajax.onreadystatechange = function() {
-            if (ajax.readyState == 4){
-                var id_ultima_ruta = ajax.responseText;
-                insertar_viaticos_ruta(id_ultima_ruta);             
-            }
-        } 
-        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-        ajax.send("&id_mision="+id_mision)
-    }
-
     function insertar_viaticos_ruta(id_ultima_ruta){ 
         if(reg_viaticos.length > 0){
             sql = "INSERT INTO vyp_horario_viatico_solicitud (fecha_ruta, id_horario_viatico, id_mision, estado, id_ruta_visitada) VALUES \n";
@@ -2111,10 +2083,11 @@
     }
 
     function limpiar_empresas_visitadas(){
-        $("#departamento").val("").trigger("change.select2");
+        $("#municipio").val("").trigger("change.select2");
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#id_ruta_visitada").val("");
+        combo_municipio();
     }
 
     function tabla_rutas_almacenadas(){
@@ -2392,7 +2365,7 @@
                                 Datos de la misión
                             </h3>
                             <hr class="m-t-0 m-b-30">
-                            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                            <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                             <input type="hidden" id="band" name="band" value="save">
                             <input type="hidden" id="id_mision" name="id_mision" value="">
                             <div class="row">
@@ -2552,7 +2525,7 @@
                             </h3>
                             <hr class="m-t-0 m-b-30">
                             <div id="fechas_repetidas2"></div>
-                            <?php echo form_open('', array('id' => 'form_empresas_visitadas', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                            <?php echo form_open('', array('id' => 'form_empresas_visitadas', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                                 <input type="hidden" id="band2" name="band2" value="save">
                                 <input type="hidden" id="id_ruta_visitada" name="id_ruta_visitada" value="">
                             <div class="row">
@@ -2631,7 +2604,7 @@
                             </h3>
                             <hr class="m-t-0 m-b-10">
                             <div id="fechas_repetidas3"></div>
-                            <?php echo form_open('', array('id' => 'form_empresas_viaticos', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'enctype' => 'multipart/form-data')); ?>
+                            <?php echo form_open('', array('id' => 'form_empresas_viaticos', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'enctype' => 'multipart/form-data', 'autocomplete' => 'off')); ?>
                             <div id="cnt_form_viaticos" class="row"></div>
                             <?php echo form_close(); ?>
                             <div id="tabla_viaticos" class="row"></div>
@@ -2875,7 +2848,7 @@
                 <h4 class="modal-title">Editar empresa visitada</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <?php echo form_open('', array('id' => 'form_empresas_visitadas_edit', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+            <?php echo form_open('', array('id' => 'form_empresas_visitadas_edit', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
             <div class="modal-body">
                 <input type="hidden" id="id_empresa_visitada_edit" name="id_empresa_visitada_edit" value="">
                 <input type="hidden" id="id_mision_edit" name="id_mision_edit" value="">
@@ -2949,12 +2922,12 @@ $(function(){
                 })
                 .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
                     $("#subiendo_mision").hide(0);
-                    if(data == "exito"){
+                    data = data.split(',');
+                    if(data[0] == "exito"){
                         if($("#band").val() == "save"){
-                            //swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
-                            buscar_idmision();
+                            $("#id_mision").val(data[1]);
+                            informacion_empleado(function(){ form_rutas() });
                         }else if($("#band").val() == "edit"){
-                            //swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                             form_rutas();
                         }else{
                             swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
@@ -2994,9 +2967,10 @@ $(function(){
                     processData: false
             })
             .done(function(data){ //una vez que el archivo recibe el request lo procesa y lo devuelve
-                if(data == "exito"){
+                data = data.split(",");
+                if(data[0] == "exito"){
                     if($("#band_viatico").val() == "save"){
-                        obtener_ultima_ruta();
+                        insertar_viaticos_ruta(data[1]);
                     }else if($("#band_viatico").val() == "edit"){
                         swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
                     }else{
@@ -3034,6 +3008,7 @@ $(function(){
                 cache: false
             })
             .done(function(data){
+                alert(data)
                 if(data == "exito"){
                     tabla_empresas_visitadas(function(){ limpiar_empresas_visitadas() });
                     $.toast({ heading: 'Registro exitoso', text: 'Se agregó una nueva empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6 });
@@ -3260,7 +3235,7 @@ $(function(){
                             outputDiv.innerHTML += "<span class='pull-left'><b>Destino: </b>"+direccion+"<br></span>";
                             outputDiv.innerHTML += "<span class='pull-right'><b>Distancia: </b>"+distancia_total+" Km</span>";
 
-                            direccion_mapa = direccion_ant.toString();
+                            direccion_mapa = direccion;
                             distancia_total_mapa = distancia_total;
                             distancia_carretera_mapa = distancia_carretera;
                             //if(document.getElementById('destino_municipio').checked == 1){

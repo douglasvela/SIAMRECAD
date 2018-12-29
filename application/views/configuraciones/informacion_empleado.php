@@ -246,7 +246,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     <h4 class="card-title m-b-0 text-white">Configuraciones de datos de la persona solicitante</h4>
                 </div>
                 <div class="card-body b-t">
-                	<?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
+                	<?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                     <div class="row">                    	
                         <div class="form-group col-lg-8"> 
                             <h5>Persona solicitante a configurar: <span class="text-danger">*</span></h5>                           
