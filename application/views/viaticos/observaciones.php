@@ -183,6 +183,7 @@
                     $.toast({ heading: 'Observación eliminada', text: 'El registro de observación fue eliminado exitosamente.', position: 'top-right', loaderBg:'#fc4b6c', icon: 'error', hideAfter: 3500, stack: 6
                     });
                     listado_observaciones();
+                    limpiar_observaciones();
                 }else{
                     swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                 }
@@ -380,24 +381,30 @@
         var newName = 'Otro nombre',
         xhr = new XMLHttpRequest();
 
+        var id_mision = gid_mision;
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/observaciones/combo_opciones?id_mision="+id_mision+"&paso="+paso);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_opciones").innerHTML = xhr.responseText;
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
+
         if(paso == 2 || paso == 3){
             $("#cnt_opciones").show(500);
-
-            var id_mision = gid_mision;
-            xhr.open('GET', "<?php echo site_url(); ?>/viaticos/observaciones/combo_opciones?id_mision="+id_mision+"&paso="+paso);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200 && xhr.responseText !== newName) {
-                    document.getElementById("cnt_opciones").innerHTML = xhr.responseText;
-                }else if (xhr.status !== 200) {
-                    swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
-                }
-            };
-            xhr.send(encodeURI('name=' + newName));
         }else{
             $("#cnt_opciones").hide(500);
             $("#opciones").val('');
         }
+    }
+
+    function limpiar_observaciones(){
+        $("#paso").val('');
+        $("#observacion").val('');
+        $("#id_observado").val('');
     }
 
 </script>
@@ -644,6 +651,7 @@ $(function(){
                 $.toast({ heading: 'Observación registrada', text: 'La observación se registró exitosamente.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 3500, stack: 6
                 });
                 listado_observaciones();
+                limpiar_observaciones();
             }else{
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }

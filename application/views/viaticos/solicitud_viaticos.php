@@ -1749,8 +1749,10 @@
         //$("#fecha_mision").val(fecha);
         //$("#id_origen").val(id_origen);
         //$("#id_destino").val(id_destino);
-        $("#hora_salida").val("");
-        $("#hora_llegada").val("");
+        if($("#band_viatico").val() != "delete"){
+            $("#hora_salida").val("");
+            $("#hora_llegada").val("");
+        }
         $("#horarios").val("");
         $("#pasaje").val("0.00");
         $("#viatico").val("0.00");
@@ -3008,7 +3010,6 @@ $(function(){
                 cache: false
             })
             .done(function(data){
-                alert(data)
                 if(data == "exito"){
                     tabla_empresas_visitadas(function(){ limpiar_empresas_visitadas() });
                     $.toast({ heading: 'Registro exitoso', text: 'Se agregó una nueva empresa visitada.', position: 'top-right', loaderBg:'#3c763d', icon: 'success', hideAfter: 2000, stack: 6 });
