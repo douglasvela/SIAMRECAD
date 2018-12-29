@@ -435,14 +435,10 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             cerrar_mantenimiento2();
             cerrar_mantenimiento1();
             tabla_pasaje_unidad();
-        }
-        if((checkbox.length>0 && sin_observaciones==0) || contador_detalle_solicitud>0){
-            enviararevision();contador_detalle_solicitud=0;
         }else{
-        	cerrar_mantenimiento2();
-            cerrar_mantenimiento1();
-            tabla_pasaje_unidad();
-        }
+            enviararevision();
+        } 
+
         limpiar_form_detallado();
         limpiar_solicitud();
         
@@ -807,7 +803,25 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                               <button type="button" onclick="cerrar_mantenimiento2();" class="btn waves-effect waves-light"><span class="mdi mdi-keyboard-return"></span> Volver</button>
 	                            </div>
 	                            <div class="pull-right">
+	                            	<?php 
+	                            		$dias_enviar_solicitud = array('1','2'); //dias habilitados para enviar solicitudes.
+	                            		$sentinela = false;
+	                            		$hoy = date('Y-m-d');
+	                            		$dia = explode('-',$hoy);
+	                            		for ($i=0; $i < count($dias_enviar_solicitud); $i++) { 
+	                            			if($dias_enviar_solicitud[$i] == $dia[2]){
+	                            				$sentinela = true;
+	                            			}
+	                            		}
+	                            		if($sentinela){
+	                            	?>
 		                            <button type="button" onclick="recorre_observaciones();" class="btn waves-effect waves-light btn-success">Enviar solicitud <span class="mdi mdi-send"></span></button>
+		                            <?php }else{
+		                            	?>
+									<button type="button" onclick="cerrar_mantenimiento2();cerrar_mantenimiento1();tabla_pasaje_unidad();" class="btn waves-effect waves-light btn-success">Finalizar <span class="mdi mdi-send"></span></button>	
+		                            	<?php
+		                            	}
+		                            ?>
 		                        </div>
 		                    </div>
 	                    </div>
