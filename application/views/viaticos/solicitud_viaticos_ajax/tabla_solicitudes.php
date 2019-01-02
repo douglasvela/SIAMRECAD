@@ -133,11 +133,7 @@
                                 echo generar_boton(array($fila->id_mision_oficial),"ver_solicitud_html","btn-default","mdi mdi-file-document","Visualizar solicitud");
                             }
 
-                            if(date("Y-m-d", strtotime($fila->fecha_solicitud)) > "2018-10-24"){
-                                echo generar_boton(array($fila->id_mision_oficial, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
-                            }else{
-                                echo generar_boton(array($fila->id_mision_oficial, 0),"bitacora","btn-default disabled","mdi mdi-information-variant","");
-                            }
+                            echo generar_boton(array($fila->id_mision_oficial, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
 
                             echo "</td>";
                           echo "</tr>";
