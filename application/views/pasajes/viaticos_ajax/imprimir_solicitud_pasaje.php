@@ -104,55 +104,57 @@ $pdf->cambiarPie($user, $fecha_actual);
 
 
 $pdf->AddPage();
-
+$pdf->SetFont('Arial','',10);
 $pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la cantidad de '.$formato_dinero.' Dólares en concepto de pago de pasajes en transporte urbano y al interior del territorio nacional originado por Misiones Oficiales encomendadas a diferentes empresas, durante el mes de ' .mes($fecha_mes).', según detalle anexo:',0,'J',false);
 $pdf->Ln(5);
 $pdf->SetWidths(array(22,20,45,89,13));
 $pdf->SetAligns(array('C','C','C','C','C'));
 $pdf->Row(array("Fecha","No.Exped.","Empresa visitada","Dirección","Valor"),
 array('1','1','1','1','1'),
-array('Arial','B','08'),
+array('Arial','B','09'),
 array(false),
 array('0','0','0'),
 array('255','255','255'),
-$altura = 3);  
-$pdf->SetAligns(array('C','C','C','C','C'));
+$altura = 5);  
+$pdf->SetAligns(array('C','C','C','C','R'));
  $cuenta = $this->db->query("SELECT * FROM vyp_pasajes where nr = '".$nr_empleado."' AND id_mision= '".$id_mision_pasajes."' ORDER by fecha_mision");
  
     if($cuenta->num_rows() > 0){
                 foreach ($cuenta->result() as $fila1) {
-                 
+                    
                     $fila1->fecha_mision=date("d-m-Y",strtotime($fila1->fecha_mision));
                            $array = array( 
                              $fila1->fecha_mision,
                              $fila1->no_expediente,
                              $fila1->empresa_visitada,
                              $fila1->direccion_empresa,
-                             $fila1->monto_pasaje,
+                             "$ ".$fila1->monto_pasaje,
                                        );
+                    $pdf->Ln(1);
                     $pdf->Row($array,
                         array('0','0','0','0','0'),
-                        array('Arial','B','08'),
+                        array('Arial','B','09'),
                         array(false),
                         array('0','0','0'),
                         array('255','255','255'),
                         $altura = 5); 
                 }
             }
-$pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
-        
-$pdf->Ln(2);
-        $pdf->SetWidths(array(173,13,13,13));
-        $pdf->SetAligns(array('C','R','R','R'));
+
+        $pdf->Ln(1);
+        $pdf->SetWidths(array(176,13));
+        $pdf->SetAligns(array('C','R'));
+
         $pdf->Row(
             array("TOTAL", "$ ".number_format($monto, 2, '.', '')),
-            array('0','0','0','0'),
-            array('Arial','B','08'),
+            array('1','1'),
+            array('Arial','B','09'),
             array(false),
             array('0','0','0'),
             array('255','255','255'),
-            $altura = 3);
-        $pdf->Text($pdf->GetX(),$pdf->GetY(),"_________________________________________________________________________________________________________________________",0,'C', 0);
+            $altura = 5);
+
+
 /*$lugar = $this->db->query("SELECT e.nombre_oficina, p.nr FROM vyp_oficinas AS e JOIN vyp_informacion_empleado AS p ON e.id_oficina = p.id_oficina_departamental GROUP BY p.nr");
 if($lugar->num_rows() > 0){
     //echo($cuenta);

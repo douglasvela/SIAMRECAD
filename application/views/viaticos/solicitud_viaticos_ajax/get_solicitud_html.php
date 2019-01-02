@@ -378,7 +378,7 @@ $html .= '<br>
 	$html .= '</tr>
 	 	</table></div><br><br>';
 
-	$html .= '<div align="right"><button type="button" class="btn btn-info" onclick="imprimir_solicitud(\''.$id_mision.'\');">Exportar a PDF</button></div>';
+	//$html .= '<div align="right"><button type="button" class="btn btn-info" onclick="imprimir_solicitud(\''.$id_mision.'\');">Exportar a PDF</button></div>';
 
 echo $html;
 ?>
