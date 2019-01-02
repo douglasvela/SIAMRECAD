@@ -1067,13 +1067,14 @@
     var fecha_mision_inicio_copia = "";
     var fecha_mision_fin_copia = "";
 
-    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,oficina_solicitante, vencida,bandera){
+    function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,oficina_solicitante, observacion_mision, vencida,bandera){
 
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
         $("#nombre_empresa").val("");
         $("#direccion_empresa").val("");
         $("#detalle_actividad").val(detalle_actividad);
+        $("#observacion_mision").val(observacion_mision);
         $('#id_actividad').val(actividad_realizada).trigger('change.select2');
         if(actividad_realizada == "7"){
             $("#cnt_oficina_solicitante").show(500);
@@ -2476,6 +2477,13 @@
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Detalle de la actividad: </h5>
                                     <textarea type="text" id="detalle_actividad" name="detalle_actividad" class="form-control" placeholder="Describa la actividad realizada en la misión"></textarea>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12" style="height: 83px;">
+                                    <h5>Observaciones: </h5>
+                                    <textarea type="text" id="observacion_mision" name="observacion_mision" class="form-control" placeholder="Ingrese alguna observación que sirva de apoyo si existe."></textarea>
                                     <div class="help-block"></div>
                                 </div>
                             </div>

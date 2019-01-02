@@ -82,6 +82,7 @@ class Solicitud_viatico extends CI_Controller {
 			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),
 			'id_actividad_realizada' => $this->input->post('id_actividad'),
 			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
+			'observacion_mision' => mb_strtoupper(saltos_sql($this->input->post('observacion_mision'))),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
 			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
 			);
@@ -165,6 +166,7 @@ class Solicitud_viatico extends CI_Controller {
 			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),			
 			'id_actividad_realizada' => saltos_sql($this->input->post('id_actividad')),
 			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
+			'observacion_mision' => mb_strtoupper(saltos_sql($this->input->post('observacion_mision'))),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
 			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
 			);
