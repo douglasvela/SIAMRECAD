@@ -522,7 +522,7 @@ $altura = 5);
         $pdf->SetWidths(array(142,13,13,13));
         $pdf->SetAligns(array('C','R','R','R'));
 
-        $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 52, 'D');
+        $pdf->Rect($pdf->GetX(), $pdf->GetY(), $pdf->GetX()+180, 60, 'D');
 
         $pdf->SetFont('Arial','B',8);
         $pdf->MultiCell(190,5,'USO EXCLUSIVO DE AUTORIZACIÓN DE PAGO',0,'C',false);
@@ -531,6 +531,7 @@ $altura = 5);
         $pdf->MultiCell(190,5,'HAGO CONSTAR: '.nombres($filae->nombre_completo),0,'L',false);
         $pdf->MultiCell(190,5,'ACTIVIDAD REALIZADA: '.$filam->actividad,0,'L',false);
         $pdf->MultiCell(190,5,'DETALLE DE LA ACTIVIDAD: '.$filam->detalle_actividad,0,'L',false);
+        $pdf->MultiCell(190,5,'OBSERVACIONES: '.$filam->observaciones,0,'L',false);
         $pdf->Ln(5);
 
         $jfinmediato = $this->db->query("SELECT e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e JOIN vyp_mision_oficial AS m ON e.nr = m.nr_jefe_inmediato AND m.id_mision_oficial = '".$id_mision."'");
