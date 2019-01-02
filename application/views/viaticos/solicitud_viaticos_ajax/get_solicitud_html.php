@@ -363,6 +363,9 @@ $html .= '<br>
 		 	<tr>
 		 		<td colspan="2">DETALLE DE LA ACTIVIDAD: '.$filam->detalle_actividad.'</td>
 		 	</tr>
+            <tr>
+                <td colspan="2">OBSERVACIONES: '.$filam->observaciones.'</td>
+            </tr>
 		 	<tr><td style="padding: 40px;"></td><td style="padding: 40px;"></td></tr>
 		 	<tr>';
 	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajf->nombre_completo).'<br>Vo.Bo. Jefatura Inmediata</center></b></div>';
