@@ -1796,11 +1796,13 @@
                 if (ajax.readyState == 4){
                     $("#area").val(ajax.responseText)
                     if(ajax.responseText == "exito"){
+                        $("#modal_loading").modal('hide'); 
                         tabla_solicitudes();
                         swal({ title: "!Solicitud exitosa!", type: "success", showConfirmButton: true });
                         cerrar_mantenimiento();
                         //imprimir_solicitud(id_mision);
                     }else{
+                        $("#modal_loading").modal('hide'); 
                         swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                     }           
                 }
@@ -1808,6 +1810,7 @@
             ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
             ajax.send("&id_mision="+id_mision)
         }else{
+            $("#modal_loading").modal('hide'); 
             swal({ title: "No hay viáticos", text: "La columna de viáticos no puede estar en $0.00 (no se reconoce como solicitud de viático)", type: "warning", showConfirmButton: true });
         }
     }
@@ -1838,7 +1841,8 @@
     }
 
     function verificar_fechas(){
-
+        $('#modal_loading').modal({backdrop: 'static', keyboard: false})
+        $(".modal-backdrop").hide(0);
         var registros = $("#tabla_viaticos").find("tbody").find("tr");
         var x = (registros.length-2);
         var celdas = $(registros[x]).children("td");
@@ -1876,6 +1880,7 @@
                     }else if(ajax.responseText == "fecha_repetida"){
                         swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
                     }else{
+                        $("#modal_loading").modal('hide'); 
                         swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
                     }           
                 }
@@ -1883,6 +1888,7 @@
             ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
             ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
         }else{
+            $("#modal_loading").modal('hide'); 
             swal({ title: "Detalle incompleto", text: "No se encontró detallado el regreso a su oficina de origen", type: "warning", showConfirmButton: true });
         }
     }
@@ -2152,6 +2158,7 @@
         }
 
         if(tiene_observaciones){
+            $("#modal_loading").modal('hide'); 
             swal({ title: "Faltan observaciones", text: "Hay observaciones sin marcar, es posible que no se hayan solventado todas.", type: "warning", showConfirmButton: true }); 
         }else{
             generar_solicitud();
@@ -2282,6 +2289,10 @@
     .list-task .task-done span { text-decoration: line-through; }
     .nueva_clase{ background-color: #0000001a; padding-left: 3px; padding-right: 3px; font-weight: 500; }
     .table-clase td, .table-clase th { border-color: #a5a5a5; }
+
+    #modal_loading.modal { text-align: center; padding: 0!important; }
+    #modal_loading.modal:before { content: ''; display: inline-block; height: 80%; text-align: center; vertical-align: bottom; margin-right: -4px; /* Adjusts for spacing */ }
+    #modal_loading.modal-dialog { display: inline-block; text-align: center; vertical-align: bottom; }
 </style>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
@@ -2880,6 +2891,21 @@
                 <button type="submit" class="btn btn-info waves-effect text-white">Aceptar</button>
             </div>
             <?php echo form_close(); ?>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div id="modal_loading" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" align="center" style="text-align: center;">
+          <!-- <input type="hidden" id="id_representante" name="id_representante" value=""> -->
+            <div class="modal-header bg-info" align="center" style="text-align: center;">
+                <h3 class="modal-title text-white" align="center" style="text-align: center;  width: 100%;"><span class="fa fa-spinner fa-spin"></span> Espere un momento...</h3>
+
+            </div>
+            
         </div>
         <!-- /.modal-content -->
     </div>

@@ -258,6 +258,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $pie;
     }
 
+    function fecha_ESP($fecha){
+		if($fecha == "N/A"){
+			return $fecha;
+		}else{
+			return date("d-m-Y",strtotime($fecha));
+		}
+	}
+
 //////////////////////////////////  FUNCIONES PARA CORREO
 
     function obtener_correo_jefe_inmediato($nr_usuario){
@@ -294,8 +302,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			return $correo;
 	}
-	function enviar_correo($titulo,$mensaje,$paraquien,$id_mision,$nr_usuario){
 
+	function enviar_correo($titulo,$mensaje,$paraquien,$id_mision,$nr_usuario){
 		$CI =& get_instance();
 		$CI->load->library('email');
 		$configGmail = array(
@@ -317,6 +325,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}else if($paraquien=="fondocirculante"){
 			$para = obtener_correo_usuario($id_mision);
 		}
+		//cargamos la configuración para enviar con gmail
+		if (filter_var($para, FILTER_VALIDATE_EMAIL)) {
+		 	$CI->email->initialize($configGmail);
+		 	$CI->email->from($CI->config->item('email_central'));
+			 $CI->email->to($para);
+			 $CI->email->subject($titulo);
+			 $CI->email->message($mensaje);
+			 $CI->email->send();
+		}else{
+			echo "direccion no valida";
+		}
+	}
+
+	function obtener_correo_persona($nr){
+		$CI =& get_instance();
+		$email = $CI->db->query("SELECT correo FROM sir_empleado WHERE nr = '".$nr."'");
+		foreach ($email->result() as $key1) {
+			$correo = $key1->correo;
+		}
+		return $correo;
+	}
+
+	function enviar_correo_viatico($titulo,$mensaje,$nr_usuario){
+		$CI =& get_instance();
+		$CI->load->library('email');
+		$configGmail = array(
+			 'protocol' => $CI->config->item('protocol'),
+			 'smtp_host' => $CI->config->item('host'),
+			 'smtp_port' => $CI->config->item('port'),
+			 'smtp_user' => $CI->config->item('email_central'),
+			 'smtp_pass' => $CI->config->item('pass'),
+			 'mailtype' => 'html',
+			 'charset' => 'utf-8',
+			 'newline' => "\r\n"
+			 ); 
+		
+		$para = obtener_correo_persona($nr_usuario);
+
 		//cargamos la configuración para enviar con gmail
 		if (filter_var($para, FILTER_VALIDATE_EMAIL)) {
 		 	$CI->email->initialize($configGmail);

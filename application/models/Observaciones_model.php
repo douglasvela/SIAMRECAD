@@ -25,7 +25,7 @@ class Observaciones_model extends CI_Model {
 	}
 
 	function cambiar_estado_solicitud($data){
-		$query = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$data['id_mision']."'");
+		$query = $this->db->query("SELECT * FROM vyp_mision_oficial mo JOIN vyp_actividades a ON a.id_vyp_actividades = mo.id_actividad_realizada WHERE mo.id_mision_oficial = '".$data['id_mision']."'");
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
@@ -33,36 +33,42 @@ class Observaciones_model extends CI_Model {
 			}
 		}
 
-		$mensaje = "";
+		$mensaje = ""; $titulo = "";
 		if($data['estado'] == "2"){ //observaciones jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "OBSERVÓ LA SOLICITUD";
+			$mensaje = "OBSERVÓ LA SOLICITUD"; $titulo = "SOLICITUD OBSERVADA";
+			$cuerpo_mensaje =  "Tiene una nueva observación en su solicitud de viáticos y pasajes por parte de: <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Por favor verifique los inconvenientes encontrados.";
 			$persona_actualiza = 2; //Actualiza jefatura inmediata
 		}else if($data['estado'] == "4"){ //observaciones dirección de área o jefatura regional
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "OBSERVÓ LA SOLICITUD";
+			$mensaje = "OBSERVÓ LA SOLICITUD"; $titulo = "SOLICITUD OBSERVADA";
+			$cuerpo_mensaje =  "Tiene una nueva observación en su solicitud de viáticos y pasajes por parte de: <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Por favor verifique los inconvenientes encontrados.";
 			$persona_actualiza = 3; //Actualiza dirección de área o jefatura regional
 		}else if($data['estado'] == "6"){ //observaciones fondo circulante
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "OBSERVÓ LA SOLICITUD";
+			$mensaje = "OBSERVÓ LA SOLICITUD"; $titulo = "SOLICITUD OBSERVADA";
+			$cuerpo_mensaje =  "Tiene una nueva observación en su solicitud de viáticos y pasajes por parte de: <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Por favor verifique los inconvenientes encontrados.";
 			$persona_actualiza = 4; //Actualiza jefatura inmediata
 		}else if($data['estado'] == "3"){ //aprueba jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "APROBÓ LA SOLICITUD";
+			$mensaje = "APROBÓ LA SOLICITUD"; $titulo = "SOLICITUD APROBADA";
+			$cuerpo_mensaje =  "<b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Aprobó su solicitud de viáticos y pasajes.";
 			$persona_actualiza = 2; //Actualiza jefatura inmediata
 		}else if($data['estado'] == "5"){ //aprueba dirección de área o jefatura regional
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "APROBÓ LA SOLICITUD";
+			$mensaje = "APROBÓ LA SOLICITUD"; $titulo = "SOLICITUD APROBADA";
+			$cuerpo_mensaje =  "<b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Aprobó su solicitud de viáticos y pasajes.";
 			$persona_actualiza = 3; //Actualiza dirección de área o jefatura regional
 		}else if($data['estado'] == "7"){ //aprueba fondo circulante
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "APROBÓ LA SOLICITUD";
+			$mensaje = "APROBÓ LA SOLICITUD"; $titulo = "SOLICITUD APROBADA";
+			$cuerpo_mensaje =  "<b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Aprobó su solicitud de viáticos y pasajes.";
 			$persona_actualiza = 4; //Actualiza fondo circulante
 		}
 
@@ -76,6 +82,26 @@ class Observaciones_model extends CI_Model {
 			'id_mision' => $data["id_mision"],
 			'nr_persona_actualiza' => $this->session->userdata('nr_usuario_viatico')
 		);
+
+		
+		$para='usuario';
+		//envia correo cuando usuario se envia a revision en estado 2,4,6 y 0
+		$url = base_url()."index.php/viaticos/solicitud_viatico";
+		$cuerpo = "  
+    		<div style='padding: 5px'>
+	  			<span style='font-size:16px;font-weight: bold;'> 
+	  				 Sistema de Viáticos y Pasajes
+	  			</span><br><br><br>
+	  			<span style='font-size:14px'> 
+	  				 ".$cuerpo_mensaje."<br><br> 
+	  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
+	  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
+	  			</span><br><br>
+	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
+    		</div>
+ 		";
+	 		
+		enviar_correo_viatico($titulo,$cuerpo,$fila->nr_empleado);
 
 
 		$fecha = date("Y-m-d H:i:s");

@@ -30,7 +30,6 @@ DELETE FROM vyp_rutas;
 /*
 ALTER TABLE `vyp_mision_oficial` ADD `observaciones` VARCHAR(300) NOT NULL AFTER `id_oficina`;
 
-ALTER TABLE vyp_empresa_viatico ADD PRIMARY KEY (id_empresa_viatico);
 ALTER TABLE vyp_empresa_viatico MODIFY id_empresa_viatico INTEGER NOT NULL AUTO_INCREMENT;
 
 DELETE FROM vyp_alojamientos;

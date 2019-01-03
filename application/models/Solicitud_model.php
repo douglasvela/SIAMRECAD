@@ -202,7 +202,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function cambiar_estado_revision($data){
-		$query = $this->db->query("SELECT * FROM vyp_mision_oficial WHERE id_mision_oficial = '".$data."'");
+		$query = $this->db->query("SELECT * FROM vyp_mision_oficial mo JOIN vyp_actividades a ON a.id_vyp_actividades = mo.id_actividad_realizada WHERE mo.id_mision_oficial = '".$data."'");
 		if($query->num_rows() > 0){
 			foreach ($query->result() as $fila) {
 				$estado = $fila->estado; 
@@ -214,7 +214,7 @@ class Solicitud_model extends CI_Model {
 		$titulo = $this->session->userdata('nombre_usuario_viatico');
 		if($estado=="0" || $estado=="2" || $estado=="4" || $estado=="6"){
 			$para='jefeinmediato';
-			$titulo .= ' envió  a revisión solicitud #'.$data["id_mision_pasajes"].' de viáticos y pasajes';
+			$titulo .= ' envió a revisión solicitud #'.$data.' de viáticos y pasajes';
 			//envia correo cuando usuario se envia a revision en estado 2,4,6 y 0
 		 	$url = base_url()."index.php/viaticos/observaciones";
 			$cuerpo = "  
@@ -223,16 +223,15 @@ class Solicitud_model extends CI_Model {
 		  				 Sistema de Viáticos y Pasajes
 		  			</span><br><br><br>
 		  			<span style='font-size:14px'> 
-		  				 Tiene una nueva solicitud viáticos y pasajes de <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b> para revisión.
+		  				 Tiene una nueva solicitud de viáticos y pasajes de <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b> para revisión.				<br><br> 
+		  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
+		  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
 		  			</span><br><br>
-		  			<span style='font-size:14px'> 
-		  				 Fecha de la misión: ".$fila->fecha_mision_inicio."<br>
-		  			</span><br><br><br>
 		  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
 	    		</div>
 	 		";
 	 		
-			enviar_correo($titulo,$cuerpo,$para,'0',$fila->nr);
+			enviar_correo($titulo,$cuerpo,$para,'0',$fila->nr_empleado);
 		}
 
 		$newestado = 1;

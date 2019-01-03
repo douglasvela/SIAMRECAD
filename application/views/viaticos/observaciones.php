@@ -340,6 +340,7 @@
             cache: false
         })
         .done(function(res){
+            console.log(res)
             if(res == "exito"){
                 swal({ title: "¡Cambios aplicados!", text: "Solicitud pagada y aprobada exitosamente", type: "success", showConfirmButton: true });
                 cerrar_mantenimiento();
