@@ -18,5 +18,13 @@ class Solicitud_admin extends CI_Controller {
 		$this->load->view('viaticos/solicitud_admin_ajax/tabla_solicitudes');
 	}
 
+	public function informacion_empleado(){
+		$this->load->view('viaticos/solicitud_admin_ajax/informacion_empleado');
+	}
+	
+	public function tabla_empresas_visitadas(){
+		$this->load->view('viaticos/solicitud_admin_ajax/tabla_empresas_visitadas');
+	}
+
 }
 ?>

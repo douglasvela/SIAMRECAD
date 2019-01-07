@@ -59,7 +59,7 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
 
         $("#cnt_tabla").hide(0);
         $("#cnt_form").show(0);
-        combo_viatico_hora();
+        informacion_empleado();
 
         $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viático");
     }
@@ -142,20 +142,40 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
         xmlhttpB.send();
     }
 
-    function combo_viatico_hora(){
-        var id_tipo = $("#id_tipo").val(); 
+
+    function informacion_empleado(){
+        var nr_usuario = $("#nr").val();
         if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttpB=new XMLHttpRequest();
+            xmlhttp_municipio=new XMLHttpRequest();
         }else{// code for IE6, IE5
-            xmlhttpB=new ActiveXObject("Microsoft.XMLHTTPB");
+            xmlhttp_municipio=new ActiveXObject("Microsoft.XMLHTTPB");
         }
-        xmlhttpB.onreadystatechange=function(){
-            if (xmlhttpB.readyState==4 && xmlhttpB.status==200){
-                document.getElementById("cnt_combo_viatico_hora").innerHTML=xmlhttpB.responseText;                
+
+        xmlhttp_municipio.onreadystatechange=function(){
+            if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
+                  document.getElementById("cnt_informacion_empleado").innerHTML=xmlhttp_municipio.responseText;
+                  tabla_empresas_visitadas();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/configuraciones/horarios/combo_viatico_hora?id_tipo="+id_tipo,true);
-        xmlhttpB.send(); 
+        xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_admin/informacion_empleado?nr_usuario="+nr_usuario,true);
+        xmlhttp_municipio.send();
+    }
+
+    function tabla_empresas_visitadas(callback){
+        var id_mision = $("#id_mision").val();
+        var nr = $("#nr").val();    
+        var newName = 'John Smith',
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_admin/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_tabla_empresas_visitadas").innerHTML = xhr.responseText;
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de empresas visitadas no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
     }
 
 </script>
@@ -204,21 +224,7 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
 			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
 			                            <option value="">[Elija el empleado]</option>
 			                            <?php
-                                            if($rango_consulta == "2"){
-                                                $add = "AND ei.id_seccion = '".$id_seccion."'";
-                                            }else if($rango_consulta == "3"){
-                                                $oficinas_departamentales = array(52,53,54,55,56,57,58,59,60,61,64,65,66);
-                                                if (in_array($id_seccion, $oficinas_departamentales)) {
-                                                    $add = "AND ei.id_seccion = '".$id_seccion."'";
-                                                }else{
-                                                    $add = "AND ei.id_seccion NOT IN(52,53,54,55,56,57,58,59,60,61,64,65,66)";
-                                                }
-                                            }else if($rango_consulta == "4"){
-                                                $add = "";
-                                            }else{
-                                                $add = "AND e.nr = '".$nr_usuario."'";
-                                            }
-			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
 			                                if($otro_empleado->num_rows() > 0){
 			                                    foreach ($otro_empleado->result() as $fila) {  
 			                                    if($nr_usuario == $fila->nr){
@@ -232,43 +238,12 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
 			                        </select>
 			                        <div class="help-block"></div>
 			                    </div>
-                                <div class="form-group col-lg-4 col-sm-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <h5>Monto: <span class="text-danger">*</span></h5>
-                                    <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-dollar"></i></div>
-                                        <input type="number" id="monto" name="monto" class="form-control" required="" placeholder="0.00" data-validation-required-message="Este campo es requerido" min="0.00" step="any" value="0.00">
-                                    </div>
-                                    <div class="help-block"></div>
-                                </div>
-                                <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <h5>Tipo: <span class="text-danger">*</span></h5>
-                                    <select id="id_tipo" name="id_tipo" class="form-control custom-select"  style="width: 100%" required="" onchange="combo_viatico_hora();">
-                                        <option class="m-l-50" value="1">Viático</option>
-                                        <option class="m-l-50" value="2">Restricción</option>
-                                    </select>
-                                    <div class="help-block"></div>
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <h5>Hora inicio: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Formato de hora no válido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <h5>Hora fin: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Formato de hora no válido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                </div>
+                                <div class="col-lg-12" id="cnt_informacion_empleado"></div>
                             </div>
 
-                            <div class="row" id="cnt_combo_viatico_hora">
+                            <div class="row" id="cnt_tabla_empresas_visitadas">
                                 
                             </div>
 
