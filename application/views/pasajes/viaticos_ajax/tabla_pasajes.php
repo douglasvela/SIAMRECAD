@@ -37,6 +37,8 @@
       $cuenta = $this->db->query("SELECT * FROM vyp_mision_pasajes AS p WHERE p.nr = '".$nr_empleado."' ".$add." ORDER BY p.id_mision_pasajes DESC LIMIT 50");
       $cont = 0;
             if($cuenta->num_rows() > 0){
+              $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
+              $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                 foreach ($cuenta->result() as $fila) {
                   if(!in_array($fila->estado, array(1,3,5)) && $fila->estado < 7){
                     if($fila->estado == 0){
@@ -110,17 +112,17 @@
                     echo "<td>";
                     $array = array($fila->id_mision_pasajes,date("Y-m-d",strtotime($fila->fecha_solicitud_pasaje)),$fila->nr,$fila->anio_pasaje."-".$fila->mes_pasaje);
                     if($fila->estado < 7){
-                        if(tiene_permiso($segmentos=2,$permiso=4)){
+                        if($puede_editar){
                       array_push($array, "edit");
                       echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                      unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                       }
                     }
                     
                     echo generar_boton(array($fila->nr,$fila->mes_pasaje,$fila->id_mision_pasajes),"mostrar_reporte","btn-default","fa fa-print","Reporte");
                     echo generar_boton(array($fila->id_mision_pasajes, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");
                     if($fila->estado == 0){
-                      if(tiene_permiso($segmentos=2,$permiso=3)){
-                      unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                      if($puede_eliminar){
                       echo generar_boton(array($fila->id_mision_pasajes),"eliminar_solicitud","btn-danger","fa fa-close","Eliminar");
                       }
                     }

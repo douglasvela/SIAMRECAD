@@ -42,6 +42,7 @@
         <?php 
             $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco AND c.nr = '".$nr_empleado."'");
             if($cuenta->num_rows() > 0){
+                $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
                 foreach ($cuenta->result() as $fila) {
                   echo "<tr>";
                     echo "<td>".$fila->nombre."</td>";
@@ -53,7 +54,7 @@
                     }
                     echo "<td>";
                     $array = array($fila->id_empleado_banco, $fila->nr, $fila->id_banco, $fila->numero_cuenta, $fila->estado);
-                    if(tiene_permiso($segmentos=2,$permiso=4)){
+                    if($puede_editar){
                         array_push($array, "edit");
                         echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                     

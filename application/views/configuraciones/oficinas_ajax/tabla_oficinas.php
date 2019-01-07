@@ -31,6 +31,8 @@
                 <?php 
                 	$oficinas = $this->db->get("vyp_oficinas");
                     if($oficinas->num_rows() > 0){
+                        $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
+                        $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                         foreach ($oficinas->result() as $fila) {
                             echo "<tr>";
                             echo "<td>".$fila->id_oficina."</td>";
@@ -69,7 +71,7 @@
 
                             /******* botón para la gestión de TELEFONOS **********/
                             echo "<td>";
-                                if(tiene_permiso($segmentos=2,$permiso=4)){
+                                if($puede_editar){
                                     $arrayTel = array($fila->id_oficina,$fila->nombre_oficina);
                                     echo generar_boton($arrayTel,"cambiar_phone","btn-info","mdi mdi-phone-plus","Teléfono(s)");
                                 }
@@ -78,12 +80,12 @@
                             /******* botones para la edición de OFICINAS **********/
                             echo "<td>";
                               $array = array($fila->id_oficina, $fila->nombre_oficina, $fila->direccion_oficina, $fila->jefe_oficina, $fila->email_oficina, $fila->latitud_oficina,$fila->longitud_oficina,$fila->id_departamento,$fila->id_municipio,$fila->id_zona);
-                               if(tiene_permiso($segmentos=2,$permiso=4)){
+                               if($puede_editar){
                                     array_push($array, "edit");
                                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                                }
-                                if(tiene_permiso($segmentos=2,$permiso=3)){
                                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                }
+                                if($puede_eliminar){
                                     array_push($array, "delete");
                                     echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
                                 }
@@ -98,10 +100,3 @@
         </div>
     </div>
 </div>
-<script>
-$(function(){
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-});
-</script>

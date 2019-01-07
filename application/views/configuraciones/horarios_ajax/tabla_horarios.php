@@ -30,6 +30,8 @@
                     $correlativo = 0;
 
                     if($horarios->num_rows() > 0){
+                        $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
+                        $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                         foreach ($horarios->result() as $fila) {
                             $correlativo++;
                           echo "<tr>";
@@ -44,12 +46,12 @@
                            
                             echo "<td>";
                             $array = array($fila->id_horario_viatico, $fila->descripcion, date("H:i",strtotime($fila->hora_inicio)), date("H:i",strtotime($fila->hora_fin)), number_format($fila->monto,2), $fila->id_tipo, $fila->id_restriccion, $fila->id_viatico_restriccion, $fila->estado);
-                                if(tiene_permiso($segmentos=2,$permiso=4)){
+                                if($puede_editar){
                                     array_push($array, "edit");
                                     echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                                }
-                                if(tiene_permiso($segmentos=2,$permiso=3)){
                                     unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                                }
+                                if($puede_eliminar){
                                     array_push($array, "delete");
                                     if($fila->estado == "1"){
                                         echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-chevron-down","Dar de baja");

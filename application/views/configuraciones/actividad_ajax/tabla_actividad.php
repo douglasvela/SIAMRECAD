@@ -28,6 +28,8 @@
                 <?php
                 	$actividad = $this->db->get("vyp_actividades");
                     if($actividad->num_rows() > 0){
+                        $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
+                        $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                         foreach ($actividad->result() as $fila) {
                           echo "<tr>";
                           echo "<td>".$fila->id_vyp_actividades."</td>";
@@ -44,13 +46,13 @@
                           echo "<td>";
                           $array = array($fila->id_vyp_actividades,$fila->nombre_vyp_actividades,$fila->depende_vyp_actividades);
                            
-                          if(tiene_permiso($segmentos=2,$permiso=4)){
+                          if($puede_editar){
                             array_push($array, "edit");
                             echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                           }
                            
-                          if(tiene_permiso($segmentos=2,$permiso=3)){
-                            unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                          if($puede_eliminar){
                             array_push($array, "delete");
                             echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
                           }

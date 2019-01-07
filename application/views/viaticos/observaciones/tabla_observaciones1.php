@@ -33,6 +33,7 @@
 
             $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades AND (m.estado = 1 AND m.nr_jefe_inmediato = '".$nr_usuario."') ORDER BY m.fecha_solicitud DESC");
             if($mision->num_rows() > 0){
+                $puede_editar = tiene_permiso($segmentos=3,$permiso=4);
                 foreach ($mision->result() as $fila) {
                         $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
                         $priority = "<span class='label label-danger'>URGENTE</span>";
@@ -56,7 +57,7 @@
                     echo "<td>".$restante."</td>";
                     echo "<td>".$priority."</td>";
                     echo "<td>";
-                    if(tiene_permiso($segmentos=3,$permiso=4)){
+                    if($puede_editar){
                         $array = array($fila->id_mision_oficial, $fila->estado);
                         echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
                     }

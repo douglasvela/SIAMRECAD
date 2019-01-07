@@ -59,6 +59,8 @@
                 <tbody>
                 <?php
                 $contador = 0;
+                $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
+                $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                 if($tipo_destino=="destino_oficina") {
                     if(!empty($rutas)){
                         foreach ($rutas->result() as $fila) {
@@ -88,12 +90,12 @@
 
                             echo "<td>";
                             $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_oficina_destino_vyp_rutas,$fila->km_vyp_rutas);
-                            if(tiene_permiso($segmentos=2,$permiso=4)){
+                            if($puede_editar){
                                 array_push($array, "edit");
                                 echo generar_boton($array,"editar_oficina","btn-info","fa fa-wrench","Editar");
-                            }
-                            if(tiene_permiso($segmentos=2,$permiso=3)){
                                 unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            }
+                            if($puede_eliminar){
                                 $array = array($fila->id_vyp_rutas);
                                 array_push($array, "delete");
                                 echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
@@ -135,12 +137,12 @@
 
                             echo "<td>";
                             $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_departamento_vyp_rutas,$fila->id_municipio_vyp_rutas,$fila->km_vyp_rutas);
-                            if(tiene_permiso($segmentos=2,$permiso=4)){
+                            if($puede_editar){
                                 array_push($array, "edit");
                                 echo generar_boton($array,"editar_municipio","btn-info","fa fa-wrench","Editar");
-                            }
-                            if(tiene_permiso($segmentos=2,$permiso=3)){
                                 unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            }
+                            if($puede_eliminar){
                                 array_push($array, "delete");
                                 echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             }
@@ -182,12 +184,12 @@
 
                             echo "<td>";
                             $array = array($fila->id_vyp_rutas,$fila->id_oficina_origen_vyp_rutas,$fila->descripcion_destino_vyp_rutas,$fila->id_departamento_vyp_rutas,$fila->id_municipio_vyp_rutas,$fila->km_vyp_rutas,$fila->latitud_destino_vyp_rutas,$fila->longitud_destino_vyp_rutas,$fila->nombre_empresa_vyp_rutas,$fila->direccion_empresa_vyp_rutas);
-                            if(tiene_permiso($segmentos=2,$permiso=4)){
+                            if($puede_editar){
                                 array_push($array, "edit");
                                 echo generar_boton($array,"editar_mapa","btn-info","fa fa-wrench","Editar");
-                            }
-                            if(tiene_permiso($segmentos=2,$permiso=3)){
                                 unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
+                            }
+                            if($puede_eliminar){
                                 array_push($array, "delete");
                                 echo generar_boton($array,"eliminar_ruta","btn-danger","fa fa-close","Eliminar");
                             }

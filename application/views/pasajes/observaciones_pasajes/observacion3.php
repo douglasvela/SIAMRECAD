@@ -36,6 +36,7 @@
 
                     $mision = $this->db->query("SELECT * FROM vyp_mision_pasajes where estado = 5  ORDER BY mes_pasaje ");
                     if($mision->num_rows() > 0){
+                        $puede_editar = tiene_permiso($segmentos=3,$permiso=4);
                         foreach ($mision->result() as $fila) {
                             $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
                     $priority = "<span class='label label-danger'>URGENTE</span>";
@@ -65,7 +66,7 @@
                     $fecha=$fila->anio_pasaje .'-'. $fila->mes_pasaje;
                     echo "<td>";
                     $array = array($fila->nr, $fila->id_mision_pasajes, $fila->estado, $fila->mes_pasaje);
-                    if(tiene_permiso($segmentos=3,$permiso=4)){
+                    if($puede_editar){
                         echo generar_boton($array,"cambiar_mision","btn-info","fa fa-wrench","Revisar solicitud");
                     }
                     echo generar_boton(array($fila->id_mision_pasajes, 1),"bitacora","btn-warning","mdi mdi-information-variant","Bitácora de la solicitud");

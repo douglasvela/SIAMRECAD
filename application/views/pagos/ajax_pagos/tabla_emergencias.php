@@ -25,6 +25,8 @@
                     $pagos = $this->db->query("SELECT p.*, u.nombre_completo, a.* FROM vyp_pago_emergencia AS p JOIN org_usuario AS u ON u.nr = p.nr JOIN vyp_actividades AS a ON a.id_vyp_actividades = p.id_actividad");
                     $contador = 0;
                     if($pagos->num_rows() > 0){
+                        $puede_editar = tiene_permiso($segmentos=2,$permiso=4);
+                        $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                         foreach ($pagos->result() as $fila) {
                             $contador++;
                             echo "<tr>";
@@ -41,13 +43,12 @@
 
                             echo "<td>";
                             $array = array($fila->id_pago_emergencia, $fila->nr, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad, $fila->tipo_pago, $fila->monto, $fila->num_cheque,date("d-m-Y",strtotime($fila->fecha_pago)));
-                            if(tiene_permiso($segmentos=2,$permiso=4)){
-                            array_push($array, "edit");
-                            echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
-                            }
-                            if(tiene_permiso($segmentos=2,$permiso=3)){
+                            if($puede_editar){
+                                array_push($array, "edit");
+                                echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
                                 unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
-                                
+                            }
+                            if($puede_eliminar){                                
                                 if($fila->estado == 0){
                                     array_push($array, "delete");
                                     echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
