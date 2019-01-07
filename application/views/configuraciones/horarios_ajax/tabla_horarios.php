@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de viáticos</h4>
+        <h4 class="card-title m-b-0">Listado de horarios</h4>
     </div>
     <div class="card-body b-t" style="padding-top: 7px;">
         <div class="pull-right">

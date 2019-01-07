@@ -51,7 +51,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             $("#cnt_form").show(0);
             initMap(latitud_oficina,longitud_oficina);
             $("#divider").show(300);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Oficina");
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar oficina");
         }else{
             verificar_eliminacion();
         }
@@ -97,7 +97,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         $("#cnt-tabla").hide(0);
         $("#cnt_form").show(0);
         initMap($("#latitud_oficina").val(),$("#longitud_oficina").val());
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Oficina");
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva oficina");
     }
 
 

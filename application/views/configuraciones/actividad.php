@@ -19,7 +19,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
       $("#cnt-tabla").hide(0);
       $("#cnt_form").show(0);
       combo_actividades(depende_vyp_actividades);
-      $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Actividad");
+      $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar actividad");
     }else{           
       eliminar_actividad();
     }
@@ -47,7 +47,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
     $("#btnedit").hide(0);
     $("#cnt-tabla").hide(0);
     $("#cnt_form").show(0);
-    $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Actividad");
+    $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva actividad");
   }
 
   function cerrar_mantenimiento(){

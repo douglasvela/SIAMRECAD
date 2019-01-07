@@ -116,7 +116,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         $("#cnt_tabla").hide(0);
         $("#cnt_solicitud").show(0);
         limpiar_solicitud();
-        $("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
+        $("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de pasaje");
  		
     }
     function cerrar_mantenimiento1(){
@@ -238,7 +238,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 		function cambiar_editar(id_mision_pasajes,fecha_solicitud_pasaje,nr,mes_anio_pasaje){
 			$("#cnt_tabla").hide(0);
         	$("#cnt_solicitud").show(0);
-        	$("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Solicitud de Pasaje");
+        	$("#ttl_form1").children("h4").html("<span class='mdi mdi-plus'></span> Editar solicitud de pasaje");
         	$("#id_mision_pasajes").val(id_mision_pasajes);
         	$("#fecha_solicitud").val(fecha_solicitud_pasaje);
         	$("#nr_empleado").val(nr).trigger("change.select2");
@@ -505,14 +505,14 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 
 	        <div class="row page-titles">
 	            <div class="align-self-center" align="center">
-	                <h3 class="text-themecolor m-b-0 m-t-0">Solicitud de Pasajes</h3>
+	                <h3 class="text-themecolor m-b-0 m-t-0">Solicitud de pasajes</h3>
 	            </div>
 	        </div>
 	         <div class="row ">
 	            <div class="col-lg-12" id="cnt_tabla" style="display: block;">
 	                <div class="card">
 	                    <div class="card-header bg-success2" id="">
-	                        <h4 class="card-title m-b-0 text-white">Listado de Solicitudes de Pasajes</h4>
+	                        <h4 class="card-title m-b-0 text-white">Listado de solicitudes de pasajes</h4>
 	                    </div>
 	                    <div class="card-body b-t">
 	                    	 <div class="pull-right">
@@ -567,7 +567,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	                                </select>
 	                            </div>
 	                            <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>" style="display: none;">
-	                            	<h5 style="display:block;">Fecha de Pasaje: <span class="text-danger"></span></h5>
+	                            	<h5 style="display:block;">Fecha de pasaje: <span class="text-danger"></span></h5>
 	                            	<input type="text"  class="form-control" id="fecha1" name="fecha1" value="<?php echo date('Y-m'); ?>"  onchange="tabla_pasaje_unidad();">
 	                            </div>
 	                            

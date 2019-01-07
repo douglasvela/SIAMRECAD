@@ -5,6 +5,12 @@ $navegatorless = false;
 if(floatval($ua['version']) < $this->config->item("last_version")){
     $navegatorless = true;
 }
+
+$rango_consulta = obtener_rango($segmentos='2', $permiso='1');
+$rango_registro = obtener_rango($segmentos='2', $permiso='2');
+
+$nr_usuario = $this->session->userdata('nr_usuario_viatico'); 
+
 ?>
 <script type="text/javascript">
     function cambiar_editar(id,descripcion,hora_inicio,hora_fin,monto,tipo,id_categoria,id_viatico_restric,estado,bandera){
@@ -29,7 +35,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             $("#btnedit").show(0);
             $("#cnt_tabla").hide(0);
             $("#cnt_form").show(0);
-            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar horario");
+            $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar solicitud de viático");
         }else{
             eliminar_horario(estado, tipo);
         }
@@ -55,7 +61,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         $("#cnt_form").show(0);
         combo_viatico_hora();
 
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nuevo horario");
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva solicitud de viático");
     }
 
     function cerrar_mantenimiento(){
@@ -164,7 +170,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de horario de viáticos</h3>
+                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de solicitudes de viáticos y pasajes recibidas en físico</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -184,22 +190,48 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         <div class="card-actions text-white">
                             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
                         </div>
-                        <h4 class="card-title m-b-0 text-white">Listado de viáticos</h4>
+                        <h4 class="card-title m-b-0 text-white">Listado de solicitudes de viáticos</h4>
                     </div>
                     <div class="card-body b-t">
                         
                         <?php echo form_open('', array('id' => 'formajax', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40', 'autocomplete' => 'off')); ?>
                             <input type="hidden" id="band" name="band" value="save">
-                            <input type="hidden" id="idhorario" name="idhorario" value="">
+                            <input type="hidden" id="id_solicitud_viatico" name="id_solicitud_viatico" value="">
                             <input type="hidden" id="estado" name="estado" value="1">
                             <div class="row">
-                                <div class="form-group col-lg-4 col-sm-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
-                                    <h5>Descripción: <span class="text-danger">*</span></h5>
-                                    <div class="controls">
-                                        <input type="text" id="descripcion" name="descripcion" class="form-control" required="" placeholder="desayuno, almuerzo, cena" data-validation-required-message="Este campo es requerido">
-                                        <div class="help-block"></div>
-                                    </div>
-                                </div>
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
+			                        <h5>Persona solicitante: <span class="text-danger">*</span></h5>                           
+			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
+			                            <option value="">[Elija el empleado]</option>
+			                            <?php
+                                            if($rango_consulta == "2"){
+                                                $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                            }else if($rango_consulta == "3"){
+                                                $oficinas_departamentales = array(52,53,54,55,56,57,58,59,60,61,64,65,66);
+                                                if (in_array($id_seccion, $oficinas_departamentales)) {
+                                                    $add = "AND ei.id_seccion = '".$id_seccion."'";
+                                                }else{
+                                                    $add = "AND ei.id_seccion NOT IN(52,53,54,55,56,57,58,59,60,61,64,65,66)";
+                                                }
+                                            }else if($rango_consulta == "4"){
+                                                $add = "";
+                                            }else{
+                                                $add = "AND e.nr = '".$nr_usuario."'";
+                                            }
+			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+			                                if($otro_empleado->num_rows() > 0){
+			                                    foreach ($otro_empleado->result() as $fila) {  
+			                                    if($nr_usuario == $fila->nr){
+			                                    	echo '<option class="m-l-50" value="'.$fila->nr.'" selected>'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+			                                    }else{
+			                                    	echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+			                                    }         
+			                                    }
+			                                }
+			                            ?>
+			                        </select>
+			                        <div class="help-block"></div>
+			                    </div>
                                 <div class="form-group col-lg-4 col-sm-12 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <h5>Monto: <span class="text-danger">*</span></h5>
                                     <div class="input-group">

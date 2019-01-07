@@ -63,7 +63,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         $("#btnadd").hide(0);
         $("#btnedit").show(0);
         $("#band").val("edit");
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta a Municipio");
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar ruta a municipio");
     }
 
     function editar_mapa(id_vyp_rutas,id_oficina_origen_vyp_rutas,descripcion_destino_vyp_rutas,id_departamento_vyp_rutas,id_municipio_vyp_rutas,km_vyp_rutas,latitud_destino_vyp_rutas,longitud_destino_vyp_rutas,nombre_empresa_vyp_rutas,direccion_empresa_vyp_rutas){
@@ -91,7 +91,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             $("#btnadd").hide(0);
         $("#btnedit").show(0);
         $("#band").val("edit");
-        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar Ruta a Punto Especifico");
+        $("#ttl_form").children("h4").html("<span class='fa fa-wrench'></span> Editar ruta a punto específico");
     }
     function cambiar_nuevo(){
 
@@ -109,7 +109,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         //$("#cnt_form").removeClass("col-lg-10");
         //$("#cnt_form").addClass("col-lg-10");
         $("#panel_mapa").hide(10);
-        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva Ruta");
+        $("#ttl_form").children("h4").html("<span class='mdi mdi-plus'></span> Nueva ruta");
         limpiar();
         mostrarpanel_oficina();
          document.getElementById('destino_oficina').checked = true;
@@ -533,7 +533,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="align-self-center" align="center">
-                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de Rutas</h3>
+                <h3 class="text-themecolor m-b-0 m-t-0">Gestión de rutas</h3>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -578,7 +578,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                         <div class="card-actions text-white">
                             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
                         </div>
-                        <h4 class="card-title m-b-0 text-white">Listado de Rutas</h4>
+                        <h4 class="card-title m-b-0 text-white">Listado de rutas</h4>
                     </div>
                     <div class="card-body b-t">
 

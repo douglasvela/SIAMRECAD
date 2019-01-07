@@ -3,7 +3,7 @@
         <div class="card-actions">
 
         </div>
-        <h4 class="card-title m-b-0">Listado de Actividades</h4>
+        <h4 class="card-title m-b-0">Listado de actividades</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
