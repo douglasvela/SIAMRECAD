@@ -171,6 +171,7 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
         xhr.onload = function() {
             if (xhr.status === 200 && xhr.responseText !== newName) {
                 document.getElementById("cnt_tabla_empresas_visitadas").innerHTML = xhr.responseText;
+                $(".select2").select2();
             }else if (xhr.status !== 200) {
                 swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de empresas visitadas no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
             }
@@ -178,8 +179,50 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
         xhr.send(encodeURI('name=' + newName));
     }
 
-</script>
+    function agregar_fila(){
+        var filas = $("#target > tbody > tr");
+        var select2 = $($($(filas[0]).children('td')[1]).children('select')[0]).html();
+        var element = '<tr><td style="padding: 0px 5px;"><input type="text" class="form-control" placeholder="Nombre de la empresa" required style="border: 0px;"></td><td style="padding: 0px 5px;"><select class="select2" style="width: 100%;" required>'+select2+'</select></td style="padding: 0px 5px;"><td style="padding: 0px 5px;"><textarea class="form-control" placeholder="Ingrese la dirección de la empresa" rows="1" required style="border: 0px; margin-top: 5px;"></textarea></td></tr>';
+        $("#target > tbody").find('tr:last').prev().after(element)
+        $(".select2").select2();
+    }
 
+    function crear_solicitud(){
+        var formData = new FormData();
+        formData.append("dato", "valor");
+        
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viaticos/solicitud_admin/crear_solicitud",
+            type: "post",
+            dataType: "html",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        })
+        .done(function(res){
+            if(res == "exito"){
+                cerrar_mantenimiento();
+                if($("#band").val() == "save"){
+                    swal({ title: "¡Registro exitoso!", type: "success", showConfirmButton: true });
+                }else if($("#band").val() == "edit"){
+                    swal({ title: "¡Modificación exitosa!", type: "success", showConfirmButton: true });
+                }else{
+                    swal({ title: "¡Borrado exitoso!", type: "success", showConfirmButton: true });
+                }
+                tablahorarios(<?php echo $this->uri->segment(4);?>);
+            }else{
+                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+            }
+        });
+    }
+
+</script>
+<style type="text/css">
+    .select2-container--default .select2-selection--single{
+        border: 0px;
+    }
+</style>
 <!-- ============================================================== -->
 <!-- Inicio de DIV de inicio (ENVOLTURA) -->
 <!-- ============================================================== -->
@@ -203,8 +246,7 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
             <!-- ============================================================== -->
             <!-- Inicio del FORMULARIO de gestión -->
             <!-- ============================================================== -->
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="cnt_form" style="display: none;">
+            <div class="col-lg-12" id="cnt_form" style="display: none;">
                 <div class="card">
                     <div class="card-header bg-success2" id="ttl_form">
                         <div class="card-actions text-white">
@@ -263,8 +305,6 @@ $nr_usuario = $this->session->userdata('nr_usuario_viatico');
                         <?php echo form_close(); ?>
                     </div>
                 </div>
-
-            <div class="col-lg-1"></div>
             <!-- ============================================================== -->
             <!-- Fin del FORMULARIO de gestión -->
             <!-- ============================================================== -->

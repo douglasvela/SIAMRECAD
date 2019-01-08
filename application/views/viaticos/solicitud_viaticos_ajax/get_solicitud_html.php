@@ -366,16 +366,16 @@ $html .= '<br>
             <tr>
                 <td colspan="2">OBSERVACIONES: '.$filam->observaciones.'</td>
             </tr>
-		 	<tr><td style="padding: 40px;"></td><td style="padding: 40px;"></td></tr>
+		 	<tr><td style="padding: 60px;"></td><td style="padding: 60px;"></td></tr>
 		 	<tr>';
 	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajf->nombre_completo).'<br>Vo.Bo. Jefatura Inmediata</center></b></div>';
 	if(intval($filam->estado) > 2){	 	
-		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajf->nr.".png".'">';
+		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-145px; left:100px;" height="140px" src="'.base_url()."assets/images/aprobado.png".'">';
 	}
 	$html .= '</div><br></td>';
 	$html .= '<td width="50%" valign="bottom"><div style="position: relative;"><div style="position: absolute; z-index:2; top: -33px; line-height: 1.3;">Firma y sello: _______________________________<br><b><center>'.nombres($filajr->nombre_completo).'<br>Autoriza Dirección o Jefatura regional</center></b></div>';
 	if(intval($filam->estado) > 4){
-		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-80px; left:90px;" height="70px" src="'.base_url()."assets/firmas/".$filajr->nr.".png".'">';
+		$html .= '<img style="position:absolute; z-index:1; background-color:#FFFFFF; top:-145px; left:100px;" height="140px" src="'.base_url()."assets/images/aprobado.png".'">';
 	}
 	$html .= '</div><br></td>';	
 	$html .= '</tr>

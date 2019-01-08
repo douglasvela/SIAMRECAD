@@ -1,12 +1,17 @@
-
-<div class="table-responsive container pull-left">
-	<table id="target" class="table table-hover product-overview" style="margin-bottom: 0px;">
+<style type="text/css">
+    td{
+        margin: 0px; padding: 0px;
+    }
+</style>
+<div class="col-lg-12">
+<div class="table-responsive" style="width: 100%;">
+	<table id="target" class="table table-hover product-overview" style="margin-bottom: 0px; width: 100%;">
 	  	<thead class="bg-inverse text-white">
 	        <tr>
-	      		<th>Nombre de la empresa</th>
-	      		<th>Municipio</th>
-                <th>Dirección</th>
-	      		<th>(*)</th>
+	      		<th width="25%">Nombre de la empresa</th>
+	      		<th width="30%">Municipio</th>
+                <th width="40%">Dirección</th>
+                <th width="5%">(*)</th>
 	    	</tr>
 	  	</thead>
 	  	<tbody>
@@ -14,21 +19,6 @@
 	  		<?php 
 	  			$id_mision = $_GET["id_mision"];
                 $nr_usuario = $_GET["nr"];
-
-                $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
-
-                if($info_empleado->num_rows() > 0){ 
-                    foreach ($info_empleado->result() as $filas) {}
-                }
-
-                $oficina_origen = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina = '".$filas->id_oficina_departamental."'");
-
-                if($oficina_origen->num_rows() > 0){ 
-                    foreach ($oficina_origen->result() as $filaofi) {}
-                }
-
-                $id_municipio = $filaofi->id_municipio;
-                $id_departamento = $filaofi->id_departamento;
 
                 $empresas = $this->db->query("SELECT * FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$id_mision."'");
 
@@ -40,11 +30,6 @@
                         }else{
                             echo "<tr>";
                         }
-                        ?>
-            			<td><?php echo $fila->nombre_empresa; ?><input type="hidden" value="<?php echo $fila->id_empresas_visitadas; ?>"></td>
-		            	<td><?php echo $fila->direccion_empresa; ?></td>
-                        <td><?php echo $fila->kilometraje." Km"; ?></td>
-                        <?php
                         echo "<td align='right'>";
                         	$array = array($fila->id_empresas_visitadas, $fila->id_departamento, $fila->id_municipio, $fila->nombre_empresa, $fila->direccion_empresa, $fila->tipo_destino);
                             if($fila->tipo_destino != "destino_oficina"){
@@ -60,12 +45,12 @@
                 }else{
             ?>
             <tr>
-            	<td>
-                    <input type="text" id="nombre_empresa" name="nombre_empresa" class="form-control" placeholder="Ingrese el nombre de la empresa" required>
+                <td style="padding: 0px 5px;">
+                    <input type="text" class="form-control" placeholder="Nombre de la empresa" required style="border: 0px;">
                 </td>
-                <td>
-                    <select id="municipio" name="municipio" class="select2" style="width: 100%" required>
-                        <option value=''>[Elija la municipio]</option>
+                <td style="padding: 0px 5px;">
+                    <select class="select2" style="width: 100%;" required>
+                        <option value=''>[Elija el municipio]</option>
                         <?php 
                             $municipio = $this->db->query("SELECT * FROM org_municipio m JOIN org_departamento d ON m.id_departamento_pais = d.id_departamento ORDER BY municipio");
                             if($municipio->num_rows() > 0){
@@ -75,13 +60,18 @@
                             }
                         ?>
                     </select>
+                </td style="padding: 0px 5px;">
+                <td style="padding: 0px 5px;">
+                    <textarea class="form-control" placeholder="Ingrese la dirección de la empresa" rows="1" required style="border: 0px; margin-top: 5px;"></textarea>
                 </td>
-                <td>
-                    <textarea id="direccion_empresa" name="direccion_empresa" class="form-control" placeholder="Ingrese la dirección de la empresa" rows="2" required></textarea>
+                <td style="padding: 0px 5px;">
+                    <button type="button" class="btn btn-success2" onclick="registrar_empresa();"><span class="fa fa-plus"></span></button>
                 </td>
             </tr>
+            
             <?php } ?>
 
 	  	</tbody>
 	</table>
 	<hr style="margin-top: 0px;">
+</div>
