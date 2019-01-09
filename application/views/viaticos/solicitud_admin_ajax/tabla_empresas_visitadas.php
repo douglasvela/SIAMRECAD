@@ -45,24 +45,21 @@
                 }else{
             ?>
             <tr>
-                <td style="padding: 0px 5px;">
-                    <input type="text" class="form-control" placeholder="Nombre de la empresa" required style="border: 0px;">
-                </td>
-                <td style="padding: 0px 5px;">
-                    <select class="select2" style="width: 100%;" required>
-                        <option value=''>[Elija el municipio]</option>
+                <td colspan="2" style="padding: 0px 5px;">
+                    <select id="id_oficinas" class="select2" style="width: 100%;" required>
+                        <option value=''>[Elija una oficina del MTPS]</option>
                         <?php 
-                            $municipio = $this->db->query("SELECT * FROM org_municipio m JOIN org_departamento d ON m.id_departamento_pais = d.id_departamento ORDER BY municipio");
-                            if($municipio->num_rows() > 0){
-                                foreach ($municipio->result() as $fila2) {              
-                                   echo '<option class="m-l-50" value="'.$fila2->id_municipio.'">'.$fila2->municipio." / ".$fila2->departamento.'</option>';
+                            $oficina = $this->db->query("SELECT * FROM vyp_oficinas WHERE id_oficina <> '".$filas->id_oficina_departamental."'");
+                            if($oficina->num_rows() > 0){
+                                foreach ($oficina->result() as $fila2) {              
+                                   echo '<option class="m-l-50" value="'.$fila2->id_departamento.'">'.$fila2->nombre_oficina.'</option>';
                                 }
                             }
                         ?>
                     </select>
                 </td style="padding: 0px 5px;">
                 <td style="padding: 0px 5px;">
-                    <textarea class="form-control" placeholder="Ingrese la dirección de la empresa" rows="1" required style="border: 0px; margin-top: 5px;"></textarea>
+                   
                 </td>
                 <td style="padding: 0px 5px;">
                     <button type="button" class="btn btn-success2" onclick="registrar_empresa();"><span class="fa fa-plus"></span></button>

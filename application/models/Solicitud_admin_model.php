@@ -7,5 +7,12 @@ class Solicitud_admin_model extends CI_Model {
 		parent::__construct();
 	}
 	
+	function crear_solicitud($data){
+		if($this->db->insert('vyp_mision_oficial', $data)){
+			return "exito,".$this->db->insert_id();
+		}else{
+			return "fracaso";
+		}
+	}
 
 }

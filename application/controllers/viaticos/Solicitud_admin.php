@@ -26,5 +26,13 @@ class Solicitud_admin extends CI_Controller {
 		$this->load->view('viaticos/solicitud_admin_ajax/tabla_empresas_visitadas');
 	}
 
+	public function crear_solicitud(){		
+		$data = array(
+			'estado' => 0,
+			'recibida_fisico' => 1
+		);
+		echo $this->solicitud_admin_model->crear_solicitud($data);
+	}
+
 }
 ?>
