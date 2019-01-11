@@ -250,6 +250,38 @@ class Solicitud_viatico extends CI_Controller {
 		}
 	}
 
+	public function gestionar_mision2(){
+		$data = array(
+			'id_mision_oficial' => $this->input->post('id_mision'),
+			'nr_empleado' => $this->input->post('nr'),
+			'nombre_completo' => $this->input->post('nombre_completo'),
+			'fecha_mision_inicio' => date("Y-m-d",strtotime($this->input->post('fecha_mision_inicio'))),
+			'fecha_mision_fin' => date("Y-m-d",strtotime($this->input->post('fecha_mision_fin'))),
+			'fecha_solicitud' => date("Y-m-d",strtotime($this->input->post('fecha_solicitud'))),
+			'id_actividad_realizada' => $this->input->post('id_actividad'),
+			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
+			'nr_jefe_inmediato' => $this->input->post('nr_jefe_inmediato'),
+			'nr_jefe_regional' => $this->input->post('nr_jefe_regional'),
+			'ruta_justificacion' => trim($this->input->post('ruta_justificacion')),
+			'oficina_solicitante_motorista' => $this->input->post('oficina_solicitante'),
+			'id_oficina' => $this->input->post('id_oficina_origen'),
+			'observaciones' => mb_strtoupper(saltos_sql($this->input->post('observacion_mision'))),
+			'id_empleado_informacion_laboral' => $this->input->post('id_empleado_informacion_laboral'),
+			'recibida_fisico' => 1	
+		);
+
+		if($this->input->post('band') == "save"){ echo $this->solicitud_model->insertar_mision2($data);
+		}else if($this->input->post('band') == "edit"){ echo $this->solicitud_model->editar_mision2($data);
+		}else if($this->input->post('band') == "delete"){
+			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
+			if($this->solicitud_model->eliminar_empresas_visitadas($sql) == "exito" && $this->solicitud_model->eliminar_empresas_viaticos($this->input->post('id_mision')) == true && $this->solicitud_model->eliminar_observaciones($this->input->post('id_mision')) == true){
+				echo $this->solicitud_model->eliminar_mision($data);
+			}else{
+				echo "fracaso";
+			}
+		}
+	}
+
 	public function bitacora(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/bitacora');
 	}
@@ -319,7 +351,6 @@ class Solicitud_viatico extends CI_Controller {
 	public function form_empresas_viaticos(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/form_empresa_viaticos');
 	}
-
 
 	public function gestionar_viaticos(){
 

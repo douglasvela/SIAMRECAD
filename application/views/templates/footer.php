@@ -35,7 +35,7 @@
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <?php } ?>
 
-<?php if($ruta_segmento == "viaticos/solicitud_viatico"){ ?>
+<?php if($ruta_segmento == "viaticos/solicitud_viatico" || $ruta_segmento == "viaticos/solicitud_admin"){ ?>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
