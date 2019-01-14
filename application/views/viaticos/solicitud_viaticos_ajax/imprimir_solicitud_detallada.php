@@ -86,8 +86,8 @@ if($empresas_visitadas->num_rows() > 0){
     foreach ($empresas_visitadas->result() as $filae) {
         $registros--;
         if($registros > 0){
-            $pdf->Cell(195,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
-            $pdf->Ln(5);
+            $pdf->MultiCell(193,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
+            $pdf->Ln(1);
         }
     }
 }
@@ -433,7 +433,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_usuario."            Sueldo:   $".number_format($filae->salario, 2, '.', '')),
+        $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_usuario."            Sueldo:   $ "),
             array('0','0','0'),
             array('Arial','','09'),
             array(false),
@@ -516,12 +516,12 @@ $altura = 5);
         }
 
 
-        if(intval($filam->estado) > 2){
+        /*if(intval($filam->estado) > 2){
             $pdf->Image(base_url()."assets/firmas/".$filajf->nr.".png" , 45,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajf->nr.".png");
         }
         if(intval($filam->estado) > 4){
             $pdf->Image(base_url()."assets/firmas/".$filajr->nr.".png" , 140,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajr->nr.".png");
-        }
+        }*/
 
         $pdf->Ln(7);
         $pdf->SetWidths(array(95,95));

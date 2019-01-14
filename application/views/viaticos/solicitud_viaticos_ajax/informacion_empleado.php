@@ -8,7 +8,7 @@ $id_mision = $_GET["id_mision"];
 
 if(!empty($nr_usuario)){
 
-    $info_empleado = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1 AND nr = '$nr_usuario'");
+    $info_empleado = $this->db->query("SELECT ie.* FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_usuario."'");
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 

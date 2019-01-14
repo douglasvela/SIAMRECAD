@@ -113,7 +113,7 @@ $pdf->cambiarPie($name_user, $fecha_actual);
 $pdf->SetFont('Arial','',9);
 
 $pdf->AddPage();
-$pdf->MultiCell(195,5,'Recibí del Fondo Circunte del Monto Fijo del Ministerio de Trabajo y Previsión Social, la candidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje la interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
+$pdf->MultiCell(195,5,'Recibí del Fondo Circulante del Monto Fijo del Ministerio de Trabajo y Previsión Social, la candidad de '.$formato_dinero.' Dólares en concepto de viáticos y pasaje la interior, el nombre y dirección de las empresas visitadas son las siguientes:',0,'J',false);
 
 $pdf->Ln(3);
 
@@ -123,8 +123,8 @@ if($empresas_visitadas->num_rows() > 0){
     foreach ($empresas_visitadas->result() as $filae) {
         $registros--;
         if($registros > 0){
-            $pdf->Cell(195,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
-            $pdf->Ln(5);
+            $pdf->MultiCell(193,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
+            $pdf->Ln(1);
         }
     }
 }
@@ -229,13 +229,6 @@ $altura = 5);
 		                        array('255','255','255'),
 		                        $altura = 3);
 
-		                    /*$pdf->Row($array,
-		                        array('0','0','0','0','0','0','0'),
-		                        array('Arial','B','08'),
-		                        array(false),
-		                        array('0','0','0'),
-		                        array('255','255','255'),
-		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);*/
 			            }
 			            $contador++;
 			        }else{
@@ -290,63 +283,6 @@ $altura = 5);
 		                        $altura = 3);
 		                    $contador++;
 		            }
-
-
-	            	/*$empresa_viatico = $this->db->query("SELECT * FROM vyp_empresa_viatico WHERE id_mision = '".$id_mision."' AND fecha = '".date("Y-m-d",strtotime($nuevafecha))."' ORDER BY fecha, hora_salida");
-
-		            if($empresa_viatico->num_rows() > 0){
-		                foreach ($empresa_viatico->result() as $fila) {
-		                    $fecha_mision = date("d/m/Y",strtotime($nuevafecha));
-
-		                    	if($fila->viatico == 0){ $ver_viatico = ""; }else{ $ver_viatico = "$ ".number_format($fila->viatico-$tviaticos, 2, '.', ''); }
-		                        if($fila->pasaje == 0){ $ver_pasaje = ""; }else{ $ver_pasaje = "$ ".number_format($fila->pasaje, 2, '.', ''); }
-		                        if($fila->alojamiento == 0){ $ver_alojamiento = ""; }else{ $ver_alojamiento = "$ ".number_format($fila->alojamiento, 2, '.', ''); }
-
-		                        $array = array(
-		                            $fecha_mision,
-		                            $fila->nombre_origen." - ".$fila->nombre_destino,
-		                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida)),
-		                            date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada)),
-		                            $ver_viatico,
-		                            "$ 0.00",
-		                            $ver_alojamiento,
-		                        );
-		                    $pdf->Row($array,
-		                        array('0','0','0','0','0','0','0'),
-		                        array('Arial','B','08'),
-		                        array(false),
-		                        array('0','0','0'),
-		                        array('255','255','255'),
-		                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);
-
-		                    $tviaticos = 0;
-		                }
-		            }else{
-		            	$fecha_mision = date("d/m/Y",strtotime($nuevafecha));
-
-
-	                    if($tviaticos == 0){ $ver_viatico = ""; }else{ $ver_viatico = "$ ".number_format($tviaticos, 2, '.', ''); }
-	                    if($fila->pasaje == 0){ $ver_pasaje = ""; }else{ $ver_pasaje = "$ ".number_format($fila->pasaje, 2, '.', ''); }
-	                    if($fila->alojamiento == 0){ $ver_alojamiento = ""; }else{ $ver_alojamiento = "$ ".number_format($fila->alojamiento, 2, '.', ''); }
-
-	                    $array = array(
-	                        $fecha_mision,
-	                        "PERMANENCIA EN: ".$fila->nombre_destino,
-	                        "-",
-	                        "-",
-	                        $ver_viatico,
-	                        $ver_pasaje,
-	                        $ver_alojamiento,
-	                    );
-
-	                    $pdf->Row($array,
-	                        array('0','0','0','0','0','0','0'),
-	                        array('Arial','B','08'),
-	                        array(false),
-	                        array('0','0','0'),
-	                        array('255','255','255'),
-	                        $altura = 3, site_url()."/configuraciones/rutas/index/316",1);
-		            }*/
 
 		            $nuevafecha = strtotime ( '+1 day' , strtotime ( $nuevafecha ) ) ;
 	            }
@@ -438,10 +374,15 @@ $altura = 5);
         }
     }
 
-    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1");
+     $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1 AND nr = '$nr_usuario'");
 
+    $nombre_banco = '';
+    $cuenta_banco = '';
     if($cuenta->num_rows() > 0){
-        foreach ($cuenta->result() as $filac) {}
+        foreach ($cuenta->result() as $filac) {
+            $cuenta_banco = $filac->numero_cuenta;
+            $nombre_banco = parrafo($filac->nombre);
+        }
     }
 
         $pdf->Image(base_url()."assets/firmas/".$nr_usuario.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
@@ -474,7 +415,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Nombre del banco: ".parrafo($filac->nombre), "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
+        $pdf->Row(array("Nombre del banco: ".$nombre_banco, "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
             array('0','0','0'),
             array('Arial','','08'),
             array(false),
@@ -482,7 +423,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Cuenta del banco No: ".$filac->numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
+        $pdf->Row(array("Cuenta del banco No: ".$numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
             array('0','0','0'),
             array('Arial','','08'),
             array(false),
