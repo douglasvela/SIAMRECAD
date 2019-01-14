@@ -871,18 +871,21 @@
 
     function validar_dia_limite(estado_solicitud, bandera, fecha_rev_obs){
         var lim_start = 13;
-        var days = 1;
+        var days = 2;
 
         if(bandera == "save"){
 
-            var limite_inicio =  moment().subtract(lim_start,'days');
-            var limite_fin =  moment().subtract(2,'days');
-
-            if(limite_fin.format("e") == 0){
-                limite_fin.subtract(2,'days');
-            }else if(limite_fin.format("e") == 6){
+            var limite_inicio = moment().subtract(lim_start,'days');
+            var limite_fin = moment();
+            for(i=0; i<days; i++){
                 limite_fin.subtract(1,'days');
-            }
+                if(limite_fin.format("e") == 0){
+                    limite_fin.subtract(1,'days');
+                }
+                if(limite_fin.format("e") == 6){
+                    limite_fin.subtract(1,'days');
+                }
+            }            
 
             if(moment().format("e") == 0){
                 limite_inicio.add(1,'days');
@@ -913,27 +916,29 @@
             if(estado_solicitud == "0"){
 
                 var limite_inicio =  moment().subtract(lim_start,'days');
-                var limite_fin =  moment().subtract(2,'days');
-                var fecha_fin_mision = moment(fecha_rev_obs).add(2,'days');
+                var limite_fin =  moment();
+                var fecha_fin_mision = moment(fecha_rev_obs);
                 var diferencia = 0;
 
-                if(limite_fin.format("e") == 0){
-                    limite_fin.subtract(2,'days');
-                }else if(limite_fin.format("e") == 6){
+                for(i=0; i<days; i++){
                     limite_fin.subtract(1,'days');
-                }
+                    if(limite_fin.format("e") == 0){
+                        limite_fin.subtract(1,'days');
+                    }
+                    if(limite_fin.format("e") == 6){
+                        limite_fin.subtract(1,'days');
+                    }
+                } 
 
-                if(fecha_fin_mision.format("e") == 0){
+                for(i=0; i<days; i++){
                     fecha_fin_mision.add(1,'days');
-                }else if(limite_fin.format("e") == 6){
-                    fecha_fin_mision.add(2,'days');
-                }
-
-                /*if(moment().format("e") == 0){
-                    limite_inicio.add('days',1);
-                }else if(moment().format("e") == 6){
-                    limite_inicio.add('days',2);
-                }*/
+                    if(fecha_fin_mision.format("e") == 6){
+                        fecha_fin_mision.add(1,'days');
+                    }
+                    if(fecha_fin_mision.format("e") == 0){
+                        fecha_fin_mision.add(1,'days');
+                    }
+                } 
 
                 primer_fecha_inicio = limite_inicio.format("DD-MM-YYYY");
                 primer_fecha_fin = limite_fin.format("DD-MM-YYYY");
@@ -974,15 +979,19 @@
             }else{
 
                 var limite_inicio =  moment(fecha_rev_obs).subtract(lim_start,'days');
-                var limite_fin =  moment(fecha_rev_obs).subtract(2,'days');
+                var limite_fin =  moment(fecha_rev_obs);
                 var diferencia = 0;
                 var newdate = moment(fecha_rev_obs);
 
-                if(limite_fin.format("e") == 0){
-                    limite_fin.subtract(2,'days');
-                }else if(limite_fin.format("e") == 6){
+                for(i=0; i<days; i++){
                     limite_fin.subtract(1,'days');
-                }
+                    if(limite_fin.format("e") == 0){
+                        limite_fin.subtract(1,'days');
+                    }
+                    if(limite_fin.format("e") == 6){
+                        limite_fin.subtract(1,'days');
+                    }
+                }  
 
                 /*if(moment().format("e") == 0){
                     limite_inicio.add('days',1);
@@ -1244,24 +1253,24 @@
         var id_mision = $("#id_mision").val();
         var nr = $("#nr").val();    
         var newName = 'John Smith',
-    	xhr = new XMLHttpRequest();
-		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.onload = function() {
-		    if (xhr.status === 200 && xhr.responseText !== newName) {
-		        document.getElementById("cnt_empresas").innerHTML = xhr.responseText;
-		        if(typeof callback == "function"){
-		        	callback();
-		      	}
-		    }else if (xhr.status !== 200) {
-		        swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de empresas visitadas no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
-		    }
-		};
-		xhr.send(encodeURI('name=' + newName));
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_visitadas?id_mision="+id_mision+"&nr="+nr);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("cnt_empresas").innerHTML = xhr.responseText;
+                if(typeof callback == "function"){
+                    callback();
+                }
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de empresas visitadas no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
     }
 
     function form_oficinas(){
-    	$("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
+        $("#cnt_mapa").animate({height: '0', opacity: '0'}, 750);
         $("#cnt_mapa").hide(0);
         $("#nombre_empresa").parent().parent().hide(0);
         $("#direccion_empresa").parent().hide(0);
@@ -1280,20 +1289,20 @@
 
     function combo_oficina_departamento(tipo){
         var nr = $("#nr").val();
-    	var newName = 'Otro nombre', xhr = new XMLHttpRequest();
+        var newName = 'Otro nombre', xhr = new XMLHttpRequest();
 
-		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_oficinas_departamentos?tipo="+tipo+"&nr="+nr);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.onload = function() {
-		    if (xhr.status === 200 && xhr.responseText !== newName) {
-		        document.getElementById("combo_departamento").innerHTML = xhr.responseText;
-		        $(".select2").select2();
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_oficinas_departamentos?tipo="+tipo+"&nr="+nr);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("combo_departamento").innerHTML = xhr.responseText;
+                $(".select2").select2();
                 combo_municipio(tipo)
-		    }else if (xhr.status !== 200) {
-		        swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
-		    }
-		};
-		xhr.send(encodeURI('name=' + newName));
+            }else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
     }
 
     function combo_municipio(tipo){
@@ -1313,13 +1322,13 @@
         }
         var newName = 'John Smith', xhr = new XMLHttpRequest();
 
-		xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.onload = function() {
-		    if (xhr.status === 200 && xhr.responseText !== newName) {
-		        document.getElementById("combo_municipio").innerHTML = xhr.responseText;
-		        $(".select2").select2();
-              	if(tipo == "oficina"){
+        xhr.open('GET', "<?php echo site_url(); ?>/viaticos/solicitud_viatico/combo_municipios?id_departamento="+id_departamento+"&tipo="+tipo);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== newName) {
+                document.getElementById("combo_municipio").innerHTML = xhr.responseText;
+                $(".select2").select2();
+                if(tipo == "oficina"){
                     var municipio_copia = $("#id_municipio_copia").val();
                     $('#municipio').val(municipio_copia).trigger('change.select2');
                     if($("#departamento").val() != ""){
@@ -1336,7 +1345,7 @@
                         $("#direccion_empresa").val("");
                     }
                     input_distancia(tipo);
-              	}else if(tipo == "departamento"){
+                }else if(tipo == "departamento"){
                     var municipio_copia = $("#id_municipio_copia").val();
                     $('#departamento').val(municipio_copia).trigger('change.select2');
 
@@ -1344,7 +1353,7 @@
                     $("#direccion_empresa").parent().show(0);
                     $("#municipio").parent().show(0);
                     input_distancia(tipo);
-              	}else if(tipo == "mapa"){
+                }else if(tipo == "mapa"){
                     var municipio_copia = $("#id_municipio_copia").val();
                     $('#departamento').val(municipio_copia).trigger('change.select2');
 
@@ -1353,13 +1362,13 @@
                     $("#municipio").parent().show(0);
                     //$('#municipio').val(id_municipio_mapa).trigger('change.select2');
                     input_distancia(tipo);
-              	}
-		    }
-		    else if (xhr.status !== 200) {
-		        swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
-		    }
-		};
-		xhr.send(encodeURI('name=' + newName));
+                }
+            }
+            else if (xhr.status !== 200) {
+                swal({ title: "Ups! ocurrió un Error", text: "Al parecer no todos los objetos se cargaron correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            }
+        };
+        xhr.send(encodeURI('name=' + newName));
     }
 
     function input_distancia(tipo){
@@ -1580,19 +1589,19 @@
                 $('[data-toggle="tooltip"]').tooltip();
                 imagen("");
                 $('.image-popup-no-margins').magnificPopup({
-					type: 'image',
-					closeOnContentClick: true,
-					closeBtnInside: false,
-					fixedContentPos: true,
-					mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
-					image: {
-						verticalFit: true
-					},
-					zoom: {
-						enabled: true,
-						duration: 300 // don't foget to change the duration also in CSS
-					}
-				});
+                    type: 'image',
+                    closeOnContentClick: true,
+                    closeBtnInside: false,
+                    fixedContentPos: true,
+                    mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+                    image: {
+                        verticalFit: true
+                    },
+                    zoom: {
+                        enabled: true,
+                        duration: 300 // don't foget to change the duration also in CSS
+                    }
+                });
             }
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_empresas_viaticos?id_mision="+id_mision+"&nr="+nr+"&tipo="+tipo,true);
@@ -1622,7 +1631,7 @@
         xmlhttp_municipio.onreadystatechange=function(){
             if (xmlhttp_municipio.readyState==4 && xmlhttp_municipio.status==200){
                 document.getElementById("cnt_form_viaticos").innerHTML=xmlhttp_municipio.responseText;
-              	$('[data-toggle="tooltip"]').tooltip();
+                $('[data-toggle="tooltip"]').tooltip();
                 if (document.getElementById("justificacion").checked) {
                     $("#band_factura").removeAttr("disabled");
                 } else {
@@ -1668,7 +1677,7 @@
         if($("#id_oficina_origen").val() == id_destino){
             buscar_ultimo_destino($("#band_viatico").val());
         }else{
-    	   $("#id_distancia").val(id_destino);
+           $("#id_distancia").val(id_destino);
         }
     }
 
@@ -1695,16 +1704,16 @@
     }
 
     function cambiarFactura(){
-    	if(document.getElementById("band_factura").checked){
-    		$("#factura").show(500);
+        if(document.getElementById("band_factura").checked){
+            $("#factura").show(500);
             $("#cnt_alojamiento").show(500);
             $("#cnt_fecha_alojamiento").show(500);
-    	}else{
-    		$("#factura").hide(500);
+        }else{
+            $("#factura").hide(500);
             $("#cnt_alojamiento").hide(500);
             $("#cnt_fecha_alojamiento").hide(500);
             $("#alojamiento").val("0.00");
-    	}
+        }
     }
 
     function cambiar_editar_viatico(id_viatico, id_origen, id_destino, hora_salida, hora_llegada, pasaje, viatico, alojamiento, horarios, fecha, id_mision, factura, kilometraje,band){
@@ -2306,10 +2315,10 @@
         <div class="row page-titles">
             <div class="align-self-center" align="center">
                 <h3 class="text-themecolor m-b-0 m-t-0">
-                	<?php 
-                		echo $titulo = ucfirst("Solicitud de viáticos y pasajes"); 
-                	?>
-                	</h3>
+                    <?php 
+                        echo $titulo = ucfirst("Solicitud de viáticos y pasajes"); 
+                    ?>
+                    </h3>
             </div>
         </div>
 
@@ -2393,10 +2402,10 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
-			                        <h5>Persona solicitante: <span class="text-danger">*</span></h5>                           
-			                        <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
-			                            <option value="">[Elija el empleado]</option>
-			                            <?php
+                                    <h5>Persona solicitante: <span class="text-danger">*</span></h5>                           
+                                    <select id="nr" name="nr" class="select2" style="width: 100%" required="" onchange="informacion_empleado();">
+                                        <option value="">[Elija el empleado]</option>
+                                        <?php
                                             if($rango_consulta == "2"){
                                                 $add = "AND ei.id_seccion = '".$id_seccion."'";
                                             }else if($rango_consulta == "3"){
@@ -2411,16 +2420,16 @@
                                             }else{
                                                 $add = "AND e.nr = '".$nr_usuario."'";
                                             }
-			                                $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
-			                                if($otro_empleado->num_rows() > 0){
-			                                    foreach ($otro_empleado->result() as $fila) {              
-			                                       echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
-			                                    }
-			                                }
-			                            ?>
-			                        </select>
-			                        <div class="help-block"></div>
-			                    </div>
+                                            $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo, ei.id_empleado_informacion_laboral FROM sir_empleado AS e JOIN sir_empleado_informacion_laboral AS ei ON e.id_empleado = ei.id_empleado AND ei.id_empleado_informacion_laboral = (SELECT MAX(i2.id_empleado_informacion_laboral) FROM sir_empleado_informacion_laboral AS i2 WHERE e.id_empleado = i2.id_empleado) ".$add." AND e.id_estado = '00001' GROUP BY e.id_empleado ORDER BY e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada");
+                                            if($otro_empleado->num_rows() > 0){
+                                                foreach ($otro_empleado->result() as $fila) {              
+                                                   echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <div class="help-block"></div>
+                                </div>
                                 <div class="form-group col-lg-3 <?php if($navegatorless){ echo "pull-left"; } ?>">   
                                     <h5>Fecha de misión (inicio): <span class="text-danger">*</span></h5>
                                     <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" required="" class="form-control" id="fecha_mision_inicio" name="fecha_mision_inicio" placeholder="dd/mm/yyyy" onchange="informacion_empleado();" readonly="">
@@ -2921,7 +2930,7 @@ $(function(){
             combo_municipio();
         });
 
-    	var date = new Date(); var currentMonth = date.getMonth(); var currentDate = date.getDate(); var currentYear = date.getFullYear();
+        var date = new Date(); var currentMonth = date.getMonth(); var currentDate = date.getDate(); var currentYear = date.getFullYear();
         $('#fecha_mision_inicio').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"),daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
         $('#fecha_mision_fin').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"), daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
         $('#dirigir').click(function(){ //Id del elemento cliqueable
