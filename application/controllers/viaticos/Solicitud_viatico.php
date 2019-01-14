@@ -551,6 +551,10 @@ class Solicitud_viatico extends CI_Controller {
 		echo $this->solicitud_model->cambiar_estado_revision($_POST['id_mision']);
 	}
 
+	function generear_solicitud2(){
+		echo $this->solicitud_model->cambiar_estado_revision2($_POST['id_mision']);
+	}
+
 	public function eliminar_destino(){
 		$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_empresas_visitadas = '".$this->input->post('id_empresa_visitada')."'";
 		echo $this->solicitud_model->eliminar_empresas_visitadas($sql);

@@ -260,7 +260,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_viaticos_x_anio($tipo,$anios){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_anio($anios);
 		$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
@@ -296,14 +296,14 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2" >Año</th>
-						<th align="center" colspan="3" >Tipo</th>
-						<th align="center" rowspan="2" >Total</th>
+						<td align="center" rowspan="2" >Año</td>
+						<td align="center" colspan="3" >Tipo</td>
+						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasaje</td>
+						<td align="center"  >Alojamiento</td>
 
 					</tr>
 				</thead>
@@ -335,11 +335,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center" style="width:180px">Total</th>
-							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+							<td align="center" style="width:180px">Total</td>
+							<td align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</td>
 						</tr>
 				</tbody>
 			</table><br>
@@ -701,7 +701,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_viaticos_x_depto($tipo,$anios){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_depto($anios);
 		$this->crear_grafico_viaticos_x_depto_totales($anios);
 		$cabecera = '<table><tr>
@@ -736,15 +736,15 @@ class Menu_reportes extends CI_Controller {
 			<table  border="1" >
 				<thead >
 					<tr>
-						<th align="center" rowspan="1" >Año: '.($anios).'</th>
-						<th align="center" colspan="3" >Tipo</th>
-						<th align="center" rowspan="2" >Total</th>
+						<td align="center" rowspan="1" >Año: '.($anios).'</td>
+						<td align="center" colspan="3" >Tipo</td>
+						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<th align="center" rowspan="1" >Departamento</th>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center" rowspan="1" >Departamento</td>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasaje</td>
+						<td align="center"  >Alojamiento</td>
 						
 					</tr>
 				</thead>
@@ -783,11 +783,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center" style="width:180px">Total</th>
-							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+							<td align="center" style="width:180px">Total</td>
+							<td align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</td>
 						</tr>
 				</tbody>
 			</table><br>
@@ -1211,7 +1211,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_viaticos_x_zona_depto($tipo,$anios){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_zona_depto($anios);
 		$this->crear_grafico_viaticos_x_zona_depto_total($anios);
 		$cabecera = '<table><tr>
@@ -1245,16 +1245,16 @@ class Menu_reportes extends CI_Controller {
 			<table  border="1" >
 				<thead >
 					<tr>
-						<th align="center" rowspan="1" >Año: '.($anios).'</th>
+						<td align="center" rowspan="1" >Año: '.($anios).'</td>
 
-						<th align="center" colspan="3" >Tipo</th>
-						<th align="center" rowspan="2"  >Total</th>
+						<td align="center" colspan="3" >Tipo</td>
+						<td align="center" rowspan="2"  >Total</td>
 					</tr>
 					<tr>
-						<th align="center" rowspan="1" >Zona</th>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasajes</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center" rowspan="1" >Zona</td>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasajes</td>
+						<td align="center"  >Alojamiento</td>
 						
 					</tr>
 				</thead>
@@ -1352,11 +1352,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 					<tr>
-							<th align="center" style="width:180px">Total</th>
-							<th align="center" style="width:180px">$'.number_format($total_total_viatico,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total_pasaje,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($zona_total_occidente+$zona_total_oriental+$zona_total_central,2,".",",").'</th>
+							<td align="center" style="width:180px">Total</td>
+							<td align="center" style="width:180px">$'.number_format($total_total_viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total_pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total_alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($zona_total_occidente+$zona_total_oriental+$zona_total_central,2,".",",").'</td>
 						</tr>
 				</tbody>
 			</table><br>
@@ -1582,7 +1582,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 
 		$cabecera = '<table><tr>
  		<td>
@@ -1628,20 +1628,20 @@ class Menu_reportes extends CI_Controller {
 				<thead >
 
 					<tr>
-						<th align="center" rowspan="2">Fecha Solicitud</th>
-						<th align="center" rowspan="2">Fecha Inicio Mision</th>
-						<th align="center" rowspan="2">Fecha Fin Mision</th>
-						<th align="center" rowspan="2">Actividad</th>
-						<th align="center" rowspan="2">Detalle Actividad</th>
-						<th align="center" colspan="3">Tipo</th>
-						<th align="center" rowspan="2">Total</th>
-						<th align="center" rowspan="2">Estado</th>
+						<td align="center" rowspan="2">Fecha Solicitud</td>
+						<td align="center" rowspan="2">Fecha Inicio Mision</td>
+						<td align="center" rowspan="2">Fecha Fin Mision</td>
+						<td align="center" rowspan="2">Actividad</td>
+						<td align="center" rowspan="2">Detalle Actividad</td>
+						<td align="center" colspan="3">Tipo</td>
+						<td align="center" rowspan="2">Total</td>
+						<td align="center" rowspan="2">Estado</td>
 						 
 					</tr>
 					<tr>
-						<th align="center">Viaticos</th>
-						<th align="center">Pasajes</th>
-						<th align="center">Alojamiento</th>
+						<td align="center">Viaticos</td>
+						<td align="center">Pasajes</td>
+						<td align="center">Alojamiento</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -1689,12 +1689,12 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 					<tr>
-							<th colspan="5" align="right">Total</th>
-							<th>$'.number_format($suma_viaticos,2,".",",").'</th>
-							<th>$'.number_format($suma_pasajes,2,".",",").'</th>
-							<th>$'.number_format($suma_alojamientos,2,".",",").'</th>
-							<th>$'.number_format($suma_total,2,".",",").'</th>
-							<th></th>
+							<td colspan="5" align="right">Total</td>
+							<td>$'.number_format($suma_viaticos,2,".",",").'</td>
+							<td>$'.number_format($suma_pasajes,2,".",",").'</td>
+							<td>$'.number_format($suma_alojamientos,2,".",",").'</td>
+							<td>$'.number_format($suma_total,2,".",",").'</td>
+							<td></td>
 							
 						</tr>
 				</tbody>
@@ -1889,7 +1889,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 
 		$cabecera = '<table><tr>
  		<td>
@@ -1938,30 +1938,31 @@ class Menu_reportes extends CI_Controller {
 				<thead >
 
 					<tr>
-						<th align="center" rowspan="2">Fecha Solicitud</th>
-						<th align="center" rowspan="2">Fecha Inicio Mision</th>
-						<th align="center" rowspan="2">Fecha Fin Mision</th>
-						<th align="center" rowspan="2">Actividad</th>
-						<th align="center" rowspan="2">Detalle Actividad</th>
-						<th align="center" colspan="3">Tipo</th>
-						<th align="center" rowspan="2">Total</th>
-						<th align="center" rowspan="2">Estado</th>
-						 <th align="center" rowspan="2">Fecha Pago</th>
+						<td align="center" rowspan="2">Fecha Solicitud</td>
+						<td align="center" rowspan="2">Fecha Inicio Mision</td>
+						<td align="center" rowspan="2">Fecha Fin Mision</td>
+						<td align="center" rowspan="2">Actividad</td>
+						<td align="center" rowspan="2">Detalle Actividad</td>
+						<td align="center" colspan="3">Tipo</td>
+						<td align="center" rowspan="2">Total</td>
+						<td align="center" rowspan="2">Estado</td>
+						 <td align="center" rowspan="2">Fecha Pago</td>
 					</tr>
 					<tr>
-						<th align="center">Viaticos</th>
-						<th align="center">Pasajes</th>
-						<th align="center">Alojamiento</th>
+						<td align="center">Viaticos</td>
+						<td align="center">Pasajes</td>
+						<td align="center">Alojamiento</td>
 					</tr>
 				</thead>
 				<tbody>
 					
 					';
-				if($viatico->num_rows()>0){
 					$suma_total=0;
 					$suma_viaticos=0;
 					$suma_pasajes=0;
 					$suma_alojamientos=0;
+				if($viatico->num_rows()>0){
+					
 				foreach ($viatico->result() as $viaticos) {
 				
 					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
@@ -1998,12 +1999,12 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 					<tr>
-							<th colspan="5" align="right">Total</td>
-							<th>$'.number_format($suma_viaticos,2,".",",").'</th>
-							<th>$'.number_format($suma_pasajes,2,".",",").'</th>
-							<th>$'.number_format($suma_alojamientos,2,".",",").'</th>
-							<th>$'.number_format($suma_total,2,".",",").'</th>
-							<th colspan="2"></th>
+							<td colspan="5" align="right">Total</td>
+							<td>$'.number_format($suma_viaticos,2,".",",").'</td>
+							<td>$'.number_format($suma_pasajes,2,".",",").'</td>
+							<td>$'.number_format($suma_alojamientos,2,".",",").'</td>
+							<td>$'.number_format($suma_total,2,".",",").'</td>
+							<td colspan="2"></td>
 						</tr>
 				</tbody>
 			</table>
@@ -2202,7 +2203,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 
 		$cabecera = '<table><tr>
  		<td>
@@ -2254,15 +2255,15 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2">NR</th>
-						<th align="center" rowspan="2">Nombre Completo</th>
-						<th align="center" colspan="4">Tipo</th>
+						<td align="center" rowspan="2">NR</td>
+						<td align="center" rowspan="2">Nombre Completo</td>
+						<td align="center" colspan="4">Tipo</td>
 					</tr>
 					<tr>
-						<th align="center">Viaticos</th>
-						<th align="center">Pasajes</th>
-						<th align="center">Alojamiento</th>
-						<th align="center">Total</th>
+						<td align="center">Viaticos</td>
+						<td align="center">Pasajes</td>
+						<td align="center">Alojamiento</td>
+						<td align="center">Total</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -2296,11 +2297,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 					<tr>
-						<th colspan="2">Total</th>
-						<th style="text-align:right">$'.number_format($total_viaticos,2,".",",").'</th>
-						<th style="text-align:right">$'.number_format($total_pasajes,2,".",",").'</th>
-						<th style="text-align:right">$'.number_format($total_alojamientos,2,".",",").'</th>
-						<th style="text-align:right">$'.number_format($total_total,2,".",",").'</th>
+						<td colspan="2">Total</td>
+						<td style="text-align:right">$'.number_format($total_viaticos,2,".",",").'</td>
+						<td style="text-align:right">$'.number_format($total_pasajes,2,".",",").'</td>
+						<td style="text-align:right">$'.number_format($total_alojamientos,2,".",",").'</td>
+						<td style="text-align:right">$'.number_format($total_total,2,".",",").'</td>
 					</tr>
 				</tbody>
 			</table>
@@ -2712,7 +2713,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 
 		$cabecera = '<table><tr>
  		<td>
@@ -2760,15 +2761,15 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2">Mes</th>
-						<th align="center" rowspan="2">Concepto de Gasto</th>
-						<th align="center" colspan="3">Tipo</th>
-						<th align="center" rowspan="2">Total</th>
+						<td align="center" rowspan="2">Mes</td>
+						<td align="center" rowspan="2">Concepto de Gasto</td>
+						<td align="center" colspan="3">Tipo</td>
+						<td align="center" rowspan="2">Total</td>
 					</tr>
 					<tr>
-						<th align="center">Viaticos</th>
-						<th align="center">Pasajes</th>
-						<th align="center">Alojamiento</th>
+						<td align="center">Viaticos</td>
+						<td align="center">Pasajes</td>
+						<td align="center">Alojamiento</td>
 						
 					</tr>
 				</thead>
@@ -2816,11 +2817,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 				<tr>
-					<th colspan="2"><center>Totales</center></th>
-					<th ><center>$'.number_format($total_viatico,2,".",",").'</center></th>
-					<th ><center>$'.number_format($total_pasaje,2,".",",").'</center></th>
-					<th ><center>$'.number_format($total_alojamiento,2,".",",").'</center></th>
-					<th ><center>$'.number_format($total_total,2,".",",").'</center></th>
+					<td colspan="2"><center>Totales</center></td>
+					<td ><center>$'.number_format($total_viatico,2,".",",").'</center></td>
+					<td ><center>$'.number_format($total_pasaje,2,".",",").'</center></td>
+					<td ><center>$'.number_format($total_alojamiento,2,".",",").'</center></td>
+					<td ><center>$'.number_format($total_total,2,".",",").'</center></td>
 				</tr>
 				</tbody>
 			</table>';
@@ -3001,7 +3002,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 
 		$cabecera = '<table><tr>
  		<td>
@@ -3044,15 +3045,15 @@ class Menu_reportes extends CI_Controller {
 					<thead >
 						<tr>
 							
-							<th align="center" rowspan="2" >OFICINAS/UNIDAD</th>
-							<th align="center" colspan="3">Tipo</th>
-							<th align="center" rowspan="2">Total</th>
+							<td align="center" rowspan="2" >OFICINAS/UNIDAD</td>
+							<td align="center" colspan="3">Tipo</td>
+							<td align="center" rowspan="2">Total</td>
 						</tr>
 						<tr>
 							 
-							<th align="center">Viaticos</th>
-							<th align="center">Pasajes</th>
-							<th align="center">Alojamiento</th>
+							<td align="center">Viaticos</td>
+							<td align="center">Pasajes</td>
+							<td align="center">Alojamiento</td>
 							
 						</tr>
 					</thead>
@@ -3091,11 +3092,11 @@ class Menu_reportes extends CI_Controller {
 					}
 					$cuerpo .= '
 					<tr>
-					<th style="text-align:center">Totales</th>
-					<th style="text-align:right">$'.number_format($total_viatico1,2,".",",").'</th>
-					<th style="text-align:right">$'.number_format($total_pasaje1,2,".",",").'</th>
-					<th style="text-align:right">$'.number_format($total_alojamiento1,2,".",",").'</th>
-					<th style="text-align:right">$'.number_format($total_total_,2,".",",").'</th>
+					<td style="text-align:center">Totales</td>
+					<td style="text-align:right">$'.number_format($total_viatico1,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_pasaje1,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_alojamiento1,2,".",",").'</td>
+					<td style="text-align:right">$'.number_format($total_total_,2,".",",").'</td>
 					</tr>
 					</tbody>
 				</table><br>
@@ -3261,7 +3262,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 
 		$cabecera = '<table><tr>
  		<td>
@@ -3308,15 +3309,15 @@ class Menu_reportes extends CI_Controller {
 
 				<thead >
 					<tr>
-						<th align="center" rowspan="2">Sección</th>
-						<th align="center" colspan="3">Tipo</th>
-						<th align="center" rowspan="2">total</th>						
+						<td align="center" rowspan="2">Sección</td>
+						<td align="center" colspan="3">Tipo</td>
+						<td align="center" rowspan="2">total</td>						
 					</tr>
 					<tr>
 						
-						<th align="center">Viaticos</th>
-						<th align="center">Pasajes</th>
-						<th align="center">Alojamiento</th>
+						<td align="center">Viaticos</td>
+						<td align="center">Pasajes</td>
+						<td align="center">Alojamiento</td>
 						
 					</tr>
 				</thead>
@@ -3350,11 +3351,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 					<tr>
-							<th>Total</th>
-							<th style="text-align:right">$'.number_format($total_viatico,2,".",",").'</th>
-							<th style="text-align:right">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th style="text-align:right">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th style="text-align:right">$'.number_format($total_total,2,".",",").'</th>
+							<td>Total</td>
+							<td style="text-align:right">$'.number_format($total_viatico,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($total_total,2,".",",").'</td>
 							
 						</tr>
 				</tbody>
@@ -3614,7 +3615,7 @@ class Menu_reportes extends CI_Controller {
 			Margen Pie: 10
 			Orientacion: P / L
 		*/
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9); 
+		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_genero($tipo,$seccion,$anio);
 		$cabecera = '<table><tr>
  		<td>
@@ -3661,15 +3662,15 @@ class Menu_reportes extends CI_Controller {
 
 				<thead >
 					<tr>
-						<th align="center" rowspan="2">Genero</th>
-						<th align="center" colspan="3">Tipo</th>
-						<th align="center" rowspan="2">total</th>						
+						<td align="center" rowspan="2">Genero</td>
+						<td align="center" colspan="3">Tipo</td>
+						<td align="center" rowspan="2">total</td>						
 					</tr>
 					<tr>
 						
-						<th align="center">Viaticos</th>
-						<th align="center">Pasajes</th>
-						<th align="center">Alojamiento</th>
+						<td align="center">Viaticos</td>
+						<td align="center">Pasajes</td>
+						<td align="center">Alojamiento</td>
 						
 					</tr>
 				</thead>
@@ -3703,11 +3704,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 					<tr>
-							<th>Total</th>
-							<th style="text-align:right">$'.number_format($total_viatico,2,".",",").'</th>
-							<th style="text-align:right">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th style="text-align:right">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th style="text-align:right">$'.number_format($total_total,2,".",",").'</th>
+							<td>Total</td>
+							<td style="text-align:right">$'.number_format($total_viatico,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td style="text-align:right">$'.number_format($total_total,2,".",",").'</td>
 							
 						</tr>
 				</tbody>
@@ -3860,7 +3861,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_viaticos_por_mes($tipo,$anios,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
@@ -3896,15 +3897,15 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2" >Año</th>
-						<th align="center" rowspan="2" >Mes</th>
-						<th align="center" colspan="3" >Tipo</th>
-						<th align="center" rowspan="2" >Total</th>
+						<td align="center" rowspan="2" >Año</td>
+						<td align="center" rowspan="2" >Mes</td>
+						<td align="center" colspan="3" >Tipo</td>
+						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasaje</td>
+						<td align="center"  >Alojamiento</td>
 
 					</tr>
 				</thead>
@@ -3968,11 +3969,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center" style="width:180px" colspan="2">Total</th>
-							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+							<td align="center" style="width:180px" colspan="2">Total</td>
+							<td align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</td>
 						</tr>
 				</tbody>
 			</table><br>
@@ -4146,7 +4147,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_viaticos_por_actividad($tipo,$anios,$primer_mes,$segundo_mes,$tercer_mes,$cuarto_mes,$quinto_mes,$sexto_mes,$id_vyp_actividades){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
@@ -4182,16 +4183,16 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2"  >ACTIVIDAD</th>
-						<th align="center" rowspan="2" >Año</th>
-						<th align="center" rowspan="2" >Mes</th>
-						<th align="center" colspan="3" >Tipo</th>
-						<th align="center" rowspan="2" >Total</th>
+						<td align="center" rowspan="2"  >ACTIVIDAD</td>
+						<td align="center" rowspan="2" >Año</td>
+						<td align="center" rowspan="2" >Mes</td>
+						<td align="center" colspan="3" >Tipo</td>
+						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasaje</td>
+						<td align="center"  >Alojamiento</td>
 
 					</tr>
 				</thead>
@@ -4256,11 +4257,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center" style="width:180px" colspan="3">Total</th>
-							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+							<td align="center" style="width:180px" colspan="3">Total</td>
+							<td align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</td>
 						</tr>
 				</tbody>
 			</table><br>
@@ -4436,7 +4437,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_misiones($tipo,$nr){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
@@ -4472,24 +4473,24 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2" >ID MISION</th>
-						<th align="center" rowspan="2" >NR</th>
-						<th align="center" rowspan="2" >NOMBRE</th>
-						<th align="center" rowspan="2" >SECCION</th>
-						<th align="center" rowspan="2" >CARGO</th>
-						<th align="center" rowspan="2" >FECHA INICIO</th>
-						<th align="center" rowspan="2" >FECHA FIN</th>
-						<th align="center" rowspan="2" >FECHA SOLICITUD</th>
-						<th align="center" rowspan="2" >ACTIVIDAD</th>
-						<th align="center" colspan="3" >TIPO</th>
-						<th align="center" rowspan="2" >TOTAL</th>
-						<th align="center" rowspan="2" >ESTADO</th>
-						<th align="center" rowspan="2" >FECHA PAGO</th>
+						<td align="center" rowspan="2" >ID MISION</td>
+						<td align="center" rowspan="2" >NR</td>
+						<td align="center" rowspan="2" >NOMBRE</td>
+						<td align="center" rowspan="2" >SECCION</td>
+						<td align="center" rowspan="2" >CARGO</td>
+						<td align="center" rowspan="2" >FECHA INICIO</td>
+						<td align="center" rowspan="2" >FECHA FIN</td>
+						<td align="center" rowspan="2" >FECHA SOLICITUD</td>
+						<td align="center" rowspan="2" >ACTIVIDAD</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2" >TOTAL</td>
+						<td align="center" rowspan="2" >ESTADO</td>
+						<td align="center" rowspan="2" >FECHA PAGO</td>
 					</tr>
 					<tr>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasaje</td>
+						<td align="center"  >Alojamiento</td>
 
 					</tr>
 				</thead>
@@ -4537,12 +4538,12 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center"  colspan="9">Total</th>
-							<th align="center">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" >$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center">$'.number_format($total_total,2,".",",").'</th>
-							<th align="center"  colspan="2"></th>
+							<td align="center"  colspan="9">Total</td>
+							<td align="center">$'.number_format($total_viatico,2,".",",").'</td>
+							<td align="center">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td align="center" >$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td align="center">$'.number_format($total_total,2,".",",").'</td>
+							<td align="center"  colspan="2"></td>
 						</tr>
 				</tbody>
 			</table><br>
@@ -4719,7 +4720,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_poliza_anual($tipo,$anio){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
@@ -4757,16 +4758,16 @@ class Menu_reportes extends CI_Controller {
 				<thead >
 					<tr>
 						
-						<th align="center">N°</th>
-						<th align="center">MES</th>
-						<th align="center">POLIZA</th>
-						<th align="center">CONCEPTO</th>
-						<th align="center">PASAJE</th>
-						<th align="center">VIATICO</th>
-						<th align="center">TOTAL</th>
-						<th align="center">FECHA ELABORACION DE LA POLIZA</th>
-						<th align="center">N° COMPROMISO PRESUPUESTARIO</th>
-						<th align="center">FECHA CANCELADO</th>
+						<td align="center">N°</td>
+						<td align="center">MES</td>
+						<td align="center">POLIZA</td>
+						<td align="center">CONCEPTO</td>
+						<td align="center">PASAJE</td>
+						<td align="center">VIATICO</td>
+						<td align="center">TOTAL</td>
+						<td align="center">FECHA ELABORACION DE LA POLIZA</td>
+						<td align="center">N° COMPROMISO PRESUPUESTARIO</td>
+						<td align="center">FECHA CANCELADO</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -4828,16 +4829,16 @@ class Menu_reportes extends CI_Controller {
 							$cuerpo .= '
 							<tr>
 							
-								<th align="center"></th>
-								<th align="center">'.($viaticos->mes_poliza).'</th>
-								<th align="center"></th>
-								<th align="center">TOTAL</th>
-								<th align="center">$'.number_format($viaticos->pasaje,2,".",",").'</th>
-								<th align="center">$'.number_format($viaticos->viatico,2,".",",").'</th>
-								<th align="center">$'.number_format($viaticos->total,2,".",",").'</th>
-								<th align="center"></th>
-								<th align="center"></th>
-								<th align="center"></th>
+								<td align="center"></td>
+								<td align="center">'.($viaticos->mes_poliza).'</td>
+								<td align="center"></td>
+								<td align="center">TOTAL</td>
+								<td align="center">$'.number_format($viaticos->pasaje,2,".",",").'</td>
+								<td align="center">$'.number_format($viaticos->viatico,2,".",",").'</td>
+								<td align="center">$'.number_format($viaticos->total,2,".",",").'</td>
+								<td align="center"></td>
+								<td align="center"></td>
+								<td align="center"></td>
 							</tr>
 							';
 						} 
@@ -4851,16 +4852,16 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						 <tr>
-								<th align="center"></th>
-								<th align="center"></th>
-								<th align="center"></th>
-								<th align="center">MONTO TOTAL DEL AÑO '.$anio.'</th>
-								<th align="center">$'.number_format($total_pasaje,2,".",",").'</th>
-								<th align="center">$'.number_format($total_viatico,2,".",",").'</th>
-								<th align="center">$'.number_format($total_total,2,".",",").'</th>
-								<th align="center"></th>
-								<th align="center"></th>
-								<th align="center"></th>
+								<td align="center"></td>
+								<td align="center"></td>
+								<td align="center"></td>
+								<td align="center">MONTO TOTAL DEL AÑO '.$anio.'</td>
+								<td align="center">$'.number_format($total_pasaje,2,".",",").'</td>
+								<td align="center">$'.number_format($total_viatico,2,".",",").'</td>
+								<td align="center">$'.number_format($total_total,2,".",",").'</td>
+								<td align="center"></td>
+								<td align="center"></td>
+								<td align="center"></td>
 							</tr>
 				</tbody>
 			</table><br>
@@ -5057,7 +5058,7 @@ class Menu_reportes extends CI_Controller {
 	public function reporte_detalle_viaticos_por_actividad($tipo,$anios,$id_vyp_actividades){
 		$this->load->library('mpdf');
 		$this->load->model('Reportes_viaticos_model');
-		$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
 		$cabecera = '<table><tr>
@@ -5098,15 +5099,15 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<th align="center" rowspan="2"  >NR</th>
-						<th align="center" rowspan="2" >Nombre Completo</th>
-						<th align="center" colspan="3" >Tipo</th>
-						<th align="center" rowspan="2" >Total</th>
+						<td align="center" rowspan="2"  >NR</td>
+						<td align="center" rowspan="2" >Nombre Completo</td>
+						<td align="center" colspan="3" >Tipo</td>
+						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<th align="center"  >Viatico</th>
-						<th align="center"  >Pasaje</th>
-						<th align="center"  >Alojamiento</th>
+						<td align="center"  >Viatico</td>
+						<td align="center"  >Pasaje</td>
+						<td align="center"  >Alojamiento</td>
 
 					</tr>
 				</thead>
@@ -5147,11 +5148,11 @@ class Menu_reportes extends CI_Controller {
 				}
 				$cuerpo .= '
 						<tr>
-							<th align="center" style="width:180px" colspan="2">Total</th>
-							<th align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</th>
-							<th align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</th>
+							<td align="center" style="width:180px" colspan="2">Total</td>
+							<td align="center" style="width:180px">$'.number_format($total_viatico,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_pasaje,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_alojamiento,2,".",",").'</td>
+							<td align="center" style="width:180px">$'.number_format($total_total,2,".",",").'</td>
 						</tr>
 				</tbody>
 			</table><br>

@@ -8,7 +8,7 @@ $id_mision = $_GET["id_mision"];
 
 if(!empty($nr_usuario)){
 
-    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
+    $info_empleado = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1 AND nr = '$nr_usuario'");
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
@@ -83,7 +83,7 @@ if(!empty($nr_usuario)){
 		    $id_oficina_origen = "";
 		    echo '<div class="alert alert-danger">';
 	    	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
-	    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
+	    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, tu cuenta bancaria, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
 	    	echo '</div>';
 	    }
 
@@ -98,7 +98,7 @@ if(!empty($nr_usuario)){
     }else{
     	echo '<div class="alert alert-danger">';
     	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
-    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
+    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, tu cuenta bancaria, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
     	echo '</div>';
     	echo '<input type="text" style="display: none;" id="nr_jefe_inmediato" name="nr_jefe_inmediato" value="" required>';
 		echo '<input type="text" style="display: none;" id="nr_jefe_regional" name="nr_jefe_regional" value="" required>';

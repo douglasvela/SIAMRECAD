@@ -316,6 +316,81 @@ class Solicitud_model extends CI_Model {
 		}
 	}
 
+	function cambiar_estado_revision2($data){
+		$query = $this->db->query("SELECT * FROM vyp_mision_oficial mo JOIN vyp_actividades a ON a.id_vyp_actividades = mo.id_actividad_realizada WHERE mo.id_mision_oficial = '".$data."'");
+		if($query->num_rows() > 0){
+			foreach ($query->result() as $fila) {
+				$estado = $fila->estado; 
+				$fecha_mision_fin = $fila->fecha_mision_fin;
+				$fecha_ultima_observacion = $fila->ultima_observacion;
+			}
+		}
+
+		$titulo = $this->session->userdata('nombre_usuario_viatico');
+		if($estado=="0"){
+			$para='solicitante';
+			$titulo .= ' creó su solicitud de viáticos y pasajes #'.$data;
+			//envia correo cuando usuario se envia a revision en estado 2,4,6 y 0
+		 	$url = base_url()."index.php/viaticos/solicitud_viatico";
+			$cuerpo = "  
+	    		<div style='padding: 5px'>
+		  			<span style='font-size:16px;font-weight: bold;'> 
+		  				 Sistema de Viáticos y Pasajes
+		  			</span><br><br><br>
+		  			<span style='font-size:14px'> 
+		  				<b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b> creó solicitud de viáticos y pasajes la cuál fué recibida en físico en fondo circulante, los detalles de la solicitud son los siguientes: .				<br><br> 
+		  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
+		  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
+		  			</span><br><br>
+		  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
+	    		</div>
+	 		";
+	 		
+			enviar_correo_viatico($titulo,$cuerpo,$fila->nr_empleado);
+		}
+
+		$newestado = 1;
+		$mensaje = "";
+		if($estado == 0){ //si esta incompleta
+			$newestado = 7;	//cambiar a revision 1
+			$fecha_actualizacion = date("Y-m-d H:m:i");
+			$fecha_antigua = $fecha_mision_fin.date(" H:m:i");
+			$mensaje = "CREÓ LA SOLICITUD RECIBIDA EN FÍSICO";
+			$persona_actualiza = 4; //Actualiza el fondo circulante
+		}else if($estado == 7){ //si esta en revisión 1
+			$newestado = 7;	//permanecer en revisión 1
+		}
+
+		$tiempo_dias = get_days_count(substr($fecha_antigua,0,10), substr($fecha_actualizacion,0,10));
+		$data_insert = array(
+			'fecha_antigua' => $fecha_antigua,
+			'fecha_actualizacion' => $fecha_actualizacion,
+			'tiempo_dias' => $tiempo_dias,
+			'descripcion' => $mensaje, 
+			'persona_actualiza' => $persona_actualiza,
+			'id_mision' => $data,
+			'nr_persona_actualiza' => $this->session->userdata('nr_usuario_viatico')
+		);
+
+		if($estado == 0){
+			$this->db->where("id_mision_oficial",$data);
+			$fecha = date("Y-m-d H:i:s");
+			if($this->db->update('vyp_mision_oficial', array('ultima_observacion' => $fecha, 'estado' => $newestado)) && $this->db->insert('vyp_bitacora_solicitud_viatico', $data_insert)){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+		}else{
+			$this->db->where("id_mision_oficial",$data);
+			$fecha = date("Y-m-d H:i:s");
+			if($this->db->update('vyp_mision_oficial', array('estado' => $newestado, 'ultima_observacion' => $fecha)) && $this->db->query("UPDATE vyp_observacion_solicitud SET corregido = 1 WHERE id_mision = '".$data."'") && $this->db->insert('vyp_bitacora_solicitud_viatico', $data_insert)){
+				return "exito";
+			}else{
+				return "fracaso";
+			}
+		}
+	}
+
 	function eliminar_mision($data){
 		if($this->db->delete("vyp_mision_oficial",array('id_mision_oficial' => $data['id_mision'])) && $this->db->delete("vyp_justificaciones",array('id_mision' => $data['id_mision']))){
 			return "exito";

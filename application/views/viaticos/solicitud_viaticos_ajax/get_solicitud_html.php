@@ -286,10 +286,15 @@ $html .= "<p>Lugar y Fecha: ".$oficina_origen.", ".date("d", strtotime($filam->f
         }
     }
 
-    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1");
+    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1 AND nr = '$nr_usuario'");
 
+    $nombre_banco = '';
+    $cuenta_banco = '';
     if($cuenta->num_rows() > 0){
-        foreach ($cuenta->result() as $filac) {}
+        foreach ($cuenta->result() as $filac) {
+            $cuenta_banco = $filac->numero_cuenta;
+            $nombre_banco = parrafo($filac->nombre);
+        }
     }
 
 $html .= '<br>
@@ -307,11 +312,11 @@ $html .= '<br>
 		 		<td width="45%" valign="bottom">Código: '.$nr_usuario."&emsp;&emsp;&emsp; Sueldo: $".number_format($filae->salario, 2, '.', '').'</td>
 		 	</tr>
 		 	<tr>
-		 		<td width="55%" valign="bottom">Nombre del banco: '.parrafo($filac->nombre).'</td>
+		 		<td width="55%" valign="bottom">Nombre del banco: '.$nombre_banco.'</td>
 		 		<td width="45%" valign="bottom">Unidad Pres. / Línea de Trabajo: '.$filalt->linea_trabajo.'</td>
 		 	</tr>
 		 	<tr>
-		 		<td width="55%" valign="bottom">Cuenta del banco No: '.$filac->numero_cuenta.'</td>
+		 		<td width="55%" valign="bottom">Cuenta del banco No: '.$cuenta_banco.'</td>
 		 		<td width="45%" valign="bottom">Teléfono oficial: '.$filae->telefono_contacto.'</td>
 		 	</tr>
 	 	</table><br><br>';

@@ -919,7 +919,8 @@
     var fecha_mision_fin_copia = "";
 
     function cambiar_editar(id,nr,fecha_mision_inicio,fecha_mision_fin,actividad_realizada,detalle_actividad,estado,ruta_justificacion,fecha_solicitud,fecha_observacion,oficina_solicitante, observacion_mision, vencida,bandera){
-
+        var fecha_alreves = fecha_solicitud.split('-');
+        fecha_alreves = fecha_alreves[2]+"-"+fecha_alreves[1]+"-"+fecha_alreves[0];
         $("#id_mision").val(id);
         $("#nr").val(nr).trigger('change.select2');
         $("#nombre_empresa").val("");
@@ -966,6 +967,7 @@
                     valor = validar_dia_limite(estado, "edit", fecha_solicitud);
                 }
                 $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
+                $("#fecha_solicitud").datepicker("setDate", fecha_alreves );
                 $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
                 form_mision();
                 $("#ttl_form").removeClass("bg-success");
@@ -980,6 +982,7 @@
             cambiarJustificacion();
             $("#fecha_mision_inicio").datepicker("setDate", fecha_mision_inicio );
             $("#fecha_mision_fin").datepicker("setDate", fecha_mision_fin );
+            $("#fecha_solicitud").datepicker("setDate", fecha_solicitud );
             eliminar_mision();
         }
         $( "html, body" ).animate({scrollTop:0}, '500');
@@ -1642,7 +1645,7 @@
         var total_viaticos = parseFloat($("#total_viaticos").val());
         if(total_viaticos > 0){
             ajax = objetoAjax();
-            ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/generear_solicitud", true);
+            ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/generear_solicitud2", true);
             ajax.onreadystatechange = function() {
                 if (ajax.readyState == 4){
                     $("#area").val(ajax.responseText)
@@ -2938,8 +2941,6 @@ $(function(){
 });
 
 </script>
-
-
 <script>
     var direccion_mapa;
     var distancia_total_mapa = 0;

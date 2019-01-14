@@ -401,12 +401,16 @@ $altura = 5);
         }
     }
 
-    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1");
+    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1 AND nr = '$nr_usuario'");
 
+    $nombre_banco = '';
+    $cuenta_banco = '';
     if($cuenta->num_rows() > 0){
-        foreach ($cuenta->result() as $filac) {}
+        foreach ($cuenta->result() as $filac) {
+            $cuenta_banco = $filac->numero_cuenta;
+            $nombre_banco = parrafo($filac->nombre);
+        }
     }
-
         $pdf->Image(base_url()."assets/firmas/".$nr_usuario.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
 
         $pdf->Ln(7);
@@ -437,7 +441,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Nombre del banco: ".parrafo($filac->nombre), "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
+        $pdf->Row(array("Nombre del banco: ".$nombre_banco, "Unidad Pres. / Línea de Trabajo: ".$filalt->linea_trabajo),
             array('0','0','0'),
             array('Arial','','09'),
             array(false),
@@ -445,7 +449,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Cuenta del banco No: ".$filac->numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
+        $pdf->Row(array("Cuenta del banco No: ".$cuenta_banco, "Teléfono oficial: ".$filae->telefono_contacto),
             array('0','0','0'),
             array('Arial','','09'),
             array(false),
