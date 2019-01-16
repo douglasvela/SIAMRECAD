@@ -123,7 +123,7 @@ if($empresas_visitadas->num_rows() > 0){
     foreach ($empresas_visitadas->result() as $filae) {
         $registros--;
         if($registros > 0){
-            $pdf->MultiCell(193,5,"        * ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
+            $pdf->MultiCell(193,5,"* ".$filae->nombre_empresa.". Dirección: ".$filae->direccion_empresa,0,'J',false);
             $pdf->Ln(1);
         }
     }

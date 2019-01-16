@@ -33,7 +33,7 @@ class Observaciones_model extends CI_Model {
 			}
 		}
 
-		$mensaje = ""; $titulo = "";
+		$mensaje = ""; $titulo = ""; $titulo2 = "";
 		if($data['estado'] == "2"){ //observaciones jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
@@ -55,8 +55,9 @@ class Observaciones_model extends CI_Model {
 		}else if($data['estado'] == "3"){ //aprueba jefatura inmediata
 			$fecha_actualizacion = date("Y-m-d H:m:i");
 			$fecha_antigua = $fecha_ultima_observacion;
-			$mensaje = "APROBÓ LA SOLICITUD"; $titulo = "SOLICITUD APROBADA";
+			$mensaje = "APROBÓ LA SOLICITUD"; $titulo = "SOLICITUD APROBADA"; $titulo2 = "SOLICITUD PARA REVISIÓN";
 			$cuerpo_mensaje =  "<b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b>. Aprobó su solicitud de viáticos y pasajes.";
+			$cuerpo_mensaje2 =  "Tiene una nueva solicitud de viáticos y pasajes de <b>".ucwords(strtolower($fila->nombre_completo))."</b> para revisión.";
 			$persona_actualiza = 2; //Actualiza jefatura inmediata
 		}else if($data['estado'] == "5"){ //aprueba dirección de área o jefatura regional
 			$fecha_actualizacion = date("Y-m-d H:m:i");
@@ -100,8 +101,25 @@ class Observaciones_model extends CI_Model {
 	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
     		</div>
  		";
+
+ 		$cuerpo2 = "  
+    		<div style='padding: 5px'>
+	  			<span style='font-size:16px;font-weight: bold;'> 
+	  				 Sistema de Viáticos y Pasajes
+	  			</span><br><br><br>
+	  			<span style='font-size:14px'> 
+	  				 ".$cuerpo_mensaje2."<br><br> 
+	  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
+	  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
+	  			</span><br><br>
+	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
+    		</div>
+ 		";
 	 		
 		enviar_correo_viatico($titulo,$cuerpo,$fila->nr_empleado);
+		if($data['estado'] == "3"){
+			enviar_correo_viatico($titulo2,$cuerpo2,$fila->nr_jefe_regional);
+		}
 
 
 		$fecha = date("Y-m-d H:i:s");

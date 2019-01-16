@@ -56,7 +56,7 @@ if(!empty($nr_usuario)){
 	    				</tr>
 	    				<tr>
 	    					<td width='70%'><b>Oficina:</b> $nombre_oficina</td>
-	    					<td width='30%'><b>Salario:</b> $ ".number_format($filainfoe->salario,2)."</td>
+	    					<td width='30%'></td>
 	    				</tr>
 	    				<tr>
 	    					<td colspan='2'><b>Cargo nominal:</b> $filainfoe->cargo_nominal</td>
