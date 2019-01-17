@@ -28,6 +28,10 @@ DELETE FROM vyp_rutas;
 
 -- CLEAN TABLES SCRIPT
 /*
+
+ALTER TABLE `vyp_mision_oficial` ADD `id_banco` INT NOT NULL AFTER `pagado_en`;
+ALTER TABLE `vyp_mision_pasajes` ADD `id_banco` INT NOT NULL AFTER `id_oficina`;
+
 ALTER TABLE `vyp_mision_oficial` ADD `observaciones` VARCHAR(300) NOT NULL AFTER `id_oficina`;
 
 ALTER TABLE vyp_empresa_viatico MODIFY id_empresa_viatico INTEGER NOT NULL AUTO_INCREMENT;
