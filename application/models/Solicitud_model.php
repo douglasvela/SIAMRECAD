@@ -8,7 +8,7 @@ class Solicitud_model extends CI_Model {
 	}
 
 	function insertar_mision($data){
-		if($this->db->insert('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_empleado_informacion_laboral' => $data['id_empleado_informacion_laboral'], 'ruta_justificacion' => $data['ruta_justificacion'], 'pagado_en' => 'banco', 'oficina_solicitante_motorista' => $data['oficina_solicitante'], 'observaciones' => $data['observacion_mision']))){
+		if($this->db->insert('vyp_mision_oficial', array('nr_empleado' => $data['nr'], 'nombre_completo' => $data['nombre_completo'], 'fecha_mision_inicio' => $data['fecha_mision_inicio'], 'fecha_mision_fin' => $data['fecha_mision_fin'],'id_actividad_realizada' => $data['id_actividad_realizada'], 'detalle_actividad' => $data['detalle_actividad'], 'nr_jefe_inmediato' => $data['nr_jefe_inmediato'], 'nr_jefe_regional' => $data['nr_jefe_regional'], 'id_oficina' => $data['id_oficina'], 'id_empleado_informacion_laboral' => $data['id_empleado_informacion_laboral'], 'ruta_justificacion' => $data['ruta_justificacion'], 'pagado_en' => 'banco', 'oficina_solicitante_motorista' => $data['oficina_solicitante'], 'observaciones' => $data['observacion_mision'], 'id_banco' => $data['id_banco']))){
 			$insert_id = $this->db->insert_id();
 			return $insert_id;
 		}else{
@@ -229,7 +229,7 @@ class Solicitud_model extends CI_Model {
 			}
 		}
 
-		$titulo = $this->session->userdata('nombre_usuario_viatico');
+		$titulo = "REVISIÓN DE SOLICITUD DE VIÁTICOS Y PASAJES";
 		if($estado=="0" || $estado=="2" || $estado=="4" || $estado=="6"){
 			$para='jefeinmediato';
 			$titulo .= ' envió a revisión solicitud #'.$data.' de viáticos y pasajes';
@@ -241,7 +241,7 @@ class Solicitud_model extends CI_Model {
 		  				 Sistema de Viáticos y Pasajes
 		  			</span><br><br><br>
 		  			<span style='font-size:14px'> 
-		  				 Tiene una nueva solicitud de viáticos y pasajes de <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b> para revisión.				<br><br> 
+		  				 Tiene una nueva solicitud de viáticos y pasajes de <b>".ucwords(strtolower($fila->nombre_completo))."</b> para revisión.				<br><br> 
 		  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
 		  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
 		  			</span><br><br>
@@ -326,7 +326,7 @@ class Solicitud_model extends CI_Model {
 			}
 		}
 
-		$titulo = $this->session->userdata('nombre_usuario_viatico');
+		$titulo = "REVISIÓN DE SOLICITUD DE VIÁTICOS Y PASAJES";
 		if($estado=="0"){
 			$para='solicitante';
 			$titulo .= ' creó su solicitud de viáticos y pasajes #'.$data;
@@ -338,7 +338,8 @@ class Solicitud_model extends CI_Model {
 		  				 Sistema de Viáticos y Pasajes
 		  			</span><br><br><br>
 		  			<span style='font-size:14px'> 
-		  				<b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b> creó solicitud de viáticos y pasajes la cuál fué recibida en físico en fondo circulante, los detalles de la solicitud son los siguientes: .				<br><br> 
+		  				 <b>".ucwords(strtolower($this->session->userdata('nombre_usuario_viatico')))."</b> creó solicitud de viáticos y pasajes la cual fué recibida en físico en fondo circulante, los detalles de la solicitud son los siguientes: .				<br><br>
+		  				 <b>Persona solicitante: </b> ".ucwords(strtolower($fila->nombre_completo))."<br>
 		  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
 		  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
 		  			</span><br><br>
@@ -482,6 +483,15 @@ class Solicitud_model extends CI_Model {
 			return true; 
 		}else{
 			return false;
+		}
+	}
+
+	function consultar_viatico_existe($data){
+		$query = $this->db->query("SELECT * FROM vyp_horario_viatico_solicitud WHERE fecha_ruta = '".$data["fecha_ruta"]."' AND id_horario_viatico = '".$data["id_horario_viatico"]."' AND id_mision = '".$data["id_mision"]."'");
+		if($query->num_rows() > 0){
+			return "existe"; 
+		}else{
+			return "disponible";
 		}
 	}
 

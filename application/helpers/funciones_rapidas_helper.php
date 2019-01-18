@@ -372,7 +372,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			 $CI->email->message($mensaje);
 			 $CI->email->send();
 		}else{
-			echo "direccion no valida";
+			echo "";
 		}
 	}
 

@@ -8,7 +8,7 @@ $id_mision = $_GET["id_mision"];
 
 if(!empty($nr_usuario)){
 
-    $info_empleado = $this->db->query("SELECT ie.* FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_usuario."'");
+    $info_empleado = $this->db->query("SELECT ie.*, ecb.id_empleado_banco FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_usuario."'");
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
@@ -33,6 +33,8 @@ if(!empty($nr_usuario)){
 		    $longitud_oficina = $filaofi->longitud_oficina;
 		    $nombre_oficina = $filaofi->nombre_oficina;
 		    $id_oficina_origen = $filaofi->id_oficina;
+		    $id_oficina_origen = $filaofi->id_oficina;
+		    $id_empleado_banco = $filas->id_empleado_banco;
 		    $jefe_inmediato = "";
 		    $jefe_regional = "";
 		    if($jefaturas->num_rows() > 0){ 
@@ -81,6 +83,7 @@ if(!empty($nr_usuario)){
 		    $longitud_oficina = "";
 		    $nombre_oficina = "";
 		    $id_oficina_origen = "";
+		    $id_empleado_banco = "";
 		    echo '<div class="alert alert-danger">';
 	    	echo '<h3 class="text-danger"><i class="fa fa-times-circle"></i> Faltan datos</h3>';
 	    	echo "Parece que tus datos están incompletos. Solicita a fondo circulante que registren a que oficina perteneces, tu cuenta bancaria, quien es tu jefatura inmediata, dirección de área o jefatura regional y firma escaneada si no estuviese registrada";
@@ -93,6 +96,7 @@ if(!empty($nr_usuario)){
 		echo '<input type="hidden" id="longitud_oficina" name="longitud_oficina" value="'.$longitud_oficina.'">';
 		echo '<input type="hidden" id="nombre_oficina" name="nombre_oficina" value="'.$nombre_oficina.'">';
 		echo '<input type="hidden" id="id_oficina_origen" name="id_oficina_origen" value="'.$id_oficina_origen.'">';
+		echo '<input type="hidden" id="id_empleado_banco" name="id_empleado_banco" value="'.$id_empleado_banco.'">';
 		echo '<input type="hidden" id="id_empleado_informacion_laboral" name="id_empleado_informacion_laboral" value="'.$filainfoe->id_empleado_informacion_laboral.'">';
 
     }else{

@@ -84,7 +84,8 @@ class Solicitud_viatico extends CI_Controller {
 			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
 			'observacion_mision' => mb_strtoupper(saltos_sql($this->input->post('observacion_mision'))),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
-			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
+			'ruta_justificacion' => trim($this->input->post('ruta_justificacion')),
+			'id_banco' => trim($this->input->post('id_empleado_banco'))
 			);
 			
 			$resultado = $this->solicitud_model->insertar_mision($data);
@@ -168,7 +169,8 @@ class Solicitud_viatico extends CI_Controller {
 			'detalle_actividad' => mb_strtoupper(saltos_sql($this->input->post('detalle_actividad'))),
 			'observacion_mision' => mb_strtoupper(saltos_sql($this->input->post('observacion_mision'))),
 			'oficina_solicitante' => $this->input->post('oficina_solicitante'),
-			'ruta_justificacion' => trim($this->input->post('ruta_justificacion'))
+			'ruta_justificacion' => trim($this->input->post('ruta_justificacion')),
+			'id_banco' => trim($this->input->post('id_empleado_banco'))
 			);
 			
 			$resultado = $this->solicitud_model->editar_mision($data);
@@ -267,7 +269,8 @@ class Solicitud_viatico extends CI_Controller {
 			'id_oficina' => $this->input->post('id_oficina_origen'),
 			'observaciones' => mb_strtoupper(saltos_sql($this->input->post('observacion_mision'))),
 			'id_empleado_informacion_laboral' => $this->input->post('id_empleado_informacion_laboral'),
-			'recibida_fisico' => 1	
+			'recibida_fisico' => 1,
+			'id_banco' => trim($this->input->post('id_empleado_banco'))
 		);
 
 		if($this->input->post('band') == "save"){ echo $this->solicitud_model->insertar_mision2($data);
@@ -597,7 +600,15 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/observaciones');
 	}
 
-		
+	public function consultar_viatico_existe(){
+		$data = array(
+			"fecha_ruta" => $this->input->post('fecha_ruta'),
+			"id_horario_viatico" => $this->input->post('id_horario_viatico'),
+			"id_mision" => $this->input->post('id_mision')
+        );
+
+		echo $this->solicitud_model->consultar_viatico_existe($data);
+	}
 
 }
 ?>

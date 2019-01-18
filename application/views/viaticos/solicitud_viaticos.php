@@ -219,6 +219,18 @@
     }
 
     var total_aloj = 0.00;
+
+    function consultar_viatico_existe(fecha_ruta,id_horario_viatico,id_mision){
+        $.ajax({
+            url: "<?php echo site_url(); ?>/viaticos/solicitud_viatico/consultar_viatico_existe",
+            type: "post",
+            dataType: "html",
+            data: {fecha_ruta: fecha_ruta, id_horario_viatico: id_horario_viatico, id_mision: id_mision}
+        })
+        .done(function(res){
+            return res;
+        });
+    }
     
     function validar_viatico_next(hs,hl){
         var id_mision = $("#id_mision").val();
@@ -271,6 +283,13 @@
             }
         }
 
+        var existe_viatico = "";
+        if(ultimo_viatico == 2){
+            existe_viatico = consultar_viatico_existe(fecha_ruta_new,ultimo_viatico,id_mision);
+        }
+        console.log("existe_viatico: "+existe_viatico)
+        console.log("ultimo_viatico: "+ultimo_viatico)
+
         var id_origen = $("#id_origen").val();
         var id_destino = $("#id_destino").val();
         var restriccion_llegada = "";
@@ -286,6 +305,8 @@
             } 
         }
 
+        console.log("restriccion_salida: "+restriccion_salida)
+
         if(id_destino == id_oficina_origenes){
              for(f2=0; f2<viaticos.length; f2++){
                 if( (hl >= viaticos[f2][2] && hl <= viaticos[f2][3]) ){
@@ -296,6 +317,8 @@
             } 
         }
 
+        console.log("restriccion_llegada: "+restriccion_llegada)
+
         if(id_ruta_old != id_oficina_origenes){ //Si no ha estado (permanencia) en la oficina de origen, se verifican viáticos
 
             if(diferencia == 0){    //Si la fecha anterior es igual a la nueva
@@ -305,21 +328,43 @@
                 
                 if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
                     for(j=0; j<viaticos.length; j++){
-                        if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
-                            if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
-                                if(viaticos[j][0]!=ultimo_viatico){
-                                    band_viatico = true;
-                                    reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
-                                    monto += parseFloat(viaticos[j][4]);
-                                    var index = reg_viaticos.length;
-                                    body.append("<tr>"+
-                                                "<td>"+fecha_ruta_new+"</td>"+
-                                                "<td>"+viaticos[j][1]+"</td>"+
-                                                "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
-                                                "<td>"+gcheckbox(index)+"</td>"+
-                                                "</tr>");
 
-                                    ultimo_viatico = viaticos[j][0];
+                        if(viaticos[j][0] == 2){
+                            if(((hl >= viaticos[j][3]))){
+                                if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
+                                    if(existe_viatico == "disponible"){
+                                        band_viatico = true;
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
+                                        monto += parseFloat(viaticos[j][4]);
+                                        var index = reg_viaticos.length;
+                                        body.append("<tr>"+
+                                                    "<td>"+fecha_ruta_new+"</td>"+
+                                                    "<td>"+viaticos[j][1]+"</td>"+
+                                                    "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                    "<td>"+gcheckbox(index)+"</td>"+
+                                                    "</tr>");
+
+                                        ultimo_viatico = viaticos[j][0];
+                                    }
+                                }
+                            }
+                        }else{
+                            if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
+                                if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
+                                    if(viaticos[j][0]!=ultimo_viatico){
+                                        band_viatico = true;
+                                        reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
+                                        monto += parseFloat(viaticos[j][4]);
+                                        var index = reg_viaticos.length;
+                                        body.append("<tr>"+
+                                                    "<td>"+fecha_ruta_new+"</td>"+
+                                                    "<td>"+viaticos[j][1]+"</td>"+
+                                                    "<td>"+parseFloat(viaticos[j][4]).toFixed(2)+"</td>"+
+                                                    "<td>"+gcheckbox(index)+"</td>"+
+                                                    "</tr>");
+
+                                        ultimo_viatico = viaticos[j][0];
+                                    }
                                 }
                             }
                         }
