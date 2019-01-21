@@ -272,17 +272,24 @@
         }
 
         var ultimo_viatico = "";
-        if(parseFloat(kilometraje_old) >= DistanciaMinima){ //si el viatico anterior cumplia con 15 kilometros
+        if(parseFloat(kilometraje_old) >= DistanciaMinima || hora_salida < "11:30"){ //si el viatico anterior cumplia con 15 kilometros
             for(h=0; h<viaticos.length; h++){
-                if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
-                    if(id_ruta_old == id_oficina_origenes){
-                        if(!tiene_restriccion(hora_llegada_old, hs_copy, "llegada antigua", viaticos[h][2], viaticos[h][3])){
-                            ultimo_viatico = viaticos[h][0];
-                        }
-                    }else{
+
+                if(viaticos[h][0] == 2){
+                    if(((hl >= viaticos[h][3]))){
                         ultimo_viatico = viaticos[h][0];
                     }
-                    
+                }else{
+                    if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
+                        if(id_ruta_old == id_oficina_origenes){
+                            if(!tiene_restriccion(hora_llegada_old, hs_copy, "llegada antigua", viaticos[h][2], viaticos[h][3])){
+                                ultimo_viatico = viaticos[h][0];
+                            }
+                        }else{
+                            ultimo_viatico = viaticos[h][0];
+                        }
+                        
+                    }
                 }
             }
         }
