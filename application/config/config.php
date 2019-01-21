@@ -527,10 +527,10 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
  //////////EMAIL CONFIG////////////
-    $config['email_central'] = "drecinosve@gmail.com";
-    $config['pass'] = "MAYO_nesa94";
+    $config['email_central'] = "viaticos.notificaciones@mtps.gob.sv";
+    $config['pass'] = "2_Jnv47.QiH)";
     $config['protocol'] = "smtp";
-    $config['host'] = "ssl://smtp.gmail.com";
+    $config['host'] = "ssl://mtrabajo.mtps.gob.sv";
     $config['port'] = 465;
 
 function getBrowser(){

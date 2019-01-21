@@ -1,10 +1,10 @@
 <?php
 
-$decs = (($monto-intval($monto))*100);
+/*$decs = (($monto-intval($monto))*100);
 
 if($decs == 0){
   $decs = "00";
-}
+}*/
 
 //echo$formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
   
@@ -92,8 +92,7 @@ $formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
 ?>
 <?php
 
-//$this->mpdf=new mPDF('L','A4','10','Arial',10,10,45,17,3,9);
-$this->mpdf=new mPDF('c','A4','10','Arial',10,10,35,17,3,9);
+$this->mpdf=new \Mpdf\Mpdf();
 
 $cabecera = '
 	<table width="100%"><tr>

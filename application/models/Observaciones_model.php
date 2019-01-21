@@ -101,23 +101,22 @@ class Observaciones_model extends CI_Model {
 	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
     		</div>
  		";
-
- 		$cuerpo2 = "  
-    		<div style='padding: 5px'>
-	  			<span style='font-size:16px;font-weight: bold;'> 
-	  				 Sistema de Viáticos y Pasajes
-	  			</span><br><br><br>
-	  			<span style='font-size:14px'> 
-	  				 ".$cuerpo_mensaje2."<br><br> 
-	  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
-	  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
-	  			</span><br><br>
-	  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
-    		</div>
- 		";
 	 		
 		enviar_correo_viatico($titulo,$cuerpo,$fila->nr_empleado);
 		if($data['estado'] == "3"){
+			$cuerpo2 = "  
+	    		<div style='padding: 5px'>
+		  			<span style='font-size:16px;font-weight: bold;'> 
+		  				 Sistema de Viáticos y Pasajes
+		  			</span><br><br><br>
+		  			<span style='font-size:14px'> 
+		  				 ".$cuerpo_mensaje2."<br><br> 
+		  				 <b>Fecha de la misión:</b> ".fecha_ESP($fila->fecha_mision_inicio)."			<br>
+		  				 <b>Nombre de la actividad:</b> ".$fila->nombre_vyp_actividades."	<br>
+		  			</span><br><br>
+		  			<a href='".$url."' target='_blank'>Click aqui para ver solicitud</a>
+	    		</div>
+	 		";
 			enviar_correo_viatico($titulo2,$cuerpo2,$fila->nr_jefe_regional);
 		}
 

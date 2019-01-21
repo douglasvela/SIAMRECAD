@@ -7,7 +7,7 @@ class Poliza_pago extends CI_Controller {
 		parent::__construct();
 		$this->load->model('poliza_model');
 		$this->load->library('mpdf');
-		$this->load->library('fpdf');
+		$this->load->library('FPDF/fpdf');
 	}
 
 	public function index(){

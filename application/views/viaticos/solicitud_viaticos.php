@@ -788,6 +788,23 @@
         var id_empresa_viatico = $("#id_empresa_viatico").val();
         var bandera = true;
         var id_distancia = $("#id_distancia").val();
+        var id_destino = $("#id_destino").val();
+
+
+        var registros = $("#tabla_viaticos").find("tbody").find("tr");
+        var x = (registros.length-2);
+        if(registros.length > 1){
+            var id_origen_text = $("#id_origen option:selected").text().trim();
+            var celdas = $(registros[x]).children("td");
+            var ruta_salida_old = $(celdas[1]).text().trim();
+            var detalle = ruta_salida_old.split(" - ");
+            if(detalle[1] != id_origen_text){
+                bandera = false;
+                swal({ title: "Ruta no válida", text: "Parece que intentas repetir una ruta, o está mal elaborada. El lugar de origen no coincide con la última llegada.", type: "warning", showConfirmButton: true });
+            }
+
+        }
+
         if(id_distancia){
             if(hora_salida < hora_llegada){
 
