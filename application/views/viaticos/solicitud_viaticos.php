@@ -221,15 +221,19 @@
     var total_aloj = 0.00;
 
     function consultar_viatico_existe(fecha_ruta,id_horario_viatico,id_mision){
+        var result = "disponible";
         $.ajax({
+            async: false,
             url: "<?php echo site_url(); ?>/viaticos/solicitud_viatico/consultar_viatico_existe",
             type: "post",
             dataType: "html",
             data: {fecha_ruta: fecha_ruta, id_horario_viatico: id_horario_viatico, id_mision: id_mision}
         })
         .done(function(res){
-            return res;
+            result = res;
         });
+
+        return result;
     }
     
     function validar_viatico_next(hs,hl){
@@ -305,8 +309,6 @@
             } 
         }
 
-        console.log("restriccion_salida: "+restriccion_salida)
-
         if(id_destino == id_oficina_origenes){
              for(f2=0; f2<viaticos.length; f2++){
                 if( (hl >= viaticos[f2][2] && hl <= viaticos[f2][3]) ){
@@ -317,22 +319,24 @@
             } 
         }
 
-        console.log("restriccion_llegada: "+restriccion_llegada)
-
         if(id_ruta_old != id_oficina_origenes){ //Si no ha estado (permanencia) en la oficina de origen, se verifican viáticos
 
             if(diferencia == 0){    //Si la fecha anterior es igual a la nueva
                 var body = $("#body_viaticos_encontrados");
                 body.html("");
                 hs = hora_llegada_old;
+
+                console.log("id_ruta_old: aqui")
                 
                 if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
+                    console.log("kilometraje_old: exito")
                     for(j=0; j<viaticos.length; j++){
 
                         if(viaticos[j][0] == 2){
                             if(((hl >= viaticos[j][3]))){
                                 if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
                                     if(existe_viatico == "disponible"){
+
                                         band_viatico = true;
                                         reg_viaticos.push([fecha_ruta_new, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
                                         monto += parseFloat(viaticos[j][4]);
@@ -370,6 +374,7 @@
                         }
                     }
                 }else{
+                    console.log("kilometraje_old: falso")
                     $.toast({ heading: 'No cumple con viáticos', text: 'La ruta anterior tenia distancia menor a 15 Km. No cumple con viáticos', position: 'top-right', loaderBg:'#3c763d', icon: 'info', hideAfter: 4000, stack: 6 });
                     hs = hs_copy;
                     if(kilometraje_new >= DistanciaMinima || document.getElementById("justificacion").checked == 1){
@@ -515,6 +520,8 @@
             }
 
         }else{
+
+            console.log("id_ruta_old: falsa")
             var body = $("#body_viaticos_encontrados");
                 body.html("");
                 
