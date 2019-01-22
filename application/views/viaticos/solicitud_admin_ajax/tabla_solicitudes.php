@@ -12,7 +12,7 @@
         </thead>
         <tbody>
         <?php 
-            $add = ""; /*$nr = $_GET["nr"]; $tipo = $_GET["tipo"]; 
+            $nr = $_GET["nr"]; $tipo = $_GET["tipo"]; $add = "";
             if(!empty($nr)){ $add .= "AND m.nr_empleado = '".$nr."'"; }
 
             if(!empty($tipo)){
@@ -21,9 +21,9 @@
                 }else if($tipo == "3"){ $add .= " AND (m.estado = '2' || m.estado = '4' || m.estado = '6')";
                 }else if($tipo == "4"){ $add .= " AND m.estado = '7'";
                 }else{ $add .= " AND m.estado = '8'"; }
-            }*/
+            }
 
-            $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m LEFT JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades  ".$add." WHERE recibida_fisico = 1 ORDER BY m.id_mision_oficial DESC LIMIT 500");
+            $mision = $this->db->query("SELECT m.*, a.nombre_vyp_actividades AS nombre_actividad FROM vyp_mision_oficial AS m JOIN vyp_actividades AS a ON m.id_actividad_realizada = a.id_vyp_actividades  ".$add." ORDER BY m.id_mision_oficial DESC LIMIT 50");
             if($mision->num_rows() > 0){
                 $contador = 0;
                 /***************** verificacion de permisos **********************/
@@ -31,10 +31,43 @@
                 $puede_eliminar = tiene_permiso($segmentos=2,$permiso=3);
                 /***************** fin de verificacion de permisos **********************/
                 foreach ($mision->result() as $fila) {
+
+                    if(!in_array($fila->estado, array(1,3,5)) && $fila->estado < 7){
+                        if($fila->estado == 0){
+                            $restante = 2 - get_days_count($fila->fecha_mision_fin, date("Y-m-d"));
+                        }else{
+                            $restante = 2 - get_days_count(substr($fila->ultima_observacion,0,10), date("Y-m-d"));
+                        }
+                        $priority = "text-danger";
+                        if($restante == 2){ $priority = "text-primary";
+                        }elseif($restante == 1){ $priority = "text-warning";
+                        }elseif($restante == 1){ $priority = "text-danger";
+                        }
+                        // FAlta php diff without weekend
+                        if($restante < 0){
+                            $vencida = true;
+                            $restante = "<h6 class='".$priority."'>PLAZO VENCIDO</h6>";
+                        }else{
+                            $restante = "<h6 class='".$priority."'>RESTA: ".$restante." día(s)</h6>";
+                            $vencida = false;
+                        }
+                    }else{
+                        if($fila->estado >= 7){ $restante = "";
+                        }else{ $restante = "<h6 class='text-info'>EN ESPERA</h6>";
+                        }
+                        $vencida = false;
+                    }
+
                     $contador++;
                   echo "<tr>";
                     echo "<td style='display: none;'>".$contador."</td>";
-                    echo "<td>".date("d/m/Y",strtotime($fila->fecha_solicitud))."</td>";
+
+                    if($fila->fecha_solicitud == "0000-00-00 00:00:00"){
+                        echo "<td>PENDIENTE</td>";
+                    }else{
+                        echo "<td>".date("d/m/Y",strtotime($fila->fecha_solicitud))."</td>";
+                    }
+                    
                     echo "<td>".$fila->nombre_actividad."</td>";
                     echo "<td>".$fila->nombre_completo."</td>";
                     echo "<td align='center'>";
@@ -56,15 +89,23 @@
                         echo '<span style="width: 100%;" class="label label-success">Aprobada</span>';
                     }else if($fila->estado == 8){
                         echo '<span style="width: 100%;" class="label label-danger">Pagada</span>';
-                    };
+                    } echo "<br>".$restante."</td>";
                     
                     echo "<td>";
 
-                    $array = array($fila->id_mision_oficial);
+                    if($fila->ultima_observacion == "0000-00-00 00:00:00"){ $fecha_observacion = "falta";
+                    }else{ $fecha_observacion = date("Y-m-d",strtotime($fila->ultima_observacion));
+                    }
+
+                    $array = array($fila->id_mision_oficial, $fila->nr_empleado, date("d-m-Y",strtotime($fila->fecha_mision_inicio)), date("d-m-Y",strtotime($fila->fecha_mision_fin)), $fila->id_actividad_realizada, $fila->detalle_actividad, $fila->estado, $fila->ruta_justificacion, date("Y-m-d",strtotime($fila->fecha_solicitud)), $fecha_observacion, $fila->oficina_solicitante_motorista, $fila->observaciones, $vencida);
 
                     if($puede_editar){
                         array_push($array, "edit");
-                        echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                        if($fila->estado < 7){
+                                echo generar_boton($array,"cambiar_editar","btn-info","fa fa-wrench","Editar");
+                        }else{
+                                echo generar_boton(array(),"disable","btn-default disabled","fa fa-wrench","");
+                        }
                         unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                     }
                     if($fila->estado == 0){

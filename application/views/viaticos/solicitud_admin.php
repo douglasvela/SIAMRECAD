@@ -808,7 +808,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         }
-        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_solicitudes?nr="+nr_empleado+"&tipo="+estado_pestana,true);
+        xmlhttpB.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/tabla_solicitudes2?nr="+nr_empleado+"&tipo="+estado_pestana,true);
         xmlhttpB.send(); 
     }
 
@@ -941,12 +941,7 @@
         fecha_mision_fin_copia = fecha_mision_fin;
 
         if(vencida){
-            if(estado == "0"){
-                swal({ title: "Plazo agotado", text: "El plazo para enviar su solicitud finalizó, para continuar, justifique", type: "error", showConfirmButton: true });
-            }else{
-                swal({ title: "Plazo agotado", text: "El plazo de observaciones finalizó, si desea continuar, justifique", type: "error", showConfirmButton: true });
-            }
-            plazo_vencido = true;
+            plazo_vencido = false;
         }else{
             plazo_vencido = false;
         }

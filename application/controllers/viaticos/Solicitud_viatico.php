@@ -20,6 +20,10 @@ class Solicitud_viatico extends CI_Controller {
 		$this->load->view('viaticos/solicitud_viaticos_ajax/tabla_solicitudes');
 	}
 
+	public function tabla_solicitudes2(){
+		$this->load->view('viaticos/solicitud_admin_ajax/tabla_solicitudes');
+	}
+
 	public function combo_actividad_realizada(){
 		$this->load->view('viaticos/solicitud_viaticos_ajax/combo_actividad_realizada');
 	}
@@ -273,7 +277,9 @@ class Solicitud_viatico extends CI_Controller {
 			'id_banco' => trim($this->input->post('id_empleado_banco'))
 		);
 
-		if($this->input->post('band') == "save"){ echo $this->solicitud_model->insertar_mision2($data);
+		if($this->input->post('band') == "save"){ 
+			$data = array_merge($data, array('aprobado3' => date("Y-m-d H:i:s")));
+			echo $this->solicitud_model->insertar_mision2($data);
 		}else if($this->input->post('band') == "edit"){ echo $this->solicitud_model->editar_mision2($data);
 		}else if($this->input->post('band') == "delete"){
 			$sql = "DELETE FROM vyp_empresas_visitadas WHERE id_mision_oficial = '".$this->input->post('id_mision')."'";
