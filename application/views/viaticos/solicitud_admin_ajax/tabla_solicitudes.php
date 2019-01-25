@@ -12,7 +12,6 @@
         </thead>
         <tbody>
         <?php 
-        echo obtener_segmentos(2);
             $nr = $_GET["nr"]; $tipo = $_GET["tipo"]; $add = "";
             if(!empty($nr)){ $add .= "AND m.nr_empleado = '".$nr."'"; }
 
