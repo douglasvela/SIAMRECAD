@@ -26,7 +26,14 @@ if(!empty($nr_usuario)){
 	        foreach ($oficina_origen->result() as $filaofi) {}
 	    }
 
-	    if($oficina_origen->num_rows() > 0 && $filas->nr_jefe_departamento != ""){
+		$exists = "";
+		if(@file_get_contents( base_url()."assets/firmas/".$nr_usuario.".png" )){
+			$exists = "existe";
+		}else{
+			$exists = "noesta";
+		}
+
+	    if($oficina_origen->num_rows() > 0 && $filas->nr_jefe_departamento != "" && $exists == "existe"){
 	    	$nr_jefe_inmediato = $filas->nr_jefe_inmediato;
 		    $nr_jefe_regional = $filas->nr_jefe_departamento;
 		    $latitud_oficina = $filaofi->latitud_oficina;

@@ -3,7 +3,7 @@ $nr_usuario = $_GET["nr_usuario"];
 
 if(!empty($nr_usuario)){
 
-    $info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_usuario."'");
+    $info_empleado = $this->db->query("SELECT ie.*, ecb.id_empleado_banco FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_usuario."'");
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 

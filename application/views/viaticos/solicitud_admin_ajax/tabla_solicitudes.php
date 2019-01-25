@@ -12,6 +12,7 @@
         </thead>
         <tbody>
         <?php 
+        echo obtener_segmentos(2);
             $nr = $_GET["nr"]; $tipo = $_GET["tipo"]; $add = "";
             if(!empty($nr)){ $add .= "AND m.nr_empleado = '".$nr."'"; }
 
@@ -108,12 +109,14 @@
                         }
                         unset($array[endKey($array)]); //eliminar el ultimo elemento de un array
                     }
-                    if($fila->estado == 0){
+                    if($fila->estado == 0 || $fila->estado == 7){
                         if($puede_eliminar){
                             array_push($array, "delete");
                             echo generar_boton($array,"cambiar_editar","btn-danger","fa fa-close","Eliminar");
                         }
-                    }else{
+                    }
+
+                    if($fila->estado > 0){
                         echo generar_boton(array($fila->id_mision_oficial),"ver_solicitud_html","btn-default","mdi mdi-file-document","Visualizar solicitud");
                     }
 
