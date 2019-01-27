@@ -263,25 +263,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_anio($anios);
 		$this->crear_grafico_viaticos_x_anio_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		 	<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">   
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -310,7 +308,10 @@ class Menu_reportes extends CI_Controller {
 				<tbody>
 					';
 				$data = str_split($anios,4);
-
+				$total_viatico = 0;
+				$total_pasaje = 0;
+				$total_alojamiento = 0;
+				$total_total = 0;
 				$viatico = $this->Reportes_viaticos_model->obtenerViaticoAnual($data);
 				if($viatico->num_rows()>0){
 				foreach ($viatico->result() as $viaticos) {
@@ -349,6 +350,7 @@ class Menu_reportes extends CI_Controller {
         '; 
         if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('P','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Año');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
@@ -704,25 +706,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_depto($anios);
 		$this->crear_grafico_viaticos_x_depto_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -733,7 +733,7 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf->setFooter($pie);
 		
 		$cuerpo = '
-			<table  border="1" >
+			<table  border="1" width="100%">
 				<thead >
 					<tr>
 						<td align="center" rowspan="1" >Año: '.($anios).'</td>
@@ -778,7 +778,7 @@ class Menu_reportes extends CI_Controller {
 					}
 				}else{
 				$cuerpo .= '
-						<tr><td colspan="9"><center>No hay registros</center></td></tr>
+						<tr><td colspan="5"><center>No hay registros</center></td></tr>
 					';
 				}
 				$cuerpo .= '
@@ -796,6 +796,7 @@ class Menu_reportes extends CI_Controller {
 			      '; 
 		if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Año');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
@@ -1214,25 +1215,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_zona_depto($anios);
 		$this->crear_grafico_viaticos_x_zona_depto_total($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -1365,6 +1364,7 @@ class Menu_reportes extends CI_Controller {
 			      '; 
 		if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('P','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Año');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
@@ -1586,22 +1586,20 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		   <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px"> 
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		    <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+ 			<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -1647,11 +1645,12 @@ class Menu_reportes extends CI_Controller {
 				<tbody>
 					
 					';
-				if($viatico->num_rows()>0){
 					$suma_total=0;
 					$suma_viaticos=0;
 					$suma_pasajes=0;
 					$suma_alojamientos=0;
+				if($viatico->num_rows()>0){
+					
 				foreach ($viatico->result() as $viaticos) {
 					
 					$estado = $this->Reportes_viaticos_model->obtenerDetalleEstado($viaticos->estado);
@@ -1702,7 +1701,7 @@ class Menu_reportes extends CI_Controller {
 
         ';         // LOAD a stylesheet         
         if($tipo=="pdf"){
-			$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Pendiente por Empleado');
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
@@ -1893,23 +1892,21 @@ class Menu_reportes extends CI_Controller {
 
 		$cabecera = '<table><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
 		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		    <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -2012,7 +2009,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet
         if($tipo=="pdf"){         
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,3,9);
 			$this->mpdf->SetTitle('Viaticos por Pagados por Empleado');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
@@ -2205,25 +2202,23 @@ class Menu_reportes extends CI_Controller {
 		*/
 		$this->mpdf = new \Mpdf\Mpdf();
 
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+ 			<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+ 			<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -2310,7 +2305,7 @@ class Menu_reportes extends CI_Controller {
 
 		if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos de Mayor a Menor');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
@@ -2715,25 +2710,23 @@ class Menu_reportes extends CI_Controller {
 		*/
 		$this->mpdf = new \Mpdf\Mpdf();
 
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
-	 	$cabecera_vista = '<table><tr>
+	 	$cabecera_vista = '<table width="100%"><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -2836,7 +2829,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
         if($tipo=="pdf"){
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Periodo');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
@@ -3004,25 +2997,23 @@ class Menu_reportes extends CI_Controller {
 		*/
 		$this->mpdf = new \Mpdf\Mpdf();
 
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA </center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+			<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -3086,7 +3077,7 @@ class Menu_reportes extends CI_Controller {
 						}
 					}else{
 						$cuerpo .= '
-							<tr><td colspan="6"><center>No hay registros</center></td></tr>
+							<tr><td colspan="5"><center>No hay registros</center></td></tr>
 
 						';
 					}
@@ -3105,7 +3096,7 @@ class Menu_reportes extends CI_Controller {
 	     
 	    if($tipo=="pdf"){
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Cargo');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
@@ -3264,25 +3255,23 @@ class Menu_reportes extends CI_Controller {
 		*/
 		$this->mpdf = new \Mpdf\Mpdf();
 
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR SECCIÓN</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -3364,7 +3353,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
 	     if($tipo=="pdf"){
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Cargo');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
@@ -3617,25 +3606,23 @@ class Menu_reportes extends CI_Controller {
 		*/
 		$this->mpdf = new \Mpdf\Mpdf();
 		$this->crear_grafico_viaticos_x_genero($tipo,$seccion,$anio);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		 	<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">   
 		</td>
 		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR GENERO</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -3717,7 +3704,7 @@ class Menu_reportes extends CI_Controller {
         ';         // LOAD a stylesheet         
 	     if($tipo=="pdf"){
 	        $stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
-			//$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Genero');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/text         
 			$this->mpdf->WriteHTML($cuerpo);
@@ -3864,25 +3851,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR MES</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR MES</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -3964,7 +3949,7 @@ class Menu_reportes extends CI_Controller {
 					}
 				}else{
 				$cuerpo .= '
-						<tr><td colspan="5"><center>No hay registros</center></td></tr>
+						<tr><td colspan="6"><center>No hay registros</center></td></tr>
 					';
 				}
 				$cuerpo .= '
@@ -3981,6 +3966,7 @@ class Menu_reportes extends CI_Controller {
         '; 
         if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('P','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Mes');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
@@ -4150,25 +4136,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -4269,6 +4253,7 @@ class Menu_reportes extends CI_Controller {
         '; 
         if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Viaticos por Mes');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
@@ -4440,25 +4425,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -4550,7 +4533,7 @@ class Menu_reportes extends CI_Controller {
 
         '; 
         if($tipo=="pdf"){
-        	$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
+        	$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
 			$this->mpdf->SetTitle('Misiones');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
@@ -4723,25 +4706,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">		   
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -4868,8 +4849,8 @@ class Menu_reportes extends CI_Controller {
 
         '; 
         if($tipo=="pdf"){
-        	$this->mpdf->AddPage('L','','','','',10,10,35,17,3,9);
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Poliza Anual');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
@@ -5061,25 +5042,23 @@ class Menu_reportes extends CI_Controller {
 		$this->mpdf = new \Mpdf\Mpdf();
 		//$this->crear_grafico_viaticos_x_anio($anios);
 		//$this->crear_grafico_viaticos_x_anio_totales($anios);
-		$cabecera = '<table><tr>
+		$cabecera = '<table width="100%"><tr>
  		<td>
-		    <img src="application/controllers/informes/escudo.jpg" width="85px" height="55px">
+		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
 		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIATICOS POR ACTIVIDAD</center><h6></td>
-		<td>
-		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
-		   
+		<td align="right">
+		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 
 	 	$cabecera_vista = '<table><tr>
  		<td>
-		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="85px" height="55px">
+		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
 		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIATICOS POR ACTIVIDAD</center><h6></td>
 		<td>
-		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
-		   
+		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
@@ -5160,6 +5139,7 @@ class Menu_reportes extends CI_Controller {
         '; 
         if($tipo=="pdf"){
 			$stylesheet = file_get_contents(base_url().'assets/plugins/bootstrap/css/bootstrap.min.css');
+			$this->mpdf->AddPage('L','','','','',15,15,35,17,7,9);
 			$this->mpdf->SetTitle('Detalle Viaticos por Actividad');
 			$this->mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this iscss/style only and no body/html/
 			$this->mpdf->WriteHTML($cuerpo);
