@@ -262,13 +262,6 @@
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
         for(f=0; f<diferencia; f++){                    
             fecha_copy = fecha_copy.add(1,'days');
-            if(fecha_copy.format("e") == 6){
-                fecha_copy = fecha_copy.add(2,'days');
-                diferencia = diferencia - 2;
-            }else if(fecha_copy.format("e") == 0){
-                fecha_copy = fecha_copy.add(1,'days');
-                diferencia = diferencia - 1;
-            }
         }
 
         var ultimo_viatico = "";
@@ -2828,9 +2821,9 @@ $(function(){
         });
 
         var date = new Date(); var currentMonth = date.getMonth(); var currentDate = date.getDate(); var currentYear = date.getFullYear();
-        $('#fecha_mision_inicio').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"),daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
-        $('#fecha_mision_fin').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"), daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
-        $('#fecha_solicitud').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY"), daysOfWeekDisabled: [0,6] }).datepicker("setDate", new Date());
+        $('#fecha_mision_inicio').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY") }).datepicker("setDate", new Date());
+        $('#fecha_mision_fin').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY") }).datepicker("setDate", new Date());
+        $('#fecha_solicitud').datepicker({ format: 'dd-mm-yyyy', autoclose: true, todayHighlight: true, endDate: moment().format("DD-MM-YYYY") }).datepicker("setDate", new Date());
         $('#dirigir').click(function(){ //Id del elemento cliqueable
             $('html, body').animate({scrollTop:0}, 1000);
             return false;
