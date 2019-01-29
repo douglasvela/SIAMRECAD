@@ -894,6 +894,9 @@
                     newf2 = newf2.join('-');
                     newf2 = moment(newf2);
 
+                    $("#nr_jefe_inmediato_copia").val($("#nr_jefe_inmediato").val()).trigger('change.select2');
+                    $("#nr_jefe_regional_copia").val($("#nr_jefe_regional").val()).trigger('change.select2');
+
                     var diferencia = newf2.diff(newf1, 'days');
 
                     if(diferencia > 30){
@@ -912,6 +915,13 @@
         }
         xmlhttp_municipio.open("GET","<?php echo site_url(); ?>/viaticos/solicitud_viatico/informacion_empleado?nr_usuario="+nr_usuario+"&fecha1="+fecha1+"&fecha2="+fecha2+"&id_mision="+id_mision,true);
         xmlhttp_municipio.send();
+    }
+
+    function change_bosses1(){
+        $("#nr_jefe_inmediato").val($("#nr_jefe_inmediato_copia").val());
+    }
+    function change_bosses2(){
+        $("#nr_jefe_regional").val($("#nr_jefe_regional_copia").val());
     }
 
     var primer_fecha_inicio = "";
@@ -2395,6 +2405,36 @@
                                 <div class="form-group col-lg-12" style="height: 83px;">
                                     <h5>Observaciones: </h5>
                                     <textarea type="text" id="observacion_mision" name="observacion_mision" class="form-control" placeholder="Ingrese alguna observación que sirva de apoyo si existe."></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
+                                    <h5>Jefatura inmediata: <span class="text-danger">*</span></h5>                           
+                                    <select id="nr_jefe_inmediato_copia" name="nr_jefe_inmediato_copia" class="select2" style="width: 100%" required="" onchange="change_bosses1();">
+                                        <option value="">[Elija la jefutura inmediata]</option>
+                                        <?php
+                                            $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY nombre_completo");
+                                            if($otro_empleado->num_rows() > 0){
+                                                foreach ($otro_empleado->result() as $fila) {              
+                                                   echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>"> 
+                                    <h5>Jefatura de dirección/regional: <span class="text-danger">*</span></h5>                           
+                                    <select id="nr_jefe_regional_copia" name="nr_jefe_regional_copia" class="select2" style="width: 100%" required="" onchange="change_bosses2();">
+                                        <option value="">[Elija la jefutura de dirección/regional]</option>
+                                        <?php
+                                            $otro_empleado = $this->db->query("SELECT e.id_empleado, e.nr, UPPER(CONCAT_WS(' ', e.primer_nombre, e.segundo_nombre, e.tercer_nombre, e.primer_apellido, e.segundo_apellido, e.apellido_casada)) AS nombre_completo FROM sir_empleado AS e WHERE e.id_estado = '00001' ORDER BY nombre_completo");
+                                            if($otro_empleado->num_rows() > 0){
+                                                foreach ($otro_empleado->result() as $fila) {              
+                                                   echo '<option class="m-l-50" value="'.$fila->nr.'">'.preg_replace ('/[ ]+/', ' ', $fila->nombre_completo.' - '.$fila->nr).'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <button type="submit" id="submit_button" style="display: none;" class="btn waves-effect waves-light btn-success2">Continuar <i class="mdi mdi-chevron-right"></i></button>
