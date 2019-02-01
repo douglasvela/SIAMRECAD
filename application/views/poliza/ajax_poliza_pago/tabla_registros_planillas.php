@@ -33,7 +33,7 @@ $banco_cual = ""; $delimitador = "";
 
 if($estruc != ""){
 
-$consulta2 = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_mision_oficial AS ec ON ec.id_mision_oficial = p.id_mision AND ec.id_banco = '".$id_banco."' JOIN vyp_bancos AS b ON b.id_banco = ec.id_banco GROUP BY p.nr";
+$consulta2 = "SELECT ".$estruc." FROM (".$sql.") AS p JOIN sir_empleado AS e ON p.nr = e.nr JOIN vyp_empleado_cuenta_banco AS ec ON ec.nr = p.nr AND ec.id_banco = '".$id_banco."' JOIN vyp_bancos AS b ON b.id_banco = ec.id_banco GROUP BY p.nr";
 
 $planilla2 = $this->db->query($consulta2);
 
