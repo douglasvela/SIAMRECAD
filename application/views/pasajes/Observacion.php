@@ -191,7 +191,7 @@
     }
 
     function eliminar_observacion(id_observacion){
-        alert(id_observacion);
+        console.log(id_observacion);
         ajax = objetoAjax();
         ajax.open("POST", "<?php echo site_url(); ?>/pasajes/observaciones/eliminar_observacion", true);
         ajax.onreadystatechange = function() {

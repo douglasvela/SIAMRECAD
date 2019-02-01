@@ -7,6 +7,8 @@ $id_banco = $_GET["id_banco"];
 
 $estruc = "";
 $array = array();
+$resumen = "";
+$resumen2 = "";
 
 $estructura = $this->db->query("SELECT * FROM vyp_estructura_planilla WHERE id_banco = '".$id_banco."' ORDER BY orden");
 if($estructura->num_rows() > 0){
@@ -38,6 +40,7 @@ $planilla2 = $this->db->query($consulta2);
 $count2 = count($array);
 $planilla2->num_rows();
 $correlativo = 0;
+
 if($planilla2->num_rows() > 0){
 
   //$resumen2 .=  "<table style='font-size: 14px;'>";

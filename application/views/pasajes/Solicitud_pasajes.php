@@ -305,7 +305,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
 	            }else if(res=="pasaje_duplicado"){
 	            	swal({ title: "¡Ups! Error", text: "Ya ingreso pasajes es esta fecha.", type: "error", showConfirmButton: true });
 	            }else{
-	                alert(res)
+	                console.log(res)
 	                swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
 	            }
 

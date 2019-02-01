@@ -287,7 +287,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             }else if (res=="duplicado"){
                 swal({ title: "¡Ups! Error", text: "Ruta ya esta registrada.", type: "error", showConfirmButton: true });
             }else{
-                alert(res)
+                console.log(res)
                 swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
             }
         });

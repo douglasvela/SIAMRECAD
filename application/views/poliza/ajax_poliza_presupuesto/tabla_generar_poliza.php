@@ -1,11 +1,5 @@
 <?php
 
-$decs = (($monto-intval($monto))*100);
-
-if($decs == 0){
-  $decs = "00";
-}
-
 //echo$formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
   
 class NumeroALetras{
@@ -76,21 +70,6 @@ $mes_texto = mes($mes_poliza);
 
 $date_poliza = $anio_poliza."-".$mes_poliza;
 
-if($_GET["orden_poliza"] == "automatico"){
-    $poliza = $this->db->query("SELECT no_poliz FROM vyp_poliza WHERE anio = '$anio_poliza' ORDER BY no_poliz DESC LIMIT 1");
-
-    $ult_poliza = 1;
-    if($poliza->num_rows() > 0){
-        foreach ($poliza->result() as $fila2) {
-            $ult_poliza = intval($fila2->no_poliz)+1;
-        }
-    }
-}else{
-    $ult_poliza = $num_poliza;
-}
-
-$num_poliza = $ult_poliza;
-
 ?>
 <div class="table-responsive">
   	<table id="tabla_poliza" class="table table-hover product-overview bg-white">
@@ -157,11 +136,11 @@ $num_poliza = $ult_poliza;
                         <!-- <td style="padding: 7px;"><?php echo "54402"; ?></td> -->
 
                         <td style="padding: 7px;" align="right" style="padding: 7px;">
-                            <?php echo "$ ".number_format(floatval($fila->viatico)+floatval($fila->alojamiento),2); ?>
+                            <?php echo "$ ".number_format(floatval($fila->viatico),2); ?>
                             <input type="hidden" value="<?php echo number_format(floatval($fila->viatico),2); ?>">
                         </td>
 
-                        <td style="padding: 7px;" align="right" style="padding: 7px;"><?php echo "$ ".number_format(floatval($fila->viatico)+floatval($fila->alojamiento)+floatval($fila->pasaje),2); ?>
+                        <td style="padding: 7px;" align="right" style="padding: 7px;"><?php echo "$ ".number_format(floatval($fila->viatico)+floatval($fila->pasaje),2); ?>
                             <input type="hidden" value="<?php echo number_format(floatval($fila->viatico)+floatval($fila->pasaje),2); ?>">
                         </td>
                         <?php

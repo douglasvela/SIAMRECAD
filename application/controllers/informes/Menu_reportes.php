@@ -1921,7 +1921,7 @@ class Menu_reportes extends CI_Controller {
 		foreach ($empleado_NR_viatico->result() as $key) {	
 		}
 		$ids = array(
-			'nr' =>  $key->nr,
+			'nr' =>  $id,
 			'fmin' => $min,
 			'fmax' => $max
 		);

@@ -423,7 +423,7 @@ $altura = 5);
             array('255','255','255'),
             $altura = 5);
 
-        $pdf->Row(array("Cuenta del banco No: ".$numero_cuenta, "Teléfono oficial: ".$filae->telefono_contacto),
+        $pdf->Row(array("Cuenta del banco No: ".$cuenta_banco, "Teléfono oficial: ".$filae->telefono_contacto),
             array('0','0','0'),
             array('Arial','','08'),
             array(false),

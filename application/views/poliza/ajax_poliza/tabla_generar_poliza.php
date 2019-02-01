@@ -1,11 +1,5 @@
 <?php
 
-$decs = (($monto-intval($monto))*100);
-
-if($decs == 0){
-  $decs = "00";
-}
-
 //echo$formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
   
 class NumeroALetras{

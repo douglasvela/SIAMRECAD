@@ -1,11 +1,5 @@
 <?php
 
-$decs = (($monto-intval($monto))*100);
-
-if($decs == 0){
-  $decs = "00";
-}
-
 //echo$formato_dinero = NumeroALetras::convertir($monto)." ".$decs."/100";
   
 class NumeroALetras{
@@ -111,7 +105,7 @@ $cabecera = '
 				POLIZA DE REINTEGRO DEL FONDO CIRCULANTE </center><h6>
 		</td>
 	   	<td width="100px;" align="right">
-		    <img src="application/controllers/informes/escudo.jpg" width="60px" height="50px">
+		    <img src="application/controllers/informes/escudo.jpg" width="130px" height="50px">
 		</td>
 	</tr></table>';
 
@@ -119,13 +113,13 @@ $cabecera .= '
 	<table width="100%" style="font-size: 9px;">
 	
 	<tr>
-		<td width="150px;">
+		<td>
 		    INSTITUCIÓN:
 		</td>
 		<td>
 			MINISTERIO DE TRABAJO Y PREVISION SOCIAL
 		</td>
-		<td width="170px;">
+		<td>
 		    No. POLIZA:
 		</td>
 		<td align="center" style="font-size: 14px; font-weight: bold;">
@@ -134,13 +128,13 @@ $cabecera .= '
 	</tr>
 
 	<tr>
-		<td width="150px;">
+		<td>
 		    CÓDIGO PRESUPUESTARIO:
 		</td>
 		<td>
 			'.$cod_presupuestario.'
 		</td>
-		<td width="170px;">
+		<td>
 		    MES:
 		</td>
 		<td>
@@ -149,13 +143,13 @@ $cabecera .= '
 	</tr>
 
 	<tr>
-		<td width="150px;">
+		<td>
 		    DENOMINACIÓN DEL FONDO DE MONTO FIJO:
 		</td>
 		<td>
 			FONDO CIRCULANTE DEL MTPS
 		</td>
-		<td width="170px;">
+		<td>
 		    EJERCICIO FINANCIERO FISCAL:<BR>
 		    NOMBRE DEL BANCO:
 		</td>
@@ -165,13 +159,13 @@ $cabecera .= '
 		</td>
 	</tr>
 	<tr>
-		<td width="150px;">
+		<td>
 		    MONTO TOTAL DE REINTEGRO:
 		</td>
 		<td  style="font-size: 12px; font-weight: bold;">
 			$ '.$monto.'
 		</td>
-		<td width="170px;">
+		<td>
 			No. CUENTA BANCARIA:<BR>
 		    No. COMPROMISO PRESUPUESTARIO:
 		</td>
@@ -182,13 +176,13 @@ $cabecera .= '
 	</tr>
 
 	<tr>
-		<td width="150px;">
+		<td>
 		    CANTIDAD EN LETRAS:
 		</td>
 		<td>
 			'.$formato_dinero.'
 		</td>
-		<td width="170px;">
+		<td>
 		    FECHA DE CANCELADO
 		</td>
 		<td>
@@ -215,7 +209,7 @@ $cuerpo = '
     <table  class="" border="1" style="width:100%; font-size: 10px;">
         <thead >
             <tr>
-                <th style="padding: 3px;" align="center" colspan="'.count($array_linea1).'" width="1px">Subtotales originales</th>
+                <td style="padding: 3px;" align="center" colspan="'.count($array_linea1).'" width="1px">Subtotales originales</td>
             </tr>
         </thead>
         <tbody>';
@@ -248,7 +242,7 @@ $cuerpo .= '
     <table  class="" border="1" style="width:100%; font-size: 10px;">
         <thead >
             <tr>
-                <th style="padding: 3px;" align="center" colspan="'.count($array_linea2).'" width="1px">Subtotales cambiados en presupuesto</th>
+                <td style="padding: 3px;" align="center" colspan="'.count($array_linea2).'" width="1px">Subtotales cambiados en presupuesto</td>
             </tr>
         </thead>
         <tbody>';
@@ -271,25 +265,25 @@ $cuerpo .= '
 	<table  class="" border="1" style="width:100%; font-size: 10px;">
 		<thead >
 			<tr>
-				<th align="center" rowspan="2" width="1px">No.<br>Doc</th>
-				<th align="center" rowspan="2" width="10px">No.<br>Poliza</th>
-				<th align="center" rowspan="2" width="20px">Mes<br>poliza</th>
-				<th align="center" rowspan="2" width="25px">Fecha elaboración formulario</th>
-				<th align="center" rowspan="2" width="10px">Cheque ó Cuenta</th>
-				<th align="center" rowspan="2" width="10px">Código empleado</th>
-				<th align="center" rowspan="2" width="13px">Fecha misión</th>
-				<th align="center" rowspan="2" width="60px">Nombre empleado</th>
-				<th align="center" rowspan="2" width="100px">Detalle misión</th>
-				<th align="center" rowspan="2" width="60px">Sede</th>
-				<th align="center" rowspan="2" width="60px">Cargo funcional</th>
-				<th align="center" rowspan="2" width="20px">UP/LT</th>
-                <th align="center" rowspan="2" width="20px">UP/LT (Pres.)</th>
-				<th align="center" colspan="2" width="60px">Detalle de objetos físicos</th>
-				<th align="center" rowspan="2" width="20px">Total</th>
+				<td align="center" rowspan="2" width="1px">No.<br>Doc</td>
+				<td align="center" rowspan="2" width="10px">No.<br>Poliza</td>
+				<td align="center" rowspan="2" width="20px">Mes<br>poliza</td>
+				<td align="center" rowspan="2" width="25px">Fecha elaboración formulario</td>
+				<td align="center" rowspan="2" width="10px">Cheque ó Cuenta</td>
+				<td align="center" rowspan="2" width="10px">Código empleado</td>
+				<td align="center" rowspan="2" width="13px">Fecha misión</td>
+				<td align="center" rowspan="2" width="60px">Nombre empleado</td>
+				<td align="center" rowspan="2" width="100px">Detalle misión</td>
+				<td align="center" rowspan="2" width="60px">Sede</td>
+				<td align="center" rowspan="2" width="60px">Cargo funcional</td>
+				<td align="center" rowspan="2" width="20px">UP/LT</td>
+                <td align="center" rowspan="2" width="20px">UP/LT (Pres.)</td>
+				<td align="center" colspan="2" width="60px">Detalle de objetos físicos</td>
+				<td align="center" rowspan="2" width="20px">Total</td>
 			</tr>
 			<tr>
-				<th align="center" width="20px">54401</th>
-				<th align="center" width="20px">54403</th>
+				<td align="center" width="20px">54401</td>
+				<td align="center" width="20px">54403</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -332,10 +326,10 @@ $cuerpo .= '
 
 			$cuerpo .= '
 				<tr>
-					<th align="center" colspan="13">Total</th>
-					<th align="right">$'.number_format($total_pasaje,2,".","").'</th>
-					<th align="right">$'.number_format($total_viatico,2,".","").'</th>
-					<th align="right">$'.number_format($total_pasaje+$total_viatico,2,".","").'</th>
+					<td align="center" colspan="13">Total</td>
+					<td align="right">$'.number_format($total_pasaje,2,".","").'</td>
+					<td align="right">$'.number_format($total_viatico,2,".","").'</td>
+					<td align="right">$'.number_format($total_pasaje+$total_viatico,2,".","").'</td>
 				</tr>';
 
 		}else{

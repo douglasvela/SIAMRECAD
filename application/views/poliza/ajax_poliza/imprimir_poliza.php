@@ -105,7 +105,7 @@ $cabecera = '
 				POLIZA DE REINTEGRO DEL FONDO CIRCULANTE </center><h6>
 		</td>
 	   	<td width="100px;" align="right">
-		    <img src="application/controllers/informes/escudo.jpg" width="60px" height="50px">
+		    <img src="application/controllers/informes/escudo.jpg" width="130px" height="50px">
 		</td>
 	</tr></table>';
 
@@ -113,13 +113,13 @@ $cabecera .= '
 	<table width="100%" style="font-size: 9px;">
 	
 	<tr>
-		<td width="150px;">
+		<td>
 		    INSTITUCIÓN:
 		</td>
 		<td>
 			MINISTERIO DE TRABAJO Y PREVISION SOCIAL
 		</td>
-		<td width="170px;">
+		<td>
 		    No. POLIZA:
 		</td>
 		<td align="center" style="font-size: 14px; font-weight: bold;">
@@ -128,13 +128,13 @@ $cabecera .= '
 	</tr>
 
 	<tr>
-		<td width="150px;">
+		<td>
 		    CÓDIGO PRESUPUESTARIO:
 		</td>
 		<td>
 			'.$cod_presupuestario.'
 		</td>
-		<td width="170px;">
+		<td>
 		    MES:
 		</td>
 		<td>
@@ -143,13 +143,13 @@ $cabecera .= '
 	</tr>
 
 	<tr>
-		<td width="150px;">
+		<td>
 		    DENOMINACIÓN DEL FONDO DE MONTO FIJO:
 		</td>
 		<td>
 			FONDO CIRCULANTE DEL MTPS
 		</td>
-		<td width="170px;">
+		<td>
 		    EJERCICIO FINANCIERO FISCAL:<BR>
 		    NOMBRE DEL BANCO:
 		</td>
@@ -159,13 +159,13 @@ $cabecera .= '
 		</td>
 	</tr>
 	<tr>
-		<td width="150px;">
+		<td>
 		    MONTO TOTAL DE REINTEGRO:
 		</td>
 		<td  style="font-size: 12px; font-weight: bold;">
 			$ '.$monto.'
 		</td>
-		<td width="170px;">
+		<td>
 			No. CUENTA BANCARIA:<BR>
 		    No. COMPROMISO PRESUPUESTARIO:
 		</td>
@@ -176,13 +176,13 @@ $cabecera .= '
 	</tr>
 
 	<tr>
-		<td width="150px;">
+		<td>
 		    CANTIDAD EN LETRAS:
 		</td>
 		<td>
 			'.$formato_dinero.'
 		</td>
-		<td width="170px;">
+		<td>
 		    FECHA DE CANCELADO
 		</td>
 		<td>

@@ -44,8 +44,8 @@ class Reportes_viaticos_model extends CI_Model {
     function obtenerListaviaticoPagado($data){
       $this->db->where("nr_empleado",$data['nr']);
       $this->db->where("estado","8");
-      $this->db->where("fecha_solicitud >=",date("Y-m-d",strtotime($data['fmin'])));
-      $this->db->where("fecha_solicitud <=",date("Y-m-d",strtotime($data['fmax'])));
+      $this->db->where("fecha_mision_inicio >=",date("Y-m-d",strtotime($data['fmin'])));
+      $this->db->where("fecha_mision_inicio <=",date("Y-m-d",strtotime($data['fmax'])));
       $viaticos = $this->db->get('vyp_mision_oficial');
       return $viaticos;
     }
