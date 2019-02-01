@@ -414,14 +414,6 @@
                     $("#fecha_alojamiento").val(fecha_ruta_old)
                     fecha_aloj = moment(fecha_ruta_old);
                     for(a=0; a<diferencia; a++){
-                        
-                        if(fecha_aloj.format("e") == 6){
-                            fecha_aloj = fecha_aloj.add(2,'days');
-                            //diferencia = diferencia - 2;
-                        }else if(fecha_aloj.format("e") == 0){
-                            fecha_aloj = fecha_aloj.add(1,'days');
-                            //diferencia = diferencia - 1;
-                        }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
 
@@ -458,11 +450,7 @@
                     for(f=0; f<diferencia; f++){                   
                         if(f == (diferencia-1)){ //validacion fecha nueva dia 0
                             fecha1 = fecha1.add(1,'days');
-                            if(fecha1.format("e") == 6){
-                                fecha1 = fecha1.add(2,'days');
-                            }else if(fecha1.format("e") == 0){
-                                fecha1 = fecha1.add(1,'days');
-                            }
+
                             fecha_ruta_new = fecha1.format("YYYY-MM-DD");
                             hs = primer_hora_salida;
                             hl = hl2;
@@ -486,11 +474,7 @@
                             }
                         }else{ //validacion fecha nueva dia > 0   ---> 1,2,3,etc.
                             fecha1 = fecha1.add(1,'days');
-                            if(fecha1.format("e") == 6){
-                                fecha1 = fecha1.add(2,'days');
-                            }else if(fecha1.format("e") == 0){
-                                fecha1 = fecha1.add(1,'days');
-                            }
+
                             fecha_ruta_new = fecha1.format("YYYY-MM-DD");
                             hs = primer_hora_salida;
                             hl = ultima_hora_llegada;
@@ -582,13 +566,6 @@
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
         for(f=0; f<diferencia; f++){                    
             fecha_copy = fecha_copy.add(1,'days');
-            if(fecha_copy.format("e") == 6){
-                fecha_copy = fecha_copy.add(2,'days');
-                diferencia = diferencia - 2;
-            }else if(fecha_copy.format("e") == 0){
-                fecha_copy = fecha_copy.add(1,'days');
-                diferencia = diferencia - 1;
-            }
         }
 
         if(id_ruta_old != id_oficina_origenes){ //Si no ha estado (permanencia) en la oficina de origen, se verifican viáticos
@@ -605,14 +582,6 @@
                     $("#fecha_alojamiento").val(fecha_ruta_old)
                     fecha_aloj = moment(fecha_ruta_old);
                     for(a=0; a<diferencia; a++){
-                        
-                        if(fecha_aloj.format("e") == 6){
-                            fecha_aloj = fecha_aloj.add(2,'days');
-                            //diferencia = diferencia - 2;
-                        }else if(fecha_aloj.format("e") == 0){
-                            fecha_aloj = fecha_aloj.add(1,'days');
-                            //diferencia = diferencia - 1;
-                        }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
 

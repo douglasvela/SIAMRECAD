@@ -12,8 +12,6 @@
 $sql = $_POST["sql"];
 $polis = $_POST["polis"];
 
-
-
 	//SELECT p0.* FROM vyp_poliza AS p0 WHERE no_poliza = '1' AND mes_poliza = 'ENERO' AND anio = '2017' UNION SELECT p1.* FROM vyp_poliza AS p1 WHERE no_poliza = '2' AND mes_poliza = 'ENERO' AND anio = '2017' UNION SELECT p2.* FROM vyp_poliza AS p2 WHERE no_poliza = '3' AND mes_poliza = 'FEBRERO' AND anio = '2017'
 
 //echo $host= $_SERVER["REQUEST_URI"];
@@ -23,7 +21,7 @@ $polis = $_POST["polis"];
 <select id="id_banco2" name="id_banco2" class="custom-select" style="width: 100%; background-color: #fff;" required="" onchange="tabla_registros_planillas('<?php echo base64_encode($sql); ?>','<?php echo base64_encode($polis); ?>');">
     <option value="">[Elija el banco]</option>
     <?php 
-        $bancos = $this->db->query("SELECT b.* FROM vyp_bancos AS b WHERE b.id_banco IN (SELECT ec.id_banco FROM vyp_empleado_cuenta_banco AS ec WHERE ec.nr IN (SELECT pol.nr FROM (".$sql.") AS pol))");
+        $bancos = $this->db->query("SELECT b.* FROM vyp_bancos AS b WHERE b.id_banco IN (SELECT ec.id_banco FROM vyp_mision_oficial AS ec WHERE ec.id_mision_oficial IN (SELECT pol.id_mision FROM (".$sql.") AS pol))");
 		    if($bancos->num_rows() > 0){
 		        foreach ($bancos->result() as $fila) {              
                echo '<option class="m-l-50" value="'.$fila->id_banco.'">'.$fila->nombre.'</option>';
