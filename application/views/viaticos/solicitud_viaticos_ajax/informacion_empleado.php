@@ -8,7 +8,7 @@ $id_mision = $_GET["id_mision"];
 
 if(!empty($nr_usuario)){
 
-    $info_empleado = $this->db->query("SELECT ie.*, ecb.id_banco FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_usuario."'");
+    $info_empleado = $this->db->query("SELECT ie.*, ecb.id_empleado_banco FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_usuario."'");
     if($info_empleado->num_rows() > 0){ 
         foreach ($info_empleado->result() as $filas) {}
 
@@ -41,7 +41,7 @@ if(!empty($nr_usuario)){
 		    $nombre_oficina = $filaofi->nombre_oficina;
 		    $id_oficina_origen = $filaofi->id_oficina;
 		    $id_oficina_origen = $filaofi->id_oficina;
-		    $id_empleado_banco = $filas->id_banco;
+		    $id_empleado_banco = $filas->id_empleado_banco;
 		    $jefe_inmediato = "";
 		    $jefe_regional = "";
 		    if($jefaturas->num_rows() > 0){ 

@@ -270,7 +270,7 @@
 
                 if(viaticos[h][0] == 2){
                     if(((hl >= viaticos[h][3]))){
-                        ultimo_viatico = viaticos[h][0];
+                        //ultimo_viatico = viaticos[h][0];
                     }
                 }else{
                     if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
@@ -414,14 +414,6 @@
                     $("#fecha_alojamiento").val(fecha_ruta_old)
                     fecha_aloj = moment(fecha_ruta_old);
                     for(a=0; a<diferencia; a++){
-                        
-                        if(fecha_aloj.format("e") == 6){
-                            fecha_aloj = fecha_aloj.add(2,'days');
-                            //diferencia = diferencia - 2;
-                        }else if(fecha_aloj.format("e") == 0){
-                            fecha_aloj = fecha_aloj.add(1,'days');
-                            //diferencia = diferencia - 1;
-                        }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
 
@@ -437,7 +429,7 @@
                         if(((hs <= viaticos[j][2] && hl >= viaticos[j][2]) || (hs >= viaticos[j][2] && hs <= viaticos[j][3]))){
 
                             //if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
-
+                                console.log(ultimo_viatico)
                                 if(viaticos[j][0]!=ultimo_viatico){
                                     band_viatico = true;
                                     reg_viaticos.push([fecha_ruta_old, viaticos[j][0], id_mision, '1', viaticos[j][4]]);
@@ -458,11 +450,6 @@
                     for(f=0; f<diferencia; f++){                   
                         if(f == (diferencia-1)){ //validacion fecha nueva dia 0
                             fecha1 = fecha1.add(1,'days');
-                            if(fecha1.format("e") == 6){
-                                fecha1 = fecha1.add(2,'days');
-                            }else if(fecha1.format("e") == 0){
-                                fecha1 = fecha1.add(1,'days');
-                            }
                             fecha_ruta_new = fecha1.format("YYYY-MM-DD");
                             hs = primer_hora_salida;
                             hl = hl2;
@@ -486,11 +473,6 @@
                             }
                         }else{ //validacion fecha nueva dia > 0   ---> 1,2,3,etc.
                             fecha1 = fecha1.add(1,'days');
-                            if(fecha1.format("e") == 6){
-                                fecha1 = fecha1.add(2,'days');
-                            }else if(fecha1.format("e") == 0){
-                                fecha1 = fecha1.add(1,'days');
-                            }
                             fecha_ruta_new = fecha1.format("YYYY-MM-DD");
                             hs = primer_hora_salida;
                             hl = ultima_hora_llegada;
@@ -580,13 +562,6 @@
         var fecha_copy = moment(fecha_ruta_old);    //verifica si la fecha cae sabado o domingo para no contar la diferencia de esos dias
         for(f=0; f<diferencia; f++){                    
             fecha_copy = fecha_copy.add(1,'days');
-            if(fecha_copy.format("e") == 6){
-                fecha_copy = fecha_copy.add(2,'days');
-                diferencia = diferencia - 2;
-            }else if(fecha_copy.format("e") == 0){
-                fecha_copy = fecha_copy.add(1,'days');
-                diferencia = diferencia - 1;
-            }
         }
 
         if(id_ruta_old != id_oficina_origenes){ //Si no ha estado (permanencia) en la oficina de origen, se verifican viáticos
@@ -603,14 +578,6 @@
                     $("#fecha_alojamiento").val(fecha_ruta_old)
                     fecha_aloj = moment(fecha_ruta_old);
                     for(a=0; a<diferencia; a++){
-                        
-                        if(fecha_aloj.format("e") == 6){
-                            fecha_aloj = fecha_aloj.add(2,'days');
-                            //diferencia = diferencia - 2;
-                        }else if(fecha_aloj.format("e") == 0){
-                            fecha_aloj = fecha_aloj.add(1,'days');
-                            //diferencia = diferencia - 1;
-                        }
 
                         reg_alojamiento.push([id_mision, fecha_aloj.format("YYYY-MM-DD"), parseFloat($("#alojamiento").val()).toFixed(2), $("#id_origen").val()]);
 
@@ -1779,23 +1746,29 @@
                 }
             }
 
-            ajax = objetoAjax();
-            ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/fecha_repetida", true);
-            ajax.onreadystatechange = function() {
-                if (ajax.readyState == 4){
-                    $("#area").val(ajax.responseText)
-                    if(ajax.responseText == "exito"){
-                        recorre_observaciones();
-                    }else if(ajax.responseText == "fecha_repetida"){
-                        swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
-                    }else{
-                        $("#modal_loading").modal('hide'); 
-                        swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
-                    }           
-                }
-            } 
-            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
-            ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
+            if($('#fecha_mision option:last-child').text().trim() == $(celdas[0]).text().trim()){
+
+                ajax = objetoAjax();
+                ajax.open("POST", "<?php echo site_url(); ?>/viaticos/solicitud_viatico/fecha_repetida", true);
+                ajax.onreadystatechange = function() {
+                    if (ajax.readyState == 4){
+                        $("#area").val(ajax.responseText)
+                        if(ajax.responseText == "exito"){
+                            recorre_observaciones();
+                        }else if(ajax.responseText == "fecha_repetida"){
+                            swal({ title: "Choque de misiones", text: "La fecha y hora de esta misión se coincide con el de otra misión", type: "warning", showConfirmButton: true });
+                        }else{
+                            $("#modal_loading").modal('hide'); 
+                            swal({ title: "¡Ups! Error", text: "Intentalo nuevamente.", type: "error", showConfirmButton: true });
+                        }           
+                    }
+                } 
+                ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+                ajax.send("&id_mision="+id_mision+"&fecha1="+fecha1+"&fecha2="+fecha2+"&hora1="+hora1+"&hora2="+hora2+"&nr="+nr)
+            }else{
+                $("#modal_loading").modal('hide'); 
+                swal({ title: "Falta fecha fin", text: "No se encontró detallada la fecha de finalización de la misión", type: "warning", showConfirmButton: true });
+            }
         }else{
             $("#modal_loading").modal('hide'); 
             swal({ title: "Detalle incompleto", text: "No se encontró detallado el regreso a su oficina de origen", type: "warning", showConfirmButton: true });
