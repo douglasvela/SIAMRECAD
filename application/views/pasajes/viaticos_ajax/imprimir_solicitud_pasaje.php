@@ -213,11 +213,11 @@ $pdf->Ln(10);
         foreach ($cargo_funcional->result() as $filacf) {              
         }
     }
-    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1");
+    $cuenta = $this->db->query("SELECT c.*, b.nombre FROM vyp_empleado_cuenta_banco AS c JOIN vyp_bancos AS b ON b.id_banco = c.id_banco WHERE estado = 1 AND nr = '$nr_usuario'");
     if($cuenta->num_rows() > 0){
         foreach ($cuenta->result() as $filac) {}
     }
-         $pdf->Image(base_url()."assets/firmas/".$nr_empleado.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
+        //$pdf->Image(base_url()."assets/firmas/".$nr_empleado.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
 
         $pdf->Ln(7);
         $pdf->SetWidths(array(100,90));
@@ -237,7 +237,7 @@ $pdf->Ln(10);
             array('0','0','0'),
             array('255','255','255'),
             $altura = 5);
-        $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_empleado."            Sueldo:   $".number_format($filae->salario, 2, '.', '')),
+        $pdf->Row(array("Cargo funcional: ".parrafo($filacf->funcional), "Código: ".$nr_empleado."            Sueldo:   $"),
             array('0','0','0'),
             array('Arial','B','09'),
             array(false),
@@ -291,12 +291,12 @@ $pdf->Ln(10);
         }
 
 
-        if(intval($fila2->estado) > 2){
+        /*if(intval($fila2->estado) > 2){
             $pdf->Image(base_url()."assets/firmas/".$filajf->nr.".png" , 45,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajf->nr.".png");
         }
         if(intval($fila2->estado) > 4){
             $pdf->Image(base_url()."assets/firmas/".$filajr->nr.".png" , 140,$pdf->GetY()-3, 40 , 15,'PNG', base_url()."assets/firmas/".$filajr->nr.".png");
-        }
+        }*/
 
        $pdf->Ln(7);
         $pdf->SetWidths(array(95,95));

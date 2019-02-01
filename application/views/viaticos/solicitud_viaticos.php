@@ -270,7 +270,7 @@
 
                 if(viaticos[h][0] == 2){
                     if(((hl >= viaticos[h][3]))){
-                        //ultimo_viatico = viaticos[h][0];
+                        ultimo_viatico = viaticos[h][0];
                     }
                 }else{
                     if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
@@ -291,6 +291,7 @@
         if(ultimo_viatico == 2){
             existe_viatico = consultar_viatico_existe(fecha_ruta_new,ultimo_viatico,id_mision);
         }
+        ultimo_viatico = "";
         console.log("existe_viatico: "+existe_viatico)
         console.log("ultimo_viatico: "+ultimo_viatico)
 
@@ -330,10 +331,12 @@
                 
                 if(kilometraje_old >= DistanciaMinima || document.getElementById("justificacion").checked == 1){ //verifica si la ultima ruta cumplia con 15 Km
                     console.log("kilometraje_old: exito")
+                    console.log("viatico_almuerzo: hl")
                     for(j=0; j<viaticos.length; j++){
-
+                        console.log("viatico_almuerzo: "+viaticos[j][0])
                         if(viaticos[j][0] == 2){
                             if(((hl >= viaticos[j][3]))){
+
                                 if(viaticos[j][0] != restriccion_salida && viaticos[j][0] != restriccion_llegada){
                                     if(existe_viatico == "disponible"){
 

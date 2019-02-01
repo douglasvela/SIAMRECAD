@@ -29,6 +29,10 @@ class Pasaje extends CI_Controller {
 		if($this->input->post('band') == "save"){
 			$nr_empleado = $this->input->post('nr_empleado');
 			///////////////////////////////////////////////
+
+			$info_empleado = $this->db->query("SELECT ie.*, ecb.id_empleado_banco FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_empleado."'");
+		    $id_empleado_banco = $info_empleado->row()->id_empleado_banco;
+
 			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
 		    if($info_empleado->num_rows() > 0){ 
 		        foreach ($info_empleado->result() as $filas) {}
@@ -41,8 +45,8 @@ class Pasaje extends CI_Controller {
 		          foreach ($director_jefe_regional->result() as $filadir) {}
 		      }
 		      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
-		      $nr_jefe_regional = $filadir->nr;
-		  }
+		      $nr_jefe_regional = $filas->nr_jefe_departamento;
+		  	}
 			///////////////////////////////////////////////
 			$data = array(
 			'fecha_solicitud_pasaje' => date("Y-m-d",strtotime($this->input->post('fecha_solicitud'))),
@@ -53,11 +57,15 @@ class Pasaje extends CI_Controller {
 			'estado' => '0',
 			'mes_pasaje' =>$this->input->post('mes_pasaje'),
 			'anio_pasaje'=>$this->input->post('anio_pasaje'),
+			'id_banco'=>$id_empleado_banco
 			);
-		echo $this->Pasaje_model->insertar_pasaje($data);;
+		echo $this->Pasaje_model->insertar_pasaje($data);
 		
 		} else if($this->input->post('band') == "edit"){
 			$nr_empleado = $this->input->post('nr_empleado');
+
+			$info_empleado = $this->db->query("SELECT ie.*, ecb.id_empleado_banco FROM vyp_informacion_empleado ie JOIN vyp_empleado_cuenta_banco ecb ON ecb.nr = ie.nr WHERE ecb.estado = 1 AND ie.nr = '".$nr_empleado."'");
+		    $id_empleado_banco = $info_empleado->row()->id_empleado_banco;
 			///////////////////////////////////////////////
 			$info_empleado = $this->db->query("SELECT * FROM vyp_informacion_empleado WHERE nr = '".$nr_empleado."'");
 		    if($info_empleado->num_rows() > 0){ 
@@ -71,7 +79,7 @@ class Pasaje extends CI_Controller {
 		          foreach ($director_jefe_regional->result() as $filadir) {}
 		      }
 		      $nr_jefe_inmediato = $filas->nr_jefe_inmediato;
-		      $nr_jefe_regional = $filadir->nr;
+		      $nr_jefe_regional = $filas->nr_jefe_departamento;
 		  }
 			///////////////////////////////////////////////
 			$data = array(
@@ -83,6 +91,7 @@ class Pasaje extends CI_Controller {
 			'nr_jefe_regional' => $nr_jefe_regional,
 			'mes_pasaje' =>$this->input->post('mes_pasaje'),
 			'anio_pasaje'=>$this->input->post('anio_pasaje'),
+			'id_banco'=>$id_empleado_banco
 			);
 			echo $this->Pasaje_model->editar_pasaje($data);
 		}else if($this->input->post('band') == "delete"){

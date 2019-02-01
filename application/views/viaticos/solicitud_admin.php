@@ -270,7 +270,7 @@
 
                 if(viaticos[h][0] == 2){
                     if(((hl >= viaticos[h][3]))){
-                        //ultimo_viatico = viaticos[h][0];
+                        ultimo_viatico = viaticos[h][0];
                     }
                 }else{
                     if(((hora_salida_old <= viaticos[h][2] && hora_llegada_old >= viaticos[h][2]) || (hora_salida_old >= viaticos[h][2] && hora_salida_old <= viaticos[h][3]))){
@@ -291,6 +291,7 @@
         if(ultimo_viatico == 2){
             existe_viatico = consultar_viatico_existe(fecha_ruta_new,ultimo_viatico,id_mision);
         }
+        ultimo_viatico = "";
         console.log("existe_viatico: "+existe_viatico)
         console.log("ultimo_viatico: "+ultimo_viatico)
 

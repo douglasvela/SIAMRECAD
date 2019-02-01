@@ -296,6 +296,8 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
+                                    <li><a href="javascript:window.open('../../password','_blank');">Cambiar mi contraseña</a></li>
+                                    <li role="separator" class="divider"></li>
                                     <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="<?php echo site_url(); ?>/cerrar_sesion"><i class="fa fa-power-off"></i> Salir</a></li>

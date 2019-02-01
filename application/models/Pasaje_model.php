@@ -10,7 +10,7 @@ class Pasaje_model extends CI_Model {
 	function insertar_pasaje($data){
 		$query01 = $this->db->query("select * from vyp_mision_pasajes where nr = '".$data['nr']."' and  mes_pasaje='".$data['mes_pasaje']."' and anio_pasaje='".$data['anio_pasaje']."'");
 		if($query01->num_rows() == 0){
-			if($this->db->insert('vyp_mision_pasajes', array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'estado'=>$data['estado'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje'])))
+			if($this->db->insert('vyp_mision_pasajes', array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'estado'=>$data['estado'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje'],'id_banco'=>$data['id_banco'])))
 			{
 				$id = $this->db->insert_id();
 				return "exito,".$id;
@@ -26,7 +26,7 @@ class Pasaje_model extends CI_Model {
 		$query01 = $this->db->query("select * from vyp_mision_pasajes where nr = '".$data['nr']."' and  fecha_solicitud_pasaje='".$data['fecha_solicitud_pasaje']."' and id_mision_pasajes!='".$data["id_mision_pasajes"]."'");
 		if($query01->num_rows() == 0){
 			$this->db->where("id_mision_pasajes",$data["id_mision_pasajes"]);
-			if($this->db->update('vyp_mision_pasajes',array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje']))){
+			if($this->db->update('vyp_mision_pasajes',array('fecha_solicitud_pasaje'=>$data['fecha_solicitud_pasaje'],'nr'=>$data['nr'],'nombre_empleado'=>$data['nombre_empleado'],'nr_jefe_inmediato'=>$data['nr_jefe_inmediato'],'nr_jefe_regional'=>$data['nr_jefe_regional'],'mes_pasaje'=>$data['mes_pasaje'],'anio_pasaje'=>$data['anio_pasaje'],'id_banco'=>$data['id_banco']))){
 				return "exito";
 			}else{
 				return "fracaso";

@@ -411,7 +411,7 @@ $altura = 5);
             $nombre_banco = parrafo($filac->nombre);
         }
     }
-        $pdf->Image(base_url()."assets/firmas/".$nr_usuario.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
+        //$pdf->Image(base_url()."assets/firmas/".$nr_usuario.".png" , 130,$pdf->GetY()-3, 40 , 15,'PNG');
 
         $pdf->Ln(7);
         $pdf->SetWidths(array(100,90));
