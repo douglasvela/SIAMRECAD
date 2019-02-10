@@ -3565,9 +3565,9 @@ class Menu_reportes extends CI_Controller {
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viáticos por Genero"));
+		$graph->title->Set(utf8_decode("Viáticos por Género"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
-		$graph->xaxis->title->Set(utf8_decode("Genero"));
+		$graph->xaxis->title->Set(utf8_decode("Género"));
 
 		$graph->title->SetFont(FF_ARIAL,FS_BOLD);
 		$graph->yaxis->title->SetFont(FF_ARIAL,FS_BOLD);
@@ -3610,7 +3610,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		 	<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">   
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GÉNERO</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3620,7 +3620,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GÉNERO</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3649,7 +3649,7 @@ class Menu_reportes extends CI_Controller {
 
 				<thead >
 					<tr>
-						<td align="center" rowspan="2">Genero</td>
+						<td align="center" rowspan="2">Género</td>
 						<td align="center" colspan="3">Tipo</td>
 						<td align="center" rowspan="2">total</td>						
 					</tr>
