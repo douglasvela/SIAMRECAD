@@ -63,7 +63,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             sortTable()
             
         }else if (xhr.status !== 200) {
-            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de póliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
     };
     xhr.send(encodeURI('name=' + newName));
@@ -79,7 +79,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
             document.getElementById("cnt_tabla_poliza").innerHTML = xhr.responseText;
             $('#myTable').DataTable();
         }else if (xhr.status !== 200) {
-            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de poliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
+            swal({ title: "Ups! ocurrió un Error", text: "Al parecer la tabla de póliza generada no se cargó correctamente por favor recarga la página e intentalo nuevamente", type: "error", showConfirmButton: true });
         }
     };
     xhr.send(encodeURI('name=' + newName));
@@ -185,7 +185,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
       insertar_poliza(script)
 
     }else{
-      swal({ title: "Póliza vacía", text: "No se puede generar una poliza sin viáticos.", type: "warning", showConfirmButton: true });
+      swal({ title: "Póliza vacía", text: "No se puede generar una póliza sin viáticos.", type: "warning", showConfirmButton: true });
     }
 
   }
@@ -305,7 +305,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         <div class="align-self-center" align="center">
             <h3 class="text-themecolor m-b-0 m-t-0">
               <?php 
-                echo $titulo = ucfirst("Gestión de polizas"); 
+                echo $titulo = ucfirst("Gestión de pólizas"); 
               ?>
               </h3>
         </div>
@@ -324,11 +324,11 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
           <div class="align-self-center" align="center">
             <h4 align="center" class="card-title m-b-0">
               MINISTERIO DE TRABAJO Y PREVISION SOCIAL 
-              <p align="center">POLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p>
+              <p align="center">PÓLIZA DE REINTEGRO DEL FONDO CIRCULANTE</p>
             </h4>
             <table width="1206" height="166" border="0">
               <tr>
-                <td width="326"><h5 align="justify">No. POLIZA: </h5></td>
+                <td width="326"><h5 align="justify">No. PÓLIZA: </h5></td>
                 <td width="257">
                   <div align="justify">
                     <span class="controls">

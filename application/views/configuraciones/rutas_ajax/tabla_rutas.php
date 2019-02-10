@@ -8,7 +8,7 @@
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-left">
             <div class="">
-            <label for="" class="font-weight-bold">Opcion de destino:  </label><br>
+            <label for="" class="font-weight-bold">Opción de destino:  </label><br>
             <input type="radio" id="m_destino_oficina" <?php if($this->uri->segment(4)=="destino_oficina"){?> checked <?php }?> name="m_gender" value="m_destino_oficina" onclick="tablaRutas('destino_oficina');">
             <label for="m_destino_oficina">Oficina</label>
             <input type="radio" id="m_destino_municipio" <?php if($this->uri->segment(4)=="destino_municipio"){?> checked <?php }?> name="m_gender" value="m_destino_municipio" onclick="tablaRutas('destino_municipio');">

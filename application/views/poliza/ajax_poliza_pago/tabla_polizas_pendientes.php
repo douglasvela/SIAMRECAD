@@ -3,14 +3,14 @@
         <div class="card-actions">
             <a style="font-size: 16px;" onclick="cerrar_mantenimiento();"><i class="mdi mdi-window-close"></i></a>
         </div>
-        <h4 class="card-title m-b-0">Listado de polizas pendientes de pago</h4>
+        <h4 class="card-title m-b-0">Listado de pólizas pendientes de pago</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="table-responsive">
             <table id="tabla_pendiente_pago" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th># poliza</th>
+                        <th># póliza</th>
                         <th>Mes</th>
                         <th>Año</th> 
                         <th>Monto</th>

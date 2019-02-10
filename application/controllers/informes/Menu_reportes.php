@@ -143,7 +143,7 @@ class Menu_reportes extends CI_Controller {
 		$b1plot->value->Show();
 		//$b1plot->SetColor("#0000CD");
 		$b2plot->SetFillColor('#B0C4DE');
-		$b1plot->SetLegend("Viaticos");
+		$b1plot->SetLegend("Viáticos");
 
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
@@ -152,7 +152,7 @@ class Menu_reportes extends CI_Controller {
 		//$b4plot->value->Show();
 		//$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viaticos por año"));
+		$graph->title->Set(utf8_decode("Viáticos por año"));
 		$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Años"));
 
@@ -233,7 +233,7 @@ class Menu_reportes extends CI_Controller {
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viaticos por año"));
+		$graph->title->Set(utf8_decode("Viáticos por año"));
 		$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Años"));
 
@@ -267,7 +267,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR AÑO</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -277,13 +277,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		 	<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">   
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR AÑO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR AÑO</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
 
@@ -299,7 +299,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasaje</td>
 						<td align="center"  >Alojamiento</td>
 
@@ -382,7 +382,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('AÑO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('AÑO','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -393,10 +393,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR AÑO")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR AÑO")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
 					$total_viatico=0;
@@ -561,7 +561,7 @@ class Menu_reportes extends CI_Controller {
 		//$b4plot->value->Show();
 		//$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viaticos por Departamento"));
+		$graph->title->Set(utf8_decode("Viáticos por Departamento"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Departamentos"));
 
@@ -667,7 +667,7 @@ class Menu_reportes extends CI_Controller {
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viaticos por Departamento"));
+		$graph->title->Set(utf8_decode("Viáticos por Departamento"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Departamentos"));
 
@@ -710,7 +710,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR DEPARTAMENTO</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -720,13 +720,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR DEPARTAMENTO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR DEPARTAMENTO</center><h6></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 		$this->mpdf->SetHTMLHeader($cabecera);
 		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
@@ -742,7 +742,7 @@ class Menu_reportes extends CI_Controller {
 					</tr>
 					<tr>
 						<td align="center" rowspan="1" >Departamento</td>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasaje</td>
 						<td align="center"  >Alojamiento</td>
 						
@@ -828,7 +828,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('DEPARTAMENTO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('DEPARTAMENTO','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -839,10 +839,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR DEPARTAMENTO")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR DEPARTAMENTO")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
 				$total_pasaje=0;
@@ -1040,7 +1040,7 @@ class Menu_reportes extends CI_Controller {
 		$b1plot->value->Show();
 		//$b1plot->SetColor("#0000CD");
 		//$b2plot->SetFillColor('#B0C4DE');
-		$b1plot->SetLegend("Viaticos");
+		$b1plot->SetLegend("Viáticos");
 
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
@@ -1050,7 +1050,7 @@ class Menu_reportes extends CI_Controller {
 		//$b4plot->SetLegend("Total");
 		
 
-		$graph->title->Set(utf8_decode("Viaticos por Zona"));
+		$graph->title->Set(utf8_decode("Viáticos por Zona"));
 		$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Zonas"));
 
@@ -1185,7 +1185,7 @@ class Menu_reportes extends CI_Controller {
 		$b4plot->SetLegend("Total");
 		
 
-		$graph->title->Set(utf8_decode("Viaticos por Zona"));
+		$graph->title->Set(utf8_decode("Viáticos por Zona"));
 		$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Zonas"));
 
@@ -1219,7 +1219,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1229,13 +1229,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ZONA DEPARTAMENTAL</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		$this->mpdf->SetHTMLHeader($cabecera);
 		//$this->mpdf->SetHTMLFooter('{PAGENO} of {nbpg} pages');
 		$this->mpdf->setFooter($pie);
@@ -1251,7 +1251,7 @@ class Menu_reportes extends CI_Controller {
 					</tr>
 					<tr>
 						<td align="center" rowspan="1" >Zona</td>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasajes</td>
 						<td align="center"  >Alojamiento</td>
 						
@@ -1396,7 +1396,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('ZONA','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('ZONA','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -1407,10 +1407,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR ZONA DEPARTAMENTAL")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
 			 $this->objPHPExcel->setActiveSheetIndex(0)
@@ -1588,7 +1588,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		   <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px"> 
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1597,13 +1597,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
  			<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PENDIENTE POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PENDIENTE POR EMPLEADO</center><h6></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 	 	
 
 
@@ -1627,8 +1627,8 @@ class Menu_reportes extends CI_Controller {
 
 					<tr>
 						<td align="center" rowspan="2">Fecha Solicitud</td>
-						<td align="center" rowspan="2">Fecha Inicio Mision</td>
-						<td align="center" rowspan="2">Fecha Fin Mision</td>
+						<td align="center" rowspan="2">Fecha Inicio Misión</td>
+						<td align="center" rowspan="2">Fecha Fin Misión</td>
 						<td align="center" rowspan="2">Actividad</td>
 						<td align="center" rowspan="2">Detalle Actividad</td>
 						<td align="center" colspan="3">Tipo</td>
@@ -1637,7 +1637,7 @@ class Menu_reportes extends CI_Controller {
 						 
 					</tr>
 					<tr>
-						<td align="center">Viaticos</td>
+						<td align="center">Viáticos</td>
 						<td align="center">Pasajes</td>
 						<td align="center">Alojamiento</td>
 					</tr>
@@ -1734,7 +1734,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISIÓN', 'FECHA FIN MISIÓN', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A10',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B10',  $titulosColumnas[1])
@@ -1755,10 +1755,10 @@ class Menu_reportes extends CI_Controller {
 
 			// Add some data
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS PENDIENTE POR EMPLEADO")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS PENDIENTE POR EMPLEADO")
 			            ->setCellValue('A7', "NR")
 			            ->setCellValue('B7', $id)
 			            ->setCellValue('A8', "NOMBRE")
@@ -1894,7 +1894,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PAGADOS POR EMPLEADO</center><h6></td>
 		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1904,13 +1904,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS PAGADOS POR EMPLEADO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PAGADOS POR EMPLEADO</center><h6></td>
 		<td>
 			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -1936,8 +1936,8 @@ class Menu_reportes extends CI_Controller {
 
 					<tr>
 						<td align="center" rowspan="2">Fecha Solicitud</td>
-						<td align="center" rowspan="2">Fecha Inicio Mision</td>
-						<td align="center" rowspan="2">Fecha Fin Mision</td>
+						<td align="center" rowspan="2">Fecha Inicio Misión</td>
+						<td align="center" rowspan="2">Fecha Fin Misión</td>
 						<td align="center" rowspan="2">Actividad</td>
 						<td align="center" rowspan="2">Detalle Actividad</td>
 						<td align="center" colspan="3">Tipo</td>
@@ -1946,7 +1946,7 @@ class Menu_reportes extends CI_Controller {
 						 <td align="center" rowspan="2">Fecha Pago</td>
 					</tr>
 					<tr>
-						<td align="center">Viaticos</td>
+						<td align="center">Viáticos</td>
 						<td align="center">Pasajes</td>
 						<td align="center">Alojamiento</td>
 					</tr>
@@ -2042,7 +2042,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISION', 'FECHA FIN MISION', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('FECHA SOLICITUD', 'FECHA INICIO MISIÓN', 'FECHA FIN MISIÓN', 'ACTIVIDAD','DETALLE ACTIVIDAD','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A10',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B10',  $titulosColumnas[1])
@@ -2068,10 +2068,10 @@ class Menu_reportes extends CI_Controller {
 
 			// Add some data
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS PAGADOS POR EMPLEADO")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS PAGADOS POR EMPLEADO")
 			            ->setCellValue('A7', "NR")
 			            ->setCellValue('B7', $id)
 			            ->setCellValue('A8', "NOMBRE")
@@ -2206,7 +2206,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
  			<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
 		<td align="right">
 		   <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2216,13 +2216,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
  			<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -2255,7 +2255,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" colspan="4">Tipo</td>
 					</tr>
 					<tr>
-						<td align="center">Viaticos</td>
+						<td align="center">Viáticos</td>
 						<td align="center">Pasajes</td>
 						<td align="center">Alojamiento</td>
 						<td align="center">Total</td>
@@ -2338,7 +2338,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('NR', 'NOMBRE COMPLETO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('NR', 'NOMBRE COMPLETO','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A10',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B10',  $titulosColumnas[1])
@@ -2358,10 +2358,10 @@ class Menu_reportes extends CI_Controller {
 				# code...
 			}
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS DE MAYOR A MENOR POR EMPLEADO")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS DE MAYOR A MENOR POR EMPLEADO")
 			            ->setCellValue('A8', "Año")
 			            ->setCellValue('B8', $anio)
 			            ->setCellValue('A7', "Sección")
@@ -2557,7 +2557,7 @@ class Menu_reportes extends CI_Controller {
 		$b1plot->value->Show();
 		//$b1plot->SetColor("#0000CD");
 		//$b2plot->SetFillColor('#B0C4DE');
-		$b1plot->SetLegend("Viaticos");
+		$b1plot->SetLegend("Viáticos");
 
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
@@ -2566,7 +2566,7 @@ class Menu_reportes extends CI_Controller {
 		//$b4plot->value->Show();
 		//$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viaticos por Mes"));
+		$graph->title->Set(utf8_decode("Viáticos por Mes"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Mes"));
 
@@ -2668,7 +2668,7 @@ class Menu_reportes extends CI_Controller {
 		$b4plot->value->SetFont(FF_ARIAL,FS_NORMAL,7);  // FS_BOLD para negrita
 		 
 
-		$graph->title->Set(utf8_decode("Viaticos por Mes"));
+		$graph->title->Set(utf8_decode("Viáticos por Mes"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Mes"));
 
@@ -2714,7 +2714,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
 		<td align="right">
 		   <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2724,13 +2724,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
 		<td>
 			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -2760,7 +2760,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2">Total</td>
 					</tr>
 					<tr>
-						<td align="center">Viaticos</td>
+						<td align="center">Viáticos</td>
 						<td align="center">Pasajes</td>
 						<td align="center">Alojamiento</td>
 						
@@ -2862,7 +2862,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('MES', 'CONCEPTO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('MES', 'CONCEPTO','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -2874,10 +2874,10 @@ class Menu_reportes extends CI_Controller {
 			
 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR PERIODO");
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR PERIODO");
 
 			$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
 					$total_viatico=0;
@@ -3001,7 +3001,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA </center><h6></td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA </center><h6></td>
 		<td align="right">
 			<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3011,13 +3011,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -3042,7 +3042,7 @@ class Menu_reportes extends CI_Controller {
 						</tr>
 						<tr>
 							 
-							<td align="center">Viaticos</td>
+							<td align="center">Viáticos</td>
 							<td align="center">Pasajes</td>
 							<td align="center">Alojamiento</td>
 							
@@ -3128,7 +3128,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('UNIDAD/OFICINA','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('UNIDAD/OFICINA','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -3139,10 +3139,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE DE VIATICOS POR UNIDADES SOLICITANTES DE MOTORISTA")
+			            ->setCellValue('A4', "REPORTE DE VIÁTICOS POR UNIDADES SOLICITANTES DE MOTORISTA")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
 			 $this->objPHPExcel->setActiveSheetIndex(0)
@@ -3259,7 +3259,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3269,13 +3269,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR SECCIÓN</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -3304,7 +3304,7 @@ class Menu_reportes extends CI_Controller {
 					</tr>
 					<tr>
 						
-						<td align="center">Viaticos</td>
+						<td align="center">Viáticos</td>
 						<td align="center">Pasajes</td>
 						<td align="center">Alojamiento</td>
 						
@@ -3385,7 +3385,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('DEPARTAMENTO/OFICINA/SECCION','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('DEPARTAMENTO/OFICINA/SECCIÓN','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -3396,10 +3396,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR DEPARTAMENTO,OFICINA,SECCION")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR DEPARTAMENTO,OFICINA,SECCION")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
 			 $this->objPHPExcel->setActiveSheetIndex(0)
@@ -3556,7 +3556,7 @@ class Menu_reportes extends CI_Controller {
 		$b1plot->value->Show();
 		$b1plot->SetColor("#0000CD");
 		$b2plot->SetFillColor('#B0C4DE');
-		$b1plot->SetLegend("Viaticos");
+		$b1plot->SetLegend("Viáticos");
 
 		$b2plot->value->Show();
 		$b2plot->SetLegend("Pasaje");
@@ -3565,7 +3565,7 @@ class Menu_reportes extends CI_Controller {
 		$b4plot->value->Show();
 		$b4plot->SetLegend("Total");
 
-		$graph->title->Set(utf8_decode("Viaticos por Genero"));
+		$graph->title->Set(utf8_decode("Viáticos por Genero"));
 		//$graph->yaxis->title->Set("Cantidad en dólares");
 		$graph->xaxis->title->Set(utf8_decode("Genero"));
 
@@ -3610,7 +3610,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		 	<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">   
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
+		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3620,13 +3620,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR GENERO</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GENERO</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 
 
 		$this->mpdf->SetHTMLHeader($cabecera);
@@ -3655,7 +3655,7 @@ class Menu_reportes extends CI_Controller {
 					</tr>
 					<tr>
 						
-						<td align="center">Viaticos</td>
+						<td align="center">Viáticos</td>
 						<td align="center">Pasajes</td>
 						<td align="center">Alojamiento</td>
 						
@@ -3736,7 +3736,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('GENERO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('GÉNERO','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -3747,10 +3747,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR GENERO")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR GÉNERO")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
 			 $this->objPHPExcel->setActiveSheetIndex(0)
@@ -3855,7 +3855,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR MES</center><h6></td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR MES</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3865,13 +3865,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR MES</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR MES</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
 
@@ -3888,7 +3888,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasaje</td>
 						<td align="center"  >Alojamiento</td>
 
@@ -4010,10 +4010,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR MES")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR MES")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:F7')->getFont()->setBold(true); 
 			 
@@ -4140,7 +4140,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ACTIVIDAD</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4150,13 +4150,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIATICOS POR ACTIVIDAD</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ACTIVIDAD</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
 
@@ -4174,7 +4174,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasaje</td>
 						<td align="center"  >Alojamiento</td>
 
@@ -4285,7 +4285,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('ACTIVIDAD','AÑO','MES','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('ACTIVIDAD','AÑO','MES','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -4298,10 +4298,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE VIATICOS POR ACTIVIDAD")
+			            ->setCellValue('A4', "REPORTE VIÁTICOS POR ACTIVIDAD")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:G7')->getFont()->setBold(true); 
 			 
@@ -4429,7 +4429,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4439,13 +4439,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
 
@@ -4456,10 +4456,10 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<td align="center" rowspan="2" >ID MISION</td>
+						<td align="center" rowspan="2" >ID MISIÓN</td>
 						<td align="center" rowspan="2" >NR</td>
 						<td align="center" rowspan="2" >NOMBRE</td>
-						<td align="center" rowspan="2" >SECCION</td>
+						<td align="center" rowspan="2" >SECCIÓN</td>
 						<td align="center" rowspan="2" >CARGO</td>
 						<td align="center" rowspan="2" >FECHA INICIO</td>
 						<td align="center" rowspan="2" >FECHA FIN</td>
@@ -4471,7 +4471,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2" >FECHA PAGO</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasaje</td>
 						<td align="center"  >Alojamiento</td>
 
@@ -4566,7 +4566,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('ID MISION','NR','NOMBRE','SECCION','CARGO','FECHA INICIO','FECHA FIN','FECHA SOLICITUD','ACIVIDAD','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
+			$titulosColumnas = array('ID MISIÓN','NR','NOMBRE','SECCIÓN','CARGO','FECHA INICIO','FECHA FIN','FECHA SOLICITUD','ACIVIDAD','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL','ESTADO','FECHA PAGO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -4587,7 +4587,7 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE MISIONES")
@@ -4710,7 +4710,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4720,13 +4720,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
 		<td>
 			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">		   
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
 
@@ -4741,12 +4741,12 @@ class Menu_reportes extends CI_Controller {
 						
 						<td align="center">N°</td>
 						<td align="center">MES</td>
-						<td align="center">POLIZA</td>
+						<td align="center">PÓLIZA</td>
 						<td align="center">CONCEPTO</td>
 						<td align="center">PASAJE</td>
-						<td align="center">VIATICO</td>
+						<td align="center">VIÁTICO</td>
 						<td align="center">TOTAL</td>
-						<td align="center">FECHA ELABORACION DE LA POLIZA</td>
+						<td align="center">FECHA ELABORACIÓN DE LA PÓLIZA</td>
 						<td align="center">N° COMPROMISO PRESUPUESTARIO</td>
 						<td align="center">FECHA CANCELADO</td>
 					</tr>
@@ -4776,7 +4776,7 @@ class Menu_reportes extends CI_Controller {
 							<td align="center">'.($correlativo).'</td>
 							<td align="center">'.($viaticos->mes_poliza).'</td>
 							<td align="center">'.($viaticos->no_poliza).'</td>
-							<td align="center">VIATICOS Y PASAJES AL INTERIOR</td>
+							<td align="center">VIÁTICOS Y PASAJES AL INTERIOR</td>
 							<td align="center">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 							<td align="center">$'.number_format($viaticos->viatico,2,".",",").'</td>
 							<td align="center">$'.number_format($viaticos->total,2,".",",").'</td>
@@ -4797,7 +4797,7 @@ class Menu_reportes extends CI_Controller {
 								<td align="center">'.($correlativo).'</td>
 								<td align="center">'.($viaticos->mes_poliza).'</td>
 								<td align="center">'."DETALLE 1".'</td>
-								<td align="center">VIATICOS Y PASAJES AL INTERIOR</td>
+								<td align="center">VIÁTICOS Y PASAJES AL INTERIOR</td>
 								<td align="center">$'.number_format($viaticos->pasaje,2,".",",").'</td>
 								<td align="center">$'.number_format($viaticos->viatico,2,".",",").'</td>
 								<td align="center">$'.number_format($viaticos->total,2,".",",").'</td>
@@ -4882,7 +4882,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('No','MES','POLIZA','CONCEPTO','PASAJE','VIATICO','TOTAL','FECHA ELABORACION DE LA POLIZA','No COMPROMISO PRESUPUESTARIO','FECHA CANCELADO');
+			$titulosColumnas = array('No','MES','PÓLIZA','CONCEPTO','PASAJE','VIÁTICO','TOTAL','FECHA ELABORACIÓN DE LA PÓLIZA','No COMPROMISO PRESUPUESTARIO','FECHA CANCELADO');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -4898,10 +4898,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "POLIZA DE VIATICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO ".$anio)
+			            ->setCellValue('A4', "PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO ".$anio)
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:J7')->getFont()->setBold(true); 
 			 
@@ -4933,7 +4933,7 @@ class Menu_reportes extends CI_Controller {
 							->setCellValue('A'.$f,$correlativo)
 							->setCellValue('B'.$f,$viaticos->mes_poliza)
 							->setCellValue('C'.$f,$viaticos->no_poliza)
-							->setCellValue('D'.$f,"VIATICOS Y PASAJES AL INTERIOR")
+							->setCellValue('D'.$f,"VIÁTICOS Y PASAJES AL INTERIOR")
 							->setCellValue('E'.$f,number_format($viaticos->pasaje,2,".",","))
 							->setCellValue('F'.$f,number_format($viaticos->viatico,2,".",","))
 							->setCellValue('G'.$f,number_format($viaticos->total,2,".",","))
@@ -4951,7 +4951,7 @@ class Menu_reportes extends CI_Controller {
 							->setCellValue('A'.$f,$correlativo)
 							->setCellValue('B'.$f,$viaticos->mes_poliza)
 							->setCellValue('C'.$f,"DETALLE 1")
-							->setCellValue('D'.$f,"VIATICOS Y PASAJES AL INTERIOR")
+							->setCellValue('D'.$f,"VIÁTICOS Y PASAJES AL INTERIOR")
 							->setCellValue('E'.$f,number_format($viaticos->pasaje,2,".",","))
 							->setCellValue('F'.$f,number_format($viaticos->viatico,2,".",","))
 							->setCellValue('G'.$f,number_format($viaticos->total,2,".",","))
@@ -5046,7 +5046,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIATICOS POR ACTIVIDAD</center><h6></td>
+		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIÁTICOS POR ACTIVIDAD</center><h6></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -5056,13 +5056,13 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISION SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIATICOS POR ACTIVIDAD</center><h6></td>
+		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIÁTICOS POR ACTIVIDAD</center><h6></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
 	 	</tr></table>';
 	 	$fecha=strftime( "%d-%m-%Y - %H:%M:%S", time() );
-	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creacion: '.$fecha.'||{PAGENO} de {nbpg} páginas';
+	 	$pie = 'Usuario: '.$this->session->userdata('usuario_viatico').'    Fecha y Hora Creación: '.$fecha.'||{PAGENO} de {nbpg} páginas';
 		
 		$this->mpdf->SetHTMLHeader($cabecera);
 
@@ -5084,7 +5084,7 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2" >Total</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viatico</td>
+						<td align="center"  >Viático</td>
 						<td align="center"  >Pasaje</td>
 						<td align="center"  >Alojamiento</td>
 
@@ -5171,7 +5171,7 @@ class Menu_reportes extends CI_Controller {
 										 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
 										 ->setKeywords("office 2007 openxml php");
 
-			$titulosColumnas = array('NR','NOMBRE COMPLETO','VIATICOS','PASAJES','ALOJAMIENTOS','TOTAL');
+			$titulosColumnas = array('NR','NOMBRE COMPLETO','VIÁTICOS','PASAJES','ALOJAMIENTOS','TOTAL');
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			    ->setCellValue('A7',  $titulosColumnas[0])  //Titulo de las columnas
 			    ->setCellValue('B7',  $titulosColumnas[1])
@@ -5183,10 +5183,10 @@ class Menu_reportes extends CI_Controller {
 
 			 
 			$this->objPHPExcel->setActiveSheetIndex(0)
-			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISION SOCIAL")
+			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
 			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
-			            ->setCellValue('A4', "REPORTE DETALLE VIATICOS POR ACTIVIDAD")
+			            ->setCellValue('A4', "REPORTE DETALLE VIÁTICOS POR ACTIVIDAD")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:G7')->getFont()->setBold(true); 
 			 

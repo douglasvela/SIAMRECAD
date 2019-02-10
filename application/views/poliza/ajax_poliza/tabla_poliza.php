@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de polizas</h4>
+        <h4 class="card-title m-b-0">Listado de pólizas</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
@@ -14,7 +14,7 @@
             <table id="myTable" class="table table-hover product-overview">
                 <thead class="bg-info text-white">
                     <tr>
-                        <th># poliza</th>
+                        <th># póliza</th>
                         <th>Mes</th>
                         <th>Año</th> 
                         <th>Monto</th>

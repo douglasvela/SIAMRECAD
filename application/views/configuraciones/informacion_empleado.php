@@ -432,7 +432,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         <div class="modal-content">
             <?php echo form_open('', array('id' => 'formajax2', 'style' => 'margin-top: 0px;', 'class' => 'm-t-40')); ?>
             <div class="modal-header">
-                <h4 class="modal-title">Nueva actividad realizada</h4>
+                <h4 class="modal-title">Editar cuenta bancaria</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
@@ -455,7 +455,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                     </select>
                 </div>
                 <div class="form-group col-lg-12">
-                    <h5>Banco: <span class="text-danger">*</span></h5>
+                    <h5>Número de cuenta: <span class="text-danger">*</span></h5>
                     <div class="controls">
                         <input type="text" id="cuenta" name="cuenta" class="form-control" required="">
                     </div>

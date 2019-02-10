@@ -233,8 +233,8 @@ $cuerpo .= '
 		<thead >
 			<tr>
 				<th align="center" rowspan="2" width="1px">No.<br>Doc</th>
-				<th align="center" rowspan="2" width="10px">No.<br>Poliza</th>
-				<th align="center" rowspan="2" width="20px">Mes<br>poliza</th>
+				<th align="center" rowspan="2" width="10px">No.<br>Póliza</th>
+				<th align="center" rowspan="2" width="20px">Mes<br>póliza</th>
 				<th align="center" rowspan="2" width="25px">Fecha elaboración formulario</th>
 				<th align="center" rowspan="2" width="10px">Cheque ó Cuenta</th>
 				<th align="center" rowspan="2" width="10px">Código empleado</th>

@@ -77,7 +77,7 @@ $date_poliza = $anio_poliza."-".$mes_poliza;
          
             <tr>
             	<th style="padding: 7px" width="25px" rowspan="2">No. Doc.</th>
-              	<th style="padding: 7px" width="40px" rowspan="2">Mes poliza</th>
+              	<th style="padding: 7px" width="40px" rowspan="2">Mes póliza</th>
               	<th style="padding: 7px" width="40px" rowspan="2">Fecha elaboración formulario</th>
               	<th style="padding: 7px" width="50px" rowspan="2">No. cheque/ cuenta</th>
               	<th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>

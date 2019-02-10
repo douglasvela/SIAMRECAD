@@ -100,8 +100,8 @@ $num_poliza = $ult_poliza;
          
             <tr align="center">
                 <th style="padding: 7px" width="25px" rowspan="2">No. Doc.</th>
-                <th style="padding: 7px" width="30px" rowspan="2">No. poliza</th>
-                <th style="padding: 7px" width="40px" rowspan="2">Mes poliza</th>
+                <th style="padding: 7px" width="30px" rowspan="2">No. póliza</th>
+                <th style="padding: 7px" width="40px" rowspan="2">Mes póliza</th>
                 <th style="padding: 7px" width="40px" rowspan="2">Fecha elaboración</th>
                 <th style="padding: 7px" width="50px" rowspan="2">No. cheque/ cuenta</th>
                 <th style="padding: 7px" width="40px" rowspan="2">Código empleado</th>

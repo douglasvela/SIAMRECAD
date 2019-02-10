@@ -615,7 +615,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                 </div>
                                  <div class="col-lg-6 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
-                                        <label for="" class="font-weight-bold">Opcion de destino: <span class="text-danger">*</span></label><br>
+                                        <label for="" class="font-weight-bold">Opción de destino: <span class="text-danger">*</span></label><br>
                                     <input type="radio" id="destino_oficina"  name="t_destinos" value="destino_oficina" onclick="mostrarpanel_oficina()">
                                          <label for="destino_oficina">Oficina</label>
                                     <input type="radio" id="destino_municipio"  name="t_destinos" value="destino_municipio" onclick="mostrarpanel_municipio()">
@@ -682,7 +682,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                 </div>
                                 <div class="col-lg-4 <?php if($navegatorless){ echo "pull-left"; } ?>">
                                     <div class="form-group">
-                                        <label for="" class="font-weight-bold">Kilometros: <span class="text-danger">*</span></label><br>
+                                        <label for="" class="font-weight-bold">Kilómetros: <span class="text-danger">*</span></label><br>
                                         <input type="text" id="km_vyp_rutas" name="km_vyp_rutas" class="form-control">
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@
     <div class="col-lg-6">
     </div>
     <div class="form-group col-lg-6"> 
-        <h5>Dirección o Jefatura Regional: <span class="text-danger">*</span></h5>
+        <h5>Dirección o jefatura regional: <span class="text-danger">*</span></h5>
         <select id="nr_autorizador" name="nr_autorizador" class="custom-select" style="width: 100%" required="">
             <option value="">[Elija el autorizador departamental o regional]</option>
             <?php 

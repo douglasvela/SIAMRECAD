@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title m-b-0">Listado de polizas</h4>
+        <h4 class="card-title m-b-0">Listado de pólizas</h4>
     </div>
     <div class="card-body b-t"  style="padding-top: 7px;">
         <div class="pull-right">
@@ -13,7 +13,7 @@
                 <thead class="bg-info text-white">
                     <tr>
                         <th>#</th>
-                        <th>Polizas</th>
+                        <th>Pólizas</th>
                         <th>Año</th> 
                         <th>Fecha pago</th>
                         <th>Monto</th>
@@ -30,7 +30,7 @@
                             $correlativo++;
                             echo "<tr>";
                             echo "<td>".$correlativo."</td>";
-                            echo "<td>Polizas ".str_replace(" ", ", ", $fila->polizas)."</td>";
+                            echo "<td>Pólizas ".str_replace(" ", ", ", $fila->polizas)."</td>";
                             echo "<td>".$fila->anio."</td>";
                             echo "<td>".date("d-m-Y", strtotime($fila->fecha_pago))."</td>";
                             echo "<td>$ ".$fila->monto."</td>";                           
