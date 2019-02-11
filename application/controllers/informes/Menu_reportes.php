@@ -267,7 +267,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR AÑO</center><h6></td>
+		<td width="550px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR AÑO</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -277,7 +277,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		 	<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">   
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR AÑO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR AÑO</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -294,14 +294,14 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<td align="center" rowspan="2" >Año</td>
-						<td align="center" colspan="3" >Tipo</td>
-						<td align="center" rowspan="2" >Total</td>
+						<td align="center" rowspan="2" >AÑO</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2" >TOTAL</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasaje</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 
 					</tr>
 				</thead>
@@ -395,7 +395,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR AÑO")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
@@ -710,7 +710,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR DEPARTAMENTO</center><h6></td>
+		<td width="550px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR DEPARTAMENTO</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -720,7 +720,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR DEPARTAMENTO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR DEPARTAMENTO</span></center><h5></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -736,15 +736,15 @@ class Menu_reportes extends CI_Controller {
 			<table  border="1" width="100%">
 				<thead >
 					<tr>
-						<td align="center" rowspan="1" >Año: '.($anios).'</td>
-						<td align="center" colspan="3" >Tipo</td>
-						<td align="center" rowspan="2" >Total</td>
+						<td align="center" rowspan="1" >AÑO: '.($anios).'</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2" >TOTAL</td>
 					</tr>
 					<tr>
-						<td align="center" rowspan="1" >Departamento</td>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasaje</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center" rowspan="1" >DEPARTAMENTO</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 						
 					</tr>
 				</thead>
@@ -841,7 +841,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR DEPARTAMENTO")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
@@ -1219,7 +1219,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL</center><h6></td>
+		<td width="550px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1229,7 +1229,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1244,16 +1244,16 @@ class Menu_reportes extends CI_Controller {
 			<table  border="1" >
 				<thead >
 					<tr>
-						<td align="center" rowspan="1" >Año: '.($anios).'</td>
+						<td align="center" rowspan="1" >AÑO: '.($anios).'</td>
 
-						<td align="center" colspan="3" >Tipo</td>
-						<td align="center" rowspan="2"  >Total</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2"  >TOTAL</td>
 					</tr>
 					<tr>
-						<td align="center" rowspan="1" >Zona</td>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasajes</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center" rowspan="1" >ZONA</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 						
 					</tr>
 				</thead>
@@ -1409,7 +1409,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR ZONA DEPARTAMENTAL")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
@@ -1588,7 +1588,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		   <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px"> 
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PENDIENTE POR EMPLEADO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS PENDIENTE POR EMPLEADO</span></center><h5></td>
 		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1597,7 +1597,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
  			<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PENDIENTE POR EMPLEADO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS PENDIENTE POR EMPLEADO</span></center><h5></td>
 		<td>
 		    <img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1757,7 +1757,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS PENDIENTE POR EMPLEADO")
 			            ->setCellValue('A7', "NR")
 			            ->setCellValue('B7', $id)
@@ -1894,7 +1894,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PAGADOS POR EMPLEADO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS PAGADOS POR EMPLEADO</span></center><h5></td>
 		<td>
 		    <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -1904,7 +1904,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS PAGADOS POR EMPLEADO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS PAGADOS POR EMPLEADO</span></center><h5></td>
 		<td>
 			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2070,7 +2070,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS PAGADOS POR EMPLEADO")
 			            ->setCellValue('A7', "NR")
 			            ->setCellValue('B7', $id)
@@ -2206,7 +2206,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
  			<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td width="580px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS DE MAYOR A MENOR</span></center><h5></td>
 		<td align="right">
 		   <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2216,7 +2216,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
  			<img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS DE MAYOR A MENOR</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS DE MAYOR A MENOR</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2360,7 +2360,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS DE MAYOR A MENOR POR EMPLEADO")
 			            ->setCellValue('A8', "Año")
 			            ->setCellValue('B8', $anio)
@@ -2714,7 +2714,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
+		<td width="580px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR PERIODO</span></center><h5></td>
 		<td align="right">
 		   <img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2724,7 +2724,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR PERIODO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR PERIODO</span></center><h5></td>
 		<td>
 			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -2876,7 +2876,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR PERIODO");
 
 			$viatico = $this->Reportes_viaticos_model->obtenerViaticosPorPeriodo($data);
@@ -3001,7 +3001,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA </center><h6></td>
+		<td width="580px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</span> </center><h5></td>
 		<td align="right">
 			<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3011,7 +3011,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE DE VIÁTICOS DE UNIDADES SOLICITANTES DE MOTORISTA</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3141,7 +3141,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE DE VIÁTICOS POR UNIDADES SOLICITANTES DE MOTORISTA")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
@@ -3259,7 +3259,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
+		<td width="580px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR SECCIÓN</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3269,7 +3269,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR SECCIÓN</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR SECCIÓN</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3398,7 +3398,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR DEPARTAMENTO,OFICINA,SECCION")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
@@ -3610,7 +3610,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		 	<img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">   
 		</td>
-		<td width="580px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GÉNERO</center><h6></td>
+		<td width="580px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR GÉNERO</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3620,7 +3620,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR GÉNERO</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR GÉNERO</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3749,7 +3749,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR GÉNERO")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:E7')->getFont()->setBold(true); 
@@ -3855,7 +3855,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR MES</center><h6></td>
+		<td width="550px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR MES</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3865,7 +3865,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR MES</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR MES</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -3882,15 +3882,15 @@ class Menu_reportes extends CI_Controller {
 			<table  class="" border="1" style="width:100%">
 				<thead >
 					<tr>
-						<td align="center" rowspan="2" >Año</td>
-						<td align="center" rowspan="2" >Mes</td>
-						<td align="center" colspan="3" >Tipo</td>
-						<td align="center" rowspan="2" >Total</td>
+						<td align="center" rowspan="2" >AÑO</td>
+						<td align="center" rowspan="2" >MES</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2" >TOTAL</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasaje</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 
 					</tr>
 				</thead>
@@ -4012,7 +4012,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR MES")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:F7')->getFont()->setBold(true); 
@@ -4140,7 +4140,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ACTIVIDAD</center><h6></td>
+		<td width="550px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE VIÁTICOS POR ACTIVIDAD</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4150,7 +4150,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE VIÁTICOS POR ACTIVIDAD</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE VIÁTICOS POR ACTIVIDAD</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4168,15 +4168,15 @@ class Menu_reportes extends CI_Controller {
 				<thead >
 					<tr>
 						<td align="center" rowspan="2"  >ACTIVIDAD</td>
-						<td align="center" rowspan="2" >Año</td>
-						<td align="center" rowspan="2" >Mes</td>
-						<td align="center" colspan="3" >Tipo</td>
-						<td align="center" rowspan="2" >Total</td>
+						<td align="center" rowspan="2" >AÑO</td>
+						<td align="center" rowspan="2" >MES</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2" >TOTAL</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasaje</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 
 					</tr>
 				</thead>
@@ -4300,7 +4300,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE VIÁTICOS POR ACTIVIDAD")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:G7')->getFont()->setBold(true); 
@@ -4429,7 +4429,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE POR MISIONES</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4439,7 +4439,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE MISIONES</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE POR MISIONES</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4471,9 +4471,9 @@ class Menu_reportes extends CI_Controller {
 						<td align="center" rowspan="2" >FECHA PAGO</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasaje</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 
 					</tr>
 				</thead>
@@ -4589,7 +4589,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE MISIONES")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:O7')->getFont()->setBold(true); 
@@ -4710,7 +4710,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -4720,7 +4720,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO '.$anio.'</span></center><h5></td>
 		<td>
 			<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">		   
 		</td>
@@ -4900,7 +4900,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "PÓLIZA DE VIÁTICOS Y PASAJES AL INTERIOR CANCELADOS DURANTE EL AÑO ".$anio)
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:J7')->getFont()->setBold(true); 
@@ -5046,7 +5046,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="application/controllers/informes/logomtps.jpeg"  width="125px" height="85px">
 		</td>
-		<td width="550px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIÁTICOS POR ACTIVIDAD</center><h6></td>
+		<td width="550px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 22px;">REPORTE DETALLE VIÁTICOS POR ACTIVIDAD</span></center><h5></td>
 		<td align="right">
 		   	<img src="application/controllers/informes/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -5056,7 +5056,7 @@ class Menu_reportes extends CI_Controller {
  		<td>
 		    <img src="'.base_url().'assets/logos_vista/logomtps.jpg"  width="125px" height="85px">
 		</td>
-		<td width="950px"><h6><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DE MONTO FIJO <br> REPORTE DETALLE VIÁTICOS POR ACTIVIDAD</center><h6></td>
+		<td width="950px"><h5><center>MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL <br> UNIDAD FINANCIERA INSTITUCIONAL <br> FONDO CIRCULANTE DEL MONTO FIJO <br> <span style="font-size: 17px;">REPORTE DETALLE VIÁTICOS POR ACTIVIDAD</span></center><h5></td>
 		<td>
 		   	<img src="'.base_url().'assets/logos_vista/escudo.jpg" width="150px" height="55px">
 		</td>
@@ -5079,14 +5079,14 @@ class Menu_reportes extends CI_Controller {
 				<thead >
 					<tr>
 						<td align="center" rowspan="2"  >NR</td>
-						<td align="center" rowspan="2" >Nombre Completo</td>
-						<td align="center" colspan="3" >Tipo</td>
-						<td align="center" rowspan="2" >Total</td>
+						<td align="center" rowspan="2" >NOMBRE COMPLETO</td>
+						<td align="center" colspan="3" >TIPO</td>
+						<td align="center" rowspan="2" >TOTAL</td>
 					</tr>
 					<tr>
-						<td align="center"  >Viático</td>
-						<td align="center"  >Pasaje</td>
-						<td align="center"  >Alojamiento</td>
+						<td align="center"  >VIÁTICO</td>
+						<td align="center"  >PASAJE</td>
+						<td align="center"  >ALOJAMIENTO</td>
 
 					</tr>
 				</thead>
@@ -5185,7 +5185,7 @@ class Menu_reportes extends CI_Controller {
 			$this->objPHPExcel->setActiveSheetIndex(0)
 			            ->setCellValue('A1', "MINISTERIO DE TRABAJO Y PREVISIÓN SOCIAL")
 			            ->setCellValue('A2', "UNIDAD FINANCIERA INSTITUCIONAL")
-			            ->setCellValue('A3', "FONDO CIRCULANTE DE MONTO FIJO")
+			            ->setCellValue('A3', "FONDO CIRCULANTE DEL MONTO FIJO")
 			            ->setCellValue('A4', "REPORTE DETALLE VIÁTICOS POR ACTIVIDAD")
 			            ;
 			 $this->objPHPExcel->setActiveSheetIndex(0)->getStyle('A7:G7')->getFont()->setBold(true); 
