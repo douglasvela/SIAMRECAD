@@ -205,7 +205,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
         .col-lg-12{ width: 93%;}
     <?php } ?>
 </style>
-<body class="fix-header fix-sidebar card-no-border mini-sidebar" onload="iniciar();">
+<body class="fix-header fix-sidebar card-no-border mini-sidebar" onload="iniciar();" oncontextmenu="return false;">
     <!-- ============================================================== -->
     <!-- Icono de cargando página... -->
     <!-- ============================================================== -->
@@ -296,7 +296,7 @@ if(floatval($ua['version']) < $this->config->item("last_version")){
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="javascript:window.open('../../password','_blank');">Cambiar mi contraseña</a></li>
+                                    <li><a href="javascript:window.open('../../../password','_blank');">Cambiar mi contraseña</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#" onclick="cerrar_sesion(1000);"><i class="fa fa-lock"></i> Bloquear sesión</a></li>
                                     <li role="separator" class="divider"></li>

@@ -2534,7 +2534,7 @@
                             </div>
                             <div class="row" id="cnt_file3" style="display: none;">
                                 <div class="col-lg-12 form-group">
-                                    <input type="file" class="form-control" id="file3[]" name="file3[]" multiple>
+                                    <input type="file" class="form-control" id="file3[]" name="file3[]" multiple accept="image/*,application/pdf,application/msword">
                                 </div>
                             </div>
                             <div class="row" id="cnt_oficina_solicitante" style="display: block;">
