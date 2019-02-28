@@ -5,6 +5,8 @@ $navegatorless = false;
 if(floatval($ua['version']) < $this->config->item("last_version")){
     $navegatorless = true;
 }
+
+if($ua['name'] != 'Internet Explorer'){
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,3 +145,5 @@ $(function(){
 </body>
 
 </html>
+
+<?php }else{ echo 'NO PUEDE UTILIZAR EL SISTEMA EN ESTE NAVEGADOR. POR FAVOR UTILICE "FIREFOX" O "GOOGLE CHROME"'; } ?>

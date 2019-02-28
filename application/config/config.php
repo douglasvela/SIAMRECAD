@@ -580,6 +580,9 @@ function getBrowser(){
     {
         $bname = 'Netscape';
         $ub = "Netscape";
+    }else{
+    	$bname = 'Internet Explorer';
+        $ub = "MSIE";
     }
    
     // finally get the correct version number
@@ -590,21 +593,23 @@ function getBrowser(){
         // we have no matching number just continue
     }
    
+   if($bname != 'Internet Explorer'){
     // see how many we have
     $i = count($matches['browser']);
-    if ($i != 1) {
-        //we will have two since we are not using 'other' argument yet
-        //see if version is before or after the name
-        if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-            $version= $matches['version'][0];
-        }
-        else {
-            $version= $matches['version'][1];
-        }
-    }
-    else {
-        $version= $matches['version'][0];
-    }
+	    if ($i != 1) {
+	        //we will have two since we are not using 'other' argument yet
+	        //see if version is before or after the name
+	        if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+	            $version= $matches['version'][0];
+	        }
+	        else {
+	            $version= $matches['version'][1];
+	        }
+	    }
+	    else {
+	        $version= $matches['version'][0];
+	    }
+	}
    
     // check if we have a number
     if ($version==null || $version=="") {$version="?";}
