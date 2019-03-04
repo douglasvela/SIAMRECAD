@@ -141,7 +141,7 @@ if($diferencia > 0){
 	                	$ruta = $fila->nombre_origen." - ".$fila->nombre_destino;
 	                	$hsalida = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida));
                         $hllegada = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada));
-                        $tpasaje = intval($fila->pasaje);
+                        $tpasaje = ($fila->pasaje);
                         $nombre_anterior = $fila->nombre_destino;
 	                }
 	            }else{
@@ -187,7 +187,7 @@ if($diferencia > 0){
 	                	$ruta = $fila->nombre_origen." - ".$fila->nombre_destino;
 	                	$hsalida = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_salida));
                         $hllegada = date("h:i A",strtotime(date("Y-m-d")." ".$fila->hora_llegada));
-                        $tpasaje = intval($fila->pasaje);
+                        $tpasaje = ($fila->pasaje);
                         $nombre_anterior = $fila->nombre_destino;
 	                }
 	            }else{
