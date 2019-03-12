@@ -95,13 +95,13 @@ if("192.168.1.200" == $_SERVER['SERVER_NAME']){
 		'failover' => array(),
 		'save_queries' => FALSE
 	);
-}else if ("162.241.252.24" == $_SERVER['SERVER_NAME']){
+}else if ("localhost" == $_SERVER['SERVER_NAME']){
 	$db['default'] = array(
 		'dsn'	=> '',
-		'hostname' => '162.241.252.24',
-		'username' => 'proyedk4_WPZF0',
-		'password' => 'MAYO_nesa94',
-		'database' => 'proyedk4_WPZF0',
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => 'mtps',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
@@ -120,10 +120,10 @@ if("192.168.1.200" == $_SERVER['SERVER_NAME']){
 }else{
 	$db['default'] = array(
 		'dsn'	=> '',
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'database' => 'mtps',
+		'hostname' => '162.241.252.245',
+		'username' => 'proyedk4_WPZF0',
+		'password' => 'MAYO_nesa94',
+		'database' => 'proyedk4_WPZF0',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
