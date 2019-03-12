@@ -95,6 +95,28 @@ if("192.168.1.200" == $_SERVER['SERVER_NAME']){
 		'failover' => array(),
 		'save_queries' => FALSE
 	);
+}else if ("162.241.252.24" == $_SERVER['SERVER_NAME']){
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => '162.241.252.24',
+		'username' => 'proyedk4_WPZF0',
+		'password' => 'MAYO_nesa94',
+		'database' => 'proyedk4_WPZF0',
+		'dbdriver' => 'mysqli',
+		'dbprefix' => '',
+		'pconnect' => FALSE,
+		'db_debug' => (ENVIRONMENT !== 'production'),
+		'cache_on' => FALSE,
+		'cachedir' => '',
+		'char_set' => 'utf8',
+		'dbcollat' => 'utf8_general_ci',
+		'swap_pre' => '',
+		'encrypt' => FALSE,
+		'compress' => FALSE,
+		'stricton' => FALSE,
+		'failover' => array(),
+		'save_queries' => FALSE
+	);
 }else{
 	$db['default'] = array(
 		'dsn'	=> '',
