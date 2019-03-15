@@ -3053,13 +3053,13 @@ $(function(){
         e.preventDefault();
         var hs = $("#hora_salida").val(); var hl = $("#hora_llegada").val();
          var cantidad = contar_registros_tabla_viaticos();
-         alert(cantidad)
+         //alert(cantidad)
         if(cantidad > 0){ calcular_alojamiento(hs, hl); }
         var total_alojamiento = total_aloj;
 
         var id_oficina_origenes = $("#id_oficina_origen").val().trim(); 
         var id_origen = $("#id_origen").val();
-        if($("#band_viatico").val() == "delete" || cantidad > 1 || (id_origen == id_oficina_origenes && cantidad == 0) ){
+        if($("#band_viatico").val() == "delete" || cantidad > 0 || (id_origen == id_oficina_origenes && cantidad == 0) ){
 
             if((validar_horarios_viaticos() && validar_factura()) || $("#band_viatico").val() == "delete"){
                 var formData = new FormData(document.getElementById("form_empresas_viaticos"));
