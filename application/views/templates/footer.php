@@ -2,8 +2,11 @@
 </div>
     <style type="text/css">.container-fluid{ padding-bottom: 60px;  }</style>
    <script type="text/javascript">
+        function mostrarAcercade(){
+            $('#modal_acercade').modal('show');
+        }
         $(document).ready(function() {
-            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer'> © 2018 UES-FMP </footer>" );
+            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer' style='cursor: pointer'> © 2018 UES-FMP   |   <a onClick='mostrarAcercade()'>Acerca de</a></footer>" );
         });
     </script>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
@@ -60,5 +63,27 @@
 <?php } ?>
 
 </body>
-
+<!-- Modal Acerca de -->
+<div class="modal fade " id="modal_acercade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel2" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel2">Acerca de</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body" style="text-align: center">
+                    <b>Sistema Informático para la Gestión de Viáticos y Pasajes.</b><br>
+                    <img src="<?php echo base_url(); ?>assets/images/minerva.png" width="100px" height="130px"><br>
+                    <div style="font-size:13px">Todos los derechos reservados 2018.<br>
+                    Universidad de El Salvador.<br>
+                    Facultad Multidisciplinaria Paracentral.</div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Modal Acerca de -->
 </html>
