@@ -7,7 +7,28 @@
         }
         $(document).ready(function() {
             $( '.page-wrapper .container-fluid' ).append( "<footer class='footer' style='cursor: pointer'> © 2018 UES-FMP   |   <a onClick='mostrarAcercade()'>Acerca de</a></footer>" );
+            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer'> © 2018 UES-FMP </footer>" );
+            <?php if($ruta_segmento != "/viaticos"){ ?>
+            var ancho_barra = $( '.row.page-titles' ).width();
+            var ancho_title = $( '.row.page-titles .align-self-center' ).width();
+            var ancho = ancho_barra - ancho_title - 30; //menos 30 de padding
+            $( '.row.page-titles' ).append( 
+            "<div class='pull-right' style='width: "+ancho+"px;' align='right'>"+
+                "<span class='round' style='cursor: pointer;' onclick='call_help(\"<?= str_replace("/", "_", $ruta_segmento) ?>\");'>"+
+                    "<span class='mdi mdi-help'></span>"+
+                "</span>"+
+            "</div>" 
+            );
+            <?php } ?>
         });
+
+        function call_help(ruta){
+            if(ruta == 'informes_menu_reportes'){
+                window.open("<?= base_url() ?>assets/help/REPORTES.pdf");
+            }else{
+                window.open("<?= base_url() ?>assets/help/"+ruta+'.pdf');
+            }
+        }
     </script>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/viaticos_validation.js"></script>
