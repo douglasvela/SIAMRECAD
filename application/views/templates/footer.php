@@ -73,7 +73,7 @@
             </div>
             <div class="modal-body">
                 <div class="card-body" style="text-align: center">
-                    <b>Sistema Informático para la Gestión de Viáticos y Pasajes.</b><br>
+                    <b>Sistema Informático de Viáticos y Pasajes.</b><br>
                     <img src="<?php echo base_url(); ?>assets/images/minerva.png" width="100px" height="130px"><br>
                     <div style="font-size:13px">Todos los derechos reservados 2018.<br>
                     Universidad de El Salvador.<br>
