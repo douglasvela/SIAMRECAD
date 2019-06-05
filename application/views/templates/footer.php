@@ -6,8 +6,8 @@
             $('#modal_acercade').modal('show');
         }
         $(document).ready(function() {
-            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer' style='cursor: pointer'> © 2018 UES-FMP   |   <a onClick='mostrarAcercade()'>Acerca de</a></footer>" );
-            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer'> © 2018 UES-FMP </footer>" );
+            $( '.page-wrapper .container-fluid' ).append( "<footer class='footer' style='cursor: pointer'> © 2019 UES-FMP   |   <a onClick='mostrarAcercade()'>Acerca de</a></footer>" );
+            //$( '.page-wrapper .container-fluid' ).append( "<footer class='footer'> © 2019 UES-FMP </footer>" );
             <?php if($ruta_segmento != "/viaticos"){ ?>
             var ancho_barra = $( '.row.page-titles' ).width();
             var ancho_title = $( '.row.page-titles .align-self-center' ).width();
@@ -96,7 +96,7 @@
                 <div class="card-body" style="text-align: center">
                     <b>Sistema Informático de Viáticos y Pasajes.</b><br>
                     <img src="<?php echo base_url(); ?>assets/images/minerva.png" width="100px" height="130px"><br>
-                    <div style="font-size:13px">Todos los derechos reservados 2018.<br>
+                    <div style="font-size:13px">Todos los derechos reservados 2019.<br>
                     Universidad de El Salvador.<br>
                     Facultad Multidisciplinaria Paracentral.</div>
                 </div>
